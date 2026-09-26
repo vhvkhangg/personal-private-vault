@@ -1,0 +1,65 @@
+digraph Modules {
+graph [rankdir=TB, bgcolor="white", pad=0.35, nodesep=0.35, ranksep=0.8, splines=ortho, label="Personal Private Vault — Module Dependency Diagram", labelloc=t, fontsize=20, fontname="Arial Bold"];
+node [shape=box, style="rounded,filled", fontname="Arial", fontsize=10, margin="0.14,0.08"];
+edge [color="#6B7280", arrowsize=0.6, penwidth=1.0];
+search [label="search", fillcolor="#FCE4D6", color="#C65911"];
+feed [label="feed", fillcolor="#E2F0D9", color="#70AD47"];
+importdata [label="importdata", fillcolor="#E2F0D9", color="#70AD47"];
+knowledge [label="knowledge\n(study / information / vocabulary / note)", fillcolor="#FFF2CC", color="#BF9000"];
+collection [label="collection\n(music / shopping / software)", fillcolor="#FFF2CC", color="#BF9000"];
+account [label="account", fillcolor="#E2F0D9", color="#70AD47"];
+fiction [label="fiction", fillcolor="#E2F0D9", color="#70AD47"];
+film [label="film", fillcolor="#E2F0D9", color="#70AD47"];
+media [label="media", fillcolor="#E2F0D9", color="#70AD47"];
+location [label="location", fillcolor="#E2F0D9", color="#70AD47"];
+finance [label="finance", fillcolor="#E2F0D9", color="#70AD47"];
+journal [label="journal", fillcolor="#EDEDED", color="#7F7F7F"];
+personal [label="personal", fillcolor="#E2F0D9", color="#70AD47"];
+people [label="people", fillcolor="#E4DFEC", color="#8064A2"];
+settings [label="settings", fillcolor="#EDEDED", color="#7F7F7F"];
+authentication [label="authentication", fillcolor="#EDEDED", color="#7F7F7F"];
+vault [label="vault (Shared Core)", fillcolor="#DCE6F1", color="#4F81BD"];
+reference [label="reference", fillcolor="#DCE6F1", color="#4F81BD"];
+{rank=same; feed importdata knowledge collection account}
+{rank=same; fiction film media location finance journal personal}
+{rank=same; people settings authentication}
+{rank=same; vault reference}
+settings -> reference;
+people -> vault;
+people -> reference;
+fiction -> vault;
+fiction -> people;
+fiction -> reference;
+film -> vault;
+film -> people;
+film -> reference;
+media -> vault;
+location -> vault;
+location -> reference;
+knowledge -> vault;
+knowledge -> people;
+knowledge -> reference;
+knowledge -> account;
+collection -> vault;
+collection -> people;
+collection -> reference;
+account -> vault;
+account -> reference;
+feed -> vault;
+feed -> knowledge;
+importdata -> vault;
+importdata -> knowledge;
+finance -> reference;
+personal -> reference;
+personal -> location;
+search -> vault;
+search -> people;
+search -> fiction;
+search -> film;
+search -> media;
+search -> location;
+search -> knowledge;
+search -> collection;
+search -> account;
+search -> feed;
+}

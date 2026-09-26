@@ -1,0 +1,19 @@
+digraph C4Context {
+ graph [rankdir=LR, bgcolor="white", pad=0.4, nodesep=0.7, ranksep=1.0, splines=ortho, label="Personal Private Vault — C4 System Context", labelloc=t, fontsize=20, fontname="Arial Bold"];
+ node [shape=box, style="rounded,filled", fontname="Arial", margin="0.18,0.12"];
+ edge [fontname="Arial", fontsize=9, color="#666666", arrowsize=0.7];
+ owner [label="Owner
+Single permanent user", shape=box, fillcolor="#08427B", fontcolor="white", color="#06345F"];
+ vault [label="Personal Private Vault
+Private personal knowledge, media, finance, account and lifestyle vault", fillcolor="#1168BD", fontcolor="white", color="#0B4F8A", width=4.4, height=1.2];
+ feeds [label="Public Feed Sources
+GitHub Trending • Hacker News • Reddit • RSS • tech sites", fillcolor="#999999", fontcolor="white", color="#777777"];
+ social [label="External Account Platforms
+Facebook • Instagram • X • Threads • Douyin • YouTube • games", fillcolor="#999999", fontcolor="white", color="#777777"];
+ storage [label="S3-Compatible Object Storage
+Media binary storage", fillcolor="#999999", fontcolor="white", color="#777777"];
+ owner -> vault [label="Uses privately"];
+ vault -> feeds [label="Retrieves configured public feeds"];
+ vault -> social [label="Stores metadata and source links"];
+ vault -> storage [label="Stores/retrieves media binaries"];
+}

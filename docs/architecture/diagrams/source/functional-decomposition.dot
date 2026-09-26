@@ -1,0 +1,25 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="white", pad=0.3, nodesep=0.3, ranksep=0.65, splines=ortho];
+  node [shape=box, style="rounded,filled", fontname="Arial", fontsize=11, color="#8A96A3", fillcolor="#F7F9FB"];
+  edge [arrowhead=none, color="#7A8693", penwidth=1.2];
+  root [label="Personal Private Vault", fillcolor="#0B5CAD", fontcolor="white", color="#08427B", fontsize=18, penwidth=1.8, width=4.5, height=0.7];
+  a [label="Access & Settings", fillcolor="#D9EAF7", color="#5B9BD5", fontsize=13];
+  b [label="Content Library", fillcolor="#D9EAF7", color="#5B9BD5", fontsize=13];
+  c [label="Knowledge", fillcolor="#D9EAF7", color="#5B9BD5", fontsize=13];
+  d [label="Collections", fillcolor="#D9EAF7", color="#5B9BD5", fontsize=13];
+  e [label="Accounts & Feeds", fillcolor="#D9EAF7", color="#5B9BD5", fontsize=13];
+  f [label="Finance & Journal", fillcolor="#D9EAF7", color="#5B9BD5", fontsize=13];
+  g [label="Personal & Data Ops", fillcolor="#D9EAF7", color="#5B9BD5", fontsize=13];
+  h [label="Cross-cutting Vault", fillcolor="#D9EAF7", color="#5B9BD5", fontsize=13];
+  root -> {a b c d e f g h};
+  a -> a1 [label=""]; a -> a2; a1[label="Authentication"]; a2[label="Application Settings"];
+  b -> b1; b -> b2; b -> b3; b -> b4; b -> b5; b1[label="Fiction"]; b2[label="Film"]; b3[label="People / Creators"]; b4[label="Media / Albums"]; b5[label="Locations / Brands"];
+  c -> c1; c -> c2; c -> c3; c -> c4; c1[label="Study"]; c2[label="Information"]; c3[label="Vocabulary + SRS"]; c4[label="Notes / Obsidian"];
+  d -> d1; d -> d2; d -> d3; d1[label="Music"]; d2[label="Shopping"]; d3[label="Software / Extensions"];
+  e -> e1; e -> e2; e -> e3; e -> e4; e -> e5; e1[label="External Accounts"]; e2[label="Follower Relationships"]; e3[label="Follower Snapshots"]; e4[label="Feed Aggregation"]; e5[label="Saved Resources"];
+  f -> f1; f -> f2; f -> f3; f -> f4; f -> f5; f1[label="Wallets"]; f2[label="Income / Expense / Transfer"]; f3[label="Recurring Transactions"]; f4[label="Subscriptions"]; f5[label="Diary"];
+  g -> g1; g -> g2; g -> g3; g1[label="Personal / Family Profiles"]; g2[label="CSV / JSON / Markdown Import"]; g3[label="Export / Backup"];
+  h -> h1; h -> h2; h -> h3; h -> h4; h1[label="Favorite / Rating / Tags"]; h2[label="Recycle Bin"]; h3[label="Global Search"]; h4[label="Reference Data"];
+  {rank=same; a b c d}
+  {rank=same; e f g h}
+}

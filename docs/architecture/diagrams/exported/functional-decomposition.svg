@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="1100" version="1.1" viewBox="0 0 1900 1100" width="1900">
+  <defs/>
+  <rect fill="white" height="1100" width="1900" x="0" y="0"/>
+  <g fill="none" id="connectors" stroke-linecap="round" stroke-linejoin="round">
+    <line stroke="#5B6573" stroke-width="2" x1="910.0" x2="910.0" y1="100.0" y2="140"/>
+    <line stroke="#5B6573" stroke-width="2" x1="250.0" x2="1570.0" y1="140" y2="140"/>
+    <line stroke="#5B6573" stroke-width="2" x1="250.0" x2="250.0" y1="140" y2="180.0"/>
+    <line stroke="#5B6573" stroke-width="2" x1="690.0" x2="690.0" y1="140" y2="180.0"/>
+    <line stroke="#5B6573" stroke-width="2" x1="1130.0" x2="1130.0" y1="140" y2="180.0"/>
+    <line stroke="#5B6573" stroke-width="2" x1="1570.0" x2="1570.0" y1="140" y2="180.0"/>
+    <line stroke="#5B6573" stroke-width="2" x1="910.0" x2="910.0" y1="140" y2="570"/>
+    <line stroke="#5B6573" stroke-width="2" x1="250.0" x2="1570.0" y1="570" y2="570"/>
+    <line stroke="#5B6573" stroke-width="2" x1="250.0" x2="250.0" y1="570" y2="610.0"/>
+    <line stroke="#5B6573" stroke-width="2" x1="690.0" x2="690.0" y1="570" y2="610.0"/>
+    <line stroke="#5B6573" stroke-width="2" x1="1130.0" x2="1130.0" y1="570" y2="610.0"/>
+    <line stroke="#5B6573" stroke-width="2" x1="1570.0" x2="1570.0" y1="570" y2="610.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="70.0" x2="48.0" y1="210.0" y2="210.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="48.0" y1="210.0" y2="352.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="100.0" y1="296.0" y2="296.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="100.0" y1="352.0" y2="352.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="510.0" x2="488.0" y1="210.0" y2="210.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="488.0" y1="210.0" y2="520.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="296.0" y2="296.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="352.0" y2="352.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="408.0" y2="408.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="464.0" y2="464.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="520.0" y2="520.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="950.0" x2="928.0" y1="210.0" y2="210.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="928.0" y1="210.0" y2="464.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="980.0" y1="296.0" y2="296.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="980.0" y1="352.0" y2="352.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="980.0" y1="408.0" y2="408.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="980.0" y1="464.0" y2="464.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1390.0" x2="1368.0" y1="210.0" y2="210.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1368.0" y1="210.0" y2="408.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1420.0" y1="296.0" y2="296.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1420.0" y1="352.0" y2="352.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1420.0" y1="408.0" y2="408.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="70.0" x2="48.0" y1="640.0" y2="640.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="48.0" y1="640.0" y2="950.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="100.0" y1="726.0" y2="726.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="100.0" y1="782.0" y2="782.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="100.0" y1="838.0" y2="838.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="100.0" y1="894.0" y2="894.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="48.0" x2="100.0" y1="950.0" y2="950.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="510.0" x2="488.0" y1="640.0" y2="640.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="488.0" y1="640.0" y2="950.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="726.0" y2="726.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="782.0" y2="782.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="838.0" y2="838.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="894.0" y2="894.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="488.0" x2="540.0" y1="950.0" y2="950.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="950.0" x2="928.0" y1="640.0" y2="640.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="928.0" y1="640.0" y2="838.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="980.0" y1="726.0" y2="726.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="980.0" y1="782.0" y2="782.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="928.0" x2="980.0" y1="838.0" y2="838.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1390.0" x2="1368.0" y1="640.0" y2="640.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1368.0" y1="640.0" y2="894.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1420.0" y1="726.0" y2="726.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1420.0" y1="782.0" y2="782.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1420.0" y1="838.0" y2="838.0"/>
+    <line stroke="#8A96A3" stroke-width="1.3" x1="1368.0" x2="1420.0" y1="894.0" y2="894.0"/>
+  </g>
+  <rect fill="#0B5CAD" height="70.0" rx="14" ry="14" stroke="#08427B" stroke-width="1.8" width="520.0" x="650.0" y="30.0"/>
+  <text dominant-baseline="middle" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" x="910.0" y="65.0">Personal Private Vault</text>
+  <rect fill="#D9EAF7" height="60.0" rx="12" ry="12" stroke="#5B9BD5" stroke-width="1.2" width="360.0" x="70.0" y="180.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="250.0" y="210.0">Access &amp; Settings</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="100.0" y="275.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="250.0" y="296.0">Authentication</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="100.0" y="331.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="250.0" y="352.0">Application Settings</text>
+  <rect fill="#D9EAF7" height="60.0" rx="12" ry="12" stroke="#5B9BD5" stroke-width="1.2" width="360.0" x="510.0" y="180.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="690.0" y="210.0">Content Library</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="275.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="296.0">Fiction</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="331.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="352.0">Film</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="387.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="408.0">People / Creators</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="443.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="464.0">Media / Albums</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="499.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="520.0">Locations / Brands</text>
+  <rect fill="#D9EAF7" height="60.0" rx="12" ry="12" stroke="#5B9BD5" stroke-width="1.2" width="360.0" x="950.0" y="180.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="1130.0" y="210.0">Knowledge</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="980.0" y="275.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1130.0" y="296.0">Study</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="980.0" y="331.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1130.0" y="352.0">Information</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="980.0" y="387.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1130.0" y="408.0">Vocabulary + SRS</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="980.0" y="443.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1130.0" y="464.0">Notes / Obsidian</text>
+  <rect fill="#D9EAF7" height="60.0" rx="12" ry="12" stroke="#5B9BD5" stroke-width="1.2" width="360.0" x="1390.0" y="180.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="1570.0" y="210.0">Collections</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="1420.0" y="275.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1570.0" y="296.0">Music</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="1420.0" y="331.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1570.0" y="352.0">Shopping</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="1420.0" y="387.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1570.0" y="408.0">Software / Extensions</text>
+  <rect fill="#D9EAF7" height="60.0" rx="12" ry="12" stroke="#5B9BD5" stroke-width="1.2" width="360.0" x="70.0" y="610.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="250.0" y="640.0">Accounts &amp; Feeds</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="100.0" y="705.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="250.0" y="726.0">External Accounts</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="100.0" y="761.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="250.0" y="782.0">Follower Relationships</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="100.0" y="817.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="250.0" y="838.0">Follower Snapshots</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="100.0" y="873.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="250.0" y="894.0">Feed Aggregation</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="100.0" y="929.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="250.0" y="950.0">Saved Resources</text>
+  <rect fill="#D9EAF7" height="60.0" rx="12" ry="12" stroke="#5B9BD5" stroke-width="1.2" width="360.0" x="510.0" y="610.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="690.0" y="640.0">Finance &amp; Journal</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="705.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="726.0">Wallets</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="761.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="782.0">Income / Expense / Transfer</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="817.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="838.0">Recurring Transactions</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="873.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="894.0">Subscriptions</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="540.0" y="929.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="690.0" y="950.0">Diary</text>
+  <rect fill="#D9EAF7" height="60.0" rx="12" ry="12" stroke="#5B9BD5" stroke-width="1.2" width="360.0" x="950.0" y="610.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="1130.0" y="640.0">Personal &amp; Data Ops</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="980.0" y="705.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1130.0" y="726.0">Personal / Family Profiles</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="980.0" y="761.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1130.0" y="782.0">CSV / JSON / Markdown Import</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="980.0" y="817.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1130.0" y="838.0">Export / Backup</text>
+  <rect fill="#D9EAF7" height="60.0" rx="12" ry="12" stroke="#5B9BD5" stroke-width="1.2" width="360.0" x="1390.0" y="610.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="1570.0" y="640.0">Cross-cutting Vault</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="1420.0" y="705.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1570.0" y="726.0">Favorite / Rating / Tags</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="1420.0" y="761.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1570.0" y="782.0">Recycle Bin</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="1420.0" y="817.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1570.0" y="838.0">Global Search</text>
+  <rect fill="#F7F9FB" height="42.0" rx="8" ry="8" stroke="#9AA7B2" stroke-width="1.0" width="300.0" x="1420.0" y="873.0"/>
+  <text dominant-baseline="middle" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" text-anchor="middle" x="1570.0" y="894.0">Reference Data</text>
+</svg>

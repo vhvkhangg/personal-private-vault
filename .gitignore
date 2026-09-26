@@ -1,0 +1,67 @@
+# Java / Maven
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / Next.js (future frontend)
+node_modules/
+.next/
+out/
+dist/
+.pnpm-store/
+
+# Python (future RAG)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Runtime / local data
+logs/
+data/
+uploads/
+backups/
+minio-data/
+
+# Test / coverage outputs
+coverage/
+playwright-report/
+test-results/
+allure-results/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~

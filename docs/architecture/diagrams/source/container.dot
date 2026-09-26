@@ -1,0 +1,26 @@
+digraph C4Container {
+ graph [rankdir=LR, bgcolor="white", pad=0.4, nodesep=0.7, ranksep=1.0, splines=ortho, label="Personal Private Vault — C4 Container", labelloc=t, fontsize=20, fontname="Arial Bold"];
+ node [shape=box, style="rounded,filled", fontname="Arial", margin="0.18,0.12"];
+ edge [fontname="Arial", fontsize=9, color="#666666", arrowsize=0.7];
+ owner [label="Owner", fillcolor="#08427B", fontcolor="white", color="#06345F"];
+ subgraph cluster_vault {
+   label="Personal Private Vault"; color="#1168BD"; penwidth=2; style="rounded"; fontname="Arial Bold"; fontsize=14;
+   web [label="Web Application
+Next.js + TypeScript + shadcn/ui
+(Future frontend phase)", fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
+   api [label="Backend API
+Java 25 LTS + Spring Boot + Spring Modulith
+REST API • modular monolith • jobs • search", fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
+   db [label="PostgreSQL Database
+Structured data + metadata", shape=cylinder, fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
+ }
+ storage [label="S3-Compatible Object Storage
+Media binaries", fillcolor="#999999", fontcolor="white", color="#777777"];
+ feeds [label="Public Feed Sources
+GitHub Trending • HN • Reddit • RSS • tech sites", fillcolor="#999999", fontcolor="white", color="#777777"];
+ owner -> web [label="Uses"];
+ web -> api [label="HTTPS / REST / JSON"];
+ api -> db [label="JPA/Hibernate / SQL"];
+ api -> storage [label="S3-compatible API"];
+ api -> feeds [label="HTTPS fetch"];
+}
