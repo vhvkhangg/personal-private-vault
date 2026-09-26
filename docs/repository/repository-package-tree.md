@@ -220,3 +220,9 @@ infra/          # deployment decisions are explicitly deferred
 ```
 
 Local Docker support may be introduced during backend implementation when PostgreSQL/object-storage development environments are actually needed; it does not require freezing a deployment topology now.
+
+## Related architecture decisions
+
+- [`ADR-0001`](../adr/0001-modular-monolith-with-spring-modulith.md) — modular monolith.
+- [`ADR-0002`](../adr/0002-package-by-business-capability.md) — package by business capability.
+
