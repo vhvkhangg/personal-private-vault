@@ -1,5 +1,9 @@
 # Initial Repository Baseline
 
+> **Historical initial-commit record.** This document describes the repository before Backend Phase 0 and
+> agent-governance setup. Its exclusion list is not the current repository state. For current status, see
+> `README.md`, `docs/README.md`, and `docs/implementation/backend-phase-0.md`.
+
 This package is intended for the first Git commit of `personal-private-vault`.
 
 Included:

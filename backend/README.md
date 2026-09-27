@@ -1,15 +1,25 @@
 # Backend
 
-Backend implementation is intentionally not initialized in the repository-baseline commit.
+Java 25 / Spring Boot 4.1 modular monolith using Spring Modulith.
 
-Planned architecture:
+Backend Phase 0 is **complete and frozen**. Read `../docs/implementation/backend-phase-0.md` for the bootstrap baseline, local setup, retained test evidence, and completed review workflow.
 
-- Java / Spring Boot
-- Spring Modulith modular monolith
-- Maven
-- PostgreSQL
+## Current baseline
+
+- Java 25 LTS
+- Maven 3.9.x (3.9.16 recommended; 3.9.15 is supported)
+- Spring Boot 4.1.1
+- Spring Modulith 2.1.1
+- PostgreSQL 18.x
 - Spring Data JPA / Hibernate
 - Flyway
-- REST/JSON + OpenAPI
+- Spring Security
+- OpenAPI / Swagger UI
 
-The Java package skeleton reflects the frozen Module Boundary v1. The Spring Boot project, `pom.xml`, module metadata, Flyway migrations, and implementation classes will be introduced in the backend bootstrap phase.
+## Local PostgreSQL
+
+```bash
+docker compose -f compose.dev.yml up -d
+```
+
+The initial Flyway schema migration is intentionally deferred to the next database implementation phase.

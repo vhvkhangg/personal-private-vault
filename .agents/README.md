@@ -26,7 +26,28 @@ Antigravity legacy Workflows are intentionally not used. Skills are the forward 
 
 The hook:
 - denies agent-driven `git commit`, `git push`, `git tag`, and PR merge/create commands;
-- requests confirmation for destructive shell commands;
+- understands direct and nested PowerShell/pwsh/cmd wrappers, including absolute Windows executable paths, plus Git global options such as `git -c` / `git -C`;
+- treats CR/LF command boundaries outside quotes as separate commands;
+- requests confirmation for destructive shell commands, including order-independent PowerShell deletion flags;
 - requests confirmation before edits to frozen baseline files.
 
+Hook regression tests live at `.agents/hooks/test_repository_safety.py` and can be run with:
+
+```text
+python -B .agents/hooks/test_repository_safety.py
+```
+
 The hook requires a `python` executable on PATH. If Antigravity cannot launch it, disable the hook temporarily from Antigravity Customizations > Hooks until Python is available. Do not replace it with an unsafe unconditional-allow hook.
+
+
+## Antigravity CLI permissions
+
+Safe command auto-approval is configured in Antigravity's **project permission settings**, not by a
+source-controlled hook. Follow `docs/implementation/antigravity-cli-permissions.md` once before the
+first Antigravity CLI test run.
+
+## Skill invocation
+
+- Antigravity CLI exposes workspace skills as slash commands, so use `/antigravity-test-slice`.
+- Codex CLI skills are invoked with a `$` prefix; use `$codex-final-review`, or open `/skills` and
+  select `codex-final-review`.

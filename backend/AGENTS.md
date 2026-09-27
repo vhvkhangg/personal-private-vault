@@ -4,8 +4,8 @@ These instructions apply to `backend/` and refine the repository-level `AGENTS.m
 
 ## Ownership
 
-The repository owner writes production implementation code by default.
-Only write production code when the owner explicitly asks for it.
+The repository owner writes substantial production implementation by default: entities, repositories, DTOs, services/use cases, controllers, and business logic.
+Agents may maintain bootstrap/scaffolding, package metadata/documentation, configuration, and test infrastructure when requested. Do not write substantial feature implementation unless the owner explicitly asks for it.
 
 ## Package structure
 

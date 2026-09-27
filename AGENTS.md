@@ -21,9 +21,9 @@ Read these baselines before making architecture-sensitive changes:
 
 ## Human / agent responsibilities
 
-The repository owner writes production implementation code.
+The repository owner writes substantial production implementation code: entities, repositories, DTOs, services/use cases, controllers, business rules, and other feature logic.
 
-Agents must not proactively write or rewrite production implementation unless the owner explicitly asks for implementation help.
+Agents may prepare low-risk project scaffolding and metadata (for example build files, package documentation, Spring Modulith annotations, bootstrap wiring, test scaffolding, and documentation) when requested. Agents must not proactively write or rewrite substantial business implementation unless the owner explicitly asks for implementation help.
 
 ### Antigravity
 
@@ -31,10 +31,11 @@ After the owner finishes an implementation slice:
 
 1. inspect the implementation and relevant architecture documentation;
 2. write the required tests;
-3. run the relevant test command exactly once;
+3. run the relevant test command once for that explicit test pass;
 4. report failures precisely;
-5. do not automatically retry the test suite;
-6. do not modify production code merely to make tests pass unless explicitly asked.
+5. do not automatically retry the test suite in the same pass;
+6. after the owner changes implementation/build configuration, a new explicit test request may run one new pass;
+7. do not modify production code merely to make tests pass unless explicitly asked.
 
 ### Codex
 

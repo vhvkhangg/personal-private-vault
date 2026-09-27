@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .agents/hooks/repository_safety.py",
+            "command": "python hooks/repository_safety.py",
             "timeout": 5
           }
         ]

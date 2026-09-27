@@ -2,7 +2,7 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-The project is currently in the architecture/bootstrap stage. The database schema, module boundaries, architecture diagrams, and repository/package tree are frozen as **v1 baselines**. Application implementation has not started yet.
+Backend Phase 0 is **complete and frozen**. The database schema, module boundaries, architecture diagrams, repository/package tree, and backend bootstrap baseline are established. Substantial business implementation has not started yet.
 
 ## Documentation map
 
@@ -12,6 +12,8 @@ The project is currently in the architecture/bootstrap stage. The database schem
 | [`adr/`](adr/README.md) | Accepted Architecture Decision Records (ADRs) |
 | [`database/`](database/README.md) | Frozen DBML logical schema baseline |
 | [`repository/`](repository/repository-package-tree.md) | Frozen repository and Java package organization |
+| [`implementation/`](implementation/README.md) | Implementation-phase plans, completion records, test evidence, and operational guidance |
+| [`reviews/`](reviews/README.md) | Formal Codex pre-commit review history |
 
 ## Frozen baselines
 
@@ -22,6 +24,7 @@ The project is currently in the architecture/bootstrap stage. The database schem
 - C4 Container v1
 - Module Dependency Diagram v1
 - Repository/Package Tree v1
+- Backend Phase 0 bootstrap baseline
 
 A frozen baseline is not immutable forever. It means changes require a concrete new requirement, defect, or accepted architectural reason. Avoid speculative refactoring of frozen baselines.
 

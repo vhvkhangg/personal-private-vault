@@ -4,7 +4,13 @@ Private, single-user personal information vault built as a backend-first modular
 
 ## Current status
 
-The project is intentionally still in the architecture/bootstrap stage. No application implementation has been started yet.
+Backend Phase 0 is **complete and frozen**. The repository now has the Maven/Spring Boot/Spring Modulith
+bootstrap, module metadata, local PostgreSQL development configuration, architecture verification test,
+agent governance, and completed Codex review history.
+
+Substantial business implementation (entities, repositories, services/use cases, controllers, and domain
+features) has **not started yet**. The next backend implementation phase has not been activated in this
+baseline.
 
 Frozen baselines:
 
@@ -14,6 +20,8 @@ Frozen baselines:
 - C4 System Context v1
 - C4 Container v1
 - Module Dependency Diagram v1
+- Repository/Package Tree v1
+- Backend Phase 0 bootstrap baseline
 
 ## Planned stack
 

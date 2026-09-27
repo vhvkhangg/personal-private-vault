@@ -5,6 +5,8 @@ description: Perform the final pre-commit review after Antigravity testing, veri
 
 # Codex Final Review
 
+In Codex CLI, invoke this skill with `$codex-final-review` (or select it from `/skills`). Codex does not create a `/codex-final-review` slash command from a skill name.
+
 Use this skill for the formal review immediately before the repository owner commits/pushes.
 
 ## Default mode
