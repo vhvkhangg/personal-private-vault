@@ -1,8 +1,9 @@
 """Regression tests for the repository safety hook."""
 
+import json
 import unittest
 
-from repository_safety import evaluate_command, evaluate_tool_call
+from repository_safety import build_hook_output, evaluate_command, evaluate_tool_call, permission_overrides_for_command
 
 
 class RepositorySafetyPolicyTests(unittest.TestCase):
@@ -134,6 +135,73 @@ class RepositorySafetyPolicyTests(unittest.TestCase):
         for command in cases:
             with self.subTest(command=command):
                 self.assert_decision(command, "allow")
+
+    def test_safe_command_permission_overrides(self) -> None:
+        cases = {
+            "mvn -version": {"command(mvn)"},
+            "mvn -f backend/pom.xml test": {"command(mvn)"},
+            "mvn -f backend/pom.xml clean verify": {"command(mvn)"},
+            "java -version": {"command(java -version)"},
+            "docker info": {"command(docker info)", "unsandboxed(docker info)"},
+            "docker compose ps": {"command(docker compose ps)", "unsandboxed(docker compose ps)"},
+            "Get-ChildItem backend": {"command(Get-ChildItem)"},
+            "Select-String -Path README.md -Pattern Phase": {"command(Select-String)"},
+        }
+        for command, expected in cases.items():
+            with self.subTest(command=command):
+                actual = set(permission_overrides_for_command(command))
+                self.assertTrue(expected.issubset(actual), msg=(command, actual))
+        self.assertEqual([], permission_overrides_for_command("git push origin main"))
+
+    def test_compose_destructive_and_publishing_commands_force_ask_without_overrides(self) -> None:
+        cases = [
+            "docker compose down -v",
+            "docker compose rm -f",
+            "docker compose push",
+            "docker compose up -d",
+            "docker compose build",
+            "docker compose pull",
+            "docker compose exec postgres sh",
+        ]
+        for command in cases:
+            with self.subTest(command=command):
+                self.assert_decision(command, "force_ask")
+                output = build_hook_output("run_command", {"CommandLine": command})
+                self.assertEqual("force_ask", output["decision"])
+                self.assertNotIn("permissionOverrides", output)
+
+    def test_compose_read_only_final_hook_json_is_narrow(self) -> None:
+        expected = {
+            "docker compose ps": [
+                "command(docker compose ps)",
+                "unsandboxed(docker compose ps)",
+            ],
+            "docker compose logs --tail 50 postgres": [
+                "command(docker compose logs)",
+                "unsandboxed(docker compose logs)",
+            ],
+            "docker compose images": [
+                "command(docker compose images)",
+                "unsandboxed(docker compose images)",
+            ],
+            "docker compose top": [
+                "command(docker compose top)",
+                "unsandboxed(docker compose top)",
+            ],
+        }
+        for command, overrides in expected.items():
+            with self.subTest(command=command):
+                output = build_hook_output("run_command", {"CommandLine": command})
+                self.assertEqual(
+                    {"decision": "allow", "permissionOverrides": overrides},
+                    json.loads(json.dumps(output)),
+                )
+
+        for command in ["docker compose config", "docker compose version", "docker compose --help"]:
+            with self.subTest(command=command):
+                output = build_hook_output("run_command", {"CommandLine": command})
+                self.assertEqual("allow", output["decision"])
+                self.assertNotIn("permissionOverrides", output)
 
     def test_protects_frozen_paths(self) -> None:
         decision, _ = evaluate_tool_call(

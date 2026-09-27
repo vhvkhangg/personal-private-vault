@@ -19,5 +19,7 @@ in the normal workflow and never commits/pushes.
 
 When final review succeeds, Codex supplies exactly one Conventional Commit message for the owner.
 
-Graphify is optional. If installed through `.agents/setup-graphify.ps1`, Codex should use it for targeted
+Graphify is optional. If installed through `scripts/setup-graphify.ps1`, Codex should use it for targeted
 navigation before broad source reads.
+
+Canonical workflow: `docs/agent-development-workflow.md`.

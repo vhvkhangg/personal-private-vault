@@ -1,59 +1,47 @@
 ---
 name: antigravity-implement-handoff
-description: Implement the active Codex handoff, write tests, iterate to a green result, preserve evidence, and hand the slice back to Codex without committing.
+description: Implement the active Codex handoff, write tests, iterate to green, preserve evidence, and return the slice to Codex without committing.
 ---
 
 # Antigravity Implement Handoff
 
 Use `/antigravity-implement-handoff`.
 
+For substantial backend work select `backend-implementer` from `/agents`.
+
 ## Preconditions
 
-Read:
+Read root/scoped `AGENTS.md` and `docs/implementation/handoffs/ACTIVE.md`.
 
-- root `AGENTS.md`;
-- relevant scoped `AGENTS.md`;
-- `docs/implementation/handoffs/ACTIVE.md`.
+Proceed only with `READY_FOR_IMPLEMENTATION` or `CHANGES_REQUESTED`.
 
-Proceed only when status is:
+If `ACTIVE.md` says `NO_ACTIVE_HANDOFF`, references frozen/completed work as executable scope, or does not cover
+the requested production change, **STOP**. Never infer work from frozen phase docs or historical TODOs.
 
-- `READY_FOR_IMPLEMENTATION`, or
-- `CHANGES_REQUESTED`.
+## Engineering skills
 
-If there is no active Codex handoff, stop.
+Apply relevant skills progressively:
 
-## Context strategy
+- `java-spring-coding-standards`
+- `pragmatic-solid-design`
+- `reuse-and-consistency`
+- `design-pattern-selection`
+- `modular-monolith-architecture`
+- `jpa-postgresql-persistence`
+- `backend-testing`
+- `graphify-context` when broad navigation is needed
 
-1. Read exact handoff references first.
-2. If Graphify is available, use `/graphify-context` or targeted `graphify query` calls before broad repo searches.
-3. Verify graph-derived facts in source files.
-4. Avoid loading whole schemas/logs unless needed.
+## Loop
 
-## Implementation loop
-
-1. Implement only the handoff targets.
-2. Add/update tests for the same behavior.
-3. Use focused compile/tests during development.
-4. Fix defects found by those tests.
-5. You may rerun focused tests as needed.
-6. Limit repeated **full-suite** attempts to three for the same unresolved cause; stop and report a blocker instead of looping.
-7. Run the handoff's final Maven command once implementation converges.
-8. Record exact command, exit status, test counts, and material warnings/errors in the specified evidence file.
-9. If Graphify is installed, refresh the code-only graph after implementation so Codex sees current structure.
-10. Update the handoff:
-   - status → `IMPLEMENTED_AWAITING_CODEX_REVIEW`;
-   - summarize files changed;
-   - summarize tests/evidence;
-   - list any residual risk.
-
-## Phase 1 implementation notes
-
-- Implement the existing `reference` and `vault` skeletons.
-- Replace the `TODO(antigravity)` placeholders with real code.
-- Use Flyway V1 as the physical-schema contract.
-- Use Testcontainers PostgreSQL, not H2.
-- Use Lombok only where it removes safe boilerplate.
-- Do not use `@Data` on JPA entities.
-- Do not add controllers/auth/settings/other modules.
+1. Read exact handoff references.
+2. Use Graphify before broad exploration when available; verify source facts.
+3. Implement only approved targets.
+4. Add/update tests.
+5. Iterate focused tests.
+6. Limit repeated full-suite failures to three for the same unresolved cause.
+7. Run final verification after convergence.
+8. Record exact command/result/test counts.
+9. Refresh Graphify with `scripts/refresh-graphify.ps1` after meaningful source changes when installed.
+10. Mark `IMPLEMENTED_AWAITING_CODEX_REVIEW` and summarize changes/evidence/risks.
 
 Do not commit, push, tag, or create/merge a PR.

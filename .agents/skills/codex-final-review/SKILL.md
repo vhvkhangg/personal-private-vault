@@ -1,66 +1,51 @@
 ---
 name: codex-final-review
-description: Perform the final review of the active handoff after Antigravity implementation; request remediation or return READY FOR OWNER COMMIT with one commit message.
+description: Final-review either an implemented active handoff or an explicitly requested governance/tooling slice; request remediation or return READY FOR OWNER COMMIT with one commit message.
 ---
 
 # Codex Final Review
 
-Invoke with `$codex-final-review` or select it from `/skills`.
+Invoke with `$codex-final-review` or select it from `/skills`. Codex is review-only.
 
-Codex is review-only in this step.
+## Review-mode gate
 
-## Preconditions
+### Implementation handoff mode
 
-Read:
+Use only when `docs/implementation/handoffs/ACTIVE.md` is `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 
-- root/scoped `AGENTS.md`;
-- `docs/implementation/handoffs/ACTIVE.md`;
-- Antigravity test evidence;
-- relevant phase/architecture/database docs.
+### Governance/tooling mode
 
-Expected handoff status: `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
+Use only when the owner explicitly requests such a review and a canonical scope document identifies the slice
+(for example `docs/implementation/agent-tooling-change-summary.md`). This mode may run while `ACTIVE.md` is
+`NO_ACTIVE_HANDOFF` and does not reopen a frozen business phase.
 
-## Context strategy
+### No valid mode
 
-Use targeted Graphify queries first when available, then inspect the exact changed/canonical files.
-Do not reread the entire repository.
+If neither condition is met, **STOP and ask the owner what approved slice should be reviewed**. Never default to a
+frozen phase or archived handoff.
 
 ## Review
 
-Review the diff against the handoff for:
+Use targeted Graphify navigation when useful and only relevant engineering skills:
+`java-spring-coding-standards`, `pragmatic-solid-design`, `reuse-and-consistency`,
+`design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `backend-testing`.
 
-- correctness/business invariants;
-- scope completeness and scope creep;
-- module boundaries/ownership;
-- persistence/Flyway/JPA correctness;
-- transaction behavior;
-- security/logging;
-- Lombok/JPA misuse;
-- test quality and PostgreSQL evidence;
-- stale documentation.
+Review correctness, scope, architecture/ownership, persistence where applicable, security, evidence quality,
+tooling safety, and stale/competing documentation. Record findings under `docs/reviews/`.
 
-Record findings under `docs/reviews/` with severity: Critical / High / Medium / Low.
+## Changes required
 
-## Outcome: changes required
+Implementation mode: set the handoff to `CHANGES_REQUESTED` and add remediation.
 
-If any blocking finding exists:
+Governance/tooling mode: set the governance scope doc to `CHANGES REQUESTED` and update its remediation checklist;
+do not create a fake production handoff.
 
-1. Set active handoff status to `CHANGES_REQUESTED`.
-2. Add a precise remediation checklist under `## Codex remediation`.
-3. Do not edit production code.
-4. Do not provide a commit message.
-5. Return control to `/antigravity-implement-handoff`.
+Do not provide a commit message while blocking findings remain.
 
-## Outcome: ready
+## Ready
 
-If no blocking finding exists:
+If no blocking finding remains, record `READY FOR OWNER COMMIT`, synchronize the reviewed scope status, provide
+exactly one Conventional Commit message, and do not commit/push.
 
-1. Set active handoff status to `READY_FOR_OWNER_COMMIT`.
-2. Record `READY FOR OWNER COMMIT` in the review log.
-3. Give exactly one recommended Conventional Commit message, appropriate to the slice.
-4. Do not commit or push.
-
-## Phase 1 focus
-
-Additionally verify Flyway V1 fidelity, PostgreSQL named enums, internal repository/entity encapsulation,
-vault fail-closed capability enforcement, recycle-bin semantics, Lombok safety, and real PostgreSQL/Testcontainers evidence.
+Frozen phases remain frozen unless their production/test/database/build artifacts are explicitly owner-approved
+review scope.

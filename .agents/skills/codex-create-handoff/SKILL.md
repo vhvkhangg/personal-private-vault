@@ -1,36 +1,41 @@
 ---
 name: codex-create-handoff
-description: Create a concise implementation handoff for Antigravity from the active phase docs and repository state without writing production code.
+description: Create a concise implementation handoff for Antigravity from an owner-approved current scope without writing production code.
 ---
 
 # Codex Create Handoff
 
-Invoke in Codex CLI with `$codex-create-handoff`.
+Invoke with `$codex-create-handoff`. Codex plans the slice; it does not implement production code here.
 
-## Purpose
+## Scope gate
 
-Translate the current approved phase scope into one executable Antigravity handoff.
+A new handoff requires an **owner-approved current scope**, supplied by the owner's current request or a canonical
+phase/slice document explicitly marked active/approved.
 
-Codex does **not** implement production code in this step.
+If no owner-approved current scope exists, **STOP and ask the owner to define/approve the next phase or slice**.
+
+Never infer next work from frozen phase documents, historical TODOs, archived handoffs, review history, Graphify,
+or repository structure. `COMPLETE — FROZEN` phases are historical inputs only.
 
 ## Procedure
 
 1. Read root `AGENTS.md`.
-2. Read the active phase document, currently `docs/implementation/backend-phase-1.md`.
-3. Read `docs/implementation/handoffs/README.md` and the current `ACTIVE.md`.
-4. Inspect `git status --short` and `git diff --stat`.
-5. If Graphify is available and a graph exists, use `$graphify-context` or targeted `graphify query` calls before broad source reads.
-6. Read only the canonical files required to resolve exact implementation requirements.
-7. Write `docs/implementation/handoffs/ACTIVE.md` using the template in `assets/handoff-template.md`.
-8. Set `Status: READY_FOR_IMPLEMENTATION`.
-9. Include exact implementation targets, acceptance criteria, test expectations, frozen references, non-goals, and known risks.
-10. Keep the handoff compact; link to DBML/phase docs rather than copying them.
+2. Establish owner-approved scope.
+3. Read `docs/implementation/handoffs/README.md` and `ACTIVE.md`.
+4. If another live implementation handoff exists, stop and resolve it first.
+5. Inspect `git status --short` and `git diff --stat`.
+6. Use Graphify for targeted navigation when available; verify facts in canonical files.
+7. Read only files needed for the approved slice.
+8. Write `docs/implementation/handoffs/ACTIVE.md` using `assets/handoff-template.md`.
+9. Set `Status: READY_FOR_IMPLEMENTATION`.
+10. Include targets, invariants, non-goals, acceptance criteria, test/evidence contract, frozen references,
+    relevant engineering skills, and known risks.
+11. Keep the handoff concise.
 
-## Backend Phase 1
+## Engineering skills
 
-The handoff must cover the existing Phase 1 skeleton targets under `reference` and `vault`, Flyway V1 validation,
-Lombok-safe implementation conventions, PostgreSQL named enums, capability behavior, and Testcontainers evidence.
+Reference only relevant skills:
+`java-spring-coding-standards`, `pragmatic-solid-design`, `reuse-and-consistency`,
+`design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `backend-testing`.
 
-Do not add Phase 2 scope.
-
-Do not commit, push, or modify production implementation.
+Do not commit, push, tag, or modify production implementation.

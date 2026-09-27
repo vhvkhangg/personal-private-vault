@@ -4,7 +4,7 @@ Private, single-user personal information vault built as a backend-first modular
 
 ## Current status
 
-Backend Phase 0 is **complete and frozen**. Backend Phase 1 is **active**: implementation and verification of the executable PostgreSQL/Flyway Schema v1 and the `reference` and `vault` foundation modules are complete (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers) and awaiting owner commit.
+Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
@@ -19,9 +19,10 @@ Frozen baselines:
 - Repository/Package Tree v1
 - Backend Phase 0 bootstrap baseline
 
-Active (not frozen yet):
+Frozen implementation phases:
 
-- Backend Phase 1 — PostgreSQL/Flyway Schema v1 + Reference & Vault Foundation (implementation & verification complete; awaiting owner commit)
+- Backend Phase 0 — bootstrap baseline
+- Backend Phase 1 — PostgreSQL/Flyway Schema v1 + Reference & Vault Foundation
 
 ## Planned stack
 
@@ -54,3 +55,5 @@ The frozen database schema is under [`docs/database`](docs/database).
 5. The owner commits and pushes to `main`.
 
 Graphify is optional for token-efficient code navigation; see `.agents/README.md`.
+
+Workflow details: [`docs/agent-development-workflow.md`](docs/agent-development-workflow.md).

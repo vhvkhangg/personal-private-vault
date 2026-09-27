@@ -1,6 +1,8 @@
 # Backend Phase 1 — Implementation Target Files
 
-Legacy filename retained for link stability. Antigravity implements the following **27 Java files** from the active Codex handoff. Each contains a `TODO(antigravity)` contract/checklist.
+Status: **COMPLETE / HISTORICAL** — all targets were implemented and verified in frozen Phase 1.
+
+Legacy filename retained for link stability. Antigravity implemented the following **27 Java files** during Backend Phase 1. Their implementation TODO contracts were resolved before final verification and freeze.
 
 - `backend/src/main/java/com/vhvkhangg/personalprivatevault/reference/internal/domain/Country.java`
 - `backend/src/main/java/com/vhvkhangg/personalprivatevault/reference/internal/domain/Language.java`

@@ -1,9 +1,23 @@
 # Backend Phase 1 — PostgreSQL/Flyway Schema v1 + Reference & Vault Foundation
 
-Status: **ACTIVE — REFERENCE & VAULT IMPLEMENTATION AND VERIFICATION COMPLETE (AWAITING OWNER COMMIT)**
+Status: **COMPLETE — FROZEN (2026-09-27)**
 
 Phase 1 establishes the executable PostgreSQL schema and implements the dependency-free foundation modules
 `reference` and `vault`.
+
+
+## Completion record
+
+Backend Phase 1 is complete and frozen.
+
+- Reference/vault implementation: complete.
+- Final verification: `mvn -f backend/pom.xml clean verify` — **57 tests, 0 failures, 0 errors, 0 skipped**.
+- PostgreSQL integration: PostgreSQL 18.6 Testcontainers + Flyway V1 + Hibernate validation.
+- Final Codex review: **READY FOR OWNER COMMIT**.
+- Final review: [`../reviews/2026-09-27-backend-phase-1-final-codex-review.md`](../reviews/2026-09-27-backend-phase-1-final-codex-review.md).
+- Evidence: [`backend-phase-1-test-evidence.md`](backend-phase-1-test-evidence.md).
+
+Future changes to the foundation are new scoped work and do not silently rewrite this frozen baseline.
 
 ## Included scope
 
@@ -27,7 +41,9 @@ Phase 1 establishes the executable PostgreSQL schema and implements the dependen
 - Unspecified cross-table triggers.
 - Frontend, RAG, deployment.
 
-## Agent-driven workflow
+## Workflow used to complete Phase 1 (historical)
+
+This records how Phase 1 was completed. It is not executable next-phase scope; future work requires a new owner-approved slice and follows [`../agent-development-workflow.md`](../agent-development-workflow.md).
 
 1. Codex: run `$codex-create-handoff`.
 2. Codex writes `handoffs/ACTIVE.md` with `READY_FOR_IMPLEMENTATION`.
@@ -43,7 +59,7 @@ The owner is no longer expected to implement entities/repositories/services manu
 
 ## Implementation targets
 
-See `backend-phase-1-owner-files.md` (legacy filename retained for link stability). All 27 Java foundation files have been implemented, tested against PostgreSQL 18.6 Testcontainers, verified green (57 tests, 0 failures), and are awaiting owner commit. All `TODO(antigravity)` placeholders have been resolved.
+See `backend-phase-1-owner-files.md` (legacy filename retained for link stability). All 27 Java foundation files were implemented, tested against PostgreSQL 18.6 Testcontainers, verified green (57 tests, 0 failures), committed/pushed by the owner, and frozen. All Phase 1 implementation TODOs were resolved.
 
 ## Flyway V1
 
@@ -125,10 +141,13 @@ Use real PostgreSQL, not H2.
 
 ## Token/context policy
 
-Graphify is optional but recommended for code navigation. Run `.agents/setup-graphify.ps1` once; then agents
+Graphify is optional but recommended for code navigation. Run `scripts/setup-graphify.ps1` once; then agents
 query the local code graph before broad repository reads. Canonical docs/source remain authoritative.
 
-## Completion/freeze criteria
+## Completion/freeze criteria (historical)
+
+These criteria were satisfied before Phase 1 was frozen.
+
 
 1. Active handoff fully implemented.
 2. Flyway V1 migrates fresh PostgreSQL.

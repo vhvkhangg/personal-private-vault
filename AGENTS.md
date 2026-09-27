@@ -9,7 +9,7 @@ This file defines repository-wide instructions for coding agents.
 - PostgreSQL + Flyway; Maven build.
 - Frontend, RAG, and production deployment remain deferred.
 - Backend Phase 0 is complete/frozen.
-- Backend Phase 1 is active: executable Schema v1 + `reference` + `vault`.
+- Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 
 Architecture-sensitive work must respect:
 
@@ -25,20 +25,22 @@ The owner no longer writes production implementation.
 
 The default workflow is:
 
-1. **Codex creates the implementation handoff.**
+1. **Owner approves the next phase/slice.**
+   - If no owner-approved current scope exists, agents stop; frozen phases are not inferred as next work.
+2. **Codex creates the implementation handoff.**
    - Invoke `$codex-create-handoff`.
    - Codex is planning/review-only at this stage.
    - It writes `docs/implementation/handoffs/ACTIVE.md`.
-2. **Antigravity implements the handoff.**
+3. **Antigravity implements the handoff.**
    - Invoke `/antigravity-implement-handoff`.
    - Antigravity may write production code and tests within the approved handoff scope.
    - It may iteratively compile/test/fix its own implementation until green or blocked.
-3. **Codex performs final review.**
+4. **Codex performs final review.**
    - Invoke `$codex-final-review`.
    - Codex does not modify production code during final review.
    - If changes are required, Codex writes a remediation checklist into the active handoff and Antigravity handles it.
    - If ready, Codex records `READY FOR OWNER COMMIT` and gives exactly one Conventional Commit message.
-4. **Owner commits and pushes.**
+5. **Owner commits and pushes.**
    - Agents do not commit, push, tag, or create/merge PRs.
 
 Phase 0 is not reopened by this workflow change. Its application/bootstrap baseline remains frozen.
@@ -81,6 +83,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Architecture Diagrams v1
 - Repository / Package Tree v1
 - Backend Phase 0 bootstrap baseline
+- Backend Phase 1 reference/vault foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

@@ -308,12 +308,77 @@ def evaluate_command(command: str) -> tuple[str, str]:
         if executable in {"docker", "docker.exe"} and len(tokens) >= 3:
             if tokens[1].lower() in {"system", "volume"} and tokens[2].lower() == "prune":
                 return "force_ask", "Docker prune can remove local data/resources."
+            if tokens[1].lower() == "compose":
+                compose_subcommand = tokens[2].lower()
+                if compose_subcommand not in _DOCKER_COMPOSE_READ_ONLY_SUBCOMMANDS:
+                    return (
+                        "force_ask",
+                        f"docker compose {compose_subcommand} can change, execute in, remove, build, pull, or publish resources and requires owner confirmation.",
+                    )
         if executable in {"mvn", "mvn.cmd", "mvnw", "mvnw.cmd"}:
             if any(token.lower() == "deploy" for token in tokens[1:]):
                 return "force_ask", "Maven deploy publishes artifacts and requires owner confirmation."
 
     return "allow", ""
 
+
+
+_DOCKER_COMPOSE_READ_ONLY_SUBCOMMANDS = {
+    "ps", "logs", "images", "top", "config", "ls", "port", "events",
+    "version", "--help", "-h", "help",
+}
+
+_DOCKER_COMPOSE_HOST_READ_SUBCOMMANDS = {
+    "ps", "logs", "images", "top",
+}
+
+
+_SAFE_POWERSHELL_READ_COMMANDS = {
+    "get-childitem", "get-item", "get-location", "get-command", "get-content",
+    "select-object", "select-string", "where-object", "sort-object", "measure-object",
+}
+
+
+def permission_overrides_for_command(command: str) -> list[str]:
+    """Return narrow overrides only for commands already accepted by safety policy."""
+    segments, ambiguous = _command_segments(command)
+    if ambiguous:
+        return []
+
+    overrides: list[str] = []
+
+    def add(rule: str) -> None:
+        if rule not in overrides:
+            overrides.append(rule)
+
+    for tokens in segments:
+        if not tokens:
+            continue
+        executable = _executable_basename(tokens[0])
+        git_subcommand, _ = _git_subcommand(tokens)
+
+        if git_subcommand in {"status", "diff", "ls-files", "log", "show", "rev-parse", "branch"}:
+            add(f"command(git {git_subcommand})")
+        if executable in {"mvn", "mvn.cmd", "mvnw", "mvnw.cmd"}:
+            add("command(mvn)")
+        if executable in {"java", "java.exe"} and any(
+            token.lower() in {"-version", "--version"} for token in tokens[1:]
+        ):
+            add("command(java -version)")
+        if executable in {"docker", "docker.exe"} and len(tokens) >= 2:
+            subcommand = tokens[1].lower()
+            if subcommand in {"info", "version", "ps"}:
+                add(f"command(docker {subcommand})")
+                add(f"unsandboxed(docker {subcommand})")
+            elif subcommand == "compose" and len(tokens) >= 3:
+                compose_subcommand = tokens[2].lower()
+                if compose_subcommand in _DOCKER_COMPOSE_HOST_READ_SUBCOMMANDS:
+                    add(f"command(docker compose {compose_subcommand})")
+                    add(f"unsandboxed(docker compose {compose_subcommand})")
+        if executable in _SAFE_POWERSHELL_READ_COMMANDS:
+            add(f"command({tokens[0]})")
+
+    return overrides
 
 def _normalize_path(value: object) -> str:
     if not isinstance(value, str):
@@ -343,10 +408,24 @@ def evaluate_tool_call(name: str, args: dict) -> tuple[str, str]:
     return "allow", ""
 
 
-def _emit(decision: str, reason: str = "") -> None:
-    output = {"decision": decision}
+def build_hook_output(name: str, args: dict) -> dict:
+    """Build the exact JSON object emitted by the PreToolUse hook."""
+    decision, reason = evaluate_tool_call(name, args)
+
+    overrides: list[str] = []
+    if name == "run_command" and decision == "allow":
+        command = str(args.get("CommandLine") or args.get("commandLine") or "")
+        overrides = permission_overrides_for_command(command)
+
+    output: dict = {"decision": decision}
     if reason:
         output["reason"] = reason
+    if overrides:
+        output["permissionOverrides"] = overrides
+    return output
+
+
+def _emit_output(output: dict) -> None:
     print(json.dumps(output))
     raise SystemExit(0)
 
@@ -355,13 +434,15 @@ def main() -> None:
     try:
         payload = json.load(sys.stdin)
     except Exception:
-        _emit("force_ask", "Repository safety hook could not parse tool input. Confirmation is required rather than silently bypassing the guard.")
+        _emit_output({
+            "decision": "force_ask",
+            "reason": "Repository safety hook could not parse tool input. Confirmation is required rather than silently bypassing the guard.",
+        })
 
     tool_call = payload.get("toolCall") or {}
     name = str(tool_call.get("name") or "")
     args = tool_call.get("args") or {}
-    decision, reason = evaluate_tool_call(name, args)
-    _emit(decision, reason)
+    _emit_output(build_hook_output(name, args))
 
 
 if __name__ == "__main__":

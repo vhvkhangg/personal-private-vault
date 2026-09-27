@@ -28,6 +28,6 @@ Docker Compose uses project name `personal-private-vault`; the PostgreSQL contai
 
 ## Phase 1
 
-Backend Phase 1 is active. `src/main/resources/db/migration/V1__create_schema_v1.sql` provides the complete structural PostgreSQL baseline derived from the frozen DBML. Implementation and test verification of the dependency-free `reference` and `vault` foundation modules are complete (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers) and awaiting owner commit.
+Backend Phase 1 is **complete and frozen**. `src/main/resources/db/migration/V1__create_schema_v1.sql` provides the complete structural PostgreSQL baseline derived from the frozen DBML. The dependency-free `reference` and `vault` foundation modules are implemented and verified (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
 Read `../docs/implementation/backend-phase-1.md` and `../docs/implementation/backend-phase-1-test-evidence.md` for architecture details and verification evidence.
