@@ -1,69 +1,62 @@
 # Backend Scope Instructions
 
-These instructions apply to `backend/` and refine the repository-level `AGENTS.md`.
+These instructions apply to `backend/` and refine root `AGENTS.md`.
 
-## Ownership
+## Implementation authority
 
-The repository owner writes substantial production implementation by default: entities, repositories, DTOs, services/use cases, controllers, and business logic.
-Agents may maintain bootstrap/scaffolding, package metadata/documentation, configuration, and test infrastructure when requested. Do not write substantial feature implementation unless the owner explicitly asks for it.
+Antigravity may write substantial production implementation **only** when following the active Codex handoff at:
+
+`docs/implementation/handoffs/ACTIVE.md`
+
+If the handoff is missing, not marked `READY_FOR_IMPLEMENTATION`/`CHANGES_REQUESTED`, or does not cover the
+requested production change, stop and request a Codex handoff instead of improvising scope.
+
+Codex remains planning/review-only for production implementation unless the owner explicitly overrides the workflow.
 
 ## Package structure
 
 Keep code inside the owning business module.
 
-Expected top-level module packages are documented in:
-
-- `docs/architecture/module-boundaries.md`
-- `docs/architecture/module-dependency-matrix.md`
-- `docs/repository/repository-package-tree.md`
-
-Do not create global root packages such as:
-
-- `controller`
-- `service`
-- `repository`
-- `entity`
-- `dto`
-
-Each module may organize its internals using application/domain/infrastructure/web concerns as needed, but those are internal to the business capability.
+Do not create global root technical packages such as `controller`, `service`, `repository`, `entity`, or `dto`.
+Technical layers belong under each business capability/module.
 
 ## Module access
 
-- Do not access another module's JPA repository or entity directly.
+- Do not access another module's JPA repository/entity directly.
 - Do not import another module's `internal` package.
-- Cross-module access goes through exposed module APIs or named interfaces.
-- Validate new dependency directions against the frozen dependency matrix.
-- Prefer a direct synchronous call for immediate business requirements.
-- Prefer an event for a downstream side effect.
+- Cross-module access goes through exposed APIs/named interfaces.
+- Validate dependency directions against the frozen matrix.
+- Prefer synchronous APIs for immediate results and events for decoupled side effects.
 
 ## Persistence
 
 - PostgreSQL is the production database.
 - Flyway migrations define the physical schema.
-- The frozen DBML is the logical v1 baseline; do not mutate it for an implementation convenience.
-- Do not introduce H2-based persistence assumptions.
-- Keep transactional boundaries in application services/use cases rather than controllers.
-- Avoid lazy-loading behavior leaking into HTTP serialization.
+- Frozen DBML is the logical v1 baseline.
+- Do not use H2 assumptions.
+- Keep transactional boundaries in application services/use cases.
+- Avoid persistence/lazy-loading leakage into public API serialization.
 
-## API
+## Lombok
 
-- REST/JSON.
-- Controllers map transport DTOs to application calls.
-- Never serialize persistence entities as the public API contract.
-- Add OpenAPI descriptions for public endpoints and non-obvious fields.
-- Keep validation at the boundary and business invariants in the owning domain/application layer.
-- Preserve one consistent error/response model.
+Lombok is compile-time boilerplate support, not a design shortcut.
 
-## Security and logging
+Allowed examples:
 
-- Treat authentication, finance, personal profiles, external accounts, and private notes as sensitive domains.
-- Do not log secrets or full sensitive payloads.
-- Password/PIN/token material must never be stored in plaintext.
-- Do not weaken JWT/token invalidation semantics for convenience.
-- Use parameterized SLF4J logging.
+- `@Getter` on JPA entities where appropriate;
+- protected `@NoArgsConstructor` for JPA;
+- `@RequiredArgsConstructor` for Spring services with final dependencies;
+- focused builders/value-object helpers when justified.
 
-## Build
+Avoid:
+
+- `@Data` on JPA entities;
+- automatic `toString`, `equals`, or `hashCode` across lazy associations;
+- mutable public setters merely because Lombok can generate them.
+
+## Build/test
 
 - Maven is the backend build tool.
-- Prefer Spring Boot dependency management/BOM versions over arbitrary per-library overrides.
-- Use the latest stable mutually compatible release set when the backend is initialized.
+- Prefer Spring Boot-managed dependency versions.
+- Antigravity may compile/test/fix iteratively within an active handoff.
+- Use Testcontainers PostgreSQL for persistence integration tests.

@@ -1,36 +1,29 @@
 # Code Review Records
 
-This directory stores formal pre-commit Codex review records.
+Formal pre-commit Codex review history.
 
 ## Workflow
 
-1. The repository owner writes the implementation.
-2. Antigravity writes the tests and runs the relevant test command once.
-3. The owner fixes confirmed issues.
-4. Codex performs the final review.
-5. Codex records the review here.
-6. The owner commits and pushes if satisfied.
+1. Codex creates an implementation handoff.
+2. Antigravity implements/tests it and retains evidence.
+3. Codex performs final review.
+4. If changes are required, Codex updates the active handoff with remediation and Antigravity implements it.
+5. If ready, Codex records `READY FOR OWNER COMMIT` and supplies one Conventional Commit message.
+6. Owner commits/pushes.
 
 ## Naming
 
-Use:
-
 `YYYY-MM-DD-<short-scope>-codex-review.md`
 
-Example:
+## Required content
 
-`2026-10-03-authentication-bootstrap-codex-review.md`
-
-## Content
-
-Each review should include:
-
-- review scope;
-- commit/working-tree reference;
+- review scope/handoff ID;
+- baseline/working-tree reference;
 - Antigravity test evidence;
-- findings grouped by severity;
+- findings by severity;
 - architecture/database/security conformance;
-- residual risks/questions;
-- final workflow status.
+- residual risks;
+- final status;
+- recommended commit message only when ready.
 
-Do not use this directory as a substitute for ADRs. Architectural decisions belong in `docs/adr/`.
+Architectural decisions still belong in `docs/adr/`.

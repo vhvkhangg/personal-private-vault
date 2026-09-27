@@ -4,13 +4,9 @@ Private, single-user personal information vault built as a backend-first modular
 
 ## Current status
 
-Backend Phase 0 is **complete and frozen**. The repository now has the Maven/Spring Boot/Spring Modulith
-bootstrap, module metadata, local PostgreSQL development configuration, architecture verification test,
-agent governance, and completed Codex review history.
+Backend Phase 0 is **complete and frozen**. Backend Phase 1 is **active**: implementation and verification of the executable PostgreSQL/Flyway Schema v1 and the `reference` and `vault` foundation modules are complete (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers) and awaiting owner commit.
 
-Substantial business implementation (entities, repositories, services/use cases, controllers, and domain
-features) has **not started yet**. The next backend implementation phase has not been activated in this
-baseline.
+Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
 Frozen baselines:
 
@@ -22,6 +18,10 @@ Frozen baselines:
 - Module Dependency Diagram v1
 - Repository/Package Tree v1
 - Backend Phase 0 bootstrap baseline
+
+Active (not frozen yet):
+
+- Backend Phase 1 — PostgreSQL/Flyway Schema v1 + Reference & Vault Foundation (implementation & verification complete; awaiting owner commit)
 
 ## Planned stack
 
@@ -47,8 +47,10 @@ The frozen database schema is under [`docs/database`](docs/database).
 
 ## Development workflow
 
-1. The repository owner writes implementation code.
-2. Antigravity writes and runs tests once for the completed implementation slice.
-3. The repository owner fixes issues reported by Antigravity.
-4. Codex performs the final review before commit/push.
-5. Changes are committed directly to `main`; no pull-request workflow is planned for this private repository.
+1. Codex creates the active implementation handoff with `$codex-create-handoff`.
+2. Antigravity implements production code + tests with `/antigravity-implement-handoff`.
+3. Codex performs `$codex-final-review`.
+4. If ready, Codex supplies one Conventional Commit message.
+5. The owner commits and pushes to `main`.
+
+Graphify is optional for token-efficient code navigation; see `.agents/README.md`.

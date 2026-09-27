@@ -1,18 +1,23 @@
 # Codex CLI Repository Notes
 
-The repository skill `codex-final-review` lives at:
+Repository skills live under `.agents/skills/`.
 
-`.agents/skills/codex-final-review/SKILL.md`
-
-Codex CLI skills are invoked with a `$` prefix, not as a same-name slash command:
+Primary commands:
 
 ```text
+$codex-create-handoff
 $codex-final-review
+$graphify-context
 ```
 
-You can also run `/skills` and select `codex-final-review`.
+Codex skills use `$skill-name` (or `/skills`), not same-name slash commands.
 
-Therefore `/codex-final-review` not appearing in Codex CLI inside IntelliJ IDEA is expected behavior
-and is not a repository configuration error.
+## Role
 
-`config.toml` remains reserved for Codex/IDE configuration such as the IntelliJ IDEA MCP endpoint.
+Codex creates implementation handoffs and performs final review. It does not write production implementation
+in the normal workflow and never commits/pushes.
+
+When final review succeeds, Codex supplies exactly one Conventional Commit message for the owner.
+
+Graphify is optional. If installed through `.agents/setup-graphify.ps1`, Codex should use it for targeted
+navigation before broad source reads.

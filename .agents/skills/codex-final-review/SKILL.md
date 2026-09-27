@@ -1,55 +1,66 @@
 ---
 name: codex-final-review
-description: Perform the final pre-commit review after Antigravity testing, verify architecture/correctness/security/docs, and record findings in docs/reviews without editing implementation code.
+description: Perform the final review of the active handoff after Antigravity implementation; request remediation or return READY FOR OWNER COMMIT with one commit message.
 ---
 
 # Codex Final Review
 
-In Codex CLI, invoke this skill with `$codex-final-review` (or select it from `/skills`). Codex does not create a `/codex-final-review` slash command from a skill name.
+Invoke with `$codex-final-review` or select it from `/skills`.
 
-Use this skill for the formal review immediately before the repository owner commits/pushes.
+Codex is review-only in this step.
 
-## Default mode
+## Preconditions
 
-Review-only. Do not edit production code or tests unless the owner explicitly converts the task from review to implementation.
+Read:
 
-Do not rerun tests by default. Review the Antigravity test evidence supplied in the repository/conversation.
+- root/scoped `AGENTS.md`;
+- `docs/implementation/handoffs/ACTIVE.md`;
+- Antigravity test evidence;
+- relevant phase/architecture/database docs.
 
-## Review order
+Expected handoff status: `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 
-1. Read the relevant `AGENTS.md` files.
-2. Identify the implementation slice and changed files.
-3. Read the applicable ADRs, module dependency matrix, and frozen database baseline if persistence changed.
-4. Review for:
-   - correctness and business-rule gaps;
-   - module-boundary/ownership violations;
-   - API contract consistency and validation;
-   - transaction/persistence correctness;
-   - security and sensitive-data leakage;
-   - error handling and logging;
-   - test quality and missing high-value cases;
-   - stale or inconsistent documentation.
-5. Give findings concrete severity:
-   - Critical
-   - High
-   - Medium
-   - Low
-6. Each finding should include:
-   - file/path and line(s) when available;
-   - observed problem;
-   - concrete consequence;
-   - recommended correction.
-7. Separate confirmed defects from uncertain risks/questions.
-8. If no blocking issue exists, state that explicitly rather than inventing findings.
+## Context strategy
 
-## Review log
+Use targeted Graphify queries first when available, then inspect the exact changed/canonical files.
+Do not reread the entire repository.
 
-Create a Markdown review record under `docs/reviews/` using the template in `assets/review-template.md`.
+## Review
 
-Name it:
+Review the diff against the handoff for:
 
-`YYYY-MM-DD-<short-scope>-codex-review.md`
+- correctness/business invariants;
+- scope completeness and scope creep;
+- module boundaries/ownership;
+- persistence/Flyway/JPA correctness;
+- transaction behavior;
+- security/logging;
+- Lombok/JPA misuse;
+- test quality and PostgreSQL evidence;
+- stale documentation.
 
-The log should include the Antigravity test command/result if available.
+Record findings under `docs/reviews/` with severity: Critical / High / Medium / Low.
 
-Do not commit, push, tag, or create/merge a pull request.
+## Outcome: changes required
+
+If any blocking finding exists:
+
+1. Set active handoff status to `CHANGES_REQUESTED`.
+2. Add a precise remediation checklist under `## Codex remediation`.
+3. Do not edit production code.
+4. Do not provide a commit message.
+5. Return control to `/antigravity-implement-handoff`.
+
+## Outcome: ready
+
+If no blocking finding exists:
+
+1. Set active handoff status to `READY_FOR_OWNER_COMMIT`.
+2. Record `READY FOR OWNER COMMIT` in the review log.
+3. Give exactly one recommended Conventional Commit message, appropriate to the slice.
+4. Do not commit or push.
+
+## Phase 1 focus
+
+Additionally verify Flyway V1 fidelity, PostgreSQL named enums, internal repository/entity encapsulation,
+vault fail-closed capability enforcement, recycle-bin semantics, Lombok safety, and real PostgreSQL/Testcontainers evidence.

@@ -4,142 +4,134 @@ This file defines repository-wide instructions for coding agents.
 
 ## Project state
 
-- The project is a private, permanently single-user personal vault.
-- Backend development comes first.
-- Frontend, RAG, and deployment are deferred until the backend scope is complete.
-- The architecture is a modular monolith built with Spring Boot and Spring Modulith.
-- PostgreSQL is the database.
-- Maven is the backend build tool.
-- The repository uses package-by-business-capability, not root-level technical-layer packages.
+- Private, permanently single-user personal vault.
+- Backend-first modular monolith using Spring Boot and Spring Modulith.
+- PostgreSQL + Flyway; Maven build.
+- Frontend, RAG, and production deployment remain deferred.
+- Backend Phase 0 is complete/frozen.
+- Backend Phase 1 is active: executable Schema v1 + `reference` + `vault`.
 
-Read these baselines before making architecture-sensitive changes:
+Architecture-sensitive work must respect:
 
 - `docs/architecture/`
 - `docs/database/personal-private-vault-schema-v1-FROZEN-final.dbml`
 - `docs/repository/repository-package-tree.md`
 - `docs/adr/`
+- `docs/implementation/backend-phase-1.md`
 
-## Human / agent responsibilities
+## Development workflow
 
-The repository owner writes substantial production implementation code: entities, repositories, DTOs, services/use cases, controllers, business rules, and other feature logic.
+The owner no longer writes production implementation.
 
-Agents may prepare low-risk project scaffolding and metadata (for example build files, package documentation, Spring Modulith annotations, bootstrap wiring, test scaffolding, and documentation) when requested. Agents must not proactively write or rewrite substantial business implementation unless the owner explicitly asks for implementation help.
+The default workflow is:
 
-### Antigravity
+1. **Codex creates the implementation handoff.**
+   - Invoke `$codex-create-handoff`.
+   - Codex is planning/review-only at this stage.
+   - It writes `docs/implementation/handoffs/ACTIVE.md`.
+2. **Antigravity implements the handoff.**
+   - Invoke `/antigravity-implement-handoff`.
+   - Antigravity may write production code and tests within the approved handoff scope.
+   - It may iteratively compile/test/fix its own implementation until green or blocked.
+3. **Codex performs final review.**
+   - Invoke `$codex-final-review`.
+   - Codex does not modify production code during final review.
+   - If changes are required, Codex writes a remediation checklist into the active handoff and Antigravity handles it.
+   - If ready, Codex records `READY FOR OWNER COMMIT` and gives exactly one Conventional Commit message.
+4. **Owner commits and pushes.**
+   - Agents do not commit, push, tag, or create/merge PRs.
 
-After the owner finishes an implementation slice:
+Phase 0 is not reopened by this workflow change. Its application/bootstrap baseline remains frozen.
 
-1. inspect the implementation and relevant architecture documentation;
-2. write the required tests;
-3. run the relevant test command once for that explicit test pass;
-4. report failures precisely;
-5. do not automatically retry the test suite in the same pass;
-6. after the owner changes implementation/build configuration, a new explicit test request may run one new pass;
-7. do not modify production code merely to make tests pass unless explicitly asked.
+## Handoff rule
 
-### Codex
+Production implementation must be grounded in the active Codex handoff:
 
-Codex performs the final review after the owner has addressed Antigravity findings.
+`docs/implementation/handoffs/ACTIVE.md`
 
-Default Codex final-review mode is review-only:
+Agents must not broaden scope beyond the handoff. If the handoff conflicts with a frozen architecture/database
+baseline, stop and report the conflict instead of silently changing the baseline.
 
-- do not modify production code;
-- do not rewrite tests;
-- do not rerun tests unless explicitly requested;
-- do not commit, push, tag, or create/merge pull requests;
-- record the final review in `docs/reviews/` when performing the formal pre-commit review.
+## Context/token discipline
+
+Use the smallest context that can safely complete the task.
+
+- Read the active handoff first.
+- Prefer exact referenced architecture/docs files over broad repository scans.
+- If `graphify` is available and `graphify-out/graph.json` exists, query Graphify before broad grep/read operations.
+- Graphify is navigation context, never a source of truth; verify important details in canonical files.
+- Avoid re-reading unchanged large files.
+- Do not paste DBML, migrations, logs, or whole files into handoffs when a path + precise requirement is sufficient.
+- Keep handoffs concise and link to canonical docs instead of duplicating them.
 
 ## Git workflow
 
-- The repository has one branch: `main`.
-- There is no pull-request workflow.
-- The repository owner performs commits and pushes.
-- Agents must never run `git commit`, `git push`, `git tag`, or equivalent publishing commands unless the owner explicitly overrides this rule.
-- Use Conventional Commit style when suggesting a commit message, for example `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`.
+- One branch: `main`.
+- No pull-request workflow.
+- Owner commits/pushes.
+- Agents must never run `git commit`, `git push`, `git tag`, or equivalent publishing commands.
+- Suggested commit messages use Conventional Commits.
 
 ## Frozen baselines
 
-The following are frozen v1 baselines:
+The following remain frozen unless the owner explicitly approves an architectural change:
 
-- Database Schema v1.
-- Module Boundary v1.
-- Architecture Diagrams v1.
-- Repository / Package Tree v1.
+- Database Schema v1
+- Module Boundary v1
+- Architecture Diagrams v1
+- Repository / Package Tree v1
+- Backend Phase 0 bootstrap baseline
 
-Do not silently change a frozen baseline.
+A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 
-A deliberate baseline change requires:
+## Module invariants
 
-1. explicit owner approval;
-2. an ADR update or new ADR when the architectural decision changes;
-3. all affected architecture/data documentation to be synchronized.
-
-## Module architecture invariants
-
-- Each application module owns its entities, repositories, and internal implementation.
-- Other modules may use only the owning module's exposed API / named interfaces.
+- Each application module owns its entities, repositories, and internals.
+- Other modules use only exposed public APIs/named interfaces.
 - Never import another module's `internal` package.
 - Never share JPA repositories across module boundaries.
-- `vault` is shared core and must not depend back on content modules.
-- `reference` is stable reference data and must not depend on business modules.
-- `search` is an orchestration/leaf module; business modules must not depend on it.
-- `finance` and `journal` remain independent.
-- Use synchronous module APIs when the caller needs an immediate result.
-- Use application/domain events for cross-module side effects.
-- Avoid events for ordinary direct lookups or commands.
+- `vault` and `reference` have no application-module dependencies.
+- `search` is a leaf/orchestration module.
 - Prevent module dependency cycles.
-
-Consult `docs/architecture/module-dependency-matrix.md` before adding a cross-module dependency.
+- Consult `docs/architecture/module-dependency-matrix.md` before new cross-module dependencies.
 
 ## Backend conventions
 
-- REST/JSON API with OpenAPI documentation.
-- Do not expose JPA entities from controllers.
-- Use explicit request/response DTOs at API boundaries.
-- Use the project-standard `ApiResponse` envelope once defined; do not create competing envelope formats.
-- Use SLF4J for application logging.
-- Never log passwords, PINs, JWTs, refresh tokens, personal secrets, or sensitive finance/personal payloads.
-- Persist schema changes through Flyway migrations.
-- Do not use Hibernate auto-DDL as the production schema source of truth.
-- Store timestamps in UTC; use `DATE` for date-only concepts such as birthdays.
-- Media binaries belong in S3-compatible object storage; PostgreSQL stores metadata/object keys.
-- Authentication uses access + refresh JWTs; refresh tokens are revocable/rotatable.
-- The private-mode PIN is a six-digit UI gate and is stored hashed.
-- Never commit credentials, tokens, real personal data, or production secrets.
+- REST/JSON + OpenAPI when HTTP work begins.
+- Never expose JPA entities from controllers.
+- Use explicit API DTOs.
+- Flyway defines the physical schema; Hibernate auto-DDL is not the schema source of truth.
+- Store timestamps in UTC.
+- Media binaries stay outside PostgreSQL.
+- Use SLF4J; never log passwords, PINs, JWTs, refresh tokens, secrets, or sensitive payloads.
+- Lombok is allowed for boilerplate reduction, but do not use `@Data` on JPA entities.
+- For JPA entities prefer targeted annotations such as `@Getter` and protected no-args construction; keep equality,
+  association handling, and state transitions deliberate.
+- `@RequiredArgsConstructor` is acceptable for stateless Spring services with final dependencies.
 
-## Testing baseline
+## Testing
 
-When tests are requested, prefer the appropriate level:
+Antigravity owns implementation tests for the active handoff.
+
+Preferred tools:
 
 - JUnit 5
 - AssertJ
-- Mockito
-- Spring Boot Test
+- Mockito where isolation adds value
 - Spring Modulith Test / `@ApplicationModuleTest`
-- Testcontainers with PostgreSQL
-- MockMvc for HTTP/API integration tests
+- Testcontainers PostgreSQL
+- Spring Boot `@ServiceConnection` where useful
+- MockMvc when HTTP work exists
 
-Do not substitute H2 for PostgreSQL integration tests.
-
-Frontend E2E / Playwright is deferred with the frontend.
-
-## Documentation
-
-- Repository documentation is written in English.
-- Keep documentation factual and synchronized with accepted decisions.
-- Prefer source-controlled editable diagram sources (`.drawio`, Structurizr DSL, DBML) over image-only documentation.
-- Do not alter frozen architecture artifacts just to make documentation look cleaner.
+Do not use H2 as a PostgreSQL substitute.
 
 ## Scope discipline
 
-Do not implement deferred scope without an explicit request:
+Do not implement deferred scope without an explicit Codex handoff:
 
 - frontend;
 - RAG;
 - production deployment;
 - multi-user support;
 - 2FA/passkeys;
-- media playback/readers;
 - unrelated refactors.
-
-Prefer the smallest change that fully solves the requested task.

@@ -1,38 +1,20 @@
 ---
 name: antigravity-test-slice
-description: Write tests for a completed backend implementation slice, run one explicit test pass, and report the result without modifying production code.
+description: Run a focused regression/test-only pass for an already implemented handoff without expanding implementation scope.
 ---
 
 # Antigravity Test Slice
 
-Use this skill after the repository owner finishes an implementation slice and asks Antigravity to test it.
+This is a secondary/test-only skill. The primary development workflow is `/antigravity-implement-handoff`.
 
-## Procedure
+Use this skill when the active handoff is already implemented and only a targeted regression pass is requested.
 
-1. Read root `AGENTS.md`, `backend/AGENTS.md`, and `backend/src/test/AGENTS.md`.
-2. Identify the changed module and its accepted architecture/database constraints.
-3. Inspect the implementation before choosing test types.
-4. Add only the tests necessary for the completed slice.
-5. Prefer:
-   - JUnit 5 + AssertJ for domain behavior;
-   - Mockito for useful collaborator isolation;
-   - `@ApplicationModuleTest` for module integration;
-   - Testcontainers PostgreSQL for persistence;
-   - MockMvc for HTTP behavior.
-6. Never replace PostgreSQL integration behavior with H2.
-7. Run the narrowest relevant Maven test command once for this explicit test pass. For Backend Phase 0 from repository root, run the direct command `mvn -f backend/pom.xml test`. On Windows, do not wrap approved read-only Git/Maven commands in `powershell -Command` or `cmd /c`, and do not add `git -c` / `git -C` unless actually required; direct commands match the curated Antigravity CLI permission rules.
-8. Capture:
-   - the exact command;
-   - exit status;
-   - passed/failed tests;
-   - failure messages and likely source location.
-9. If the run fails:
-   - stop the test-run loop;
-   - do not automatically rerun in the same pass;
-   - do not alter production implementation unless the owner explicitly asks.
-   - if the owner fixes the reported implementation/build issue and explicitly invokes this skill again, that is a new test pass and may execute the command once.
-10. Summarize missing test coverage separately from implementation defects.
+1. Read `docs/implementation/handoffs/ACTIVE.md`.
+2. Add tests only if the handoff/review explicitly requires missing coverage.
+3. Do not expand production scope.
+4. Use PostgreSQL Testcontainers for persistence.
+5. Run the requested focused/final command.
+6. Preserve command/result evidence.
+7. If a production defect is found, report it or return to `/antigravity-implement-handoff` when the handoff status permits remediation.
 
 Do not commit or push.
-
-For one-time safe-command auto-approval, follow `docs/implementation/antigravity-cli-permissions.md`.

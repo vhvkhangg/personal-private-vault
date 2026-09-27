@@ -65,3 +65,6 @@ allure-results/
 *.swp
 *.swo
 *~
+
+# Local AI code graph cache
+graphify-out/

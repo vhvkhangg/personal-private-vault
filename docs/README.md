@@ -2,7 +2,7 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phase 0 is **complete and frozen**. The database schema, module boundaries, architecture diagrams, repository/package tree, and backend bootstrap baseline are established. Substantial business implementation has not started yet.
+Backend Phase 0 is **complete and frozen**. Backend Phase 1 is **active**, implementing the executable Flyway Schema v1 plus the `reference` and `vault` foundation modules. The frozen logical DBML and architecture/module baselines remain unchanged.
 
 ## Documentation map
 
@@ -10,7 +10,7 @@ Backend Phase 0 is **complete and frozen**. The database schema, module boundari
 |---|---|
 | [`architecture/`](architecture/README.md) | System architecture, module boundaries, data, API, security, search, integration, storage, and workflow documentation |
 | [`adr/`](adr/README.md) | Accepted Architecture Decision Records (ADRs) |
-| [`database/`](database/README.md) | Frozen DBML logical schema baseline |
+| [`database/`](database/README.md) | Frozen DBML logical schema baseline and Flyway executable-schema guidance |
 | [`repository/`](repository/repository-package-tree.md) | Frozen repository and Java package organization |
 | [`implementation/`](implementation/README.md) | Implementation-phase plans, completion records, test evidence, and operational guidance |
 | [`reviews/`](reviews/README.md) | Formal Codex pre-commit review history |
@@ -39,8 +39,10 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 
 ## Current development workflow
 
-1. The repository owner writes implementation code.
-2. Antigravity writes the tests for the completed implementation slice and runs them once.
-3. The repository owner fixes issues reported by Antigravity.
-4. Codex performs the final review before commit/push.
-5. Changes are committed directly to `main`; no pull-request workflow is planned for this personal repository.
+1. Codex creates `implementation/handoffs/ACTIVE.md`.
+2. Antigravity implements/tests the active handoff.
+3. Codex performs final review and requests remediation or returns `READY FOR OWNER COMMIT`.
+4. On success Codex supplies one Conventional Commit message.
+5. The owner commits/pushes directly to `main`.
+
+Phase 0 remains frozen; this workflow applies prospectively and does not reopen Phase 0.

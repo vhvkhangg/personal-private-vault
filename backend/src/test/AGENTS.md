@@ -1,42 +1,36 @@
 # Test Scope Instructions
 
-These instructions apply whenever creating or reviewing backend tests.
+These instructions apply under `backend/src/test/`.
 
-## Workflow
+## Ownership
 
-Antigravity owns test generation for completed implementation slices unless the owner explicitly requests otherwise.
+Antigravity owns test implementation for the active Codex handoff and may update production code in the same handoff
+when tests reveal defects in its own implementation.
 
-For the normal workflow:
+Codex final review does not rewrite tests by default.
 
-1. read the implementation diff and relevant module documentation;
-2. add tests only for the completed slice;
-3. run the relevant test command once for the current explicit test pass;
-4. report the exact command, exit status, and failures;
-5. do not automatically rerun after a failure in the same pass;
-6. after the owner fixes implementation/build configuration, a new explicit request may run one new test pass;
-7. do not change production code to satisfy a failing test unless explicitly asked.
+## Test loop
 
-Codex final review should inspect these tests and the recorded result, but should not rerun them by default.
+Within `/antigravity-implement-handoff`:
+
+1. implement the scoped production change;
+2. add the narrowest meaningful tests;
+3. run focused compile/tests;
+4. fix implementation/test defects;
+5. rerun as needed;
+6. run the agreed final Maven test command;
+7. retain test evidence for Codex.
+
+Avoid unbounded loops. After three failed full-suite attempts for the same unresolved cause, stop and report the blocker.
 
 ## Test design
 
-Use the narrowest test type that verifies the behavior correctly.
+- Domain logic: JUnit 5 + AssertJ.
+- Collaborator isolation: Mockito only when useful.
+- Module integration: Spring Modulith test support.
+- Persistence: Testcontainers PostgreSQL.
+- Prefer Spring Boot `@ServiceConnection` when it reduces connection boilerplate.
+- HTTP: MockMvc when controllers exist.
+- Never substitute H2 for PostgreSQL.
 
-- Pure domain/business logic: JUnit 5 + AssertJ.
-- Collaborator behavior: Mockito only when isolation is useful.
-- Application module integration: Spring Modulith testing / `@ApplicationModuleTest`.
-- Repository/database integration: Testcontainers PostgreSQL.
-- HTTP/API behavior: MockMvc with appropriate Spring context.
-- Full application tests only when cross-module behavior genuinely requires them.
-
-Do not use H2 as a PostgreSQL substitute.
-
-## Quality
-
-- Test externally meaningful behavior, invariants, failure paths, and boundary conditions.
-- Avoid tests that merely mirror implementation statements.
-- Avoid excessive mocking of value objects/entities.
-- Use deterministic data and clocks where time affects behavior.
-- Do not depend on test execution order.
-- Keep test names readable and behavior-focused.
-- Verify security-sensitive negative cases when the slice touches authentication/authorization.
+Tests must cover behavior/invariants, failure paths, and meaningful boundary conditions rather than mirror implementation.
