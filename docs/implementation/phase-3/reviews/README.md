@@ -7,6 +7,7 @@ Formal Codex review history retained with Phase 3.
 
 ## Milestone review
 
-The Phase 1–3 milestone review returned `CHANGES_REQUESTED`. Its scope/status is tracked in
+The Phase 1–3 milestone review initially returned `CHANGES_REQUESTED`, then `MILESTONE_READY` after the
+owner-committed maintenance. Its scope/status is tracked in
 [`../milestone-review.md`](../milestone-review.md); see the
 [2026-09-28 milestone review](2026-09-28-phase-1-3-milestone-codex-review.md) for findings and the gate.

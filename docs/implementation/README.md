@@ -7,12 +7,12 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-0/`](phase-0/README.md) — **COMPLETE / FROZEN** — bootstrap
 - [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — Schema v1 + `reference` + `vault`
 - [`phase-2/`](phase-2/README.md) — **COMPLETE / FROZEN** — `authentication` + `settings`
-- [`phase-3/`](phase-3/README.md) — **COMPLETE / FROZEN; MILESTONE REVIEW PENDING** — `people`
-- [`phase-4/`](phase-4/README.md) — **PREPARED / BLOCKED BY MILESTONE REVIEW** — `fiction`
+- [`phase-3/`](phase-3/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `people`
+- [`phase-4/`](phase-4/README.md) — **PREPARED / AWAITING CODEX PRE-HANDOFF REVIEW** — `fiction`
 
 Maintenance:
 
-- [`maintenance/`](maintenance/README.md) — current owner-approved frozen-phase corrections
+- [`maintenance/`](maintenance/README.md) — completed owner-approved frozen-phase corrections
 
 See [`../roadmap.md`](../roadmap.md).
 
@@ -20,10 +20,11 @@ See [`../roadmap.md`](../roadmap.md).
 
 There is no active implementation handoff.
 
-The Phase 1–3 milestone is `CHANGES_REQUESTED`. The owner approved
-[`maintenance/milestone-1-3-concurrency/`](maintenance/milestone-1-3-concurrency/README.md).
+The Phase 1–3 milestone is `MILESTONE_READY`. The owner-approved
+[`maintenance/milestone-1-3-concurrency/`](maintenance/milestone-1-3-concurrency/README.md) is complete and
+committed/pushed.
 
-Run `$codex-create-handoff` for that maintenance scope. Do **not** create or review a Phase 4 handoff yet.
+Run Phase 4 `$codex-pre-handoff-review` next. Do **not** create a Phase 4 implementation handoff yet.
 
 ## Operational guidance
 

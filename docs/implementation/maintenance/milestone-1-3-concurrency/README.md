@@ -1,10 +1,11 @@
 # Phase 1–3 Milestone Concurrency Maintenance
 
-Status: **READY FOR OWNER COMMIT**
+Status: **COMPLETE — FROZEN (2026-09-28)**
 
 The [2026-09-28 Codex final review](reviews/2026-09-28-concurrency-maintenance-final-codex-review.md)
-accepted the two focused test corrections on re-review. The owner may commit/push this maintenance slice;
-the Phase 1–3 milestone remains `CHANGES_REQUESTED` and Phase 4 remains blocked until the milestone is rerun.
+accepted the two focused test corrections on re-review. The owner committed/pushed this maintenance slice
+as `3a9294d`; the Phase 1–3 milestone re-review returned `MILESTONE_READY`. The completed
+[maintenance handoff](handoff.md) is archived. Phase 4 now awaits its own pre-handoff review.
 
 Owner approval: **2026-09-28**
 
@@ -186,7 +187,7 @@ Use the existing skills:
 
 No new domain skill, custom agent, or repository hook is required.
 
-## Workflow
+## Workflow (completed)
 
 1. Codex: `$codex-create-handoff` from this approved maintenance scope.
 2. Antigravity: `/antigravity-implement-handoff`.

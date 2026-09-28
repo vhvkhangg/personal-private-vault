@@ -12,10 +12,10 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 - Backend Phase 2 is complete/frozen after owner commit/push.
 - Backend Phase 3 (`people`) is complete/frozen after owner commit/push.
-- Current gate: owner-approved Phase 1/2 concurrency maintenance from the Phase 1–3 milestone; Phase 4 (`fiction`)
-  remains blocked until the maintenance is committed and the milestone rerun returns `MILESTONE_READY`.
+- The owner-approved Phase 1/2 concurrency maintenance is committed and the Phase 1–3 milestone is
+  `MILESTONE_READY`. Phase 4 (`fiction`) now awaits its separate pre-handoff preparation review.
 
-Current approved maintenance scope:
+Completed maintenance scope:
 
 - `docs/implementation/maintenance/milestone-1-3-concurrency/README.md`
 

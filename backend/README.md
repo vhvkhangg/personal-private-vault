@@ -45,5 +45,6 @@ People Foundation is **complete and frozen** after owner commit/push. See
 
 ## Phase 4
 
-Fiction Foundation preparation exists but remains blocked by the Phase 1–3 milestone review. See
+Fiction Foundation preparation awaits Codex pre-handoff review after the Phase 1–3 milestone returned
+`MILESTONE_READY`. See
 `../docs/implementation/phase-4/README.md`.

@@ -1,6 +1,6 @@
 # Backend Phase 4 — Fiction Foundation
 
-Status: **PREPARED — BLOCKED BY PHASE 1–3 MILESTONE REVIEW**
+Status: **PREPARED — AWAITING CODEX PRE-HANDOFF REVIEW**
 
 Phase 4 implements the `fiction` module after the frozen `vault`, `reference`, and `people` foundations.
 

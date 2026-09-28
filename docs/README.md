@@ -2,9 +2,9 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0–3 are **complete and frozen**. The Phase 1–3 milestone is `CHANGES_REQUESTED`; the owner has
-approved a narrow Phase 1/2 concurrency maintenance slice. Phase 4 (`fiction`) remains blocked until the
-maintenance is committed and the milestone rerun returns `MILESTONE_READY`. Phase 1 delivered the executable Flyway Schema v1 plus the implemented
+Backend Phases 0–3 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY` after the
+owner-approved concurrency maintenance. Phase 4 (`fiction`) is prepared and awaits `$codex-pre-handoff-review`;
+no implementation handoff exists. Phase 1 delivered the executable Flyway Schema v1 plus the implemented
 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 

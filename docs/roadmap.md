@@ -16,8 +16,8 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 0 | Spring Boot / Maven / Spring Modulith bootstrap | Historical | **COMPLETE — FROZEN** | Not counted |
 | 1 | Flyway Schema v1 + `reference` + `vault` foundations | Historical | **COMPLETE — FROZEN** | — |
 | 2 | `authentication` + `settings` foundations | Historical | **COMPLETE — FROZEN** | — |
-| 3 | `people`: persons, roles, creator groups/membership | P-3 complete | **COMPLETE — FROZEN** | **CHANGES_REQUESTED — maintenance approved** |
-| 4 | `fiction` domain | **P-4 prepared; blocked by Phase 1–3 milestone** | Not started | — |
+| 3 | `people`: persons, roles, creator groups/membership | P-3 complete | **COMPLETE — FROZEN** | **MILESTONE_READY** |
+| 4 | `fiction` domain | **P-4 prepared; awaiting Codex pre-handoff review** | Not started | — |
 | 5 | `film` domain + film credits | P-5 planned | Not started | — |
 | 6 | `media` + `location` foundations | P-6 planned | Not started | **After completion** |
 | 7 | `account` external/social account history | P-7 planned | Not started | — |
@@ -35,14 +35,14 @@ Production deployment provider/topology remains deferred and is not a numbered i
 owner explicitly brings deployment into scope.
 
 
-## Current milestone maintenance
+## Completed milestone maintenance
 
 The Phase 1–3 milestone found two concurrency defects in frozen Phase 1/2 behavior. The owner-approved remediation is:
 
 [`implementation/maintenance/milestone-1-3-concurrency/README.md`](implementation/maintenance/milestone-1-3-concurrency/README.md)
 
-Phase 4 remains blocked until this maintenance passes final review, is committed/pushed, and the milestone is rerun
-to `MILESTONE_READY`.
+The maintenance passed final review and was owner committed/pushed as `3a9294d`. The milestone re-review is
+`MILESTONE_READY`; Phase 4 may enter its separate pre-handoff preparation review.
 
 ## Why this order
 

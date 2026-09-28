@@ -1,6 +1,6 @@
 # Phase 4 Pre-Handoff Preparation Review
 
-Status: **BLOCKED — AWAITING PHASE 1–3 MILESTONE REVIEW**
+Status: **AWAITING CODEX PRE-HANDOFF REVIEW**
 
 ## Gate
 
@@ -17,6 +17,9 @@ MILESTONE_READY
 ```
 
 If the milestone review returns `CHANGES_REQUESTED`, resolve that milestone first.
+
+The Phase 1–3 milestone is now `MILESTONE_READY`; this prerequisite is satisfied. This document has not yet
+received its own `$codex-pre-handoff-review` result.
 
 ## Scope once unblocked
 
@@ -47,9 +50,9 @@ No Phase 4 production Java implementation, Flyway change, or implementation hand
   Modulith verification;
 - no new custom agent/hook is introduced without a concrete need.
 
-## Next command after milestone success
+## Next command
 
-Change this status to `AWAITING CODEX PRE-HANDOFF REVIEW`, then run:
+The milestone prerequisite is satisfied and this document is `AWAITING CODEX PRE-HANDOFF REVIEW`. Run:
 
 ```text
 $codex-pre-handoff-review

@@ -1,11 +1,11 @@
 # Phase 1–3 Milestone Review
 
-Status: **CHANGES_REQUESTED**
+Status: **MILESTONE_READY**
 
 The [2026-09-28 Codex milestone review](reviews/2026-09-28-phase-1-3-milestone-codex-review.md)
-found two concurrency defects in frozen Phase 1/2 behavior. They require a separate owner-approved,
-scoped maintenance implementation slice and PostgreSQL regression coverage before this milestone can be
-re-reviewed. Phase 4 pre-handoff review remains blocked.
+initially found two concurrency defects in frozen Phase 1/2 behavior. The owner-approved maintenance was
+implemented, final-reviewed, and committed/pushed as `3a9294d`; the milestone re-review found no remaining
+blocker. Phase 4 may now proceed to `$codex-pre-handoff-review`, not implementation handoff creation.
 
 
 ## Approved maintenance remediation
@@ -14,8 +14,8 @@ The owner approved the narrow maintenance implementation scope on 2026-09-28:
 
 [`../maintenance/milestone-1-3-concurrency/README.md`](../maintenance/milestone-1-3-concurrency/README.md)
 
-The milestone remains `CHANGES_REQUESTED` until that maintenance handoff is implemented, final-reviewed,
-committed/pushed, and this milestone review is rerun. Phase 4 remains blocked.
+The maintenance handoff was implemented, final-reviewed, and owner committed/pushed as `3a9294d`. The
+milestone was rerun and is `MILESTONE_READY`; Phase 4 preparation can enter its separate pre-handoff review.
 
 ## Trigger
 

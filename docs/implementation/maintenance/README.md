@@ -16,4 +16,4 @@ Rules:
 
 Current slice:
 
-- [`milestone-1-3-concurrency/`](milestone-1-3-concurrency/README.md) — **READY FOR OWNER COMMIT**
+- [`milestone-1-3-concurrency/`](milestone-1-3-concurrency/README.md) — **COMPLETE / FROZEN**

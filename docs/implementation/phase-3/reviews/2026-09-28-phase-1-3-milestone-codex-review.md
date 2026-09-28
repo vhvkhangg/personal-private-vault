@@ -3,7 +3,7 @@
 - Date: 2026-09-28
 - Review window: frozen Phase 1 (`reference`, `vault`, Schema v1), Phase 2 (`authentication`, `settings`), and Phase 3 (`people`)
 - Baseline: `ca5ec5d feat(backend): add people foundation`
-- Result: **CHANGES_REQUESTED**
+- Initial result: **CHANGES_REQUESTED**; final result: **MILESTONE_READY**
 - Mode: cross-phase review; no production, test, schema, or frozen architecture changes made
 
 ## Blocking findings
@@ -76,9 +76,31 @@ historical account during authorized docs/tooling remediation; do not reopen Pha
 - The dirty worktree contains owner Phase 3 closeout/Phase 4 preparation. This review changed only milestone
   status/review documents and roadmap status, preserving those preparations and the frozen baselines.
 
-## Gate and next step
+## Initial gate and next step (completed)
 
-Phase 4 `$codex-pre-handoff-review` remains blocked. The owner must approve a narrow maintenance scope for
-the two frozen-phase fixes; the implementation agent should use a separate handoff, add PostgreSQL regressions,
-and return for Codex review. After those findings are resolved, rerun this milestone review and only then set
-`MILESTONE_READY`. No Phase 4 implementation handoff is authorized by this record.
+Phase 4 `$codex-pre-handoff-review` was blocked. The owner was asked to approve a narrow maintenance scope
+for the two frozen-phase fixes, then use a separate handoff with PostgreSQL regressions and Codex final review.
+That maintenance is now complete and the milestone has been rerun; no Phase 4 implementation handoff was
+authorized by the initial decision.
+
+## Milestone re-review — 2026-09-28
+
+- The owner-approved maintenance scope was implemented, final-reviewed, and committed/pushed as `3a9294d`.
+  `main` matches `origin/main`, and the worktree was clean before this status review.
+- **High resolved:** `SessionService.rotate` and `revoke` now lock the same predecessor row. PostgreSQL tests
+  observe the competing lock attempt and prove both rotation-first (one successor; replacement link retained)
+  and revocation-first (no successor; rotation fails closed) outcomes without raw-token diagnostics.
+- **Medium resolved:** Vault favorite/tag attachment use owner-local, caller-transaction `INSERT ... ON CONFLICT
+  DO NOTHING` paths. PostgreSQL tests prove concurrent idempotence, one-row final state, and enclosing rollback.
+- The Phase 3 README wording that incorrectly called its handoff active is now historical. No DBML, Flyway,
+  frozen module-boundary, or Phase 4 production change was made by the maintenance.
+- Cross-phase re-check found no further blocking domain-rule duplication, public/internal leakage, module
+  cycle, misplaced persistence ownership, security/logging concern, concrete performance hotspot, or
+  speculative abstraction requiring remediation. Existing Phase 1–3 invariants and canonical ownership
+  remain as assessed above.
+- Codex independently ran `mvn -f backend/pom.xml clean verify` on committed `3a9294d`: exit 0,
+  `BUILD SUCCESS`, 227 tests, 0 failures/errors/skips. Spring Modulith architecture verification and
+  Flyway-backed PostgreSQL/Hibernate validation passed.
+
+Final result: **MILESTONE_READY**. Phase 4 may proceed to its separate `$codex-pre-handoff-review`.
+No Phase 4 implementation handoff is created or approved by this milestone review.
