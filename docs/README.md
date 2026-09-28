@@ -2,8 +2,8 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Backend Phase 2 is implemented, verified, and
-ready for owner commit under an active handoff. Phase 1 delivered the executable Flyway Schema v1 plus the implemented
+Backend Phases 0, 1, and 2 are **complete and frozen**. Phase 3 (`people`) preparation is **ready for handoff**;
+there is no active implementation handoff. Phase 1 delivered the executable Flyway Schema v1 plus the implemented
 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 
@@ -15,9 +15,10 @@ the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-00
 | [`adr/`](adr/README.md) | Accepted Architecture Decision Records (ADRs) |
 | [`database/`](database/README.md) | Frozen DBML logical schema baseline and Flyway executable-schema guidance |
 | [`repository/`](repository/repository-package-tree.md) | Frozen repository and Java package organization |
-| [`agent-development-workflow.md`](agent-development-workflow.md) | Canonical Codex → Antigravity → Codex implementation workflow |
+| [`owner-phase-workflow.md`](owner-phase-workflow.md) | Owner checklist from phase closeout to the next handoff |
+| [`roadmap.md`](roadmap.md) | 17-phase roadmap, prep gates, status, milestone cadence |
+| [`agent-development-workflow.md`](agent-development-workflow.md) | Canonical ChatGPT → Codex → Antigravity → Codex workflow |
 | [`implementation/`](implementation/README.md) | Implementation-phase plans, completion records, test evidence, and operational guidance |
-| [`reviews/`](reviews/README.md) | Formal Codex pre-commit review history |
 
 ## Frozen baselines
 
@@ -44,10 +45,10 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 
 ## Current development workflow
 
-1. Codex creates `implementation/handoffs/ACTIVE.md`.
-2. Antigravity implements/tests the active handoff.
-3. Codex performs final review and requests remediation or returns `READY FOR OWNER COMMIT`.
-4. On success Codex supplies one Conventional Commit message.
-5. The owner commits/pushes directly to `main`.
+1. ChatGPT closes the committed phase and prepares the next phase docs/tooling.
+2. Codex performs `$codex-pre-handoff-review`.
+3. After `READY FOR HANDOFF` and preparation commit/push, Codex creates `implementation/handoffs/ACTIVE.md`.
+4. Antigravity implements/tests the handoff.
+5. Codex performs final review; owner commits/pushes after `READY FOR OWNER COMMIT`.
 
-Backend Phase 0 and Backend Phase 1 remain frozen; this workflow applies prospectively and does not reopen either phase.
+Backend Phases 0, 1, and 2 remain frozen; this workflow applies prospectively and does not reopen them.

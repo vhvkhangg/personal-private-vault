@@ -10,7 +10,7 @@ Current sources:
 - Phase 0 baseline/status: `README.md`
 - Antigravity permission guidance: `docs/implementation/antigravity-cli-permissions.md`
 - Governance regression evidence: `governance-test-evidence.md`
-- Final Codex review: `../../reviews/2026-09-27-backend-phase-0-final-governance-codex-review.md`
+- Final Codex review: `reviews/2026-09-27-backend-phase-0-final-governance-codex-review.md`
 
 ## Historical build fixes
 

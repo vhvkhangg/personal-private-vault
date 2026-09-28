@@ -13,7 +13,7 @@ Backend Phase 0 is complete and frozen.
 - Antigravity architecture verification: **PASS** — 1 test, 0 failures, 0 errors, 0 skipped.
 - Repository-safety hook regression suite: **PASS** — 10 tests.
 - Codex final review: **READY FOR OWNER COMMIT**.
-- Final review record: [`../../reviews/2026-09-27-backend-phase-0-final-governance-codex-review.md`](../../reviews/2026-09-27-backend-phase-0-final-governance-codex-review.md).
+- Final review record: [`reviews/2026-09-27-backend-phase-0-final-governance-codex-review.md`](reviews/2026-09-27-backend-phase-0-final-governance-codex-review.md).
 - Governance test evidence: [`governance-test-evidence.md`](governance-test-evidence.md).
 
 The Phase 0 bootstrap baseline should not be changed merely for cleanup or speculative refactoring.
@@ -142,7 +142,7 @@ $codex-final-review
 
 or open `/skills` and select `codex-final-review`.
 
-Codex reviews the implementation/tests/evidence and writes the formal review record under `docs/reviews/`.
+Codex reviews the implementation/tests/evidence and writes the formal review record under `reviews/`.
 It does not rerun tests by default and does not commit/push.
 
 ## Phase 0 completion sequence — historical record

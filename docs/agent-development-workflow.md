@@ -4,77 +4,61 @@
 
 | Role | Responsibility |
 |---|---|
-| Owner | Approves scope, manages local secrets/environment, commits and pushes |
-| Codex | Creates implementation handoffs and performs final review |
-| Antigravity `backend-implementer` | Implements production code + tests from the active handoff |
-| Antigravity `architecture-auditor` | Optional read-only architecture/JPA/PostgreSQL audit |
-| Graphify | Optional local navigation cache; never a source of truth |
+| Owner | Approves scope, runs necessary local/environment commands, commits/pushes |
+| ChatGPT | Phase closeout, docs consolidation, roadmap, next-phase preparation/tooling |
+| Codex | Pre-handoff review, handoff creation, final code review, milestone review |
+| Antigravity `backend-implementer` | Production implementation + tests from active handoff |
+| Antigravity `architecture-auditor` | Optional read-only architecture/persistence audit |
+| Graphify | Optional navigation cache; never source of truth |
 
-## Standard slice
+## Phase 3+ lifecycle
 
 ```text
-Owner confirms scope
-      ↓
-Codex: $codex-create-handoff
-      ↓
-ACTIVE.md → READY_FOR_IMPLEMENTATION
-      ↓
-Antigravity: /agents → backend-implementer
-      ↓
-/antigravity-implement-handoff
-      ↓
-implementation + tests + final evidence
-      ↓
+Owner commits/pushes finished phase
+        ↓
+ChatGPT closes/freezes it + prepares next phase
+        ↓
+Codex $codex-pre-handoff-review
+        ↓
+CHANGES_REQUESTED → ChatGPT remediation → re-review
+or READY FOR HANDOFF
+        ↓
+Owner commits/pushes preparation
+        ↓
+Codex $codex-create-handoff
+        ↓
+Antigravity /antigravity-implement-handoff
+        ↓
 IMPLEMENTED_AWAITING_CODEX_REVIEW
-      ↓
-Codex: $codex-final-review
-      ↓
-CHANGES_REQUESTED → Antigravity remediation → Codex review
-or
-READY_FOR_OWNER_COMMIT → Codex gives one Conventional Commit message
-      ↓
+        ↓
+Codex $codex-final-review
+        ↓
+CHANGES_REQUESTED → Antigravity remediation → re-review
+or READY FOR OWNER COMMIT
+        ↓
 Owner commit + push
 ```
 
-## Skill routing
+After Phases 3/6/9/12/15, insert `$codex-milestone-review` before the next implementation handoff.
 
-Use relevant focused skills through progressive disclosure:
+See `docs/owner-phase-workflow.md` and `docs/roadmap.md`.
 
-- `java-spring-coding-standards`
-- `pragmatic-solid-design`
-- `reuse-and-consistency`
-- `design-pattern-selection`
-- `modular-monolith-architecture`
-- `jpa-postgresql-persistence`
-- `backend-testing`
-- `graphify-context`
+## Engineering guidance
 
-## Local tooling
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/configure-antigravity.ps1
-powershell -ExecutionPolicy Bypass -File scripts/setup-graphify.ps1   # optional
-```
-
-After meaningful source changes:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/refresh-graphify.ps1
-```
-
-Graphify stays installed if the setup script is deleted; keep the script committed for reproducibility.
+Use relevant skills through progressive disclosure. Core backend skills are Java/Spring standards, pragmatic SOLID,
+reuse/consistency, pattern selection, modular-monolith architecture, JPA/PostgreSQL, backend testing, plus the
+phase/domain skill named by the preparation gate/handoff.
 
 ## Context discipline
 
-Read the active handoff first, then exact canonical files. Use Graphify before broad exploration when available.
-Do not repeatedly load unchanged DBML/migrations/logs.
+Read approved preparation/handoff first. Use Graphify before broad exploration when helpful, then verify graph facts
+in canonical source/docs.
 
 ## Git boundary
 
-Agents never commit, push, tag, or create/merge PRs. The owner performs publishing.
+Agents never commit, push, tag, or create/merge PRs.
 
-## Phase completion
+## Phase closeout
 
-After final Codex review and owner commit/push, mark the phase `COMPLETE — FROZEN`, archive its handoff/evidence,
-and clear `ACTIVE.md`. Later tooling/governance changes do not reopen the frozen business implementation unless
-they modify production/test/database files.
+After owner commit/push, ChatGPT marks the phase `COMPLETE — FROZEN`, archives handoff/reviews/evidence under that
+phase, clears `ACTIVE.md`, synchronizes status, and prepares the next phase without implementing it.

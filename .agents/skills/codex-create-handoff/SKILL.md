@@ -17,6 +17,15 @@ If no owner-approved current scope exists, **STOP and ask the owner to define/ap
 Never infer next work from frozen phase documents, historical TODOs, archived handoffs, review history, Graphify,
 or repository structure. `COMPLETE — FROZEN` phases are historical inputs only.
 
+## Pre-handoff preparation gate
+
+For Phase 3 and later, the phase's `preparation-review.md` must be `READY FOR HANDOFF`.
+
+If it is missing, `CHANGES_REQUESTED`, or still awaiting review, stop and instruct the owner to run
+`$codex-pre-handoff-review`.
+
+Do not merge preparation review and handoff creation into one step.
+
 ## Procedure
 
 1. Read root `AGENTS.md`.
@@ -36,7 +45,7 @@ or repository structure. `COMPLETE — FROZEN` phases are historical inputs only
 
 Reference only relevant skills:
 `java-spring-coding-standards`, `pragmatic-solid-design`, `reuse-and-consistency`,
-`design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `backend-testing`.
+`design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `backend-testing`, plus any phase/domain-specific skill approved by the preparation gate.
 
 Do not commit, push, tag, or modify production implementation.
 

@@ -1,6 +1,6 @@
 # Agent Tooling / Workflow Change Summary
 
-Status: **READY FOR OWNER COMMIT**
+Status: **COMPLETE — REVIEWED / COMMITTED (historical tooling slice)**
 
 This slice is separate from the frozen Backend Phase 1 business implementation.
 
@@ -37,7 +37,7 @@ This slice is separate from the frozen Backend Phase 1 business implementation.
 - ADR decisions;
 - architecture diagrams.
 
-## Review scope
+## Historical review scope
 
 Run:
 
@@ -61,7 +61,7 @@ architecture/database artifacts.
 A full Maven Phase 1 test-suite rerun is not required solely for these agent/tooling/documentation changes.
 Expected outcome
 If no blocking governance/tooling findings remain, Codex should:
-1. record the tooling review under docs/reviews/;
+1. record the tooling review under `docs/implementation/phase-1/reviews/`;
 2. return READY FOR OWNER COMMIT;
 3. provide exactly one Conventional Commit message;
 4. leave Backend Phase 1 in its existing COMPLETE — FROZEN state.
@@ -83,8 +83,12 @@ the completed Phase 1 implementation scope.
   archived-handoff wording remains untouched.
 - [x] Synchronized live Phase 1 docs/indexes with its committed `COMPLETE — FROZEN` state and removed stale
   unresolved-TODO/awaiting-owner-commit wording.
-- [x] Returned this summary to **AWAITING CODEX GOVERNANCE REVIEW** after remediation.
+- [x] During remediation, returned this summary to **AWAITING CODEX GOVERNANCE REVIEW** for the required re-review.
 
-## Next review
+## Historical final outcome
 
-Run `$codex-final-review` as a governance/tooling-only review. Backend Phase 1 remains frozen and is not reopened.
+The final governance/tooling re-review returned **READY FOR OWNER COMMIT** and the slice was subsequently committed.
+The retained record is
+[`phase-1/reviews/2026-09-27-agent-tooling-governance-codex-review.md`](phase-1/reviews/2026-09-27-agent-tooling-governance-codex-review.md).
+
+No governance review is pending for this historical slice.

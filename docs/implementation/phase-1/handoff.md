@@ -113,8 +113,8 @@ Complete Backend Phase 1 by implementing the existing `reference` and `vault` sk
 ## Final review
 
 - **Codex status:** `READY_FOR_OWNER_COMMIT`
-- **Final review record:** [`docs/reviews/2026-09-27-backend-phase-1-final-codex-review.md`](../../reviews/2026-09-27-backend-phase-1-final-codex-review.md)
-- **Prior review records:** [`concurrency finding`](../../reviews/2026-09-27-backend-phase-1-reference-vault-codex-review.md) and [`documentation remediation`](../../reviews/2026-09-27-backend-phase-1-remediation-codex-review.md)
+- **Final review record:** [`docs/implementation/phase-1/reviews/2026-09-27-backend-phase-1-final-codex-review.md`](reviews/2026-09-27-backend-phase-1-final-codex-review.md)
+- **Prior review records:** [`concurrency finding`](reviews/2026-09-27-backend-phase-1-reference-vault-codex-review.md) and [`documentation remediation`](reviews/2026-09-27-backend-phase-1-remediation-codex-review.md)
 - **Review result:** No blocking findings remain. The tag-concurrency remediation and documentation synchronization are accepted.
 - **Verification note:** Codex reviewed the retained 57-test green PostgreSQL evidence and Surefire reports but did not rerun tests, per final-review policy.
 - **Next action:** Owner commits and pushes. Phase 1 remains active until that owner action, after which its documentation can be marked complete/frozen.

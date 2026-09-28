@@ -35,5 +35,11 @@ Read `../docs/implementation/phase-1/README.md` and `../docs/implementation/phas
 
 ## Phase 2
 
-Authentication + settings foundation is implemented, verified, and ready for owner commit. See
-`../docs/implementation/phase-2/README.md` and `../docs/implementation/handoffs/ACTIVE.md`.
+Authentication + settings foundation is **complete and frozen** after owner commit/push. See
+`../docs/implementation/phase-2/README.md` and `../docs/implementation/phase-2/test-evidence.md`.
+
+## Phase 3
+
+People Foundation preparation remediation is complete and is not authorized for implementation until
+`$codex-pre-handoff-review` passes.
+See `../docs/implementation/phase-3/README.md`.

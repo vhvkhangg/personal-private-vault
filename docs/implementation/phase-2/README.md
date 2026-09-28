@@ -1,11 +1,11 @@
 # Backend Phase 2 — Authentication + Settings Foundation
 
-Status: **ACTIVE — READY FOR OWNER COMMIT**
+Status: **COMPLETE — FROZEN (2026-09-28)**
 
 Phase 2 implements the two foundational modules that precede feature-domain work: `authentication` and `settings`.
-The Phase 1 package-layout maintenance slice is committed, and the active Codex implementation handoff is
-`docs/implementation/handoffs/ACTIVE.md`. Production implementation is delivered, verified, and ready for the
-owner commit.
+The Phase 1 package-layout maintenance slice and Phase 2 implementation are committed/pushed by the owner.
+Phase 2 passed final Codex review with `READY FOR OWNER COMMIT`, retains its final verification evidence, and
+is now frozen. Future authentication/settings work requires a new owner-approved slice.
 
 ## Goals
 
@@ -96,3 +96,12 @@ Do not use H2.
 4. Run `/antigravity-implement-handoff`.
 5. Run `$codex-final-review`.
 6. Owner commits/pushes only after `READY FOR OWNER COMMIT`.
+
+
+## Completion record
+
+- Owner commit/push: completed 2026-09-28.
+- Final retained verification: `mvn -f backend/pom.xml clean verify` — 149 tests, 0 failures/errors/skips.
+- Final implementation handoff: [`handoff.md`](handoff.md).
+- Final Codex review history: [`reviews/`](reviews/README.md).
+- Phase status: **COMPLETE — FROZEN**.

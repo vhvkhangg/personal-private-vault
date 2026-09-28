@@ -11,4 +11,4 @@ description: "Documentation synchronization and frozen-baseline rules."
 - Preserve canonical editable sources.
 - Do not silently change frozen v1 artifacts.
 - Architecture changes require an ADR update/new ADR and synchronized affected docs.
-- Formal Codex final reviews are recorded under `docs/reviews/`.
+- Formal Codex reviews are recorded under the owning phase's `docs/implementation/phase-N/reviews/` directory.

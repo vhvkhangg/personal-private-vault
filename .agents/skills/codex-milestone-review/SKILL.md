@@ -1,0 +1,43 @@
+---
+name: codex-milestone-review
+description: Perform the extra cross-phase architecture, quality, security, maintainability, and performance review after every three implementation phases excluding Phase 0.
+---
+
+# Codex Milestone Review
+
+Run after Phase 3, 6, 9, 12, and 15 is committed/pushed/frozen, before the next implementation handoff.
+
+## Review windows
+
+- after Phase 3: Phases 1–3;
+- after Phase 6: Phases 4–6;
+- after Phase 9: Phases 7–9;
+- after Phase 12: Phases 10–12;
+- after Phase 15: Phases 13–15.
+
+## Mandatory checks
+
+- business/domain invariant consistency across phases;
+- module dependency direction and accidental coupling;
+- duplicate business rules / competing canonical implementations;
+- SOLID, cohesion/coupling, and API responsibility drift;
+- design-pattern misuse and overengineering;
+- package/public-contract consistency;
+- N+1 queries, repeated I/O, excessive lock scope, unbounded reads, and realistic algorithmic/memory hotspots;
+- transaction/concurrency/data-integrity boundaries;
+- authentication/authorization/secrets/logging;
+- test reliability and missing regression coverage;
+- documentation/roadmap/tooling drift;
+- accumulated technical debt that materially raises the risk/cost of the next phases.
+
+Do not request speculative micro-optimizations; performance findings need a concrete inefficient path or credible
+data-access/complexity risk.
+
+## Result
+
+Write the milestone review in the closing phase's `reviews/` folder.
+
+If blocking findings exist, return `CHANGES_REQUESTED` and identify whether they need docs/tooling remediation or an
+owner-approved maintenance implementation slice. Never silently modify a frozen phase.
+
+If no blocking findings remain, return `MILESTONE_READY`.

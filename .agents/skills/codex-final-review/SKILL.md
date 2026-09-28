@@ -1,55 +1,139 @@
 ---
 name: codex-final-review
-description: Final-review either an implemented active handoff or an explicitly requested owner-approved maintenance/governance slice; request remediation or return READY FOR OWNER COMMIT with one commit message.
+description: Final-review an implemented active handoff or explicit owner-approved maintenance/governance slice; request remediation or return READY FOR OWNER COMMIT with one commit message.
 ---
 
 # Codex Final Review
 
-Invoke with `$codex-final-review` or select it from `/skills`. Codex is review-only.
+Invoke with `$codex-final-review`. Codex is review-only.
 
 ## Review-mode gate
 
-### Implementation handoff mode
+### Implementation mode
 
 Use only when `docs/implementation/handoffs/ACTIVE.md` is `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 
-### Owner-approved maintenance/governance mode
+### Maintenance/governance mode
 
-Use only when the owner explicitly requests such a review and a canonical scope document identifies the slice
-(for example `docs/implementation/agent-tooling-change-summary.md` or
-`docs/implementation/phase-1/package-layout-refactor.md`). This mode may run while `ACTIVE.md` is
-`NO_ACTIVE_HANDOFF`. A frozen phase may be touched only where the owner-approved maintenance scope explicitly says so.
+Use only for an explicit owner-approved scope document. A frozen phase may be touched only where that scope says so.
 
 ### No valid mode
 
-If neither condition is met, **STOP and ask the owner what approved slice should be reviewed**. Never default to a
-frozen phase or archived handoff.
+If neither mode applies, stop and ask for the approved review scope. Never infer/reopen a frozen phase.
 
-## Review
+## Relevant skills
 
-Use targeted Graphify navigation when useful and only relevant engineering skills:
-`java-spring-coding-standards`, `pragmatic-solid-design`, `reuse-and-consistency`,
-`design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `backend-testing`.
+Apply the relevant review skills:
 
-Review correctness, scope, architecture/ownership, persistence where applicable, security, evidence quality,
-tooling safety, and stale/competing documentation. Record findings under `docs/reviews/`.
+- `java-spring-coding-standards`
+- `pragmatic-solid-design`
+- `reuse-and-consistency`
+- `design-pattern-selection`
+- `modular-monolith-architecture`
+- `jpa-postgresql-persistence`
+- `backend-testing`
+- `authentication-security` when relevant
+- any phase/domain-specific skill named by the active handoff
 
-## Changes required
+## Mandatory final-review dimensions
 
-Implementation mode: set the handoff to `CHANGES_REQUESTED` and add remediation.
+### Business / logical correctness
 
-Maintenance/governance mode: set the scope doc to `CHANGES REQUESTED` and update its remediation checklist;
-do not create a fake production handoff.
+- acceptance criteria and business rules are actually implemented;
+- domain invariants hold for success, failure, boundary, repeated, and state-transition cases;
+- no alternate path bypasses canonical behavior;
+- null/empty/time/identity semantics are deliberate.
+
+### Clean code / maintainability
+
+- naming expresses domain intent;
+- methods/classes are cohesive;
+- control flow is understandable;
+- duplicated business rules are centralized in the correct owner;
+- helpers/abstractions reduce real complexity rather than hiding simple logic;
+- logging is useful, non-noisy, and non-sensitive.
+
+### Extensibility without speculation
+
+- dependencies point toward stable narrow contracts;
+- persistence/internal details do not leak;
+- approved likely evolution is not blocked by avoidable coupling;
+- no abstraction exists only for hypothetical future variants;
+- YAGNI remains the default.
+
+### SOLID / patterns / overengineering
+
+- responsibilities, interface size, dependency direction, and substitutability are sensible;
+- Strategy/Factory/Adapter/Facade/State/Specification/Event/Builder/etc. appear only for a concrete problem;
+- flag both under-designed coupling and pattern-driven overengineering;
+- generic bases, `ServiceImpl`, unnecessary interfaces/events/hierarchies are not introduced for convention alone.
+
+### Performance / efficiency
+
+Check concrete risks:
+
+- N+1 or unnecessary eager loading;
+- repeated DB/network/file work in loops;
+- unbounded growing reads;
+- avoidable scans when appropriate indexed lookup exists;
+- excessive lock scope/contention;
+- unnecessary repeated serialization/hash/computation on hot paths;
+- realistic algorithmic or memory growth.
+
+Do not demand speculative micro-optimization. Every performance finding must identify a plausible/measured
+inefficient path and a proportionate correction.
+
+### Persistence / transactions / concurrency
+
+- JPA matches Flyway/PostgreSQL;
+- transaction boundaries fit the use case;
+- uniqueness/locking/race behavior is safe;
+- failures cannot leave partial state;
+- no cross-module entity/repository access;
+- no silent frozen-schema rewrite.
+
+### Security / privacy
+
+- authn/authz boundaries are correct;
+- secrets/passwords/PINs/tokens/private payloads do not leak through logs, DTO strings, exceptions, tests, or diagnostics;
+- security-sensitive validation fails closed;
+- no custom cryptography where platform/framework primitives exist.
+
+### Tests / evidence
+
+- tests prove behavior instead of mirroring implementation;
+- negative/boundary/concurrency cases exist where risk warrants;
+- PostgreSQL behavior uses PostgreSQL/Testcontainers, not H2;
+- architecture verification remains green;
+- final evidence records the handoff-required command/result/environment;
+- tests do not leak secrets or rely on brittle timing/order.
+
+### Scope / architecture / docs
+
+- implementation stays inside handoff scope;
+- module dependencies/named interfaces are valid;
+- frozen baseline changes have explicit approval/ADR synchronization;
+- docs, roadmap, status, handoff, reviews, and evidence match reality;
+- no stale TODO or duplicate source of truth remains.
+
+## Findings
+
+Record formal findings in the current phase's `reviews/` folder with Critical / High / Medium / Low severity.
+Each finding identifies the concrete file/behavior, consequence, and required correction.
+
+## CHANGES_REQUESTED
+
+For implementation: set the active handoff to `CHANGES_REQUESTED` and add precise remediation.
+
+For maintenance/governance: update the approved scope to `CHANGES_REQUESTED`.
 
 Do not provide a commit message while blocking findings remain.
 
-## Ready
+## READY FOR OWNER COMMIT
 
-If no blocking finding remains, record `READY FOR OWNER COMMIT`, synchronize the reviewed scope status, provide
-exactly one Conventional Commit message, and do not commit/push.
+If no blocking finding remains:
 
-Frozen phases remain frozen unless their production/test/database/build artifacts are explicitly owner-approved
-review scope.
-
-
-- Use `authentication-security` when authentication/JWT/PIN/refresh-token work is in scope.
+1. record `READY FOR OWNER COMMIT`;
+2. synchronize status;
+3. provide exactly one Conventional Commit message;
+4. do not commit/push.

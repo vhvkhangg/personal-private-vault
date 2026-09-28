@@ -14,7 +14,7 @@ Backend Phase 1 is complete and frozen.
 - Final verification: `mvn -f backend/pom.xml clean verify` — **57 tests, 0 failures, 0 errors, 0 skipped**.
 - PostgreSQL integration: PostgreSQL 18.6 Testcontainers + Flyway V1 + Hibernate validation.
 - Final Codex review: **READY FOR OWNER COMMIT**.
-- Final review: [`../../reviews/2026-09-27-backend-phase-1-final-codex-review.md`](../../reviews/2026-09-27-backend-phase-1-final-codex-review.md).
+- Final review: [`reviews/2026-09-27-backend-phase-1-final-codex-review.md`](reviews/2026-09-27-backend-phase-1-final-codex-review.md).
 - Evidence: [`test-evidence.md`](test-evidence.md).
 
 Future changes to the foundation are new scoped work and do not silently rewrite this frozen baseline.

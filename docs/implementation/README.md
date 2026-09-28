@@ -1,25 +1,28 @@
 # Implementation Plans
 
-Each backend phase owns a dedicated folder. Completed-phase evidence stays with that phase; cross-cutting agent
-workflow/governance documents remain at `docs/implementation/`.
+Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 
 ## Phases
 
-- [`phase-0/`](phase-0/README.md) — **COMPLETE / FROZEN** — Maven / Spring Boot / Spring Modulith bootstrap
-- [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — executable Schema v1 + `reference` / `vault` foundation
-  - [owner-approved package-layout refinement](phase-1/package-layout-refactor.md) — **COMPLETE / FROZEN**
-- [`phase-2/`](phase-2/README.md) — **ACTIVE / READY FOR OWNER COMMIT** — authentication + settings foundation
+- [`phase-0/`](phase-0/README.md) — **COMPLETE / FROZEN** — bootstrap
+- [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — Schema v1 + `reference` + `vault`
+- [`phase-2/`](phase-2/README.md) — **COMPLETE / FROZEN** — `authentication` + `settings`
+- [`phase-3/`](phase-3/README.md) — **PREPARED / READY FOR HANDOFF** — `people`
 
-Future phases must follow the same `phase-N/` folder convention.
+See [`../roadmap.md`](../roadmap.md).
 
-## Current implementation state
+## Current state
 
-The Phase 2 authentication/settings handoff is implemented, verified, and ready for owner commit:
-[`handoffs/ACTIVE.md`](handoffs/ACTIVE.md).
+No active production handoff exists.
+
+Phase 3 preparation passed
+[`phase-3/preparation-review.md`](phase-3/preparation-review.md). The owner must commit/push it before handoff creation.
 
 ## Operational guidance
 
-- [Canonical agent development workflow](../agent-development-workflow.md)
-- [Active handoff state](handoffs/ACTIVE.md)
+- [Owner phase workflow](../owner-phase-workflow.md)
+- [Roadmap](../roadmap.md)
+- [Agent development workflow](../agent-development-workflow.md)
+- [Active handoff](handoffs/ACTIVE.md)
 - [Handoff workflow](handoffs/README.md)
-- [Antigravity CLI project permissions](antigravity-cli-permissions.md)
+- [Antigravity CLI permissions](antigravity-cli-permissions.md)

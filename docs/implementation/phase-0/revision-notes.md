@@ -2,7 +2,7 @@
 
 > **Historical record.** This file describes an intermediate Phase 0 revision and is retained for traceability.
 > Phase 0 is now complete/frozen. Use `README.md` and the final Codex review
-> under `../../reviews/` as the current sources of truth.
+> under `reviews/` as the current sources of truth.
 
 This revision implements the requested Phase 0/tooling refinements.
 

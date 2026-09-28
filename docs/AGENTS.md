@@ -35,7 +35,7 @@ SVG/PNG exports are derived artifacts, not the canonical source.
 
 ## Review logs
 
-Formal Codex pre-commit reviews belong in `docs/reviews/`.
+Formal Codex reviews belong in the owning phase's `docs/implementation/phase-N/reviews/` directory.
 A review log must state:
 
 - review scope;

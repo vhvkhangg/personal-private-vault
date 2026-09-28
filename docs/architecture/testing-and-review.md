@@ -92,6 +92,6 @@ unit/component tooling will be finalized when the frontend phase begins.
 ## 6. Review records
 
 Significant Codex review findings, remediation results, and architecture-sensitive corrections are retained under
-`docs/reviews/` and the relevant phase implementation folder.
+the owning phase's `docs/implementation/phase-N/reviews/` directory and its retained phase evidence.
 
 Do not mix transient review chatter into ADRs unless it results in an accepted architecture decision.
