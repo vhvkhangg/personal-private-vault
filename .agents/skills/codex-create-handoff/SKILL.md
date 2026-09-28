@@ -19,17 +19,32 @@ or repository structure. `COMPLETE — FROZEN` phases are historical inputs only
 
 ## Pre-handoff preparation gate
 
+### Numbered implementation phase
+
 For Phase 3 and later, the phase's `preparation-review.md` must be `READY FOR HANDOFF`.
 
 If it is missing, `CHANGES_REQUESTED`, or still awaiting review, stop and instruct the owner to run
 `$codex-pre-handoff-review`.
+
+### Owner-approved maintenance slice
+
+A maintenance handoff may be created without a numbered phase pre-handoff gate only when all of these are true:
+
+- a canonical maintenance scope exists under `docs/implementation/maintenance/`;
+- its status explicitly says `APPROVED FOR HANDOFF`;
+- the owner explicitly approved that maintenance scope;
+- the scope names the frozen phase(s), exact defects, permitted targets, non-goals, and test/evidence contract;
+- no other live handoff exists.
+
+A maintenance handoff must not become a route around a blocked next feature phase. Keep the next numbered phase
+blocked until the maintenance trigger (for example, a milestone review) is resolved.
 
 Do not merge preparation review and handoff creation into one step.
 
 ## Procedure
 
 1. Read root `AGENTS.md`.
-2. Establish owner-approved scope.
+2. Establish owner-approved scope and classify it as a numbered implementation phase or explicit maintenance slice.
 3. Read `docs/implementation/handoffs/README.md` and `ACTIVE.md`.
 4. If another live implementation handoff exists, stop and resolve it first.
 5. Inspect `git status --short` and `git diff --stat`.

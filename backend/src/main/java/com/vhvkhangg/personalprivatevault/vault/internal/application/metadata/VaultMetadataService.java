@@ -4,12 +4,10 @@ import com.vhvkhangg.personalprivatevault.vault.enums.RatingGrade;
 import com.vhvkhangg.personalprivatevault.vault.view.TagView;
 import com.vhvkhangg.personalprivatevault.vault.metadata.VaultMetadataOperations;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultMetadataView;
-import com.vhvkhangg.personalprivatevault.vault.internal.domain.Favorite;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.Rating;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.Tag;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.VaultCapabilityMatrix;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.VaultEntry;
-import com.vhvkhangg.personalprivatevault.vault.internal.domain.VaultEntryTag;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.VaultEntryTagId;
 import com.vhvkhangg.personalprivatevault.vault.internal.infrastructure.persistence.FavoriteRepository;
 import com.vhvkhangg.personalprivatevault.vault.internal.infrastructure.persistence.RatingRepository;
@@ -116,10 +114,8 @@ public class VaultMetadataService implements VaultMetadataOperations {
         assertNotDeleted(entry);
         VaultCapabilityMatrix.assertCanFavorite(entry.getEntryType());
 
-        if (!favoriteRepository.existsById(vaultEntryId)) {
-            Instant now = clock.instant();
-            favoriteRepository.save(new Favorite(vaultEntryId, now));
-        }
+        Instant now = clock.instant();
+        favoriteRepository.insertIfAbsent(vaultEntryId, now);
     }
 
     @Override
@@ -218,10 +214,8 @@ public class VaultMetadataService implements VaultMetadataOperations {
             throw new NoSuchElementException("Tag not found with id: " + tagId);
         }
 
-        VaultEntryTagId id = new VaultEntryTagId(vaultEntryId, tagId);
-        if (!vaultEntryTagRepository.existsById(id)) {
-            vaultEntryTagRepository.save(new VaultEntryTag(id, clock.instant()));
-        }
+        Instant now = clock.instant();
+        vaultEntryTagRepository.insertIfAbsent(vaultEntryId, tagId, now);
     }
 
     @Override

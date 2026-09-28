@@ -29,8 +29,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -394,5 +397,147 @@ class VaultMetadataIntegrationTest extends AbstractPostgresIntegrationTest {
                 .isInstanceOf(NoSuchElementException.class);
         assertThatThrownBy(() -> vaultMetadataOperations.favorite(999999L))
                 .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    @DisplayName("Concurrent favorite calls from independent transactions succeed idempotently leaving exactly one row")
+    void concurrentFavoriteCallsSucceedIdempotentlyAndLeaveSingleRow() throws Exception {
+        TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+        txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+        VaultEntryView entry = txTemplate.execute(status -> vaultEntryOperations.create(VaultEntryType.FICTION));
+        assertThat(entry).isNotNull();
+
+        int threads = 8;
+        ExecutorService executor = Executors.newFixedThreadPool(threads);
+        CyclicBarrier barrier = new CyclicBarrier(threads);
+        List<Future<Void>> futures = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < threads; i++) {
+                futures.add(executor.submit(() -> {
+                    barrier.await(5, TimeUnit.SECONDS);
+                    vaultMetadataOperations.favorite(entry.id());
+                    return null;
+                }));
+            }
+
+            for (Future<Void> future : futures) {
+                future.get(10, TimeUnit.SECONDS);
+            }
+
+            Integer count = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM favorites WHERE vault_entry_id = ?",
+                    Integer.class,
+                    entry.id()
+            );
+            assertThat(count).isEqualTo(1);
+            assertThat(vaultMetadataOperations.metadata(entry.id()).favorite()).isTrue();
+        } finally {
+            executor.shutdownNow();
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+            txTemplate.execute(status -> {
+                jdbcTemplate.update("DELETE FROM favorites WHERE vault_entry_id = ?", entry.id());
+                jdbcTemplate.update("DELETE FROM vault_entries WHERE id = ?", entry.id());
+                return null;
+            });
+        }
+    }
+
+    @Test
+    @DisplayName("Concurrent attachTag calls from independent transactions succeed idempotently leaving exactly one row")
+    void concurrentAttachTagCallsSucceedIdempotentlyAndLeaveSingleRow() throws Exception {
+        TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+        txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+        VaultEntryView entry = txTemplate.execute(status -> vaultEntryOperations.create(VaultEntryType.BRAND));
+        TagView tag = txTemplate.execute(status -> vaultMetadataOperations.createTag("ConcurrentTagAttachTest"));
+        assertThat(entry).isNotNull();
+        assertThat(tag).isNotNull();
+
+        int threads = 8;
+        ExecutorService executor = Executors.newFixedThreadPool(threads);
+        CyclicBarrier barrier = new CyclicBarrier(threads);
+        List<Future<Void>> futures = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < threads; i++) {
+                futures.add(executor.submit(() -> {
+                    barrier.await(5, TimeUnit.SECONDS);
+                    vaultMetadataOperations.attachTag(entry.id(), tag.id());
+                    return null;
+                }));
+            }
+
+            for (Future<Void> future : futures) {
+                future.get(10, TimeUnit.SECONDS);
+            }
+
+            Integer count = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entry_tags WHERE vault_entry_id = ? AND tag_id = ?",
+                    Integer.class,
+                    entry.id(),
+                    tag.id()
+            );
+            assertThat(count).isEqualTo(1);
+            assertThat(vaultMetadataOperations.metadata(entry.id()).tags())
+                    .extracting(TagView::id)
+                    .contains(tag.id());
+        } finally {
+            executor.shutdownNow();
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+            txTemplate.execute(status -> {
+                jdbcTemplate.update("DELETE FROM vault_entry_tags WHERE vault_entry_id = ? AND tag_id = ?", entry.id(), tag.id());
+                jdbcTemplate.update("DELETE FROM tags WHERE id = ?", tag.id());
+                jdbcTemplate.update("DELETE FROM vault_entries WHERE id = ?", entry.id());
+                return null;
+            });
+        }
+    }
+
+    @Test
+    @DisplayName("Rollback of enclosing transaction rolls back favorite and tag attachment")
+    void rollbackOfEnclosingTransactionRollsBackFavoriteAndTagAttachment() {
+        TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+        txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+        VaultEntryView entry = txTemplate.execute(status -> vaultEntryOperations.create(VaultEntryType.IMAGE));
+        TagView tag = txTemplate.execute(status -> vaultMetadataOperations.createTag("RollbackTagTest"));
+        assertThat(entry).isNotNull();
+        assertThat(tag).isNotNull();
+
+        try {
+            // Execute favorite and attachTag inside a transaction that is rolled back
+            txTemplate.execute(status -> {
+                vaultMetadataOperations.favorite(entry.id());
+                vaultMetadataOperations.attachTag(entry.id(), tag.id());
+                status.setRollbackOnly();
+                return null;
+            });
+
+            // Verify both rows were rolled back
+            Integer favCount = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM favorites WHERE vault_entry_id = ?",
+                    Integer.class,
+                    entry.id()
+            );
+            assertThat(favCount).isZero();
+
+            Integer tagCount = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entry_tags WHERE vault_entry_id = ? AND tag_id = ?",
+                    Integer.class,
+                    entry.id(),
+                    tag.id()
+            );
+            assertThat(tagCount).isZero();
+        } finally {
+            txTemplate.execute(status -> {
+                jdbcTemplate.update("DELETE FROM vault_entry_tags WHERE vault_entry_id = ? AND tag_id = ?", entry.id(), tag.id());
+                jdbcTemplate.update("DELETE FROM favorites WHERE vault_entry_id = ?", entry.id());
+                jdbcTemplate.update("DELETE FROM tags WHERE id = ?", tag.id());
+                jdbcTemplate.update("DELETE FROM vault_entries WHERE id = ?", entry.id());
+                return null;
+            });
+        }
     }
 }

@@ -1,14 +1,13 @@
 # Backend Phase 3 — People Foundation
 
-Status: **READY FOR OWNER COMMIT**
+Status: **COMPLETE — FROZEN (2026-09-28)**
 
 Phase 3 implements `people` because fiction, film, music, and study all need stable person/creator references.
 
-No production implementation is authorized until:
+Phase 3 implementation is complete, final-reviewed, committed/pushed by the owner, and frozen.
 
-1. `preparation-review.md` is `READY FOR HANDOFF`;
-2. the preparation slice is committed/pushed;
-3. `$codex-create-handoff` creates the Phase 3 handoff.
+The preparation gate and implementation handoff are retained below as historical execution records; they are not
+authorization for new Phase 3 production changes.
 
 ## Owned Schema v1 tables
 
@@ -41,12 +40,9 @@ They are required for:
 - `reference::catalog` — `ReferenceCatalog`;
 - `reference::view` — immutable country/reference views returned by the catalog.
 
-The Phase 3 implementation handoff must update the People module descriptor to this exact verified set. It may
-become narrower only if the concrete public signatures prove one named interface is unused. It must not retain
-whole-module `vault` / `reference` allowances. Internal packages remain forbidden.
-
-The committed preparation left `people/package-info.java` at the Phase 2 baseline. The active Phase 3 handoff now
-requires narrowing these allowances during implementation.
+During Phase 3 implementation, the completed handoff narrowed the People module descriptor to this verified named-
+interface set. The committed/frozen Phase 3 implementation no longer retains whole-module `vault` / `reference`
+allowances, and cross-module internal packages remain forbidden.
 
 ## Planned capabilities
 
@@ -195,3 +191,18 @@ Reused:
 - repository safety hook
 
 No new custom agent or hook is justified for Phase 3.
+
+
+## Completion record
+
+- Owner commit/push: completed 2026-09-28.
+- Final Codex result: `READY_FOR_OWNER_COMMIT`.
+- Final verification: `mvn -f backend/pom.xml clean verify` — **222 tests**, 0 failures/errors/skips.
+- PostgreSQL: 18.6 via Testcontainers; Java 25; Maven 3.9.15.
+- Final handoff archive: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Final review: [`reviews/2026-09-28-phase-3-final-codex-review.md`](reviews/2026-09-28-phase-3-final-codex-review.md).
+- Phase status: **COMPLETE — FROZEN**.
+
+Future People changes require a new owner-approved maintenance/feature slice; do not reuse the completed Phase 3
+handoff.

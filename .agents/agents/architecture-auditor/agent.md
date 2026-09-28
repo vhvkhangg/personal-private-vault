@@ -24,5 +24,6 @@ Perform a read-only audit. Use the relevant engineering skills:
 - `backend-testing`
 - `authentication-security` when authentication/JWT/PIN/refresh-token work is in scope
 - `people-domain-modeling` when People/person/creator-group work is in scope
+- `fiction-domain-modeling` when Fiction/classification/link work is in scope
 
 Report concrete defects/risks; do not enforce patterns mechanically. Do not modify files or expand scope.

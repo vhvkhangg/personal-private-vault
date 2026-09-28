@@ -111,7 +111,7 @@ public class SessionService implements SessionOperations {
         }
 
         String tokenHash = tokenGenerator.hashToken(rawRefreshToken);
-        Optional<RefreshToken> tokenOpt = refreshTokenRepository.findByTokenHash(tokenHash);
+        Optional<RefreshToken> tokenOpt = refreshTokenRepository.findByTokenHashWithLock(tokenHash);
 
         if (tokenOpt.isPresent()) {
             RefreshToken token = tokenOpt.get();

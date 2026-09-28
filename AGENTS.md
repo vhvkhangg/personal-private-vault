@@ -11,7 +11,13 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 - Backend Phase 2 is complete/frozen after owner commit/push.
-- Backend Phase 3 (`people`) is `READY_FOR_OWNER_COMMIT` after Codex final review.
+- Backend Phase 3 (`people`) is complete/frozen after owner commit/push.
+- Current gate: owner-approved Phase 1/2 concurrency maintenance from the Phase 1–3 milestone; Phase 4 (`fiction`)
+  remains blocked until the maintenance is committed and the milestone rerun returns `MILESTONE_READY`.
+
+Current approved maintenance scope:
+
+- `docs/implementation/maintenance/milestone-1-3-concurrency/README.md`
 
 Architecture-sensitive work must respect:
 
@@ -80,6 +86,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 0 bootstrap baseline
 - Backend Phase 1 reference/vault foundation baseline
 - Backend Phase 2 authentication/settings foundation baseline
+- Backend Phase 3 people foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

@@ -33,6 +33,7 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `backend-testing`
 - `authentication-security`
 - `people-domain-modeling`
+- `fiction-domain-modeling`
 
 ## Workflow/review skills
 

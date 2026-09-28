@@ -7,6 +7,13 @@ description: Perform the extra cross-phase architecture, quality, security, main
 
 Run after Phase 3, 6, 9, 12, and 15 is committed/pushed/frozen, before the next implementation handoff.
 
+## Scope/status document
+
+When the closing phase contains `milestone-review.md`, treat it as the canonical milestone scope/status document.
+Update it to `CHANGES_REQUESTED` or `MILESTONE_READY` together with the formal review record.
+
+Do not create or modify the next implementation handoff.
+
 ## Review windows
 
 - after Phase 3: Phases 1–3;

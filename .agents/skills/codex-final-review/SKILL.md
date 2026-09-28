@@ -118,7 +118,12 @@ inefficient path and a proportionate correction.
 
 ## Findings
 
-Record formal findings in the current phase's `reviews/` folder with Critical / High / Medium / Low severity.
+For a numbered implementation phase, record formal findings in that phase's `reviews/` folder.
+
+For maintenance/governance scopes, record the formal review in the canonical maintenance scope's `reviews/`
+folder rather than attaching it to an unrelated feature phase.
+
+Use Critical / High / Medium / Low severity.
 Each finding identifies the concrete file/behavior, consequence, and required correction.
 
 ## CHANGES_REQUESTED

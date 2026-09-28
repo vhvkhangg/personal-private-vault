@@ -16,8 +16,8 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 0 | Spring Boot / Maven / Spring Modulith bootstrap | Historical | **COMPLETE — FROZEN** | Not counted |
 | 1 | Flyway Schema v1 + `reference` + `vault` foundations | Historical | **COMPLETE — FROZEN** | — |
 | 2 | `authentication` + `settings` foundations | Historical | **COMPLETE — FROZEN** | — |
-| 3 | `people`: persons, roles, creator groups/membership | **P-3: READY FOR HANDOFF** | **READY FOR OWNER COMMIT** | **After completion** |
-| 4 | `fiction` domain | P-4 planned | Not started | — |
+| 3 | `people`: persons, roles, creator groups/membership | P-3 complete | **COMPLETE — FROZEN** | **CHANGES_REQUESTED — maintenance approved** |
+| 4 | `fiction` domain | **P-4 prepared; blocked by Phase 1–3 milestone** | Not started | — |
 | 5 | `film` domain + film credits | P-5 planned | Not started | — |
 | 6 | `media` + `location` foundations | P-6 planned | Not started | **After completion** |
 | 7 | `account` external/social account history | P-7 planned | Not started | — |
@@ -34,6 +34,16 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 Production deployment provider/topology remains deferred and is not a numbered implementation phase until the
 owner explicitly brings deployment into scope.
 
+
+## Current milestone maintenance
+
+The Phase 1–3 milestone found two concurrency defects in frozen Phase 1/2 behavior. The owner-approved remediation is:
+
+[`implementation/maintenance/milestone-1-3-concurrency/README.md`](implementation/maintenance/milestone-1-3-concurrency/README.md)
+
+Phase 4 remains blocked until this maintenance passes final review, is committed/pushed, and the milestone is rerun
+to `MILESTONE_READY`.
+
 ## Why this order
 
 - `people` precedes fiction, film, music, and study creator references.
@@ -49,8 +59,10 @@ owner explicitly brings deployment into scope.
 
 - `PLANNED`: roadmap only.
 - `AWAITING CODEX PRE-HANDOFF REVIEW`: ChatGPT prepared docs/tooling; handoff is blocked.
-- `CHANGES_REQUESTED`: Codex found preparation issues; handoff remains blocked pending remediation and re-review.
+- `CHANGES_REQUESTED`: Codex found preparation or milestone issues; the next handoff remains blocked pending
+  remediation and re-review.
 - `READY FOR HANDOFF`: Codex approved preparation; owner commits/pushes preparation, then creates handoff.
 - `ACTIVE`: implementation handoff exists.
 - `READY FOR OWNER COMMIT`: final implementation review passed.
+- `MILESTONE_READY`: required three-phase cross-review passed; the next phase may proceed to pre-handoff review.
 - `COMPLETE — FROZEN`: owner committed/pushed and closeout is complete.

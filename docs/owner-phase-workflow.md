@@ -65,6 +65,22 @@ hazards, test health, documentation drift, and accumulated technical debt.
 The milestone review does not silently reopen frozen phases. Blocking findings require an owner-approved
 maintenance slice.
 
+At a milestone boundary, ChatGPT may already prepare the next phase docs/tooling, but **do not run the next
+`$codex-pre-handoff-review` until the milestone returns `MILESTONE_READY`**.
+
+### If milestone review returns `CHANGES_REQUESTED`
+
+When Codex requires frozen-phase implementation fixes:
+
+1. owner explicitly approves a narrow maintenance scope;
+2. ChatGPT prepares that scope under `docs/implementation/maintenance/`;
+3. Codex runs `$codex-create-handoff` for the maintenance slice;
+4. Antigravity implements/tests it;
+5. Codex runs `$codex-final-review`;
+6. owner commits/pushes after `READY FOR OWNER COMMIT`;
+7. rerun `$codex-milestone-review`;
+8. only `MILESTONE_READY` unblocks the next phase pre-handoff review.
+
 ## 4. Codex reviews next-phase preparation before handoff creation
 
 After ChatGPT preparation, run:

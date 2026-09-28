@@ -13,12 +13,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.RefreshTokenRepository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.TransactionTemplate;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,6 +42,12 @@ class RefreshTokenLifecycleIntegrationTest extends AbstractPostgresIntegrationTe
 
     @Autowired
     private TokenGenerator tokenGenerator;
+
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -217,6 +231,176 @@ class RefreshTokenLifecycleIntegrationTest extends AbstractPostgresIntegrationTe
             assertThat(totalTokens).isEqualTo(2);
         } finally {
             executor.shutdown();
+        }
+    }
+
+    private void awaitCompetingLock(Duration timeout) throws Exception {
+        Instant deadline = Instant.now().plus(timeout);
+        while (Instant.now().isBefore(deadline)) {
+            Integer count = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM pg_locks l " +
+                    "JOIN pg_stat_activity a ON l.pid = a.pid " +
+                    "WHERE NOT l.granted " +
+                    "  AND a.pid != pg_backend_pid() " +
+                    "  AND a.query ILIKE '%refresh_tokens%'",
+                    Integer.class
+            );
+            if (count != null && count > 0) {
+                return;
+            }
+            Thread.sleep(10);
+        }
+        throw new AssertionError("Timed out waiting for competing transaction to reach PostgreSQL row lock on refresh_tokens");
+    }
+
+    @Test
+    @DisplayName("Concurrent rotation-wins: replacement link is preserved when revocation races with rotation")
+    void concurrentRotationWinsOverRevocationPreservingReplacementLink() throws Exception {
+        AuthTokensView loginTokens = sessionOperations.login(new LoginCommand("owner", "SuperSecretPassword123!"));
+        String rawRefresh = loginTokens.refreshToken();
+        String tokenHash = tokenGenerator.hashToken(rawRefresh);
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        CountDownLatch rotationLockedPredecessor = new CountDownLatch(1);
+
+        TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+        txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+        try {
+            // Thread 1: Acquires row lock on predecessor and performs rotation
+            Future<AuthTokensView> rotateFuture = executor.submit(() -> txTemplate.execute(status -> {
+                // 1. Explicitly acquire pessimistic lock on the predecessor row
+                refreshTokenRepository.findByTokenHashWithLock(tokenHash).orElseThrow();
+                rotationLockedPredecessor.countDown();
+
+                // 2. Wait until revoke thread is confirmed actively blocked in PostgreSQL on the row lock
+                try {
+                    awaitCompetingLock(Duration.ofSeconds(5));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                // 3. Complete rotation within this transaction
+                return sessionOperations.rotate(rawRefresh);
+            }));
+
+            // Thread 2: Concurrently calls revoke on the same raw token
+            Future<?> revokeFuture = executor.submit(() -> {
+                try {
+                    // Wait until rotation thread has locked predecessor
+                    boolean locked = rotationLockedPredecessor.await(5, TimeUnit.SECONDS);
+                    assertThat(locked).isTrue();
+                    // This call will block on PostgreSQL row lock until Thread 1 commits
+                    sessionOperations.revoke(rawRefresh);
+                    return null;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            AuthTokensView rotatedTokens = rotateFuture.get(10, TimeUnit.SECONDS);
+            revokeFuture.get(10, TimeUnit.SECONDS);
+
+            assertThat(rotatedTokens).isNotNull();
+            String successorRaw = rotatedTokens.refreshToken();
+
+            // Non-sensitive property assertions: do not print raw token strings in diagnostic failures
+            boolean hasNonBlankSuccessor = successorRaw != null && !successorRaw.isBlank();
+            boolean distinctFromPredecessor = !Objects.equals(successorRaw, rawRefresh);
+            assertThat(hasNonBlankSuccessor).as("Rotated refresh token must be non-blank").isTrue();
+            assertThat(distinctFromPredecessor).as("Rotated refresh token must differ from predecessor").isTrue();
+
+            // Verify database state:
+            // 1. Predecessor is revoked
+            Boolean predecessorRevoked = jdbcTemplate.queryForObject(
+                    "SELECT revoked_at IS NOT NULL FROM refresh_tokens WHERE token_hash = ?", Boolean.class, tokenHash);
+            assertThat(predecessorRevoked).as("Predecessor must be revoked").isTrue();
+
+            // 2. Predecessor's replaced_by_token_id was NOT erased by concurrent revoke and points to the successor
+            String successorHash = tokenGenerator.hashToken(successorRaw);
+            Long successorId = jdbcTemplate.queryForObject(
+                    "SELECT id FROM refresh_tokens WHERE token_hash = ?", Long.class, successorHash);
+            Long predecessorReplacedBy = jdbcTemplate.queryForObject(
+                    "SELECT replaced_by_token_id FROM refresh_tokens WHERE token_hash = ?", Long.class, tokenHash);
+            assertThat(predecessorReplacedBy).as("Predecessor replaced_by_token_id must match successor id").isNotNull().isEqualTo(successorId);
+
+            // 3. Exactly 2 tokens in DB: predecessor + 1 successor
+            Integer totalTokens = jdbcTemplate.queryForObject("SELECT count(*) FROM refresh_tokens", Integer.class);
+            assertThat(totalTokens).as("Must have exactly 2 refresh tokens").isEqualTo(2);
+        } finally {
+            executor.shutdownNow();
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+        }
+    }
+
+    @Test
+    @DisplayName("Concurrent revocation-wins: rotation fails closed when revocation acquires lock first")
+    void concurrentRevocationWinsOverRotationCausingRotationToFailClosed() throws Exception {
+        AuthTokensView loginTokens = sessionOperations.login(new LoginCommand("owner", "SuperSecretPassword123!"));
+        String rawRefresh = loginTokens.refreshToken();
+        String tokenHash = tokenGenerator.hashToken(rawRefresh);
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        CountDownLatch revokeLockedPredecessor = new CountDownLatch(1);
+
+        TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+        txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+        try {
+            // Thread 1: Acquires row lock on predecessor and revokes it
+            Future<?> revokeFuture = executor.submit(() -> txTemplate.execute(status -> {
+                // 1. Explicitly acquire pessimistic lock on the predecessor row
+                refreshTokenRepository.findByTokenHashWithLock(tokenHash).orElseThrow();
+                revokeLockedPredecessor.countDown();
+
+                // 2. Wait until rotate thread is confirmed actively blocked in PostgreSQL on the row lock
+                try {
+                    awaitCompetingLock(Duration.ofSeconds(5));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                // 3. Revoke predecessor within this transaction
+                sessionOperations.revoke(rawRefresh);
+                return null;
+            }));
+
+            // Thread 2: Concurrently calls rotate on the same raw token
+            Future<AuthTokensView> rotateFuture = executor.submit(() -> {
+                boolean locked = revokeLockedPredecessor.await(5, TimeUnit.SECONDS);
+                assertThat(locked).isTrue();
+                // This call will block on PostgreSQL row lock until Thread 1 commits
+                return sessionOperations.rotate(rawRefresh);
+            });
+
+            revokeFuture.get(10, TimeUnit.SECONDS);
+
+            // Rotate must fail closed because predecessor was already revoked
+            assertThatThrownBy(() -> {
+                try {
+                    rotateFuture.get(10, TimeUnit.SECONDS);
+                } catch (ExecutionException ex) {
+                    throw ex.getCause();
+                }
+            }).isInstanceOf(InvalidRefreshTokenException.class);
+
+            // Verify database state:
+            // 1. Predecessor is revoked
+            Boolean predecessorRevoked = jdbcTemplate.queryForObject(
+                    "SELECT revoked_at IS NOT NULL FROM refresh_tokens WHERE token_hash = ?", Boolean.class, tokenHash);
+            assertThat(predecessorRevoked).as("Predecessor must be revoked").isTrue();
+
+            // 2. Predecessor was never replaced
+            Long predecessorReplacedBy = jdbcTemplate.queryForObject(
+                    "SELECT replaced_by_token_id FROM refresh_tokens WHERE token_hash = ?", Long.class, tokenHash);
+            assertThat(predecessorReplacedBy).as("Predecessor replaced_by_token_id must remain null").isNull();
+
+            // 3. Exactly 1 token in DB (no successor created)
+            Integer totalTokens = jdbcTemplate.queryForObject("SELECT count(*) FROM refresh_tokens", Integer.class);
+            assertThat(totalTokens).as("Must have exactly 1 refresh token (no successor created)").isEqualTo(1);
+        } finally {
+            executor.shutdownNow();
+            executor.awaitTermination(5, TimeUnit.SECONDS);
         }
     }
 }

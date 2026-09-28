@@ -40,5 +40,10 @@ Authentication + settings foundation is **complete and frozen** after owner comm
 
 ## Phase 3
 
-People Foundation is ready for owner commit after Codex final review. See
-`../docs/implementation/handoffs/ACTIVE.md` and `../docs/implementation/phase-3/README.md`.
+People Foundation is **complete and frozen** after owner commit/push. See
+`../docs/implementation/phase-3/README.md` and `../docs/implementation/phase-3/test-evidence.md`.
+
+## Phase 4
+
+Fiction Foundation preparation exists but remains blocked by the Phase 1–3 milestone review. See
+`../docs/implementation/phase-4/README.md`.

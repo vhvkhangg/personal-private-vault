@@ -16,6 +16,12 @@ This is a review-only preparation gate. Do not write production code and do not 
 - Owner approved the next phase concept.
 - Next phase has a `README.md` and `preparation-review.md`.
 
+## Milestone prerequisite
+
+When the immediately preceding implementation phase is 3, 6, 9, 12, or 15, its milestone review must be
+`MILESTONE_READY` before this pre-handoff review may run. Otherwise **STOP** and instruct the owner to run or
+remediate `$codex-milestone-review`.
+
 ## Review dimensions
 
 Review the next-phase preparation for:
