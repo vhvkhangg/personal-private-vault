@@ -22,5 +22,6 @@ Perform a read-only audit. Use the relevant engineering skills:
 - `modular-monolith-architecture`
 - `jpa-postgresql-persistence`
 - `backend-testing`
+- `authentication-security` when authentication/JWT/PIN/refresh-token work is in scope
 
 Report concrete defects/risks; do not enforce patterns mechanically. Do not modify files or expand scope.

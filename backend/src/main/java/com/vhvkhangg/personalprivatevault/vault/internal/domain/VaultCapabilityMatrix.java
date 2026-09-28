@@ -1,6 +1,6 @@
 package com.vhvkhangg.personalprivatevault.vault.internal.domain;
 
-import com.vhvkhangg.personalprivatevault.vault.VaultEntryType;
+import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
 
 import java.util.Set;
 

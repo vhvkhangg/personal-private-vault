@@ -1,4 +1,4 @@
-# Repository and Java Package Tree v1 — Frozen
+# Repository and Java Package Tree v1.1.1 — Frozen
 
 ## 1. Repository principles
 
@@ -7,12 +7,12 @@
 - Package by business capability/domain, never a repository-wide `controller/service/repository/entity` layout.
 - Spring Modulith application modules map to direct subpackages of the root Java package.
 - Module internals are hidden under `internal` packages.
-- Cross-module access goes through the owning module's public base-package API; direct access to another module's repositories/entities/internal packages is forbidden.
+- Cross-module access goes through explicitly exposed module APIs (`@NamedInterface` subpackages or intentional base-package contracts); direct access to another module's repositories/entities/internal packages is forbidden.
 - `knowledge` and `collection` are parent application modules containing explicitly declared nested application modules.
 - Avoid generic root packages such as `common`, `shared`, `util`, or `helpers`. Reusable concepts must have an explicit owner.
 - No implementation or dependency scaffold is committed in this repository-initialization baseline.
 
-Spring Modulith's default model treats each direct subpackage below the Spring Boot application package as an application module. The module base package is its public API; subpackages are internal unless explicitly exposed. Nested modules will be declared explicitly with `@ApplicationModule` when implementation begins.
+Spring Modulith treats each direct subpackage below the Spring Boot application package as an application module. The module base package owns the module descriptor. Public contract subpackages are exposed deliberately with `@NamedInterface`; other subpackages remain internal. Nested modules are declared explicitly with `@ApplicationModule`.
 
 ## 2. Root repository tree
 
@@ -77,6 +77,25 @@ personal-private-vault/
 ```
 
 `frontend/`, `rag/`, and deployment/infra directories are intentionally not created yet. They will be introduced only when their phases begin.
+
+
+
+## 2.1 Implementation documentation convention
+
+Implementation history is organized per phase:
+
+```text
+docs/implementation/
+├── phase-0/
+├── phase-1/
+├── phase-2/
+├── handoffs/
+└── <cross-cutting agent/tooling docs>
+```
+
+Every future backend phase gets its own `phase-N/` directory rather than adding phase files directly to
+`docs/implementation/`.
+
 
 ## 3. Root Java package
 
@@ -148,23 +167,34 @@ External top-level modules depend on the public `collection` facade rather than 
 
 ## 6. Standard package shape inside a module
 
-The module base package is its public contract. Implementation code belongs below `internal/`.
+Package by business capability. The module base package owns the module descriptor. Public contracts may be split
+into semantic named interfaces when the API becomes non-trivial.
 
 ```text
 fiction/
-├── package-info.java                 # @ApplicationModule + allowedDependencies (later)
-├── <public API interfaces/records>   # cross-module contract (later)
+├── package-info.java                 # @ApplicationModule
+├── query/                            # optional @NamedInterface capability
+│   └── package-info.java
+├── view/                             # optional @NamedInterface for public read models
+│   └── package-info.java
+├── enums/                            # optional @NamedInterface for stable public enums
+│   └── package-info.java
 └── internal/
-    ├── application/                  # use cases, commands, queries, orchestration
-    ├── domain/                       # aggregates, value objects, domain rules/services
-    ├── infrastructure/               # outbound technical adapters
-    │   └── persistence/              # JPA/Hibernate/Spring Data implementation
-    └── web/                          # REST controllers and HTTP DTO/mapping
+    ├── application/
+    │   └── <capability>/             # mirror public capability when useful
+    ├── domain/
+    ├── infrastructure/persistence/
+    └── web/
 ```
 
-Not every module must contain every internal package. Create a package only when code has a real responsibility for it.
+Rules:
 
-If a module later needs to expose events or another secondary contract package, expose only that package explicitly as a Spring Modulith `@NamedInterface`. Do not make a module `OPEN` merely for convenience.
+- create a subpackage only for a real responsibility;
+- prefer capability names over technical `service` packages;
+- group `*View` records under `view/` and stable public enums under `enums/` when the API size justifies it;
+- avoid generic `Service` / `ServiceImpl` naming;
+- add `package-info.java` to meaningful new packages;
+- remove `.gitkeep` when real tracked content exists.
 
 ## 7. Public API rule
 
@@ -207,7 +237,7 @@ backend/src/main/java/...
 backend/src/test/java/...
 ```
 
-Tests should mirror the production package being tested when practical. The repository owner writes implementation code; Antigravity writes and runs tests once for the completed slice; Codex performs the final review.
+Tests should mirror the production package being tested when practical. For an owner-approved slice, Codex creates the implementation handoff; Antigravity implements production code and tests, iteratively verifies/fixes the slice, and retains final evidence; Codex performs final review; the owner commits/pushes only after `READY FOR OWNER COMMIT`. See `docs/agent-development-workflow.md` and `docs/architecture/testing-and-review.md` for the canonical workflow.
 
 ## 10. Deferred directories
 
@@ -225,4 +255,4 @@ Local Docker support may be introduced during backend implementation when Postgr
 
 - [`ADR-0001`](../adr/0001-modular-monolith-with-spring-modulith.md) — modular monolith.
 - [`ADR-0002`](../adr/0002-package-by-business-capability.md) — package by business capability.
-
+- [`ADR-0015`](../adr/0015-semantic-public-api-subpackages.md) — semantic public API subpackages and named interfaces.

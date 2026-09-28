@@ -6,6 +6,8 @@ Private, single-user personal information vault built as a backend-first modular
 
 Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
+Backend Phase 2 (authentication + settings) is prepared, but implementation waits for the owner-approved Phase 1 package-layout refactor to pass local verification/Codex review and be committed.
+
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
 Frozen baselines:
@@ -16,13 +18,17 @@ Frozen baselines:
 - C4 System Context v1
 - C4 Container v1
 - Module Dependency Diagram v1
-- Repository/Package Tree v1
+- Repository/Package Tree v1.1
 - Backend Phase 0 bootstrap baseline
 
 Frozen implementation phases:
 
 - Backend Phase 0 — bootstrap baseline
 - Backend Phase 1 — PostgreSQL/Flyway Schema v1 + Reference & Vault Foundation
+
+Next prepared phase:
+
+- Backend Phase 2 — authentication + settings (prepared; not implemented)
 
 ## Planned stack
 

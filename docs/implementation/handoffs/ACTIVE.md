@@ -1,6 +1,8 @@
 # Active Implementation Handoff
 
 - Status: `NO_ACTIVE_HANDOFF`
-- Current phase: none
+- Current implementation handoff: none
+- Next owner-approved phase: Backend Phase 2 — Authentication + Settings Foundation
+- Canonical scope: `docs/implementation/phase-2/README.md`
 
-Backend Phase 1 is complete/frozen. Run `$codex-create-handoff` before the next production implementation slice.
+First verify/review `docs/implementation/phase-1/package-layout-refactor.md`. After that slice is committed, run `$codex-create-handoff` before Antigravity begins Phase 2 production implementation.

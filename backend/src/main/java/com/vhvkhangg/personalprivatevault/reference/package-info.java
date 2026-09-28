@@ -20,10 +20,11 @@
  *
  * <h2>Module boundary</h2>
  * <p>Allowed top-level dependencies: {@code none}.</p>
- * <p>Public contracts belong in this package. Entities, repositories, application services,
- * infrastructure adapters, and web implementation details belong under {@code internal} unless an
- * explicitly named interface is required. Other modules must not import this module's
- * {@code internal} packages.</p>
+ * <p>The base package owns the module descriptor. Public contracts are grouped by semantic capability in
+ * explicitly exposed {@code @NamedInterface} subpackages (for example {@code catalog}, {@code view},
+ * or {@code enums}). Entities, repositories, application services,
+ * infrastructure adapters, and web implementation details remain under {@code internal}. Other modules must
+ * not import this module's {@code internal} packages.</p>
  *
  * <h2>Notes</h2>
  * <ul>

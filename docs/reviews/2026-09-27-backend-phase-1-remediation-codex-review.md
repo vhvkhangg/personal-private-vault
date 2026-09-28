@@ -4,7 +4,7 @@
 - Reviewer: Codex
 - Scope: Re-review of handoff `backend-phase-1-reference-vault-foundation` after concurrent case-insensitive tag-creation remediation
 - Baseline / working tree: `main` at `faeeaf294f5252fc7af14daf04a405c819c3252c` plus the current uncommitted Phase 1 working tree; follows `2026-09-27-backend-phase-1-reference-vault-codex-review.md`
-- Test evidence: `docs/implementation/backend-phase-1-test-evidence.md` records `mvn -f backend/pom.xml clean verify`, exit status 0, with 57 tests, 0 failures, 0 errors, and 0 skipped against PostgreSQL 18.6. Retained Surefire reports agree and include the expected `23505` violation of `uq_ci_tags_name` in the new concurrency test. Codex did not rerun tests.
+- Test evidence: `docs/implementation/phase-1/test-evidence.md` records `mvn -f backend/pom.xml clean verify`, exit status 0, with 57 tests, 0 failures, 0 errors, and 0 skipped against PostgreSQL 18.6. Retained Surefire reports agree and include the expected `23505` violation of `uq_ci_tags_name` in the new concurrency test. Codex did not rerun tests.
 
 ## Findings
 
@@ -20,7 +20,7 @@ None. The prior H-1 is resolved: `TagCreator` supplies proxied `REQUIRES_NEW` in
 
 #### M-1 — Canonical Phase 1/readme status remains at the pre-implementation stage
 
-- Files: `docs/implementation/backend-phase-1.md:3`, `docs/implementation/README.md:11`, `README.md:9`, `backend/README.md:31`, `docs/implementation/handoffs/ACTIVE.md:93`
+- Files: `docs/implementation/phase-1/README.md:3`, `docs/implementation/README.md:11`, `README.md:9`, `backend/README.md:31`, `docs/implementation/handoffs/ACTIVE.md:93`
 - Observed problem: The phase document says Phase 1 is awaiting creation of the Codex implementation handoff; the implementation index says owner implementation is required; and the root/backend READMEs still describe the now-implemented modules as skeletons. In addition, the handoff's new `TagCreator.java` link resolves under `docs/backend` because it is one directory level short.
 - Consequence: Committing the slice would leave its canonical workflow/status documentation contradicting the active handoff and verified implementation, while one implementation-evidence link is unusable.
 - Required correction: Update the four status/readme descriptions to say the Phase 1 reference/vault implementation and verification are complete and awaiting owner commit. Do not mark Phase 1 complete/frozen before the owner commit. Correct the `TagCreator.java` relative link to traverse three levels to the repository root. No Maven rerun is required if only these Markdown files change.

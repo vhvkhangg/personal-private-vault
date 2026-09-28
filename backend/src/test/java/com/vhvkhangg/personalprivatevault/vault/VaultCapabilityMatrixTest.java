@@ -1,5 +1,7 @@
 package com.vhvkhangg.personalprivatevault.vault;
 
+import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
+
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.VaultCapabilityMatrix;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -39,3 +39,6 @@ Reference only relevant skills:
 `design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `backend-testing`.
 
 Do not commit, push, tag, or modify production implementation.
+
+
+- Use `authentication-security` when authentication/JWT/PIN/refresh-token work is in scope.

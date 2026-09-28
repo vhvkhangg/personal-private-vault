@@ -4,7 +4,7 @@
 - Reviewer: Codex
 - Scope: Final review of handoff `backend-phase-1-reference-vault-foundation`
 - Baseline / working tree: `main` at `faeeaf294f5252fc7af14daf04a405c819c3252c` plus the current uncommitted Phase 1 working tree
-- Test evidence: `docs/implementation/backend-phase-1-test-evidence.md` records `mvn -f backend/pom.xml clean verify`, exit status 0, with 56 tests, 0 failures, 0 errors, and 0 skipped against PostgreSQL 18.6. Retained Surefire reports agree with the per-suite counts. Codex did not rerun tests.
+- Test evidence: `docs/implementation/phase-1/test-evidence.md` records `mvn -f backend/pom.xml clean verify`, exit status 0, with 56 tests, 0 failures, 0 errors, and 0 skipped against PostgreSQL 18.6. Retained Surefire reports agree with the per-suite counts. Codex did not rerun tests.
 
 ## Findings
 

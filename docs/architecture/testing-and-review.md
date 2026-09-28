@@ -2,29 +2,37 @@
 
 ## 1. Responsibility workflow
 
-The agreed workflow is intentionally explicit:
+The canonical development workflow is:
 
 ```text
 Repository owner
-  -> writes implementation code
-  -> hands completed slice to Antigravity
+  -> approves the next phase/slice and its constraints
+
+Codex
+  -> creates the implementation handoff
+  -> identifies acceptance criteria, test/evidence requirements, and relevant engineering skills
 
 Antigravity
-  -> writes tests
-  -> runs tests once
-
-Repository owner
-  -> fixes reported failures/issues
+  -> implements production code within the approved handoff
+  -> writes/updates tests for the same behavior
+  -> iteratively compiles/tests/fixes its implementation
+  -> runs the handoff's final verification command
+  -> retains exact test/build evidence
 
 Codex
   -> performs final review
+  -> requests scoped remediation when needed
+  -> otherwise returns READY FOR OWNER COMMIT with one Conventional Commit message
 
-If accepted
-  -> commit
-  -> push main
+Repository owner
+  -> commits and pushes
 ```
 
-The repository owner is not expected to write the project test suite by default unless explicitly choosing to do so for a particular task.
+The owner may run local environment-dependent verification or remediation commands when required, but production
+implementation and routine test implementation are delegated to Antigravity after a Codex handoff.
+
+Historical Phase 0/1 documents may describe the workflow that existed when those records were created; those
+historical records do not override this current architecture contract.
 
 ## 2. Planned backend test stack
 
@@ -46,11 +54,13 @@ For pure domain/application behavior with no Spring container where possible.
 
 ### Module tests
 
-Use Spring Modulith module tests to bootstrap a bounded application module and allowed collaborators instead of the entire application where suitable.
+Use Spring Modulith module tests to bootstrap a bounded application module and allowed collaborators instead of
+the entire application where suitable.
 
 ### Persistence integration tests
 
-Use PostgreSQL Testcontainers rather than H2 as a substitute for PostgreSQL behavior. This is especially important for PostgreSQL-specific constraints, JSONB, indexes/extensions, and transaction behavior.
+Use PostgreSQL Testcontainers rather than H2 as a substitute for PostgreSQL behavior. This is especially important
+for PostgreSQL-specific constraints, JSONB, indexes/extensions, and transaction behavior.
 
 ### API integration tests
 
@@ -58,18 +68,30 @@ Validate request validation, HTTP status behavior, response contract, authorizat
 
 ### Architecture verification
 
-Verify Spring Modulith module boundaries and allowed dependencies. Cyclic dependencies and access to non-exposed module internals are architecture failures.
+Verify Spring Modulith module boundaries and allowed dependencies. Cyclic dependencies and access to non-exposed
+module internals are architecture failures.
 
 ## 4. Test ownership rules
 
-Tests may access internals only to the extent appropriate for testing the owning module; tests must not normalize production code that violates module boundaries.
+Antigravity owns tests for the production behavior it implements under the active handoff. Tests must independently
+prove meaningful behavior/invariants rather than merely mirror implementation details.
 
-A test passing is not evidence that cross-module repository access is acceptable.
+During implementation, Antigravity may run focused tests repeatedly while converging. After convergence it runs
+the handoff's agreed final verification command and retains the exact command/result/evidence for Codex.
+
+Tests may access internals only to the extent appropriate for testing the owning module; tests must not normalize
+production code that violates module boundaries.
+
+A passing test is not evidence that cross-module repository access or another architecture violation is acceptable.
 
 ## 5. Frontend E2E
 
-Frontend testing is deferred with frontend implementation. The planned E2E tool is Playwright. Frontend unit/component tooling will be finalized when the frontend phase begins.
+Frontend testing is deferred with frontend implementation. The planned E2E tool is Playwright. Frontend
+unit/component tooling will be finalized when the frontend phase begins.
 
 ## 6. Review records
 
-When Codex/Antigravity review notes become part of the development process, significant findings and architectural corrections should be recorded under a dedicated review-log structure introduced with the agent/workflow documentation phase. Do not mix transient review chatter into ADRs unless it results in an accepted architecture decision.
+Significant Codex review findings, remediation results, and architecture-sensitive corrections are retained under
+`docs/reviews/` and the relevant phase implementation folder.
+
+Do not mix transient review chatter into ADRs unless it results in an accepted architecture decision.

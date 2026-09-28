@@ -4,7 +4,7 @@
 
 Each business capability is owned by one Spring Modulith application module. Only the owning module may directly access its internal repositories and entities.
 
-The base package exposes the public module contract. Implementation belongs under `internal/` unless an explicitly named secondary interface is required.
+The base package owns the module descriptor. Non-trivial public contracts are grouped into semantic subpackages and explicitly exposed with Spring Modulith `@NamedInterface`; implementation stays under `internal/`.
 
 ## 2. Top-level modules
 
@@ -72,38 +72,33 @@ collection
 Example module shape:
 
 ```text
-fiction/
-├── package-info.java
-├── FictionQuery.java
-├── FictionManagement.java
-├── FictionSearch.java
+reference/
+├── package-info.java                 # @ApplicationModule
+├── catalog/                          # @NamedInterface("catalog")
+│   ├── package-info.java
+│   └── ReferenceCatalog.java
+├── view/                             # @NamedInterface("view")
+│   ├── package-info.java
+│   └── *View.java
+├── enums/                            # @NamedInterface("enums")
+│   ├── package-info.java
+│   └── PlatformKind.java
 └── internal/
     ├── application/
+    │   └── catalog/
     ├── domain/
-    ├── infrastructure/
-    │   └── persistence/
-    └── web/
+    └── infrastructure/persistence/
 ```
 
-Allowed:
+Allowed cross-module access targets only exposed named interfaces or base-package types intentionally retained as
+public API. Internal packages remain forbidden.
 
-```text
-film.internal.application -> people public API
-search.internal.application -> fiction public API
-importdata.internal.application -> knowledge public facade
-```
-
-Forbidden:
-
-```text
-film -> people.internal.*
-search -> fiction.internal.infrastructure.persistence.*
-importdata -> knowledge.vocabulary.internal.*
-```
+Public capability interfaces use domain-oriented names. Do not introduce `Service` / `ServiceImpl` pairs merely
+for layering convention.
 
 ## 5. Named interfaces
 
-Use Spring Modulith named interfaces only when a subpackage genuinely needs to be exposed, for example a stable event contract package. Do not expose an entire module or make modules open for convenience.
+Use Spring Modulith named interfaces for semantic public API subpackages that genuinely need cross-module exposure (capabilities, read models, stable enums, or events). Keep the exposure narrow; do not make a module open for convenience.
 
 ## 6. Foundation-module direction
 

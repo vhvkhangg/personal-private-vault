@@ -1,18 +1,16 @@
 ---
 trigger: glob
 globs: "backend/src/main/java/com/vhvkhangg/personalprivatevault/reference/**/*.java, backend/src/main/java/com/vhvkhangg/personalprivatevault/vault/**/*.java, backend/src/main/resources/db/migration/*.sql"
-description: "Backend Phase 1 persistence/reference/vault implementation constraints."
+description: "Frozen reference/vault foundation constraints established in Backend Phase 1."
 ---
 
-# Backend Phase 1 Foundation Rule
+# Reference + Vault Foundation Rule
 
-- Active scope: PostgreSQL/Flyway Schema v1 + `reference` + `vault`.
-- Antigravity may implement production code only from the active Codex handoff.
-- Do not add controllers, authentication/JWT, settings implementation, other feature modules, frontend, RAG, or deployment.
+- Backend Phase 1 feature behavior is complete/frozen; modify it only with explicit owner-approved scope.
 - `reference` and `vault` have no application-module dependencies.
-- Keep JPA entities/repositories internal.
+- Public contracts are grouped into explicitly exposed semantic `@NamedInterface` packages.
+- JPA entities/repositories remain internal.
 - PostgreSQL named ENUM columns use Hibernate named-enum support.
-- Do not mutate frozen DBML for convenience.
-- Vault capability rules are explicit and fail closed.
-- Use Testcontainers PostgreSQL; never H2.
-- Lombok may reduce boilerplate but must not hide entity identity/association/state-transition semantics.
+- Do not mutate frozen DBML/Flyway V1 for package-only refactors.
+- Vault capability rules remain explicit and fail closed.
+- Use Testcontainers PostgreSQL; never H2 for persistence verification.

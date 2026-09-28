@@ -1,7 +1,11 @@
 package com.vhvkhangg.personalprivatevault.vault;
 
+import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
+import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
+import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
+
 import com.vhvkhangg.personalprivatevault.support.AbstractPostgresIntegrationTest;
-import com.vhvkhangg.personalprivatevault.vault.internal.application.VaultEntryService;
+import com.vhvkhangg.personalprivatevault.vault.internal.application.entry.VaultEntryService;
 import com.vhvkhangg.personalprivatevault.vault.internal.infrastructure.persistence.VaultEntryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

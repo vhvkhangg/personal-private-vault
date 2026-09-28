@@ -21,3 +21,12 @@ description: Apply Java 25 and Spring Boot coding standards, constructor injecti
 - Keep JPA no-args construction protected where practical.
 - Do not auto-generate `toString`, `equals`, or `hashCode` across lazy associations.
 - `@RequiredArgsConstructor` is appropriate for stateless Spring services with final dependencies.
+
+
+## Logging discipline
+
+- Use logs for meaningful state changes, security/operational events, external failures, and diagnosable exceptional
+  paths.
+- Routine read-only query services (for example `ReferenceCatalogService`) do not need entry/exit or per-query
+  INFO logs; that adds noise without operational value.
+- Never log secrets, raw tokens, passwords, PINs, or sensitive personal payloads.

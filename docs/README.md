@@ -2,7 +2,7 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules. The frozen logical DBML and architecture/module baselines remain unchanged.
+Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Backend Phase 2 is **prepared and awaiting a Codex handoff**. Phase 1 delivered the executable Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged; the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 
 ## Documentation map
 
@@ -24,7 +24,7 @@ Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 deliver
 - C4 System Context v1
 - C4 Container v1
 - Module Dependency Diagram v1
-- Repository/Package Tree v1
+- Repository/Package Tree v1.1
 - Backend Phase 0 bootstrap baseline
 - Backend Phase 1 reference/vault foundation baseline
 

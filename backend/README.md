@@ -2,7 +2,7 @@
 
 Java 25 / Spring Boot 4.1 modular monolith using Spring Modulith.
 
-Backend Phase 0 is **complete and frozen**. Read `../docs/implementation/backend-phase-0.md` for the bootstrap baseline, local setup, retained test evidence, and completed review workflow.
+Backend Phase 0 is **complete and frozen**. Read `../docs/implementation/phase-0/README.md` for the bootstrap baseline, local setup, retained test evidence, and completed review workflow.
 
 ## Current baseline
 
@@ -30,4 +30,10 @@ Docker Compose uses project name `personal-private-vault`; the PostgreSQL contai
 
 Backend Phase 1 is **complete and frozen**. `src/main/resources/db/migration/V1__create_schema_v1.sql` provides the complete structural PostgreSQL baseline derived from the frozen DBML. The dependency-free `reference` and `vault` foundation modules are implemented and verified (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
-Read `../docs/implementation/backend-phase-1.md` and `../docs/implementation/backend-phase-1-test-evidence.md` for architecture details and verification evidence.
+Read `../docs/implementation/phase-1/README.md` and `../docs/implementation/phase-1/test-evidence.md` for architecture details and verification evidence.
+
+
+## Phase 2
+
+Authentication + settings is prepared but not implemented. See
+`../docs/implementation/phase-2/README.md`; Codex must create the active handoff before production work begins.

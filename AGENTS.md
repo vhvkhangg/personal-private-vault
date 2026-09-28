@@ -10,6 +10,7 @@ This file defines repository-wide instructions for coding agents.
 - Frontend, RAG, and production deployment remain deferred.
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
+- Backend Phase 2 is prepared/owner-approved (`authentication` + `settings`) but has no active handoff yet.
 
 Architecture-sensitive work must respect:
 
@@ -17,7 +18,7 @@ Architecture-sensitive work must respect:
 - `docs/database/personal-private-vault-schema-v1-FROZEN-final.dbml`
 - `docs/repository/repository-package-tree.md`
 - `docs/adr/`
-- `docs/implementation/backend-phase-1.md`
+- `docs/implementation/phase-1/README.md`
 
 ## Development workflow
 
@@ -81,7 +82,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Database Schema v1
 - Module Boundary v1
 - Architecture Diagrams v1
-- Repository / Package Tree v1
+- Repository / Package Tree v1.1
 - Backend Phase 0 bootstrap baseline
 - Backend Phase 1 reference/vault foundation baseline
 

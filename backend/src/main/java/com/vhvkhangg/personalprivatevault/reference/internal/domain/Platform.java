@@ -1,6 +1,6 @@
 package com.vhvkhangg.personalprivatevault.reference.internal.domain;
 
-import com.vhvkhangg.personalprivatevault.reference.PlatformKind;
+import com.vhvkhangg.personalprivatevault.reference.enums.PlatformKind;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

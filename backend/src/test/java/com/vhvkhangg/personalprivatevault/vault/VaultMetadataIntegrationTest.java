@@ -1,7 +1,15 @@
 package com.vhvkhangg.personalprivatevault.vault;
 
+import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
+import com.vhvkhangg.personalprivatevault.vault.metadata.VaultMetadataOperations;
+import com.vhvkhangg.personalprivatevault.vault.enums.RatingGrade;
+import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
+import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
+import com.vhvkhangg.personalprivatevault.vault.view.VaultMetadataView;
+import com.vhvkhangg.personalprivatevault.vault.view.TagView;
+
 import com.vhvkhangg.personalprivatevault.support.AbstractPostgresIntegrationTest;
-import com.vhvkhangg.personalprivatevault.vault.internal.application.VaultMetadataService;
+import com.vhvkhangg.personalprivatevault.vault.internal.application.metadata.VaultMetadataService;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.Rating;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.Tag;
 import com.vhvkhangg.personalprivatevault.vault.internal.infrastructure.persistence.FavoriteRepository;

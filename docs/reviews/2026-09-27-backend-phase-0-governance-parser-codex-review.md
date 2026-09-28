@@ -4,7 +4,7 @@
 - Reviewer: Codex
 - Scope: Re-review of the repository-safety hook after absolute-path, multiline, and nested-wrapper hardening
 - Baseline / working tree: `main` at `45a89f3b6601798db5fadaa09aa6dcf5904c183a` plus the current uncommitted working tree; this review follows the two earlier Backend Phase 0 review records dated 2026-09-27
-- Test evidence: `docs/implementation/backend-phase-0-governance-test-evidence.md` records `python -B .agents/hooks/test_repository_safety.py`, exit status 0, with 7 tests passing. The retained Maven Surefire report records 1 architecture test, 0 failures, 0 errors, and 0 skipped in 3.278 seconds. Codex did not rerun either suite. Codex performed one read-only hook probe and one benign PowerShell parsing probe for H-1.
+- Test evidence: `docs/implementation/phase-0/governance-test-evidence.md` records `python -B .agents/hooks/test_repository_safety.py`, exit status 0, with 7 tests passing. The retained Maven Surefire report records 1 architecture test, 0 failures, 0 errors, and 0 skipped in 3.278 seconds. Codex did not rerun either suite. Codex performed one read-only hook probe and one benign PowerShell parsing probe for H-1.
 
 ## Findings
 

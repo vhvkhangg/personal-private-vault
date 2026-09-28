@@ -4,7 +4,7 @@
 - Reviewer: Codex
 - Scope: Final re-review of handoff `backend-phase-1-reference-vault-foundation` after transaction-race and documentation remediation
 - Baseline / working tree: `main` at `faeeaf294f5252fc7af14daf04a405c819c3252c` plus the current uncommitted Phase 1 working tree
-- Test evidence: `docs/implementation/backend-phase-1-test-evidence.md` records `mvn -f backend/pom.xml clean verify`, exit status 0, with 57 tests, 0 failures, 0 errors, and 0 skipped against PostgreSQL 18.6. Retained Surefire reports match those per-suite counts and show the expected `23505` path in the tag-concurrency regression. The last remediation changed documentation only, so the retained evidence remains applicable. Codex did not rerun tests.
+- Test evidence: `docs/implementation/phase-1/test-evidence.md` records `mvn -f backend/pom.xml clean verify`, exit status 0, with 57 tests, 0 failures, 0 errors, and 0 skipped against PostgreSQL 18.6. Retained Surefire reports match those per-suite counts and show the expected `23505` path in the tag-concurrency regression. The last remediation changed documentation only, so the retained evidence remains applicable. Codex did not rerun tests.
 
 ## Findings
 

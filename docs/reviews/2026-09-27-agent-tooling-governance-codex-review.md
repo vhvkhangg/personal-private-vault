@@ -33,14 +33,14 @@ None.
 
 #### M-1 — The claimed Graphify move and Phase 1 freeze documentation are incomplete
 
-- Files: `.agents/setup-graphify.ps1`, `.agents/refresh-graphify.ps1`, `scripts/setup-graphify.ps1`, `scripts/refresh-graphify.ps1`, `.codex/README.md:22`, `docs/implementation/backend-phase-1.md:60`, `docs/implementation/backend-phase-1.md:142`, `docs/implementation/backend-phase-1-owner-files.md:5`, `docs/implementation/README.md:9`
+- Files: `.agents/setup-graphify.ps1`, `.agents/refresh-graphify.ps1`, `scripts/setup-graphify.ps1`, `scripts/refresh-graphify.ps1`, `.codex/README.md:22`, `docs/implementation/phase-1/README.md:60`, `docs/implementation/phase-1/README.md:142`, `docs/implementation/phase-1/implementation-targets.md:5`, `docs/implementation/README.md:9`
 - Observed problem: The new root scripts are byte-identical copies while the tracked `.agents/` scripts remain, so there are two canonical-looking locations despite the summary saying they were moved. Live Codex/phase documentation still points to `.agents/`. The implementation index still lists Phase 1 as active/awaiting owner commit, the completed phase document still says its targets await owner commit, and the historical target list says the implemented files contain unresolved TODO contracts.
 - Consequence: Setup instructions and phase state have competing sources of truth, undermining the slice's reuse/consistency goals and confusing the next workflow invocation.
 - Required correction: Complete the move with one canonical script location, update live references, preserve historical evidence wording where appropriate, and synchronize all Phase 1 indexes/history with its committed frozen state.
 
 #### M-2 — The changed safety hook has no current execution evidence
 
-- Files: `.agents/hooks/test_repository_safety.py:138`, `docs/implementation/backend-phase-0-governance-test-evidence.md:24`, `docs/implementation/agent-tooling-change-summary.md`
+- Files: `.agents/hooks/test_repository_safety.py:138`, `docs/implementation/phase-0/governance-test-evidence.md:24`, `docs/implementation/agent-tooling-change-summary.md`
 - Observed problem: The hook suite now contains an eleventh test for permission overrides, but the only retained evidence is the earlier 10-test Phase 0 run. The new test checks helper subsets only and does not prove the final emitted hook JSON or unsafe Compose exclusions.
 - Consequence: The security-sensitive permission change has neither adequate regression coverage nor a supplied passing result.
 - Required correction: Add end-to-end hook-output assertions and unsafe Compose cases, run the focused Python suite, and retain exact current evidence in a tooling-specific evidence record. A Maven rerun is unnecessary while backend production/test/build/database files remain unchanged.

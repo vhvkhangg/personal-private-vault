@@ -29,7 +29,7 @@ None.
 
 #### L-1 — Phase status is stale after Antigravity execution
 
-- File: `docs/implementation/backend-phase-0.md:3`
+- File: `docs/implementation/phase-0/README.md:3`
 - Observed problem: The document still says `READY FOR ANTIGRAVITY TEST GENERATION`, although the architecture test exists and a passing Surefire result is present.
 - Consequence: The canonical implementation handoff document misstates the current workflow stage and may prompt an unnecessary repeat of the Antigravity phase.
 - Recommended correction: Update the status after the blocking hook finding is corrected and the required test/review workflow is complete.

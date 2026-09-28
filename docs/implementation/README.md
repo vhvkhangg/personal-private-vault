@@ -1,20 +1,21 @@
 # Implementation Plans
 
-## Completed and frozen
+Each backend phase owns a dedicated folder. Completed-phase evidence stays with that phase; cross-cutting agent
+workflow/governance documents remain at `docs/implementation/`.
 
-- [Backend Phase 0 — Maven / Spring Boot / Spring Modulith Bootstrap](backend-phase-0.md) — **COMPLETE / FROZEN**
-- [Backend Phase 0 — Repository Safety Hook Test Evidence](backend-phase-0-governance-test-evidence.md)
-- Final Phase 0 Codex review: [`../reviews/2026-09-27-backend-phase-0-final-governance-codex-review.md`](../reviews/2026-09-27-backend-phase-0-final-governance-codex-review.md)
-- [Backend Phase 1 — PostgreSQL/Flyway Schema v1 + Reference & Vault Foundation](backend-phase-1.md) — **COMPLETE / FROZEN**
-- [Backend Phase 1 — Implementation Targets (historical)](backend-phase-1-owner-files.md)
-- [Backend Phase 1 — Flyway V1 Manifest](backend-phase-1-flyway-manifest.md)
-- [Backend Phase 1 — Test Verification Evidence](backend-phase-1-test-evidence.md)
-- Final Phase 1 Codex review: [`../reviews/2026-09-27-backend-phase-1-final-codex-review.md`](../reviews/2026-09-27-backend-phase-1-final-codex-review.md)
+## Phases
+
+- [`phase-0/`](phase-0/README.md) — **COMPLETE / FROZEN** — Maven / Spring Boot / Spring Modulith bootstrap
+- [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — executable Schema v1 + `reference` / `vault` foundation
+  - [owner-approved package-layout refinement](phase-1/package-layout-refactor.md) — **READY FOR OWNER COMMIT**
+- [`phase-2/`](phase-2/README.md) — **PREPARED / BLOCKED ON FOUNDATION-REFACTOR REVIEW** — authentication + settings foundation
+
+Future phases must follow the same `phase-N/` folder convention.
 
 ## Current implementation state
 
-There is no active production handoff. `handoffs/ACTIVE.md` remains `NO_ACTIVE_HANDOFF` until the owner approves
-the next phase/slice and Codex creates a new handoff.
+There is no active production handoff. The owner has approved Phase 2 planning, but Codex must create the Phase 2
+implementation handoff before Antigravity writes production code.
 
 ## Operational guidance
 

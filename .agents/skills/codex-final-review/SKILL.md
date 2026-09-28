@@ -1,6 +1,6 @@
 ---
 name: codex-final-review
-description: Final-review either an implemented active handoff or an explicitly requested governance/tooling slice; request remediation or return READY FOR OWNER COMMIT with one commit message.
+description: Final-review either an implemented active handoff or an explicitly requested owner-approved maintenance/governance slice; request remediation or return READY FOR OWNER COMMIT with one commit message.
 ---
 
 # Codex Final Review
@@ -13,11 +13,12 @@ Invoke with `$codex-final-review` or select it from `/skills`. Codex is review-o
 
 Use only when `docs/implementation/handoffs/ACTIVE.md` is `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 
-### Governance/tooling mode
+### Owner-approved maintenance/governance mode
 
 Use only when the owner explicitly requests such a review and a canonical scope document identifies the slice
-(for example `docs/implementation/agent-tooling-change-summary.md`). This mode may run while `ACTIVE.md` is
-`NO_ACTIVE_HANDOFF` and does not reopen a frozen business phase.
+(for example `docs/implementation/agent-tooling-change-summary.md` or
+`docs/implementation/phase-1/package-layout-refactor.md`). This mode may run while `ACTIVE.md` is
+`NO_ACTIVE_HANDOFF`. A frozen phase may be touched only where the owner-approved maintenance scope explicitly says so.
 
 ### No valid mode
 
@@ -37,7 +38,7 @@ tooling safety, and stale/competing documentation. Record findings under `docs/r
 
 Implementation mode: set the handoff to `CHANGES_REQUESTED` and add remediation.
 
-Governance/tooling mode: set the governance scope doc to `CHANGES REQUESTED` and update its remediation checklist;
+Maintenance/governance mode: set the scope doc to `CHANGES REQUESTED` and update its remediation checklist;
 do not create a fake production handoff.
 
 Do not provide a commit message while blocking findings remain.
@@ -49,3 +50,6 @@ exactly one Conventional Commit message, and do not commit/push.
 
 Frozen phases remain frozen unless their production/test/database/build artifacts are explicitly owner-approved
 review scope.
+
+
+- Use `authentication-security` when authentication/JWT/PIN/refresh-token work is in scope.

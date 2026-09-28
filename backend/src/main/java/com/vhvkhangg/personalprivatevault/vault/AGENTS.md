@@ -1,12 +1,13 @@
-# Vault Module — Phase 1 Scope
+# Vault Module Instructions
 
-Antigravity implements this module from the active Codex handoff.
+Backend Phase 1 behavior is frozen; owner-approved structural changes must preserve that behavior.
 
 - Owned tables: `vault_entries`, `favorites`, `ratings`, `tags`, `vault_entry_tags`.
 - No application-module dependencies.
-- Public APIs stay in `vault`; entities/repositories/services stay under `vault.internal`.
-- Phase 1 implements shared identity, favorite/rating/tag metadata, soft delete, and restore.
-- Permanent deletion is out of scope.
-- Capability checks are mandatory before metadata writes.
+- Public capabilities use named subpackages: `entry`, `metadata`, `view`, and `enums`.
+- Public interfaces are capability-oriented; internal implementations mirror the capability under
+  `vault.internal.application`.
+- Entities/repositories/services stay under `vault.internal`.
+- Permanent deletion remains outside the frozen Phase 1 baseline.
+- Capability checks remain mandatory before metadata writes.
 - `FILM_CREDIT` is favorite-only (no rating/tags). `BRAND` supports global rating.
-- Use Lombok only for safe boilerplate; never use `@Data` on JPA entities or association-heavy generated equality.

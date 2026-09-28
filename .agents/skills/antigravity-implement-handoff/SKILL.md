@@ -29,6 +29,7 @@ Apply relevant skills progressively:
 - `modular-monolith-architecture`
 - `jpa-postgresql-persistence`
 - `backend-testing`
+- `authentication-security` when authentication/JWT/PIN/refresh-token work is in scope
 - `graphify-context` when broad navigation is needed
 
 ## Loop

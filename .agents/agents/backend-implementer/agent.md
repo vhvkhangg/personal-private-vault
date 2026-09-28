@@ -27,6 +27,7 @@ Use relevant skills progressively:
 - `modular-monolith-architecture`
 - `jpa-postgresql-persistence`
 - `backend-testing`
+- `authentication-security` when authentication/JWT/PIN/refresh-token work is in scope
 - `graphify-context` for broad navigation when available
 
 Read root/scoped `AGENTS.md`, then `docs/implementation/handoffs/ACTIVE.md`.
