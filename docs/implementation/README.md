@@ -7,15 +7,15 @@ workflow/governance documents remain at `docs/implementation/`.
 
 - [`phase-0/`](phase-0/README.md) — **COMPLETE / FROZEN** — Maven / Spring Boot / Spring Modulith bootstrap
 - [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — executable Schema v1 + `reference` / `vault` foundation
-  - [owner-approved package-layout refinement](phase-1/package-layout-refactor.md) — **READY FOR OWNER COMMIT**
-- [`phase-2/`](phase-2/README.md) — **PREPARED / BLOCKED ON FOUNDATION-REFACTOR REVIEW** — authentication + settings foundation
+  - [owner-approved package-layout refinement](phase-1/package-layout-refactor.md) — **COMPLETE / FROZEN**
+- [`phase-2/`](phase-2/README.md) — **ACTIVE / READY FOR OWNER COMMIT** — authentication + settings foundation
 
 Future phases must follow the same `phase-N/` folder convention.
 
 ## Current implementation state
 
-There is no active production handoff. The owner has approved Phase 2 planning, but Codex must create the Phase 2
-implementation handoff before Antigravity writes production code.
+The Phase 2 authentication/settings handoff is implemented, verified, and ready for owner commit:
+[`handoffs/ACTIVE.md`](handoffs/ACTIVE.md).
 
 ## Operational guidance
 

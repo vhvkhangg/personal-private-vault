@@ -35,5 +35,5 @@ Read `../docs/implementation/phase-1/README.md` and `../docs/implementation/phas
 
 ## Phase 2
 
-Authentication + settings is prepared but not implemented. See
-`../docs/implementation/phase-2/README.md`; Codex must create the active handoff before production work begins.
+Authentication + settings foundation is implemented, verified, and ready for owner commit. See
+`../docs/implementation/phase-2/README.md` and `../docs/implementation/handoffs/ACTIVE.md`.

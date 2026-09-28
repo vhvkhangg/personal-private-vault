@@ -45,3 +45,11 @@ logging:
   level:
     root: INFO
     com.vhvkhangg.personalprivatevault: INFO
+
+ppv:
+  security:
+    jwt:
+      issuer: ${PPV_JWT_ISSUER:personal-private-vault}
+      access-token-lifetime: ${PPV_JWT_ACCESS_TOKEN_LIFETIME:15m}
+      refresh-token-lifetime: ${PPV_JWT_REFRESH_TOKEN_LIFETIME:30d}
+      secret: ${PPV_JWT_SECRET:}

@@ -1,9 +1,11 @@
 # Backend Phase 2 — Authentication + Settings Foundation
 
-Status: **PREPARED — OWNER APPROVED / BLOCKED ON FOUNDATION-REFACTOR REVIEW**
+Status: **ACTIVE — READY FOR OWNER COMMIT**
 
 Phase 2 implements the two foundational modules that precede feature-domain work: `authentication` and `settings`.
-No Phase 2 production implementation should begin until the Phase 1 package-layout maintenance slice passes local Maven verification/Codex review and Codex creates the active Phase 2 handoff.
+The Phase 1 package-layout maintenance slice is committed, and the active Codex implementation handoff is
+`docs/implementation/handoffs/ACTIVE.md`. Production implementation is delivered, verified, and ready for the
+owner commit.
 
 ## Goals
 

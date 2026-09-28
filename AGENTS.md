@@ -10,7 +10,8 @@ This file defines repository-wide instructions for coding agents.
 - Frontend, RAG, and production deployment remain deferred.
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
-- Backend Phase 2 is prepared/owner-approved (`authentication` + `settings`) but has no active handoff yet.
+- Backend Phase 2 is owner-approved and has an active handoff (`backend-phase-2-authentication-settings-foundation`)
+  implemented, verified, and `READY_FOR_OWNER_COMMIT`.
 
 Architecture-sensitive work must respect:
 
