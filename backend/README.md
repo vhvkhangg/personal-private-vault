@@ -40,6 +40,5 @@ Authentication + settings foundation is **complete and frozen** after owner comm
 
 ## Phase 3
 
-People Foundation preparation remediation is complete and is not authorized for implementation until
-`$codex-pre-handoff-review` passes.
-See `../docs/implementation/phase-3/README.md`.
+People Foundation is ready for owner commit after Codex final review. See
+`../docs/implementation/handoffs/ACTIVE.md` and `../docs/implementation/phase-3/README.md`.

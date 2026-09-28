@@ -7,16 +7,14 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-0/`](phase-0/README.md) — **COMPLETE / FROZEN** — bootstrap
 - [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — Schema v1 + `reference` + `vault`
 - [`phase-2/`](phase-2/README.md) — **COMPLETE / FROZEN** — `authentication` + `settings`
-- [`phase-3/`](phase-3/README.md) — **PREPARED / READY FOR HANDOFF** — `people`
+- [`phase-3/`](phase-3/README.md) — **READY FOR OWNER COMMIT** — `people`
 
 See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-No active production handoff exists.
-
-Phase 3 preparation passed
-[`phase-3/preparation-review.md`](phase-3/preparation-review.md). The owner must commit/push it before handoff creation.
+Phase 3 has an [active implementation handoff](handoffs/ACTIVE.md) ready for owner commit.
+Its [preparation review](phase-3/preparation-review.md) passed and was committed before implementation.
 
 ## Operational guidance
 

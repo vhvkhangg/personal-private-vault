@@ -1,6 +1,6 @@
 # Backend Phase 3 — People Foundation
 
-Status: **PREPARED — READY FOR HANDOFF**
+Status: **READY FOR OWNER COMMIT**
 
 Phase 3 implements `people` because fiction, film, music, and study all need stable person/creator references.
 
@@ -45,7 +45,8 @@ The Phase 3 implementation handoff must update the People module descriptor to t
 become narrower only if the concrete public signatures prove one named interface is unused. It must not retain
 whole-module `vault` / `reference` allowances. Internal packages remain forbidden.
 
-Until an active Phase 3 implementation handoff exists, `people/package-info.java` intentionally remains at the committed Phase 2 baseline with whole-module `vault` / `reference` allowances. Preparation must not change production source.
+The committed preparation left `people/package-info.java` at the Phase 2 baseline. The active Phase 3 handoff now
+requires narrowing these allowances during implementation.
 
 ## Planned capabilities
 

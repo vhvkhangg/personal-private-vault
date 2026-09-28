@@ -30,11 +30,12 @@ class JwtTokenServiceTest {
     private JwtProperties jwtProperties;
     private Clock clock;
 
-    private static final Instant FIXED_NOW = Instant.parse("2026-09-28T08:00:00Z");
+    private Instant fixedNow;
 
     @BeforeEach
     void setUp() {
-        clock = Clock.fixed(FIXED_NOW, ZoneOffset.UTC);
+        fixedNow = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.SECONDS);
+        clock = Clock.fixed(fixedNow, ZoneOffset.UTC);
 
         byte[] keyBytes = new byte[32];
         for (int i = 0; i < 32; i++) {
@@ -68,8 +69,8 @@ class JwtTokenServiceTest {
 
         assertThat(jwt.getClaimAsString("iss")).isEqualTo("personal-private-vault");
         assertThat(jwt.getSubject()).isEqualTo("1");
-        assertThat(jwt.getIssuedAt()).isEqualTo(FIXED_NOW);
-        assertThat(jwt.getExpiresAt()).isEqualTo(FIXED_NOW.plus(Duration.ofMinutes(15)));
+        assertThat(jwt.getIssuedAt()).isEqualTo(fixedNow);
+        assertThat(jwt.getExpiresAt()).isEqualTo(fixedNow.plus(Duration.ofMinutes(15)));
         assertThat(jwt.getId()).isNotBlank();
         // Check that jti is a valid UUID
         assertThat(UUID.fromString(jwt.getId())).isNotNull();

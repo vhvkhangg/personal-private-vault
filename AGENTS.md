@@ -11,7 +11,7 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 - Backend Phase 2 is complete/frozen after owner commit/push.
-- Backend Phase 3 (`people`) preparation is `READY FOR HANDOFF`; no implementation handoff exists.
+- Backend Phase 3 (`people`) is `READY_FOR_OWNER_COMMIT` after Codex final review.
 
 Architecture-sensitive work must respect:
 

@@ -16,7 +16,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 0 | Spring Boot / Maven / Spring Modulith bootstrap | Historical | **COMPLETE — FROZEN** | Not counted |
 | 1 | Flyway Schema v1 + `reference` + `vault` foundations | Historical | **COMPLETE — FROZEN** | — |
 | 2 | `authentication` + `settings` foundations | Historical | **COMPLETE — FROZEN** | — |
-| 3 | `people`: persons, roles, creator groups/membership | **P-3: READY FOR HANDOFF** | **NOT STARTED** | **After completion** |
+| 3 | `people`: persons, roles, creator groups/membership | **P-3: READY FOR HANDOFF** | **READY FOR OWNER COMMIT** | **After completion** |
 | 4 | `fiction` domain | P-4 planned | Not started | — |
 | 5 | `film` domain + film credits | P-5 planned | Not started | — |
 | 6 | `media` + `location` foundations | P-6 planned | Not started | **After completion** |

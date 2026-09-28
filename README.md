@@ -7,7 +7,7 @@ Private, single-user personal information vault built as a backend-first modular
 Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
 Backend Phase 2 (authentication + settings) is **complete and frozen** after owner commit/push. Phase 3 (`people`)
-preparation is **ready for handoff**; no implementation handoff is active.
+is **ready for owner commit** after Codex final review.
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
@@ -28,9 +28,9 @@ Frozen implementation phases:
 - Backend Phase 1 — PostgreSQL/Flyway Schema v1 + Reference & Vault Foundation
 - Backend Phase 2 — Authentication + Settings Foundation
 
-Next prepared phase:
+Active implementation phase:
 
-- Backend Phase 3 — People Foundation (`READY FOR HANDOFF`; preparation commit/push required next)
+- Backend Phase 3 — People Foundation (`READY_FOR_OWNER_COMMIT`; owner commit/push next)
 
 ## Planned stack
 

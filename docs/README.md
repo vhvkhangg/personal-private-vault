@@ -2,8 +2,8 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0, 1, and 2 are **complete and frozen**. Phase 3 (`people`) preparation is **ready for handoff**;
-there is no active implementation handoff. Phase 1 delivered the executable Flyway Schema v1 plus the implemented
+Backend Phases 0, 1, and 2 are **complete and frozen**. Phase 3 (`people`) is ready for owner commit after Codex
+final review. Phase 1 delivered the executable Flyway Schema v1 plus the implemented
 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 

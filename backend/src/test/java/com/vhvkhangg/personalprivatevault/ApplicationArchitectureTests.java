@@ -21,4 +21,14 @@ class ApplicationArchitectureTests {
         assertThat(modules).isNotNull();
         modules.verify();
     }
+
+    @Test
+    @DisplayName("Verifies that people module defines expected named interfaces")
+    void verifiesPeopleModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var peopleModule = modules.getModuleByName("people");
+        assertThat(peopleModule).isPresent();
+        assertThat(peopleModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("enums", "group", "person", "view");
+    }
 }
