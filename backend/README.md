@@ -55,5 +55,10 @@ Film Foundation is **complete and frozen** after owner commit/push. See
 
 ## Phase 6
 
-Media + Location Foundations implementation handoff is `READY_FOR_OWNER_COMMIT` after Codex final re-review. See
-`../docs/implementation/phase-6/README.md`.
+Media + Location Foundations are **complete and frozen** after owner commit/push. See
+`../docs/implementation/phase-6/README.md` and `../docs/implementation/phase-6/test-evidence.md`.
+
+## Phase 7
+
+External Account & Relationship History preparation exists but remains blocked by the Phase 4–6 milestone review.
+See `../docs/implementation/phase-7/README.md`.

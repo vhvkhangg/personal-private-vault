@@ -1,0 +1,11 @@
+# Privacy-safe constraint-logging maintenance final review — 2026-09-29
+
+Status: **CHANGES_REQUESTED**. Handoff: `milestone-4-6-privacy-safe-constraint-logging`.
+
+Independent `mvn -f backend/pom.xml -ntp clean verify` passed on Java 25: 463 tests, 0 failures/errors/skips. `git diff --check` passed. The logger level is narrowly set to `ERROR`; the Image object-key/checksum and Location category contention tests observe PostgreSQL locking, retain domain conflicts and rollback, and captured Surefire output contains no private markers or `Detail: Key` lines. No production service, module boundary, Flyway, or schema change was made.
+
+## Blocking finding
+
+1. **Medium — The unexpected-failure regression does not exercise the changed logging path and misidentifies its constraint.** `PrivacySafeConstraintLoggingIntegrationTest.unexpectedPersistenceFailureRemainsObservable` (lines 340–351) performs a direct `JdbcTemplate` insert, bypassing Hibernate and `org.hibernate.orm.jdbc.error`, the logger this maintenance changes. Its comment and `test-evidence.md` say the insert violates `images.size_bytes NOT NULL`, but frozen Flyway V1 defines `size_bytes bigint` as nullable (line 320); the absent `vault_entries` parent for id `999999` instead violates `fk_images_id_vault_entries` (line 867). Thus the passing test does not verify that an *unexpected Hibernate/JPA persistence failure* still produces the required observable, non-sensitive diagnostic after the logger change, and the retained evidence is factually wrong. Replace or supplement it with a real Hibernate/JPA failure through the configured logger path using a known, controlled constraint; assert the exception remains observable and logs contain no private marker/raw detail. Correct the test comment and evidence to name the actual constraint and diagnostic outcome. This is **test/evidence-only remediation** unless the new test reveals a production gap.
+
+No other blocking findings were found in the approved slice. Do not expand the logging implementation or Phase 7 scope merely to resolve this test gap. Antigravity should use `/antigravity-test-slice`, rerun the full required verification, update `test-evidence.md`, and return the handoff to `IMPLEMENTED_AWAITING_CODEX_REVIEW` for Codex re-review. No commit message while this finding remains.

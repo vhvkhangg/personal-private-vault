@@ -33,9 +33,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ExtendWith(OutputCaptureExtension.class)
 class MediaIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Autowired
@@ -280,8 +285,8 @@ class MediaIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Test
     @DisplayName("Concurrent duplicate image creation on object_key recovers from unique constraint conflict")
-    void concurrentDuplicateObjectKeyThrowsDomainConflict() throws Exception {
-        String objectKey = "concurrent/photo.jpg";
+    void concurrentDuplicateObjectKeyThrowsDomainConflict(CapturedOutput output) throws Exception {
+        String objectKey = "concurrent/photo-PPV_PRIVATE_OBJECT_KEY_MARKER.jpg";
         CountDownLatch thread1Inserted = new CountDownLatch(1);
         CountDownLatch thread2ReadyToCommit = new CountDownLatch(1);
 
@@ -354,6 +359,11 @@ class MediaIntegrationTest extends AbstractPostgresIntegrationTest {
                     Integer.class
             );
             assertThat(vaultCount).isEqualTo(1);
+
+            // Privacy verification: assert private marker and raw vendor detail are not logged
+            assertThat(output.getAll())
+                    .doesNotContain("PPV_PRIVATE_OBJECT_KEY_MARKER")
+                    .doesNotContain("Detail: Key (object_key)=(");
         } finally {
             executor.shutdownNow();
             executor.awaitTermination(5, TimeUnit.SECONDS);
@@ -362,8 +372,8 @@ class MediaIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Test
     @DisplayName("Concurrent duplicate image creation on checksum_sha256 recovers from unique constraint conflict and rolls back vault entry")
-    void concurrentDuplicateChecksumThrowsDomainConflict() throws Exception {
-        String checksum = "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890";
+    void concurrentDuplicateChecksumThrowsDomainConflict(CapturedOutput output) throws Exception {
+        String checksum = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
         CountDownLatch thread1Inserted = new CountDownLatch(1);
         CountDownLatch thread2ReadyToCommit = new CountDownLatch(1);
 
@@ -436,6 +446,11 @@ class MediaIntegrationTest extends AbstractPostgresIntegrationTest {
                     Integer.class
             );
             assertThat(vaultCount).isEqualTo(1);
+
+            // Privacy verification: assert distinctive checksum and raw vendor detail are not logged
+            assertThat(output.getAll())
+                    .doesNotContain(checksum)
+                    .doesNotContain("Detail: Key (checksum_sha256)=(");
         } finally {
             executor.shutdownNow();
             executor.awaitTermination(5, TimeUnit.SECONDS);

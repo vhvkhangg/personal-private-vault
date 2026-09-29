@@ -53,9 +53,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ExtendWith(OutputCaptureExtension.class)
 class LocationIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Autowired
@@ -404,8 +409,8 @@ class LocationIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Test
     @DisplayName("Concurrent duplicate LocationCategory creation recovers from PostgreSQL unique constraint race")
-    void concurrentDuplicateLocationCategoryThrowsConflict() throws Exception {
-        String categoryName = "Bistro";
+    void concurrentDuplicateLocationCategoryThrowsConflict(CapturedOutput output) throws Exception {
+        String categoryName = "Bistro PPV_PRIVATE_CATEGORY_NAME_MARKER";
         CountDownLatch thread1Inserted = new CountDownLatch(1);
         CountDownLatch thread2ReadyToCommit = new CountDownLatch(1);
 
@@ -467,6 +472,13 @@ class LocationIntegrationTest extends AbstractPostgresIntegrationTest {
                     categoryName
             );
             assertThat(count).isEqualTo(1);
+
+            // Privacy verification: assert private marker and raw vendor detail are not logged
+            assertThat(output.getAll())
+                    .doesNotContain("PPV_PRIVATE_CATEGORY_NAME_MARKER")
+                    .doesNotContain("Detail: Key (name)=(")
+                    .doesNotContain("Detail: Key (lower(name::text))=(")
+                    .doesNotContain("Detail: Key ");
         } finally {
             executor.shutdownNow();
             executor.awaitTermination(5, TimeUnit.SECONDS);

@@ -16,8 +16,10 @@ This file defines repository-wide instructions for coding agents.
 - The pre-Phase-4 code-hygiene maintenance is complete/frozen after owner commit/push.
 - Backend Phase 4 (`fiction`) is complete/frozen after owner commit/push.
 - Backend Phase 5 (`film`) is complete/frozen after owner commit/push.
-- Backend Phase 6 (`media` + `location`) preparation is owner committed/pushed. Its active Codex handoff is
-  `READY_FOR_OWNER_COMMIT` after final re-review; owner commit/push is pending.
+- Backend Phase 6 (`media` + `location`) is complete/frozen after owner commit/push.
+- Current gate: Phase 4–6 milestone `CHANGES_REQUESTED`; the owner-approved privacy-safe constraint-logging maintenance handoff is `READY_FOR_OWNER_COMMIT`.
+- Phase 7 (`account`) preparation exists but is blocked until the milestone returns `MILESTONE_READY` and the
+  required post-milestone synchronization is complete.
 
 Completed maintenance scope:
 
@@ -26,6 +28,11 @@ Completed maintenance scope:
 Completed maintenance scope:
 
 - `docs/implementation/maintenance/pre-phase4-code-hygiene/README.md`
+
+
+Current approved maintenance scope:
+
+- `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md`
 
 Architecture-sensitive work must respect:
 
@@ -97,6 +104,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 3 people foundation baseline
 - Backend Phase 4 fiction foundation baseline
 - Backend Phase 5 film foundation baseline
+- Backend Phase 6 media/location foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

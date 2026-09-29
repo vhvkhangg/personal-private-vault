@@ -1,6 +1,6 @@
 # Backend Phase 6 — Media + Location Foundations
 
-Status: **READY FOR OWNER COMMIT — PHASE 6 FINAL RE-REVIEW**
+Status: **COMPLETE — FROZEN (2026-09-29)**
 
 Phase 6 implements two independent top-level modules from frozen Schema v1:
 
@@ -10,18 +10,13 @@ Phase 6 implements two independent top-level modules from frozen Schema v1:
 The modules do not depend on each other. Phase 6 is intentionally one roadmap phase, but implementation must preserve
 both module boundaries rather than creating a combined Java module.
 
-The preparation gate is complete:
+Phase 6 implementation is complete, final-reviewed, committed/pushed by the owner, and frozen.
 
-1. this preparation passes `$codex-pre-handoff-review`;
-2. the approved Phase 6 preparation slice is committed/pushed;
-3. `$codex-create-handoff` creates an active Phase 6 implementation handoff.
+The completed implementation contract is archived at [`handoff.md`](handoff.md). This document remains the
+historical approved scope; it does not authorize additional Phase 6 production changes.
 
-The active contract is [`../handoffs/ACTIVE.md`](../handoffs/ACTIVE.md). Antigravity implements/tests only that
-scope; this preparation document remains its approved reference.
-
-Phase 6 **is a milestone phase**. After its implementation passes final review and the owner commits/pushes it,
-ChatGPT closes/freezes Phase 6 and the owner must run `$codex-milestone-review` for Phases 4–6 before Phase 7 can
-enter pre-handoff review.
+Phase 6 **is a milestone phase**. The Phase 4–6 [milestone review](milestone-review.md) is `CHANGES_REQUESTED`;
+Phase 7 may not enter pre-handoff review until approved maintenance and milestone re-review complete.
 
 ## Frozen ownership
 
@@ -409,3 +404,19 @@ Reused without new custom agents/hooks:
 - repository safety hook
 
 No new custom agent or hook is justified for Phase 6.
+
+
+## Completion record
+
+- Owner commit/push: completed 2026-09-29.
+- Final Codex result: `READY_FOR_OWNER_COMMIT`.
+- Final verification: `mvn -f backend/pom.xml clean verify` — **458 tests**, 0 failures/errors/skips.
+- PostgreSQL: 18.6 via Testcontainers; Java 25; Maven 3.9.15.
+- Final handoff archive: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Final re-review: [`reviews/2026-09-29-phase-6-final-codex-rereview.md`](reviews/2026-09-29-phase-6-final-codex-rereview.md).
+- Phase status: **COMPLETE — FROZEN**.
+- Required next gate: Phase 4–6 `$codex-milestone-review`.
+
+Future Media/Location changes require a new owner-approved feature or maintenance slice. Do not reuse the completed
+Phase 6 handoff.

@@ -6,9 +6,9 @@ Private, single-user personal information vault built as a backend-first modular
 
 Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
-Backend Phases 2 (`authentication` + `settings`), 3 (`people`), 4 (`fiction`), and 5 (`film`) are **complete and frozen**
-after owner commit/push. The Phase 1–3 milestone remains `MILESTONE_READY`. Phase 6 (`media` + `location`)
-preparation is committed/pushed, and its implementation handoff is `READY_FOR_OWNER_COMMIT` after Codex final re-review.
+Backend Phases 2 (`authentication` + `settings`), 3 (`people`), 4 (`fiction`), 5 (`film`), and 6
+(`media` + `location`) are **complete and frozen** after owner commit/push. The Phase 1–3 milestone remains
+`MILESTONE_READY`. The Phase 4–6 milestone review is `CHANGES_REQUESTED`; the owner-approved privacy-safe constraint-logging maintenance is the current gate before Phase 7 (`account`).
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
@@ -30,11 +30,13 @@ Frozen implementation phases:
 - Backend Phase 2 — Authentication + Settings Foundation
 - Backend Phase 3 — People Foundation
 - Backend Phase 4 — Fiction Foundation
+- Backend Phase 5 — Film Foundation
+- Backend Phase 6 — Media + Location Foundations
 
 Current gate:
 
-- Backend Phase 6 — Media + Location Foundations handoff is `READY_FOR_OWNER_COMMIT`
-- owner commits/pushes, then ChatGPT closes/freezes Phase 6
+- Phase 4–6 milestone — `CHANGES_REQUESTED`; maintenance handoff is `READY_FOR_OWNER_COMMIT`
+- Phase 7 Account preparation exists but remains blocked until `MILESTONE_READY` and post-milestone synchronization
 
 ## Planned stack
 

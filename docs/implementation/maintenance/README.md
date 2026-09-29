@@ -18,3 +18,6 @@ Slices:
 
 - [`milestone-1-3-concurrency/`](milestone-1-3-concurrency/README.md) — **COMPLETE / FROZEN**
 - [`pre-phase4-code-hygiene/`](pre-phase4-code-hygiene/README.md) — **COMPLETE / FROZEN**
+
+- [`milestone-4-6-privacy-safe-constraint-logging/`](milestone-4-6-privacy-safe-constraint-logging/README.md) —
+  **READY FOR OWNER COMMIT**

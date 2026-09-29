@@ -19,8 +19,8 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 3     | `people`: persons, roles, creator groups/membership                                           | P-3 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
 | 4     | `fiction` domain                                                                              | P-4 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 5     | `film` domain + film credits                                                                  | P-5 complete                                        | **COMPLETE — FROZEN** | —                    |
-| 6     | `media` + `location` foundations                                                              | **P-6 complete**                                    | **READY FOR OWNER COMMIT** | **After completion** |
-| 7     | `account` external/social account history                                                     | P-7 planned                                         | Not started           | —                    |
+| 6     | `media` + `location` foundations                                                              | P-6 complete                                        | **COMPLETE — FROZEN** | **CHANGES_REQUESTED — maintenance approved** |
+| 7     | `account` external/social account history                                                     | **P-7 prepared; blocked by Phase 4–6 milestone**    | Not started           | —                    |
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 planned                                         | Not started           | —                    |
 | 9     | `collection` + music/shopping/software                                                        | P-9 planned                                         | Not started           | **After completion** |
 | 10    | `feed` + `importdata` workflows                                                               | P-10 planned                                        | Not started           | —                    |
@@ -60,16 +60,37 @@ Phase 4 Fiction is complete/frozen after owner commit/push. Its final verificati
 its completed handoff is archived under `implementation/phase-4/`.
 
 Phase 5 Film preparation and implementation passed Codex review and were owner committed/pushed. Phase 5 is now
-`COMPLETE — FROZEN`. Phase 6 Media + Location implementation now awaits owner commit/push after final re-review.
+`COMPLETE — FROZEN`. Phase 6 Media + Location implementation has since been owner committed/pushed and frozen.
 
 ## Phase 5 closeout
 
 Phase 5 Film is complete/frozen after owner commit/push. Its final verification recorded 372 passing tests and the
 completed handoff is archived under `implementation/phase-5/`.
 
-Phase 6 Media + Location preparation passed `$codex-pre-handoff-review` and was owner committed/pushed. Its Codex
-implementation handoff is `READY_FOR_OWNER_COMMIT` after Codex final re-review. After Phase 6 is committed/pushed, the Phase 4–6 milestone
-review is mandatory before Phase 7.
+Phase 6 Media + Location preparation and implementation passed Codex review and were owner committed/pushed.
+Phase 6 is now `COMPLETE — FROZEN`. The Phase 4–6 milestone is `CHANGES_REQUESTED` before Phase 7.
+
+## Phase 6 closeout
+
+Phase 6 Media + Location is complete/frozen after owner commit/push. Its final verification recorded 458 passing
+tests and the completed handoff is archived under `implementation/phase-6/`.
+
+The Phase 4–6 milestone review returned `CHANGES_REQUESTED` for private values in framework constraint-error logs.
+Phase 7 Account preparation exists but remains blocked until owner-approved maintenance, milestone re-review,
+`MILESTONE_READY`, and the required owner commit/push and ChatGPT post-milestone synchronization.
+
+## Current Phase 4–6 milestone maintenance
+
+The Phase 4–6 milestone identified private business values in Hibernate constraint-error WARN logs. The owner-approved
+remediation is:
+
+[`implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md`](implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md)
+
+Its [active maintenance handoff](implementation/handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT`. Phase 7 remains
+blocked until maintenance final review and owner commit/push, milestone re-review, and post-milestone synchronization.
+
+Phase 7 remains blocked until this maintenance passes final review, is committed/pushed, and the milestone is rerun
+to `MILESTONE_READY`, followed by the required post-milestone synchronization.
 
 ## Why this order
 

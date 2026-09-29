@@ -45,6 +45,7 @@ logging:
   level:
     root: INFO
     com.vhvkhangg.personalprivatevault: INFO
+    org.hibernate.orm.jdbc.error: ERROR
 
 ppv:
   security:

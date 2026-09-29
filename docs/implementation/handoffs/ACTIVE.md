@@ -1,143 +1,87 @@
 # Active Implementation Handoff
 
-- Handoff ID: `backend-phase-6-media-location`
+- Handoff ID: `milestone-4-6-privacy-safe-constraint-logging`
 - Created by: Codex
 - Status: `READY_FOR_OWNER_COMMIT`
 - Implementer: Antigravity
 - Final reviewer: Codex
-- Scope: Backend Phase 6 Media + Location foundations
+- Scope: owner-approved maintenance of private-value logging on expected PostgreSQL constraint conflicts
 
 ## Goal
 
-Implement two independent Spring Modulith modules against frozen Schema v1: Media-owned Album/Image metadata and
-Location-owned Brand/Address/Location/category/dining-style/business-hours capabilities. Preserve Vault and
-Reference ownership; Media and Location must not depend on each other.
+Prevent expected uniqueness conflicts from writing private business values (especially Image object keys and checksums) to application/test logs, while preserving existing domain results, actionable non-sensitive diagnostics, and PostgreSQL transaction/concurrency behavior. This is a narrow frozen-phase maintenance slice, not Phase 7 implementation.
 
 ## Sources of truth
 
-- `docs/implementation/phase-6/README.md` and `preparation-review.md` — approved behavior and test contract.
-- `docs/database/personal-private-vault-schema-v1-FROZEN-final.dbml` and
-  `backend/src/main/resources/db/migration/V1__create_schema_v1.sql` — fields, enums, constraints, and notes.
-- `docs/architecture/module-dependency-matrix.md`, `docs/architecture/module-boundaries.md`, and
-  `docs/repository/repository-package-tree.md` — frozen module ownership and package direction.
-- Scoped `media/AGENTS.md`, `location/AGENTS.md`, and `.agents/rules/backend-phase-6-media-location.md`.
+- `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md` — owner-approved scope, permitted targets, privacy policy, and full test contract.
+- `docs/implementation/phase-6/reviews/2026-09-29-phase-4-6-milestone-codex-review.md` — blocking finding and evidence.
+- `docs/implementation/phase-6/milestone-review.md` — `CHANGES_REQUESTED` milestone gate.
+- Root `AGENTS.md` and frozen Schema v1/module-boundary references named by the approved scope.
 
 ## Implementation targets
 
-- Under `backend/src/main/java/com/vhvkhangg/personalprivatevault/media/`, implement only `albums` and
-  `images`: public Album/Image operations and immutable views, internal entities/services/repositories, and
-  meaningful `package-info.java` files. Narrow the module descriptor to the Vault named interfaces actually
-  used (expected `vault::entry/enums/view`); remove `internal/.gitkeep` when code exists.
-- Under `backend/src/main/java/com/vhvkhangg/personalprivatevault/location/`, implement only `brands`,
-  `location_categories`, `addresses`, `locations`, `location_category_assignments`,
-  `location_dining_service_styles`, and `location_business_hours`. Expose capability-oriented Brand, Address,
-  Category, Location, and Hours operations with immutable views; keep JPA and repositories internal. Narrow
-  dependencies to the Vault and Reference named interfaces actually used (expected
-  `vault::entry/enums/view` and `reference::catalog/view`); remove `internal/.gitkeep` when code exists.
-- Provide create/update/find-by-ID where approved, parent-scoped category/dining/hours reads, and bounded or
-  paginated Image-by-Album reads. No global unbounded list/search or cross-module entity/repository access.
+- Evaluate `backend/src/main/resources/application.yml` for narrowly restricting `org.hibernate.orm.jdbc.error` output that includes raw PostgreSQL `Detail: Key ...` values. Preserve a useful non-sensitive failure signal; do not silence root/all Hibernate diagnostics.
+- Add focused Spring Boot/PostgreSQL Testcontainers logging regressions under existing test support and Media integration tests, or a dedicated persistence-logging integration test if cleaner. Capture application logs across competing worker threads.
+- Audit the existing expected uniqueness paths listed in the approved scope (Authentication bootstrap, Vault tags, People creator groups, Fiction/Film genres, Location categories, Image object key/checksum). Modify frozen service code only if needed for narrowly scoped sanitized diagnostics; do not refactor behavior.
+- Record results in `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/test-evidence.md`.
 
 ## Required behavior / invariants
 
-- Album, Image, Brand, and Location each create their own Vault Entry (`ALBUM`, `IMAGE`, `BRAND`, `LOCATION`) in
-  the same transaction as the subtype row; IDs match and failures leave no orphan entry. Vault alone owns
-  favorite/rating/tag/recycle behavior.
-- Media validates optional Image `album_id` internally. Respect required/unique `object_key`, optional unique
-  `checksum_sha256`, nonnegative size, positive optional dimensions, and other Schema v1 fields. Sequential
-  and concurrent object-key/checksum duplicates return stable Media-domain conflicts, not idempotent reuse or
-  raw persistence errors. `location_text` stays free text; no Location dependency.
-- `image_count` is derived, never stored; use a bounded database count/projection rather than loading all
-  Images. Store metadata and object key only—no binary/object-storage I/O or existence check.
-- Location validates Address Country and optional Brand nationality/currencies through public Reference
-  contracts; Location requires an existing Address and may reference an existing Brand. Brand/Location names
-  remain nonunique. Price rules exactly match Schema v1: nonnegative values, min ≤ max when both present,
-  currency required when any price exists, and currency-only state allowed.
-- Location Category names respect the case-insensitive unique index, including concurrent conflicts.
-  Category and dining-style assignments are idempotent sets under concurrent duplicate adds. Dining styles
-  are `A_LA_CARTE` and `BUFFET`; do not infer a category-name prerequisite.
-- Business hours distinguish unknown (`business_hours_known=false`, no rows), known/closed weekday (zero rows),
-  split intervals, and overnight intervals. Replace one Location's entire schedule atomically and serialize
-  concurrent replacements per Location; derive positive per-day sequence from input order. Unknown input
-  must have no intervals and clears old rows. Do not invent overlap validation.
+- Force actual PostgreSQL unique-index contention for Image object key and checksum with distinctive private markers. The existing `ImageConflictException`, losing Vault-entry rollback, and deterministic lock-observation behavior remain intact.
+- Captured logs must contain neither marker nor raw `Detail: Key (object_key)=(` / `Detail: Key (checksum_sha256)=(` text. Also prove one name-based expected conflict does not log its private marker while preserving its domain result.
+- For handled conflicts, diagnostics may include stable operation/event code, SQLState, known constraint name, or exception class, but never rejected values, raw vendor detail, raw SQL with values, or throwable/root-cause messages containing them. Unexpected persistence failures must remain observable and fail visibly.
+- If service-level logging is introduced, keep it local and sanitized. Do not change public exception contracts unless captured logs prove an existing exception is itself emitted.
 
 ## Non-goals
 
-No Flyway/DBML/schema or frozen-module changes; no Media↔Location dependency; no image upload/download/delete,
-object-storage SDK/provider, thumbnails, coordinates/geocoding/maps, global search/list, aggregate deletion,
-REST/controllers/OpenAPI, frontend, or generic CRUD/money/address framework.
+No Phase 7 work; DBML/Flyway/schema/SQL changes; uniqueness or transaction redesign; public API/entity/repository changes; broad logging rewrite; root/all-Hibernate suppression; generic logging framework, AOP, hook, or custom agent; unrelated frozen-phase refactors.
 
 ## Test/evidence contract
 
-- JUnit 5 and PostgreSQL Testcontainers cover all nine owned tables, rollback for all four Vault-backed
-  aggregates, Image validation and unique-key races, derived count without load-all, Reference/price/address
-  validation, Category name races, idempotent category/dining sets, and unknown/closed/split/overnight hours.
-  Test competing schedule replacements for atomicity/serialization. Race tests must observe PostgreSQL
-  contention rather than infer it from timing-only sleeps. Do not use H2.
-- Extend Spring Modulith tests for exact named-interface dependencies, no Media↔Location dependency, and no
-  exposure of internal packages. Keep unchanged Flyway V1/Hibernate validation green.
-- Final commands: `mvn -f backend/pom.xml clean verify` on Java 25, then `git diff --check`. Record commands,
-  exits, environment, totals, focused results, schema/Modulith verification, and known diagnostics in
-  `docs/implementation/phase-6/test-evidence.md`.
+- Focused regressions: real Spring Boot logging configuration plus PostgreSQL Testcontainers; object-key and checksum conflict races with captured worker-thread logs, rollback assertions, one additional name-based path, and safe diagnostic preservation. Test every modified conflict path if the solution changes paths individually.
+- Final commands: `mvn -f backend/pom.xml clean verify` on Java 25, then `git diff --check`.
+- Evidence: exact commands/exits, environment and PostgreSQL/Testcontainers version, test totals, focused names/results, effective Hibernate logger level, marker absence, Spring Modulith and Flyway/Hibernate validation, and known diagnostics in the maintenance `test-evidence.md`.
 
 ## Constraints / risks
 
-- Stop on a conflict with frozen Schema v1 or module boundaries; do not silently change the baseline. Keep
-  transaction boundaries in application services and avoid check-then-insert as sole uniqueness protection.
-  Schedule replacement must not expose a mixed state under concurrent writers. Do not add a storage SDK merely
-  because the schema contains `object_key`.
-- Relevant skills: `media-domain-modeling`, `location-domain-modeling`, `java-spring-coding-standards`,
-  `pragmatic-solid-design`, `reuse-and-consistency`, `design-pattern-selection`,
-  `modular-monolith-architecture`, `jpa-postgresql-persistence`, and `backend-testing`.
-- Agents do not commit, push, tag, or create/merge PRs. After Phase 6 final review and owner commit/push,
-  ChatGPT closes/freezes Phase 6; `$codex-milestone-review` for Phases 4–6 is required before Phase 7.
+- Expected SQL exceptions are logged by Hibernate before domain translation; changing only domain messages cannot fix that upstream log. A broad logger suppression without a proportionate safe diagnostic replacement does not meet the approved scope.
+- Use `java-spring-coding-standards`, `jpa-postgresql-persistence`, `backend-testing`, `pragmatic-solid-design`, `reuse-and-consistency`, and `design-pattern-selection`; apply root privacy/logging rules.
+- Preserve unrelated dirty-worktree Phase 7 preparation. Keep Phase 7 pre-handoff review blocked until maintenance final review, owner commit/push, Phase 4–6 milestone re-review to `MILESTONE_READY`, milestone-doc commit/push, and post-milestone synchronization.
+- Agents do not commit, push, tag, or create/merge PRs.
 
 ## Implementation result
 
-Backend Phase 6 (`media` and `location`) implementation and test suite have been completed:
-1. **Media module (`com.vhvkhangg.personalprivatevault.media`):**
-   - Implemented `media.album` (`AlbumOperations`, commands, exceptions, `@NamedInterface("album")`).
-   - Implemented `media.image` (`ImageOperations`, commands, `ImageConflictException`, exceptions, `@NamedInterface("image")`).
-   - Implemented `media.view` (`AlbumView`, `ImageView`, `@NamedInterface("view")`).
-   - Internal JPA entities `Album` and `Image` (`Persistable<Long>` sharing IDs with `vault_entries` type `ALBUM` and `IMAGE`).
-   - Unpersisted derived album `image_count` via count query without loading images.
-   - Stable domain race conflict translation for `object_key` and optional `checksum_sha256` duplicate inserts.
-   - Module descriptor narrowed to `vault::entry`, `vault::enums`, `vault::view`. Removed `internal/.gitkeep`.
-2. **Location module (`com.vhvkhangg.personalprivatevault.location`):**
-   - Implemented `location.brand` (`BrandOperations`, commands, exceptions, `@NamedInterface("brand")`).
-   - Implemented `location.address` (`AddressOperations`, commands, exceptions, `@NamedInterface("address")`).
-   - Implemented `location.category` (`LocationCategoryOperations`, commands, exceptions, `@NamedInterface("category")`).
-   - Implemented `location.location` (`LocationOperations`, commands, exceptions, `@NamedInterface("location")`).
-   - Implemented `location.hours` (`BusinessHoursOperations`, commands, inputs, exceptions, `@NamedInterface("hours")`).
-   - Implemented `location.enums` (`DiningServiceStyle`, `DayOfWeek`, `@NamedInterface("enums")`).
-   - Implemented `location.view` (`AddressView`, `BrandView`, `BusinessHoursIntervalView`, `BusinessHoursScheduleView`, `LocationCategoryView`, `LocationView`, `@NamedInterface("view")`).
-   - Internal entities for `Brand`, `Address`, `Location`, `LocationCategory`, `LocationCategoryAssignment`, `LocationDiningServiceStyleAssignment`, `LocationBusinessHour`.
-   - Brand and Location backed by Vault entries (`BRAND`, `LOCATION`) with transactional rollback safety.
-   - Reference catalog validation for Address country, Brand nationality, and Brand/Location currencies.
-   - Exact Schema v1 price constraints (nonnegative, min <= max, currency required if any price present, currency-only allowed).
-   - Case-insensitive unique Category name race conflict translation to `LocationCategoryNameAlreadyExistsException`.
-   - Idempotent category and dining service style set assignments under concurrent duplicate inserts.
-   - Business hours unknown/known/closed/split/overnight semantics with atomic per-Location replacement serialized via pessimistic write lock.
-   - Module descriptor narrowed to `vault::entry`, `vault::enums`, `vault::view`, `reference::catalog`, `reference::view`. Removed `internal/.gitkeep`.
-3. **Architecture and Modulith isolation:**
-    - 12 architecture tests in `ApplicationArchitectureTests` verify exact named interfaces, internal encapsulation, and zero cross-module dependency between `media` and `location`.
-4. **Remediation of Codex Review Findings (2026-09-29):**
-   - **Finding 1 (Category update race):** `LocationCategoryService.update` uses `saveAndFlush` and translates `uq_ci_location_categories_name` constraint violations into `LocationCategoryNameAlreadyExistsException`.
-   - **Finding 2 (Coherent business-hours reads):** `BusinessHoursService.getSchedule` acquired `@Lock(LockModeType.PESSIMISTIC_READ)` via `findByIdForShare(locationId)` under `@Transactional`, serializing with concurrent replacements.
-   - **Finding 3 (Non-sensitive image fallback):** `ImageService.create` identifies `images_object_key_key` and `images_checksum_sha256_key` and returns sanitized `"Image metadata conflict occurred during creation"` fallback for other integrity violations without leaking raw SQL or message strings.
-   - **Finding 4 (Concurrent checksum contention test):** Added `MediaIntegrationTest.concurrentDuplicateChecksumThrowsDomainConflict` using `awaitCompetingLock` to test `images_checksum_sha256_key` PostgreSQL lock contention and assert losing Vault entry rollback.
-   - **Finding 5 (Internal package descriptors):** Added meaningful `package-info.java` files for all six internal packages in `media` and `location`.
-5. **Testing and Verification:**
-   - Unit tests: `MediaValidationTest` (23 tests), `LocationValidationTest` (32 tests).
-   - PostgreSQL Testcontainers integration tests: `MediaIntegrationTest` (10 tests), `LocationIntegrationTest` (16 tests) with observable PostgreSQL contention (`awaitCompetingLock`).
-   - Verification commands:
-     - `mvn -f backend/pom.xml clean verify` passed with 458 tests run, 0 failures, 0 errors, 0 skipped (`BUILD SUCCESS`).
-     - `git diff --check` passed with 0 warnings/errors.
-   - Detailed test evidence recorded in `docs/implementation/phase-6/test-evidence.md`.
+1. **Targeted Logging Configuration:**
+   - In `backend/src/main/resources/application.yml`, configured `org.hibernate.orm.jdbc.error: ERROR` under `logging.level`.
+   - Narrowly suppresses Hibernate's `SqlExceptionHelper` WARN logging that emitted raw PostgreSQL `Detail: Key (...) already exists.` containing private business values on expected unique constraint conflicts.
+   - Preserves `root: INFO` and leaves all other Hibernate categories untouched.
+2. **Dedicated Persistence-Logging Regression Suite:**
+   - Created `com.vhvkhangg.personalprivatevault.support.PrivacySafeConstraintLoggingIntegrationTest` (5 tests):
+     - `effectiveHibernateJdbcErrorLoggerLevelIsError`: asserts `org.hibernate.orm.jdbc.error` is `ERROR` and root is `INFO`.
+     - `imageObjectKeyConflictDoesNotLogPrivateMarkerAcrossWorkerThreads`: forces real PostgreSQL lock contention on `images.object_key` with distinctive marker `PPV_PRIVATE_OBJECT_KEY_MARKER`, asserts `ImageConflictException`, verifies Vault entry rollback, and asserts absence of marker and `Detail: Key (object_key)=(`.
+     - `imageChecksumConflictDoesNotLogPrivateChecksumAcrossWorkerThreads`: forces PostgreSQL lock contention on `images.checksum_sha256` with distinctive checksum `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`, asserts `ImageConflictException`, verifies Vault entry rollback, and asserts absence of checksum and `Detail: Key (checksum_sha256)=(`.
+      - `locationCategoryNameConflictDoesNotLogPrivateCategoryName`: forces PostgreSQL lock contention on `location_categories.name` with marker `PPV_PRIVATE_CATEGORY_NAME_MARKER`, asserts `LocationCategoryNameAlreadyExistsException`, and asserts absence of marker and `Detail: Key`.
+      - `unexpectedHibernatePersistenceFailureRemainsObservableAndPrivacySafe`: exercises an unexpected persistence failure through Hibernate/JPA via `EntityManager` violating foreign key `fk_images_id_vault_entries` with marker `PPV_UNEXPECTED_FAILURE_PRIVATE_MARKER`; asserts `ConstraintViolationException` (retaining constraint name `fk_images_id_vault_entries` and SQLState `23503`) propagates visibly and logs contain neither marker nor raw `Detail: Key (id)=(999999)`.
+3. **Integration Test Suite Enhancements:**
+   - Updated `MediaIntegrationTest` with `@ExtendWith(OutputCaptureExtension.class)` and distinctive markers/checksums in `concurrentDuplicateObjectKeyThrowsDomainConflict` and `concurrentDuplicateChecksumThrowsDomainConflict`, verifying that captured worker-thread logs do not contain private values or vendor detail lines.
+   - Updated `LocationIntegrationTest` with `@ExtendWith(OutputCaptureExtension.class)` in `concurrentDuplicateLocationCategoryThrowsConflict`, verifying absence of `PPV_PRIVATE_CATEGORY_NAME_MARKER` and vendor detail lines.
+4. **Audit Scope Verification:**
+   - Audited expected uniqueness paths (Authentication bootstrap, Vault tags, People creator groups, Fiction genres, Film genres, Location categories, Media images). All cleanly catch and translate persistence errors without logging private values. Narrow `org.hibernate.orm.jdbc.error: ERROR` covers all of them without touching frozen service logic.
+5. **Full Verification:**
+   - `mvn -f backend/pom.xml clean verify` passed with 463 tests run, 0 failures, 0 errors, 0 skipped (`BUILD SUCCESS`).
+   - `git diff --check` passed cleanly with 0 whitespace warnings/errors.
+   - Refreshed Graphify AST with `scripts/refresh-graphify.ps1`.
+   - Evidence recorded in `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/test-evidence.md`.
 
 ## Codex remediation
 
-Remediation of all five findings from [the 2026-09-29 final review](../phase-6/reviews/2026-09-29-phase-6-final-codex-review.md) is complete. Independent Codex re-review is [READY FOR OWNER COMMIT](../phase-6/reviews/2026-09-29-phase-6-final-codex-rereview.md).
+Test/evidence remediation complete and independently accepted in the [final re-review](../maintenance/milestone-4-6-privacy-safe-constraint-logging/reviews/2026-09-29-final-codex-rereview.md):
+- Updated `PrivacySafeConstraintLoggingIntegrationTest` to replace the direct `JdbcTemplate` insert with `unexpectedHibernatePersistenceFailureRemainsObservableAndPrivacySafe`, exercising Hibernate/JPA via `EntityManager` under the configured `org.hibernate.orm.jdbc.error: ERROR` logger.
+- The test violates foreign key `fk_images_id_vault_entries` using `PPV_UNEXPECTED_FAILURE_PRIVATE_MARKER`, confirms the failure remains observable (`ConstraintViolationException` with constraint name `fk_images_id_vault_entries` and SQLState `23503`), and asserts captured logs contain neither marker nor raw PostgreSQL vendor detail (`Detail: Key (id)=(999999)` / `Detail: Key `).
+- Corrected test comments and `test-evidence.md`.
+- Ran full test verification `mvn -f backend/pom.xml clean verify` (463 tests, 0 failures) and `git diff --check`.
+- Ready for Codex re-review.
 
 ## Final review
 
-`READY_FOR_OWNER_COMMIT` on 2026-09-29. Suggested commit message: `feat(backend): implement phase 6 media and location foundations`. Owner commits/pushes; agents do not.
+`READY_FOR_OWNER_COMMIT` on 2026-09-29. Suggested commit message: `fix(backend): prevent private values in constraint logs`. Owner commits/pushes; agents do not. After commit/push, rerun `$codex-milestone-review` for Phases 4–6.

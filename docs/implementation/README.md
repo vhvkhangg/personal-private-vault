@@ -10,24 +10,27 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-3/`](phase-3/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `people`
 - [`phase-4/`](phase-4/README.md) — **COMPLETE / FROZEN** — `fiction`
 - [`phase-5/`](phase-5/README.md) — **COMPLETE / FROZEN** — `film`
-- [`phase-6/`](phase-6/README.md) — **READY FOR OWNER COMMIT** — `media` + `location`
+- [`phase-6/`](phase-6/README.md) — **COMPLETE / FROZEN; MILESTONE CHANGES_REQUESTED** — `media` + `location`
+- [`phase-7/`](phase-7/README.md) — **PREPARED / BLOCKED BY PHASE 4–6 MILESTONE** — `account`
 
 Maintenance:
 
-- [`maintenance/`](maintenance/README.md) — completed owner-approved frozen-phase corrections
+- [`maintenance/`](maintenance/README.md) — completed and current owner-approved frozen-phase corrections
 
 See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The Phase 6 Media + Location implementation handoff is active at [`handoffs/ACTIVE.md`](handoffs/ACTIVE.md).
+The active [maintenance handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after final re-review.
 
-Backend Phase 4 Fiction is complete/frozen after owner commit/push. Its completed handoff is archived in
-[`phase-4/handoff.md`](phase-4/handoff.md).
+Backend Phase 6 Media + Location is complete/frozen after owner commit/push. Its completed handoff is archived in
+[`phase-6/handoff.md`](phase-6/handoff.md).
 
-Backend Phase 5 Film is complete/frozen after owner commit/push; its handoff is archived in
-[`phase-5/handoff.md`](phase-5/handoff.md). Phase 6 Media + Location preparation passed
-`$codex-pre-handoff-review` and was owner committed/pushed. Implementation remediation passed Codex final re-review; owner commit/push is next.
+The [Phase 4–6 milestone review](phase-6/milestone-review.md) is `CHANGES_REQUESTED`. The owner-approved current
+maintenance scope is
+[`maintenance/milestone-4-6-privacy-safe-constraint-logging/`](maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md).
+The owner commits/pushes that maintenance next, then reruns `$codex-milestone-review`. Phase 7 Account preparation remains blocked until the milestone
+reaches `MILESTONE_READY` and the required post-milestone synchronization is complete.
 
 ## Operational guidance
 
