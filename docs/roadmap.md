@@ -11,25 +11,25 @@ handoff. This gate is not production implementation: ChatGPT prepares docs/tooli
 Phase 0 is excluded from the three-phase milestone cadence. Extra milestone reviews occur after Phases
 **3, 6, 9, 12, and 15**.
 
-| Phase | Scope | Preparation gate | Implementation status | Extra milestone |
-|---|---|---|---|---|
-| 0 | Spring Boot / Maven / Spring Modulith bootstrap | Historical | **COMPLETE — FROZEN** | Not counted |
-| 1 | Flyway Schema v1 + `reference` + `vault` foundations | Historical | **COMPLETE — FROZEN** | — |
-| 2 | `authentication` + `settings` foundations | Historical | **COMPLETE — FROZEN** | — |
-| 3 | `people`: persons, roles, creator groups/membership | P-3 complete | **COMPLETE — FROZEN** | **MILESTONE_READY** |
-| 4 | `fiction` domain | **P-4 prepared; awaiting Codex pre-handoff review** | Not started | — |
-| 5 | `film` domain + film credits | P-5 planned | Not started | — |
-| 6 | `media` + `location` foundations | P-6 planned | Not started | **After completion** |
-| 7 | `account` external/social account history | P-7 planned | Not started | — |
-| 8 | `knowledge` + study/information/vocabulary/note | P-8 planned | Not started | — |
-| 9 | `collection` + music/shopping/software | P-9 planned | Not started | **After completion** |
-| 10 | `feed` + `importdata` workflows | P-10 planned | Not started | — |
-| 11 | `finance` + `journal` + `personal` | P-11 planned | Not started | — |
-| 12 | PostgreSQL-first global `search` orchestration | P-12 planned | Not started | **After completion** |
-| 13 | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency | P-13 planned | Not started | — |
-| 14 | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 planned | Not started | — |
-| 15 | Next.js/TypeScript/shadcn frontend + E2E product workflows | P-15 planned | Not started | **After completion** |
-| 16 | RAG / semantic retrieval enhancement | P-16 planned | Not started | Final closeout |
+| Phase | Scope                                                                                         | Preparation gate                                    | Implementation status | Extra milestone      |
+| ----- | --------------------------------------------------------------------------------------------- | --------------------------------------------------- | --------------------- | -------------------- |
+| 0     | Spring Boot / Maven / Spring Modulith bootstrap                                               | Historical                                          | **COMPLETE — FROZEN** | Not counted          |
+| 1     | Flyway Schema v1 + `reference` + `vault` foundations                                          | Historical                                          | **COMPLETE — FROZEN** | —                    |
+| 2     | `authentication` + `settings` foundations                                                     | Historical                                          | **COMPLETE — FROZEN** | —                    |
+| 3     | `people`: persons, roles, creator groups/membership                                           | P-3 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
+| 4     | `fiction` domain                                                                              | **P-4 prepared; blocked by hygiene maintenance** | Not started           | —                    |
+| 5     | `film` domain + film credits                                                                  | P-5 planned                                         | Not started           | —                    |
+| 6     | `media` + `location` foundations                                                              | P-6 planned                                         | Not started           | **After completion** |
+| 7     | `account` external/social account history                                                     | P-7 planned                                         | Not started           | —                    |
+| 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 planned                                         | Not started           | —                    |
+| 9     | `collection` + music/shopping/software                                                        | P-9 planned                                         | Not started           | **After completion** |
+| 10    | `feed` + `importdata` workflows                                                               | P-10 planned                                        | Not started           | —                    |
+| 11    | `finance` + `journal` + `personal`                                                            | P-11 planned                                        | Not started           | —                    |
+| 12    | PostgreSQL-first global `search` orchestration                                                | P-12 planned                                        | Not started           | **After completion** |
+| 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 planned                                        | Not started           | —                    |
+| 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 planned                                        | Not started           | —                    |
+| 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
+| 16    | RAG / semantic retrieval enhancement                                                          | P-16 planned                                        | Not started           | Final closeout       |
 
 Production deployment provider/topology remains deferred and is not a numbered implementation phase until the
 owner explicitly brings deployment into scope.

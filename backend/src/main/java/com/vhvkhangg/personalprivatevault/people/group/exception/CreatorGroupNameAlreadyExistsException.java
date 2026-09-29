@@ -1,4 +1,4 @@
-package com.vhvkhangg.personalprivatevault.people.group;
+package com.vhvkhangg.personalprivatevault.people.group.exception;
 
 /**
  * Thrown when attempting to create or update a creator group with a name that already exists.

@@ -5,8 +5,10 @@ Persistent host grants stay narrow; the repository PreToolUse hook is defense in
 ## Baseline
 
 ```json
-"enableTerminalSandbox": true,
-"toolPermission": "proceed-in-sandbox"
+{
+  "enableTerminalSandbox": true,
+  "toolPermission": "proceed-in-sandbox"
+}
 ```
 
 Do not use `command(*)`, broad shell grants, or `toolPermission: "always-proceed"` just to suppress prompts.

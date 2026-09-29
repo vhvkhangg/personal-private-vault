@@ -1,4 +1,4 @@
-package com.vhvkhangg.personalprivatevault.people.person;
+package com.vhvkhangg.personalprivatevault.people.person.command;
 
 import com.vhvkhangg.personalprivatevault.people.enums.Gender;
 
@@ -6,9 +6,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Command to create a new person profile.
+ * Command to update an existing person profile.
  */
-public record CreatePersonCommand(
+public record UpdatePersonCommand(
+        Long id,
         String name,
         String avatarUrl,
         Gender gender,

@@ -13,7 +13,7 @@
 9. ChatGPT closeout + next preparation.
 10. After Phase 3/6/9/12/15: `$codex-milestone-review`.
 
-See `docs/owner-phase-workflow.md`.
+See `docs/workflow/owner-phase-workflow.md`.
 
 ## Agents
 

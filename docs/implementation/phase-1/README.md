@@ -43,7 +43,7 @@ Future changes to the foundation are new scoped work and do not silently rewrite
 
 ## Workflow used to complete Phase 1 (historical)
 
-This records how Phase 1 was completed. It is not executable next-phase scope; future work requires a new owner-approved slice and follows [`../../agent-development-workflow.md`](../../agent-development-workflow.md).
+This records how Phase 1 was completed. It is not executable next-phase scope; future work requires a new owner-approved slice and follows [`../../workflow/agent-development-workflow.md`](../../workflow/agent-development-workflow.md).
 
 1. Codex: run `$codex-create-handoff`.
 2. Codex writes `handoffs/ACTIVE.md` with `READY_FOR_IMPLEMENTATION`.

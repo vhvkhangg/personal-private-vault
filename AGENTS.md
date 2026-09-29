@@ -19,6 +19,10 @@ Completed maintenance scope:
 
 - `docs/implementation/maintenance/milestone-1-3-concurrency/README.md`
 
+Current approved maintenance scope:
+
+- `docs/implementation/maintenance/pre-phase4-code-hygiene/README.md`
+
 Architecture-sensitive work must respect:
 
 - `docs/architecture/`

@@ -22,15 +22,15 @@ mvn -f backend/pom.xml clean verify
 
 ### Breakdown by Test Suite
 
-| Test Class | Test Count | Failures | Errors | Result |
-| :--- | :---: | :---: | :---: | :---: |
-| `com.vhvkhangg.personalprivatevault.ApplicationArchitectureTests` | 1 | 0 | 0 | PASS |
-| `com.vhvkhangg.personalprivatevault.migration.FlywayV1SchemaManifestIntegrationTest` | 1 | 0 | 0 | PASS |
-| `com.vhvkhangg.personalprivatevault.reference.ReferenceModuleIntegrationTest` | 6 | 0 | 0 | PASS |
-| `com.vhvkhangg.personalprivatevault.vault.VaultCapabilityMatrixTest` | 36 | 0 | 0 | PASS |
-| `com.vhvkhangg.personalprivatevault.vault.VaultEntryIntegrationTest` | 5 | 0 | 0 | PASS |
-| `com.vhvkhangg.personalprivatevault.vault.VaultMetadataIntegrationTest` | 8 | 0 | 0 | PASS |
-| **Total** | **57** | **0** | **0** | **PASS** |
+| Test Class                                                                           | Test Count | Failures | Errors | Result   |
+| :----------------------------------------------------------------------------------- | :--------: | :------: | :----: | :------: |
+| `com.vhvkhangg.personalprivatevault.ApplicationArchitectureTests`                    |     1      |    0     |   0    |   PASS   |
+| `com.vhvkhangg.personalprivatevault.migration.FlywayV1SchemaManifestIntegrationTest` |     1      |    0     |   0    |   PASS   |
+| `com.vhvkhangg.personalprivatevault.reference.ReferenceModuleIntegrationTest`        |     6      |    0     |   0    |   PASS   |
+| `com.vhvkhangg.personalprivatevault.vault.VaultCapabilityMatrixTest`                 |     36     |    0     |   0    |   PASS   |
+| `com.vhvkhangg.personalprivatevault.vault.VaultEntryIntegrationTest`                 |     5      |    0     |   0    |   PASS   |
+| `com.vhvkhangg.personalprivatevault.vault.VaultMetadataIntegrationTest`              |     8      |    0     |   0    |   PASS   |
+| **Total**                                                                            |   **57**   |  **0**   | **0**  | **PASS** |
 
 ## Environment & Infrastructure
 

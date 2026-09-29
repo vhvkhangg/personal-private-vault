@@ -1,16 +1,16 @@
 package com.vhvkhangg.personalprivatevault.people;
 
-import com.vhvkhangg.personalprivatevault.people.group.CreateCreatorGroupCommand;
-import com.vhvkhangg.personalprivatevault.people.group.CreatorGroupNameAlreadyExistsException;
-import com.vhvkhangg.personalprivatevault.people.group.CreatorGroupNotFoundException;
-import com.vhvkhangg.personalprivatevault.people.group.InvalidCreatorGroupException;
-import com.vhvkhangg.personalprivatevault.people.group.UpdateCreatorGroupCommand;
+import com.vhvkhangg.personalprivatevault.people.group.command.CreateCreatorGroupCommand;
+import com.vhvkhangg.personalprivatevault.people.group.command.UpdateCreatorGroupCommand;
+import com.vhvkhangg.personalprivatevault.people.group.exception.CreatorGroupNameAlreadyExistsException;
+import com.vhvkhangg.personalprivatevault.people.group.exception.CreatorGroupNotFoundException;
+import com.vhvkhangg.personalprivatevault.people.group.exception.InvalidCreatorGroupException;
 import com.vhvkhangg.personalprivatevault.people.internal.application.CreatorGroupService;
 import com.vhvkhangg.personalprivatevault.people.internal.domain.CreatorGroup;
 import com.vhvkhangg.personalprivatevault.people.internal.infrastructure.persistence.CreatorGroupMemberRepository;
 import com.vhvkhangg.personalprivatevault.people.internal.infrastructure.persistence.CreatorGroupRepository;
 import com.vhvkhangg.personalprivatevault.people.internal.infrastructure.persistence.PersonRepository;
-import com.vhvkhangg.personalprivatevault.people.person.PersonNotFoundException;
+import com.vhvkhangg.personalprivatevault.people.person.exception.PersonNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

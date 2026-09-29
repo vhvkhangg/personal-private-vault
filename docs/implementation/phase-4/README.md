@@ -1,15 +1,16 @@
 # Backend Phase 4 — Fiction Foundation
 
-Status: **PREPARED — AWAITING CODEX PRE-HANDOFF REVIEW**
+Status: **PREPARED — BLOCKED BY PRE-PHASE-4 HYGIENE MAINTENANCE**
 
 Phase 4 implements the `fiction` module after the frozen `vault`, `reference`, and `people` foundations.
 
 No Phase 4 production implementation is authorized until:
 
 1. `docs/implementation/phase-3/milestone-review.md` is `MILESTONE_READY`;
-2. Phase 4 passes `$codex-pre-handoff-review`;
-3. the approved Phase 4 preparation slice is committed/pushed;
-4. `$codex-create-handoff` creates an active Phase 4 handoff.
+2. `docs/implementation/maintenance/pre-phase4-code-hygiene/` is implemented, final-reviewed, and committed/pushed;
+3. Phase 4 passes `$codex-pre-handoff-review`;
+4. the approved Phase 4 preparation slice is committed/pushed;
+5. `$codex-create-handoff` creates an active Phase 4 handoff.
 
 ## Owned Schema v1 tables
 

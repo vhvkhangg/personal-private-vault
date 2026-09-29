@@ -17,20 +17,20 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 
 ## Documents
 
-| Document | Scope |
-|---|---|
-| [`architecture-overview.md`](architecture-overview.md) | System goals, runtime view, architectural style, and high-level responsibilities |
-| [`quality-attributes.md`](quality-attributes.md) | Quality priorities and non-goals |
-| [`module-boundaries.md`](module-boundaries.md) | Application modules, ownership, allowed dependencies, nested modules, and public API rules |
-| [`module-dependency-matrix.md`](module-dependency-matrix.md) | Frozen module dependency matrix |
-| [`data-architecture.md`](data-architecture.md) | Relational model, ownership, shared identity, soft deletion, finance ledger, timestamps, and migrations |
-| [`api-architecture.md`](api-architecture.md) | REST API principles, validation, OpenAPI, filtering, pagination, and response consistency |
-| [`security-architecture.md`](security-architecture.md) | Current authentication/privacy boundary and deferred hardening |
-| [`integration-and-eventing.md`](integration-and-eventing.md) | Synchronous module APIs, events, scheduled jobs, and external integrations |
-| [`search-architecture.md`](search-architecture.md) | Global search behavior and PostgreSQL-first implementation strategy |
-| [`storage-backup-import.md`](storage-backup-import.md) | Object storage, import pipeline, export, backup, and portability |
-| [`testing-and-review.md`](testing-and-review.md) | Planned test stack and owner/Antigravity/Codex workflow |
-| [`deferred-decisions.md`](deferred-decisions.md) | Explicitly deferred architecture decisions |
+| Document                                                     | Scope                                                                                                   |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| [`architecture-overview.md`](architecture-overview.md)       | System goals, runtime view, architectural style, and high-level responsibilities                        |
+| [`quality-attributes.md`](quality-attributes.md)             | Quality priorities and non-goals                                                                        |
+| [`module-boundaries.md`](module-boundaries.md)               | Application modules, ownership, allowed dependencies, nested modules, and public API rules              |
+| [`module-dependency-matrix.md`](module-dependency-matrix.md) | Frozen module dependency matrix                                                                         |
+| [`data-architecture.md`](data-architecture.md)               | Relational model, ownership, shared identity, soft deletion, finance ledger, timestamps, and migrations |
+| [`api-architecture.md`](api-architecture.md)                 | REST API principles, validation, OpenAPI, filtering, pagination, and response consistency               |
+| [`security-architecture.md`](security-architecture.md)       | Current authentication/privacy boundary and deferred hardening                                          |
+| [`integration-and-eventing.md`](integration-and-eventing.md) | Synchronous module APIs, events, scheduled jobs, and external integrations                              |
+| [`search-architecture.md`](search-architecture.md)           | Global search behavior and PostgreSQL-first implementation strategy                                     |
+| [`storage-backup-import.md`](storage-backup-import.md)       | Object storage, import pipeline, export, backup, and portability                                        |
+| [`testing-and-review.md`](testing-and-review.md)             | Planned test stack and owner/Antigravity/Codex workflow                                                 |
+| [`deferred-decisions.md`](deferred-decisions.md)             | Explicitly deferred architecture decisions                                                              |
 
 ## Diagrams
 

@@ -18,8 +18,8 @@ Review Phase 3 `people` preparation only. Do not create an implementation handof
 ### Roadmap, owner workflow, and agent workflow
 
 - `docs/roadmap.md`
-- `docs/owner-phase-workflow.md`
-- `docs/agent-development-workflow.md`
+- `docs/workflow/owner-phase-workflow.md`
+- `docs/workflow/agent-development-workflow.md`
 - `AGENTS.md`
 - `.agents/README.md`
 - `.agents/rules/agent-handoff-workflow.md`

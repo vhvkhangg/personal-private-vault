@@ -2,11 +2,11 @@ package com.vhvkhangg.personalprivatevault.people;
 
 import com.vhvkhangg.personalprivatevault.people.enums.Gender;
 import com.vhvkhangg.personalprivatevault.people.enums.PersonRole;
-import com.vhvkhangg.personalprivatevault.people.person.CreatePersonCommand;
-import com.vhvkhangg.personalprivatevault.people.person.InvalidPersonException;
-import com.vhvkhangg.personalprivatevault.people.person.PersonNotFoundException;
 import com.vhvkhangg.personalprivatevault.people.person.PersonOperations;
-import com.vhvkhangg.personalprivatevault.people.person.UpdatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.person.command.CreatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.person.command.UpdatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.person.exception.InvalidPersonException;
+import com.vhvkhangg.personalprivatevault.people.person.exception.PersonNotFoundException;
 import com.vhvkhangg.personalprivatevault.people.view.PersonView;
 import com.vhvkhangg.personalprivatevault.support.AbstractPostgresIntegrationTest;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;

@@ -8,7 +8,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — Schema v1 + `reference` + `vault`
 - [`phase-2/`](phase-2/README.md) — **COMPLETE / FROZEN** — `authentication` + `settings`
 - [`phase-3/`](phase-3/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `people`
-- [`phase-4/`](phase-4/README.md) — **PREPARED / AWAITING CODEX PRE-HANDOFF REVIEW** — `fiction`
+- [`phase-4/`](phase-4/README.md) — **PREPARED / BLOCKED BY HYGIENE MAINTENANCE** — `fiction`
 
 Maintenance:
 
@@ -17,6 +17,9 @@ Maintenance:
 See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
+
+Current approved maintenance: [`maintenance/pre-phase4-code-hygiene/`](maintenance/pre-phase4-code-hygiene/README.md).
+
 
 There is no active implementation handoff.
 
@@ -28,9 +31,9 @@ Run Phase 4 `$codex-pre-handoff-review` next. Do **not** create a Phase 4 implem
 
 ## Operational guidance
 
-- [Owner phase workflow](../owner-phase-workflow.md)
+- [Owner phase workflow](../workflow/owner-phase-workflow.md)
 - [Roadmap](../roadmap.md)
-- [Agent development workflow](../agent-development-workflow.md)
+- [Agent development workflow](../workflow/agent-development-workflow.md)
 - [Active handoff](handoffs/ACTIVE.md)
 - [Handoff workflow](handoffs/README.md)
 - [Antigravity CLI permissions](antigravity-cli-permissions.md)

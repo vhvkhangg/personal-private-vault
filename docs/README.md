@@ -10,16 +10,16 @@ the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-00
 
 ## Documentation map
 
-| Area | Purpose |
-|---|---|
-| [`architecture/`](architecture/README.md) | System architecture, module boundaries, data, API, security, search, integration, storage, and workflow documentation |
-| [`adr/`](adr/README.md) | Accepted Architecture Decision Records (ADRs) |
-| [`database/`](database/README.md) | Frozen DBML logical schema baseline and Flyway executable-schema guidance |
-| [`repository/`](repository/repository-package-tree.md) | Frozen repository and Java package organization |
-| [`owner-phase-workflow.md`](owner-phase-workflow.md) | Owner checklist from phase closeout to the next handoff |
-| [`roadmap.md`](roadmap.md) | 17-phase roadmap, prep gates, status, milestone cadence |
-| [`agent-development-workflow.md`](agent-development-workflow.md) | Canonical ChatGPT → Codex → Antigravity → Codex workflow |
-| [`implementation/`](implementation/README.md) | Implementation-phase plans, completion records, test evidence, and operational guidance |
+| Area                                                                      | Purpose                                                                                                               |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [`architecture/`](architecture/README.md)                                 | System architecture, module boundaries, data, API, security, search, integration, storage, and workflow documentation |
+| [`adr/`](adr/README.md)                                                   | Accepted Architecture Decision Records (ADRs)                                                                         |
+| [`database/`](database/README.md)                                         | Frozen DBML logical schema baseline and Flyway executable-schema guidance                                             |
+| [`repository/`](repository/repository-package-tree.md)                    | Frozen repository and Java package organization                                                                       |
+| [`owner-phase-workflow.md`](workflow/owner-phase-workflow.md)             | Owner checklist from phase closeout to the next handoff                                                               |
+| [`roadmap.md`](roadmap.md)                                                | 17-phase roadmap, prep gates, status, milestone cadence                                                               |
+| [`agent-development-workflow.md`](workflow/agent-development-workflow.md) | Canonical ChatGPT → Codex → Antigravity → Codex workflow                                                              |
+| [`implementation/`](implementation/README.md)                             | Implementation-phase plans, completion records, test evidence, and operational guidance                               |
 
 ## Frozen baselines
 

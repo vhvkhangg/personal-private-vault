@@ -14,6 +14,7 @@ Rules:
 - the owner commits/pushes only after `READY FOR OWNER COMMIT`;
 - any milestone that required the maintenance must then be rerun.
 
-Current slice:
+Slices:
 
 - [`milestone-1-3-concurrency/`](milestone-1-3-concurrency/README.md) — **COMPLETE / FROZEN**
+- [`pre-phase4-code-hygiene/`](pre-phase4-code-hygiene/README.md) — **READY FOR OWNER COMMIT**

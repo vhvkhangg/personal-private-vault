@@ -2,14 +2,14 @@
 
 ## Roles
 
-| Role | Responsibility |
-|---|---|
-| Owner | Approves scope, runs necessary local/environment commands, commits/pushes |
-| ChatGPT | Phase closeout, docs consolidation, roadmap, next-phase preparation/tooling |
-| Codex | Pre-handoff review, handoff creation, final code review, milestone review |
-| Antigravity `backend-implementer` | Production implementation + tests from active handoff |
-| Antigravity `architecture-auditor` | Optional read-only architecture/persistence audit |
-| Graphify | Optional navigation cache; never source of truth |
+| Role                               | Responsibility                                                              |
+| ---------------------------------- | --------------------------------------------------------------------------- |
+| Owner                              | Approves scope, runs necessary local/environment commands, commits/pushes   |
+| ChatGPT                            | Phase closeout, docs consolidation, roadmap, next-phase preparation/tooling |
+| Codex                              | Pre-handoff review, handoff creation, final code review, milestone review   |
+| Antigravity `backend-implementer`  | Production implementation + tests from active handoff                       |
+| Antigravity `architecture-auditor` | Optional read-only architecture/persistence audit                           |
+| Graphify                           | Optional navigation cache; never source of truth                            |
 
 ## Phase 3+ lifecycle
 
@@ -41,7 +41,7 @@ Owner commit + push
 
 After Phases 3/6/9/12/15, insert `$codex-milestone-review` before the next implementation handoff.
 
-See `docs/owner-phase-workflow.md` and `docs/roadmap.md`.
+See `docs/workflow/owner-phase-workflow.md` and `docs/roadmap.md`.
 
 ## Engineering guidance
 

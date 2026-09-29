@@ -1,6 +1,10 @@
 package com.vhvkhangg.personalprivatevault.people.person;
 
 import com.vhvkhangg.personalprivatevault.people.enums.PersonRole;
+import com.vhvkhangg.personalprivatevault.people.person.command.CreatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.person.command.UpdatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.person.exception.InvalidPersonException;
+import com.vhvkhangg.personalprivatevault.people.person.exception.PersonNotFoundException;
 import com.vhvkhangg.personalprivatevault.people.view.PersonView;
 
 import java.util.Optional;

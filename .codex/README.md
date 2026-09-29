@@ -22,4 +22,4 @@ When final review succeeds, Codex supplies exactly one Conventional Commit messa
 Graphify is optional. If installed through `scripts/setup-graphify.ps1`, Codex should use it for targeted
 navigation before broad source reads.
 
-Canonical workflow: `docs/agent-development-workflow.md`.
+Canonical workflow: `docs/workflow/agent-development-workflow.md`.

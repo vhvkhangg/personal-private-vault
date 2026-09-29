@@ -1,5 +1,10 @@
 package com.vhvkhangg.personalprivatevault.people.group;
 
+import com.vhvkhangg.personalprivatevault.people.group.command.CreateCreatorGroupCommand;
+import com.vhvkhangg.personalprivatevault.people.group.command.UpdateCreatorGroupCommand;
+import com.vhvkhangg.personalprivatevault.people.group.exception.CreatorGroupNameAlreadyExistsException;
+import com.vhvkhangg.personalprivatevault.people.group.exception.CreatorGroupNotFoundException;
+import com.vhvkhangg.personalprivatevault.people.group.exception.InvalidCreatorGroupException;
 import com.vhvkhangg.personalprivatevault.people.view.CreatorGroupMemberView;
 import com.vhvkhangg.personalprivatevault.people.view.CreatorGroupView;
 
@@ -46,7 +51,7 @@ public interface CreatorGroupOperations {
      * @param groupId creator group ID
      * @param personId person ID
      * @throws CreatorGroupNotFoundException if the creator group does not exist
-     * @throws com.vhvkhangg.personalprivatevault.people.person.PersonNotFoundException if the person does not exist
+     * @throws com.vhvkhangg.personalprivatevault.people.person.exception.PersonNotFoundException if the person does not exist
      * @throws InvalidCreatorGroupException if inputs are invalid
      */
     void addMember(Long groupId, Long personId);

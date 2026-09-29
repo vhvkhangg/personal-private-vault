@@ -4,11 +4,11 @@ import com.vhvkhangg.personalprivatevault.people.enums.PersonRole;
 import com.vhvkhangg.personalprivatevault.people.internal.domain.Person;
 import com.vhvkhangg.personalprivatevault.people.internal.infrastructure.persistence.PersonRepository;
 import com.vhvkhangg.personalprivatevault.people.internal.infrastructure.persistence.PersonRoleRepository;
-import com.vhvkhangg.personalprivatevault.people.person.CreatePersonCommand;
-import com.vhvkhangg.personalprivatevault.people.person.InvalidPersonException;
-import com.vhvkhangg.personalprivatevault.people.person.PersonNotFoundException;
 import com.vhvkhangg.personalprivatevault.people.person.PersonOperations;
-import com.vhvkhangg.personalprivatevault.people.person.UpdatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.person.command.CreatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.person.command.UpdatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.person.exception.InvalidPersonException;
+import com.vhvkhangg.personalprivatevault.people.person.exception.PersonNotFoundException;
 import com.vhvkhangg.personalprivatevault.people.view.PersonView;
 import com.vhvkhangg.personalprivatevault.reference.catalog.ReferenceCatalog;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
@@ -55,24 +55,26 @@ public class PersonService implements PersonOperations {
         if (command == null) {
             throw new InvalidPersonException("CreatePersonCommand must not be null");
         }
-        String name = validateName(command.name());
-        String avatarUrl = validateAvatarUrl(command.avatarUrl());
-        BigDecimal heightCm = validatePositiveDecimal(command.heightCm(), "Height");
-        BigDecimal weightKg = validatePositiveDecimal(command.weightKg(), "Weight");
-        String nationalityCode = validateNationality(command.nationalityCode());
-        String notes = validateNotes(command.notes());
+        ValidatedProfile profile = validateProfile(
+                command.name(),
+                command.avatarUrl(),
+                command.heightCm(),
+                command.weightKg(),
+                command.nationalityCode(),
+                command.notes()
+        );
 
         VaultEntryView vaultEntry = vaultEntryOperations.create(VaultEntryType.PERSON);
         Person person = new Person(
                 vaultEntry.id(),
-                name,
-                avatarUrl,
+                profile.name(),
+                profile.avatarUrl(),
                 command.gender(),
                 command.birthDate(),
-                heightCm,
-                weightKg,
-                nationalityCode,
-                notes
+                profile.heightCm(),
+                profile.weightKg(),
+                profile.nationalityCode(),
+                profile.notes()
         );
         Person saved = personRepository.save(person);
         return toView(saved, Collections.emptySet());
@@ -99,25 +101,27 @@ public class PersonService implements PersonOperations {
         if (command.id() == null) {
             throw new InvalidPersonException("Person id must not be null");
         }
-        String name = validateName(command.name());
-        String avatarUrl = validateAvatarUrl(command.avatarUrl());
-        BigDecimal heightCm = validatePositiveDecimal(command.heightCm(), "Height");
-        BigDecimal weightKg = validatePositiveDecimal(command.weightKg(), "Weight");
-        String nationalityCode = validateNationality(command.nationalityCode());
-        String notes = validateNotes(command.notes());
+        ValidatedProfile profile = validateProfile(
+                command.name(),
+                command.avatarUrl(),
+                command.heightCm(),
+                command.weightKg(),
+                command.nationalityCode(),
+                command.notes()
+        );
 
         Person person = personRepository.findById(command.id())
                 .orElseThrow(() -> new PersonNotFoundException(command.id()));
 
         person.update(
-                name,
-                avatarUrl,
+                profile.name(),
+                profile.avatarUrl(),
                 command.gender(),
                 command.birthDate(),
-                heightCm,
-                weightKg,
-                nationalityCode,
-                notes
+                profile.heightCm(),
+                profile.weightKg(),
+                profile.nationalityCode(),
+                profile.notes()
         );
         Person saved = personRepository.save(person);
         Set<PersonRole> roles = loadRoles(command.id());
@@ -155,6 +159,32 @@ public class PersonService implements PersonOperations {
         return personRoleRepository.findByIdPersonId(personId).stream()
                 .map(assignment -> assignment.getId().getRole())
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    private record ValidatedProfile(
+            String name,
+            String avatarUrl,
+            BigDecimal heightCm,
+            BigDecimal weightKg,
+            String nationalityCode,
+            String notes
+    ) {}
+
+    private ValidatedProfile validateProfile(
+            String rawName,
+            String rawAvatarUrl,
+            BigDecimal rawHeightCm,
+            BigDecimal rawWeightKg,
+            String rawNationalityCode,
+            String rawNotes) {
+        return new ValidatedProfile(
+                validateName(rawName),
+                validateAvatarUrl(rawAvatarUrl),
+                validatePositiveDecimal(rawHeightCm, "Height"),
+                validatePositiveDecimal(rawWeightKg, "Weight"),
+                validateNationality(rawNationalityCode),
+                validateNotes(rawNotes)
+        );
     }
 
     private String validateName(String name) {

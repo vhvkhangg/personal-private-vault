@@ -37,7 +37,11 @@ Review the next-phase preparation for:
 9. whether a new custom agent is really justified;
 10. whether hook changes are genuinely required and narrow;
 11. tooling/design overengineering;
-12. readiness for a precise implementation handoff.
+12. repository/package-tree hygiene: package grouping, `package-info.java`, stale `.gitkeep`, duplicate/stray files,
+    and consistency with repository/package architecture docs;
+13. static diagnostics and reported IDE warnings: classify each as actionable, configuration-dependent/false positive,
+    or intentionally accepted; do not claim IDE-clean status unless an IDE inspection was actually run;
+14. readiness for a precise implementation handoff.
 
 ## CHANGES_REQUESTED
 

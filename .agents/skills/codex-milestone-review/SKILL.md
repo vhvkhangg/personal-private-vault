@@ -35,6 +35,7 @@ Do not create or modify the next implementation handoff.
 - authentication/authorization/secrets/logging;
 - test reliability and missing regression coverage;
 - documentation/roadmap/tooling drift;
+- repository/package-tree drift, stale moved files/`.gitkeep`, and owner-reported warning debt;
 - accumulated technical debt that materially raises the risk/cost of the next phases.
 
 Do not request speculative micro-optimizations; performance findings need a concrete inefficient path or credible

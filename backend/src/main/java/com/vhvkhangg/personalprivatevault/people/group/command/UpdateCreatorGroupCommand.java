@@ -1,4 +1,4 @@
-package com.vhvkhangg.personalprivatevault.people.group;
+package com.vhvkhangg.personalprivatevault.people.group.command;
 
 /**
  * Command to update an existing creator group.

@@ -14,6 +14,10 @@ description: "Semantic package organization for public APIs, views/enums, implem
   `service` packages.
 - Group public `*View` read models under `view/` and stable public enums under `enums/` when the module has more
   than a trivial number of API types.
+- For a non-trivial public capability API, keep the operations interface at the capability root and group public
+  request/command records under `command/` and public domain exceptions under `exception/` when this materially
+  improves scanability. Preserve the same logical Spring Modulith named interface and prove it with architecture
+  verification; do not create extra logical interfaces solely for cosmetic folders.
 - Mirror a public capability under `internal/application/<capability>/` for its implementation when that improves
   discoverability.
 - Prefer a capability-oriented interface name (`ReferenceCatalog`) plus a descriptive internal implementation

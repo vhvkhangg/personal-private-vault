@@ -1,12 +1,12 @@
 package com.vhvkhangg.personalprivatevault.people;
 
-import com.vhvkhangg.personalprivatevault.people.group.CreateCreatorGroupCommand;
-import com.vhvkhangg.personalprivatevault.people.group.CreatorGroupNameAlreadyExistsException;
-import com.vhvkhangg.personalprivatevault.people.group.CreatorGroupNotFoundException;
 import com.vhvkhangg.personalprivatevault.people.group.CreatorGroupOperations;
-import com.vhvkhangg.personalprivatevault.people.group.UpdateCreatorGroupCommand;
-import com.vhvkhangg.personalprivatevault.people.person.CreatePersonCommand;
+import com.vhvkhangg.personalprivatevault.people.group.command.CreateCreatorGroupCommand;
+import com.vhvkhangg.personalprivatevault.people.group.command.UpdateCreatorGroupCommand;
+import com.vhvkhangg.personalprivatevault.people.group.exception.CreatorGroupNameAlreadyExistsException;
+import com.vhvkhangg.personalprivatevault.people.group.exception.CreatorGroupNotFoundException;
 import com.vhvkhangg.personalprivatevault.people.person.PersonOperations;
+import com.vhvkhangg.personalprivatevault.people.person.command.CreatePersonCommand;
 import com.vhvkhangg.personalprivatevault.people.view.CreatorGroupMemberView;
 import com.vhvkhangg.personalprivatevault.people.view.CreatorGroupView;
 import com.vhvkhangg.personalprivatevault.people.view.PersonView;

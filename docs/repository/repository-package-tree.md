@@ -237,7 +237,7 @@ backend/src/main/java/...
 backend/src/test/java/...
 ```
 
-Tests should mirror the production package being tested when practical. For an owner-approved slice, Codex creates the implementation handoff; Antigravity implements production code and tests, iteratively verifies/fixes the slice, and retains final evidence; Codex performs final review; the owner commits/pushes only after `READY FOR OWNER COMMIT`. See `docs/agent-development-workflow.md` and `docs/architecture/testing-and-review.md` for the canonical workflow.
+Tests should mirror the production package being tested when practical. For an owner-approved slice, Codex creates the implementation handoff; Antigravity implements production code and tests, iteratively verifies/fixes the slice, and retains final evidence; Codex performs final review; the owner commits/pushes only after `READY FOR OWNER COMMIT`. See `docs/workflow/agent-development-workflow.md` and `docs/architecture/testing-and-review.md` for the canonical workflow.
 
 ## 10. Deferred directories
 

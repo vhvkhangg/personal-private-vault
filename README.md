@@ -67,8 +67,8 @@ The frozen database schema is under [`docs/database`](docs/database).
 5. Codex runs `$codex-final-review`.
 6. Owner commits/pushes after `READY FOR OWNER COMMIT`.
 
-See [`docs/owner-phase-workflow.md`](docs/owner-phase-workflow.md) and [`docs/roadmap.md`](docs/roadmap.md).
+See [`docs/workflow/owner-phase-workflow.md`](docs/workflow/owner-phase-workflow.md) and [`docs/roadmap.md`](docs/roadmap.md).
 
 Graphify is optional for token-efficient code navigation; see `.agents/README.md`.
 
-Workflow details: [`docs/agent-development-workflow.md`](docs/agent-development-workflow.md).
+Workflow details: [`docs/workflow/agent-development-workflow.md`](docs/workflow/agent-development-workflow.md).

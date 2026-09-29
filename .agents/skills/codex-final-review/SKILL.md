@@ -108,6 +108,22 @@ inefficient path and a proportionate correction.
 - final evidence records the handoff-required command/result/environment;
 - tests do not leak secrets or rely on brittle timing/order.
 
+### Repository tree / package hygiene
+
+- package layout is coherent and capability-oriented;
+- commands/exceptions/views/enums are grouped consistently when the API size justifies it;
+- meaningful packages have `package-info.java`;
+- no stale `.gitkeep`, duplicate source, obsolete moved copy, generated cache, or unexpected tracked artifact remains;
+- repository/package-tree docs match the actual structure when the reviewed change affects the tree.
+
+### Static diagnostics / warnings
+
+- review compiler/build warnings and any IDE warnings explicitly reported by the owner;
+- distinguish real code problems from IDE configuration/schema-resolution false positives;
+- do not rewrite correct native SQL merely because an IDE has no database datasource attached;
+- do not silence warnings with blanket suppression unless the reason is concrete and documented;
+- do not state that the repository is “warning-free” unless the relevant inspection tool was actually executed.
+
 ### Scope / architecture / docs
 
 - implementation stays inside handoff scope;

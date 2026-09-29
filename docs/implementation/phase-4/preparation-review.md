@@ -1,6 +1,6 @@
 # Phase 4 Pre-Handoff Preparation Review
 
-Status: **AWAITING CODEX PRE-HANDOFF REVIEW**
+Status: **BLOCKED — PRE-PHASE-4 HYGIENE MAINTENANCE**
 
 ## Gate
 
@@ -18,8 +18,9 @@ MILESTONE_READY
 
 If the milestone review returns `CHANGES_REQUESTED`, resolve that milestone first.
 
-The Phase 1–3 milestone is now `MILESTONE_READY`; this prerequisite is satisfied. This document has not yet
-received its own `$codex-pre-handoff-review` result.
+The Phase 1–3 milestone is `MILESTONE_READY`. Before this pre-handoff review may run, the owner-approved
+`docs/implementation/maintenance/pre-phase4-code-hygiene/` slice must also be implemented, final-reviewed, and
+committed/pushed.
 
 ## Scope once unblocked
 
@@ -52,8 +53,11 @@ No Phase 4 production Java implementation, Flyway change, or implementation hand
 
 ## Next command
 
-The milestone prerequisite is satisfied and this document is `AWAITING CODEX PRE-HANDOFF REVIEW`. Run:
+Do **not** run the Phase 4 pre-handoff review yet. Run:
 
 ```text
-$codex-pre-handoff-review
+$codex-create-handoff
 ```
+
+for the approved `pre-phase4-code-hygiene` maintenance scope. After that maintenance is committed/pushed, return
+this status to `AWAITING CODEX PRE-HANDOFF REVIEW` and run `$codex-pre-handoff-review`.

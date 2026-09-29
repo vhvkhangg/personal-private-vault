@@ -1,4 +1,4 @@
-package com.vhvkhangg.personalprivatevault.people.group;
+package com.vhvkhangg.personalprivatevault.people.group.exception;
 
 /**
  * Thrown when a creator group is not found by ID.

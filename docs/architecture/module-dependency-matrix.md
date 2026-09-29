@@ -2,26 +2,26 @@
 
 An arrow `A → B` means module **A is allowed to depend on the public API of B**. Direct access to another module's internal entities/repositories remains forbidden.
 
-| Module | Allowed dependencies |
-|---|---|
-| `authentication` | — |
-| `settings` | `reference` |
-| `reference` | — |
-| `vault` | — |
-| `people` | `vault`, `reference` |
-| `fiction` | `vault`, `people`, `reference` |
-| `film` | `vault`, `people`, `reference` |
-| `media` | `vault` |
-| `location` | `vault`, `reference` |
-| `knowledge` | `vault`, `people`, `reference`, `account` |
-| `collection` | `vault`, `people`, `reference` |
-| `account` | `vault`, `reference` |
-| `feed` | `vault`, `knowledge` |
-| `importdata` | `vault`, `knowledge` |
-| `finance` | `reference` |
-| `journal` | — |
-| `personal` | `reference`, `location` |
-| `search` | `vault`, `people`, `fiction`, `film`, `media`, `location`, `knowledge`, `collection`, `account`, `feed` |
+| Module           | Allowed dependencies                                                                                    |
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
+| `authentication` | —                                                                                                       |
+| `settings`       | `reference`                                                                                             |
+| `reference`      | —                                                                                                       |
+| `vault`          | —                                                                                                       |
+| `people`         | `vault`, `reference`                                                                                    |
+| `fiction`        | `vault`, `people`, `reference`                                                                          |
+| `film`           | `vault`, `people`, `reference`                                                                          |
+| `media`          | `vault`                                                                                                 |
+| `location`       | `vault`, `reference`                                                                                    |
+| `knowledge`      | `vault`, `people`, `reference`, `account`                                                               |
+| `collection`     | `vault`, `people`, `reference`                                                                          |
+| `account`        | `vault`, `reference`                                                                                    |
+| `feed`           | `vault`, `knowledge`                                                                                    |
+| `importdata`     | `vault`, `knowledge`                                                                                    |
+| `finance`        | `reference`                                                                                             |
+| `journal`        | —                                                                                                       |
+| `personal`       | `reference`, `location`                                                                                 |
+| `search`         | `vault`, `people`, `fiction`, `film`, `media`, `location`, `knowledge`, `collection`, `account`, `feed` |
 
 ## Cross-domain rules
 

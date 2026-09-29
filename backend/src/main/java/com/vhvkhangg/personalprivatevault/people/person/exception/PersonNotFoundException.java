@@ -1,4 +1,4 @@
-package com.vhvkhangg.personalprivatevault.people.person;
+package com.vhvkhangg.personalprivatevault.people.person.exception;
 
 /**
  * Thrown when a person is not found by ID.

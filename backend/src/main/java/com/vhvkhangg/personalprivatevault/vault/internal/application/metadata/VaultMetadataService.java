@@ -40,7 +40,7 @@ public class VaultMetadataService implements VaultMetadataOperations {
     private final Clock clock;
 
     @Autowired
-    public VaultMetadataService(
+    VaultMetadataService(
             VaultEntryRepository vaultEntryRepository,
             FavoriteRepository favoriteRepository,
             RatingRepository ratingRepository,
@@ -63,16 +63,6 @@ public class VaultMetadataService implements VaultMetadataOperations {
             RatingRepository ratingRepository,
             TagRepository tagRepository,
             VaultEntryTagRepository vaultEntryTagRepository,
-            TagCreator tagCreator) {
-        this(vaultEntryRepository, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, tagCreator, Clock.systemUTC());
-    }
-
-    public VaultMetadataService(
-            VaultEntryRepository vaultEntryRepository,
-            FavoriteRepository favoriteRepository,
-            RatingRepository ratingRepository,
-            TagRepository tagRepository,
-            VaultEntryTagRepository vaultEntryTagRepository,
             Clock clock) {
         this(vaultEntryRepository, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, new TagCreator(tagRepository), clock);
     }
@@ -83,7 +73,7 @@ public class VaultMetadataService implements VaultMetadataOperations {
             RatingRepository ratingRepository,
             TagRepository tagRepository,
             VaultEntryTagRepository vaultEntryTagRepository) {
-        this(vaultEntryRepository, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, new TagCreator(tagRepository), Clock.systemUTC());
+        this(vaultEntryRepository, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, Clock.systemUTC());
     }
 
     @Override

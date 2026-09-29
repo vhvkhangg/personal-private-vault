@@ -28,14 +28,14 @@ OK
 
 ## Explicit Codex H-1 probes
 
-| Probe | Decision |
-| --- | --- |
-| `git status "C:\temp\"; git push` | `deny` |
-| `git status "C:\temp\"` | `allow` |
-| `git status "C:\temp;archive"` | `allow` |
-| `git status "C:\temp` | `force_ask` |
-| `C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -Command git push` | `deny` |
-| `git status + newline + git push` | `deny` |
+| Probe                                                                                    | Decision    |
+| ---------------------------------------------------------------------------------------- | ----------- |
+| `git status "C:\temp\"; git push`                                                        | `deny`      |
+| `git status "C:\temp\"`                                                                  | `allow`     |
+| `git status "C:\temp;archive"`                                                           | `allow`     |
+| `git status "C:\temp`                                                                    | `force_ask` |
+| `C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -Command git push` | `deny`      |
+| `git status + newline + git push`                                                        | `deny`      |
 
 The hook no longer applies C/POSIX backslash-before-quote semantics to ordinary PowerShell commands.
 A Windows path such as `C:\temp\` therefore cannot hide a following command separator. PowerShell
