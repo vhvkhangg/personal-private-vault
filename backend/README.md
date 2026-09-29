@@ -45,6 +45,10 @@ People Foundation is **complete and frozen** after owner commit/push. See
 
 ## Phase 4
 
-Fiction Foundation preparation awaits Codex pre-handoff review after the Phase 1–3 milestone returned
-`MILESTONE_READY`. See
-`../docs/implementation/phase-4/README.md`.
+Fiction Foundation is **complete and frozen** after owner commit/push. See
+`../docs/implementation/phase-4/README.md` and `../docs/implementation/phase-4/test-evidence.md`.
+
+## Phase 5
+
+Film Foundation preparation is `READY FOR HANDOFF` and awaits owner commit/push. See
+`../docs/implementation/phase-5/README.md`.

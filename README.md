@@ -6,9 +6,9 @@ Private, single-user personal information vault built as a backend-first modular
 
 Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
-Backend Phases 2 (`authentication` + `settings`) and 3 (`people`) are **complete and frozen** after owner
-commit/push. The Phase 1–3 milestone review is `MILESTONE_READY` after the owner-approved concurrency
-maintenance. Phase 4 Fiction preparation now awaits Codex pre-handoff review.
+Backend Phases 2 (`authentication` + `settings`), 3 (`people`), and 4 (`fiction`) are **complete and frozen**
+after owner commit/push. The Phase 1–3 milestone remains `MILESTONE_READY`. Phase 5 (`film`) preparation is
+`READY FOR HANDOFF` and awaits owner commit/push.
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
@@ -29,12 +29,13 @@ Frozen implementation phases:
 - Backend Phase 1 — PostgreSQL/Flyway Schema v1 + Reference & Vault Foundation
 - Backend Phase 2 — Authentication + Settings Foundation
 - Backend Phase 3 — People Foundation
+- Backend Phase 4 — Fiction Foundation
 
 Current gate:
 
-- Phase 1/2 concurrency maintenance — complete, committed/pushed, and milestone-reviewed
-- Phase 4 Fiction preparation — run `$codex-pre-handoff-review`
-- No Phase 4 implementation handoff until preparation is approved and owner committed/pushed
+- Backend Phase 5 — Film Foundation preparation is `READY FOR HANDOFF`
+- owner commits/pushes preparation, then runs `$codex-create-handoff`
+- no Phase 5 production implementation handoff exists yet
 
 ## Planned stack
 

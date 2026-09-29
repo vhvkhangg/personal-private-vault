@@ -17,8 +17,8 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 1     | Flyway Schema v1 + `reference` + `vault` foundations                                          | Historical                                          | **COMPLETE — FROZEN** | —                    |
 | 2     | `authentication` + `settings` foundations                                                     | Historical                                          | **COMPLETE — FROZEN** | —                    |
 | 3     | `people`: persons, roles, creator groups/membership                                           | P-3 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
-| 4     | `fiction` domain                                                                              | **P-4 complete**                                    | **READY FOR OWNER COMMIT** | —                    |
-| 5     | `film` domain + film credits                                                                  | P-5 planned                                         | Not started           | —                    |
+| 4     | `fiction` domain                                                                              | P-4 complete                                        | **COMPLETE — FROZEN** | —                    |
+| 5     | `film` domain + film credits                                                                  | **P-5: READY FOR HANDOFF; OWNER COMMIT PENDING**    | Not started           | —                    |
 | 6     | `media` + `location` foundations                                                              | P-6 planned                                         | Not started           | **After completion** |
 | 7     | `account` external/social account history                                                     | P-7 planned                                         | Not started           | —                    |
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 planned                                         | Not started           | —                    |
@@ -51,8 +51,16 @@ The owner-approved
 slice passed final review and was committed/pushed. Its handoff is archived; `ACTIVE.md` was reset to
 `NO_ACTIVE_HANDOFF` before Phase 4 handoff creation.
 
-Phase 4 preparation passed `$codex-pre-handoff-review` and was owner committed/pushed. The Phase 4
-implementation and remediation passed final review; owner commit/push and closeout remain.
+Phase 4 preparation and implementation passed Codex review and were owner committed/pushed. Phase 4 is now
+`COMPLETE — FROZEN`. Phase 5 Film preparation is the current gate.
+
+## Phase 4 closeout
+
+Phase 4 Fiction is complete/frozen after owner commit/push. Its final verification recorded 297 passing tests and
+its completed handoff is archived under `implementation/phase-4/`.
+
+Phase 5 Film preparation passed `$codex-pre-handoff-review`; owner commit/push is required before
+`$codex-create-handoff`.
 
 ## Why this order
 

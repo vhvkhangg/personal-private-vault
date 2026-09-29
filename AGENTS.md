@@ -14,8 +14,9 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 3 (`people`) is complete/frozen after owner commit/push.
 - The Phase 1–3 milestone is `MILESTONE_READY`.
 - The pre-Phase-4 code-hygiene maintenance is complete/frozen after owner commit/push.
-- Phase 4 (`fiction`) preparation is committed/pushed, and its implementation handoff is
-  `READY_FOR_OWNER_COMMIT` after Codex final review. Owner commit/push and closeout remain.
+- Backend Phase 4 (`fiction`) is complete/frozen after owner commit/push.
+- Backend Phase 5 (`film`) preparation is `READY FOR HANDOFF`; owner commit/push is required before
+  `$codex-create-handoff`. No implementation handoff exists.
 
 Completed maintenance scope:
 
@@ -93,6 +94,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 1 reference/vault foundation baseline
 - Backend Phase 2 authentication/settings foundation baseline
 - Backend Phase 3 people foundation baseline
+- Backend Phase 4 fiction foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

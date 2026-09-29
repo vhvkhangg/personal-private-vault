@@ -8,7 +8,8 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — Schema v1 + `reference` + `vault`
 - [`phase-2/`](phase-2/README.md) — **COMPLETE / FROZEN** — `authentication` + `settings`
 - [`phase-3/`](phase-3/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `people`
-- [`phase-4/`](phase-4/README.md) — **READY FOR OWNER COMMIT** — `fiction`
+- [`phase-4/`](phase-4/README.md) — **COMPLETE / FROZEN** — `fiction`
+- [`phase-5/`](phase-5/README.md) — **READY FOR HANDOFF / AWAITING OWNER COMMIT** — `film`
 
 Maintenance:
 
@@ -18,13 +19,13 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The Phase 4 Fiction implementation handoff is active at [`handoffs/ACTIVE.md`](handoffs/ACTIVE.md).
+There is no active implementation handoff.
 
-The Phase 1–3 milestone is `MILESTONE_READY`. Both milestone concurrency maintenance and pre-Phase-4 hygiene
-maintenance are complete/frozen and committed/pushed.
+Backend Phase 4 Fiction is complete/frozen after owner commit/push. Its completed handoff is archived in
+[`phase-4/handoff.md`](phase-4/handoff.md).
 
-The owner committed/pushed Phase 4 preparation. The implementation and remediation passed Codex final review;
-owner commit/push and Phase 4 closeout remain.
+Backend Phase 5 Film preparation passed `$codex-pre-handoff-review` and awaits owner commit/push. Do not create a
+Phase 5 implementation handoff until the owner commits/pushes this preparation slice.
 
 ## Operational guidance
 

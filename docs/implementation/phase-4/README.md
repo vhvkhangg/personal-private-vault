@@ -1,6 +1,6 @@
 # Backend Phase 4 — Fiction Foundation
 
-Status: **READY FOR OWNER COMMIT**
+Status: **COMPLETE — FROZEN (2026-09-29)**
 
 Phase 4 implements the `fiction` module after the frozen `vault`, `reference`, and `people` foundations.
 
@@ -198,3 +198,18 @@ Reused without new custom agents/hooks:
 - repository safety hook
 
 No new custom agent or hook is justified for this phase.
+
+
+## Completion record
+
+- Owner commit/push: completed 2026-09-29.
+- Final Codex result: `READY_FOR_OWNER_COMMIT`.
+- Final verification: `mvn -f backend/pom.xml clean verify` — **297 tests**, 0 failures/errors/skips.
+- PostgreSQL: 18.6 via Testcontainers; Java 25; Maven 3.9.15.
+- Final handoff archive: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Final review: [`reviews/2026-09-29-phase-4-final-codex-review.md`](reviews/2026-09-29-phase-4-final-codex-review.md).
+- Phase status: **COMPLETE — FROZEN**.
+
+Future Fiction changes require a new owner-approved feature or maintenance slice. Do not reuse the completed Phase 4
+handoff.
