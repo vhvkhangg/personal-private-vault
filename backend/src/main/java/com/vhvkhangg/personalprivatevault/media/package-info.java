@@ -30,5 +30,9 @@
  * <p>Canonical architecture references: {@code docs/architecture/module-boundaries.md} and
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
-@org.springframework.modulith.ApplicationModule(allowedDependencies = { "vault" })
+@org.springframework.modulith.ApplicationModule(allowedDependencies = {
+        "vault::entry",
+        "vault::enums",
+        "vault::view"
+})
 package com.vhvkhangg.personalprivatevault.media;

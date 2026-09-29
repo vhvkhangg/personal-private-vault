@@ -278,4 +278,203 @@ class ApplicationArchitectureTests {
                     .noneMatch(name -> name.contains(".internal."));
         }
     }
+
+    @Test
+    @DisplayName("Verifies that media module defines expected named interfaces")
+    void verifiesMediaModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var mediaModule = modules.getModuleByName("media");
+        assertThat(mediaModule).isPresent();
+        assertThat(mediaModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("album", "image", "view");
+    }
+
+    @Test
+    @DisplayName("Verifies media module named interfaces expose capability contracts and hide internal packages")
+    void verifiesMediaNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var mediaModule = modules.getModuleByName("media").orElseThrow();
+
+        // 1. Verify exact logical named interfaces: no unexpected named interface introduced
+        assertThat(mediaModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("album", "image", "view");
+
+        // 2. Verify album named interface exposes operations, commands, and exceptions
+        var albumInterface = mediaModule.getNamedInterfaces().getByName("album").orElseThrow();
+        var albumTypeNames = albumInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(albumTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.media.album.AlbumOperations",
+                "com.vhvkhangg.personalprivatevault.media.album.CreateAlbumCommand",
+                "com.vhvkhangg.personalprivatevault.media.album.UpdateAlbumCommand",
+                "com.vhvkhangg.personalprivatevault.media.album.AlbumNotFoundException",
+                "com.vhvkhangg.personalprivatevault.media.album.InvalidAlbumException"
+        );
+
+        // 3. Verify image named interface exposes operations, commands, and exceptions
+        var imageInterface = mediaModule.getNamedInterfaces().getByName("image").orElseThrow();
+        var imageTypeNames = imageInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(imageTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.media.image.ImageOperations",
+                "com.vhvkhangg.personalprivatevault.media.image.CreateImageCommand",
+                "com.vhvkhangg.personalprivatevault.media.image.UpdateImageMetadataCommand",
+                "com.vhvkhangg.personalprivatevault.media.image.ImageNotFoundException",
+                "com.vhvkhangg.personalprivatevault.media.image.InvalidImageException",
+                "com.vhvkhangg.personalprivatevault.media.image.ImageConflictException"
+        );
+
+        // 4. Verify view named interface exposes views
+        var viewInterface = mediaModule.getNamedInterfaces().getByName("view").orElseThrow();
+        var viewTypeNames = viewInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(viewTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.media.view.AlbumView",
+                "com.vhvkhangg.personalprivatevault.media.view.ImageView"
+        );
+
+        // 5. Verify no internal type is exposed through any named interface of media module
+        for (var namedInterface : mediaModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies that location module defines expected named interfaces")
+    void verifiesLocationModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var locationModule = modules.getModuleByName("location");
+        assertThat(locationModule).isPresent();
+        assertThat(locationModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("address", "brand", "category", "enums", "hours", "location", "view");
+    }
+
+    @Test
+    @DisplayName("Verifies location module named interfaces expose capability contracts and hide internal packages")
+    void verifiesLocationNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var locationModule = modules.getModuleByName("location").orElseThrow();
+
+        // 1. Verify exact logical named interfaces: no unexpected named interface introduced
+        assertThat(locationModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("address", "brand", "category", "enums", "hours", "location", "view");
+
+        // 2. Verify address named interface exposes operations, commands, and exceptions
+        var addressInterface = locationModule.getNamedInterfaces().getByName("address").orElseThrow();
+        var addressTypeNames = addressInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(addressTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.location.address.AddressOperations",
+                "com.vhvkhangg.personalprivatevault.location.address.CreateAddressCommand",
+                "com.vhvkhangg.personalprivatevault.location.address.UpdateAddressCommand",
+                "com.vhvkhangg.personalprivatevault.location.address.AddressNotFoundException",
+                "com.vhvkhangg.personalprivatevault.location.address.InvalidAddressException"
+        );
+
+        // 3. Verify brand named interface exposes operations, commands, and exceptions
+        var brandInterface = locationModule.getNamedInterfaces().getByName("brand").orElseThrow();
+        var brandTypeNames = brandInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(brandTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.location.brand.BrandOperations",
+                "com.vhvkhangg.personalprivatevault.location.brand.CreateBrandCommand",
+                "com.vhvkhangg.personalprivatevault.location.brand.UpdateBrandCommand",
+                "com.vhvkhangg.personalprivatevault.location.brand.BrandNotFoundException",
+                "com.vhvkhangg.personalprivatevault.location.brand.InvalidBrandException"
+        );
+
+        // 4. Verify category named interface exposes operations, commands, and exceptions
+        var categoryInterface = locationModule.getNamedInterfaces().getByName("category").orElseThrow();
+        var categoryTypeNames = categoryInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(categoryTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.location.category.LocationCategoryOperations",
+                "com.vhvkhangg.personalprivatevault.location.category.CreateLocationCategoryCommand",
+                "com.vhvkhangg.personalprivatevault.location.category.UpdateLocationCategoryCommand",
+                "com.vhvkhangg.personalprivatevault.location.category.LocationCategoryNotFoundException",
+                "com.vhvkhangg.personalprivatevault.location.category.LocationCategoryNameAlreadyExistsException",
+                "com.vhvkhangg.personalprivatevault.location.category.InvalidLocationCategoryException"
+        );
+
+        // 5. Verify enums named interface exposes expected enums
+        var enumsInterface = locationModule.getNamedInterfaces().getByName("enums").orElseThrow();
+        var enumsTypeNames = enumsInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(enumsTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.location.enums.DiningServiceStyle",
+                "com.vhvkhangg.personalprivatevault.location.enums.DayOfWeek"
+        );
+
+        // 6. Verify hours named interface exposes operations, commands, inputs, and exceptions
+        var hoursInterface = locationModule.getNamedInterfaces().getByName("hours").orElseThrow();
+        var hoursTypeNames = hoursInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(hoursTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.location.hours.BusinessHoursOperations",
+                "com.vhvkhangg.personalprivatevault.location.hours.ReplaceBusinessHoursScheduleCommand",
+                "com.vhvkhangg.personalprivatevault.location.hours.BusinessHoursIntervalInput",
+                "com.vhvkhangg.personalprivatevault.location.hours.BusinessHoursNotFoundException",
+                "com.vhvkhangg.personalprivatevault.location.hours.InvalidBusinessHoursException"
+        );
+
+        // 7. Verify location named interface exposes operations, commands, and exceptions
+        var locInterface = locationModule.getNamedInterfaces().getByName("location").orElseThrow();
+        var locTypeNames = locInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(locTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.location.location.LocationOperations",
+                "com.vhvkhangg.personalprivatevault.location.location.CreateLocationCommand",
+                "com.vhvkhangg.personalprivatevault.location.location.UpdateLocationCommand",
+                "com.vhvkhangg.personalprivatevault.location.location.LocationNotFoundException",
+                "com.vhvkhangg.personalprivatevault.location.location.InvalidLocationException"
+        );
+
+        // 8. Verify view named interface exposes views
+        var viewInterface = locationModule.getNamedInterfaces().getByName("view").orElseThrow();
+        var viewTypeNames = viewInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(viewTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.location.view.AddressView",
+                "com.vhvkhangg.personalprivatevault.location.view.BrandView",
+                "com.vhvkhangg.personalprivatevault.location.view.BusinessHoursIntervalView",
+                "com.vhvkhangg.personalprivatevault.location.view.BusinessHoursScheduleView",
+                "com.vhvkhangg.personalprivatevault.location.view.LocationCategoryView",
+                "com.vhvkhangg.personalprivatevault.location.view.LocationView"
+        );
+
+        // 9. Verify no internal type is exposed through any named interface of location module
+        for (var namedInterface : locationModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies that media and location modules are strictly isolated with no cross-dependency")
+    void verifiesNoMediaLocationCrossDependency() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var mediaModule = modules.getModuleByName("media").orElseThrow();
+        var locationModule = modules.getModuleByName("location").orElseThrow();
+
+        assertThat(mediaModule.getDirectDependencies(modules).stream().toList())
+                .noneMatch(dep -> dep.getTargetModule().equals(locationModule));
+
+        assertThat(locationModule.getDirectDependencies(modules).stream().toList())
+                .noneMatch(dep -> dep.getTargetModule().equals(mediaModule));
+    }
 }

@@ -10,7 +10,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-3/`](phase-3/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `people`
 - [`phase-4/`](phase-4/README.md) — **COMPLETE / FROZEN** — `fiction`
 - [`phase-5/`](phase-5/README.md) — **COMPLETE / FROZEN** — `film`
-- [`phase-6/`](phase-6/README.md) — **READY FOR HANDOFF / AWAITING OWNER COMMIT** — `media` + `location`
+- [`phase-6/`](phase-6/README.md) — **READY FOR OWNER COMMIT** — `media` + `location`
 
 Maintenance:
 
@@ -20,14 +20,14 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-There is no active implementation handoff. [`handoffs/ACTIVE.md`](handoffs/ACTIVE.md) records the Phase 6 gate.
+The Phase 6 Media + Location implementation handoff is active at [`handoffs/ACTIVE.md`](handoffs/ACTIVE.md).
 
 Backend Phase 4 Fiction is complete/frozen after owner commit/push. Its completed handoff is archived in
 [`phase-4/handoff.md`](phase-4/handoff.md).
 
 Backend Phase 5 Film is complete/frozen after owner commit/push; its handoff is archived in
 [`phase-5/handoff.md`](phase-5/handoff.md). Phase 6 Media + Location preparation passed
-`$codex-pre-handoff-review` and awaits owner commit/push before a new implementation handoff.
+`$codex-pre-handoff-review` and was owner committed/pushed. Implementation remediation passed Codex final re-review; owner commit/push is next.
 
 ## Operational guidance
 

@@ -55,5 +55,5 @@ Film Foundation is **complete and frozen** after owner commit/push. See
 
 ## Phase 6
 
-Media + Location Foundations preparation is `READY FOR HANDOFF` and awaits owner commit/push. See
+Media + Location Foundations implementation handoff is `READY_FOR_OWNER_COMMIT` after Codex final re-review. See
 `../docs/implementation/phase-6/README.md`.

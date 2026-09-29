@@ -16,8 +16,8 @@ This file defines repository-wide instructions for coding agents.
 - The pre-Phase-4 code-hygiene maintenance is complete/frozen after owner commit/push.
 - Backend Phase 4 (`fiction`) is complete/frozen after owner commit/push.
 - Backend Phase 5 (`film`) is complete/frozen after owner commit/push.
-- Backend Phase 6 (`media` + `location`) preparation is `READY FOR HANDOFF`; owner commit/push is required
-  before `$codex-create-handoff`. No implementation handoff exists.
+- Backend Phase 6 (`media` + `location`) preparation is owner committed/pushed. Its active Codex handoff is
+  `READY_FOR_OWNER_COMMIT` after final re-review; owner commit/push is pending.
 
 Completed maintenance scope:
 

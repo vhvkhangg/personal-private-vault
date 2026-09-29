@@ -1,6 +1,6 @@
 # Backend Phase 6 — Media + Location Foundations
 
-Status: **READY FOR HANDOFF — AWAITING OWNER PREPARATION COMMIT/PUSH**
+Status: **READY FOR OWNER COMMIT — PHASE 6 FINAL RE-REVIEW**
 
 Phase 6 implements two independent top-level modules from frozen Schema v1:
 
@@ -10,11 +10,14 @@ Phase 6 implements two independent top-level modules from frozen Schema v1:
 The modules do not depend on each other. Phase 6 is intentionally one roadmap phase, but implementation must preserve
 both module boundaries rather than creating a combined Java module.
 
-No Phase 6 production implementation is authorized until:
+The preparation gate is complete:
 
 1. this preparation passes `$codex-pre-handoff-review`;
 2. the approved Phase 6 preparation slice is committed/pushed;
 3. `$codex-create-handoff` creates an active Phase 6 implementation handoff.
+
+The active contract is [`../handoffs/ACTIVE.md`](../handoffs/ACTIVE.md). Antigravity implements/tests only that
+scope; this preparation document remains its approved reference.
 
 Phase 6 **is a milestone phase**. After its implementation passes final review and the owner commits/pushes it,
 ChatGPT closes/freezes Phase 6 and the owner must run `$codex-milestone-review` for Phases 4–6 before Phase 7 can
