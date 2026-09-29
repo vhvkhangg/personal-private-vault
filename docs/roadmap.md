@@ -18,8 +18,8 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 2     | `authentication` + `settings` foundations                                                     | Historical                                          | **COMPLETE — FROZEN** | —                    |
 | 3     | `people`: persons, roles, creator groups/membership                                           | P-3 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
 | 4     | `fiction` domain                                                                              | P-4 complete                                        | **COMPLETE — FROZEN** | —                    |
-| 5     | `film` domain + film credits                                                                  | **P-5 complete**                                    | **READY FOR OWNER COMMIT** | —                    |
-| 6     | `media` + `location` foundations                                                              | P-6 planned                                         | Not started           | **After completion** |
+| 5     | `film` domain + film credits                                                                  | P-5 complete                                        | **COMPLETE — FROZEN** | —                    |
+| 6     | `media` + `location` foundations                                                              | **P-6: READY FOR HANDOFF; OWNER COMMIT PENDING**    | Not started           | **After completion** |
 | 7     | `account` external/social account history                                                     | P-7 planned                                         | Not started           | —                    |
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 planned                                         | Not started           | —                    |
 | 9     | `collection` + music/shopping/software                                                        | P-9 planned                                         | Not started           | **After completion** |
@@ -59,8 +59,17 @@ Phase 4 preparation and implementation passed Codex review and were owner commit
 Phase 4 Fiction is complete/frozen after owner commit/push. Its final verification recorded 297 passing tests and
 its completed handoff is archived under `implementation/phase-4/`.
 
-Phase 5 Film preparation passed `$codex-pre-handoff-review` and was owner committed/pushed. Its Codex
-implementation and evidence remediation passed final review. Owner commit/push and closeout remain.
+Phase 5 Film preparation and implementation passed Codex review and were owner committed/pushed. Phase 5 is now
+`COMPLETE — FROZEN`. Phase 6 Media + Location preparation is the current gate.
+
+## Phase 5 closeout
+
+Phase 5 Film is complete/frozen after owner commit/push. Its final verification recorded 372 passing tests and the
+completed handoff is archived under `implementation/phase-5/`.
+
+Phase 6 Media + Location preparation passed `$codex-pre-handoff-review`; owner commit/push is required before
+`$codex-create-handoff`. After Phase 6 is later completed and committed/pushed, the Phase 4–6 milestone
+review is mandatory before Phase 7.
 
 ## Why this order
 

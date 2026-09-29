@@ -1,6 +1,6 @@
 # Backend Phase 5 — Film Foundation
 
-Status: **READY FOR OWNER COMMIT**
+Status: **COMPLETE — FROZEN (2026-09-29)**
 
 Phase 5 implements the `film` module after the frozen `vault`, `reference`, `people`, and `fiction` foundations.
 
@@ -289,3 +289,18 @@ Reused without new custom agents/hooks:
 - repository safety hook
 
 No new custom agent or hook is justified for Phase 5.
+
+
+## Completion record
+
+- Owner commit/push: completed 2026-09-29.
+- Final Codex result: `READY_FOR_OWNER_COMMIT`.
+- Final verification: `mvn -f backend/pom.xml clean verify` — **372 tests**, 0 failures/errors/skips.
+- PostgreSQL: 18.6 via Testcontainers; Java 25; Maven 3.9.15.
+- Final handoff archive: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Final review: [`reviews/2026-09-29-phase-5-final-codex-review.md`](reviews/2026-09-29-phase-5-final-codex-review.md).
+- Phase status: **COMPLETE — FROZEN**.
+
+Future Film changes require a new owner-approved feature or maintenance slice. Do not reuse the completed Phase 5
+handoff.

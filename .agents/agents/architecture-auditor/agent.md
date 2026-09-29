@@ -26,5 +26,7 @@ Perform a read-only audit. Use the relevant engineering skills:
 - `people-domain-modeling` when People/person/creator-group work is in scope
 - `fiction-domain-modeling` when Fiction/classification/link work is in scope
 - `film-domain-modeling` when Film/genre/credit/link work is in scope
+- `media-domain-modeling` when Album/Image metadata work is in scope
+- `location-domain-modeling` when Brand/Location/Address/hours work is in scope
 
 Report concrete defects/risks; do not enforce patterns mechanically. Do not modify files or expand scope.

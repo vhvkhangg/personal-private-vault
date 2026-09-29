@@ -35,6 +35,8 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `people-domain-modeling`
 - `fiction-domain-modeling`
 - `film-domain-modeling`
+- `media-domain-modeling`
+- `location-domain-modeling`
 
 ## Workflow/review skills
 

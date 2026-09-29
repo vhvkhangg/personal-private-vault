@@ -6,9 +6,9 @@ Private, single-user personal information vault built as a backend-first modular
 
 Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
-Backend Phases 2 (`authentication` + `settings`), 3 (`people`), and 4 (`fiction`) are **complete and frozen**
-after owner commit/push. The Phase 1–3 milestone remains `MILESTONE_READY`. Phase 5 (`film`) preparation is
-committed/pushed, and its implementation handoff is `READY_FOR_OWNER_COMMIT` after Codex final review.
+Backend Phases 2 (`authentication` + `settings`), 3 (`people`), 4 (`fiction`), and 5 (`film`) are **complete and frozen**
+after owner commit/push. The Phase 1–3 milestone remains `MILESTONE_READY`. Phase 6 (`media` + `location`)
+preparation is `READY FOR HANDOFF` and awaits owner commit/push.
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
@@ -33,8 +33,9 @@ Frozen implementation phases:
 
 Current gate:
 
-- Backend Phase 5 — Film Foundation is `READY_FOR_OWNER_COMMIT`
-- owner commits/pushes, then ChatGPT closes Phase 5 and prepares Phase 6
+- Backend Phase 6 — Media + Location Foundations preparation is `READY FOR HANDOFF`
+- owner commits/pushes preparation, then runs `$codex-create-handoff`
+- no Phase 6 production implementation handoff exists yet
 
 ## Planned stack
 
