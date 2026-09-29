@@ -16,5 +16,11 @@ For Phase 3+:
 7. Owner commits/pushes after `READY FOR OWNER COMMIT`.
 8. ChatGPT closes/freezes the phase and prepares the next one.
 9. After Phase 3/6/9/12/15 run `$codex-milestone-review`.
+10. After `MILESTONE_READY`, owner commits/pushes milestone docs and returns the latest package to ChatGPT for
+    post-milestone synchronization/reset before the next `$codex-pre-handoff-review`.
 
 Do not bypass preparation or the active handoff by expanding scope from TODOs, tests, Graphify, or inferred needs.
+
+
+Every Codex/Antigravity workflow invocation must end by stating the exact **Next step** for the owner. The action must
+come from the current canonical gate/status rather than a guessed future task.

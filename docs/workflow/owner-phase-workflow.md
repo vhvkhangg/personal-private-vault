@@ -68,6 +68,21 @@ maintenance slice.
 At a milestone boundary, ChatGPT may already prepare the next phase docs/tooling, but **do not run the next
 `$codex-pre-handoff-review` until the milestone returns `MILESTONE_READY`**.
 
+### If milestone review returns `MILESTONE_READY`
+
+1. owner commits/pushes the milestone review/status-document changes;
+2. send ChatGPT the latest repository package and say:
+
+```text
+The milestone is MILESTONE_READY and I committed/pushed the milestone review/status changes.
+Please close/reset any completed maintenance handoff, archive it if needed, synchronize roadmap/status/docs,
+and unblock the already-prepared next phase. Do not create the next implementation handoff.
+```
+
+3. ChatGPT verifies `ACTIVE.md = NO_ACTIVE_HANDOFF`, closes stale maintenance status, and sets the next prepared
+   phase to `AWAITING CODEX PRE-HANDOFF REVIEW`;
+4. only then run the next phase `$codex-pre-handoff-review`.
+
 ### If milestone review returns `CHANGES_REQUESTED`
 
 When Codex requires frozen-phase implementation fixes:
@@ -79,7 +94,9 @@ When Codex requires frozen-phase implementation fixes:
 5. Codex runs `$codex-final-review`;
 6. owner commits/pushes after `READY FOR OWNER COMMIT`;
 7. rerun `$codex-milestone-review`;
-8. only `MILESTONE_READY` unblocks the next phase pre-handoff review.
+8. when it returns `MILESTONE_READY`, commit/push the milestone review/status changes;
+9. send the latest package to ChatGPT for post-milestone closeout/status synchronization;
+10. only after ChatGPT confirms the next phase is unblocked, run `$codex-pre-handoff-review`.
 
 ## 4. Codex reviews next-phase preparation before handoff creation
 
@@ -136,6 +153,8 @@ Then:
 [ ] Commit/push current implementation phase
 [ ] Ask ChatGPT: close current phase + prepare next phase
 [ ] If closing Phase 3/6/9/12/15: run $codex-milestone-review
+[ ] If MILESTONE_READY: commit/push milestone docs, then give latest package to ChatGPT for post-milestone sync
+[ ] Confirm ACTIVE.md = NO_ACTIVE_HANDOFF and next phase = AWAITING CODEX PRE-HANDOFF REVIEW
 [ ] Run $codex-pre-handoff-review
 [ ] Resolve preparation findings
 [ ] Commit/push preparation after READY FOR HANDOFF

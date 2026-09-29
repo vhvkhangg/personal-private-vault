@@ -17,7 +17,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 1     | Flyway Schema v1 + `reference` + `vault` foundations                                          | Historical                                          | **COMPLETE — FROZEN** | —                    |
 | 2     | `authentication` + `settings` foundations                                                     | Historical                                          | **COMPLETE — FROZEN** | —                    |
 | 3     | `people`: persons, roles, creator groups/membership                                           | P-3 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
-| 4     | `fiction` domain                                                                              | **P-4 prepared; blocked by hygiene maintenance** | Not started           | —                    |
+| 4     | `fiction` domain                                                                              | **P-4: READY FOR HANDOFF; OWNER COMMIT/PUSH NEXT** | Not started           | —                    |
 | 5     | `film` domain + film credits                                                                  | P-5 planned                                         | Not started           | —                    |
 | 6     | `media` + `location` foundations                                                              | P-6 planned                                         | Not started           | **After completion** |
 | 7     | `account` external/social account history                                                     | P-7 planned                                         | Not started           | —                    |
@@ -43,6 +43,16 @@ The Phase 1–3 milestone found two concurrency defects in frozen Phase 1/2 beha
 
 The maintenance passed final review and was owner committed/pushed as `3a9294d`. The milestone re-review is
 `MILESTONE_READY`; Phase 4 may enter its separate pre-handoff preparation review.
+
+## Completed pre-Phase-4 hygiene maintenance
+
+The owner-approved
+[`implementation/maintenance/pre-phase4-code-hygiene/README.md`](implementation/maintenance/pre-phase4-code-hygiene/README.md)
+slice passed final review and was committed/pushed. Its handoff is archived and `ACTIVE.md` is reset to
+`NO_ACTIVE_HANDOFF`.
+
+Phase 4 preparation passed `$codex-pre-handoff-review`; the owner must commit/push it before
+`$codex-create-handoff`.
 
 ## Why this order
 

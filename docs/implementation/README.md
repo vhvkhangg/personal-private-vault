@@ -8,7 +8,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-1/`](phase-1/README.md) — **COMPLETE / FROZEN** — Schema v1 + `reference` + `vault`
 - [`phase-2/`](phase-2/README.md) — **COMPLETE / FROZEN** — `authentication` + `settings`
 - [`phase-3/`](phase-3/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `people`
-- [`phase-4/`](phase-4/README.md) — **PREPARED / BLOCKED BY HYGIENE MAINTENANCE** — `fiction`
+- [`phase-4/`](phase-4/README.md) — **READY FOR HANDOFF / AWAITING OWNER PREPARATION COMMIT/PUSH** — `fiction`
 
 Maintenance:
 
@@ -18,16 +18,13 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-Current approved maintenance: [`maintenance/pre-phase4-code-hygiene/`](maintenance/pre-phase4-code-hygiene/README.md).
-
-
 There is no active implementation handoff.
 
-The Phase 1–3 milestone is `MILESTONE_READY`. The owner-approved
-[`maintenance/milestone-1-3-concurrency/`](maintenance/milestone-1-3-concurrency/README.md) is complete and
-committed/pushed.
+The Phase 1–3 milestone is `MILESTONE_READY`. Both milestone concurrency maintenance and pre-Phase-4 hygiene
+maintenance are complete/frozen and committed/pushed.
 
-Run Phase 4 `$codex-pre-handoff-review` next. Do **not** create a Phase 4 implementation handoff yet.
+The owner commits/pushes Phase 4 preparation next, then runs `$codex-create-handoff`. Do **not** create a
+Phase 4 implementation handoff before that commit/push.
 
 ## Operational guidance
 

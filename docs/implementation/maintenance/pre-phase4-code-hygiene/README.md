@@ -1,12 +1,12 @@
 # Pre-Phase-4 Code Hygiene and People API Organization
 
-Status: **READY FOR OWNER COMMIT**
+Status: **COMPLETE — FROZEN (2026-09-29)**
 
 Owner approval: **2026-09-29**
 
-Phase 4 pre-handoff review is intentionally paused for this narrow maintenance slice. The slice may touch frozen
-Phase 1 Vault and Phase 3 People code only for the exact structural/inspection findings below. It must not implement
-Fiction or alter frozen database behavior.
+This narrow maintenance slice passed Codex final review and was committed/pushed by the owner. It is now frozen.
+The scope below is retained as the historical implementation contract and does not authorize further production
+changes.
 
 ## Goal
 
@@ -128,10 +128,14 @@ Evidence file:
 - no generic base-service/validator/exception hierarchy;
 - no new custom agent or repository hook.
 
-## Workflow
+## Completion record
 
-1. Codex: `$codex-create-handoff` from this approved maintenance scope.
-2. Antigravity: `/antigravity-implement-handoff`.
-3. Codex: `$codex-final-review`.
-4. Owner: commit/push after `READY FOR OWNER COMMIT`.
-5. Resume Phase 4 with `$codex-pre-handoff-review`.
+- Codex final review: `READY_FOR_OWNER_COMMIT`.
+- Owner commit/push: completed 2026-09-29.
+- Final verification: 228 tests, 0 failures/errors/skips.
+- Completed handoff: [`handoff.md`](handoff.md).
+- Test evidence: [`test-evidence.md`](test-evidence.md).
+- Review: [`reviews/2026-09-29-final-codex-review.md`](reviews/2026-09-29-final-codex-review.md).
+- Status: **COMPLETE — FROZEN**.
+
+Phase 4 may now proceed to `$codex-pre-handoff-review`.

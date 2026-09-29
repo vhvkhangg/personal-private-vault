@@ -46,3 +46,14 @@ Apply relevant skills progressively:
 10. Mark `IMPLEMENTED_AWAITING_CODEX_REVIEW` and summarize changes/evidence/risks.
 
 Do not commit, push, tag, or create/merge a PR.
+
+## Required final response — next step
+
+Every invocation must end with a concise **Next step:** statement.
+
+- implementation/tests complete and handoff marked `IMPLEMENTED_AWAITING_CODEX_REVIEW` → tell the owner to run
+  `$codex-final-review`;
+- blocked implementation → state the exact blocker and whether the owner/Codex must clarify or amend the handoff;
+- remediation complete after a Codex `CHANGES_REQUESTED` review → tell the owner to rerun `$codex-final-review`.
+
+Never leave the owner to infer the next workflow action.

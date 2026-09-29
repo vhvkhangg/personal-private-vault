@@ -158,3 +158,17 @@ If no blocking finding remains:
 2. synchronize status;
 3. provide exactly one Conventional Commit message;
 4. do not commit/push.
+
+## Required final response — next step
+
+Every invocation must end with a concise **Next step:** statement derived from the reviewed scope.
+
+- `CHANGES_REQUESTED` → direct the owner back to Antigravity `/antigravity-implement-handoff` (or
+  `/antigravity-test-slice` only when the review explicitly requires test-only remediation);
+- `READY FOR OWNER COMMIT` → tell the owner to commit/push using the provided commit message, then state the
+  scope-specific next gate:
+  - completed numbered phase → give the latest package to ChatGPT for phase closeout/next-phase preparation;
+  - milestone-triggered maintenance → rerun `$codex-milestone-review` after the maintenance commit/push;
+  - other maintenance → follow its canonical scope/workflow.
+
+Never leave the owner to infer the next workflow action.

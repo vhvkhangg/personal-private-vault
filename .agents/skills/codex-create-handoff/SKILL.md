@@ -66,3 +66,13 @@ Do not commit, push, tag, or modify production implementation.
 
 
 - Use `authentication-security` when authentication/JWT/PIN/refresh-token work is in scope.
+
+## Required final response — next step
+
+Every invocation must end with a concise **Next step:** statement.
+
+- successful handoff creation → tell the owner to run Antigravity `/antigravity-implement-handoff`;
+- blocked by preparation/milestone/maintenance state → name the exact gate and command/action required first;
+- conflicting live handoff → state the exact handoff-resolution action required before retrying.
+
+Never leave the owner to infer the next workflow action.

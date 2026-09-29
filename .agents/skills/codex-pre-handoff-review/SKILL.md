@@ -58,3 +58,15 @@ Review the next-phase preparation for:
 - Do not create the implementation handoff automatically.
 
 The owner commits/pushes preparation first, then invokes `$codex-create-handoff`.
+
+## Required final response — next step
+
+Every invocation must end with a concise **Next step:** statement.
+
+- prerequisite/gate failure → name the exact prerequisite/action to resolve before rerunning this skill;
+- `CHANGES_REQUESTED` → tell the owner to give the findings/latest package to ChatGPT for preparation remediation,
+  then rerun `$codex-pre-handoff-review`;
+- `READY FOR HANDOFF` → tell the owner to commit/push the preparation slice using the provided commit message, then
+  run `$codex-create-handoff`.
+
+Never leave the owner to infer the next workflow action.

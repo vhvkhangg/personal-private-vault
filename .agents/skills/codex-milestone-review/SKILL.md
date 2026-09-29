@@ -49,3 +49,14 @@ If blocking findings exist, return `CHANGES_REQUESTED` and identify whether they
 owner-approved maintenance implementation slice. Never silently modify a frozen phase.
 
 If no blocking findings remain, return `MILESTONE_READY`.
+
+## Required final response — next step
+
+Every invocation must end with a concise **Next step:** statement.
+
+- `CHANGES_REQUESTED` → tell the owner that the next action is owner approval of a narrow maintenance scope, then
+  give the latest package/findings to ChatGPT to prepare that maintenance;
+- `MILESTONE_READY` → tell the owner to commit/push the milestone review/status docs, then give the latest package
+  to ChatGPT for post-milestone synchronization/reset before running the next phase `$codex-pre-handoff-review`.
+
+Never leave the owner to infer the next workflow action.

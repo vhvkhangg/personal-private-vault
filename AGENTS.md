@@ -12,14 +12,16 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 - Backend Phase 2 is complete/frozen after owner commit/push.
 - Backend Phase 3 (`people`) is complete/frozen after owner commit/push.
-- The owner-approved Phase 1/2 concurrency maintenance is committed and the Phase 1–3 milestone is
-  `MILESTONE_READY`. Phase 4 (`fiction`) now awaits its separate pre-handoff preparation review.
+- The Phase 1–3 milestone is `MILESTONE_READY`.
+- The pre-Phase-4 code-hygiene maintenance is complete/frozen after owner commit/push.
+- Phase 4 (`fiction`) preparation is `READY FOR HANDOFF`; owner commit/push is next, and no implementation
+  handoff is active.
 
 Completed maintenance scope:
 
 - `docs/implementation/maintenance/milestone-1-3-concurrency/README.md`
 
-Current approved maintenance scope:
+Completed maintenance scope:
 
 - `docs/implementation/maintenance/pre-phase4-code-hygiene/README.md`
 

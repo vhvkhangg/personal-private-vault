@@ -1,28 +1,19 @@
 # Phase 4 Pre-Handoff Preparation Review
 
-Status: **BLOCKED — PRE-PHASE-4 HYGIENE MAINTENANCE**
+Status: **READY FOR HANDOFF**
 
 ## Gate
 
-Do not run `$codex-pre-handoff-review` until:
+All prerequisites are satisfied:
 
-```text
-docs/implementation/phase-3/milestone-review.md
-```
+- `docs/implementation/phase-3/milestone-review.md` = `MILESTONE_READY`;
+- `docs/implementation/maintenance/pre-phase4-code-hygiene/README.md` = `COMPLETE — FROZEN`;
+- `docs/implementation/handoffs/ACTIVE.md` = `NO_ACTIVE_HANDOFF`.
 
-has status:
+Codex completed the Phase 4 pre-handoff review on 2026-09-29 with no blocking findings. See
+[`reviews/2026-09-29-phase-4-pre-handoff-codex-review.md`](reviews/2026-09-29-phase-4-pre-handoff-codex-review.md).
 
-```text
-MILESTONE_READY
-```
-
-If the milestone review returns `CHANGES_REQUESTED`, resolve that milestone first.
-
-The Phase 1–3 milestone is `MILESTONE_READY`. Before this pre-handoff review may run, the owner-approved
-`docs/implementation/maintenance/pre-phase4-code-hygiene/` slice must also be implemented, final-reviewed, and
-committed/pushed.
-
-## Scope once unblocked
+## Reviewed scope
 
 Review only Phase 4 Fiction preparation. Do not create an implementation handoff during the preparation review.
 
@@ -37,7 +28,7 @@ Review only Phase 4 Fiction preparation. Do not create an implementation handoff
 
 No Phase 4 production Java implementation, Flyway change, or implementation handoff is included.
 
-## Required preparation checks once milestone-ready
+## Preparation checks reviewed
 
 - scope matches frozen Schema v1 and module dependency matrix;
 - Fiction remains Vault Entry-backed and does not duplicate Vault metadata behavior;
@@ -53,11 +44,9 @@ No Phase 4 production Java implementation, Flyway change, or implementation hand
 
 ## Next command
 
-Do **not** run the Phase 4 pre-handoff review yet. Run:
-
 ```text
 $codex-create-handoff
 ```
 
-for the approved `pre-phase4-code-hygiene` maintenance scope. After that maintenance is committed/pushed, return
-this status to `AWAITING CODEX PRE-HANDOFF REVIEW` and run `$codex-pre-handoff-review`.
+The owner must commit/push this preparation first. Codex did not create the Phase 4 implementation handoff
+during this review.

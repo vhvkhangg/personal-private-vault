@@ -14,32 +14,56 @@
 ## Phase 3+ lifecycle
 
 ```text
-Owner commits/pushes finished phase
-        ↓
-ChatGPT closes/freezes it + prepares next phase
-        ↓
-Codex $codex-pre-handoff-review
-        ↓
-CHANGES_REQUESTED → ChatGPT remediation → re-review
-or READY FOR HANDOFF
-        ↓
-Owner commits/pushes preparation
-        ↓
-Codex $codex-create-handoff
-        ↓
-Antigravity /antigravity-implement-handoff
-        ↓
-IMPLEMENTED_AWAITING_CODEX_REVIEW
-        ↓
-Codex $codex-final-review
-        ↓
-CHANGES_REQUESTED → Antigravity remediation → re-review
-or READY FOR OWNER COMMIT
+Implementation phase final review = READY FOR OWNER COMMIT
         ↓
 Owner commit + push
+        ↓
+ChatGPT closes/freezes phase + prepares next phase
+        ↓
+Is the completed phase 3 / 6 / 9 / 12 / 15?
+        ├─ no ───────────────────────────────────────────────┐
+        │                                                   ↓
+        │                                  Codex $codex-pre-handoff-review
+        │
+        └─ yes
+             ↓
+        Codex $codex-milestone-review
+             ↓
+        CHANGES_REQUESTED?
+             ├─ yes → owner-approved maintenance scope
+             │        → Codex handoff
+             │        → Antigravity implementation/tests
+             │        → Codex final review
+             │        → Owner commit/push
+             │        → rerun $codex-milestone-review
+             │
+             └─ no / after remediation
+                      ↓
+                 MILESTONE_READY
+                      ↓
+        Owner commit/push milestone review/status docs
+                      ↓
+        ChatGPT post-milestone synchronization:
+        archive/reset completed maintenance handoff,
+        ensure ACTIVE.md = NO_ACTIVE_HANDOFF,
+        synchronize roadmap/status,
+        unblock prepared next phase
+                      ↓
+        Codex $codex-pre-handoff-review
+                      ↓
+        CHANGES_REQUESTED → ChatGPT remediation → re-review
+        or READY FOR HANDOFF
+                      ↓
+        Owner commit/push preparation
+                      ↓
+        Codex $codex-create-handoff
+                      ↓
+        Antigravity /antigravity-implement-handoff
 ```
 
-After Phases 3/6/9/12/15, insert `$codex-milestone-review` before the next implementation handoff.
+At milestone boundaries, `MILESTONE_READY` alone is not the final transition into the next pre-handoff review:
+the owner first commits/pushes the milestone status changes, then returns the latest package to ChatGPT for the
+post-milestone synchronization/reset step.
 
 See `docs/workflow/owner-phase-workflow.md` and `docs/roadmap.md`.
 
@@ -62,3 +86,7 @@ Agents never commit, push, tag, or create/merge PRs.
 
 After owner commit/push, ChatGPT marks the phase `COMPLETE — FROZEN`, archives handoff/reviews/evidence under that
 phase, clears `ACTIVE.md`, synchronizes status, and prepares the next phase without implementing it.
+
+After a milestone returns `MILESTONE_READY` and the owner commits/pushes its review/status docs, ChatGPT performs
+a second synchronization pass: close/reset any completed maintenance handoff, verify `ACTIVE.md = NO_ACTIVE_HANDOFF`,
+synchronize roadmap/current-status docs, and unblock the already-prepared next phase for pre-handoff review.
