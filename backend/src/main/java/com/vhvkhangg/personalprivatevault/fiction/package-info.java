@@ -20,11 +20,10 @@
  * </ul>
  *
  * <h2>Module boundary</h2>
- * <p>Allowed top-level dependencies: {@code vault, people, reference}.</p>
- * <p>Public contracts belong in this package. Entities, repositories, application services,
- * infrastructure adapters, and web implementation details belong under {@code internal} unless an
- * explicitly named interface is required. Other modules must not import this module's
- * {@code internal} packages.</p>
+ * <p>Allowed dependencies: narrowed to exact named interfaces.</p>
+ * <p>Public contracts belong under {@code fiction}, {@code genre}, {@code link}, {@code enums}, and
+ * {@code view}. Entities, repositories, application services, and infrastructure adapters remain under
+ * {@code internal}. Other modules must not import this module's {@code internal} packages.</p>
  *
  * <h2>Notes</h2>
  * <ul>
@@ -34,5 +33,16 @@
  * <p>Canonical architecture references: {@code docs/architecture/module-boundaries.md} and
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
-@org.springframework.modulith.ApplicationModule(allowedDependencies = { "vault", "people", "reference" })
+@org.springframework.modulith.ApplicationModule(
+        allowedDependencies = {
+                "vault :: entry",
+                "vault :: enums",
+                "vault :: view",
+                "people :: person",
+                "people :: group",
+                "people :: view",
+                "reference :: catalog",
+                "reference :: view"
+        }
+)
 package com.vhvkhangg.personalprivatevault.fiction;

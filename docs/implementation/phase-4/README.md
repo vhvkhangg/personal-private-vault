@@ -1,16 +1,17 @@
 # Backend Phase 4 — Fiction Foundation
 
-Status: **READY FOR HANDOFF — AWAITING OWNER PREPARATION COMMIT/PUSH**
+Status: **READY FOR OWNER COMMIT**
 
 Phase 4 implements the `fiction` module after the frozen `vault`, `reference`, and `people` foundations.
 
 The Phase 1–3 milestone and pre-Phase-4 hygiene maintenance are complete. Codex approved the Phase 4
-preparation on 2026-09-29; the owner must commit/push this preparation before handoff creation.
+preparation on 2026-09-29 and the owner committed/pushed it. The implementation and remediation passed
+[Codex final review](reviews/2026-09-29-phase-4-final-codex-review.md); owner commit/push and closeout remain.
 
 ## Current gate
 
 ```text
-Owner commits/pushes Phase 4 preparation, then runs $codex-create-handoff
+Owner commits/pushes the reviewed Phase 4 slice; ChatGPT then closes/freezes Phase 4 and prepares Phase 5
 ```
 
 No Phase 4 production implementation is authorized until:

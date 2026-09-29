@@ -42,11 +42,9 @@ No Phase 4 production Java implementation, Flyway change, or implementation hand
   Modulith verification;
 - no new custom agent/hook is introduced without a concrete need.
 
-## Next command
+## Subsequent workflow
 
-```text
-$codex-create-handoff
-```
+The owner committed/pushed this preparation, then Codex created the Phase 4 implementation handoff in
+`docs/implementation/handoffs/ACTIVE.md`. Antigravity runs `/antigravity-implement-handoff` next.
 
-The owner must commit/push this preparation first. Codex did not create the Phase 4 implementation handoff
-during this review.
+No implementation handoff was created during the preparation review itself.
