@@ -1,0 +1,21 @@
+# Phase 4–6 milestone Codex re-review — 2026-09-29
+
+Status: **MILESTONE_READY**. Review window: frozen Phase 4 Fiction, Phase 5 Film, and Phase 6 Media + Location. This supersedes the gate in the [initial review](2026-09-29-phase-4-6-milestone-codex-review.md); it does not erase that finding.
+
+## Blocking finding closure
+
+The owner-approved [privacy-safe constraint-logging maintenance](../../maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md) passed [final re-review](../../maintenance/milestone-4-6-privacy-safe-constraint-logging/reviews/2026-09-29-final-codex-rereview.md) and was committed/pushed as `9449b9e` (`HEAD` matched `origin/main` at re-review). The narrow `org.hibernate.orm.jdbc.error: ERROR` setting suppresses Hibernate's vendor-detail WARN lines without lowering root logging or changing domain conflict outcomes. PostgreSQL-backed tests cover contended Image object-key/checksum and Location category conflicts, and an unexpected Hibernate foreign-key failure remains observable through its exception/constraint/SQLState without logging the private marker.
+
+Independent `mvn -f backend/pom.xml -ntp clean verify` on Java 25 passed: **463 tests, 0 failures, 0 errors, 0 skipped**. The five privacy regression tests, 12 Spring Modulith architecture tests, Flyway V1 migration, and Hibernate schema validation passed against PostgreSQL Testcontainers. A scan of generated Surefire XML found no private regression markers or PostgreSQL `Detail: Key` lines. The original blocker is closed; no new blocker was found.
+
+## Cross-phase checks
+
+- **Domain/data integrity and concurrency:** Fiction/Film and Media/Location keep Vault-backed identities and rollback behavior in their owning modules. Fiction's author-source XOR, Film's separate credit identity, Media's object-key/checksum conflict semantics and derived count, and Location's price/set/schedule rules remain covered by phase integration tests. Uniqueness/set-assignment races use PostgreSQL as final arbiter; the logging maintenance did not modify schema, repositories, transactions, or these rules.
+- **Architecture/API/design:** Frozen dependency matrix and module descriptors keep Fiction/Film on public Vault/People/Reference contracts, Media on Vault, and Location on Vault/Reference. The 12 architecture tests found no module cycle or cross-module internal access. Public capability APIs and module-owned persistence remain aligned. Parallel Fiction/Film genre implementations reflect distinct domain ownership, not a competing canonical rule; no generic base service or new design pattern is justified.
+- **Security/privacy:** The framework log leak is closed in the covered expected conflicts; root logging stays `INFO` and unexpected persistence failure is still surfaced. No change to authentication, authorization, secrets, or the frozen security baseline was needed. This review makes no claim that every future logger or provider is covered by the present regression suite.
+- **Performance/maintainability:** Phase-scoped reads and derived counts avoid a demonstrated cross-module N+1 or load-all path. Film/Fiction child-list reads are parent-scoped but not paginated; the single-user backend has no established volume bottleneck, so this is not a blocker. Existing transaction/lock scope remains appropriate to tested contention paths. No speculative abstraction or optimization is requested.
+- **Tests/tooling/repository:** The independent full build, database migration/validation, and architecture suite passed. Remaining JDK/Lombok `Unsafe`, Mockito/test-support, and deprecation notices are non-blocking dependency/tooling debt, not a claim of warning-free IDE inspections. Reviewed package-tree placeholders are for deferred modules; no stale Phase 4–6 `.gitkeep` or moved-file blocker was found. The Phase 7 preparation exists, but no Phase 7 implementation handoff was created or modified in this re-review.
+
+## Gate
+
+No blocking findings remain. The owner commits/pushes this milestone review/status-doc package, then gives the latest package to ChatGPT for post-milestone synchronization and reset of the completed maintenance handoff. Only after that may Phase 7 run `$codex-pre-handoff-review`. Frozen source/schema/architecture baselines remain unchanged by this re-review.

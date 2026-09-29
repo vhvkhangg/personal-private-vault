@@ -17,21 +17,14 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 4 (`fiction`) is complete/frozen after owner commit/push.
 - Backend Phase 5 (`film`) is complete/frozen after owner commit/push.
 - Backend Phase 6 (`media` + `location`) is complete/frozen after owner commit/push.
-- Current gate: Phase 4–6 milestone `CHANGES_REQUESTED`; the owner-approved privacy-safe constraint-logging maintenance handoff is `READY_FOR_OWNER_COMMIT`.
-- Phase 7 (`account`) preparation exists but is blocked until the milestone returns `MILESTONE_READY` and the
-  required post-milestone synchronization is complete.
+- The Phase 4–6 milestone is `MILESTONE_READY` after committed privacy-safe constraint-logging maintenance.
+- Phase 7 (`account`) preparation exists but is blocked until the owner commits/pushes milestone review/status docs
+  and ChatGPT completes post-milestone synchronization/reset.
 
 Completed maintenance scope:
 
 - `docs/implementation/maintenance/milestone-1-3-concurrency/README.md`
-
-Completed maintenance scope:
-
 - `docs/implementation/maintenance/pre-phase4-code-hygiene/README.md`
-
-
-Current approved maintenance scope:
-
 - `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md`
 
 Architecture-sensitive work must respect:

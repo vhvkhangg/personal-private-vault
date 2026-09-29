@@ -1,9 +1,8 @@
 # Phase 4–6 Milestone Review
 
-Status: **CHANGES_REQUESTED**
+Status: **MILESTONE_READY**
 
-The [2026-09-29 formal milestone review](reviews/2026-09-29-phase-4-6-milestone-codex-review.md) found a blocking privacy leak in framework constraint-error logging. Owner approval of a narrow maintenance implementation scope is required before this milestone can be re-reviewed.
-
+The [initial formal milestone review](reviews/2026-09-29-phase-4-6-milestone-codex-review.md) found a blocking privacy leak in framework constraint-error logging. The [milestone re-review](reviews/2026-09-29-phase-4-6-milestone-codex-rereview.md) confirms the owner-approved maintenance closed it; no blocking findings remain.
 
 ## Approved maintenance remediation
 
@@ -11,8 +10,9 @@ The owner approved the narrow privacy-safe constraint logging maintenance on 202
 
 [`../maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md`](../maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md)
 
-The milestone remains `CHANGES_REQUESTED` until that maintenance handoff is implemented, final-reviewed,
-committed/pushed, and this milestone review is rerun. Phase 7 remains blocked.
+The maintenance passed final re-review and was owner committed/pushed as `9449b9e`. The milestone is now
+`MILESTONE_READY`. Phase 7 pre-handoff review remains blocked until the owner commits/pushes this milestone
+review/status package and ChatGPT completes post-milestone synchronization/reset.
 
 ## Trigger
 

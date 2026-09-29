@@ -15,8 +15,9 @@ Phase 6 implementation is complete, final-reviewed, committed/pushed by the owne
 The completed implementation contract is archived at [`handoff.md`](handoff.md). This document remains the
 historical approved scope; it does not authorize additional Phase 6 production changes.
 
-Phase 6 **is a milestone phase**. The Phase 4–6 [milestone review](milestone-review.md) is `CHANGES_REQUESTED`;
-Phase 7 may not enter pre-handoff review until approved maintenance and milestone re-review complete.
+Phase 6 **is a milestone phase**. The Phase 4–6 [milestone review](milestone-review.md) is `MILESTONE_READY`;
+Phase 7 may not enter pre-handoff review until the owner commits/pushes milestone status docs and ChatGPT completes
+post-milestone synchronization/reset.
 
 ## Frozen ownership
 

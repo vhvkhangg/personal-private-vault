@@ -11,7 +11,8 @@ The separate Phase 4–6 milestone review is also recorded in this phase's `revi
 
 ## Milestone review
 
-The Phase 4–6 milestone is `CHANGES_REQUESTED`. Its canonical scope/status is
+The Phase 4–6 milestone is `MILESTONE_READY`. Its canonical scope/status is
 [`../milestone-review.md`](../milestone-review.md).
 
 - [2026-09-29 Phase 4–6 milestone review](2026-09-29-phase-4-6-milestone-codex-review.md) — `CHANGES_REQUESTED`.
+- [2026-09-29 Phase 4–6 milestone re-review](2026-09-29-phase-4-6-milestone-codex-rereview.md) — `MILESTONE_READY`.

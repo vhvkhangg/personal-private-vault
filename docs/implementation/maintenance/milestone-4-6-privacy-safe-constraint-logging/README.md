@@ -1,10 +1,11 @@
 # Phase 4–6 Milestone Privacy-Safe Constraint Logging Maintenance
 
-Status: **READY FOR OWNER COMMIT** after Codex final re-review; owner approval remains in force.
+Status: **COMPLETE / FROZEN** after Codex final re-review and owner commit/push `9449b9e`.
 
 Owner approval: **2026-09-29**
 
-Active Codex maintenance handoff: [`../../handoffs/ACTIVE.md`](../../handoffs/ACTIVE.md) — `READY_FOR_OWNER_COMMIT`.
+The completed maintenance handoff remains in [`../../handoffs/ACTIVE.md`](../../handoffs/ACTIVE.md) until
+post-milestone synchronization/reset; its `READY_FOR_OWNER_COMMIT` field is historical.
 
 Source finding:
 [`../../phase-6/reviews/2026-09-29-phase-4-6-milestone-codex-review.md`](../../phase-6/reviews/2026-09-29-phase-4-6-milestone-codex-review.md)
