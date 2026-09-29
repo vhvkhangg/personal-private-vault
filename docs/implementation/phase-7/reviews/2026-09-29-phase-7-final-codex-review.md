@@ -1,0 +1,20 @@
+# Phase 7 Account final Codex review — 2026-09-29
+
+Status: **CHANGES_REQUESTED**. Handoff: `backend-phase-7-account`. This is an implementation review; Codex made no production-code changes.
+
+## Blocking findings
+
+1. **Medium — relationship upsert loses creation provenance and is not repeat-idempotent.** `ExternalAccountRelationshipRepository.upsert` (lines 51 and 55) overwrites `source` and `updated_at` on every conflict, including an identical repeat. The frozen DBML (line 2498) defines `relationship_source` as how the row was *created*, while the approved Phase 7 scope says repeating the same requested state is idempotent. `AccountIntegrationTest.relationshipSetIdempotentAndUpdatesFields` instead asserts a MANUAL row becomes SNAPSHOT and does not check the timestamp. Preserve creation provenance on updates and leave `updated_at` unchanged for an identical command; update the tests to distinguish an actual mutable-state change from an exact repeat. Keep concurrent mutable fields coherent. If this cannot be reconciled with the handoff's whole-command wording, stop and request owner clarification rather than changing frozen DBML semantics.
+2. **Medium — public Account batch read has no bound.** `ExternalAccountOperations.findByIds(List<Long>)` and `ExternalAccountService.findByIds` (lines 19 and 174–178) accept an arbitrarily large list and call `findAllById` without a limit. This is outside the approved ID-/parent-scoped, explicitly bounded collection-read contract and can generate a very large query/result. Remove the unneeded method (its only caller is a test), or define and enforce a small explicit bound with deterministic behavior and tests. Do not introduce a global list/search API.
+3. **Medium — follower snapshot paths perform N+1 database reads.** `FollowerSnapshotService.createSnapshot` (line 74) queries Account existence once per submitted entry; a large historical capture therefore issues one SELECT per follower. `findRecentByOwner` maps up to 100 headers through `toView`, which runs `countBySnapshotId` for each (lines 161, 188–189). Use scoped bulk existence validation and a grouped count/projection for the bounded header list (or another proportionate bounded query design), preserving atomic rejection, snapshot copies, and deterministic views. Add regression evidence for the query shape so the issue does not recur.
+
+## Checks and non-blocking observations
+
+- Independent `mvn -f backend/pom.xml -ntp clean verify` on Java 25 passed: **498 tests, 0 failures, 0 errors, 0 skipped**. The 12 Spring Modulith architecture tests, PostgreSQL Testcontainers, Flyway V1, and Hibernate validation passed. `git diff --check` passed.
+- The concurrent external-ID test reaches the PostgreSQL uniqueness race and captures worker-thread logs. Generated Surefire XML contains neither its private marker nor PostgreSQL `Detail: Key` text. Vault rollback, snapshot batch conflict rejection, and whole-row relationship contention tests pass; the findings above are cases these tests do not currently prove.
+- Account owns the four approved tables, uses public Vault/Reference contracts through narrowed named interfaces, and keeps entities/repositories internal. No frozen migration, cross-module internal import, stale Account `.gitkeep`, unexpected generated artifact, or new agent/hook change was found.
+- Existing Lombok/JDK `Unsafe` and deprecated test-support warnings remain non-blocking toolchain debt. No IDE inspection was run, so this review does not claim an IDE-warning-free state. The approval-status text in root/roadmap docs predates implementation and is synchronized with this review status.
+
+## Gate
+
+Antigravity should remediate the three findings within the active Phase 7 handoff, update affected tests/evidence, and rerun the handoff verification. Do not commit/push or advance Phase 7 closeout while `CHANGES_REQUESTED` remains. If the frozen provenance meaning requires a scope decision, report that conflict for owner direction before changing the baseline.

@@ -33,5 +33,11 @@
  * <p>Canonical architecture references: {@code docs/architecture/module-boundaries.md} and
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
-@org.springframework.modulith.ApplicationModule(allowedDependencies = { "vault", "reference" })
+@org.springframework.modulith.ApplicationModule(allowedDependencies = {
+        "vault::entry",
+        "vault::enums",
+        "vault::view",
+        "reference::catalog",
+        "reference::view"
+})
 package com.vhvkhangg.personalprivatevault.account;

@@ -20,7 +20,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 4     | `fiction` domain                                                                              | P-4 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 5     | `film` domain + film credits                                                                  | P-5 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 6     | `media` + `location` foundations                                                              | P-6 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
-| 7     | `account` external/social account history                                                     | **P-7: READY FOR HANDOFF**                          | Not started           | —                    |
+| 7     | `account` external/social account history                                                     | P-7 complete                                        | **READY FOR OWNER COMMIT** | —                    |
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 planned                                         | Not started           | —                    |
 | 9     | `collection` + music/shopping/software                                                        | P-9 planned                                         | Not started           | **After completion** |
 | 10    | `feed` + `importdata` workflows                                                               | P-10 planned                                        | Not started           | —                    |
@@ -69,8 +69,8 @@ completed handoff is archived under `implementation/phase-5/`.
 
 Phase 6 Media + Location preparation and implementation passed Codex review and were owner committed/pushed.
 Phase 6 is now `COMPLETE — FROZEN`. The Phase 4–6 milestone is `MILESTONE_READY`; its status docs were
-owner committed/pushed and post-milestone synchronization/reset is complete. Phase 7 pre-handoff re-review returned
-`READY FOR HANDOFF`; owner preparation commit/push is pending.
+owner committed/pushed and post-milestone synchronization/reset is complete. Phase 7 preparation was owner
+committed/pushed; implementation final acceptance re-review is `READY FOR OWNER COMMIT`.
 
 ## Phase 6 closeout
 
@@ -81,7 +81,9 @@ The initial Phase 4–6 milestone review returned `CHANGES_REQUESTED` for privat
 constraint-error logs. Owner-approved maintenance closed the finding, and the re-review returned `MILESTONE_READY`.
 The owner committed/pushed the Phase 4–6 milestone review/status package and ChatGPT completed post-milestone
 synchronization/reset. Phase 7 Account preparation's two docs/test-contract findings were remediated, and Codex
-re-review returned `READY FOR HANDOFF`. The owner commits/pushes the preparation slice before handoff creation.
+re-review returned `READY FOR HANDOFF`. The owner committed/pushed preparation and Codex created the implementation
+handoff. Its first final review found three production-code defects, now corrected. A test-only query-shape finding
+was also corrected; final acceptance re-review is `READY FOR OWNER COMMIT`. Owner commit/push remains pending.
 
 ## Completed Phase 4–6 milestone maintenance
 

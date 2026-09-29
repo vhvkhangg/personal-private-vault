@@ -2,6 +2,9 @@
 
 Status: **PREPARED — READY FOR HANDOFF** after the [Codex re-review](reviews/2026-09-29-phase-7-pre-handoff-codex-rereview.md).
 
+Implementation final acceptance re-review: **READY FOR OWNER COMMIT**. See the [acceptance review](reviews/2026-09-29-phase-7-final-codex-acceptance-review.md).
+Phase 7 is not complete/frozen.
+
 Phase 7 implements the `account` module after the frozen Vault/Reference foundations and before Phase 8 Knowledge,
 because Study may later reference a stored YouTube channel account.
 
@@ -16,8 +19,8 @@ No Phase 7 production implementation is authorized until:
 
 ## Current gate
 
-The owner commits/pushes this preparation slice, then runs `$codex-create-handoff`.
-Do not create the implementation handoff before that owner commit/push.
+The preparation slice was owner committed/pushed and the implementation handoff was created. Antigravity's
+implementation and test-only remediation passed Codex final acceptance re-review. Owner commit/push is pending.
 
 ## Owned Schema v1 tables
 
