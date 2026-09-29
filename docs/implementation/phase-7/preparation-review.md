@@ -1,28 +1,22 @@
 # Phase 7 Pre-Handoff Preparation Review
 
-Status: **BLOCKED — PHASE 4–6 MILESTONE MAINTENANCE IN PROGRESS**
+Status: **READY FOR HANDOFF**
+
+The [initial Codex pre-handoff review](reviews/2026-09-29-phase-7-pre-handoff-codex-review.md) found two
+docs/test-contract gaps. Both were remediated without production or frozen-baseline changes, and the
+[Codex re-review](reviews/2026-09-29-phase-7-pre-handoff-codex-rereview.md) accepted the preparation.
 
 ## Gate
 
-Do not run `$codex-pre-handoff-review` until:
+All milestone prerequisites are satisfied:
 
-```text
-docs/implementation/phase-6/milestone-review.md
-```
+- `docs/implementation/phase-6/milestone-review.md` = `MILESTONE_READY`;
+- milestone review/status documents are owner committed/pushed;
+- completed maintenance handoff is archived;
+- `docs/implementation/handoffs/ACTIVE.md` = `NO_ACTIVE_HANDOFF`.
 
-has status:
-
-```text
-MILESTONE_READY
-```
-
-After `MILESTONE_READY`:
-
-1. owner commits/pushes milestone review/status changes;
-2. owner sends the latest package to ChatGPT;
-3. ChatGPT performs post-milestone synchronization/reset and changes this status to
-   `AWAITING CODEX PRE-HANDOFF REVIEW`;
-4. only then run `$codex-pre-handoff-review`.
+The entry gates and preparation re-review passed. The owner must commit/push this preparation slice before Codex
+creates the Phase 7 implementation handoff.
 
 ## Scope once unblocked
 
@@ -62,21 +56,19 @@ Codex should verify:
 - External Account uses `EXTERNAL_ACCOUNT` Vault identity transactionally;
 - identifier and `(platform_id, external_id)` uniqueness semantics match Flyway V1 without inventing username/URL
   uniqueness;
+- the external-ID conflict test contract requires a real concurrent PostgreSQL uniqueness conflict plus captured
+  worker-thread logs proving the private marker and raw vendor `Detail: Key` text are absent;
 - relationship direction fields and one-row-per-owner/target semantics are explicit and race-safe;
 - snapshots remain historical records and do not silently mutate current relationship state;
-- snapshot header/entries are transactionally consistent and duplicate entries use set semantics;
+- snapshot creation is batch-only/immutable; identical duplicate target copies collapse while conflicting historical
+  copies reject the whole snapshot command with no partial commit;
 - public reads are explicitly bounded/account-scoped;
 - live platform/API/scraping/scheduler work is excluded;
 - PostgreSQL race tests require observable contention rather than timing-only sleeps;
 - package direction is coherent and existing agents/hooks remain sufficient;
 - repository tree/status/docs/links are internally consistent.
 
-## Next command
+## Next action
 
-Phase 7 review is not authorized yet. The current workflow command is:
-
-```text
-$codex-create-handoff
-```
-
-for the approved `milestone-4-6-privacy-safe-constraint-logging` maintenance slice.
+The owner commits/pushes this preparation/docs/tooling slice. Then run `$codex-create-handoff`.
+Do not create the Phase 7 implementation handoff before that owner commit/push.

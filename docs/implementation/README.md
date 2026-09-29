@@ -11,7 +11,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-4/`](phase-4/README.md) — **COMPLETE / FROZEN** — `fiction`
 - [`phase-5/`](phase-5/README.md) — **COMPLETE / FROZEN** — `film`
 - [`phase-6/`](phase-6/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `media` + `location`
-- [`phase-7/`](phase-7/README.md) — **PREPARED / BLOCKED BY POST-MILESTONE SYNC** — `account`
+- [`phase-7/`](phase-7/README.md) — **PREPARED / READY FOR HANDOFF** — `account`
 
 Maintenance:
 
@@ -21,17 +21,14 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The completed [maintenance handoff](handoffs/ACTIVE.md) retains its historical `READY_FOR_OWNER_COMMIT` field until
-ChatGPT performs the post-milestone reset.
+There is no active implementation handoff.
 
-Backend Phase 6 Media + Location is complete/frozen after owner commit/push. Its completed handoff is archived in
-[`phase-6/handoff.md`](phase-6/handoff.md).
+The Phase 4–6 milestone is `MILESTONE_READY`. The privacy-safe constraint-logging maintenance is complete/frozen,
+its handoff is archived, and post-milestone synchronization/reset is complete.
 
-The [Phase 4–6 milestone review](phase-6/milestone-review.md) is `MILESTONE_READY`. The completed
-maintenance scope is
-[`maintenance/milestone-4-6-privacy-safe-constraint-logging/`](maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md).
-The owner commits/pushes this milestone review/status package next. Phase 7 Account preparation remains blocked until
-ChatGPT completes post-milestone synchronization/reset.
+Backend Phase 7 Account preparation is `READY FOR HANDOFF` after Codex re-review. The owner commits/pushes this
+preparation slice next, then runs `$codex-create-handoff`. Do **not** create a Phase 7 implementation handoff before
+that owner commit/push.
 
 ## Operational guidance
 

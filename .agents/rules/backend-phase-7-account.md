@@ -24,10 +24,14 @@ Constraints:
 - Account depends only on Vault + Reference public contracts;
 - validate platform through Reference;
 - preserve at-least-one identifier and non-null platform/external-ID uniqueness semantics;
+- concurrent external-ID conflicts must retain privacy-safe logging: no rejected External ID or raw PostgreSQL
+  vendor detail in captured worker-thread logs;
 - one current relationship row exists per owner/target pair, with separate follower/follow directions;
 - snapshots are historical captures and do not silently mutate relationship state;
-- snapshot header + entries commit atomically;
-- snapshot entries use idempotent set semantics;
+- snapshot header + entries commit atomically through batch snapshot creation;
+- completed snapshots are immutable in Phase 7; do not add a public append-entry operation;
+- identical duplicate target snapshots collapse, but differing historical copies for one target reject the entire
+  snapshot command; never first-wins/last-wins/merge conflicting copies;
 - reads are account/snapshot-scoped and bounded;
 - no platform API/OAuth/scraping/browser automation/scheduling;
 - no Knowledge/feed/importdata implementation, migrations, controllers, frontend, global search, or deletion unless

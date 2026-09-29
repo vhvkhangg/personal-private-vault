@@ -39,10 +39,14 @@ Use:
 - External Account ID equals its `EXTERNAL_ACCOUNT` Vault Entry ID.
 - At least one of username/external ID/URL is present.
 - Non-null `(platform_id, external_id)` duplicates are stable conflicts; username/URL are not invented unique keys.
+- External-ID uniqueness regressions must prove private External ID values and raw PostgreSQL vendor detail do not
+  leak to captured logs.
 - Relationship owner and target differ and resolve to existing External Accounts.
 - One canonical current relationship row exists per owner/target pair.
-- Snapshot header + entries are transactionally consistent historical data.
-- Snapshot target entries are set-like within a snapshot.
+- Snapshot header + entries are transactionally consistent historical data created as one batch.
+- Completed snapshots are immutable in Phase 7; no public entry-append operation is approved.
+- Identical duplicate target snapshots collapse; conflicting historical copies for one target reject the whole
+  snapshot command rather than selecting or merging an arbitrary winner.
 - Storing a snapshot alone does not silently rewrite current relationship state.
 - Public APIs expose immutable capabilities/views, never JPA entities/repositories.
 - Collection reads are parent-scoped and explicitly bounded.

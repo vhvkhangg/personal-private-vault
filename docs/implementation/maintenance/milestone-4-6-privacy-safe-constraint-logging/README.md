@@ -1,11 +1,11 @@
 # Phase 4–6 Milestone Privacy-Safe Constraint Logging Maintenance
 
-Status: **COMPLETE / FROZEN** after Codex final re-review and owner commit/push `9449b9e`.
+Status: **COMPLETE — FROZEN (2026-09-29)**
 
 Owner approval: **2026-09-29**
 
-The completed maintenance handoff remains in [`../../handoffs/ACTIVE.md`](../../handoffs/ACTIVE.md) until
-post-milestone synchronization/reset; its `READY_FOR_OWNER_COMMIT` field is historical.
+The completed maintenance handoff is archived at [`handoff.md`](handoff.md). The active handoff slot has been
+cleared after the successful Phase 4–6 milestone re-review.
 
 Source finding:
 [`../../phase-6/reviews/2026-09-29-phase-4-6-milestone-codex-review.md`](../../phase-6/reviews/2026-09-29-phase-4-6-milestone-codex-review.md)
@@ -231,3 +231,18 @@ No new domain skill, custom agent, or hook is required.
 5. Codex: rerun `$codex-milestone-review` for Phases 4–6.
 6. Phase 7 remains blocked until the milestone is `MILESTONE_READY`, the owner commits/pushes milestone status docs,
    and ChatGPT performs post-milestone synchronization/reset.
+
+
+## Completion record
+
+- Codex final re-review: `READY_FOR_OWNER_COMMIT`.
+- Owner commit/push: `9449b9e`.
+- Phase 4–6 milestone re-review: `MILESTONE_READY`.
+- Completed handoff: [`handoff.md`](handoff.md).
+- Test evidence: [`test-evidence.md`](test-evidence.md).
+- Reviews:
+  - [`reviews/2026-09-29-final-codex-review.md`](reviews/2026-09-29-final-codex-review.md)
+  - [`reviews/2026-09-29-final-codex-rereview.md`](reviews/2026-09-29-final-codex-rereview.md)
+- Status: **COMPLETE — FROZEN**.
+
+Future changes to this logging policy require a new owner-approved maintenance or feature scope.

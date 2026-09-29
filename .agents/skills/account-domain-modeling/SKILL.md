@@ -28,6 +28,10 @@ Schema v1 does.
 Non-null `(platform_id, external_id)` is uniquely constrained. Duplicate creates are conflicts; concurrent duplicates
 must translate to a stable Account-domain conflict. Do not invent username/URL uniqueness.
 
+Treat External IDs as private values for logging. The concurrent unique-conflict regression must capture logs across
+the competing worker thread and prove that a distinctive External ID marker and raw PostgreSQL vendor `Detail: Key`
+output are absent while the domain conflict remains observable.
+
 ## Relationship row
 
 There is one current relationship row per owner/target pair.
@@ -42,8 +46,15 @@ exceptions or construct a state by mixing fields from competing commands.
 
 Snapshots are historical captures, not live relationship rows.
 
-Create the snapshot header and submitted entries atomically. Snapshot entry identity is
-`(snapshot_id, target_account_id)` and behaves as a set.
+Create the snapshot header and submitted entries atomically. Phase 7 exposes batch snapshot creation only; completed
+snapshots are immutable and there is no public append-entry operation.
+
+For repeated entries with the same target inside one submitted snapshot:
+
+- identical normalized historical copies collapse to one entry;
+- differing username/display-name/external-ID/profile-URL copies reject the entire snapshot command with a stable
+  Account-domain validation error;
+- never use first-wins/last-wins or merge conflicting fields.
 
 Preserve snapshot copies of username/display name/external ID/profile URL. Do not replace them with only live current
 account fields.
@@ -80,7 +91,8 @@ Do not expose JPA entities/repositories or create generic CRUD bases / `ServiceI
 ## Testing
 
 Use PostgreSQL Testcontainers. Cover Vault rollback, Reference platform validation, identifier checks, external-ID
-unique races, relationship same-pair concurrency, snapshot atomicity, snapshot-entry set behavior, bounded reads,
-exact Modulith dependencies, and unchanged Flyway/Hibernate validation.
+unique races plus privacy-safe captured-log assertions, relationship same-pair concurrency, snapshot atomicity,
+identical duplicate collapse, conflicting duplicate snapshot rejection, bounded reads, exact Modulith dependencies,
+and unchanged Flyway/Hibernate validation.
 
 Use observable PostgreSQL contention for race claims rather than timing-only sleeps.

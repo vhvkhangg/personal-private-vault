@@ -1,19 +1,23 @@
 # Backend Phase 7 — External Account & Relationship History Foundation
 
-Status: **PREPARED — BLOCKED BY PHASE 4–6 MILESTONE REVIEW**
+Status: **PREPARED — READY FOR HANDOFF** after the [Codex re-review](reviews/2026-09-29-phase-7-pre-handoff-codex-rereview.md).
 
 Phase 7 implements the `account` module after the frozen Vault/Reference foundations and before Phase 8 Knowledge,
 because Study may later reference a stored YouTube channel account.
 
+The Phase 4–6 milestone is `MILESTONE_READY`, its review/status documents are committed/pushed, and the required
+post-milestone synchronization/reset is complete.
+
 No Phase 7 production implementation is authorized until:
 
-1. `docs/implementation/phase-6/milestone-review.md` is `MILESTONE_READY`;
-2. the owner commits/pushes the milestone review/status documents;
-3. ChatGPT performs the post-milestone synchronization/reset and changes Phase 7 preparation to
-   `AWAITING CODEX PRE-HANDOFF REVIEW`;
-4. Phase 7 passes `$codex-pre-handoff-review`;
-5. the approved Phase 7 preparation slice is committed/pushed;
-6. `$codex-create-handoff` creates an active Phase 7 implementation handoff.
+1. Phase 7 passes `$codex-pre-handoff-review`;
+2. the approved Phase 7 preparation slice is committed/pushed;
+3. `$codex-create-handoff` creates an active Phase 7 implementation handoff.
+
+## Current gate
+
+The owner commits/pushes this preparation slice, then runs `$codex-create-handoff`.
+Do not create the implementation handoff before that owner commit/push.
 
 ## Owned Schema v1 tables
 
@@ -80,6 +84,26 @@ Frozen Schema v1 uniquely constrains `(platform_id, external_id)` when `external
 - PostgreSQL uniqueness is the final race arbiter;
 - do not invent username or URL uniqueness because Schema v1 does not define it.
 
+### Privacy-safe external-ID conflict diagnostics
+
+The new `(platform_id, external_id)` conflict path must preserve the privacy-safe constraint-logging baseline from the
+Phase 4–6 maintenance.
+
+The Phase 7 handoff must require a PostgreSQL-backed concurrent duplicate regression that:
+
+1. uses the same valid Platform with a distinctive private External ID marker;
+2. deterministically forces both create attempts past any application pre-check so the loser reaches the PostgreSQL
+   unique constraint;
+3. captures application logs across the competing worker thread;
+4. preserves the stable Account-domain conflict for the loser;
+5. asserts the private External ID marker does **not** appear anywhere in captured logs;
+6. asserts raw PostgreSQL vendor detail such as `Detail: Key (platform_id, external_id)=(` does **not** appear;
+7. preserves only non-sensitive diagnostics if any are emitted, such as SQLState, constraint name, or stable event
+   code, without logging rejected values or raw throwable/root-cause messages.
+
+This is a regression requirement for the existing logging policy, not authorization for another logging redesign.
+Do not weaken the privacy-safe Hibernate logger configuration merely to make the new conflict path observable.
+
 ## Relationship state
 
 `external_account_relationships` owns one current relationship row per `(owner_account_id, target_account_id)`.
@@ -118,8 +142,24 @@ profile URL so historical display data is not lost when the current External Acc
 Snapshot creation should be transactional across the snapshot header and its submitted entries. A failure must not
 leave a partial snapshot.
 
-Within one snapshot, `(snapshot_id, target_account_id)` is set semantics. Duplicate target entries converge to one
-entry and do not leak a primary-key exception. Do not invent uniqueness across different snapshots.
+Phase 7 uses **batch snapshot creation** as the only public write contract for snapshot entries. A completed snapshot
+is immutable in this phase; do not expose a separate public `addEntry`/append operation after snapshot creation.
+
+Within one submitted snapshot command, group entries by `target_account_id` before persistence:
+
+- if repeated entries for the same target have identical normalized historical copies
+  (`username_snapshot`, `display_name_snapshot`, `external_id_snapshot`, `profile_url_snapshot`), collapse them to one
+  entry;
+- if any of those historical copies differ for the same target, reject the **entire snapshot command** with a stable
+  Account-domain validation error (for example `InvalidFollowerSnapshotException`) before commit;
+- never choose first-wins/last-wins arbitrarily and never merge fields from conflicting copies;
+- the rejected command must commit neither the snapshot header nor any snapshot entry.
+
+This makes historical capture deterministic and prevents arbitrary/torn copies. No independent concurrent public
+entry-add operation is approved in Phase 7, so no concurrent-add winner policy is needed. A future append API would
+require a separate owner-approved contract.
+
+Do not invent uniqueness across different snapshots.
 
 Do not require `reported_total_count == entry count`; frozen Schema v1 stores reported count separately.
 
@@ -186,7 +226,8 @@ automation, or event classes without a concrete consumer.
 - one canonical relationship row exists per owner/target pair;
 - relationship updates are whole-command coherent under concurrent writes;
 - snapshot header + submitted entries commit atomically;
-- snapshot target entries have idempotent set semantics;
+- identical duplicate snapshot entries for one target collapse idempotently, while conflicting historical copies
+  for the same target reject the entire snapshot command;
 - historical snapshot text values remain historical snapshots rather than live joins;
 - public APIs return immutable views and never expose JPA entities/repositories;
 - cross-module internals remain inaccessible.
@@ -199,11 +240,17 @@ Require PostgreSQL Testcontainers coverage for:
 - External Account/Vault rollback;
 - identifier check and platform validation;
 - duplicate non-null `(platform_id, external_id)` sequential/concurrent conflict with observable PostgreSQL contention;
+- privacy regression for that concurrent external-ID conflict using a distinctive private marker, captured worker-thread
+  logs, absence of the marker and raw PostgreSQL `Detail: Key (platform_id, external_id)=(` output, and preservation
+  of the stable Account-domain conflict;
 - username/URL duplicates remaining permitted when the frozen unique key does not apply;
 - relationship self-reference rejection;
 - relationship set/update semantics and concurrent same-pair writes without raw persistence leakage;
-- transactional snapshot creation and rollback;
-- duplicate snapshot-entry set behavior, including concurrent contention where independent add operations exist;
+- transactional batch snapshot creation and rollback;
+- identical duplicate snapshot entries for one target collapse to one committed entry;
+- conflicting duplicate historical copies for one target reject the whole snapshot and commit neither header nor
+  entries;
+- no public post-creation snapshot-entry append API in Phase 7;
 - bounded reads and deterministic ordering;
 - exact Spring Modulith named-interface dependencies;
 - final `mvn -f backend/pom.xml clean verify` on Java 25;

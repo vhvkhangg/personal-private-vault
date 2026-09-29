@@ -8,7 +8,7 @@ Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 deliver
 
 Backend Phases 2 (`authentication` + `settings`), 3 (`people`), 4 (`fiction`), 5 (`film`), and 6
 (`media` + `location`) are **complete and frozen** after owner commit/push. The Phase 1–3 milestone remains
-`MILESTONE_READY`. The Phase 4–6 milestone is also `MILESTONE_READY` after committed privacy-safe constraint-logging maintenance. Phase 7 (`account`) remains blocked pending the milestone status-doc commit/push and post-milestone synchronization/reset.
+`MILESTONE_READY`. The Phase 4–6 milestone is also `MILESTONE_READY` after committed privacy-safe constraint-logging maintenance. Phase 7 (`account`) preparation is `READY FOR HANDOFF` after Codex re-review; owner commit/push is pending.
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
@@ -35,8 +35,8 @@ Frozen implementation phases:
 
 Current gate:
 
-- Phase 4–6 milestone — `MILESTONE_READY`; milestone review/status docs await owner commit/push
-- Phase 7 Account preparation exists but remains blocked until post-milestone synchronization/reset
+- Phase 4–6 milestone — `MILESTONE_READY` and synchronized
+- Phase 7 Account preparation — `READY FOR HANDOFF`; owner commits/pushes, then runs `$codex-create-handoff`
 
 ## Planned stack
 

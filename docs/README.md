@@ -3,9 +3,9 @@
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
 Backend Phases 0–6 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
-The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance.
-Phase 7 (`account`) remains blocked until the owner commits/pushes milestone review/status docs and ChatGPT completes
-post-milestone synchronization/reset. Phase 1 delivered the
+The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
+post-milestone synchronization/reset. Phase 7 (`account`) preparation is `READY FOR HANDOFF` after Codex re-review;
+owner commit/push is pending. Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 
