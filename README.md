@@ -8,7 +8,7 @@ Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 deliver
 
 Backend Phases 2 (`authentication` + `settings`), 3 (`people`), and 4 (`fiction`) are **complete and frozen**
 after owner commit/push. The Phase 1–3 milestone remains `MILESTONE_READY`. Phase 5 (`film`) preparation is
-`READY FOR HANDOFF` and awaits owner commit/push.
+committed/pushed, and its implementation handoff is `READY_FOR_OWNER_COMMIT` after Codex final review.
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
 
@@ -33,9 +33,8 @@ Frozen implementation phases:
 
 Current gate:
 
-- Backend Phase 5 — Film Foundation preparation is `READY FOR HANDOFF`
-- owner commits/pushes preparation, then runs `$codex-create-handoff`
-- no Phase 5 production implementation handoff exists yet
+- Backend Phase 5 — Film Foundation is `READY_FOR_OWNER_COMMIT`
+- owner commits/pushes, then ChatGPT closes Phase 5 and prepares Phase 6
 
 ## Planned stack
 

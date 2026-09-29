@@ -50,5 +50,5 @@ Fiction Foundation is **complete and frozen** after owner commit/push. See
 
 ## Phase 5
 
-Film Foundation preparation is `READY FOR HANDOFF` and awaits owner commit/push. See
+Film Foundation implementation handoff is `READY_FOR_OWNER_COMMIT`. See
 `../docs/implementation/phase-5/README.md`.

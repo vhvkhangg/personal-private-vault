@@ -1,14 +1,20 @@
 # Backend Phase 5 — Film Foundation
 
-Status: **READY FOR HANDOFF — AWAITING OWNER PREPARATION COMMIT/PUSH**
+Status: **READY FOR OWNER COMMIT**
 
 Phase 5 implements the `film` module after the frozen `vault`, `reference`, `people`, and `fiction` foundations.
 
-No Phase 5 production implementation is authorized until:
+The preparation gate is complete:
 
 1. this preparation passes `$codex-pre-handoff-review`;
 2. the approved Phase 5 preparation slice is committed/pushed;
 3. `$codex-create-handoff` creates an active Phase 5 implementation handoff.
+
+The active contract is [`../handoffs/ACTIVE.md`](../handoffs/ACTIVE.md). Antigravity implements/tests only that
+scope; this preparation document remains its approved reference.
+
+The implementation and evidence remediation passed [Codex final review](reviews/2026-09-29-phase-5-final-codex-review.md).
+Owner commit/push and Phase 5 closeout remain.
 
 Phase 5 is **not** a milestone phase. The next cross-phase milestone occurs after Phase 6.
 

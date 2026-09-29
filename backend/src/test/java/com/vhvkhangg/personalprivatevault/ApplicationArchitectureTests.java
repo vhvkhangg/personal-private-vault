@@ -171,4 +171,111 @@ class ApplicationArchitectureTests {
                     .noneMatch(name -> name.contains(".internal."));
         }
     }
+
+    @Test
+    @DisplayName("Verifies that film module defines expected named interfaces")
+    void verifiesFilmModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var filmModule = modules.getModuleByName("film");
+        assertThat(filmModule).isPresent();
+        assertThat(filmModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("credit", "enums", "film", "genre", "link", "view");
+    }
+
+    @Test
+    @DisplayName("Verifies film module named interfaces expose capability contracts and hide internal packages")
+    void verifiesFilmNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var filmModule = modules.getModuleByName("film").orElseThrow();
+
+        // 1. Verify exact logical named interfaces: no unexpected named interface introduced
+        assertThat(filmModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("credit", "enums", "film", "genre", "link", "view");
+
+        // 2. Verify film named interface exposes operations, commands, and exceptions
+        var filmInterface = filmModule.getNamedInterfaces().getByName("film").orElseThrow();
+        var filmTypeNames = filmInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(filmTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.film.film.FilmOperations",
+                "com.vhvkhangg.personalprivatevault.film.film.command.CreateFilmCommand",
+                "com.vhvkhangg.personalprivatevault.film.film.command.UpdateFilmCommand",
+                "com.vhvkhangg.personalprivatevault.film.film.exception.FilmNotFoundException",
+                "com.vhvkhangg.personalprivatevault.film.film.exception.InvalidFilmException"
+        );
+
+        // 3. Verify genre named interface exposes operations, commands, and exceptions
+        var genreInterface = filmModule.getNamedInterfaces().getByName("genre").orElseThrow();
+        var genreTypeNames = genreInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(genreTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.film.genre.FilmGenreOperations",
+                "com.vhvkhangg.personalprivatevault.film.genre.command.CreateFilmGenreCommand",
+                "com.vhvkhangg.personalprivatevault.film.genre.command.UpdateFilmGenreCommand",
+                "com.vhvkhangg.personalprivatevault.film.genre.exception.FilmGenreNameAlreadyExistsException",
+                "com.vhvkhangg.personalprivatevault.film.genre.exception.FilmGenreNotFoundException",
+                "com.vhvkhangg.personalprivatevault.film.genre.exception.InvalidFilmGenreException"
+        );
+
+        // 4. Verify link named interface exposes operations, commands, and exceptions
+        var linkInterface = filmModule.getNamedInterfaces().getByName("link").orElseThrow();
+        var linkTypeNames = linkInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(linkTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.film.link.FilmLinkOperations",
+                "com.vhvkhangg.personalprivatevault.film.link.command.CreateFilmLinkCommand",
+                "com.vhvkhangg.personalprivatevault.film.link.command.UpdateFilmLinkCommand",
+                "com.vhvkhangg.personalprivatevault.film.link.exception.FilmLinkNotFoundException",
+                "com.vhvkhangg.personalprivatevault.film.link.exception.InvalidFilmLinkException"
+        );
+
+        // 5. Verify credit named interface exposes operations, commands, and exceptions
+        var creditInterface = filmModule.getNamedInterfaces().getByName("credit").orElseThrow();
+        var creditTypeNames = creditInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(creditTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.film.credit.FilmCreditOperations",
+                "com.vhvkhangg.personalprivatevault.film.credit.command.CreateFilmCreditCommand",
+                "com.vhvkhangg.personalprivatevault.film.credit.exception.FilmCreditNotFoundException",
+                "com.vhvkhangg.personalprivatevault.film.credit.exception.InvalidFilmCreditException"
+        );
+
+        // 6. Verify enums named interface exposes expected enums
+        var enumsInterface = filmModule.getNamedInterfaces().getByName("enums").orElseThrow();
+        var enumsTypeNames = enumsInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(enumsTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.film.enums.FilmFormat",
+                "com.vhvkhangg.personalprivatevault.film.enums.FilmProductionStyle",
+                "com.vhvkhangg.personalprivatevault.film.enums.FilmCreditRole",
+                "com.vhvkhangg.personalprivatevault.film.enums.ProgressStatus",
+                "com.vhvkhangg.personalprivatevault.film.enums.ConsumptionStatus"
+        );
+
+        // 7. Verify view named interface exposes views
+        var viewInterface = filmModule.getNamedInterfaces().getByName("view").orElseThrow();
+        var viewTypeNames = viewInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(viewTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.film.view.FilmView",
+                "com.vhvkhangg.personalprivatevault.film.view.FilmGenreView",
+                "com.vhvkhangg.personalprivatevault.film.view.FilmLinkView",
+                "com.vhvkhangg.personalprivatevault.film.view.FilmCreditView",
+                "com.vhvkhangg.personalprivatevault.film.view.FilmClassificationsView"
+        );
+
+        // 8. Verify no internal type is exposed through any named interface of film module
+        for (var namedInterface : filmModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
 }
