@@ -60,6 +60,10 @@ Media + Location Foundations are **complete and frozen** after owner commit/push
 
 ## Phase 7
 
-External Account & Relationship History preparation exists but remains blocked until the `MILESTONE_READY` status docs
-are owner committed/pushed and ChatGPT completes post-milestone synchronization/reset.
-See `../docs/implementation/phase-7/README.md`.
+External Account & Relationship History is **complete and frozen** after owner commit/push. See
+`../docs/implementation/phase-7/README.md` and `../docs/implementation/phase-7/test-evidence.md`.
+
+## Phase 8
+
+Knowledge Foundation preparation is `READY FOR HANDOFF` after Codex re-review; owner commit/push is pending. See
+`../docs/implementation/phase-8/README.md`.

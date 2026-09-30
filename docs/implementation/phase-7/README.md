@@ -1,9 +1,9 @@
 # Backend Phase 7 — External Account & Relationship History Foundation
 
-Status: **PREPARED — READY FOR HANDOFF** after the [Codex re-review](reviews/2026-09-29-phase-7-pre-handoff-codex-rereview.md).
+Status: **COMPLETE — FROZEN (2026-09-30)**
 
 Implementation final acceptance re-review: **READY FOR OWNER COMMIT**. See the [acceptance review](reviews/2026-09-29-phase-7-final-codex-acceptance-review.md).
-Phase 7 is not complete/frozen.
+The owner has committed/pushed Phase 7; it is now complete/frozen.
 
 Phase 7 implements the `account` module after the frozen Vault/Reference foundations and before Phase 8 Knowledge,
 because Study may later reference a stored YouTube channel account.
@@ -17,10 +17,11 @@ No Phase 7 production implementation is authorized until:
 2. the approved Phase 7 preparation slice is committed/pushed;
 3. `$codex-create-handoff` creates an active Phase 7 implementation handoff.
 
-## Current gate
+## Completion state
 
-The preparation slice was owner committed/pushed and the implementation handoff was created. Antigravity's
-implementation and test-only remediation passed Codex final acceptance re-review. Owner commit/push is pending.
+The preparation and implementation slices were owner committed/pushed. Antigravity's implementation and test-only
+remediation passed Codex final acceptance re-review. Phase 7 is frozen; future Account changes require a new
+owner-approved feature or maintenance scope.
 
 ## Owned Schema v1 tables
 
@@ -291,3 +292,20 @@ Reused without new custom agents/hooks:
 - repository safety hook
 
 No new custom agent or hook is justified for Phase 7.
+
+
+## Completion record
+
+- Owner commit/push: completed 2026-09-30.
+- Final Codex result: `READY_FOR_OWNER_COMMIT`.
+- Final verification: `mvn -f backend/pom.xml -ntp clean verify` — **489 tests**, 0 failures/errors/skips across
+  38 suites.
+- PostgreSQL: 18.6 via Testcontainers; Java 25; Maven 3.9.15.
+- Spring Modulith architecture tests: 12/12 passed.
+- Final handoff archive: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Final acceptance review:
+  [`reviews/2026-09-29-phase-7-final-codex-acceptance-review.md`](reviews/2026-09-29-phase-7-final-codex-acceptance-review.md).
+- Phase status: **COMPLETE — FROZEN**.
+
+Phase 8 Knowledge preparation is the next workflow gate.

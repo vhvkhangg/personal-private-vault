@@ -19,8 +19,10 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 6 (`media` + `location`) is complete/frozen after owner commit/push.
 - The Phase 4–6 milestone is `MILESTONE_READY` after committed privacy-safe constraint-logging maintenance and
   post-milestone synchronization/reset.
-- Phase 7 (`account`) preparation is owner committed/pushed. Its active implementation handoff is
-  `READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review; owner commit/push is pending.
+- Backend Phase 7 (`account`) is complete/frozen after owner commit/push. Its completed handoff is archived under
+  `docs/implementation/phase-7/handoff.md`.
+- Backend Phase 8 (`knowledge`) preparation is `READY FOR HANDOFF` after Codex re-review; owner preparation
+  commit/push is pending, and no implementation handoff is active.
 
 Completed maintenance scope:
 
@@ -99,6 +101,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 4 fiction foundation baseline
 - Backend Phase 5 film foundation baseline
 - Backend Phase 6 media/location foundation baseline
+- Backend Phase 7 account foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

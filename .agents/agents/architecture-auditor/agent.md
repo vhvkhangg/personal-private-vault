@@ -29,5 +29,6 @@ Perform a read-only audit. Use the relevant engineering skills:
 - `media-domain-modeling` when Album/Image metadata work is in scope
 - `location-domain-modeling` when Brand/Location/Address/hours work is in scope
 - `account-domain-modeling` when external-account/relationship/follower-history work is in scope
+- `knowledge-domain-modeling` when Knowledge/Study/Information/Vocabulary/Note work is in scope
 
 Report concrete defects/risks; do not enforce patterns mechanically. Do not modify files or expand scope.

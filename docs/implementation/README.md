@@ -11,7 +11,8 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-4/`](phase-4/README.md) — **COMPLETE / FROZEN** — `fiction`
 - [`phase-5/`](phase-5/README.md) — **COMPLETE / FROZEN** — `film`
 - [`phase-6/`](phase-6/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `media` + `location`
-- [`phase-7/`](phase-7/README.md) — **IMPLEMENTED / READY FOR OWNER COMMIT** — `account`
+- [`phase-7/`](phase-7/README.md) — **COMPLETE / FROZEN** — `account`
+- [`phase-8/`](phase-8/README.md) — **PREPARED / READY FOR HANDOFF** — `knowledge`
 
 Maintenance:
 
@@ -21,14 +22,13 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The active [Phase 7 Account handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review.
+There is no active implementation handoff.
 
-The Phase 4–6 milestone is `MILESTONE_READY`. The privacy-safe constraint-logging maintenance is complete/frozen,
-its handoff is archived, and post-milestone synchronization/reset is complete.
+Backend Phase 7 Account is complete/frozen after owner commit/push. Its completed handoff is archived in
+[`phase-7/handoff.md`](phase-7/handoff.md), with final evidence/reviews retained under `phase-7/`.
 
-Backend Phase 7 Account preparation was owner committed/pushed. Antigravity corrected all production and test-only
-findings; the [final acceptance re-review](phase-7/reviews/2026-09-29-phase-7-final-codex-acceptance-review.md)
-is complete. Owner commit/push of the implementation package is pending.
+Backend Phase 8 Knowledge preparation is `READY FOR HANDOFF` after Codex re-review. Do **not** create a Phase 8
+implementation handoff until the owner commits/pushes this preparation slice.
 
 ## Operational guidance
 
