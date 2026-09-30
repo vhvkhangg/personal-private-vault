@@ -23,5 +23,9 @@
  * <p>Implementation details belong under {@code internal}. Keep this package focused on the stable
  * nested-module contract and package-level documentation.</p>
  */
-@org.springframework.modulith.ApplicationModule
+@org.springframework.modulith.ApplicationModule(allowedDependencies = {
+        "vault::entry",
+        "vault::enums",
+        "vault::view"
+})
 package com.vhvkhangg.personalprivatevault.knowledge.note;

@@ -12,7 +12,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-5/`](phase-5/README.md) — **COMPLETE / FROZEN** — `film`
 - [`phase-6/`](phase-6/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `media` + `location`
 - [`phase-7/`](phase-7/README.md) — **COMPLETE / FROZEN** — `account`
-- [`phase-8/`](phase-8/README.md) — **PREPARED / READY FOR HANDOFF** — `knowledge`
+- [`phase-8/`](phase-8/README.md) — **ACTIVE / READY FOR OWNER COMMIT** — `knowledge`
 
 Maintenance:
 
@@ -22,13 +22,13 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-There is no active implementation handoff.
+The active [Phase 8 Knowledge handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after Codex final re-review.
 
 Backend Phase 7 Account is complete/frozen after owner commit/push. Its completed handoff is archived in
 [`phase-7/handoff.md`](phase-7/handoff.md), with final evidence/reviews retained under `phase-7/`.
 
-Backend Phase 8 Knowledge preparation is `READY FOR HANDOFF` after Codex re-review. Do **not** create a Phase 8
-implementation handoff until the owner commits/pushes this preparation slice.
+Backend Phase 8 Knowledge preparation was owner committed/pushed. Its implementation and remediation passed Codex
+final re-review; owner commit/push is pending before Phase 8 closeout.
 
 ## Operational guidance
 

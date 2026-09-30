@@ -1,6 +1,8 @@
 # Backend Phase 8 — Knowledge Foundation
 
-Status: **PREPARED — READY FOR HANDOFF** after the [2026-09-30 Codex re-review](reviews/2026-09-30-phase-8-pre-handoff-codex-rereview.md). Owner commit/push of preparation is pending.
+Preparation: **READY FOR HANDOFF** after the [2026-09-30 Codex re-review](reviews/2026-09-30-phase-8-pre-handoff-codex-rereview.md); owner committed/pushed it as `b3f3cd9`.
+
+Implementation: **READY FOR OWNER COMMIT** after the [Codex final re-review](reviews/2026-09-30-phase-8-final-codex-rereview.md); owner commit/push is pending under the [active handoff](../handoffs/ACTIVE.md).
 
 Phase 8 implements the top-level `knowledge` facade and its four nested Spring Modulith modules:
 

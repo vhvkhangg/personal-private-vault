@@ -21,7 +21,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 5     | `film` domain + film credits                                                                  | P-5 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 6     | `media` + `location` foundations                                                              | P-6 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
 | 7     | `account` external/social account history                                                     | P-7 complete                                        | **COMPLETE — FROZEN** | —                    |
-| 8     | `knowledge` + study/information/vocabulary/note                                               | **P-8: READY FOR HANDOFF**                          | Not started           | —                    |
+| 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 complete                                        | **ACTIVE — READY FOR IMPLEMENTATION** | —                    |
 | 9     | `collection` + music/shopping/software                                                        | P-9 planned                                         | Not started           | **After completion** |
 | 10    | `feed` + `importdata` workflows                                                               | P-10 planned                                        | Not started           | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 planned                                        | Not started           | —                    |
@@ -82,7 +82,8 @@ constraint-error logs. Owner-approved maintenance closed the finding, and the re
 The owner committed/pushed the Phase 4–6 milestone review/status package and ChatGPT completed post-milestone
 synchronization/reset. Phase 7 preparation and implementation findings were remediated, final acceptance re-review
 returned `READY FOR OWNER COMMIT`, and the owner committed/pushed Phase 7. Phase 8 Knowledge preparation's three
-findings were remediated; Codex re-review returned `READY FOR HANDOFF`. Owner preparation commit/push is pending.
+findings were remediated; Codex re-review returned `READY FOR HANDOFF`, the owner committed/pushed preparation,
+and the Phase 8 implementation handoff is active.
 
 ## Phase 7 closeout
 
@@ -90,8 +91,9 @@ Phase 7 Account is complete/frozen after owner commit/push. Final verification r
 suites, including 15 Account integration tests and 12 architecture tests. Its completed handoff is archived under
 `implementation/phase-7/`.
 
-Phase 8 Knowledge preparation findings are closed; Codex re-review returned `READY FOR HANDOFF`.
-Owner preparation commit/push is next.
+Phase 8 Knowledge preparation findings are closed; Codex re-review returned `READY FOR HANDOFF`, the owner
+committed/pushed preparation as `b3f3cd9`. Antigravity remediated the final-review findings, and Codex final
+re-review returned `READY FOR OWNER COMMIT`; owner commit/push is pending.
 
 ## Completed Phase 4–6 milestone maintenance
 

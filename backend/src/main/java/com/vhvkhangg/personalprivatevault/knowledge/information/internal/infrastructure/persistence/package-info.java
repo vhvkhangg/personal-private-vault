@@ -1,0 +1,1 @@
+package com.vhvkhangg.personalprivatevault.knowledge.information.internal.infrastructure.persistence;

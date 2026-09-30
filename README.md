@@ -36,9 +36,9 @@ Frozen implementation phases:
 
 Current gate:
 
-- Backend Phase 8 — Knowledge Foundation preparation
-- preparation is `READY FOR HANDOFF`; owner commit/push is next
-- no Phase 8 implementation handoff until preparation is approved and owner committed/pushed
+- Backend Phase 8 — Knowledge Foundation implementation
+- preparation was owner committed/pushed; the [active handoff](docs/implementation/handoffs/ACTIVE.md) is
+  `READY_FOR_OWNER_COMMIT` after Codex final re-review; owner commit/push is pending
 
 ## Planned stack
 

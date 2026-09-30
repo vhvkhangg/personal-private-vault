@@ -4,7 +4,8 @@ Status: **READY FOR HANDOFF**
 
 Codex's [2026-09-30 pre-handoff review](reviews/2026-09-30-phase-8-pre-handoff-codex-review.md) recorded three
 preparation findings. The [re-review](reviews/2026-09-30-phase-8-pre-handoff-codex-rereview.md) accepted their
-remediation without Phase 8 production or frozen-baseline changes. Owner commit/push of preparation is next.
+remediation without Phase 8 production or frozen-baseline changes. The owner committed/pushed preparation as
+`b3f3cd9`, and Codex created the active Phase 8 implementation handoff.
 
 ## Preconditions
 
@@ -88,5 +89,5 @@ remediation.
 
 ## Next action
 
-Owner commits/pushes the approved preparation slice, then invokes `$codex-create-handoff`. Do not create the
-Phase 8 implementation handoff before that owner action.
+Completed: the owner committed/pushed the approved preparation slice, then Codex created the
+[active Phase 8 handoff](../handoffs/ACTIVE.md). Antigravity implementation/tests are next.

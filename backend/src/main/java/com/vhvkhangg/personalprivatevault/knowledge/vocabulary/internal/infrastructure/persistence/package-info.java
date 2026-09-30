@@ -1,0 +1,1 @@
+package com.vhvkhangg.personalprivatevault.knowledge.vocabulary.internal.infrastructure.persistence;

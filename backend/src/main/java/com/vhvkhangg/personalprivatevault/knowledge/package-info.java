@@ -28,5 +28,17 @@
  * <p>Canonical architecture references: {@code docs/architecture/module-boundaries.md} and
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
-@org.springframework.modulith.ApplicationModule(allowedDependencies = { "vault", "people", "reference", "account" })
+@org.springframework.modulith.ApplicationModule(allowedDependencies = {
+        "knowledge.study::study",
+        "knowledge.study::enums",
+        "knowledge.study::view",
+        "knowledge.information::information",
+        "knowledge.information::enums",
+        "knowledge.information::view",
+        "knowledge.vocabulary::vocabulary",
+        "knowledge.vocabulary::enums",
+        "knowledge.vocabulary::view",
+        "knowledge.note::note",
+        "knowledge.note::view"
+})
 package com.vhvkhangg.personalprivatevault.knowledge;

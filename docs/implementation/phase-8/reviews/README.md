@@ -4,3 +4,5 @@ Formal Codex reviews for Backend Phase 8 Knowledge preparation and implementatio
 
 - [2026-09-30 Codex pre-handoff review](2026-09-30-phase-8-pre-handoff-codex-review.md) — `CHANGES_REQUESTED`; its three findings were remediated.
 - [2026-09-30 Codex pre-handoff re-review](2026-09-30-phase-8-pre-handoff-codex-rereview.md) — `READY FOR HANDOFF`.
+- [2026-09-30 Codex final implementation review](2026-09-30-phase-8-final-codex-review.md) — `CHANGES_REQUESTED`; its three findings were remediated.
+- [2026-09-30 Codex final implementation re-review](2026-09-30-phase-8-final-codex-rereview.md) — `READY FOR OWNER COMMIT`; all three findings closed.
