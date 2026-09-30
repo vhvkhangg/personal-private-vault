@@ -14,6 +14,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.data.domain.Persistable;
 
+import com.vhvkhangg.personalprivatevault.knowledge.note.note.NoteFrontmatterSnapshot;
+
 import java.util.Map;
 import java.util.Objects;
 
@@ -78,7 +80,7 @@ public class Note implements Persistable<Long> {
         this.sourceUrl = sourceUrl;
         this.importedFileName = importedFileName;
         this.importedFileHash = importedFileHash;
-        this.frontmatter = frontmatter;
+        this.frontmatter = NoteFrontmatterSnapshot.deepCopy(frontmatter);
         this.isNew = isNew;
     }
 
@@ -99,7 +101,11 @@ public class Note implements Persistable<Long> {
         this.sourceUrl = sourceUrl;
         this.importedFileName = importedFileName;
         this.importedFileHash = importedFileHash;
-        this.frontmatter = frontmatter;
+        this.frontmatter = NoteFrontmatterSnapshot.deepCopy(frontmatter);
+    }
+
+    public Map<String, Object> getFrontmatter() {
+        return NoteFrontmatterSnapshot.toUnmodifiableSnapshot(this.frontmatter);
     }
 
     @Override

@@ -13,7 +13,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-6/`](phase-6/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `media` + `location`
 - [`phase-7/`](phase-7/README.md) — **COMPLETE / FROZEN** — `account`
 - [`phase-8/`](phase-8/README.md) — **COMPLETE / FROZEN** — `knowledge`
-- [`phase-9/`](phase-9/README.md) — **ACTIVE / READY_FOR_OWNER_COMMIT** — `collection`
+- [`phase-9/`](phase-9/README.md) — **COMPLETE / FROZEN; MILESTONE CHANGES_REQUESTED** — `collection`
 
 Maintenance:
 
@@ -23,16 +23,20 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The active [Phase 9 Collection handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review.
+The active [maintenance handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after final acceptance.
 
-Backend Phase 8 Knowledge is complete/frozen after owner commit/push. Its completed handoff is archived in
-[`phase-8/handoff.md`](phase-8/handoff.md), with final evidence/reviews retained under `phase-8/`.
+Backend Phase 9 Collection is complete/frozen after owner commit/push. Its completed handoff is archived in
+[`phase-9/handoff.md`](phase-9/handoff.md), with final evidence/reviews retained under `phase-9/`.
 
-Backend Phase 9 Collection preparation was owner committed/pushed. Its evidence finding is closed; owner
-commit/push of the accepted implementation is next.
+The [Phase 7–9 milestone review](phase-9/milestone-review.md) returned `CHANGES_REQUESTED`. The owner-approved
+maintenance scope is
+[`maintenance/milestone-7-9-integrity-and-query-shape/`](maintenance/milestone-7-9-integrity-and-query-shape/README.md).
+Owner commit/push is next. Rerun `$codex-milestone-review` after accepted
+maintenance is owner committed/pushed.
 
-Phase 9 is a milestone phase. After its eventual implementation final review and owner commit/push, run the required
-Phase 7–9 `$codex-milestone-review` before Phase 10 pre-handoff review.
+Phase 10 Feed + ImportData pre-handoff review remains blocked until the milestone reaches `MILESTONE_READY`, the
+owner commits/pushes milestone review/status changes, and ChatGPT completes post-milestone synchronization/reset and
+Phase 10 preparation.
 
 ## Operational guidance
 

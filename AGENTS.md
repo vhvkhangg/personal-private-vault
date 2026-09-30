@@ -22,14 +22,21 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 7 (`account`) is complete/frozen after owner commit/push. Its completed handoff is archived under
   `docs/implementation/phase-7/handoff.md`.
 - Backend Phase 8 (`knowledge`) is complete/frozen after owner commit/push.
-- Backend Phase 9 (`collection`) preparation was owner committed/pushed. Its active implementation handoff is
-  `READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review; owner commit/push is pending.
+- Backend Phase 9 (`collection`) is complete/frozen after owner commit/push.
+- The Phase 7–9 milestone is `CHANGES_REQUESTED`; the owner-approved integrity/query-shape maintenance handoff is
+  `READY_FOR_OWNER_COMMIT` after final acceptance; owner commit/push and milestone re-review are next. See
+  `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`.
+- Phase 10 pre-handoff review remains blocked.
 
 Completed maintenance scope:
 
 - `docs/implementation/maintenance/milestone-1-3-concurrency/README.md`
 - `docs/implementation/maintenance/pre-phase4-code-hygiene/README.md`
 - `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md`
+
+Current approved maintenance scope:
+
+- `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`
 
 Architecture-sensitive work must respect:
 
@@ -104,6 +111,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 6 media/location foundation baseline
 - Backend Phase 7 account foundation baseline
 - Backend Phase 8 knowledge foundation baseline
+- Backend Phase 9 collection foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

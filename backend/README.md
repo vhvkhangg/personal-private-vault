@@ -70,6 +70,11 @@ Knowledge Foundation is **complete and frozen** after owner commit/push. See
 
 ## Phase 9
 
-Collection Foundation preparation was owner committed/pushed. The active Codex handoff is
-`READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review. See
-`../docs/implementation/phase-9/README.md`.
+Collection Foundation is **complete and frozen** after owner commit/push. See
+`../docs/implementation/phase-9/README.md` and `../docs/implementation/phase-9/test-evidence.md`.
+
+## Next gate
+
+The Phase 7–9 milestone is `CHANGES_REQUESTED`; the approved integrity/query-shape maintenance handoff is
+`READY_FOR_OWNER_COMMIT` after final acceptance. Owner commit/push, then `$codex-milestone-review`. Phase 10 Feed + ImportData pre-handoff
+review remains blocked; see `../docs/implementation/phase-9/milestone-review.md`.

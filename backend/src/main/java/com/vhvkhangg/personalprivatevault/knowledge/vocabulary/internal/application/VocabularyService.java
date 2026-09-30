@@ -19,6 +19,7 @@ import com.vhvkhangg.personalprivatevault.reference.catalog.ReferenceCatalog;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
 import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class VocabularyService implements VocabularyOperations {
     private final VocabularyReviewRepository vocabularyReviewRepository;
     private final VaultEntryOperations vaultEntryOperations;
     private final ReferenceCatalog referenceCatalog;
+    private final EntityManager entityManager;
 
     private BigDecimal validateAndScaleEaseFactor(BigDecimal rawEaseFactor, String fieldName) {
         if (rawEaseFactor == null) {
@@ -200,6 +202,7 @@ public class VocabularyService implements VocabularyOperations {
 
         VocabularyItem item = vocabularyItemRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new VocabularyItemNotFoundException(id));
+        entityManager.refresh(item);
 
         Integer previousIntervalDays = item.getIntervalDays();
         BigDecimal previousEaseFactor = item.getEaseFactor();

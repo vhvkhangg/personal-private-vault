@@ -1,6 +1,7 @@
 package com.vhvkhangg.personalprivatevault.knowledge.note.internal.application;
 
 import com.vhvkhangg.personalprivatevault.knowledge.note.internal.domain.Note;
+import com.vhvkhangg.personalprivatevault.knowledge.note.note.NoteFrontmatterSnapshot;
 import com.vhvkhangg.personalprivatevault.knowledge.note.internal.infrastructure.persistence.NoteRepository;
 import com.vhvkhangg.personalprivatevault.knowledge.note.note.CreateNoteCommand;
 import com.vhvkhangg.personalprivatevault.knowledge.note.note.InvalidNoteException;
@@ -192,6 +193,8 @@ public class NoteService implements NoteOperations {
             }
         }
 
+        Map<String, Object> isolatedFrontmatter = NoteFrontmatterSnapshot.deepCopy(frontmatter);
+
         return new ValidatedNote(
                 title,
                 contentMarkdown,
@@ -200,7 +203,7 @@ public class NoteService implements NoteOperations {
                 sourceUrl,
                 importedFileName,
                 importedFileHash,
-                frontmatter
+                isolatedFrontmatter
         );
     }
 

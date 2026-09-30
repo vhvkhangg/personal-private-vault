@@ -47,6 +47,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
@@ -683,7 +684,7 @@ class AccountIntegrationTest extends AbstractPostgresIntegrationTest {
     }
 
     @Test
-    @DisplayName("Follower snapshot creation performs bulk target validation and recent reads use grouped count projection")
+    @DisplayName("Follower snapshot creation performs bulk target validation, avoids follower entry selects via known-new state, and recent reads use grouped count projection")
     void followerSnapshotBulkExistenceValidationAndGroupedCountReads() {
         ExternalAccountView owner = accountOperations.create(new CreateExternalAccountCommand(
                 testPlatformId, ExternalAccountOwnership.OWNED, ExternalAccountType.SOCIAL,
@@ -701,78 +702,118 @@ class AccountIntegrationTest extends AbstractPostgresIntegrationTest {
                 testPlatformId, ExternalAccountOwnership.TRACKED, ExternalAccountType.SOCIAL,
                 "snap_target_bulk_3", null, null, null, null, null, null, null, null
         ));
-
-        // 1. Multi-entry batch snapshot with 2 entries
-        FollowerSnapshotView snap1 = snapshotOperations.createSnapshot(new CreateFollowerSnapshotCommand(
-                owner.id(), Instant.now().minus(Duration.ofMinutes(10)), FollowerSnapshotSource.MANUAL,
-                2, "file1.json",
-                List.of(
-                        new CreateFollowerSnapshotEntryCommand(target1.id(), "u1", "D1", "ext1", "https://url1"),
-                        new CreateFollowerSnapshotEntryCommand(target2.id(), "u2", "D2", "ext2", "https://url2")
-                )
+        ExternalAccountView target4 = accountOperations.create(new CreateExternalAccountCommand(
+                testPlatformId, ExternalAccountOwnership.TRACKED, ExternalAccountType.SOCIAL,
+                "snap_target_bulk_4", null, null, null, null, null, null, null, null
         ));
-        assertThat(snap1.id()).isNotNull();
-        assertThat(snap1.entryCount()).isEqualTo(2);
+        ExternalAccountView target5 = accountOperations.create(new CreateExternalAccountCommand(
+                testPlatformId, ExternalAccountOwnership.TRACKED, ExternalAccountType.SOCIAL,
+                "snap_target_bulk_5", null, null, null, null, null, null, null, null
+        ));
 
-        // 2. Multi-entry batch snapshot with 3 entries: observe SQL shape to verify bulk existence validation
+        record BatchTestCase(int batchSize, List<CreateFollowerSnapshotEntryCommand> entries) {}
+
+        List<BatchTestCase> batchCases = List.of(
+                new BatchTestCase(1, List.of(
+                        new CreateFollowerSnapshotEntryCommand(target1.id(), "u1", "D1", "ext1", "https://url1")
+                )),
+                new BatchTestCase(3, List.of(
+                        new CreateFollowerSnapshotEntryCommand(target1.id(), "u1_v2", "D1_v2", "ext1", "https://url1"),
+                        new CreateFollowerSnapshotEntryCommand(target2.id(), "u2", "D2", "ext2", "https://url2"),
+                        new CreateFollowerSnapshotEntryCommand(target3.id(), "u3", "D3", "ext3", "https://url3")
+                )),
+                new BatchTestCase(5, List.of(
+                        new CreateFollowerSnapshotEntryCommand(target1.id(), "u1_v3", "D1_v3", "ext1", "https://url1"),
+                        new CreateFollowerSnapshotEntryCommand(target2.id(), "u2_v3", "D2_v3", "ext2", "https://url2"),
+                        new CreateFollowerSnapshotEntryCommand(target3.id(), "u3_v3", "D3_v3", "ext3", "https://url3"),
+                        new CreateFollowerSnapshotEntryCommand(target4.id(), "u4", "D4", "ext4", "https://url4"),
+                        new CreateFollowerSnapshotEntryCommand(target5.id(), "u5", "D5", "ext5", "https://url5")
+                ))
+        );
+
         Logger sqlLogger = (Logger) LoggerFactory.getLogger("org.hibernate.SQL");
         Level previousSqlLevel = sqlLogger.getLevel();
-        ListAppender<ILoggingEvent> sqlAppender = new ListAppender<>();
-        sqlAppender.start();
-        sqlLogger.addAppender(sqlAppender);
-        sqlLogger.setLevel(Level.DEBUG);
 
-        FollowerSnapshotView snap2;
-        try {
-            snap2 = snapshotOperations.createSnapshot(new CreateFollowerSnapshotCommand(
-                    owner.id(), Instant.now().minus(Duration.ofMinutes(5)), FollowerSnapshotSource.MANUAL,
-                    3, "file2.json",
-                    List.of(
-                            new CreateFollowerSnapshotEntryCommand(target1.id(), "u1_v2", "D1", "ext1", "https://url1"),
-                            new CreateFollowerSnapshotEntryCommand(target2.id(), "u2_v2", "D2", "ext2", "https://url2"),
-                            new CreateFollowerSnapshotEntryCommand(target3.id(), "u3", "D3", "ext3", "https://url3")
-                    )
-            ));
-        } finally {
-            sqlLogger.detachAppender(sqlAppender);
-            sqlLogger.setLevel(previousSqlLevel);
+        List<FollowerSnapshotView> createdSnapshots = new ArrayList<>();
+
+        for (int i = 0; i < batchCases.size(); i++) {
+            BatchTestCase testCase = batchCases.get(i);
+            ListAppender<ILoggingEvent> sqlAppender = new ListAppender<>();
+            sqlAppender.start();
+            sqlLogger.addAppender(sqlAppender);
+            sqlLogger.setLevel(Level.DEBUG);
+
+            FollowerSnapshotView snap;
+            try {
+                snap = snapshotOperations.createSnapshot(new CreateFollowerSnapshotCommand(
+                        owner.id(),
+                        Instant.now().minus(Duration.ofMinutes(10L * (batchCases.size() - i))),
+                        FollowerSnapshotSource.MANUAL,
+                        testCase.batchSize(),
+                        "batch_" + testCase.batchSize() + ".json",
+                        testCase.entries()
+                ));
+            } finally {
+                sqlLogger.detachAppender(sqlAppender);
+                sqlLogger.setLevel(previousSqlLevel);
+            }
+
+            assertThat(snap.id()).isNotNull();
+            assertThat(snap.entryCount()).isEqualTo(testCase.batchSize());
+            createdSnapshots.add(snap);
+
+            List<String> createSnapshotSql = sqlAppender.list.stream()
+                    .map(ILoggingEvent::getFormattedMessage)
+                    .toList();
+
+            // 1. SELECT queries on external_accounts: exactly 2 (owner + bulk targets)
+            List<String> accountSelectQueries = createSnapshotSql.stream()
+                    .filter(sql -> sql.toLowerCase().contains("select") && sql.toLowerCase().contains("external_accounts"))
+                    .toList();
+
+            assertThat(accountSelectQueries)
+                    .as("Batch size %d must issue exactly 2 external_accounts SELECT queries: 1 for owner and 1 bulk IN query for targets", testCase.batchSize())
+                    .hasSize(2);
+
+            assertThat(accountSelectQueries.get(1).toLowerCase())
+                    .as("Batch size %d target accounts validation query must use SQL IN clause", testCase.batchSize())
+                    .contains(" in ");
+
+            // 2. Zero SELECT queries referencing follower_snapshot_entries (proves known-new Persistable semantics)
+            List<String> entrySelectQueries = createSnapshotSql.stream()
+                    .filter(sql -> sql.toLowerCase().contains("select") && sql.toLowerCase().contains("follower_snapshot_entries"))
+                    .toList();
+
+            assertThat(entrySelectQueries)
+                    .as("Batch size %d must issue exactly 0 SELECT queries on follower_snapshot_entries during snapshot creation", testCase.batchSize())
+                    .isEmpty();
+
+            // 3. Persisted entries and historical snapshot values round-trip accurately
+            List<FollowerSnapshotEntryView> savedEntries = snapshotOperations.findEntriesBySnapshotId(snap.id(), 10);
+            assertThat(savedEntries).hasSize(testCase.batchSize());
+            for (CreateFollowerSnapshotEntryCommand expectedEntry : testCase.entries()) {
+                assertThat(savedEntries).anySatisfy(se -> {
+                    assertThat(se.targetAccountId()).isEqualTo(expectedEntry.targetAccountId());
+                    assertThat(se.usernameSnapshot()).isEqualTo(expectedEntry.usernameSnapshot());
+                    assertThat(se.displayNameSnapshot()).isEqualTo(expectedEntry.displayNameSnapshot());
+                    assertThat(se.externalIdSnapshot()).isEqualTo(expectedEntry.externalIdSnapshot());
+                    assertThat(se.profileUrlSnapshot()).isEqualTo(expectedEntry.profileUrlSnapshot());
+                });
+            }
         }
 
-        assertThat(snap2.id()).isNotNull();
-        assertThat(snap2.entryCount()).isEqualTo(3);
-
-        // Observable SQL query-shape assertions for snapshot creation:
-        List<String> createSnapshotSql = sqlAppender.list.stream()
-                .map(ILoggingEvent::getFormattedMessage)
-                .toList();
-
-        List<String> accountSelectQueries = createSnapshotSql.stream()
-                .filter(sql -> sql.toLowerCase().contains("select") && sql.toLowerCase().contains("external_accounts"))
-                .toList();
-
-        // Exactly 2 SELECT queries on external_accounts:
-        // 1 for owner existence lookup + 1 bulk lookup for all 3 target accounts (NOT 1 + 3 = 4 queries!)
-        assertThat(accountSelectQueries)
-                .as("Multi-target snapshot creation must issue exactly 2 external_accounts SELECT queries: 1 for owner and 1 bulk IN query for targets")
-                .hasSize(2);
-
-        // Verify the second query uses the bulk IN clause
-        assertThat(accountSelectQueries.get(1).toLowerCase())
-                .as("Target accounts validation query must use SQL IN clause")
-                .contains(" in ");
-
-        // 3. Snapshot with 0 entries
-        FollowerSnapshotView snap3 = snapshotOperations.createSnapshot(new CreateFollowerSnapshotCommand(
+        // Snapshot with 0 entries
+        FollowerSnapshotView snap0 = snapshotOperations.createSnapshot(new CreateFollowerSnapshotCommand(
                 owner.id(), Instant.now(), FollowerSnapshotSource.MANUAL,
                 0, null, List.of()
         ));
-        assertThat(snap3.id()).isNotNull();
-        assertThat(snap3.entryCount()).isEqualTo(0);
+        assertThat(snap0.id()).isNotNull();
+        assertThat(snap0.entryCount()).isEqualTo(0);
 
-        // 4. Verify findRecentByOwner retrieves all 3 snapshots with accurate grouped entry counts in one roundtrip
-        sqlAppender = new ListAppender<>();
-        sqlAppender.start();
-        sqlLogger.addAppender(sqlAppender);
+        // Verify findRecentByOwner retrieves all 4 snapshots with accurate grouped entry counts in one roundtrip
+        ListAppender<ILoggingEvent> readSqlAppender = new ListAppender<>();
+        readSqlAppender.start();
+        sqlLogger.addAppender(readSqlAppender);
         sqlLogger.setLevel(Level.DEBUG);
 
         Statistics stats = getHibernateStatistics();
@@ -782,27 +823,28 @@ class AccountIntegrationTest extends AbstractPostgresIntegrationTest {
         try {
             recent = snapshotOperations.findRecentByOwner(owner.id(), 10);
         } finally {
-            sqlLogger.detachAppender(sqlAppender);
+            sqlLogger.detachAppender(readSqlAppender);
             sqlLogger.setLevel(previousSqlLevel);
         }
 
-        assertThat(recent).hasSize(3);
-        // Ordered by capturedAt DESC (snap3, snap2, snap1)
-        assertThat(recent.get(0).id()).isEqualTo(snap3.id());
+        assertThat(recent).hasSize(4);
+        // Ordered by capturedAt DESC (snap0, batch5, batch3, batch1)
+        assertThat(recent.get(0).id()).isEqualTo(snap0.id());
         assertThat(recent.get(0).entryCount()).isEqualTo(0);
-        assertThat(recent.get(1).id()).isEqualTo(snap2.id());
-        assertThat(recent.get(1).entryCount()).isEqualTo(3);
-        assertThat(recent.get(2).id()).isEqualTo(snap1.id());
-        assertThat(recent.get(2).entryCount()).isEqualTo(2);
+        assertThat(recent.get(1).id()).isEqualTo(createdSnapshots.get(2).id());
+        assertThat(recent.get(1).entryCount()).isEqualTo(5);
+        assertThat(recent.get(2).id()).isEqualTo(createdSnapshots.get(1).id());
+        assertThat(recent.get(2).entryCount()).isEqualTo(3);
+        assertThat(recent.get(3).id()).isEqualTo(createdSnapshots.get(0).id());
+        assertThat(recent.get(3).entryCount()).isEqualTo(1);
 
         // Observable SQL query-shape assertions for recent snapshot reads:
-        List<String> readQueries = sqlAppender.list.stream()
+        List<String> readQueries = readSqlAppender.list.stream()
                 .map(ILoggingEvent::getFormattedMessage)
                 .toList();
 
         // Exactly 2 total queries executed:
         // 1 for headers (follower_snapshots) + 1 grouped count for all headers (follower_snapshot_entries)
-        // (NOT 1 + 3 = 4 queries!)
         assertThat(readQueries)
                 .as("Recent snapshots read must execute exactly 2 queries: 1 for headers and 1 grouped count projection")
                 .hasSize(2);
@@ -827,12 +869,12 @@ class AccountIntegrationTest extends AbstractPostgresIntegrationTest {
                 .contains("count")
                 .contains(" in ");
 
-        // 5. Verify findById returns exact entry count
-        Optional<FollowerSnapshotView> foundSnap2 = snapshotOperations.findById(snap2.id());
-        assertThat(foundSnap2).isPresent();
-        assertThat(foundSnap2.get().entryCount()).isEqualTo(3);
+        // Verify findById returns exact entry count
+        Optional<FollowerSnapshotView> foundSnap = snapshotOperations.findById(createdSnapshots.get(1).id());
+        assertThat(foundSnap).isPresent();
+        assertThat(foundSnap.get().entryCount()).isEqualTo(3);
 
-        // 6. Bulk validation failure: batch containing existing and non-existent targets fails atomically
+        // Bulk validation failure: batch containing existing and non-existent targets fails atomically
         Long nonExistentTargetId = 9_999_999L;
         assertThatThrownBy(() -> snapshotOperations.createSnapshot(new CreateFollowerSnapshotCommand(
                 owner.id(), Instant.now(), FollowerSnapshotSource.MANUAL, 10, null,
@@ -844,13 +886,13 @@ class AccountIntegrationTest extends AbstractPostgresIntegrationTest {
                 .isInstanceOf(InvalidFollowerSnapshotException.class)
                 .hasMessageContaining("Target account with id " + nonExistentTargetId + " does not exist");
 
-        // Verify no orphan snapshot was created in DB for this failed attempt
+        // Verify no orphan snapshot was created in DB for this failed attempt (4 total valid snapshots exist)
         Integer totalSnapshots = jdbcTemplate.queryForObject(
                 "SELECT count(*) FROM follower_snapshots WHERE owner_account_id = ?",
                 Integer.class,
                 owner.id()
         );
-        assertThat(totalSnapshots).isEqualTo(3);
+        assertThat(totalSnapshots).isEqualTo(4);
     }
 
     private void awaitCompetingLock(String tablePattern, Duration timeout) throws Exception {

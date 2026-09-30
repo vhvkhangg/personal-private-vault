@@ -1,5 +1,7 @@
 package com.vhvkhangg.personalprivatevault.knowledge.api;
 
+import com.vhvkhangg.personalprivatevault.knowledge.note.note.NoteFrontmatterSnapshot;
+
 import java.util.Map;
 
 /**
@@ -15,4 +17,8 @@ public record KnowledgeNoteView(
         String importedFileName,
         String importedFileHash,
         Map<String, Object> frontmatter
-) {}
+) {
+    public KnowledgeNoteView {
+        frontmatter = NoteFrontmatterSnapshot.toUnmodifiableSnapshot(frontmatter);
+    }
+}

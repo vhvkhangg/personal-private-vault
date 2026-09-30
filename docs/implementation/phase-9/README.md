@@ -1,8 +1,10 @@
 # Backend Phase 9 — Collection Foundation
 
+Status: **COMPLETE — FROZEN (2026-09-30)**
+
 Preparation: **READY FOR HANDOFF** after the [2026-09-30 Codex re-review](reviews/2026-09-30-phase-9-pre-handoff-codex-rereview.md); owner committed/pushed it as `74c1ec1`.
 
-Implementation: **ACTIVE — READY_FOR_OWNER_COMMIT** after the [Codex final acceptance re-review](reviews/2026-09-30-phase-9-final-codex-rereview.md); owner commit/push is next under the [active handoff](../handoffs/ACTIVE.md).
+Implementation final acceptance re-review: **READY_FOR_OWNER_COMMIT**. The owner subsequently committed/pushed Phase 9 on 2026-09-30.
 
 Phase 9 implements the top-level `collection` facade and its three nested Spring Modulith modules:
 
@@ -10,15 +12,14 @@ Phase 9 implements the top-level `collection` facade and its three nested Spring
 - `collection.shopping`
 - `collection.software`
 
-No Phase 9 production implementation is authorized until:
+Phase 9 implementation is complete, final-reviewed, committed/pushed by the owner, and frozen.
 
-1. this preparation passes `$codex-pre-handoff-review`;
-2. the approved Phase 9 preparation slice is committed/pushed;
-3. `$codex-create-handoff` creates an active Phase 9 implementation handoff.
+The preparation and implementation contracts below are retained as historical records and do not authorize further
+Phase 9 production changes.
 
-Phase 9 **is a milestone phase**. After its implementation passes final review and the owner commits/pushes it,
-ChatGPT must close/freeze Phase 9 and the owner must run `$codex-milestone-review` for Phases **7–9** before
-Phase 10 may enter pre-handoff review.
+Phase 9 **is a milestone phase**. The Phase **7–9** [milestone review](milestone-review.md) returned
+`CHANGES_REQUESTED`; the owner-approved maintenance [handoff](../handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after final acceptance.
+Antigravity implementation/testing is next. Phase 10 pre-handoff review remains blocked.
 
 ## Owned Schema v1 tables
 
@@ -456,3 +457,23 @@ Reused without new custom agents/hooks:
 - repository safety hook
 
 No new custom agent or hook is justified for Phase 9.
+
+
+## Completion record
+
+- Owner commit/push: completed 2026-09-30.
+- Final Codex result: `READY_FOR_OWNER_COMMIT`.
+- Final verification: `mvn -f backend/pom.xml -ntp clean verify` — **583 tests**, 0 failures/errors/skips.
+- Collection verification: **36 Collection tests** across architecture, validation, and PostgreSQL integration.
+- PostgreSQL: 18.6 via Testcontainers; Java 25; Maven 3.9.15.
+- Spring Modulith/Flyway/Hibernate verification: passed.
+- Final handoff archive: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Final acceptance re-review:
+  [`reviews/2026-09-30-phase-9-final-codex-rereview.md`](reviews/2026-09-30-phase-9-final-codex-rereview.md).
+- Phase status: **COMPLETE — FROZEN**.
+- Milestone result: **CHANGES_REQUESTED**; see [`milestone-review.md`](milestone-review.md).
+- Required next gate: owner commit/push of accepted maintenance, then Codex `$codex-milestone-review`.
+
+Future Collection changes require a new owner-approved feature or maintenance slice. Do not reuse the completed
+Phase 9 handoff.

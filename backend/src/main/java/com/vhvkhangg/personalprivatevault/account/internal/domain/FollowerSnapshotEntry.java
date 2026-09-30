@@ -3,10 +3,14 @@ package com.vhvkhangg.personalprivatevault.account.internal.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import java.util.Objects;
 
@@ -17,10 +21,13 @@ import java.util.Objects;
 @Table(name = "follower_snapshot_entries")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FollowerSnapshotEntry {
+public class FollowerSnapshotEntry implements Persistable<FollowerSnapshotEntryId> {
 
     @EmbeddedId
     private FollowerSnapshotEntryId id;
+
+    @Transient
+    private boolean isNew = true;
 
     @Column(name = "username_snapshot", length = 255)
     private String usernameSnapshot;
@@ -71,6 +78,22 @@ public class FollowerSnapshotEntry {
 
     public Long getTargetAccountId() {
         return id != null ? id.getTargetAccountId() : null;
+    }
+
+    @Override
+    public FollowerSnapshotEntryId getId() {
+        return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return isNew;
+    }
+
+    @PostPersist
+    @PostLoad
+    void markNotNew() {
+        this.isNew = false;
     }
 
     @Override

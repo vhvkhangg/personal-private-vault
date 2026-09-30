@@ -20,3 +20,6 @@ Slices:
 - [`pre-phase4-code-hygiene/`](pre-phase4-code-hygiene/README.md) — **COMPLETE / FROZEN**
 - [`milestone-4-6-privacy-safe-constraint-logging/`](milestone-4-6-privacy-safe-constraint-logging/README.md) —
   **COMPLETE / FROZEN**
+
+- [`milestone-7-9-integrity-and-query-shape/`](milestone-7-9-integrity-and-query-shape/README.md) —
+  **READY FOR OWNER COMMIT** — owner commit/push, then Codex milestone re-review.

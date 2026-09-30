@@ -9,13 +9,18 @@ import com.vhvkhangg.personalprivatevault.knowledge.api.CreateKnowledgeInformati
 import com.vhvkhangg.personalprivatevault.knowledge.api.CreateKnowledgeNoteCommand;
 import com.vhvkhangg.personalprivatevault.knowledge.api.CreateKnowledgeStudyItemCommand;
 import com.vhvkhangg.personalprivatevault.knowledge.api.CreateKnowledgeVocabularyItemCommand;
+import com.vhvkhangg.personalprivatevault.knowledge.api.InvalidKnowledgeItemException;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeInformationType;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeOperations;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeSrsReviewResponse;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeStudyStatus;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeStudyType;
+import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeVocabularyItemView;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeVocabularyLearningStatus;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeVocabularyReviewTransitionCommand;
+import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeVocabularyReviewTransitionResultView;
+import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeVocabularyReviewView;
+import com.vhvkhangg.personalprivatevault.knowledge.api.UpdateKnowledgeNoteCommand;
 import com.vhvkhangg.personalprivatevault.knowledge.information.enums.InformationType;
 import com.vhvkhangg.personalprivatevault.knowledge.information.information.CreateInformationItemCommand;
 import com.vhvkhangg.personalprivatevault.knowledge.information.information.InformationItemOperations;
@@ -25,6 +30,7 @@ import com.vhvkhangg.personalprivatevault.knowledge.information.view.Information
 import com.vhvkhangg.personalprivatevault.knowledge.note.note.CreateNoteCommand;
 import com.vhvkhangg.personalprivatevault.knowledge.note.note.InvalidNoteException;
 import com.vhvkhangg.personalprivatevault.knowledge.note.note.NoteConflictException;
+import com.vhvkhangg.personalprivatevault.knowledge.note.note.NoteFrontmatterSnapshot;
 import com.vhvkhangg.personalprivatevault.knowledge.note.note.NoteOperations;
 import com.vhvkhangg.personalprivatevault.knowledge.note.note.UpdateNoteCommand;
 import com.vhvkhangg.personalprivatevault.knowledge.note.view.NoteView;
@@ -67,10 +73,14 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -81,6 +91,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.LongAdder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -764,6 +778,117 @@ class KnowledgeIntegrationTest extends AbstractPostgresIntegrationTest {
         }
 
         @Test
+        @DisplayName("reviewTransition refreshes stale preloaded entity state under row lock to prevent stale history")
+        void reviewTransitionRefreshesStalePreloadedStateUnderLock() throws Exception {
+            var item = knowledgeOperations.createVocabularyItem(new CreateKnowledgeVocabularyItemCommand(
+                    "stale-check", "en", "Testing L1 refresh", null, null,
+                    null, null, null, null, KnowledgeVocabularyLearningStatus.LEARNING, null, 0,
+                    new BigDecimal("2.50"), 0, 0
+            ));
+            Long itemId = item.id();
+
+            ExecutorService executor = Executors.newFixedThreadPool(2);
+            TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+            txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+            CountDownLatch txAPreloaded = new CountDownLatch(1);
+            CountDownLatch txBCommitted = new CountDownLatch(1);
+
+            try {
+                Future<KnowledgeVocabularyReviewTransitionResultView> txAFuture = executor.submit(() -> txTemplate.execute(status -> {
+                    // 1. Preload item into Tx A's L1 persistence context via parent Knowledge API
+                    var preloaded = knowledgeOperations.findVocabularyItemById(itemId);
+                    assertThat(preloaded).isPresent();
+                    assertThat(preloaded.get().intervalDays()).isEqualTo(0);
+                    assertThat(preloaded.get().easeFactor()).isEqualByComparingTo(new BigDecimal("2.50"));
+
+                    txAPreloaded.countDown();
+
+                    // Wait for Tx B to commit its updates
+                    try {
+                        boolean awaited = txBCommitted.await(5, TimeUnit.SECONDS);
+                        assertThat(awaited).isTrue();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException(e);
+                    }
+
+                    // 3. Tx A invokes reviewTransition via parent Knowledge API while holding preloaded entity in L1 cache
+                    Instant reviewTimeA = Instant.now();
+                    return knowledgeOperations.reviewVocabularyItem(itemId, new KnowledgeVocabularyReviewTransitionCommand(
+                            KnowledgeSrsReviewResponse.GOOD,
+                            KnowledgeVocabularyLearningStatus.REVIEW,
+                            reviewTimeA.plus(Duration.ofDays(20)),
+                            20,
+                            new BigDecimal("2.90"),
+                            2,
+                            0,
+                            reviewTimeA
+                    ));
+                }));
+
+                assertThat(txAPreloaded.await(5, TimeUnit.SECONDS)).isTrue();
+
+                // 2. Tx B runs in its own transaction, reviews item to interval 10, ease 2.70 via parent Knowledge API, and commits
+                Future<KnowledgeVocabularyReviewTransitionResultView> txBFuture = executor.submit(() -> txTemplate.execute(status -> {
+                    Instant reviewTimeB = Instant.now().minus(Duration.ofMinutes(1));
+                    return knowledgeOperations.reviewVocabularyItem(itemId, new KnowledgeVocabularyReviewTransitionCommand(
+                            KnowledgeSrsReviewResponse.GOOD,
+                            KnowledgeVocabularyLearningStatus.REVIEW,
+                            reviewTimeB.plus(Duration.ofDays(10)),
+                            10,
+                            new BigDecimal("2.70"),
+                            1,
+                            0,
+                            reviewTimeB
+                    ));
+                }));
+
+                KnowledgeVocabularyReviewTransitionResultView resB = txBFuture.get(5, TimeUnit.SECONDS);
+                assertThat(resB).isNotNull();
+                assertThat(resB.review().previousIntervalDays()).isEqualTo(0);
+                assertThat(resB.review().newIntervalDays()).isEqualTo(10);
+                assertThat(resB.review().newEaseFactor()).isEqualByComparingTo(new BigDecimal("2.70"));
+
+                // Signal Tx A that Tx B is committed
+                txBCommitted.countDown();
+
+                KnowledgeVocabularyReviewTransitionResultView resA = txAFuture.get(5, TimeUnit.SECONDS);
+                assertThat(resA).isNotNull();
+
+                // Verify Tx A observed Tx B's committed state as previous_* rather than stale L1 values
+                assertThat(resA.review().previousIntervalDays())
+                        .as("Tx A must observe refreshed previousIntervalDays = 10 from DB under lock, not stale 0 from L1 cache")
+                        .isEqualTo(10);
+                assertThat(resA.review().previousEaseFactor())
+                        .as("Tx A must observe refreshed previousEaseFactor = 2.70 from DB under lock, not stale 2.50 from L1 cache")
+                        .isEqualByComparingTo(new BigDecimal("2.70"));
+                assertThat(resA.review().newIntervalDays()).isEqualTo(20);
+                assertThat(resA.review().newEaseFactor()).isEqualByComparingTo(new BigDecimal("2.90"));
+
+                // Verify history chain reflects B then A with contiguous transitions via parent Knowledge API
+                List<KnowledgeVocabularyReviewView> history = knowledgeOperations.findVocabularyReviews(itemId, 10);
+                assertThat(history).hasSize(2);
+
+                // History is ordered by reviewed_at DESC (resA is newest)
+                KnowledgeVocabularyReviewView reviewA = history.get(0);
+                KnowledgeVocabularyReviewView reviewB = history.get(1);
+
+                assertThat(reviewA.previousIntervalDays()).isEqualTo(reviewB.newIntervalDays());
+                assertThat(reviewA.previousEaseFactor()).isEqualByComparingTo(reviewB.newEaseFactor());
+
+                // Verify final state in DB via parent Knowledge API
+                KnowledgeVocabularyItemView finalItem = knowledgeOperations.findVocabularyItemById(itemId).orElseThrow();
+                assertThat(finalItem.intervalDays()).isEqualTo(20);
+                assertThat(finalItem.easeFactor()).isEqualByComparingTo(new BigDecimal("2.90"));
+                assertThat(finalItem.repetitionCount()).isEqualTo(2);
+            } finally {
+                executor.shutdownNow();
+                executor.awaitTermination(5, TimeUnit.SECONDS);
+            }
+        }
+
+        @Test
         @DisplayName("findDue query tests full matrix: inclusive cutoff, null-time NEW, excludes other null-time states and MASTERED, deterministic ordering, and limit")
         void dueVocabularyQueryMatrixAndOrdering() {
             Instant cutoff = Instant.parse("2026-09-30T12:00:00Z");
@@ -1034,6 +1159,608 @@ class KnowledgeIntegrationTest extends AbstractPostgresIntegrationTest {
                 executor.shutdownNow();
                 executor.awaitTermination(5, TimeUnit.SECONDS);
             }
+        }
+
+        @Test
+        @DisplayName("Caller input map and collection mutations do not mutate managed or persisted note frontmatter")
+        void callerInputMutationDoesNotAffectManagedOrPersistedNoteState() {
+            Map<String, Object> nestedMap = new HashMap<>();
+            nestedMap.put("childKey", "childValue");
+            List<Object> nestedList = new ArrayList<>(List.of("element1", "element2"));
+
+            Map<String, Object> callerFrontmatter = new HashMap<>();
+            callerFrontmatter.put("rootKey", "initialRoot");
+            callerFrontmatter.put("nestedMap", nestedMap);
+            callerFrontmatter.put("nestedList", nestedList);
+
+            NoteView created = noteOperations.create(new CreateNoteCommand(
+                    "Isolation Test", "content", null, null, null, null, null, callerFrontmatter
+            ));
+
+            // Mutate caller input structures
+            callerFrontmatter.put("rootKey", "mutatedRoot");
+            callerFrontmatter.put("newKey", "injectedValue");
+            nestedMap.put("childKey", "mutatedChildValue");
+            nestedList.add("injectedElement");
+
+            // Assert returned view is unchanged
+            assertThat(created.frontmatter().get("rootKey")).isEqualTo("initialRoot");
+            assertThat(created.frontmatter()).doesNotContainKey("newKey");
+            @SuppressWarnings("unchecked")
+            Map<String, Object> createdNestedMap = (Map<String, Object>) created.frontmatter().get("nestedMap");
+            assertThat(createdNestedMap.get("childKey")).isEqualTo("childValue");
+            @SuppressWarnings("unchecked")
+            List<Object> createdNestedList = (List<Object>) created.frontmatter().get("nestedList");
+            assertThat(createdNestedList).containsExactly("element1", "element2");
+
+            // Assert fresh database reload is unchanged
+            NoteView reloaded = noteOperations.findById(created.id()).orElseThrow();
+            assertThat(reloaded.frontmatter().get("rootKey")).isEqualTo("initialRoot");
+            assertThat(reloaded.frontmatter()).doesNotContainKey("newKey");
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reloadedNestedMap = (Map<String, Object>) reloaded.frontmatter().get("nestedMap");
+            assertThat(reloadedNestedMap.get("childKey")).isEqualTo("childValue");
+            @SuppressWarnings("unchecked")
+            List<Object> reloadedNestedList = (List<Object>) reloaded.frontmatter().get("nestedList");
+            assertThat(reloadedNestedList).containsExactly("element1", "element2");
+
+            // Do the same for update
+            Map<String, Object> updateNestedMap = new HashMap<>();
+            updateNestedMap.put("updChild", "updVal");
+            List<Object> updateNestedList = new ArrayList<>(List.of("u1"));
+            Map<String, Object> updateFrontmatter = new HashMap<>();
+            updateFrontmatter.put("updRoot", "initialUpdRoot");
+            updateFrontmatter.put("nestedMap", updateNestedMap);
+            updateFrontmatter.put("nestedList", updateNestedList);
+
+            NoteView updated = noteOperations.update(created.id(), new UpdateNoteCommand(
+                    "Isolation Test Updated", "content updated", null, null, null, null, null, updateFrontmatter
+            ));
+
+            // Mutate update input structures
+            updateFrontmatter.put("updRoot", "mutatedUpdRoot");
+            updateNestedMap.put("updChild", "mutatedUpdVal");
+            updateNestedList.add("u2");
+
+            assertThat(updated.frontmatter().get("updRoot")).isEqualTo("initialUpdRoot");
+            @SuppressWarnings("unchecked")
+            Map<String, Object> updatedNestedMap = (Map<String, Object>) updated.frontmatter().get("nestedMap");
+            assertThat(updatedNestedMap.get("updChild")).isEqualTo("updVal");
+            @SuppressWarnings("unchecked")
+            List<Object> updatedNestedList = (List<Object>) updated.frontmatter().get("nestedList");
+            assertThat(updatedNestedList).containsExactly("u1");
+
+            NoteView reloadedUpdated = noteOperations.findById(created.id()).orElseThrow();
+            assertThat(reloadedUpdated.frontmatter().get("updRoot")).isEqualTo("initialUpdRoot");
+        }
+
+        @Test
+        @DisplayName("NoteOperations read view is unmodifiable and prevents dirty checking mutation in active transaction")
+        void nestedApiReadIsolationPreventsUnintendedManagedStateMutation() {
+            Map<String, Object> initialFrontmatter = new HashMap<>();
+            initialFrontmatter.put("title", "Immutable Test");
+            initialFrontmatter.put("tags", new ArrayList<>(List.of("tag1", "tag2")));
+            initialFrontmatter.put("meta", new HashMap<>(Map.of("k", "v")));
+
+            NoteView created = noteOperations.create(new CreateNoteCommand(
+                    "Read Isolation Test", "content", null, null, null, null, null, initialFrontmatter
+            ));
+            Long noteId = created.id();
+
+            TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+            txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+            txTemplate.executeWithoutResult(status -> {
+                NoteView view = noteOperations.findById(noteId).orElseThrow();
+                Map<String, Object> fm = view.frontmatter();
+
+                assertThatThrownBy(() -> fm.put("title", "Hacked Title"))
+                        .isInstanceOf(UnsupportedOperationException.class);
+                assertThatThrownBy(() -> fm.remove("title"))
+                        .isInstanceOf(UnsupportedOperationException.class);
+
+                @SuppressWarnings("unchecked")
+                List<Object> tags = (List<Object>) fm.get("tags");
+                assertThatThrownBy(() -> tags.add("hackedTag"))
+                        .isInstanceOf(UnsupportedOperationException.class);
+
+                @SuppressWarnings("unchecked")
+                Map<String, Object> meta = (Map<String, Object>) fm.get("meta");
+                assertThatThrownBy(() -> meta.put("k", "hackedValue"))
+                        .isInstanceOf(UnsupportedOperationException.class);
+            });
+
+            // Verify after transaction commit that database remains intact
+            NoteView fresh = noteOperations.findById(noteId).orElseThrow();
+            assertThat(fresh.frontmatter().get("title")).isEqualTo("Immutable Test");
+            @SuppressWarnings("unchecked")
+            List<Object> tags = (List<Object>) fresh.frontmatter().get("tags");
+            assertThat(tags).containsExactly("tag1", "tag2");
+        }
+
+        @Test
+        @DisplayName("KnowledgeOperations facade read view is unmodifiable and prevents dirty checking mutation in active transaction")
+        void parentApiReadIsolationPreventsUnintendedManagedStateMutation() {
+            Map<String, Object> initialFrontmatter = new HashMap<>();
+            initialFrontmatter.put("title", "Facade Immutable Test");
+            initialFrontmatter.put("tags", new ArrayList<>(List.of("ftag1")));
+
+            var created = knowledgeOperations.createNote(new CreateKnowledgeNoteCommand(
+                    "Facade Isolation Test", "content", null, null, null, null, null, initialFrontmatter
+            ));
+            Long noteId = created.id();
+
+            TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+            txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+            txTemplate.executeWithoutResult(status -> {
+                var view = knowledgeOperations.findNoteById(noteId).orElseThrow();
+                Map<String, Object> fm = view.frontmatter();
+
+                assertThatThrownBy(() -> fm.put("title", "Hacked Title"))
+                        .isInstanceOf(UnsupportedOperationException.class);
+
+                @SuppressWarnings("unchecked")
+                List<Object> tags = (List<Object>) fm.get("tags");
+                assertThatThrownBy(() -> tags.add("hackedTag"))
+                        .isInstanceOf(UnsupportedOperationException.class);
+            });
+
+            var fresh = knowledgeOperations.findNoteById(noteId).orElseThrow();
+            assertThat(fresh.frontmatter().get("title")).isEqualTo("Facade Immutable Test");
+            @SuppressWarnings("unchecked")
+            List<Object> tags = (List<Object>) fresh.frontmatter().get("tags");
+            assertThat(tags).containsExactly("ftag1");
+        }
+
+        @Test
+        @DisplayName("Preserves JSON fidelity with unknown keys, JSON nulls, nested structures, booleans, and numbers")
+        void preservesJsonFidelityWithUnknownKeysAndJsonNull() {
+            Map<String, Object> frontmatter = new HashMap<>();
+            frontmatter.put("unknownKeyA", "arbitraryValue");
+            frontmatter.put("nullKey", null);
+            frontmatter.put("booleanTrue", true);
+            frontmatter.put("booleanFalse", false);
+            frontmatter.put("intNumber", 42);
+            frontmatter.put("floatNumber", 3.14159);
+
+            Map<String, Object> nested = new HashMap<>();
+            nested.put("nestedNull", null);
+            nested.put("nestedStr", "hello");
+            frontmatter.put("nestedObject", nested);
+
+            List<Object> listWithNull = new ArrayList<>();
+            listWithNull.add("item1");
+            listWithNull.add(null);
+            listWithNull.add(99);
+            frontmatter.put("listWithNull", listWithNull);
+
+            NoteView created = noteOperations.create(new CreateNoteCommand(
+                    "Fidelity Note", "Markdown body", null, null, null, null, null, frontmatter
+            ));
+
+            // Verify round-trip through noteOperations
+            NoteView retrieved = noteOperations.findById(created.id()).orElseThrow();
+            assertThat(retrieved.frontmatter()).containsKey("nullKey");
+            assertThat(retrieved.frontmatter().get("nullKey")).isNull();
+            assertThat(retrieved.frontmatter().get("unknownKeyA")).isEqualTo("arbitraryValue");
+            assertThat(retrieved.frontmatter().get("booleanTrue")).isEqualTo(true);
+            assertThat(retrieved.frontmatter().get("booleanFalse")).isEqualTo(false);
+            assertThat(((Number) retrieved.frontmatter().get("intNumber")).intValue()).isEqualTo(42);
+            assertThat(((Number) retrieved.frontmatter().get("floatNumber")).doubleValue()).isEqualTo(3.14159);
+
+            @SuppressWarnings("unchecked")
+            Map<String, Object> retrievedNested = (Map<String, Object>) retrieved.frontmatter().get("nestedObject");
+            assertThat(retrievedNested).containsKey("nestedNull");
+            assertThat(retrievedNested.get("nestedNull")).isNull();
+            assertThat(retrievedNested.get("nestedStr")).isEqualTo("hello");
+
+            @SuppressWarnings("unchecked")
+            List<Object> retrievedList = (List<Object>) retrieved.frontmatter().get("listWithNull");
+            assertThat(retrievedList).hasSize(3);
+            assertThat(retrievedList.get(0)).isEqualTo("item1");
+            assertThat(retrievedList.get(1)).isNull();
+            assertThat(((Number) retrievedList.get(2)).intValue()).isEqualTo(99);
+
+            // Verify direct JSON query in PostgreSQL
+            String dbJson = jdbcTemplate.queryForObject(
+                    "SELECT frontmatter::text FROM notes WHERE id = ?",
+                    String.class,
+                    created.id()
+            );
+            assertThat(dbJson).isNotNull();
+            assertThat(dbJson).contains("\"nullKey\": null");
+            assertThat(dbJson).contains("\"unknownKeyA\": \"arbitraryValue\"");
+            assertThat(dbJson).contains("\"nestedNull\": null");
+        }
+
+        @Test
+        @DisplayName("Mutable numeric leaves (AtomicInteger, AtomicLong, AtomicBoolean) are normalized to immutable types preventing aliasing across snapshots")
+        void mutableNumericLeavesAreNormalizedAndPreventAliasingAcrossSnapshots() {
+            AtomicInteger ai = new AtomicInteger(1);
+            AtomicLong al = new AtomicLong(10L);
+            AtomicBoolean ab = new AtomicBoolean(true);
+
+            Map<String, Object> callerFm = new HashMap<>();
+            callerFm.put("ai", ai);
+            callerFm.put("al", al);
+            callerFm.put("ab", ab);
+
+            // 1. Create via nested NoteOperations
+            NoteView nestedCreated = noteOperations.create(new CreateNoteCommand(
+                    "Numeric Aliasing Test", "content", null, null, null, null, null, callerFm
+            ));
+
+            // Mutate originals
+            ai.set(2);
+            al.set(20L);
+            ab.set(false);
+
+            // Assert view retained initial normalized values
+            assertThat(nestedCreated.frontmatter().get("ai")).isEqualTo(1);
+            assertThat(nestedCreated.frontmatter().get("ai")).isInstanceOf(Integer.class);
+            assertThat(nestedCreated.frontmatter().get("al")).isEqualTo(10L);
+            assertThat(nestedCreated.frontmatter().get("al")).isInstanceOf(Long.class);
+            assertThat(nestedCreated.frontmatter().get("ab")).isEqualTo(true);
+            assertThat(nestedCreated.frontmatter().get("ab")).isInstanceOf(Boolean.class);
+
+            // Assert database reload retained initial normalized values
+            NoteView reloaded = noteOperations.findById(nestedCreated.id()).orElseThrow();
+            assertThat(reloaded.frontmatter().get("ai")).isEqualTo(1);
+            assertThat(((Number) reloaded.frontmatter().get("al")).longValue()).isEqualTo(10L);
+            assertThat(reloaded.frontmatter().get("ab")).isEqualTo(true);
+
+            // 2. Update via nested NoteOperations with new atomics
+            AtomicInteger aiUpd = new AtomicInteger(100);
+            Map<String, Object> updateFm = new HashMap<>(Map.of("ai", aiUpd));
+            NoteView nestedUpdated = noteOperations.update(nestedCreated.id(), new UpdateNoteCommand(
+                    "Numeric Aliasing Updated", "content updated", null, null, null, null, null, updateFm
+            ));
+            aiUpd.set(999);
+            assertThat(nestedUpdated.frontmatter().get("ai")).isEqualTo(100);
+            assertThat(nestedUpdated.frontmatter().get("ai")).isInstanceOf(Integer.class);
+
+            // 3. Create via parent KnowledgeOperations
+            AtomicInteger facadeAi = new AtomicInteger(5);
+            AtomicLong facadeAl = new AtomicLong(50L);
+            Map<String, Object> facadeFm = new HashMap<>();
+            facadeFm.put("ai", facadeAi);
+            facadeFm.put("al", facadeAl);
+
+            var facadeCreated = knowledgeOperations.createNote(new CreateKnowledgeNoteCommand(
+                    "Facade Numeric Test", "content", null, null, null, null, null, facadeFm
+            ));
+
+            facadeAi.set(555);
+            facadeAl.set(5555L);
+
+            assertThat(facadeCreated.frontmatter().get("ai")).isEqualTo(5);
+            assertThat(facadeCreated.frontmatter().get("ai")).isInstanceOf(Integer.class);
+            assertThat(facadeCreated.frontmatter().get("al")).isEqualTo(50L);
+            assertThat(facadeCreated.frontmatter().get("al")).isInstanceOf(Long.class);
+
+            // In active write transaction, verify read isolation prevents dirty checking writes
+            TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+            txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+            txTemplate.executeWithoutResult(status -> {
+                var loaded = knowledgeOperations.findNoteById(facadeCreated.id()).orElseThrow();
+                assertThat(loaded.frontmatter().get("ai")).isEqualTo(5);
+                assertThat(loaded.frontmatter().get("ai")).isInstanceOf(Integer.class);
+                assertThat(((Number) loaded.frontmatter().get("al")).longValue()).isEqualTo(50L);
+            });
+
+            var freshSqlReload = knowledgeOperations.findNoteById(facadeCreated.id()).orElseThrow();
+            assertThat(freshSqlReload.frontmatter().get("ai")).isEqualTo(5);
+            assertThat(((Number) freshSqlReload.frontmatter().get("al")).longValue()).isEqualTo(50L);
+        }
+
+        @Test
+        @DisplayName("Unsupported numeric types (LongAdder, custom Number) are rejected with stable InvalidNoteException without DB writes")
+        void unsupportedNumericTypeIsRejectedWithStableException() {
+            Map<String, Object> fm = Map.of("adder", new LongAdder());
+
+            // Command construction fails directly
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, fm))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> new CreateKnowledgeNoteCommand("T", "c", null, null, null, null, null, fm))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            // Custom Number subclass
+            Number customNumber = new Number() {
+                @Override public int intValue() { return 0; }
+                @Override public long longValue() { return 0; }
+                @Override public float floatValue() { return 0; }
+                @Override public double doubleValue() { return 0; }
+            };
+            Map<String, Object> customFm = Map.of("custom", customNumber);
+
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, customFm))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            // Enclosing transaction rejection leaves zero notes written in DB
+            TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+            txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+            assertThatThrownBy(() -> txTemplate.executeWithoutResult(status ->
+                    noteOperations.create(new CreateNoteCommand("T", "c", null, null, null, null, null, fm))
+            )).isInstanceOf(InvalidNoteException.class);
+
+            Integer count = jdbcTemplate.queryForObject("SELECT count(*) FROM notes", Integer.class);
+            assertThat(count).isZero();
+        }
+
+        private static final class MutableBigDecimal extends BigDecimal {
+            private int mutableVal;
+
+            MutableBigDecimal(int val) {
+                super(val);
+                this.mutableVal = val;
+            }
+
+            void setMutableVal(int val) {
+                this.mutableVal = val;
+            }
+
+            @Override
+            public int intValue() {
+                return mutableVal;
+            }
+
+            @Override
+            public String toString() {
+                return String.valueOf(mutableVal);
+            }
+        }
+
+        private static final class MutableBigInteger extends BigInteger {
+            private int mutableVal;
+
+            MutableBigInteger(int val) {
+                super(String.valueOf(val));
+                this.mutableVal = val;
+            }
+
+            void setMutableVal(int val) {
+                this.mutableVal = val;
+            }
+
+            @Override
+            public int intValue() {
+                return mutableVal;
+            }
+
+            @Override
+            public String toString() {
+                return String.valueOf(mutableVal);
+            }
+        }
+
+        @Test
+        @DisplayName("Mutable subclasses of BigDecimal and BigInteger are rejected across commands and snapshots without DB writes, while authentic BigDecimals and BigIntegers are preserved with fidelity")
+        void mutableSubclassesOfBigDecimalAndBigIntegerAreRejectedWithStableExceptionAndNoWrites() {
+            MutableBigDecimal mutableDec = new MutableBigDecimal(42);
+            MutableBigInteger mutableBig = new MutableBigInteger(99);
+
+            // 1. Direct snapshot helper rejection
+            assertThatThrownBy(() -> NoteFrontmatterSnapshot.deepCopy(Map.of("dec", mutableDec)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> NoteFrontmatterSnapshot.toUnmodifiableSnapshot(Map.of("dec", mutableDec)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> NoteFrontmatterSnapshot.deepCopy(Map.of("big", mutableBig)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> NoteFrontmatterSnapshot.toUnmodifiableSnapshot(Map.of("big", mutableBig)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            // 2. Nested create & update commands rejection
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, Map.of("dec", mutableDec)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, Map.of("big", mutableBig)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> new UpdateNoteCommand("T", "c", null, null, null, null, null, Map.of("dec", mutableDec)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> new UpdateNoteCommand("T", "c", null, null, null, null, null, Map.of("big", mutableBig)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            // 3. Parent create & update commands rejection
+            assertThatThrownBy(() -> new CreateKnowledgeNoteCommand("T", "c", null, null, null, null, null, Map.of("dec", mutableDec)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> new CreateKnowledgeNoteCommand("T", "c", null, null, null, null, null, Map.of("big", mutableBig)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> new UpdateKnowledgeNoteCommand("T", "c", null, null, null, null, null, Map.of("dec", mutableDec)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            assertThatThrownBy(() -> new UpdateKnowledgeNoteCommand("T", "c", null, null, null, null, null, Map.of("big", mutableBig)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported numeric type in note frontmatter");
+
+            // 4. Stable no-write rejection under active write transaction
+            TransactionTemplate txTemplate = new TransactionTemplate(transactionManager);
+            txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+
+            assertThatThrownBy(() -> txTemplate.executeWithoutResult(status ->
+                    noteOperations.create(new CreateNoteCommand("T", "c", null, null, null, null, null, Map.of("dec", mutableDec)))
+            )).isInstanceOf(InvalidNoteException.class);
+
+            assertThatThrownBy(() -> txTemplate.executeWithoutResult(status ->
+                    knowledgeOperations.createNote(new CreateKnowledgeNoteCommand("T", "c", null, null, null, null, null, Map.of("big", mutableBig)))
+            )).isInstanceOf(InvalidNoteException.class);
+
+            Integer count = jdbcTemplate.queryForObject("SELECT count(*) FROM notes", Integer.class);
+            assertThat(count).isZero();
+
+            // 5. Authentic BigDecimal and BigInteger fidelity (nested and parent APIs)
+            BigDecimal exactDec = new BigDecimal("123.45");
+            BigInteger exactBig = new BigInteger("9876543210123456789");
+            Map<String, Object> validFm = new HashMap<>();
+            validFm.put("dec", exactDec);
+            validFm.put("big", exactBig);
+
+            // Nested create & reload
+            NoteView nestedCreated = noteOperations.create(new CreateNoteCommand(
+                    "Authentic Numbers Note", "Markdown content", null, null, null, null, null, validFm
+            ));
+            assertThat(nestedCreated.frontmatter().get("dec")).isEqualTo(exactDec);
+            assertThat(nestedCreated.frontmatter().get("dec")).isInstanceOf(BigDecimal.class);
+            assertThat(nestedCreated.frontmatter().get("big")).isEqualTo(exactBig);
+            assertThat(nestedCreated.frontmatter().get("big")).isInstanceOf(BigInteger.class);
+
+            NoteView nestedReloaded = noteOperations.findById(nestedCreated.id()).orElseThrow();
+            assertThat(((Number) nestedReloaded.frontmatter().get("dec")).doubleValue()).isEqualTo(123.45);
+            assertThat(nestedReloaded.frontmatter().get("big").toString()).isEqualTo("9876543210123456789");
+
+            // Nested update
+            NoteView nestedUpdated = noteOperations.update(nestedCreated.id(), new UpdateNoteCommand(
+                    "Authentic Numbers Updated", "Markdown content updated", null, null, null, null, null,
+                    Map.of("dec", new BigDecimal("999.99"), "big", new BigInteger("1111111111111111111"))
+            ));
+            assertThat(nestedUpdated.frontmatter().get("dec")).isEqualTo(new BigDecimal("999.99"));
+            assertThat(nestedUpdated.frontmatter().get("big")).isEqualTo(new BigInteger("1111111111111111111"));
+
+            // Parent facade create & update
+            var facadeCreated = knowledgeOperations.createNote(new CreateKnowledgeNoteCommand(
+                    "Facade Authentic Numbers", "Facade content", null, null, null, null, null,
+                    Map.of("dec", new BigDecimal("543.21"), "big", new BigInteger("8888888888888888888"))
+            ));
+            assertThat(facadeCreated.frontmatter().get("dec")).isEqualTo(new BigDecimal("543.21"));
+            assertThat(facadeCreated.frontmatter().get("big")).isEqualTo(new BigInteger("8888888888888888888"));
+
+            var facadeUpdated = knowledgeOperations.updateNote(facadeCreated.id(), new UpdateKnowledgeNoteCommand(
+                    "Facade Authentic Updated", "Facade content updated", null, null, null, null, null,
+                    Map.of("dec", new BigDecimal("888.88"))
+            ));
+            assertThat(facadeUpdated.frontmatter().get("dec")).isEqualTo(new BigDecimal("888.88"));
+
+            // Enclosing transaction isolation proof on reload
+            txTemplate.executeWithoutResult(status -> {
+                var loaded = knowledgeOperations.findNoteById(facadeCreated.id()).orElseThrow();
+                assertThat(((Number) loaded.frontmatter().get("dec")).doubleValue()).isEqualTo(888.88);
+            });
+        }
+
+        @Test
+        @DisplayName("Cyclic frontmatter graphs in maps or lists are rejected with InvalidNoteException without StackOverflowError")
+        void cyclicFrontmatterGraphIsRejectedWithoutStackOverflow() {
+            // 1. Direct map cycle: map.put("self", map)
+            Map<String, Object> cycleMap = new HashMap<>();
+            cycleMap.put("key", "val");
+            cycleMap.put("self", cycleMap);
+
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, cycleMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Cyclic reference detected in note frontmatter");
+
+            assertThatThrownBy(() -> new CreateKnowledgeNoteCommand("T", "c", null, null, null, null, null, cycleMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Cyclic reference detected in note frontmatter");
+
+            // 2. Direct list cycle: list.add(list)
+            List<Object> cycleList = new ArrayList<>();
+            cycleList.add("item");
+            cycleList.add(cycleList);
+
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, Map.of("list", cycleList)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Cyclic reference detected in note frontmatter");
+
+            // 3. Indirect cycle: map -> list -> map
+            Map<String, Object> indirectMap = new HashMap<>();
+            List<Object> containerList = new ArrayList<>();
+            containerList.add(indirectMap);
+            indirectMap.put("loop", containerList);
+
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, indirectMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Cyclic reference detected in note frontmatter");
+
+            // 4. Update command with cycle
+            assertThatThrownBy(() -> new UpdateNoteCommand("T", "c", null, null, null, null, null, cycleMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Cyclic reference detected in note frontmatter");
+
+            assertThatThrownBy(() -> new UpdateKnowledgeNoteCommand("T", "c", null, null, null, null, null, cycleMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Cyclic reference detected in note frontmatter");
+
+            // Verify no DB entries created
+            Integer count = jdbcTemplate.queryForObject("SELECT count(*) FROM notes", Integer.class);
+            assertThat(count).isZero();
+        }
+
+        @Test
+        @DisplayName("Non-string and null keys are rejected with stable InvalidNoteException without ClassCastException")
+        void nonStringAndNullKeysAreRejectedWithoutClassCastException() {
+            // Non-string key
+            Map<Object, Object> nonStringKeyMap = new HashMap<>();
+            nonStringKeyMap.put(12345, "numericKey");
+
+            @SuppressWarnings("unchecked")
+            Map<String, Object> rawTypedMap = (Map<String, Object>) (Map<?, ?>) nonStringKeyMap;
+
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, rawTypedMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Frontmatter map key must be a string");
+
+            assertThatThrownBy(() -> new CreateKnowledgeNoteCommand("T", "c", null, null, null, null, null, rawTypedMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Frontmatter map key must be a string");
+
+            // Null key
+            Map<Object, Object> nullKeyMap = new HashMap<>();
+            nullKeyMap.put(null, "nullKeyValue");
+
+            @SuppressWarnings("unchecked")
+            Map<String, Object> rawNullKeyMap = (Map<String, Object>) (Map<?, ?>) nullKeyMap;
+
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, rawNullNullTyped(rawNullKeyMap)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Frontmatter map contains null key");
+
+            assertThatThrownBy(() -> new CreateKnowledgeNoteCommand("T", "c", null, null, null, null, null, rawNullNullTyped(rawNullKeyMap)))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Frontmatter map contains null key");
+        }
+
+        private Map<String, Object> rawNullNullTyped(Map<String, Object> map) {
+            return map;
+        }
+
+        @Test
+        @DisplayName("Unsupported leaf types (arbitrary objects) are rejected with stable InvalidNoteException without payload leakage")
+        void unsupportedLeafTypesAreRejectedWithInvalidNoteException() {
+            Map<String, Object> unsupportedMap = new HashMap<>();
+            unsupportedMap.put("badLeaf", new Thread());
+
+            assertThatThrownBy(() -> new CreateNoteCommand("T", "c", null, null, null, null, null, unsupportedMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported value type in note frontmatter");
+
+            assertThatThrownBy(() -> new CreateKnowledgeNoteCommand("T", "c", null, null, null, null, null, unsupportedMap))
+                    .isInstanceOf(InvalidNoteException.class)
+                    .hasMessageContaining("Unsupported value type in note frontmatter");
         }
     }
 

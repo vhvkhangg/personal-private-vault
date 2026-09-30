@@ -14,4 +14,8 @@ public record CreateNoteCommand(
         String importedFileName,
         String importedFileHash,
         Map<String, Object> frontmatter
-) {}
+) {
+    public CreateNoteCommand {
+        frontmatter = NoteFrontmatterSnapshot.toUnmodifiableSnapshot(frontmatter);
+    }
+}

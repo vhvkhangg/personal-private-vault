@@ -130,17 +130,17 @@ public class FollowerSnapshotService implements FollowerSnapshotOperations {
         );
         followerSnapshotRepository.saveAndFlush(snapshot);
 
-        for (NormalizedEntry norm : collapsedEntries.values()) {
-            FollowerSnapshotEntry entry = new FollowerSnapshotEntry(
-                    snapshot.getId(),
-                    norm.targetAccountId(),
-                    norm.username(),
-                    norm.displayName(),
-                    norm.externalId(),
-                    norm.profileUrl()
-            );
-            followerSnapshotEntryRepository.save(entry);
-        }
+        List<FollowerSnapshotEntry> entries = collapsedEntries.values().stream()
+                .map(norm -> new FollowerSnapshotEntry(
+                        snapshot.getId(),
+                        norm.targetAccountId(),
+                        norm.username(),
+                        norm.displayName(),
+                        norm.externalId(),
+                        norm.profileUrl()
+                ))
+                .toList();
+        followerSnapshotEntryRepository.saveAll(entries);
         followerSnapshotEntryRepository.flush();
 
         return new FollowerSnapshotView(

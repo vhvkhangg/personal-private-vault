@@ -1,165 +1,168 @@
 # Active Implementation Handoff
 
-- Handoff ID: `backend-phase-9-collection`
+- Handoff ID: `maintenance-milestone-7-9-integrity-and-query-shape`
 - Created by: Codex
 - Status: `READY_FOR_OWNER_COMMIT`
 - Implementer: Antigravity
 - Final reviewer: Codex
-- Scope: Backend Phase 9 Collection foundation
+- Scope: owner-approved frozen Phase 7 Account / Phase 8 Knowledge maintenance
 
 ## Goal
 
-Implement the closed parent `collection` facade and nested `music`, `shopping`, and `software` Spring Modulith
-modules against unchanged Schema v1. Deliver Vault-backed identity, the approved scalar operations and assignment
-sets, bounded reads, and PostgreSQL-backed concurrency behavior without introducing later Search or integration work.
+Resolve exactly the three approved milestone blockers: Note JSON snapshot isolation, fresh locked Vocabulary state,
+and follower-snapshot insertion without per-entry merge probes. Phase 7–9 milestone status remains
+`CHANGES_REQUESTED`; Phase 10 pre-handoff review remains blocked.
 
 ## Sources of truth
 
-- `docs/implementation/phase-9/README.md` and `preparation-review.md` — owner-approved operation, behavior, and test contract.
-- `docs/implementation/phase-9/reviews/2026-09-30-phase-9-pre-handoff-codex-rereview.md` — closed preparation findings.
+- `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md` — current scope authority,
+  owner approval dated 2026-09-30, permitted targets, required behavior and regression contract.
+- `docs/implementation/phase-9/reviews/2026-09-30-phase-7-9-milestone-codex-review.md` and
+  `docs/implementation/phase-9/milestone-review.md` — observed defects/reproductions and milestone gate.
 - `docs/database/personal-private-vault-schema-v1-FROZEN-final.dbml` and
-  `backend/src/main/resources/db/migration/V1__create_schema_v1.sql` — exact tables, keys, enums, defaults, checks, and FKs.
+  `backend/src/main/resources/db/migration/V1__create_schema_v1.sql` — unchanged schema.
 - `docs/architecture/module-dependency-matrix.md`, `docs/architecture/module-boundaries.md`, and
-  `docs/repository/repository-package-tree.md` — frozen ownership, topology, and dependency direction.
-- `.agents/rules/backend-phase-9-collection.md` and
-  `backend/src/main/java/com/vhvkhangg/personalprivatevault/collection/AGENTS.md` — scoped guidance.
+  `docs/repository/repository-package-tree.md` — frozen ownership/public boundaries.
+- `backend/src/main/java/com/vhvkhangg/personalprivatevault/account/AGENTS.md` and
+  `backend/src/main/java/com/vhvkhangg/personalprivatevault/knowledge/AGENTS.md` — scoped conventions.
 
 ## Implementation targets
 
-- Under `backend/src/main/java/com/vhvkhangg/personalprivatevault/collection/`, implement exactly `music_tracks`,
-  `music_track_people`, `shopping_items`, `software_items`, and `software_item_platforms` in their owning nested
-  modules. Keep entities, repositories, transactions, and validation internal to the owner. Expose narrow nested
-  capabilities with immutable commands/views, meaningful named interfaces and `package-info.java`; remove replaced
-  Collection `internal/.gitkeep` placeholders.
-- Implement a small closed parent `collection.api` facade that delegates/maps the approved operations. Every
-  externally consumable signature, including generic and exception types, uses parent-owned Collection API types;
-  no nested DTO, entity, repository, or `internal` type leaks. Do not duplicate nested business rules in the parent.
-- Required surface: create/update/find-by-ID for Music, Shopping, and Software; add and bounded read for Music
-  Person credits and Software supported platforms. No assignment removal/replace-all or browse/search API.
-- Add focused tests under `backend/src/test/java/com/vhvkhangg/personalprivatevault/collection/` and evidence at
-  `docs/implementation/phase-9/test-evidence.md`.
+Production paths below are relative to `backend/src/main/java/com/vhvkhangg/personalprivatevault/`.
+
+- Note: `knowledge/note/internal/domain/Note.java`, `knowledge/note/internal/application/NoteService.java`,
+  `knowledge/note/view/NoteView.java`, and `knowledge/api/KnowledgeNoteView.java`. A small owner-local JSON snapshot
+  helper is allowed; change `knowledge/internal/application/KnowledgeFacadeService.java` only for necessary
+  defensive mapping. Existing Note create/update command records may gain defensive construction as needed for
+  the approved boundary, with unchanged components/signatures.
+- Vocabulary: `knowledge/vocabulary/internal/application/VocabularyService.java` and, only if needed,
+  `knowledge/vocabulary/internal/infrastructure/persistence/VocabularyItemRepository.java`.
+- Account: `account/internal/domain/FollowerSnapshotEntry.java` and, only as needed,
+  `account/internal/application/FollowerSnapshotService.java` and
+  `account/internal/infrastructure/persistence/FollowerSnapshotEntryRepository.java`.
+- Focused tests in the existing Knowledge/Account test packages; evidence in the maintenance path below.
 
 ## Required behavior / invariants
 
-- Music, Shopping, and Software rows share the ID and transaction of Vault Entries `MUSIC`, `SHOPPING`, and
-  `SOFTWARE`; failed domain creation leaves no orphan. Vault alone owns favorite/rating/tag/recycle behavior.
-- Create/update commands replace scalar state (not PATCH). Null/omitted Music `version` resolves to `ORIGINAL` and
-  Shopping `status` to `WISHLIST` on both create and update; required non-defaulted fields must be supplied.
-  Nullable fields clear with null. Software `type` is required. Scalar Music/Software updates leave assignment sets
-  unchanged.
-- Music permits duplicate title/URL/platform/version records; optional platform resolves through public Reference
-  without PlatformKind filtering. Credits validate Person via public People contract and form the exact
-  `(music_id, person_id, role)` set. `SINGER` and `ARTIST` may coexist for one Person; no Creator Group credit.
-- Shopping permits duplicate names/URLs/platforms. Price is nonnegative, requires currency when present, and
-  currency without price is valid; optional currency/platform resolve through public Reference without PlatformKind
-  filtering. `WISHLIST` requires null `purchased_at`; `PURCHASED` permits null or supplied time. Reject invalid
-  combinations, never auto-set the timestamp, and require an explicit null when transitioning back to `WISHLIST`.
-- Software permits duplicate name/type/URL records. Apply the same price/currency rule. Supported platforms are a
-  zero-or-more `(software_id, platform_id)` set validated through public Reference with no PlatformKind restriction.
-- Exact repeated Music-credit and Software-platform adds are idempotent, including concurrent duplicates. Use an
-  atomic PostgreSQL composite-key set write (for example `ON CONFLICT DO NOTHING`) or an equally race-safe method;
-  a pre-check alone is insufficient. Do not leak raw persistence/vendor detail in expected outcomes or logs.
-- Credit/platform reads require a positive explicit `limit`, return at most that many rows, and order respectively
-  by `person_id ASC, role ASC` (native enum order `SINGER`, `ARTIST`) and `platform_id ASC`. Other reads remain
-  ID-scoped. No unbounded collection read or read-side mutation.
+- **Note:** deep-isolate caller input, entity state, nested Note views, and parent Knowledge views. Root/nested
+  mutations must not change managed state or alias returned snapshots. Preserve unknown keys, JSON nulls, nested
+  objects/arrays, strings, booleans, integral/decimal numbers, and exact Markdown. Shallow copy-only solutions are
+  insufficient. Unsupported non-JSON graphs fail through the existing stable validation boundary without payload
+  logging. Use a recursively immutable public snapshot or equivalent defensive isolation. Keep policy Note/Knowledge-
+  owned; the parent must not import a nested `internal` helper or leak persistence/helper types.
+- **Vocabulary:** acquire/hold the item write lock and obtain fresh database state even when already managed;
+  record that state's previous interval/ease, append history and apply the requested state in the caller's existing
+  transaction. Prefer a targeted `EntityManager.refresh` under the lock. Preserve unrelated pending work and any
+  necessary flush semantics; retain atomicity, lock-contention serialization and rollback behavior.
+- **Snapshots:** persist entries for the freshly allocated header as known-new rows, with zero entry-table
+  existence SELECTs during insertion. Prefer the existing `Persistable` new-state pattern with `@PostPersist`/
+  `@PostLoad`, or a focused owner-local persist-new path. Preserve all-or-nothing creation, historical copies,
+  duplicate collapse/conflict rejection, bulk target validation, immutable snapshots and grouped count reads.
+- Preserve Vault identity, privacy-safe conflicts, public API shapes/named interfaces, and all current domain rules.
+  Stop/report a conflict with the approved scope or frozen baseline.
 
 ## Non-goals
 
-- No DBML/Flyway/frozen-foundation change; assignment removal/replace-all, global browse/search, Phase 10 Feed or
-  ImportData, Phase 11 domains, Phase 12 Search behavior, metadata fetching, marketplace APIs, OAuth/scraping,
-  REST/controllers/OpenAPI, frontend, RAG, deletion, generic CRUD bases, speculative adapters/events/strategies, or
-  new custom agents/hooks. A test fixture may represent a future top-level Search caller but must not implement its
-  workflow.
+No Phase 10 implementation/pre-review; DBML/Flyway/constraint/ownership or public API signature changes; SRS formula/
+due-query changes; Note Markdown/hash changes; relationship/snapshot-policy/read-limit changes; `REQUIRES_NEW`,
+whole-session detach/clear, retry/event/AOP/bulk frameworks, generic JSON/persistence bases, new agents/hooks, or
+unrelated refactoring. Archived Phase 8 wording and Collection package-documentation observations are excluded.
 
 ## Test/evidence contract
 
-- PostgreSQL Testcontainers/JUnit 5 coverage for all five tables and unchanged Flyway/Hibernate validation; all
-  three Vault identity/rollback paths; create/update/find and default/full-replacement semantics; nullable-field
-  clearing; Reference/People validation; duplicate-allowed items; complete Shopping status/timestamp and
-  price/currency matrices; both-role credits; zero/multiple Software platforms; sequential and concurrent exact
-  assignment idempotence. Concurrent tests must observe competing PostgreSQL behavior, not rely on sleeps alone.
-- Verify positive limits, at-most-limit results and exact ordering for both assignment reads; verify scalar updates
-  preserve assignments and no removal/replace-all API exists. Keep expected uniqueness outcomes privacy-safe.
-- Verify exact parent/nested Modulith dependencies and named interfaces, no internal-package access, and a
-  representative external top-level test consumer importing only parent Collection API types. Derive the supported
-  nested `allowedDependencies` declaration from Spring Modulith 2.1.1 and actual imports; do not open modules to
-  bypass verification. Whole-module direction remains only `vault`, `people`, `reference`.
-- Final commands: `mvn -f backend/pom.xml -ntp clean verify` on Java 25, then `git diff --check`. Record commands,
-  exits, test totals, PostgreSQL/architecture and concurrency/privacy results, environment, and known diagnostics in
-  `docs/implementation/phase-9/test-evidence.md`. Do not use H2.
+- PostgreSQL Testcontainers only. For Note **create and update**, mutate original root/nested maps/lists after the
+  operation and assert unchanged returned/persisted data. Prove read isolation through both `NoteOperations` and
+  parent `KnowledgeOperations` inside enclosing write transactions through commit and fresh SQL/API reload.
+  Mutation may throw or affect only isolated data; it must not persist. Cover JSON null/nested-array/numeric fidelity
+  and retain Markdown/hash/privacy regressions.
+- Deterministic parent-API Vocabulary regression: A preloads `0`/`2.50`; independent B reviews to `10`/`2.70` and its
+  commit is explicitly awaited; A reviews to `20`/`2.90`. Assert A's previous history values are `10`/`2.70`, committed
+  history forms B→A's chain, and returned/final state is `20`/`2.90`. Retain real PostgreSQL contention and rollback
+  coverage; do not substitute sleeps or independently committing transitions for caller atomicity.
+- Snapshot SQL-shape tests cover multiple non-zero batch sizes: retain expected owner + bulk-target Account
+  lookups; assert **zero SELECTs referencing `follower_snapshot_entries` during fresh creation**; verify inserted
+  rows/historical values and retain grouped-count read assertions. Do not hide SQL logging to pass counts.
+- Final commands: `mvn -f backend/pom.xml -ntp clean verify` on Java 25, then `git diff --check`.
+- Evidence: `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/test-evidence.md`. Record exact
+  commands/exits, versions/environment, actual test names/counts, batch sizes/query counts, retained contention/
+  rollback/privacy results, Spring Modulith/Flyway/Hibernate results, and known diagnostics. Baseline: 583 passing
+  tests; record actual new totals. Do not claim IDE inspection unless run.
+- Acceptance: all three blockers resolved with these regressions, final checks green, unchanged schema/boundaries,
+  and no scope expansion. Keep milestone `CHANGES_REQUESTED` and Phase 10 blocked pending its separate re-review.
 
 ## Constraints / risks
 
-- Stop/report any conflict with frozen Schema v1 or module boundaries; do not silently change them. Keep
-  validation/transactions in owning nested modules and avoid raw sensitive exception/SQL detail logging.
-- Relevant skills: `collection-domain-modeling`, `java-spring-coding-standards`, `pragmatic-solid-design`,
-  `reuse-and-consistency`, `design-pattern-selection`, `modular-monolith-architecture`,
-  `jpa-postgresql-persistence`, and `backend-testing`.
-- Agents do not commit, push, tag, or create/merge PRs. Phase 9 is a milestone phase; after final acceptance and
-  owner commit/push, run the Phase 7–9 `$codex-milestone-review` before Phase 10 pre-handoff review.
+- Relevant skills: `knowledge-domain-modeling`, `account-domain-modeling`, `jpa-postgresql-persistence`,
+  `backend-testing`, `java-spring-coding-standards`, `pragmatic-solid-design`, `reuse-and-consistency`,
+  `design-pattern-selection`, and `modular-monolith-architecture`.
+- JSON null/numeric fidelity, permitted nested named-interface access, managed-state freshness and assigned-ID
+  new detection are the concrete risks. Build durable regressions from canonical reproductions; ignored
+  `backend/target/milestone-diagnostics/` artifacts are not implementation/test sources.
+- Formal final reviews belong in `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/reviews/`.
+  Agents never commit/push/tag or create/merge PRs. After final acceptance, owner commit/push precedes the Phase 7–9
+  `$codex-milestone-review` rerun; owner-committed `MILESTONE_READY` status and ChatGPT post-milestone synchronization
+  precede Phase 10 pre-handoff review.
 
 ## Implementation result
 
-### 1. Completed Delivery Summary
+- **Status:** `IMPLEMENTED_AWAITING_CODEX_REVIEW`
+- **Implementer:** Antigravity
+- **Date:** 2026-09-30
 
-- **Removed placeholder files:** Deleted all four `.gitkeep` placeholder files (`collection/internal/.gitkeep`, `collection/music/internal/.gitkeep`, `collection/shopping/internal/.gitkeep`, `collection/software/internal/.gitkeep`).
-- **Spring Modulith Boundaries:**
-  - `collection.package-info`: Exposes `@NamedInterface("api")` containing `collection.api.*`. Declares allowed dependencies to `collection.music`, `collection.shopping`, `collection.software`.
-  - `collection.music.package-info`: Exposes `@NamedInterface("music")` containing `collection.music.music.*`, `collection.music.enums.*`, `collection.music.view.*`. Declares allowed dependencies to `vault`, `people`, `reference`.
-  - `collection.shopping.package-info`: Exposes `@NamedInterface("shopping")` containing `collection.shopping.shopping.*`, `collection.shopping.enums.*`, `collection.shopping.view.*`. Declares allowed dependencies to `vault`, `reference`.
-  - `collection.software.package-info`: Exposes `@NamedInterface("software")` containing `collection.software.software.*`, `collection.software.enums.*`, `collection.software.view.*`. Declares allowed dependencies to `vault`, `reference`.
-- **Music Module (`collection.music`):**
-  - Enums: `MusicVersion` (`ORIGINAL`, `COVER`, `PARODY`, `MIX`), `MusicCreditRole` (`SINGER`, `ARTIST`).
-  - Public Views & Commands: `MusicView`, `MusicCreditView`, `CreateMusicCommand`, `UpdateMusicCommand`, `MusicNotFoundException`, `InvalidMusicException`, `MusicOperations`.
-  - Internal Domain & Persistence: `MusicTrack` (persisted to `music_tracks`, `Persistable<Long>` with `MUSIC` vault entry), `MusicTrackPerson` / `MusicTrackPersonId` composite key entity, `MusicTrackRepository`, `MusicTrackPersonRepository`.
-  - Application Service: `MusicService` handling atomic Vault entry creation, default `version -> ORIGINAL`, scalar replacement, reference platform validation, `PersonOperations.find(personId)` validation, native PostgreSQL enum casting (`CAST(:role AS music_credit_role)`), atomic idempotence via `INSERT ... ON CONFLICT DO NOTHING`, and bounded credit queries ordered by `person_id ASC, role ASC`.
-- **Shopping Module (`collection.shopping`):**
-  - Enums: `ShoppingStatus` (`WISHLIST`, `PURCHASED`).
-  - Public Views & Commands: `ShoppingItemView`, `CreateShoppingItemCommand`, `UpdateShoppingItemCommand`, `ShoppingItemNotFoundException`, `InvalidShoppingItemException`, `ShoppingOperations`.
-  - Internal Domain & Persistence: `ShoppingItem` (persisted to `shopping_items`, `Persistable<Long>` with `SHOPPING` vault entry), `ShoppingItemRepository`.
-  - Application Service: `ShoppingService` handling atomic Vault entry creation, default `status -> WISHLIST`, scalar replacement, reference platform validation, status matrix enforcement (`WISHLIST` forbids `purchased_at`, `PURCHASED` allows null or non-null timestamp), atomic price/currency validation (nonnegative price, price requires currency, currency without price is valid).
-- **Software Module (`collection.software`):**
-  - Enums: `SoftwareType` (`APPLICATION`, `EXTENSION`).
-  - Public Views & Commands: `SoftwareItemView`, `SoftwarePlatformView`, `CreateSoftwareItemCommand`, `UpdateSoftwareItemCommand`, `SoftwareItemNotFoundException`, `InvalidSoftwareItemException`, `SoftwareOperations`.
-  - Internal Domain & Persistence: `SoftwareItem` (persisted to `software_items`, `Persistable<Long>` with `SOFTWARE` vault entry), `SoftwareItemPlatform` / `SoftwareItemPlatformId` composite key entity, `SoftwareItemRepository`, `SoftwareItemPlatformRepository`.
-  - Application Service: `SoftwareService` handling atomic Vault entry creation, mandatory `type` validation on create/update, scalar replacement, reference platform validation, atomic price/currency validation, atomic platform idempotence via `INSERT ... ON CONFLICT DO NOTHING`, and bounded platform queries ordered by `platform_id ASC`.
-- **Parent Collection Facade (`collection.api` + `collection.internal.application`):**
-  - Public API Types: `CollectionMusicVersion`, `CollectionMusicCreditRole`, `CollectionShoppingStatus`, `CollectionSoftwareType`, `CollectionMusicView`, `CollectionMusicCreditView`, `CollectionShoppingItemView`, `CollectionSoftwareItemView`, `CollectionSoftwarePlatformView`, `CreateCollectionMusicCommand`, `UpdateCollectionMusicCommand`, `CreateCollectionShoppingItemCommand`, `UpdateCollectionShoppingItemCommand`, `CreateCollectionSoftwareItemCommand`, `UpdateCollectionSoftwareItemCommand`, `CollectionNotFoundException`, `InvalidCollectionException`, `CollectionOperations`.
-  - Internal Implementation: `CollectionService` delegating to nested module services with complete 1:1 command/view mapping and exception translation. Closed surface with zero leakage of nested module types or internal persistence models.
+### Summary of Completed Scope:
+1. **Finding A (Note Frontmatter JSON Snapshot Isolation & Fidelity):**
+   - Implemented `NoteFrontmatterSnapshot` in the legal `knowledge.note.note` named interface:
+     - `deepCopy(source)`: produces a fully mutable, detached deep copy preserving JSON nulls and nested structures for JPA entity storage.
+     - `toUnmodifiableSnapshot(source)`: produces a recursively unmodifiable view wrapping maps with `Collections.unmodifiableMap` and lists with `Collections.unmodifiableList`, safely supporting JSON nulls and preventing dirty checking modification (`UnsupportedOperationException`).
+   - Updated `Note` entity constructor and `update()` method to deep-copy incoming frontmatter, and `getFrontmatter()` to expose only unmodifiable snapshots.
+   - Updated `CreateNoteCommand`, `UpdateNoteCommand`, `NoteView`, and `KnowledgeNoteView` compact constructors with recursive snapshot isolation without cross-module internal package imports.
+   - Updated `NoteService.validateNote` to deep-copy and validate frontmatter through the canonical recursive policy.
+2. **Finding B (Vocabulary Fresh State Under Row Lock):**
+   - Injected `EntityManager` into `VocabularyService`.
+   - In `VocabularyService.reviewTransition`, called `entityManager.refresh(item)` immediately following `vocabularyItemRepository.findByIdForUpdate(id)`, ensuring the managed entity refreshes in-memory state from PostgreSQL under the held `PESSIMISTIC_WRITE` row lock before capturing `previousIntervalDays` and `previousEaseFactor`.
+   - Updated `KnowledgeValidationTest.java` mock setup with mocked `EntityManager`.
+3. **Finding C (Follower Snapshot Known-New Entry Persistence):**
+   - Updated `FollowerSnapshotEntry` to implement `Persistable<FollowerSnapshotEntryId>`, adding `@Transient private boolean isNew = true;`, `isNew()`, `getId()`, and `@PostPersist`/`@PostLoad` lifecycle callbacks.
+   - Updated `FollowerSnapshotService.createSnapshot` to map directly to a list of entries and invoke `followerSnapshotEntryRepository.saveAll(entries)` and `flush()`.
 
-### 2. Test Verification
-
-- **Search Test Consumer Fixture:** `SearchCollectionConsumerTestFixture.java` in `search` package consuming only `collection.api.*`.
-- **Architecture Tests:** `CollectionArchitectureTests.java` (3 tests PASS) verifying Spring Modulith monolith architecture, parent facade named interface (`api`), and nested modules encapsulation.
-- **Unit Validation Tests:** `CollectionValidationTest.java` (16 tests PASS) covering validation rules, boundaries, and parent facade delegation/exception mapping.
-- **PostgreSQL Integration Tests:** `CollectionIntegrationTest.java` (17 tests PASS) executing against Testcontainers PostgreSQL 18.6:
-  - Schema v1 table presence verification (`music_tracks`, `music_track_people`, `shopping_items`, `software_items`, `software_item_platforms`).
-  - Atomic Vault Entry rollback for all 3 domain entities (`MUSIC`, `SHOPPING`, `SOFTWARE`).
-  - CRUD, defaults, nullable clearing, and scalar replacement semantics.
-  - Complete Shopping status/timestamp and price/currency matrices.
-  - Music credit support for both roles (`SINGER`, `ARTIST`) on one person and bounded deterministic ordering (`person_id ASC, role ASC`).
-  - Software platform support with bounded deterministic ordering (`platform_id ASC`).
-  - True PostgreSQL lock contention testing (`awaitCompetingLock` observing `NOT l.granted`) for concurrent duplicate credit and platform insertions, converging safely to 1 row.
-  - Preservation of assignment sets during scalar entity updates.
-  - Parent facade end-to-end delegation and exception mapping.
-- **Total Test Suite:** Full suite verification (`mvn -f backend/pom.xml -ntp clean verify`) passed with **583 tests** (0 failures, 0 errors, 0 skipped).
-- **Hygiene & Graphify:** `git diff --check` passed cleanly with exit code 0; `scripts/refresh-graphify.ps1` completed successfully (3311 nodes, 11365 edges, 292 communities).
-- **Evidence Reference:** Detailed breakdown documented in `docs/implementation/phase-9/test-evidence.md`.
-
-### 3. Remediation Summary (2026-09-30)
-
-- Addressed blocking finding in `docs/implementation/phase-9/reviews/2026-09-30-phase-9-final-codex-review.md`.
-- Rebuilt the "Focused Collection Regression & Invariant Tests" table in `docs/implementation/phase-9/test-evidence.md` strictly from actual test source methods and Surefire XML reports (`CollectionArchitectureTests` [3], `CollectionValidationTest` [16], `CollectionIntegrationTest` [17]).
-- Eliminated invented method names, accurately cross-checked all 36 test assertions against test sources and Surefire reports, and corrected false domain claims (removed nonexistent Music duration, confirmed currency without price is valid, and confirmed absence of PlatformKind restrictions). Verified all 583 tests passing cleanly.
+### Verification & Evidence:
+- **Test Evidence:** Recorded in `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/test-evidence.md`.
+- **Focused Regressions:** `mvn -f backend/pom.xml -ntp test "-Dtest=AccountIntegrationTest,KnowledgeIntegrationTest,KnowledgeValidationTest"`: 71 tests run, 0 failures, 0 errors (43.715 s).
+- **Full Verification:** `mvn -f backend/pom.xml -ntp clean verify`: 594 tests run (from baseline 583), 0 failures, 0 errors, 0 skipped (01:15 min).
+- **Git Diff:** `git diff --check`: 0 (clean).
+- **Graphify:** Synchronized via `scripts/refresh-graphify.ps1` (3361 nodes, 11522 edges, 300 communities).
+- **Schema & Boundaries:** Zero changes to Flyway migrations or DBML; all 12 Spring Modulith architecture tests passed.
 
 ## Codex remediation
 
-The evidence-only finding in
-`docs/implementation/phase-9/reviews/2026-09-30-phase-9-final-codex-review.md` was corrected and closed by
-`docs/implementation/phase-9/reviews/2026-09-30-phase-9-final-codex-rereview.md`.
+Latest review: `../maintenance/milestone-7-9-integrity-and-query-shape/reviews/2026-09-30-final-codex-acceptance-review.md`.
+
+Remediated findings:
+1. **Finding 1 (High - Numeric leaf aliasing & mutable subclass rejection):**
+   - Implemented exact class equality matching in `NoteFrontmatterSnapshot.validateAndNormalizeNumber` (`clazz == BigDecimal.class`, `clazz == BigInteger.class`, etc.) instead of open `instanceof` checks.
+   - Normalized mutable numeric leaves without precision loss: `AtomicInteger` $\to$ `Integer`, `AtomicLong` $\to$ `Long`, `AtomicBoolean` $\to$ `Boolean`.
+   - Mutable subclasses of `BigDecimal` and `BigInteger` (`MutableBigDecimal`, `MutableBigInteger`) are rejected with stable `InvalidNoteException("Unsupported numeric type in note frontmatter")` across:
+     - `NoteFrontmatterSnapshot.deepCopy` and `NoteFrontmatterSnapshot.toUnmodifiableSnapshot`
+     - Nested `CreateNoteCommand` and `UpdateNoteCommand`
+     - Parent `CreateKnowledgeNoteCommand` and `UpdateKnowledgeNoteCommand`
+   - Verified stable no-write rejection under active write transactions (`TransactionTemplate` with `PROPAGATION_REQUIRES_NEW`), proving 0 records written to PostgreSQL (`SELECT count(*) FROM notes` = 0).
+   - Preserved full fidelity of authentic `BigDecimal` and `BigInteger` instances across creation, update, and reload on both nested `NoteOperations` and parent `KnowledgeOperations`.
+2. **Finding 2 (Medium - Divergent snapshot policies & invalid graph bypasses):**
+   - Centralized canonical snapshot policy in `com.vhvkhangg.personalprivatevault.knowledge.note.note.NoteFrontmatterSnapshot` in legal public named interface `note`.
+   - Removed duplicated snapshot copiers from `CreateNoteCommand`, `UpdateNoteCommand`, `NoteView`, `CreateKnowledgeNoteCommand`, `UpdateKnowledgeNoteCommand`, and `KnowledgeNoteView`, delegating to `NoteFrontmatterSnapshot.toUnmodifiableSnapshot(frontmatter)`.
+   - Added cycle detection using an `IdentityHashMap` visited set throwing `InvalidNoteException("Cyclic reference detected in note frontmatter")`.
+   - Validated map keys (rejecting null and non-string keys) and rejected arbitrary unsupported leaf types with `InvalidNoteException("Unsupported value type in note frontmatter")`.
+3. **Finding 3 (Medium - Required regression path & test evidence):**
+   - Refactored `KnowledgeIntegrationTest.reviewTransitionRefreshesStalePreloadedStateUnderLock` to execute entirely through parent `KnowledgeOperations` (`createVocabularyItem`, `findVocabularyItemById`, `reviewVocabularyItem`, and `findVocabularyReviews`), retaining all concurrent contention and rollback tests.
+   - Accurately regenerated `test-evidence.md` with exact counts from Surefire reports, aggregating nested test suites properly (including `KnowledgeArchitectureTests` [3] and `CollectionArchitectureTests` [3], 594 total).
+   - Documented build diagnostics: Lombok `sun.misc.Unsafe` warning under JDK 25, deprecation warning in `AbstractPostgresIntegrationTest`, and explicit note that no IDE inspections were run.
 
 ## Final review
 
-`READY_FOR_OWNER_COMMIT` on 2026-09-30 after Codex re-review. Independent `mvn -f backend/pom.xml -ntp clean verify`
-passed (583 tests, zero failures/errors/skips); `git diff --check` passed. Owner commit/push is next, followed by
-ChatGPT Phase 9 closeout and the mandatory Phase 7–9 milestone review before Phase 10 pre-handoff review.
+2026-09-30 final acceptance: **READY FOR OWNER COMMIT**. All prior blockers are resolved.
+Independent `mvn -f backend/pom.xml -ntp clean verify` passed 594 tests, failures/errors/skips 0; `git diff --check` passed.
+
+Commit message: `fix: isolate note snapshots and preserve locked review integrity`
+
+Owner commit/push is next, followed by `$codex-milestone-review` for Phases 7–9. Milestone remains
+`CHANGES_REQUESTED` and Phase 10 remains blocked. No agent commit/push performed.

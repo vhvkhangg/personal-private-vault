@@ -439,6 +439,7 @@ class KnowledgeValidationTest {
         private VocabularyReviewRepository vocabularyReviewRepository;
         private VaultEntryOperations vaultEntryOperations;
         private ReferenceCatalog referenceCatalog;
+        private jakarta.persistence.EntityManager entityManager;
         private VocabularyService vocabularyService;
 
         @BeforeEach
@@ -447,12 +448,14 @@ class KnowledgeValidationTest {
             vocabularyReviewRepository = mock(VocabularyReviewRepository.class);
             vaultEntryOperations = mock(VaultEntryOperations.class);
             referenceCatalog = mock(ReferenceCatalog.class);
+            entityManager = mock(jakarta.persistence.EntityManager.class);
 
             vocabularyService = new VocabularyService(
                     vocabularyRepository,
                     vocabularyReviewRepository,
                     vaultEntryOperations,
-                    referenceCatalog
+                    referenceCatalog,
+                    entityManager
             );
 
             when(vaultEntryOperations.create(VaultEntryType.VOCABULARY))
