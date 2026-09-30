@@ -1,6 +1,6 @@
 # Phase 9 Pre-Handoff Preparation Review
 
-Status: **READY FOR HANDOFF** after the [2026-09-30 Codex re-review](reviews/2026-09-30-phase-9-pre-handoff-codex-rereview.md); owner preparation commit/push is pending.
+Status: **READY FOR HANDOFF** after the [2026-09-30 Codex re-review](reviews/2026-09-30-phase-9-pre-handoff-codex-rereview.md); owner committed/pushed preparation as `74c1ec1`, and Codex created the active Phase 9 implementation handoff.
 
 ## Preconditions
 

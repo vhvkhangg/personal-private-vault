@@ -14,19 +14,27 @@
  * </ul>
  *
  * <h2>Module boundary</h2>
- * <p>Allowed top-level dependencies: {@code vault, people, reference}.</p>
- * <p>Public contracts belong in this package. Entities, repositories, application services,
- * infrastructure adapters, and web implementation details belong under {@code internal} unless an
- * explicitly named interface is required. Other modules must not import this module's
- * {@code internal} packages.</p>
+ * <p>Allowed dependencies: nested collection module named interfaces.</p>
+ * <p>Public contracts belong in the {@code api} package. Implementations belong under
+ * {@code internal}. External modules must not import this module's {@code internal} packages.</p>
  *
  * <h2>Notes</h2>
  * <ul>
- *   <li>External top-level modules should normally depend on this facade rather than nested-module internals.</li>
+ *   <li>External top-level modules depend on this facade rather than nested-module internals.</li>
  * </ul>
  *
  * <p>Canonical architecture references: {@code docs/architecture/module-boundaries.md} and
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
-@org.springframework.modulith.ApplicationModule(allowedDependencies = { "vault", "people", "reference" })
+@org.springframework.modulith.ApplicationModule(allowedDependencies = {
+        "collection.music::music",
+        "collection.music::enums",
+        "collection.music::view",
+        "collection.shopping::shopping",
+        "collection.shopping::enums",
+        "collection.shopping::view",
+        "collection.software::software",
+        "collection.software::enums",
+        "collection.software::view"
+})
 package com.vhvkhangg.personalprivatevault.collection;

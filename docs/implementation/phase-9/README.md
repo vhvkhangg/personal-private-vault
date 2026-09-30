@@ -1,6 +1,8 @@
 # Backend Phase 9 — Collection Foundation
 
-Status: **PREPARED — READY FOR HANDOFF** after the [2026-09-30 Codex re-review](reviews/2026-09-30-phase-9-pre-handoff-codex-rereview.md); owner preparation commit/push is pending.
+Preparation: **READY FOR HANDOFF** after the [2026-09-30 Codex re-review](reviews/2026-09-30-phase-9-pre-handoff-codex-rereview.md); owner committed/pushed it as `74c1ec1`.
+
+Implementation: **ACTIVE — READY_FOR_OWNER_COMMIT** after the [Codex final acceptance re-review](reviews/2026-09-30-phase-9-final-codex-rereview.md); owner commit/push is next under the [active handoff](../handoffs/ACTIVE.md).
 
 Phase 9 implements the top-level `collection` facade and its three nested Spring Modulith modules:
 

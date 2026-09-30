@@ -36,9 +36,9 @@ Frozen implementation phases:
 
 Current gate:
 
-- Backend Phase 9 — Collection Foundation preparation
-- Phase 9 preparation is `READY FOR HANDOFF`; owner commit/push is pending
-- no Phase 9 implementation handoff until preparation is owner committed/pushed
+- Backend Phase 9 — Collection Foundation implementation
+- preparation was owner committed/pushed; the [active handoff](docs/implementation/handoffs/ACTIVE.md) is
+  `READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review
 
 ## Planned stack
 

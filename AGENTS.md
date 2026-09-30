@@ -22,8 +22,8 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 7 (`account`) is complete/frozen after owner commit/push. Its completed handoff is archived under
   `docs/implementation/phase-7/handoff.md`.
 - Backend Phase 8 (`knowledge`) is complete/frozen after owner commit/push.
-- Backend Phase 9 (`collection`) preparation is `READY FOR HANDOFF` after Codex re-review; owner commit/push is
-  pending, and no implementation handoff is active.
+- Backend Phase 9 (`collection`) preparation was owner committed/pushed. Its active implementation handoff is
+  `READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review; owner commit/push is pending.
 
 Completed maintenance scope:
 

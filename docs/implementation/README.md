@@ -13,7 +13,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-6/`](phase-6/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `media` + `location`
 - [`phase-7/`](phase-7/README.md) — **COMPLETE / FROZEN** — `account`
 - [`phase-8/`](phase-8/README.md) — **COMPLETE / FROZEN** — `knowledge`
-- [`phase-9/`](phase-9/README.md) — **PREPARED / READY FOR HANDOFF** — `collection`
+- [`phase-9/`](phase-9/README.md) — **ACTIVE / READY_FOR_OWNER_COMMIT** — `collection`
 
 Maintenance:
 
@@ -23,13 +23,13 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-There is no active implementation handoff.
+The active [Phase 9 Collection handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review.
 
 Backend Phase 8 Knowledge is complete/frozen after owner commit/push. Its completed handoff is archived in
 [`phase-8/handoff.md`](phase-8/handoff.md), with final evidence/reviews retained under `phase-8/`.
 
-Backend Phase 9 Collection preparation passed Codex re-review and is `READY FOR HANDOFF`. Do **not** create a Phase 9
-implementation handoff until the owner commits/pushes that preparation slice.
+Backend Phase 9 Collection preparation was owner committed/pushed. Its evidence finding is closed; owner
+commit/push of the accepted implementation is next.
 
 Phase 9 is a milestone phase. After its eventual implementation final review and owner commit/push, run the required
 Phase 7–9 `$codex-milestone-review` before Phase 10 pre-handoff review.

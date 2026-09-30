@@ -70,5 +70,6 @@ Knowledge Foundation is **complete and frozen** after owner commit/push. See
 
 ## Phase 9
 
-Collection Foundation preparation is `READY FOR HANDOFF` after Codex re-review. See
+Collection Foundation preparation was owner committed/pushed. The active Codex handoff is
+`READY_FOR_OWNER_COMMIT` after Codex final acceptance re-review. See
 `../docs/implementation/phase-9/README.md`.

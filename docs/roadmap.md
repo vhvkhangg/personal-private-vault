@@ -22,7 +22,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 6     | `media` + `location` foundations                                                              | P-6 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
 | 7     | `account` external/social account history                                                     | P-7 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 complete                                        | **COMPLETE — FROZEN** | —                    |
-| 9     | `collection` + music/shopping/software                                                        | **P-9: READY FOR HANDOFF**                         | Not started           | **After completion** |
+| 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **ACTIVE — READY_FOR_OWNER_COMMIT** | **After completion** |
 | 10    | `feed` + `importdata` workflows                                                               | P-10 planned                                        | Not started           | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 planned                                        | Not started           | —                    |
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 planned                                        | Not started           | **After completion** |
@@ -93,7 +93,7 @@ suites, including 15 Account integration tests and 12 architecture tests. Its co
 
 Phase 8 Knowledge preparation findings were closed; Codex re-review returned `READY FOR HANDOFF`, the owner
 committed/pushed preparation as `b3f3cd9`, implementation remediation passed final re-review, and the owner has now
-committed/pushed Phase 8. Phase 9 Collection preparation's two contract findings are closed; Codex re-review returned `READY FOR HANDOFF`, and owner preparation commit/push is pending.
+committed/pushed Phase 8. Phase 9 Collection preparation's two contract findings are closed; Codex re-review returned `READY FOR HANDOFF`, the owner committed/pushed preparation as `74c1ec1`, and the implementation handoff is active.
 
 ## Phase 8 closeout
 
@@ -101,8 +101,9 @@ Phase 8 Knowledge is complete/frozen after owner commit/push. Final verification
 PostgreSQL Testcontainers, Flyway/Hibernate validation, and Spring Modulith architecture checks. Its completed
 handoff is archived under `implementation/phase-8/`.
 
-Phase 9 Collection preparation is `READY FOR HANDOFF`; owner commit/push is next. Phase 9 is the next milestone phase; after
-its eventual owner commit/push, run the Phase 7–9 milestone review before Phase 10.
+Phase 9 Collection preparation was owner committed/pushed. The inaccurate test-evidence finding was corrected and
+Codex final acceptance re-review returned `READY_FOR_OWNER_COMMIT`. After owner commit/push and ChatGPT closeout,
+run the Phase 7–9 milestone review before Phase 10 pre-handoff review.
 
 ## Completed Phase 4–6 milestone maintenance
 
