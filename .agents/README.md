@@ -39,6 +39,7 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `location-domain-modeling`
 - `account-domain-modeling`
 - `knowledge-domain-modeling`
+- `collection-domain-modeling`
 
 ## Workflow/review skills
 

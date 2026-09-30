@@ -1,8 +1,10 @@
 # Backend Phase 8 — Knowledge Foundation
 
+Status: **COMPLETE — FROZEN (2026-09-30)**
+
 Preparation: **READY FOR HANDOFF** after the [2026-09-30 Codex re-review](reviews/2026-09-30-phase-8-pre-handoff-codex-rereview.md); owner committed/pushed it as `b3f3cd9`.
 
-Implementation: **READY FOR OWNER COMMIT** after the [Codex final re-review](reviews/2026-09-30-phase-8-final-codex-rereview.md); owner commit/push is pending under the [active handoff](../handoffs/ACTIVE.md).
+Implementation final re-review: **READY FOR OWNER COMMIT**. The owner subsequently committed/pushed Phase 8 on 2026-09-30.
 
 Phase 8 implements the top-level `knowledge` facade and its four nested Spring Modulith modules:
 
@@ -13,11 +15,9 @@ Phase 8 implements the top-level `knowledge` facade and its four nested Spring M
 
 Phase 8 follows the frozen Account foundation because Study may reference a stored YouTube-channel External Account.
 
-No Phase 8 production implementation is authorized until:
+Phase 8 implementation is complete, final-reviewed, committed/pushed by the owner, and frozen.
 
-1. this preparation passes `$codex-pre-handoff-review`;
-2. the approved Phase 8 preparation slice is committed/pushed;
-3. `$codex-create-handoff` creates an active Phase 8 implementation handoff.
+The preparation and implementation contracts below are retained as historical records and do not authorize additional Phase 8 production changes.
 
 Phase 8 is **not** a milestone phase. The next cross-phase milestone is after Phase 9.
 
@@ -504,3 +504,20 @@ Reused without new custom agents/hooks:
 - repository safety hook
 
 No new custom agent or hook is justified for Phase 8.
+
+
+## Completion record
+
+- Owner commit/push: completed 2026-09-30.
+- Final Codex result: `READY_FOR_OWNER_COMMIT`.
+- Final verification: `mvn -f backend/pom.xml -ntp clean verify` — **547 tests**, 0 failures/errors/skips.
+- PostgreSQL: 18.6 via Testcontainers; Java 25; Maven 3.9.15.
+- Spring Modulith/Flyway/Hibernate verification: passed.
+- Final handoff archive: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Final re-review:
+  [`reviews/2026-09-30-phase-8-final-codex-rereview.md`](reviews/2026-09-30-phase-8-final-codex-rereview.md).
+- Phase status: **COMPLETE — FROZEN**.
+
+Future Knowledge changes require a new owner-approved feature or maintenance slice. Do not reuse the completed
+Phase 8 handoff.

@@ -65,5 +65,10 @@ External Account & Relationship History is **complete and frozen** after owner c
 
 ## Phase 8
 
-Knowledge Foundation preparation was owner committed/pushed. The active Codex handoff is
-`READY_FOR_OWNER_COMMIT` after Codex final re-review. See `../docs/implementation/phase-8/README.md`.
+Knowledge Foundation is **complete and frozen** after owner commit/push. See
+`../docs/implementation/phase-8/README.md` and `../docs/implementation/phase-8/test-evidence.md`.
+
+## Phase 9
+
+Collection Foundation preparation is `READY FOR HANDOFF` after Codex re-review. See
+`../docs/implementation/phase-9/README.md`.

@@ -2,11 +2,10 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0–7 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
+Backend Phases 0–8 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
 The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
-post-milestone synchronization/reset. Phase 7 (`account`) is complete/frozen after owner commit/push. Phase 8
-(`knowledge`) preparation was owner committed/pushed; its active implementation handoff is
-`READY_FOR_OWNER_COMMIT` after Codex final re-review. Phase 1 delivered the
+post-milestone synchronization/reset. Phase 7 (`account`) and Phase 8 (`knowledge`) are complete/frozen after owner commit/push. Phase 9 (`collection`)
+preparation is `READY FOR HANDOFF` after Codex re-review; owner commit/push is pending. Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 
@@ -54,5 +53,5 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 4. Antigravity implements/tests the handoff.
 5. Codex performs final review; owner commits/pushes after `READY FOR OWNER COMMIT`.
 
-Backend Phases 0–7 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
+Backend Phases 0–8 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
 owner-approved maintenance or feature scope.

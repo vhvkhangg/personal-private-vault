@@ -21,8 +21,9 @@ This file defines repository-wide instructions for coding agents.
   post-milestone synchronization/reset.
 - Backend Phase 7 (`account`) is complete/frozen after owner commit/push. Its completed handoff is archived under
   `docs/implementation/phase-7/handoff.md`.
-- Backend Phase 8 (`knowledge`) preparation was owner committed/pushed. Its active Codex handoff is
-  `READY_FOR_OWNER_COMMIT` after final acceptance re-review; owner commit/push is pending.
+- Backend Phase 8 (`knowledge`) is complete/frozen after owner commit/push.
+- Backend Phase 9 (`collection`) preparation is `READY FOR HANDOFF` after Codex re-review; owner commit/push is
+  pending, and no implementation handoff is active.
 
 Completed maintenance scope:
 
@@ -102,6 +103,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 5 film foundation baseline
 - Backend Phase 6 media/location foundation baseline
 - Backend Phase 7 account foundation baseline
+- Backend Phase 8 knowledge foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 
