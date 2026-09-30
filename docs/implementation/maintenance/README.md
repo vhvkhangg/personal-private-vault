@@ -22,4 +22,4 @@ Slices:
   **COMPLETE / FROZEN**
 
 - [`milestone-7-9-integrity-and-query-shape/`](milestone-7-9-integrity-and-query-shape/README.md) —
-  **READY FOR OWNER COMMIT** — owner commit/push, then Codex milestone re-review.
+  **COMPLETE / FROZEN** — owner committed `785dd7d`; milestone re-review `MILESTONE_READY`.

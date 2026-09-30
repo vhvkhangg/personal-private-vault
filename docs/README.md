@@ -5,9 +5,9 @@ This directory is the canonical documentation baseline for **Personal Private Va
 Backend Phases 0–9 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
 The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
 post-milestone synchronization/reset. Phase 7 (`account`), Phase 8 (`knowledge`), and Phase 9 (`collection`) are
-complete/frozen after owner commit/push. The Phase 7–9 milestone is `CHANGES_REQUESTED`; the narrow
-integrity/query-shape maintenance has an active `READY_FOR_OWNER_COMMIT` handoff; owner commit/push and milestone re-review are next. Phase 10 (`feed` +
-`importdata`) pre-handoff review remains blocked. Phase 1 delivered the
+complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE_READY` after committed
+integrity/query-shape maintenance `785dd7d`. Owner commits/pushes milestone docs, then ChatGPT performs synchronization/reset.
+Phase 10 (`feed` + `importdata`) pre-handoff review waits for those gates and preparation. Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 

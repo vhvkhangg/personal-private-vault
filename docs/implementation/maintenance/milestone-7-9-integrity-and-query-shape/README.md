@@ -1,15 +1,16 @@
 # Phase 7–9 Milestone Integrity & Query-Shape Maintenance
 
-Status: **READY FOR OWNER COMMIT**
+Status: **COMPLETE / FROZEN**
 
 Owner approval: **2026-09-30**
 
-Implementation handoff: [`../../handoffs/ACTIVE.md`](../../handoffs/ACTIVE.md) — `READY_FOR_OWNER_COMMIT`;
-handoff ID `maintenance-milestone-7-9-integrity-and-query-shape`. Owner commit/push is next, then milestone re-review.
+Implementation handoff: [`../../handoffs/ACTIVE.md`](../../handoffs/ACTIVE.md) — accepted and owner committed/pushed
+as `785dd7d`; retained pending ChatGPT closeout/reset. Handoff ID `maintenance-milestone-7-9-integrity-and-query-shape`.
 
 Latest final review: [`reviews/2026-09-30-final-codex-acceptance-review.md`](reviews/2026-09-30-final-codex-acceptance-review.md).
 Independent clean verification passed 594 tests with no failures/errors/skips. All blockers are resolved.
-The milestone remains `CHANGES_REQUESTED` pending owner commit/push and `$codex-milestone-review`.
+The [milestone re-review](../../phase-9/milestone-review.md) is `MILESTONE_READY` on `785dd7d`.
+Owner commits/pushes milestone docs next, then ChatGPT performs post-milestone synchronization/reset.
 
 Source finding:
 [`../../phase-9/reviews/2026-09-30-phase-7-9-milestone-codex-review.md`](../../phase-9/reviews/2026-09-30-phase-7-9-milestone-codex-review.md)

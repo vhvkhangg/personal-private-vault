@@ -75,6 +75,6 @@ Collection Foundation is **complete and frozen** after owner commit/push. See
 
 ## Next gate
 
-The Phase 7–9 milestone is `CHANGES_REQUESTED`; the approved integrity/query-shape maintenance handoff is
-`READY_FOR_OWNER_COMMIT` after final acceptance. Owner commit/push, then `$codex-milestone-review`. Phase 10 Feed + ImportData pre-handoff
-review remains blocked; see `../docs/implementation/phase-9/milestone-review.md`.
+The Phase 7–9 milestone is `MILESTONE_READY` after accepted maintenance was owner committed/pushed as `785dd7d`.
+Owner commits/pushes milestone docs, then ChatGPT performs post-milestone synchronization/reset and Phase 10 preparation.
+Phase 10 Feed + ImportData pre-handoff review waits for those gates; see `../docs/implementation/phase-9/milestone-review.md`.

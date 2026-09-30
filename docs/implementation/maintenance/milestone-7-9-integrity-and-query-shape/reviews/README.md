@@ -7,4 +7,5 @@ Formal Codex final-review records for this owner-approved maintenance slice belo
   one High numeric-subclass aliasing blocker remained. Its testcase-based
   verification supersedes the initial review's suite-attribute count observations.
 - [2026-09-30 Codex final acceptance review](2026-09-30-final-codex-acceptance-review.md) —
-  **READY FOR OWNER COMMIT**; all blockers resolved. Current gate: owner commit/push, then milestone re-review.
+  **READY FOR OWNER COMMIT**; all blockers resolved. Owner subsequently committed/pushed `785dd7d`;
+  milestone re-review is `MILESTONE_READY`. Current gate: milestone docs commit, then ChatGPT reset.

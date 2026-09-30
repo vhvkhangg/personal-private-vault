@@ -36,8 +36,8 @@ Frozen implementation phases:
 
 Current gate:
 
-- Phase 7–9 milestone — `CHANGES_REQUESTED`; maintenance handoff is `READY_FOR_OWNER_COMMIT`, then milestone re-review
-- Phase 10 Feed + ImportData pre-handoff review remains blocked until `MILESTONE_READY` and post-milestone sync
+- Phase 7–9 milestone — `MILESTONE_READY` after owner-committed maintenance; milestone docs commit and ChatGPT reset are next
+- Phase 10 Feed + ImportData pre-handoff review waits for milestone docs commit and ChatGPT post-milestone sync/preparation
 
 ## Planned stack
 

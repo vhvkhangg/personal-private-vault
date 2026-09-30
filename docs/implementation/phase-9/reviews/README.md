@@ -14,3 +14,7 @@ The [2026-09-30 Phase 7–9 Codex milestone review](2026-09-30-phase-7-9-milesto
 `CHANGES_REQUESTED` with three maintenance implementation blockers. Its canonical scope/status is
 [`../milestone-review.md`](../milestone-review.md). The owner-approved remediation is
 [`../../maintenance/milestone-7-9-integrity-and-query-shape/`](../../maintenance/milestone-7-9-integrity-and-query-shape/README.md).
+
+The [2026-09-30 Phase 7–9 milestone re-review](2026-09-30-phase-7-9-milestone-codex-rereview.md) returned
+`MILESTONE_READY` on owner-committed maintenance `785dd7d` with 594 passing tests. This is the current gate.
+Owner commits/pushes milestone docs, then ChatGPT performs post-milestone synchronization/reset and Phase 10 preparation.

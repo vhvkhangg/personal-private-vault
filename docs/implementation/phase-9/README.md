@@ -18,8 +18,8 @@ The preparation and implementation contracts below are retained as historical re
 Phase 9 production changes.
 
 Phase 9 **is a milestone phase**. The Phase **7–9** [milestone review](milestone-review.md) returned
-`CHANGES_REQUESTED`; the owner-approved maintenance [handoff](../handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after final acceptance.
-Antigravity implementation/testing is next. Phase 10 pre-handoff review remains blocked.
+`MILESTONE_READY` after maintenance was owner committed/pushed as `785dd7d`. Milestone docs commit and ChatGPT reset are next.
+Phase 10 pre-handoff review waits for milestone docs commit and ChatGPT synchronization/reset and preparation.
 
 ## Owned Schema v1 tables
 
@@ -472,8 +472,8 @@ No new custom agent or hook is justified for Phase 9.
 - Final acceptance re-review:
   [`reviews/2026-09-30-phase-9-final-codex-rereview.md`](reviews/2026-09-30-phase-9-final-codex-rereview.md).
 - Phase status: **COMPLETE — FROZEN**.
-- Milestone result: **CHANGES_REQUESTED**; see [`milestone-review.md`](milestone-review.md).
-- Required next gate: owner commit/push of accepted maintenance, then Codex `$codex-milestone-review`.
+- Milestone result: **MILESTONE_READY**; see [`milestone-review.md`](milestone-review.md).
+- Required next gate: owner commit/push of milestone docs, then ChatGPT post-milestone synchronization/reset and Phase 10 preparation.
 
 Future Collection changes require a new owner-approved feature or maintenance slice. Do not reuse the completed
 Phase 9 handoff.

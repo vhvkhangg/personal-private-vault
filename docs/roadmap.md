@@ -22,7 +22,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 6     | `media` + `location` foundations                                                              | P-6 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY**  |
 | 7     | `account` external/social account history                                                     | P-7 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 complete                                        | **COMPLETE — FROZEN** | —                    |
-| 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **COMPLETE — FROZEN** | **CHANGES_REQUESTED — maintenance approved** |
+| 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 10    | `feed` + `importdata` workflows                                                               | **BLOCKED BY PHASE 7–9 MILESTONE**                  | Not started           | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 planned                                        | Not started           | —                    |
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 planned                                        | Not started           | **After completion** |
@@ -102,8 +102,8 @@ PostgreSQL Testcontainers, Flyway/Hibernate validation, and Spring Modulith arch
 handoff is archived under `implementation/phase-8/`.
 
 Phase 9 Collection preparation was owner committed/pushed. The inaccurate test-evidence finding was corrected and
-Codex final acceptance re-review returned `READY_FOR_OWNER_COMMIT`. After owner commit/push and ChatGPT closeout,
-run the Phase 7–9 milestone review before Phase 10 pre-handoff review.
+Codex final acceptance re-review returned `READY_FOR_OWNER_COMMIT`. Phase 9 was owner committed/pushed as `b0aa742`
+and frozen; the subsequent milestone result and maintenance closure are recorded below.
 
 ## Phase 9 closeout
 
@@ -112,10 +112,11 @@ including 36 Collection architecture/validation/PostgreSQL integration tests. It
 under `implementation/phase-9/`.
 
 The Phase 7–9 milestone review returned `CHANGES_REQUESTED` for Note frontmatter isolation, fresh locked Vocabulary
-state, and per-entry snapshot merge queries. Maintenance final acceptance returned `READY_FOR_OWNER_COMMIT`;
-owner commit/push and Codex `$codex-milestone-review` are next. The owner-approved remediation is
+state, and per-entry snapshot merge queries. Maintenance passed final acceptance and was owner committed/pushed as
+`785dd7d`; milestone re-review is `MILESTONE_READY`. Owner commits/pushes milestone docs and ChatGPT reset are next.
+The completed remediation is
 [`implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`](implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md). Phase 10 Feed/ImportData remains blocked until
-the milestone reaches `MILESTONE_READY`, the owner commits/pushes the milestone review/status changes, and ChatGPT
+the owner commits/pushes the milestone review/status changes, and ChatGPT
 performs post-milestone synchronization/reset and Phase 10 preparation.
 
 ## Completed Phase 4–6 milestone maintenance

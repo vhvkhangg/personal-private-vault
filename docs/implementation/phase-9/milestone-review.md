@@ -1,17 +1,17 @@
 # Phase 7–9 Milestone Review
 
-Status: **CHANGES_REQUESTED**
+Status: **MILESTONE_READY**
 
-Formal review: [`reviews/2026-09-30-phase-7-9-milestone-codex-review.md`](reviews/2026-09-30-phase-7-9-milestone-codex-review.md).
+Current formal review: [`reviews/2026-09-30-phase-7-9-milestone-codex-rereview.md`](reviews/2026-09-30-phase-7-9-milestone-codex-rereview.md).
 
-Codex reviewed owner-committed implementation `b0aa742` on 2026-09-30. Independent verification passed all 583
-tests. Three blockers require an owner-approved maintenance implementation slice: isolate Note frontmatter from
-managed mutable state; refresh Vocabulary state under its review lock when already loaded; remove per-entry
-snapshot merge existence queries. Phases 7–9 remain frozen, and Phase 10 pre-handoff review remains blocked.
+Codex re-reviewed owner-committed maintenance `785dd7d` on 2026-09-30. Independent verification passed all 594
+tests, failures/errors/skips 0. All three original blockers are closed; no new blocking cross-phase finding remains.
+Phases 7–9 remain frozen. Phase 10 pre-handoff review still waits for owner commit/push of milestone docs and
+ChatGPT post-milestone synchronization/reset and preparation.
 
-The approved maintenance now has a `READY_FOR_IMPLEMENTATION` [active handoff](../handoffs/ACTIVE.md).
-Next action: Antigravity `/antigravity-implement-handoff`. After implementation, final acceptance, and owner
-commit/push, rerun `$codex-milestone-review`.
+The approved maintenance passed final acceptance and was owner committed/pushed as `785dd7d`.
+Next action: owner commits/pushes this milestone review/status package, then sends it to ChatGPT for synchronization/reset.
+The accepted maintenance handoff remains retained pending that closeout; no next-phase handoff is created here.
 
 
 ## Approved maintenance remediation
@@ -26,8 +26,8 @@ It covers exactly the three blocking findings:
 2. fresh Vocabulary state under the review row lock;
 3. known-new follower-snapshot entry persistence without per-entry merge probes.
 
-The milestone remains `CHANGES_REQUESTED` until this maintenance passes final review, is committed/pushed by the
-owner, and `$codex-milestone-review` is rerun. Phase 10 remains blocked.
+The maintenance is accepted and owner committed; milestone re-review is `MILESTONE_READY`.
+Phase 10 remains blocked pending the remaining owner documentation commit and ChatGPT synchronization/reset gates.
 
 ## Trigger
 
