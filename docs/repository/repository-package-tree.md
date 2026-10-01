@@ -187,6 +187,38 @@ fiction/
     └── web/
 ```
 
+### Feed
+
+```text
+feed/
+├── package-info.java                 # @ApplicationModule(allowedDependencies = {"vault::entry", "vault::enums", "vault::view", "knowledge::api"})
+├── source/                           # @NamedInterface("source") - FeedSource operations/commands/exceptions
+├── item/                             # @NamedInterface("item") - FeedItem operations/commands/exceptions
+├── resource/                         # @NamedInterface("resource") - SavedResource operations/commands/exceptions
+├── conversion/                       # @NamedInterface("conversion") - SavedResourceConversion operations/exceptions
+├── view/                             # @NamedInterface("view") - read models and JSON snapshot helpers
+├── enums/                            # @NamedInterface("enums") - FeedSourceType, SavedResourceKind
+└── internal/
+    ├── application/                  # capability services: FeedSourceService, FeedItemService, SavedResourceService, SavedResourceConversionService
+    ├── domain/                       # JPA entities: FeedSource, FeedItem, SavedResource, SavedResourceConversion, SavedResourceConversionId
+    └── infrastructure/persistence/   # Spring Data repositories
+```
+
+### ImportData
+
+```text
+importdata/
+├── package-info.java                 # @ApplicationModule(allowedDependencies = {"vault::entry", "vault::enums", "vault::view", "knowledge::api"})
+├── job/                              # @NamedInterface("job") - ImportJob operations/commands/exceptions
+├── view/                             # @NamedInterface("view") - read models and JSON snapshot helpers
+├── enums/                            # @NamedInterface("enums") - ImportTargetType, ImportFormat, ImportJobStatus, ImportItemStatus, ImportItemDecision
+└── internal/
+    ├── application/                  # capability service: ImportJobService
+    ├── domain/                       # JPA entities: ImportJob, ImportJobItem
+    ├── parsing/                      # parsers: CsvImportParser, JsonImportParser, MarkdownImportParser, TargetPayloadCanonicalizer
+    └── infrastructure/persistence/   # Spring Data repositories
+```
+
 Rules:
 
 - create a subpackage only for a real responsibility;

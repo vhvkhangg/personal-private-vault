@@ -465,16 +465,120 @@ class ApplicationArchitectureTests {
     }
 
     @Test
-    @DisplayName("Verifies that media and location modules are strictly isolated with no cross-dependency")
-    void verifiesNoMediaLocationCrossDependency() {
+    @DisplayName("Verifies that feed module defines expected named interfaces")
+    void verifiesFeedModuleConfiguration() {
         ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
-        var mediaModule = modules.getModuleByName("media").orElseThrow();
-        var locationModule = modules.getModuleByName("location").orElseThrow();
+        var feedModule = modules.getModuleByName("feed");
+        assertThat(feedModule).isPresent();
+        assertThat(feedModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("conversion", "enums", "item", "resource", "source", "view");
+    }
 
-        assertThat(mediaModule.getDirectDependencies(modules).stream().toList())
-                .noneMatch(dep -> dep.getTargetModule().equals(locationModule));
+    @Test
+    @DisplayName("Verifies feed module named interfaces expose capability contracts and hide internal packages")
+    void verifiesFeedNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var feedModule = modules.getModuleByName("feed").orElseThrow();
 
-        assertThat(locationModule.getDirectDependencies(modules).stream().toList())
-                .noneMatch(dep -> dep.getTargetModule().equals(mediaModule));
+        assertThat(feedModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("conversion", "enums", "item", "resource", "source", "view");
+
+        var sourceInterface = feedModule.getNamedInterfaces().getByName("source").orElseThrow();
+        assertThat(sourceInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.feed.source.FeedSourceOperations",
+                        "com.vhvkhangg.personalprivatevault.feed.source.command.CreateFeedSourceCommand",
+                        "com.vhvkhangg.personalprivatevault.feed.source.command.UpdateFeedSourceCommand",
+                        "com.vhvkhangg.personalprivatevault.feed.source.exception.FeedSourceNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.feed.source.exception.InvalidFeedSourceException"
+                );
+
+        var itemInterface = feedModule.getNamedInterfaces().getByName("item").orElseThrow();
+        assertThat(itemInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.feed.item.FeedItemOperations",
+                        "com.vhvkhangg.personalprivatevault.feed.item.command.NormalizedFeedItemInput",
+                        "com.vhvkhangg.personalprivatevault.feed.item.exception.FeedItemConflictException",
+                        "com.vhvkhangg.personalprivatevault.feed.item.exception.FeedItemNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.feed.item.exception.InvalidFeedItemException"
+                );
+
+        var resourceInterface = feedModule.getNamedInterfaces().getByName("resource").orElseThrow();
+        assertThat(resourceInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.feed.resource.SavedResourceOperations",
+                        "com.vhvkhangg.personalprivatevault.feed.resource.command.CreateFeedSavedResourceCommand",
+                        "com.vhvkhangg.personalprivatevault.feed.resource.command.CreateManualSavedResourceCommand",
+                        "com.vhvkhangg.personalprivatevault.feed.resource.exception.SavedResourceConflictException",
+                        "com.vhvkhangg.personalprivatevault.feed.resource.exception.SavedResourceNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.feed.resource.exception.InvalidSavedResourceException"
+                );
+
+        var conversionInterface = feedModule.getNamedInterfaces().getByName("conversion").orElseThrow();
+        assertThat(conversionInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.feed.conversion.SavedResourceConversionOperations",
+                        "com.vhvkhangg.personalprivatevault.feed.conversion.exception.InvalidSavedResourceConversionException"
+                );
+
+        for (var namedInterface : feedModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies that importdata module defines expected named interfaces")
+    void verifiesImportDataModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var importDataModule = modules.getModuleByName("importdata");
+        assertThat(importDataModule).isPresent();
+        assertThat(importDataModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("enums", "job", "view");
+    }
+
+    @Test
+    @DisplayName("Verifies importdata module named interfaces expose capability contracts and hide internal packages")
+    void verifiesImportDataNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var importDataModule = modules.getModuleByName("importdata").orElseThrow();
+
+        assertThat(importDataModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("enums", "job", "view");
+
+        var jobInterface = importDataModule.getNamedInterfaces().getByName("job").orElseThrow();
+        assertThat(jobInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.importdata.job.ImportJobOperations",
+                        "com.vhvkhangg.personalprivatevault.importdata.job.command.CreateImportJobCommand",
+                        "com.vhvkhangg.personalprivatevault.importdata.job.command.ExecuteImportJobCommand",
+                        "com.vhvkhangg.personalprivatevault.importdata.job.command.ImportItemDecisionInput",
+                        "com.vhvkhangg.personalprivatevault.importdata.job.exception.ImportJobNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.importdata.job.exception.InvalidImportJobException",
+                        "com.vhvkhangg.personalprivatevault.importdata.job.exception.InvalidImportTransitionException"
+                );
+
+        for (var namedInterface : importDataModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies feed and importdata modules allowed dependencies and lack of mutual cross-dependency")
+    void verifiesFeedAndImportDataModuleDependencies() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var feedModule = modules.getModuleByName("feed").orElseThrow();
+        var importDataModule = modules.getModuleByName("importdata").orElseThrow();
+
+        assertThat(feedModule.getDirectDependencies(modules).stream().toList())
+                .noneMatch(dep -> dep.getTargetModule().equals(importDataModule));
+
+        assertThat(importDataModule.getDirectDependencies(modules).stream().toList())
+                .noneMatch(dep -> dep.getTargetModule().equals(feedModule));
     }
 }

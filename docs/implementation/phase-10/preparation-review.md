@@ -5,8 +5,9 @@ Status: **READY FOR HANDOFF**
 Current formal review: [`reviews/2026-10-01-phase-10-pre-handoff-codex-rereview.md`](reviews/2026-10-01-phase-10-pre-handoff-codex-rereview.md).
 
 The High ImportData transition-concurrency preparation finding is closed. No blocking preparation finding remains.
-Owner commits/pushes preparation next, then runs `$codex-create-handoff`.
-ACTIVE.md remains `NO_ACTIVE_HANDOFF`; milestone remains `MILESTONE_READY`.
+Owner committed/pushed preparation as `0e530f2`. The subsequently created [active handoff](../handoffs/ACTIVE.md)
+is now `READY_FOR_OWNER_COMMIT` after implementation final acceptance; this preparation acceptance and milestone
+`MILESTONE_READY` remain unchanged. See [`reviews/2026-10-01-phase-10-final-codex-acceptance.md`](reviews/2026-10-01-phase-10-final-codex-acceptance.md).
 
 ## Preconditions
 
@@ -99,10 +100,10 @@ If Codex returns `CHANGES_REQUESTED`, give the findings/latest package to ChatGP
 
 ## Next action
 
-After owner commit/push, run:
+Preparation is owner committed/pushed and handoff creation is complete. Run Antigravity:
 
 ```text
-$codex-create-handoff
+/antigravity-implement-handoff
 ```
 
 Commit message: `docs: prepare phase 10 feed and import workflows`

@@ -26,8 +26,10 @@ This file defines repository-wide instructions for coding agents.
 - The integrity/query-shape maintenance is complete/frozen after owner commit/push as `785dd7d`.
 - The Phase 7–9 milestone is `MILESTONE_READY`; milestone docs are owner committed/pushed and post-milestone
   synchronization/reset is complete.
-- Backend Phase 10 (`feed` + `importdata`) preparation is `READY FOR HANDOFF`; owner preparation commit/push,
-  then `$codex-create-handoff`. No implementation handoff is active.
+- Backend Phase 10 (`feed` + `importdata`) preparation passed review and was owner committed/pushed as `0e530f2`.
+- Its active handoff is `READY_FOR_OWNER_COMMIT` after Phase 10 final acceptance and independent 685-test verification.
+  See `docs/implementation/phase-10/reviews/2026-10-01-phase-10-final-codex-acceptance.md`.
+  Owner commit/push is next, then ChatGPT Phase 10 closeout/Phase 11 preparation; Phase 10 is not yet frozen.
 
 Completed maintenance scope:
 

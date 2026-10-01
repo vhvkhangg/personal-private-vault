@@ -7,8 +7,8 @@ The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-saf
 post-milestone synchronization/reset. Phase 7 (`account`), Phase 8 (`knowledge`), and Phase 9 (`collection`) are
 complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE_READY` after committed
 integrity/query-shape maintenance `785dd7d`; the owner committed/pushed milestone docs and ChatGPT completed
-post-milestone synchronization/reset. Phase 10 (`feed` + `importdata`) preparation is `READY FOR HANDOFF`;
-owner preparation commit/push and `$codex-create-handoff` are next. Phase 1 delivered the
+post-milestone synchronization/reset. Phase 10 (`feed` + `importdata`) preparation is owner committed as `0e530f2`;
+active handoff is `READY_FOR_OWNER_COMMIT` after final acceptance and 685-test verification. Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 

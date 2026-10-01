@@ -80,5 +80,6 @@ committed/pushed and post-milestone synchronization/reset is complete.
 
 ## Phase 10
 
-Feed + ImportData preparation is `READY FOR HANDOFF`; owner commit/push, then `$codex-create-handoff`. See
+Feed + ImportData preparation is owner committed as `0e530f2`; final review is `READY FOR OWNER COMMIT`.
+Independent full verification passed 685 tests. Owner commit/push, then ChatGPT Phase 10 closeout is next. See
 `../docs/implementation/phase-10/README.md`.

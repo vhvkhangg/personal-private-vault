@@ -23,7 +23,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 7     | `account` external/social account history                                                     | P-7 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY** |
-| 10    | `feed` + `importdata` workflows                                                               | **P-10: READY FOR HANDOFF**                         | Not started           | —                    |
+| 10    | `feed` + `importdata` workflows                                                               | **P-10: READY FOR OWNER COMMIT**                    | Accepted; owner commit next | —              |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 planned                                        | Not started           | —                    |
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 planned                                        | Not started           | **After completion** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 planned                                        | Not started           | —                    |
@@ -116,14 +116,15 @@ state, and per-entry snapshot merge queries. Maintenance passed final acceptance
 `785dd7d`; milestone re-review is `MILESTONE_READY`. The owner committed/pushed milestone docs and ChatGPT completed
 post-milestone synchronization/reset.
 The completed remediation is
-[`implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`](implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md). Phase 10 Feed/ImportData preparation is `READY FOR HANDOFF`.
+[`implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`](implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md). Phase 10 Feed/ImportData is `READY FOR OWNER COMMIT` after final acceptance.
 
 ## Phase 10 preparation
 
 The Phase 7–9 milestone is `MILESTONE_READY`, the owner committed/pushed its review/status package, and ChatGPT
 completed post-milestone synchronization/reset. Phase 10 preparation review returned `CHANGES_REQUESTED` for
 the ImportData same-job transition concurrency contract/tests. Remediation passed Codex re-review: `READY FOR HANDOFF`.
-Owner commits/pushes preparation, then runs `$codex-create-handoff`; no implementation handoff is active.
+Owner committed/pushed preparation as `0e530f2`. The active Phase 10 handoff is `READY_FOR_OWNER_COMMIT` after
+final acceptance and independent 685-test verification; owner commit/push then ChatGPT closeout is next.
 
 Phase 10 implements adapter-ready Feed ingestion/SavedResource conversion and transactional ImportData workflows
 without live feed HTTP providers, scheduler runtime, REST, frontend, or object-storage I/O.

@@ -1,9 +1,11 @@
 # Backend Phase 10 — Feed + ImportData Workflows
 
-Status: **READY FOR HANDOFF — OWNER PREPARATION COMMIT/PUSH PENDING**
+Status: **READY FOR OWNER COMMIT**
 
-Current review: [`reviews/2026-10-01-phase-10-pre-handoff-codex-rereview.md`](reviews/2026-10-01-phase-10-pre-handoff-codex-rereview.md).
-The ImportData transition-concurrency finding is closed. Owner commits/pushes preparation, then invokes `$codex-create-handoff`.
+Current review: [`reviews/2026-10-01-phase-10-final-codex-acceptance.md`](reviews/2026-10-01-phase-10-final-codex-acceptance.md).
+Preparation was owner committed/pushed as `0e530f2`. F1–F7 are closed; independent full verification passed
+685 tests with zero failures/errors/skips. The [active handoff](../handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT`.
+Owner commit/push is next, followed by ChatGPT Phase 10 closeout/freeze and Phase 11 preparation.
 
 Phase 10 implements two top-level Spring Modulith modules:
 
