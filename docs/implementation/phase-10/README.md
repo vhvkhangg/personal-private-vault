@@ -1,11 +1,11 @@
 # Backend Phase 10 — Feed + ImportData Workflows
 
-Status: **READY FOR OWNER COMMIT**
+Status: **COMPLETE — FROZEN (2026-10-01)**
 
 Current review: [`reviews/2026-10-01-phase-10-final-codex-acceptance.md`](reviews/2026-10-01-phase-10-final-codex-acceptance.md).
 Preparation was owner committed/pushed as `0e530f2`. F1–F7 are closed; independent full verification passed
-685 tests with zero failures/errors/skips. The [active handoff](../handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT`.
-Owner commit/push is next, followed by ChatGPT Phase 10 closeout/freeze and Phase 11 preparation.
+685 tests with zero failures/errors/skips. The owner subsequently committed/pushed the accepted Phase 10
+implementation. The completed handoff is archived in [`handoff.md`](handoff.md).
 
 Phase 10 implements two top-level Spring Modulith modules:
 
@@ -15,11 +15,10 @@ Phase 10 implements two top-level Spring Modulith modules:
 Both modules use only public `vault` + parent `knowledge` contracts. Neither may access nested Knowledge modules or
 their repositories.
 
-No Phase 10 production implementation is authorized until:
+Phase 10 implementation is complete, final-reviewed, owner committed/pushed, and frozen.
 
-1. this preparation passes `$codex-pre-handoff-review`;
-2. the approved Phase 10 preparation slice is committed/pushed;
-3. `$codex-create-handoff` creates an active Phase 10 implementation handoff.
+The preparation and implementation contracts below remain as historical records. Future Feed/ImportData changes
+require a new owner-approved feature or maintenance slice.
 
 Phase 10 is **not** a milestone phase. The next milestone remains after Phase 12.
 
@@ -704,3 +703,20 @@ Reused without new custom agents/hooks:
 - repository safety hook
 
 No new custom agent or hook is justified for Phase 10.
+
+
+## Completion record
+
+- Owner preparation commit/push: `0e530f2`.
+- Final Codex acceptance: `READY FOR OWNER COMMIT`.
+- Owner implementation commit/push: completed 2026-10-01.
+- Final verification: `mvn -f backend/pom.xml -ntp clean verify` — **685 tests**, 0 failures/errors/skips.
+- Phase 10 additions: 87 domain tests + 4 architecture tests over the 594-test pre-Phase-10 baseline.
+- PostgreSQL 18.6 Testcontainers, Flyway/Hibernate schema validation, and Spring Modulith verification passed.
+- Scope review F7 was resolved in-scope: frozen Knowledge and application-wide serialization remained unchanged.
+- Completed handoff: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Final acceptance:
+  [`reviews/2026-10-01-phase-10-final-codex-acceptance.md`](reviews/2026-10-01-phase-10-final-codex-acceptance.md).
+- Status: **COMPLETE — FROZEN**.
+- Next gate: Phase 11 `$codex-pre-handoff-review`.

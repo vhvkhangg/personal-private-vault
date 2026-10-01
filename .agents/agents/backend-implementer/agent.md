@@ -37,6 +37,7 @@ Use relevant skills progressively:
 - `knowledge-domain-modeling` when Knowledge/Study/Information/Vocabulary/Note work is in scope
 - `collection-domain-modeling` when Collection/Music/Shopping/Software work is in scope
 - `feed-import-workflow-modeling` when Feed/SavedResource/ImportData workflows are in scope
+- `finance-journal-personal-domain-modeling` when Finance/Journal/Personal work is in scope
 - `graphify-context` for broad navigation when available
 
 Read root/scoped `AGENTS.md`, then `docs/implementation/handoffs/ACTIVE.md`.

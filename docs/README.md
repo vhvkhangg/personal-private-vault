@@ -2,13 +2,14 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0–9 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
+Backend Phases 0–10 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
 The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
 post-milestone synchronization/reset. Phase 7 (`account`), Phase 8 (`knowledge`), and Phase 9 (`collection`) are
 complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE_READY` after committed
 integrity/query-shape maintenance `785dd7d`; the owner committed/pushed milestone docs and ChatGPT completed
-post-milestone synchronization/reset. Phase 10 (`feed` + `importdata`) preparation is owner committed as `0e530f2`;
-active handoff is `READY_FOR_OWNER_COMMIT` after final acceptance and 685-test verification. Phase 1 delivered the
+post-milestone synchronization/reset. Phase 10 (`feed` + `importdata`) is complete/frozen after owner commit/push
+and final 685-test verification. Phase 11 (`finance` + `journal` + `personal`) preparation is `READY FOR HANDOFF`;
+owner preparation commit/push then `$codex-create-handoff` next. Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 
@@ -56,5 +57,5 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 4. Antigravity implements/tests the handoff.
 5. Codex performs final review; owner commits/pushes after `READY FOR OWNER COMMIT`.
 
-Backend Phases 0–9 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
+Backend Phases 0–10 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
 owner-approved maintenance or feature scope.

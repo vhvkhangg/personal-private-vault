@@ -14,7 +14,8 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-7/`](phase-7/README.md) — **COMPLETE / FROZEN** — `account`
 - [`phase-8/`](phase-8/README.md) — **COMPLETE / FROZEN** — `knowledge`
 - [`phase-9/`](phase-9/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `collection`
-- [`phase-10/`](phase-10/README.md) — **READY FOR OWNER COMMIT** — `feed` + `importdata`
+- [`phase-10/`](phase-10/README.md) — **COMPLETE / FROZEN** — `feed` + `importdata`
+- [`phase-11/`](phase-11/README.md) — **READY FOR HANDOFF** — `finance` + `journal` + `personal`
 
 Maintenance:
 
@@ -26,13 +27,14 @@ See [`../roadmap.md`](../roadmap.md).
 
 There is no active implementation handoff.
 
-The Phase 7–9 milestone is `MILESTONE_READY`; the owner committed/pushed milestone review/status changes and
-post-milestone synchronization/reset is complete. The accepted maintenance handoff is archived under
-[`maintenance/milestone-7-9-integrity-and-query-shape/`](maintenance/milestone-7-9-integrity-and-query-shape/README.md).
+Backend Phase 10 Feed + ImportData is complete/frozen after final acceptance and owner commit/push. Its completed
+handoff is archived in [`phase-10/handoff.md`](phase-10/handoff.md), with verification evidence/reviews retained under
+`phase-10/`.
 
-Backend Phase 10 Feed + ImportData preparation was owner committed/pushed as `0e530f2`.
-Its [active handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` after final acceptance; owner commit/push,
-then ChatGPT Phase 10 closeout/Phase 11 preparation is next.
+Backend Phase 11 Finance + Journal + Personal preparation is `READY FOR HANDOFF`; owner preparation commit/push
+then `$codex-create-handoff` is next. Do **not** create
+a Phase 11 implementation handoff until preparation reaches `READY FOR HANDOFF` and the owner commits/pushes that
+preparation slice.
 
 ## Operational guidance
 
