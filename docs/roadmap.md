@@ -23,7 +23,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 7     | `account` external/social account history                                                     | P-7 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY** |
-| 10    | `feed` + `importdata` workflows                                                               | **BLOCKED BY PHASE 7–9 MILESTONE**                  | Not started           | —                    |
+| 10    | `feed` + `importdata` workflows                                                               | **P-10: READY FOR HANDOFF**                         | Not started           | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 planned                                        | Not started           | —                    |
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 planned                                        | Not started           | **After completion** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 planned                                        | Not started           | —                    |
@@ -113,11 +113,20 @@ under `implementation/phase-9/`.
 
 The Phase 7–9 milestone review returned `CHANGES_REQUESTED` for Note frontmatter isolation, fresh locked Vocabulary
 state, and per-entry snapshot merge queries. Maintenance passed final acceptance and was owner committed/pushed as
-`785dd7d`; milestone re-review is `MILESTONE_READY`. Owner commits/pushes milestone docs and ChatGPT reset are next.
+`785dd7d`; milestone re-review is `MILESTONE_READY`. The owner committed/pushed milestone docs and ChatGPT completed
+post-milestone synchronization/reset.
 The completed remediation is
-[`implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`](implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md). Phase 10 Feed/ImportData remains blocked until
-the owner commits/pushes the milestone review/status changes, and ChatGPT
-performs post-milestone synchronization/reset and Phase 10 preparation.
+[`implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`](implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md). Phase 10 Feed/ImportData preparation is `READY FOR HANDOFF`.
+
+## Phase 10 preparation
+
+The Phase 7–9 milestone is `MILESTONE_READY`, the owner committed/pushed its review/status package, and ChatGPT
+completed post-milestone synchronization/reset. Phase 10 preparation review returned `CHANGES_REQUESTED` for
+the ImportData same-job transition concurrency contract/tests. Remediation passed Codex re-review: `READY FOR HANDOFF`.
+Owner commits/pushes preparation, then runs `$codex-create-handoff`; no implementation handoff is active.
+
+Phase 10 implements adapter-ready Feed ingestion/SavedResource conversion and transactional ImportData workflows
+without live feed HTTP providers, scheduler runtime, REST, frontend, or object-storage I/O.
 
 ## Completed Phase 4–6 milestone maintenance
 

@@ -110,7 +110,7 @@ Backend Phase 8 (`knowledge`) foundation implementation is complete:
 1. **Nested Application Modules & Entities**:
    - `knowledge.study`:
      - Entity: `StudyItem` (persisted to `study_items`, implements `Persistable<Long>` sharing `vault_entries` ID with `STUDY` type).
-     - Validation: Person XOR Group author invariant, price >= 0 with currency code validation via `ReferenceCatalog`, progress `0..100`, Website site domain validation and normalization, YouTube channel account validation via `ExternalAccountOperations` (ownership `TRACKED`, type `YOUTUBE_CHANNEL`, platform trimmed case-insensitive `YouTube`).
+     - Validation: Person XOR Group author invariant, price >= 0 with currency code validation via `ReferenceCatalog`, progress `0..100`, Website site domain validation and normalization, YouTube channel account validation via `ExternalAccountOperations` (type `YOUTUBE_CHANNEL`, platform trimmed case-insensitive `YouTube`; ownership is not restricted).
      - Concurrency: Sequential and multi-threaded race handling on `study_items.youtube_channel_account_id` with `DataIntegrityViolationException` translated to `StudyConflictException`, atomical Vault entry rollback, and privacy-safe logging (no private markers, no PostgreSQL `Detail: Key`).
      - Exposed interfaces: `@NamedInterface("study")`, `@NamedInterface("enums")`, `@NamedInterface("view")`.
    - `knowledge.information`:
@@ -119,7 +119,7 @@ Backend Phase 8 (`knowledge`) foundation implementation is complete:
      - Exposed interfaces: `@NamedInterface("information")`, `@NamedInterface("enums")`, `@NamedInterface("view")`.
    - `knowledge.vocabulary`:
      - Entities: `VocabularyItem` (persisted to `vocabulary_items`, implements `Persistable<Long>` with `VOCABULARY` type) and `VocabularyReview` (persisted to `vocabulary_reviews`).
-     - Validation: Duplicate word/language allowed; language code validated via `ReferenceCatalog.language(code)`; numeric SRS invariants (ease factor >= 1.30, nonnegative repetitions/intervals/lapse counts).
+     - Validation: Duplicate word/language allowed; language code validated via `ReferenceCatalog.language(code)`; numeric SRS invariants (ease factor > 0 after the approved two-decimal scaling, nonnegative repetitions/intervals/lapse counts).
      - Operations: Explicit atomic review transition with pessimistic row lock (`@Lock(LockModeType.PESSIMISTIC_WRITE)`) on `findByIdForUpdate` to safely serialize concurrent review transitions, record historical `VocabularyReview`, and update item state atomically.
      - Queries: Due vocabulary query (`findDueItems`) with non-mastered rows at/before cutoff plus null-time `NEW` ordered by non-null due dates first then `next_review_at` ASC and `id` ASC; bounded review history lookup ordered by `reviewed_at` DESC.
      - Exposed interfaces: `@NamedInterface("vocabulary")`, `@NamedInterface("enums")`, `@NamedInterface("view")`.

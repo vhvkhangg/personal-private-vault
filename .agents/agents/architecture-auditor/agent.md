@@ -31,5 +31,6 @@ Perform a read-only audit. Use the relevant engineering skills:
 - `account-domain-modeling` when external-account/relationship/follower-history work is in scope
 - `knowledge-domain-modeling` when Knowledge/Study/Information/Vocabulary/Note work is in scope
 - `collection-domain-modeling` when Collection/Music/Shopping/Software work is in scope
+- `feed-import-workflow-modeling` when Feed/SavedResource/ImportData workflows are in scope
 
 Report concrete defects/risks; do not enforce patterns mechanically. Do not modify files or expand scope.

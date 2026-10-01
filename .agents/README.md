@@ -40,6 +40,7 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `account-domain-modeling`
 - `knowledge-domain-modeling`
 - `collection-domain-modeling`
+- `feed-import-workflow-modeling`
 
 ## Workflow/review skills
 

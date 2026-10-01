@@ -24,19 +24,16 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 8 (`knowledge`) is complete/frozen after owner commit/push.
 - Backend Phase 9 (`collection`) is complete/frozen after owner commit/push.
 - The integrity/query-shape maintenance is complete/frozen after owner commit/push as `785dd7d`.
-- The Phase 7–9 milestone is `MILESTONE_READY`; owner commit/push of milestone docs and ChatGPT post-milestone
-  synchronization/reset are next. See `docs/implementation/phase-9/milestone-review.md`.
-- Phase 10 pre-handoff review waits for those gates and ChatGPT preparation.
+- The Phase 7–9 milestone is `MILESTONE_READY`; milestone docs are owner committed/pushed and post-milestone
+  synchronization/reset is complete.
+- Backend Phase 10 (`feed` + `importdata`) preparation is `READY FOR HANDOFF`; owner preparation commit/push,
+  then `$codex-create-handoff`. No implementation handoff is active.
 
 Completed maintenance scope:
 
 - `docs/implementation/maintenance/milestone-1-3-concurrency/README.md`
 - `docs/implementation/maintenance/pre-phase4-code-hygiene/README.md`
 - `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md`
-- `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`
-
-Current approved maintenance scope:
-
 - `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`
 
 Architecture-sensitive work must respect:

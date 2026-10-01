@@ -36,8 +36,8 @@ Frozen implementation phases:
 
 Current gate:
 
-- Phase 7–9 milestone — `MILESTONE_READY` after owner-committed maintenance; milestone docs commit and ChatGPT reset are next
-- Phase 10 Feed + ImportData pre-handoff review waits for milestone docs commit and ChatGPT post-milestone sync/preparation
+- Phase 7–9 milestone — `MILESTONE_READY` and post-milestone synchronization complete
+- Phase 10 Feed + ImportData preparation — `READY FOR HANDOFF`; owner commit/push, then `$codex-create-handoff`
 
 ## Planned stack
 

@@ -14,6 +14,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-7/`](phase-7/README.md) — **COMPLETE / FROZEN** — `account`
 - [`phase-8/`](phase-8/README.md) — **COMPLETE / FROZEN** — `knowledge`
 - [`phase-9/`](phase-9/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `collection`
+- [`phase-10/`](phase-10/README.md) — **READY FOR HANDOFF** — `feed` + `importdata`
 
 Maintenance:
 
@@ -23,20 +24,14 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The accepted [maintenance handoff](handoffs/ACTIVE.md) was owner committed/pushed as `785dd7d` and is retained pending
-ChatGPT closeout/reset. No next-phase implementation handoff has been created.
+There is no active implementation handoff.
 
-Backend Phase 9 Collection is complete/frozen after owner commit/push. Its completed handoff is archived in
-[`phase-9/handoff.md`](phase-9/handoff.md), with final evidence/reviews retained under `phase-9/`.
-
-The [Phase 7–9 milestone re-review](phase-9/milestone-review.md) returned `MILESTONE_READY`. The completed
-maintenance scope is
+The Phase 7–9 milestone is `MILESTONE_READY`; the owner committed/pushed milestone review/status changes and
+post-milestone synchronization/reset is complete. The accepted maintenance handoff is archived under
 [`maintenance/milestone-7-9-integrity-and-query-shape/`](maintenance/milestone-7-9-integrity-and-query-shape/README.md).
-Owner commits/pushes milestone review/status docs next, then sends the latest package to ChatGPT for synchronization/reset.
 
-Phase 10 Feed + ImportData pre-handoff review remains blocked until the
-owner commits/pushes milestone review/status changes, and ChatGPT completes post-milestone synchronization/reset and
-Phase 10 preparation.
+Backend Phase 10 Feed + ImportData preparation is `READY FOR HANDOFF`. Owner commits/pushes preparation,
+then runs `$codex-create-handoff`. No Phase 10 implementation handoff has been created.
 
 ## Operational guidance
 

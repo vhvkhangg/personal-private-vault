@@ -6,12 +6,13 @@ Current formal review: [`reviews/2026-09-30-phase-7-9-milestone-codex-rereview.m
 
 Codex re-reviewed owner-committed maintenance `785dd7d` on 2026-09-30. Independent verification passed all 594
 tests, failures/errors/skips 0. All three original blockers are closed; no new blocking cross-phase finding remains.
-Phases 7–9 remain frozen. Phase 10 pre-handoff review still waits for owner commit/push of milestone docs and
-ChatGPT post-milestone synchronization/reset and preparation.
+Phases 7–9 remain frozen. The owner committed/pushed the milestone review/status documents and ChatGPT completed
+post-milestone synchronization/reset plus Phase 10 preparation.
 
-The approved maintenance passed final acceptance and was owner committed/pushed as `785dd7d`.
-Next action: owner commits/pushes this milestone review/status package, then sends it to ChatGPT for synchronization/reset.
-The accepted maintenance handoff remains retained pending that closeout; no next-phase handoff is created here.
+The approved maintenance passed final acceptance and was owner committed/pushed as `785dd7d`. The milestone
+review/status package was subsequently owner committed/pushed, and post-milestone synchronization/reset is now
+complete. Phase 10 preparation exists and awaits `$codex-pre-handoff-review`; no Phase 10 implementation handoff
+exists yet.
 
 
 ## Approved maintenance remediation
@@ -27,7 +28,7 @@ It covers exactly the three blocking findings:
 3. known-new follower-snapshot entry persistence without per-entry merge probes.
 
 The maintenance is accepted and owner committed; milestone re-review is `MILESTONE_READY`.
-Phase 10 remains blocked pending the remaining owner documentation commit and ChatGPT synchronization/reset gates.
+Phase 10 preparation is unblocked; its implementation remains gated by its own pre-handoff review and owner commit/push.
 
 ## Trigger
 

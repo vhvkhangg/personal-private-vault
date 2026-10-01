@@ -1,16 +1,15 @@
 # Phase 7–9 Milestone Integrity & Query-Shape Maintenance
 
-Status: **COMPLETE / FROZEN**
+Status: **COMPLETE — FROZEN (2026-09-30)**
 
 Owner approval: **2026-09-30**
 
-Implementation handoff: [`../../handoffs/ACTIVE.md`](../../handoffs/ACTIVE.md) — accepted and owner committed/pushed
-as `785dd7d`; retained pending ChatGPT closeout/reset. Handoff ID `maintenance-milestone-7-9-integrity-and-query-shape`.
+Completed handoff: [`handoff.md`](handoff.md). Owner committed/pushed accepted maintenance as `785dd7d`.
 
 Latest final review: [`reviews/2026-09-30-final-codex-acceptance-review.md`](reviews/2026-09-30-final-codex-acceptance-review.md).
 Independent clean verification passed 594 tests with no failures/errors/skips. All blockers are resolved.
 The [milestone re-review](../../phase-9/milestone-review.md) is `MILESTONE_READY` on `785dd7d`.
-Owner commits/pushes milestone docs next, then ChatGPT performs post-milestone synchronization/reset.
+Owner committed/pushed the milestone review/status documents; post-milestone synchronization/reset is complete.
 
 Source finding:
 [`../../phase-9/reviews/2026-09-30-phase-7-9-milestone-codex-review.md`](../../phase-9/reviews/2026-09-30-phase-7-9-milestone-codex-review.md)
@@ -18,7 +17,7 @@ Source finding:
 This is one narrow maintenance implementation slice for the three blocking findings from the Phase 7–9 milestone
 review. It temporarily permits only the frozen Phase 7 Account and Phase 8 Knowledge changes required below.
 
-Phase 10 remains blocked.
+Phase 10 preparation is now unblocked and awaits its own Codex pre-handoff review.
 
 ## Goal
 
@@ -333,3 +332,18 @@ No new domain skill, custom agent, or hook is required.
 5. Codex: rerun `$codex-milestone-review` for Phases 7–9.
 6. Phase 10 remains blocked until the milestone is `MILESTONE_READY`, the owner commits/pushes milestone status docs,
    and ChatGPT completes post-milestone synchronization/reset and Phase 10 preparation.
+
+
+## Completion record
+
+- Final Codex acceptance: `READY FOR OWNER COMMIT`.
+- Owner maintenance commit/push: `785dd7d`.
+- Full verification: 594 tests, 0 failures/errors/skips.
+- Phase 7–9 milestone re-review: `MILESTONE_READY`.
+- Milestone review/status docs: owner committed/pushed.
+- Completed handoff: [`handoff.md`](handoff.md).
+- Evidence: [`test-evidence.md`](test-evidence.md).
+- Post-milestone synchronization/reset: complete.
+- Status: **COMPLETE — FROZEN**.
+
+Future changes to these frozen Account/Knowledge paths require a new owner-approved feature or maintenance scope.
