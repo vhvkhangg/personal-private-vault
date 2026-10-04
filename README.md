@@ -44,7 +44,7 @@ Current gate:
 - Phase 7–9 milestone — `MILESTONE_READY` and post-milestone synchronization complete
 - Phase 10 Feed + ImportData — complete/frozen after owner commit/push
 - Phase 11 Finance + Journal + Personal — complete/frozen after owner commit/push
-- Phase 12 PostgreSQL-first Global Search preparation — `READY FOR HANDOFF`; commit/push preparation, then `$codex-create-handoff`
+- Phase 12 PostgreSQL-first Global Search implementation — `READY FOR OWNER COMMIT`; owner commit/push, ChatGPT closeout, then mandatory Phase 10–12 milestone review before Phase 13
 
 ## Planned stack
 

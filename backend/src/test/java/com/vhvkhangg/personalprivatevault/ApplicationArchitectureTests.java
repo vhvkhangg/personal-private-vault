@@ -29,7 +29,7 @@ class ApplicationArchitectureTests {
         var peopleModule = modules.getModuleByName("people");
         assertThat(peopleModule).isPresent();
         assertThat(peopleModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
-                .contains("enums", "group", "person", "view");
+                .contains("enums", "group", "person", "view", "search");
     }
 
     @Test
@@ -42,7 +42,7 @@ class ApplicationArchitectureTests {
         assertThat(peopleModule.getNamedInterfaces().stream()
                 .filter(org.springframework.modulith.core.NamedInterface::isNamed)
                 .map(org.springframework.modulith.core.NamedInterface::getName))
-                .containsExactlyInAnyOrder("enums", "group", "person", "view");
+                .containsExactlyInAnyOrder("enums", "group", "person", "view", "search");
 
         // 2. Verify person named interface exposes operations, commands, and exceptions across new child packages
         var personInterface = peopleModule.getNamedInterfaces().getByName("person").orElseThrow();
@@ -87,7 +87,7 @@ class ApplicationArchitectureTests {
         var fictionModule = modules.getModuleByName("fiction");
         assertThat(fictionModule).isPresent();
         assertThat(fictionModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
-                .contains("enums", "fiction", "genre", "link", "view");
+                .contains("enums", "fiction", "genre", "link", "view", "search");
     }
 
     @Test
@@ -100,7 +100,7 @@ class ApplicationArchitectureTests {
         assertThat(fictionModule.getNamedInterfaces().stream()
                 .filter(org.springframework.modulith.core.NamedInterface::isNamed)
                 .map(org.springframework.modulith.core.NamedInterface::getName))
-                .containsExactlyInAnyOrder("enums", "fiction", "genre", "link", "view");
+                .containsExactlyInAnyOrder("enums", "fiction", "genre", "link", "view", "search");
 
         // 2. Verify genre named interface exposes operations, commands, and exceptions
         var genreInterface = fictionModule.getNamedInterfaces().getByName("genre").orElseThrow();
@@ -179,7 +179,7 @@ class ApplicationArchitectureTests {
         var filmModule = modules.getModuleByName("film");
         assertThat(filmModule).isPresent();
         assertThat(filmModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
-                .contains("credit", "enums", "film", "genre", "link", "view");
+                .contains("credit", "enums", "film", "genre", "link", "view", "search");
     }
 
     @Test
@@ -192,7 +192,7 @@ class ApplicationArchitectureTests {
         assertThat(filmModule.getNamedInterfaces().stream()
                 .filter(org.springframework.modulith.core.NamedInterface::isNamed)
                 .map(org.springframework.modulith.core.NamedInterface::getName))
-                .containsExactlyInAnyOrder("credit", "enums", "film", "genre", "link", "view");
+                .containsExactlyInAnyOrder("credit", "enums", "film", "genre", "link", "view", "search");
 
         // 2. Verify film named interface exposes operations, commands, and exceptions
         var filmInterface = filmModule.getNamedInterfaces().getByName("film").orElseThrow();
@@ -286,7 +286,7 @@ class ApplicationArchitectureTests {
         var mediaModule = modules.getModuleByName("media");
         assertThat(mediaModule).isPresent();
         assertThat(mediaModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
-                .contains("album", "image", "view");
+                .contains("album", "image", "view", "search");
     }
 
     @Test
@@ -299,7 +299,7 @@ class ApplicationArchitectureTests {
         assertThat(mediaModule.getNamedInterfaces().stream()
                 .filter(org.springframework.modulith.core.NamedInterface::isNamed)
                 .map(org.springframework.modulith.core.NamedInterface::getName))
-                .containsExactlyInAnyOrder("album", "image", "view");
+                .containsExactlyInAnyOrder("album", "image", "view", "search");
 
         // 2. Verify album named interface exposes operations, commands, and exceptions
         var albumInterface = mediaModule.getNamedInterfaces().getByName("album").orElseThrow();
@@ -352,7 +352,7 @@ class ApplicationArchitectureTests {
         var locationModule = modules.getModuleByName("location");
         assertThat(locationModule).isPresent();
         assertThat(locationModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
-                .contains("address", "brand", "category", "enums", "hours", "location", "view");
+                .contains("address", "brand", "category", "enums", "hours", "location", "view", "search");
     }
 
     @Test
@@ -365,7 +365,7 @@ class ApplicationArchitectureTests {
         assertThat(locationModule.getNamedInterfaces().stream()
                 .filter(org.springframework.modulith.core.NamedInterface::isNamed)
                 .map(org.springframework.modulith.core.NamedInterface::getName))
-                .containsExactlyInAnyOrder("address", "brand", "category", "enums", "hours", "location", "view");
+                .containsExactlyInAnyOrder("address", "brand", "category", "enums", "hours", "location", "view", "search");
 
         // 2. Verify address named interface exposes operations, commands, and exceptions
         var addressInterface = locationModule.getNamedInterfaces().getByName("address").orElseThrow();
@@ -471,7 +471,7 @@ class ApplicationArchitectureTests {
         var feedModule = modules.getModuleByName("feed");
         assertThat(feedModule).isPresent();
         assertThat(feedModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
-                .contains("conversion", "enums", "item", "resource", "source", "view");
+                .contains("conversion", "enums", "item", "resource", "source", "view", "search");
     }
 
     @Test
@@ -483,7 +483,7 @@ class ApplicationArchitectureTests {
         assertThat(feedModule.getNamedInterfaces().stream()
                 .filter(org.springframework.modulith.core.NamedInterface::isNamed)
                 .map(org.springframework.modulith.core.NamedInterface::getName))
-                .containsExactlyInAnyOrder("conversion", "enums", "item", "resource", "source", "view");
+                .containsExactlyInAnyOrder("conversion", "enums", "item", "resource", "source", "view", "search");
 
         var sourceInterface = feedModule.getNamedInterfaces().getByName("source").orElseThrow();
         assertThat(sourceInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
@@ -769,5 +769,79 @@ class ApplicationArchitectureTests {
                 .noneMatch(dep -> dep.getTargetModule().equals(vaultModule)
                         || dep.getTargetModule().equals(financeModule)
                         || dep.getTargetModule().equals(journalModule));
+    }
+
+    @Test
+    @DisplayName("Verifies that search module defines expected named interfaces")
+    void verifiesSearchModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var searchModule = modules.getModuleByName("search");
+        assertThat(searchModule).isPresent();
+        assertThat(searchModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("enums", "query", "view");
+    }
+
+    @Test
+    @DisplayName("Verifies search module named interfaces expose capability contracts and hide internal packages")
+    void verifiesSearchNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var searchModule = modules.getModuleByName("search").orElseThrow();
+
+        assertThat(searchModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("enums", "query", "view");
+
+        var queryInterface = searchModule.getNamedInterfaces().getByName("query").orElseThrow();
+        assertThat(queryInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.search.query.GlobalSearchOperations",
+                        "com.vhvkhangg.personalprivatevault.search.query.GlobalSearchQuery"
+                );
+
+        var viewInterface = searchModule.getNamedInterfaces().getByName("view").orElseThrow();
+        assertThat(viewInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.search.view.GlobalSearchResult",
+                        "com.vhvkhangg.personalprivatevault.search.view.GlobalSearchPage"
+                );
+
+        var enumsInterface = searchModule.getNamedInterfaces().getByName("enums").orElseThrow();
+        assertThat(enumsInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.search.enums.SearchDomain",
+                        "com.vhvkhangg.personalprivatevault.search.enums.SearchMatchKind"
+                );
+
+        for (var namedInterface : searchModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies search module is a leaf orchestration module with no owned entities or repositories")
+    void verifiesSearchModuleHasNoOwnedEntitiesOrRepositories() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var searchModule = modules.getModuleByName("search").orElseThrow();
+
+        var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()
+                .importPackages("com.vhvkhangg.personalprivatevault.search");
+        assertThat(allClasses.stream().filter(c -> c.isAnnotatedWith(jakarta.persistence.Entity.class)).toList()).isEmpty();
+        assertThat(allClasses.stream().filter(c -> c.isAnnotatedWith(org.springframework.stereotype.Repository.class)).toList()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Verifies search module dependencies and leaf invariant (no module depends on search)")
+    void verifiesSearchModuleDependenciesAndLeafProperty() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var searchModule = modules.getModuleByName("search").orElseThrow();
+
+        for (var module : modules) {
+            if (!module.equals(searchModule)) {
+                assertThat(module.getDirectDependencies(modules).stream().toList())
+                        .noneMatch(dep -> dep.getTargetModule().equals(searchModule));
+            }
+        }
     }
 }

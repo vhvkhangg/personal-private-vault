@@ -25,7 +25,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 10    | `feed` + `importdata` workflows                                                               | P-10 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **COMPLETE — FROZEN** | —                    |
-| 12    | PostgreSQL-first global `search` orchestration                                                | **P-12: READY FOR HANDOFF**                        | Not started           | **After completion** |
+| 12    | PostgreSQL-first global `search` orchestration                                                | **P-12: accepted / committed**                     | **READY FOR OWNER COMMIT** | **After completion** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 planned                                        | Not started           | —                    |
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 planned                                        | Not started           | —                    |
 | 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
@@ -147,10 +147,9 @@ Phase 12 prepares PostgreSQL-first global Search as a no-table leaf/orchestratio
 read-only search contracts to the frozen searchable modules, Vault-owned tag/trash qualification, deterministic
 cross-module ranking, and an append-only pg_trgm/index migration during implementation.
 
-Phase 12 preparation is
-[READY FOR HANDOFF](implementation/phase-12/reviews/2026-10-04-phase-12-pre-handoff-codex-acceptance.md);
-P12-1/P12-2 closed. Owner preparation commit/push, then `$codex-create-handoff` are next. No implementation handoff
-is active.
+Phase 12 preparation is accepted/owner committed as `44fdaa9`; P12-1/P12-2 closed. Implementation final review returned
+[READY FOR OWNER COMMIT](implementation/phase-12/reviews/2026-10-04-phase-12-final-codex-acceptance.md); FR12-1–FR12-6 closed.
+Independent clean verify passed 815 tests. Owner commit/push and ChatGPT phase closeout are next; Phase 12 is not yet frozen.
 
 After accepted Phase 12 implementation is owner committed/pushed, the mandatory Phase 10–12 milestone review must
 pass before Phase 13 preparation.

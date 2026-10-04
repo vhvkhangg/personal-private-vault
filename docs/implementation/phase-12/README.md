@@ -1,10 +1,12 @@
 # Backend Phase 12 — PostgreSQL-First Global Search
 
-Status: **READY FOR HANDOFF**
+Status: **READY FOR OWNER COMMIT** (implementation final acceptance)
 
-The [Codex pre-handoff acceptance](reviews/2026-10-04-phase-12-pre-handoff-codex-acceptance.md) closes P12-1/P12-2.
-Owner commits/pushes the accepted preparation slice, then invokes `$codex-create-handoff`. No implementation handoff
-is active and Phase 12 implementation has not begun.
+Codex [final acceptance](reviews/2026-10-04-phase-12-final-codex-acceptance.md) closed FR12-1–FR12-6.
+Independent clean verify passed 815 tests (0 failures, 0 errors, 0 skips). Owner commit/push and ChatGPT closeout
+are next, followed by mandatory Phase 10–12 milestone review before Phase 13. Phase 12 is not yet frozen.
+Preparation was owner committed/pushed as `44fdaa9`;
+P12-1/P12-2 remain closed. The active handoff is `docs/implementation/handoffs/ACTIVE.md`.
 
 Phase 12 implements the dedicated top-level `search` orchestration module and narrow read-only search contracts inside
 the already-frozen searchable feature modules.

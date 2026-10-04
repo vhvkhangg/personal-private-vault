@@ -24,6 +24,7 @@
 @org.springframework.modulith.ApplicationModule(allowedDependencies = {
         "vault::entry",
         "vault::enums",
-        "vault::view"
+        "vault::view",
+        "vault::search"
 })
 package com.vhvkhangg.personalprivatevault.knowledge.information;

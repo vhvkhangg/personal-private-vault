@@ -16,7 +16,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-9/`](phase-9/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `collection`
 - [`phase-10/`](phase-10/README.md) — **COMPLETE / FROZEN** — `feed` + `importdata`
 - [`phase-11/`](phase-11/README.md) — **COMPLETE / FROZEN** — `finance` + `journal` + `personal`
-- [`phase-12/`](phase-12/README.md) — **READY FOR HANDOFF** — `search`
+- [`phase-12/`](phase-12/README.md) — **READY FOR OWNER COMMIT** — `search`
 
 Maintenance:
 
@@ -26,15 +26,15 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-There is no active implementation handoff.
+The [active Phase 12 implementation handoff](handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT`.
 
 Backend Phase 11 Finance + Journal + Personal is complete/frozen after final acceptance and owner commit/push. Its
 completed handoff is archived in [`phase-11/handoff.md`](phase-11/handoff.md), with verification evidence/reviews
 retained under `phase-11/`.
 
-Backend Phase 12 PostgreSQL-first Global Search preparation is
-[READY FOR HANDOFF](phase-12/reviews/2026-10-04-phase-12-pre-handoff-codex-acceptance.md); P12-1/P12-2 closed.
-Owner commits/pushes the preparation slice, then invokes `$codex-create-handoff`. No implementation handoff is active.
+Backend Phase 12 PostgreSQL-first Global Search final review returned
+[READY FOR OWNER COMMIT](phase-12/reviews/2026-10-04-phase-12-final-codex-acceptance.md); FR12-1–FR12-6 closed.
+Independent clean verify passed 815 tests. Owner commit/push and ChatGPT phase closeout are next; Phase 12 is not yet frozen.
 
 Phase 12 completion will trigger the mandatory Phase 10–12 milestone review before Phase 13.
 

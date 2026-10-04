@@ -29,5 +29,19 @@
  * <p>Canonical architecture references: {@code docs/architecture/module-boundaries.md} and
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
-@org.springframework.modulith.ApplicationModule(allowedDependencies = { "vault", "people", "fiction", "film", "media", "location", "knowledge", "collection", "account", "feed" })
+@org.springframework.modulith.ApplicationModule(
+        allowedDependencies = {
+                "vault :: enums",
+                "vault :: search",
+                "people :: search",
+                "fiction :: search",
+                "film :: search",
+                "media :: search",
+                "location :: search",
+                "knowledge :: search",
+                "collection :: search",
+                "account :: search",
+                "feed :: search"
+        }
+)
 package com.vhvkhangg.personalprivatevault.search;

@@ -29,16 +29,21 @@
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
 @org.springframework.modulith.ApplicationModule(allowedDependencies = {
+        "vault::enums",
         "knowledge.study::study",
         "knowledge.study::enums",
         "knowledge.study::view",
+        "knowledge.study::search",
         "knowledge.information::information",
         "knowledge.information::enums",
         "knowledge.information::view",
+        "knowledge.information::search",
         "knowledge.vocabulary::vocabulary",
         "knowledge.vocabulary::enums",
         "knowledge.vocabulary::view",
+        "knowledge.vocabulary::search",
         "knowledge.note::note",
-        "knowledge.note::view"
+        "knowledge.note::view",
+        "knowledge.note::search"
 })
 package com.vhvkhangg.personalprivatevault.knowledge;

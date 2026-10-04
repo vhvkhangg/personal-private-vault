@@ -41,6 +41,7 @@
                 "vault :: entry",
                 "vault :: enums",
                 "vault :: view",
+                "vault :: search",
                 "people :: person",
                 "people :: view",
                 "reference :: catalog",

@@ -36,6 +36,7 @@
         "vault::entry",
         "vault::enums",
         "vault::view",
+        "vault::search",
         "knowledge::api"
 })
 package com.vhvkhangg.personalprivatevault.feed;

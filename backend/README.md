@@ -92,6 +92,7 @@ full verification passed 787 tests. See `../docs/implementation/phase-11/README.
 
 ## Phase 12
 
-PostgreSQL-first Global Search preparation is `READY FOR HANDOFF`; P12-1/P12-2 closed. Owner preparation commit/push,
-then `$codex-create-handoff` are next. No implementation handoff is active. See
+PostgreSQL-first Global Search implementation is `READY FOR OWNER COMMIT`; FR12-1–FR12-6 closed.
+Independent clean verify passed 815 tests. Owner commit/push and ChatGPT phase closeout are next, followed by
+mandatory Phase 10–12 milestone review before Phase 13. Phase 12 is not yet complete/frozen. See
 `../docs/implementation/phase-12/README.md`.

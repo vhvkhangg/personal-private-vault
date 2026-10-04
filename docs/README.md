@@ -9,8 +9,9 @@ complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE
 integrity/query-shape maintenance `785dd7d`; the owner committed/pushed milestone docs and ChatGPT completed
 post-milestone synchronization/reset. Phase 10 (`feed` + `importdata`) is complete/frozen after owner commit/push
 and final 685-test verification. Phase 11 (`finance` + `journal` + `personal`) is complete/frozen after final
-acceptance, owner commit/push, and 787-test verification. Phase 12 PostgreSQL-first Global Search preparation is
-`READY FOR HANDOFF`; P12-1/P12-2 closed. Owner preparation commit/push, then `$codex-create-handoff` are next. Phase 1 delivered the
+acceptance, owner commit/push, and 787-test verification. Phase 12 PostgreSQL-first Global Search implementation is
+`READY FOR OWNER COMMIT`; FR12-1–FR12-6 closed after independent 815-test verification. Owner commit/push and
+ChatGPT closeout are next, followed by mandatory Phase 10–12 milestone review before Phase 13. Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 

@@ -137,15 +137,20 @@ Module responsibilities and allowed dependencies are frozen in `docs/architectur
 
 ```text
 knowledge
-├── internal/                 # parent-module implementation/facade orchestration
+├── search/                   # @NamedInterface("search") - KnowledgeSearchOperations facade, query, hits, documents
+├── internal/                 # parent-module implementation/facade orchestration (KnowledgeSearchService)
 ├── study/                    # nested @ApplicationModule
-│   └── internal/
+│   ├── search/               # @NamedInterface("search") - StudySearchOperations
+│   └── internal/             # StudySearchService, domain entities, repositories
 ├── information/              # nested @ApplicationModule
-│   └── internal/
+│   ├── search/               # @NamedInterface("search") - InformationSearchOperations
+│   └── internal/             # InformationSearchService, domain entities, repositories
 ├── vocabulary/               # nested @ApplicationModule
-│   └── internal/
+│   ├── search/               # @NamedInterface("search") - VocabularySearchOperations
+│   └── internal/             # VocabularySearchService, domain entities, repositories
 └── note/                     # nested @ApplicationModule
-    └── internal/
+    ├── search/               # @NamedInterface("search") - NoteSearchOperations
+    └── internal/             # NoteSearchService, domain entities, repositories
 ```
 
 External top-level modules depend on the public `knowledge` facade, not directly on nested repositories.
@@ -154,13 +159,17 @@ External top-level modules depend on the public `knowledge` facade, not directly
 
 ```text
 collection
-├── internal/                 # parent-module implementation/facade orchestration
+├── search/                   # @NamedInterface("search") - CollectionSearchOperations facade, query, hits, documents
+├── internal/                 # parent-module implementation/facade orchestration (CollectionSearchService)
 ├── music/                    # nested @ApplicationModule
-│   └── internal/
+│   ├── search/               # @NamedInterface("search") - MusicSearchOperations
+│   └── internal/             # MusicSearchService, domain entities, repositories
 ├── shopping/                 # nested @ApplicationModule
-│   └── internal/
+│   ├── search/               # @NamedInterface("search") - ShoppingSearchOperations
+│   └── internal/             # ShoppingSearchService, domain entities, repositories
 └── software/                 # nested @ApplicationModule
-    └── internal/
+    ├── search/               # @NamedInterface("search") - SoftwareSearchOperations
+    └── internal/             # SoftwareSearchService, domain entities, repositories
 ```
 
 External top-level modules depend on the public `collection` facade rather than bypassing the parent boundary.
@@ -179,9 +188,10 @@ fiction/
 │   └── package-info.java
 ├── enums/                            # optional @NamedInterface for stable public enums
 │   └── package-info.java
+├── search/                           # @NamedInterface("search") - FictionSearchOperations, FictionSearchQuery, FictionSearchHit, FictionSearchDocument
 └── internal/
     ├── application/
-    │   └── <capability>/             # mirror public capability when useful
+    │   └── <capability>/             # mirror public capability when useful, e.g. FictionSearchService
     ├── domain/
     ├── infrastructure/persistence/
     └── web/
@@ -191,15 +201,16 @@ fiction/
 
 ```text
 feed/
-├── package-info.java                 # @ApplicationModule(allowedDependencies = {"vault::entry", "vault::enums", "vault::view", "knowledge::api"})
+├── package-info.java                 # @ApplicationModule(allowedDependencies = {"vault::entry", "vault::enums", "vault::view", "knowledge::api", "vault::search"})
 ├── source/                           # @NamedInterface("source") - FeedSource operations/commands/exceptions
 ├── item/                             # @NamedInterface("item") - FeedItem operations/commands/exceptions
 ├── resource/                         # @NamedInterface("resource") - SavedResource operations/commands/exceptions
 ├── conversion/                       # @NamedInterface("conversion") - SavedResourceConversion operations/exceptions
 ├── view/                             # @NamedInterface("view") - read models and JSON snapshot helpers
 ├── enums/                            # @NamedInterface("enums") - FeedSourceType, SavedResourceKind
+├── search/                           # @NamedInterface("search") - FeedSearchOperations, FeedSearchQuery, FeedSearchHit, FeedSearchDocument
 └── internal/
-    ├── application/                  # capability services: FeedSourceService, FeedItemService, SavedResourceService, SavedResourceConversionService
+    ├── application/                  # capability services: FeedSourceService, FeedItemService, SavedResourceService, SavedResourceConversionService, FeedSearchService
     ├── domain/                       # JPA entities: FeedSource, FeedItem, SavedResource, SavedResourceConversion, SavedResourceConversionId
     └── infrastructure/persistence/   # Spring Data repositories
 ```
@@ -218,6 +229,40 @@ importdata/
     ├── parsing/                      # parsers: CsvImportParser, JsonImportParser, MarkdownImportParser, TargetPayloadCanonicalizer
     └── infrastructure/persistence/   # Spring Data repositories
 ```
+
+### Search
+
+```text
+search/
+├── package-info.java                 # @ApplicationModule(allowedDependencies = {"vault::search", "vault::enums", "people::search", "fiction::search", "film::search", "media::search", "location::search", "knowledge::search", "collection::search", "account::search", "feed::search"})
+├── query/                            # @NamedInterface("query") - GlobalSearchOperations, GlobalSearchQuery
+├── view/                             # @NamedInterface("view") - GlobalSearchResult, GlobalSearchPage
+├── enums/                            # @NamedInterface("enums") - SearchDomain, SearchMatchKind
+└── internal/
+    └── application/                  # orchestration service: GlobalSearchService (leaf/orchestration, no persistence tables)
+```
+
+### Module Search Capabilities (@NamedInterface("search"))
+
+Phase 12 introduces read-only search capabilities across Vault and all 9 feature domains, each exposing `@NamedInterface("search")`:
+
+- `vault`: `vault/search/` — `VaultSearchOperations`, `VaultTagSearchQuery`, `VaultTagCandidateHit`
+- `people`: `people/search/` — `PeopleSearchOperations`, `PeopleSearchQuery`, `PeopleSearchHit`, `PeopleSearchDocument`
+- `fiction`: `fiction/search/` — `FictionSearchOperations`, `FictionSearchQuery`, `FictionSearchHit`, `FictionSearchDocument`
+- `film`: `film/search/` — `FilmSearchOperations`, `FilmSearchQuery`, `FilmSearchHit`, `FilmSearchDocument`
+- `media`: `media/search/` — `MediaSearchOperations`, `MediaSearchQuery`, `MediaSearchHit`, `MediaSearchDocument`
+- `location`: `location/search/` — `LocationSearchOperations`, `LocationSearchQuery`, `LocationSearchHit`, `LocationSearchDocument`
+- `knowledge`: `knowledge/search/` (facade) and nested modules:
+  - `knowledge/study/search/` — `StudySearchOperations`
+  - `knowledge/information/search/` — `InformationSearchOperations`
+  - `knowledge/vocabulary/search/` — `VocabularySearchOperations`
+  - `knowledge/note/search/` — `NoteSearchOperations`
+- `collection`: `collection/search/` (facade) and nested modules:
+  - `collection/music/search/` — `MusicSearchOperations`
+  - `collection/shopping/search/` — `ShoppingSearchOperations`
+  - `collection/software/search/` — `SoftwareSearchOperations`
+- `account`: `account/search/` — `AccountSearchOperations`, `AccountSearchQuery`, `AccountSearchHit`, `AccountSearchDocument`
+- `feed`: `feed/search/` — `FeedSearchOperations`, `FeedSearchQuery`, `FeedSearchHit`, `FeedSearchDocument`
 
 Rules:
 

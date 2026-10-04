@@ -20,7 +20,7 @@ class KnowledgeArchitectureTests {
     }
 
     @Test
-    @DisplayName("Verifies knowledge parent facade exposes only api named interface and no internals")
+    @DisplayName("Verifies knowledge parent facade exposes api and search named interfaces and no internals")
     void verifiesKnowledgeParentFacadeNamedInterface() {
         ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
         var knowledgeModule = modules.getModuleByName("knowledge").orElseThrow();
@@ -28,7 +28,7 @@ class KnowledgeArchitectureTests {
         assertThat(knowledgeModule.getNamedInterfaces().stream()
                 .filter(NamedInterface::isNamed)
                 .map(NamedInterface::getName))
-                .containsExactly("api");
+                .containsExactlyInAnyOrder("api", "search");
 
         var apiInterface = knowledgeModule.getNamedInterfaces().getByName("api").orElseThrow();
         var apiClassNames = apiInterface.asJavaClasses()

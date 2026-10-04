@@ -27,14 +27,18 @@
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
 @org.springframework.modulith.ApplicationModule(allowedDependencies = {
+        "vault::enums",
         "collection.music::music",
         "collection.music::enums",
         "collection.music::view",
+        "collection.music::search",
         "collection.shopping::shopping",
         "collection.shopping::enums",
         "collection.shopping::view",
+        "collection.shopping::search",
         "collection.software::software",
         "collection.software::enums",
-        "collection.software::view"
+        "collection.software::view",
+        "collection.software::search"
 })
 package com.vhvkhangg.personalprivatevault.collection;

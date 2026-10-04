@@ -26,6 +26,7 @@
         "vault::entry",
         "vault::enums",
         "vault::view",
+        "vault::search",
         "reference::catalog",
         "reference::view"
 })

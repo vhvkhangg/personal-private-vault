@@ -20,7 +20,7 @@ class CollectionArchitectureTests {
     }
 
     @Test
-    @DisplayName("Verifies collection parent facade exposes only api named interface and no internals")
+    @DisplayName("Verifies collection parent facade exposes api and search named interfaces and no internals")
     void verifiesCollectionParentFacadeNamedInterface() {
         ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
         var collectionModule = modules.getModuleByName("collection").orElseThrow();
@@ -28,7 +28,7 @@ class CollectionArchitectureTests {
         assertThat(collectionModule.getNamedInterfaces().stream()
                 .filter(NamedInterface::isNamed)
                 .map(NamedInterface::getName))
-                .containsExactly("api");
+                .containsExactlyInAnyOrder("api", "search");
 
         var apiInterface = collectionModule.getNamedInterfaces().getByName("api").orElseThrow();
         var apiClassNames = apiInterface.asJavaClasses()
