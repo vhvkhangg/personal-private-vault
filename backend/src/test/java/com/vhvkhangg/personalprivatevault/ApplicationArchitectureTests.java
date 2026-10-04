@@ -581,4 +581,193 @@ class ApplicationArchitectureTests {
         assertThat(importDataModule.getDirectDependencies(modules).stream().toList())
                 .noneMatch(dep -> dep.getTargetModule().equals(feedModule));
     }
+
+    @Test
+    @DisplayName("Verifies that finance module defines expected named interfaces")
+    void verifiesFinanceModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var financeModule = modules.getModuleByName("finance");
+        assertThat(financeModule).isPresent();
+        assertThat(financeModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("category", "enums", "recurring", "subscription", "transaction", "view", "wallet");
+    }
+
+    @Test
+    @DisplayName("Verifies finance module named interfaces expose capability contracts and hide internal packages")
+    void verifiesFinanceNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var financeModule = modules.getModuleByName("finance").orElseThrow();
+
+        assertThat(financeModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("category", "enums", "recurring", "subscription", "transaction", "view", "wallet");
+
+        var walletInterface = financeModule.getNamedInterfaces().getByName("wallet").orElseThrow();
+        assertThat(walletInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.finance.wallet.WalletOperations",
+                        "com.vhvkhangg.personalprivatevault.finance.wallet.command.CreateWalletCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.wallet.command.UpdateWalletCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.wallet.exception.WalletNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.finance.wallet.exception.InvalidWalletException",
+                        "com.vhvkhangg.personalprivatevault.finance.wallet.exception.WalletConflictException"
+                );
+
+        var categoryInterface = financeModule.getNamedInterfaces().getByName("category").orElseThrow();
+        assertThat(categoryInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.finance.category.TransactionCategoryOperations",
+                        "com.vhvkhangg.personalprivatevault.finance.category.command.CreateTransactionCategoryCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.category.command.UpdateTransactionCategoryCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.category.exception.TransactionCategoryNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.finance.category.exception.InvalidTransactionCategoryException",
+                        "com.vhvkhangg.personalprivatevault.finance.category.exception.TransactionCategoryConflictException"
+                );
+
+        var transactionInterface = financeModule.getNamedInterfaces().getByName("transaction").orElseThrow();
+        assertThat(transactionInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.finance.transaction.FinancialTransactionOperations",
+                        "com.vhvkhangg.personalprivatevault.finance.transaction.command.CreateFinancialTransactionCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.transaction.command.UpdateFinancialTransactionCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.transaction.command.FinancialTransactionEntryInput",
+                        "com.vhvkhangg.personalprivatevault.finance.transaction.exception.FinancialTransactionNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.finance.transaction.exception.InvalidFinancialTransactionException"
+                );
+
+        var recurringInterface = financeModule.getNamedInterfaces().getByName("recurring").orElseThrow();
+        assertThat(recurringInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.finance.recurring.RecurringTransactionRuleOperations",
+                        "com.vhvkhangg.personalprivatevault.finance.recurring.command.CreateRecurringTransactionRuleCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.recurring.command.UpdateRecurringTransactionRuleCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.recurring.command.RecurringRuleEntryInput",
+                        "com.vhvkhangg.personalprivatevault.finance.recurring.exception.RecurringTransactionRuleNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.finance.recurring.exception.InvalidRecurringTransactionRuleException"
+                );
+
+        var subscriptionInterface = financeModule.getNamedInterfaces().getByName("subscription").orElseThrow();
+        assertThat(subscriptionInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.finance.subscription.SubscriptionOperations",
+                        "com.vhvkhangg.personalprivatevault.finance.subscription.command.CreateSubscriptionCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.subscription.command.UpdateSubscriptionCommand",
+                        "com.vhvkhangg.personalprivatevault.finance.subscription.exception.SubscriptionNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.finance.subscription.exception.InvalidSubscriptionException",
+                        "com.vhvkhangg.personalprivatevault.finance.subscription.exception.SubscriptionConflictException"
+                );
+
+        for (var namedInterface : financeModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies that journal module defines expected named interfaces")
+    void verifiesJournalModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var journalModule = modules.getModuleByName("journal");
+        assertThat(journalModule).isPresent();
+        assertThat(journalModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("diary", "view");
+    }
+
+    @Test
+    @DisplayName("Verifies journal module named interfaces expose capability contracts and hide internal packages")
+    void verifiesJournalNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var journalModule = modules.getModuleByName("journal").orElseThrow();
+
+        assertThat(journalModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("diary", "view");
+
+        var diaryInterface = journalModule.getNamedInterfaces().getByName("diary").orElseThrow();
+        assertThat(diaryInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.journal.diary.DiaryOperations",
+                        "com.vhvkhangg.personalprivatevault.journal.diary.command.CreateDiaryEntryCommand",
+                        "com.vhvkhangg.personalprivatevault.journal.diary.command.UpdateDiaryEntryCommand",
+                        "com.vhvkhangg.personalprivatevault.journal.diary.exception.DiaryEntryNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.journal.diary.exception.InvalidDiaryEntryException"
+                );
+
+        for (var namedInterface : journalModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies that personal module defines expected named interfaces")
+    void verifiesPersonalModuleConfiguration() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var personalModule = modules.getModuleByName("personal");
+        assertThat(personalModule).isPresent();
+        assertThat(personalModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("enums", "profile", "view");
+    }
+
+    @Test
+    @DisplayName("Verifies personal module named interfaces expose capability contracts and hide internal packages")
+    void verifiesPersonalNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var personalModule = modules.getModuleByName("personal").orElseThrow();
+
+        assertThat(personalModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("enums", "profile", "view");
+
+        var profileInterface = personalModule.getNamedInterfaces().getByName("profile").orElseThrow();
+        assertThat(profileInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName).toList())
+                .contains(
+                        "com.vhvkhangg.personalprivatevault.personal.profile.PersonalProfileOperations",
+                        "com.vhvkhangg.personalprivatevault.personal.profile.command.CreatePersonalProfileCommand",
+                        "com.vhvkhangg.personalprivatevault.personal.profile.command.UpdatePersonalProfileCommand",
+                        "com.vhvkhangg.personalprivatevault.personal.profile.exception.PersonalProfileNotFoundException",
+                        "com.vhvkhangg.personalprivatevault.personal.profile.exception.InvalidPersonalProfileException",
+                        "com.vhvkhangg.personalprivatevault.personal.profile.exception.PersonalProfileConflictException"
+                );
+
+        for (var namedInterface : personalModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies Phase 11 module dependencies and isolation")
+    void verifiesPhase11ModuleDependenciesAndIsolation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var financeModule = modules.getModuleByName("finance").orElseThrow();
+        var journalModule = modules.getModuleByName("journal").orElseThrow();
+        var personalModule = modules.getModuleByName("personal").orElseThrow();
+        var referenceModule = modules.getModuleByName("reference").orElseThrow();
+        var locationModule = modules.getModuleByName("location").orElseThrow();
+        var vaultModule = modules.getModuleByName("vault").orElseThrow();
+
+        // Finance -> reference only
+        assertThat(financeModule.getDirectDependencies(modules).stream().toList())
+                .allMatch(dep -> dep.getTargetModule().equals(referenceModule));
+        assertThat(financeModule.getDirectDependencies(modules).stream().toList())
+                .noneMatch(dep -> dep.getTargetModule().equals(vaultModule)
+                        || dep.getTargetModule().equals(journalModule)
+                        || dep.getTargetModule().equals(personalModule));
+
+        // Journal -> none
+        assertThat(journalModule.getDirectDependencies(modules).stream().toList()).isEmpty();
+
+        // Personal -> reference, location only
+        assertThat(personalModule.getDirectDependencies(modules).stream().toList())
+                .allMatch(dep -> dep.getTargetModule().equals(referenceModule)
+                        || dep.getTargetModule().equals(locationModule));
+        assertThat(personalModule.getDirectDependencies(modules).stream().toList())
+                .noneMatch(dep -> dep.getTargetModule().equals(vaultModule)
+                        || dep.getTargetModule().equals(financeModule)
+                        || dep.getTargetModule().equals(journalModule));
+    }
 }

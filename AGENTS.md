@@ -30,7 +30,10 @@ This file defines repository-wide instructions for coding agents.
   verification, and owner commit/push.
 - Backend Phase 11 (`finance` + `journal` + `personal`) preparation is `READY FOR HANDOFF`; P11-1/P11-2 closed.
   See `docs/implementation/phase-11/reviews/2026-10-01-phase-11-pre-handoff-codex-acceptance.md`.
-  Owner preparation commit/push then `$codex-create-handoff` is next. No implementation handoff is active.
+  Preparation is owner committed/pushed as `1fd0031`. Phase 11 implementation is `READY FOR OWNER COMMIT` after
+  final acceptance and independent 787-test verification. See `docs/implementation/handoffs/ACTIVE.md` and
+  `docs/implementation/phase-11/reviews/2026-10-04-phase-11-final-codex-acceptance.md`.
+  Owner commit/push, then ChatGPT Phase 11 closeout/Phase 12 preparation are next; Phase 11 is not frozen yet.
 
 Completed maintenance scope:
 

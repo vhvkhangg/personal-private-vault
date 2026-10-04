@@ -29,5 +29,10 @@
  * <p>Canonical architecture references: {@code docs/architecture/module-boundaries.md} and
  * {@code docs/architecture/module-dependency-matrix.md}.</p>
  */
-@org.springframework.modulith.ApplicationModule(allowedDependencies = { "reference", "location" })
+@org.springframework.modulith.ApplicationModule(allowedDependencies = {
+        "reference::catalog",
+        "reference::view",
+        "location::address",
+        "location::view"
+})
 package com.vhvkhangg.personalprivatevault.personal;

@@ -2,8 +2,13 @@
 
 Status: **READY FOR HANDOFF**
 
+Implementation status: **READY FOR OWNER COMMIT** after
+[`Codex final acceptance`](reviews/2026-10-04-phase-11-final-codex-acceptance.md). FR11-1 through FR11-9 are closed;
+independent clean verify passed all 787 tests. Owner commit/push, then ChatGPT closeout and Phase 12 preparation
+are next. Phase 11 is not complete/frozen; preparation acceptance below is historical.
+
 Current review: [`reviews/2026-10-01-phase-11-pre-handoff-codex-acceptance.md`](reviews/2026-10-01-phase-11-pre-handoff-codex-acceptance.md).
-P11-1/P11-2 closed. Owner commits/pushes accepted preparation, then invokes `$codex-create-handoff`.
+P11-1/P11-2 closed. Preparation was owner committed/pushed as `1fd0031`; the active implementation handoff is accepted.
 
 Phase 11 implements three independent top-level Spring Modulith modules:
 
