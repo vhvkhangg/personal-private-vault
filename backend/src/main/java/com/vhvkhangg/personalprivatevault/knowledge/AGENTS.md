@@ -75,3 +75,25 @@ Phase 8 production changes require:
 
 1. Phase 8 preparation review = `READY FOR HANDOFF`;
 2. an active approved Phase 8 handoff.
+
+## Phase 12 read-only search extension
+
+An accepted Phase 12 handoff may modify this otherwise-frozen module **only** to add the read-only global-search
+contract/query support defined by `docs/implementation/phase-12/README.md`.
+
+Allowed:
+
+- semantic public `search` named interface;
+- owner-local search query/application/repository methods;
+- search-only package descriptors/tests;
+- Vault batch qualification/tag calls where this module already legally depends on Vault.
+
+Not allowed:
+
+- changing existing mutation/validation/lifecycle semantics;
+- exposing entities/repositories/internals;
+- importing the top-level `search` module;
+- reading another module's repository/table directly;
+- adding unbounded lists or per-hit cross-module calls.
+
+The Phase 12 active handoff, when present, is the authority for this narrow exception to the original phase gate.

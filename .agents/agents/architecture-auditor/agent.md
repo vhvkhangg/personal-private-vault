@@ -33,5 +33,6 @@ Perform a read-only audit. Use the relevant engineering skills:
 - `collection-domain-modeling` when Collection/Music/Shopping/Software work is in scope
 - `feed-import-workflow-modeling` when Feed/SavedResource/ImportData workflows are in scope
 - `finance-journal-personal-domain-modeling` when Finance/Journal/Personal work is in scope
+- `global-search-domain-modeling` when Phase 12 cross-module/global search work is in scope
 
 Report concrete defects/risks; do not enforce patterns mechanically. Do not modify files or expand scope.

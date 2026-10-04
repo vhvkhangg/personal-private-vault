@@ -7,7 +7,8 @@ Private, single-user personal information vault built as a backend-first modular
 Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
 Backend Phases 2 (`authentication` + `settings`), 3 (`people`), 4 (`fiction`), 5 (`film`), 6
-(`media` + `location`), 7 (`account`), 8 (`knowledge`), 9 (`collection`), and 10 (`feed` + `importdata`) are **complete and frozen** after owner commit/push. The Phase 1–3 milestone remains
+(`media` + `location`), 7 (`account`), 8 (`knowledge`), 9 (`collection`), 10 (`feed` + `importdata`), and
+11 (`finance` + `journal` + `personal`) are **complete and frozen** after owner commit/push. The Phase 1–3 milestone remains
 `MILESTONE_READY`. The Phase 4–6 milestone is also `MILESTONE_READY` after committed privacy-safe constraint-logging maintenance. Phase 7 (`account`) is complete/frozen after owner commit/push.
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
@@ -36,12 +37,14 @@ Frozen implementation phases:
 - Backend Phase 8 — Knowledge Foundation
 - Backend Phase 9 — Collection Foundation
 - Backend Phase 10 — Feed + ImportData Foundations
+- Backend Phase 11 — Finance + Journal + Personal Foundations
 
 Current gate:
 
 - Phase 7–9 milestone — `MILESTONE_READY` and post-milestone synchronization complete
 - Phase 10 Feed + ImportData — complete/frozen after owner commit/push
-- Phase 11 Finance + Journal + Personal preparation — `READY FOR HANDOFF`; owner preparation commit/push next
+- Phase 11 Finance + Journal + Personal — complete/frozen after owner commit/push
+- Phase 12 PostgreSQL-first Global Search preparation — `READY FOR HANDOFF`; commit/push preparation, then `$codex-create-handoff`
 
 ## Planned stack
 

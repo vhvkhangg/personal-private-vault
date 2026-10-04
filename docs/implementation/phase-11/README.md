@@ -1,14 +1,14 @@
 # Backend Phase 11 — Finance + Journal + Personal Foundations
 
-Status: **READY FOR HANDOFF**
+Status: **COMPLETE — FROZEN (2026-10-04)**
 
-Implementation status: **READY FOR OWNER COMMIT** after
-[`Codex final acceptance`](reviews/2026-10-04-phase-11-final-codex-acceptance.md). FR11-1 through FR11-9 are closed;
-independent clean verify passed all 787 tests. Owner commit/push, then ChatGPT closeout and Phase 12 preparation
-are next. Phase 11 is not complete/frozen; preparation acceptance below is historical.
+Implementation status: **COMPLETE — FROZEN** after Codex final acceptance, independent 787-test clean verification,
+and owner commit/push. FR11-1 through FR11-9 are closed. The completed handoff is archived in
+[`handoff.md`](handoff.md). Preparation/implementation details below are retained as historical contract/evidence.
 
-Current review: [`reviews/2026-10-01-phase-11-pre-handoff-codex-acceptance.md`](reviews/2026-10-01-phase-11-pre-handoff-codex-acceptance.md).
-P11-1/P11-2 closed. Preparation was owner committed/pushed as `1fd0031`; the active implementation handoff is accepted.
+Current review: [`reviews/2026-10-04-phase-11-final-codex-acceptance.md`](reviews/2026-10-04-phase-11-final-codex-acceptance.md).
+FR11-1 through FR11-9 are closed. Preparation was owner committed/pushed as `1fd0031`; the accepted implementation
+is now owner committed/pushed and frozen.
 
 Phase 11 implements three independent top-level Spring Modulith modules:
 
@@ -16,11 +16,9 @@ Phase 11 implements three independent top-level Spring Modulith modules:
 - `journal`
 - `personal`
 
-No Phase 11 production implementation is authorized until:
+Phase 11 implementation is complete, final-reviewed, owner committed/pushed, and frozen.
 
-1. this preparation passes `$codex-pre-handoff-review`;
-2. the approved Phase 11 preparation slice is committed/pushed;
-3. `$codex-create-handoff` creates an active Phase 11 implementation handoff.
+Future Finance/Journal/Personal changes require a new owner-approved feature or maintenance scope.
 
 Phase 11 is **not** a milestone phase. The next milestone occurs after Phase 12.
 
@@ -770,3 +768,20 @@ Reused without new custom agents/hooks:
 - `backend-implementer`
 - `architecture-auditor`
 - repository safety hook
+
+
+## Completion record
+
+- Preparation owner commit/push: `1fd0031`.
+- Final Codex acceptance:
+  [`reviews/2026-10-04-phase-11-final-codex-acceptance.md`](reviews/2026-10-04-phase-11-final-codex-acceptance.md).
+- Owner implementation commit/push: completed 2026-10-04.
+- Independent final verification: **787 tests**, 0 failures/errors/skips.
+- Pre-Phase-11 baseline: 685 tests.
+- Phase 11 additions: 95 domain tests + 7 architecture tests.
+- PostgreSQL 18.6 Testcontainers, Flyway/Hibernate validation, Spring Modulith verification, and `git diff --check`
+  passed according to retained evidence.
+- Completed handoff: [`handoff.md`](handoff.md).
+- Verification evidence: [`test-evidence.md`](test-evidence.md).
+- Status: **COMPLETE — FROZEN**.
+- Next gate: Phase 12 `$codex-pre-handoff-review`.

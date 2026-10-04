@@ -15,7 +15,8 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-8/`](phase-8/README.md) — **COMPLETE / FROZEN** — `knowledge`
 - [`phase-9/`](phase-9/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `collection`
 - [`phase-10/`](phase-10/README.md) — **COMPLETE / FROZEN** — `feed` + `importdata`
-- [`phase-11/`](phase-11/README.md) — **READY FOR OWNER COMMIT** — `finance` + `journal` + `personal`
+- [`phase-11/`](phase-11/README.md) — **COMPLETE / FROZEN** — `finance` + `journal` + `personal`
+- [`phase-12/`](phase-12/README.md) — **READY FOR HANDOFF** — `search`
 
 Maintenance:
 
@@ -25,16 +26,17 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The active Phase 11 implementation handoff is `READY_FOR_OWNER_COMMIT` in [`handoffs/ACTIVE.md`](handoffs/ACTIVE.md).
+There is no active implementation handoff.
 
-Backend Phase 10 Feed + ImportData is complete/frozen after final acceptance and owner commit/push. Its completed
-handoff is archived in [`phase-10/handoff.md`](phase-10/handoff.md), with verification evidence/reviews retained under
-`phase-10/`.
+Backend Phase 11 Finance + Journal + Personal is complete/frozen after final acceptance and owner commit/push. Its
+completed handoff is archived in [`phase-11/handoff.md`](phase-11/handoff.md), with verification evidence/reviews
+retained under `phase-11/`.
 
-Backend Phase 11 Finance + Journal + Personal preparation was owner committed/pushed as `1fd0031`. Implementation
-passed [Codex final acceptance](phase-11/reviews/2026-10-04-phase-11-final-codex-acceptance.md) with independent
-787-test clean verification. Owner commit/push, then ChatGPT Phase 11 closeout and Phase 12 preparation are next.
-Phase 11 is not complete/frozen; the next milestone is after Phase 12 completion.
+Backend Phase 12 PostgreSQL-first Global Search preparation is
+[READY FOR HANDOFF](phase-12/reviews/2026-10-04-phase-12-pre-handoff-codex-acceptance.md); P12-1/P12-2 closed.
+Owner commits/pushes the preparation slice, then invokes `$codex-create-handoff`. No implementation handoff is active.
+
+Phase 12 completion will trigger the mandatory Phase 10–12 milestone review before Phase 13.
 
 ## Operational guidance
 

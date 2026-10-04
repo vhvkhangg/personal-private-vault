@@ -28,12 +28,12 @@ This file defines repository-wide instructions for coding agents.
   synchronization/reset is complete.
 - Backend Phase 10 (`feed` + `importdata`) is complete/frozen after final acceptance, independent 685-test
   verification, and owner commit/push.
-- Backend Phase 11 (`finance` + `journal` + `personal`) preparation is `READY FOR HANDOFF`; P11-1/P11-2 closed.
-  See `docs/implementation/phase-11/reviews/2026-10-01-phase-11-pre-handoff-codex-acceptance.md`.
-  Preparation is owner committed/pushed as `1fd0031`. Phase 11 implementation is `READY FOR OWNER COMMIT` after
-  final acceptance and independent 787-test verification. See `docs/implementation/handoffs/ACTIVE.md` and
-  `docs/implementation/phase-11/reviews/2026-10-04-phase-11-final-codex-acceptance.md`.
-  Owner commit/push, then ChatGPT Phase 11 closeout/Phase 12 preparation are next; Phase 11 is not frozen yet.
+- Backend Phase 11 (`finance` + `journal` + `personal`) is complete/frozen after final acceptance, independent
+  787-test verification, and owner commit/push.
+- Backend Phase 12 (`search`) preparation is `READY FOR HANDOFF`; P12-1/P12-2 closed. Owner preparation commit/push,
+  then `$codex-create-handoff` are next; no implementation handoff is active.
+  See `docs/implementation/phase-12/reviews/2026-10-04-phase-12-pre-handoff-codex-acceptance.md`.
+  Phase 12 completion triggers the Phase 10–12 milestone review before Phase 13.
 
 Completed maintenance scope:
 
@@ -117,6 +117,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 8 knowledge foundation baseline
 - Backend Phase 9 collection foundation baseline
 - Backend Phase 10 feed/importdata foundation baseline
+- Backend Phase 11 finance/journal/personal foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

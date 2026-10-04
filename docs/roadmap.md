@@ -24,8 +24,8 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 8     | `knowledge` + study/information/vocabulary/note                                               | P-8 complete                                        | **COMPLETE — FROZEN** | —                    |
 | 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 10    | `feed` + `importdata` workflows                                                               | P-10 complete                                       | **COMPLETE — FROZEN** | —                    |
-| 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **READY FOR OWNER COMMIT** | —             |
-| 12    | PostgreSQL-first global `search` orchestration                                                | P-12 planned                                        | Not started           | **After completion** |
+| 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **COMPLETE — FROZEN** | —                    |
+| 12    | PostgreSQL-first global `search` orchestration                                                | **P-12: READY FOR HANDOFF**                        | Not started           | **After completion** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 planned                                        | Not started           | —                    |
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 planned                                        | Not started           | —                    |
 | 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
@@ -132,13 +132,28 @@ without live feed HTTP providers, scheduler runtime, REST, frontend, or object-s
 ## Phase 11 preparation
 
 Phase 10 Feed + ImportData is complete/frozen after owner commit/push with 685 passing tests. Phase 11 Finance +
-Journal + Personal preparation was accepted and owner committed/pushed as `1fd0031`. Implementation is
-`READY FOR OWNER COMMIT` after [Codex final acceptance](implementation/phase-11/reviews/2026-10-04-phase-11-final-codex-acceptance.md)
-and independent 787-test clean verification; FR11-1 through FR11-9 are closed. Owner commit/push, then ChatGPT
-Phase 11 closeout and Phase 12 preparation are next. Phase 11 is not frozen yet; the next milestone follows Phase 12.
+Journal + Personal preparation was accepted and owner committed/pushed as `1fd0031`. Implementation passed [Codex final acceptance](implementation/phase-11/reviews/2026-10-04-phase-11-final-codex-acceptance.md)
+and independent 787-test clean verification; FR11-1 through FR11-9 are closed. The owner committed/pushed the
+accepted implementation and ChatGPT completed Phase 11 closeout. Phase 12 preparation is now the current gate.
 
 Phase 11 keeps Finance, Journal, and Personal as independent top-level modules over unchanged Schema v1. Recurring
 finance scheduler/auto-post runtime remains deferred; Phase 11 establishes ledger/configuration/lifecycle foundations.
+
+## Phase 12 preparation
+
+Phase 11 Finance + Journal + Personal is complete/frozen after owner commit/push with 787 passing tests.
+
+Phase 12 prepares PostgreSQL-first global Search as a no-table leaf/orchestration module. It adds only narrow
+read-only search contracts to the frozen searchable modules, Vault-owned tag/trash qualification, deterministic
+cross-module ranking, and an append-only pg_trgm/index migration during implementation.
+
+Phase 12 preparation is
+[READY FOR HANDOFF](implementation/phase-12/reviews/2026-10-04-phase-12-pre-handoff-codex-acceptance.md);
+P12-1/P12-2 closed. Owner preparation commit/push, then `$codex-create-handoff` are next. No implementation handoff
+is active.
+
+After accepted Phase 12 implementation is owner committed/pushed, the mandatory Phase 10–12 milestone review must
+pass before Phase 13 preparation.
 
 ## Completed Phase 4–6 milestone maintenance
 
