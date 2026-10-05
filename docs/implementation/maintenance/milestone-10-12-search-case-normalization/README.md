@@ -1,6 +1,6 @@
 # Phase 10–12 Milestone Search Case-Normalization Maintenance
 
-Status: **READY FOR OWNER COMMIT** — 2026-10-05; FRM10-12-1 closed.
+Status: **COMPLETE / FROZEN** — owner committed/pushed `a881540` on 2026-10-05; FRM10-12-1/M10-12-1 closed.
 
 Owner approval: **2026-10-04**
 
@@ -9,16 +9,18 @@ handoff ID `maintenance-milestone-10-12-search-case-normalization`.
 The owner approval above is retained. Independent clean verify passed 817 tests (zero failures/errors/skips);
 the genuine long-body casing-expansion regression and evidence corrections close FRM10-12-1.
 See [formal final acceptance](reviews/2026-10-05-final-codex-acceptance.md).
-Next step: owner commits/pushes the accepted maintenance package, then reruns `$codex-milestone-review`.
+The owner committed/pushed the accepted maintenance as `a88154072afe26035accce58e1acb127ea253028`.
+[Milestone acceptance](../../phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md) is `MILESTONE_READY`.
+Next step: owner commits/pushes milestone review/status docs, then ChatGPT post-milestone synchronization/reset.
 
 Trigger:
 [`../../phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md`](../../phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md)
 
 Trigger finding: **M10-12-1 — Search Java/PostgreSQL case-normalization mismatch**.
-Maintenance implementation accepted; milestone closure awaits owner commit/push and milestone re-review.
+Maintenance implementation accepted/committed and milestone finding closed; no reopened production scope remains.
 
-This is one narrow maintenance implementation slice that temporarily reopens only the frozen Phase 12 read-only
-Search implementation needed to close M10-12-1. Phases 10 and 11 remain untouched.
+This was one narrow maintenance implementation slice that temporarily reopened only the frozen Phase 12 read-only
+Search implementation needed to close M10-12-1. It is now frozen again. Phases 10 and 11 remained untouched.
 
 Phase 13 remains blocked. This maintenance uses the milestone-maintenance exception and does **not** require a
 numbered-phase pre-handoff review.
@@ -293,16 +295,13 @@ docs/implementation/maintenance/milestone-10-12-search-case-normalization/test-e
 
 This scope is owner-approved and intentionally uses the maintenance exception.
 
-The maintenance handoff is `READY_FOR_OWNER_COMMIT`; FRM10-12-1 is closed.
-Owner commit/push is next; agents do not publish changes.
+Maintenance is owner committed/pushed as `a881540`; the milestone is `MILESTONE_READY`.
+The active handoff retains its historical acceptance marker until ChatGPT archives/resets it; it is not executable.
 
 The maintenance exception was used without a numbered-phase `$codex-pre-handoff-review` gate.
 
-After owner commit/push of the accepted maintenance, rerun:
-
-```text
-$codex-milestone-review
-```
+Owner commits/pushes the milestone review/status package next, then gives the latest package to ChatGPT for
+post-milestone synchronization/reset and Phase 13 preparation before `$codex-pre-handoff-review`.
 
 Phase 13 remains blocked until the milestone returns `MILESTONE_READY`, the milestone review/status package is
 owner committed/pushed, and ChatGPT completes post-milestone synchronization/reset.

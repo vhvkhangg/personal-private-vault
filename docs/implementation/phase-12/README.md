@@ -6,11 +6,11 @@ Codex [final acceptance](reviews/2026-10-04-phase-12-final-codex-acceptance.md) 
 Independent clean verify passed 815 tests (0 failures, 0 errors, 0 skips). The owner subsequently committed/pushed
 the accepted implementation. Phase 12 is now complete/frozen; its completed handoff is archived in
 [`handoff.md`](handoff.md). Preparation was owner committed/pushed as `44fdaa9`; P12-1/P12-2 remain closed.
-The Phase 10–12 milestone is **CHANGES_REQUESTED** for M10-12-1 Search SQL/snippet case-normalization consistency.
-See the [formal milestone review](reviews/2026-10-04-phase-10-12-milestone-codex-review.md) and
-[canonical milestone status](milestone-review.md). Maintenance final acceptance is `READY FOR OWNER COMMIT`;
-FRM10-12-1 closed, independent 817-test verification passed. Owner commit/push is next, then `$codex-milestone-review`.
-Phase 13 remains blocked; no broader frozen-module work is authorized.
+The Phase 10–12 milestone is **MILESTONE_READY**; M10-12-1 closed after accepted maintenance owner commit/push `a881540`.
+See [formal milestone acceptance](reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md) and
+[canonical milestone status](milestone-review.md). Fresh milestone verification passed 817 tests.
+Owner commits/pushes milestone review/status docs next, then ChatGPT completes post-milestone synchronization/reset.
+Phase 13 preparation remains gated until those steps; no broader frozen-module work is authorized.
 
 Phase 12 implements the dedicated top-level `search` orchestration module and narrow read-only search contracts inside
 the already-frozen searchable feature modules.

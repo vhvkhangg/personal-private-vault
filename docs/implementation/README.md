@@ -26,18 +26,17 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The [active handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` for approved M10-12-1 maintenance; FRM10-12-1 closed.
+The [active handoff](handoffs/ACTIVE.md) retains its maintenance acceptance marker; that maintenance is owner
+committed/pushed as `a881540` and complete/frozen. ChatGPT post-milestone archive/reset is pending; do not execute it or create the next handoff.
 
 Backend Phases 10, 11, and 12 are complete/frozen after final acceptance and owner commit/push. Phase 12's completed
 handoff is archived in [`phase-12/handoff.md`](phase-12/handoff.md), with retained evidence/reviews under `phase-12/`.
 
-The [`Phase 10–12 milestone`](phase-12/milestone-review.md) is **CHANGES_REQUESTED** for M10-12-1 Search
-SQL/snippet case-normalization consistency. See the
-[formal review](phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md).
-Independent clean verification passed 815 tests; a disposable PostgreSQL probe reproduced the uncovered defect.
-Maintenance [final acceptance](maintenance/milestone-10-12-search-case-normalization/reviews/2026-10-05-final-codex-acceptance.md)
-passed 817 tests independently. Owner commit/push is next, then `$codex-milestone-review`.
-The milestone gate remains separate; no Phase 13 scope is opened.
+The [`Phase 10–12 milestone`](phase-12/milestone-review.md) is **MILESTONE_READY**; M10-12-1 and FRM10-12-1 closed.
+See [formal milestone acceptance](phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md).
+Fresh committed-baseline clean verification passed 817 tests, zero failures/errors/skips.
+Owner commits/pushes the milestone review/status package next, then gives the latest package to ChatGPT for
+post-milestone synchronization/reset and Phase 13 preparation. No Phase 13 scope is opened by this review.
 
 Do **not** prepare Phase 13 and do not create an implementation handoff until the milestone reaches
 `MILESTONE_READY`, the owner commits/pushes the milestone review/status package, and ChatGPT performs post-milestone

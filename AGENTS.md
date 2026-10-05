@@ -32,11 +32,11 @@ This file defines repository-wide instructions for coding agents.
   787-test verification, and owner commit/push.
 - Backend Phase 12 (`search`) is complete/frozen after final acceptance, independent 815-test verification, and
   owner commit/push. Its completed handoff is archived under `docs/implementation/phase-12/handoff.md`.
-- The Phase 10–12 milestone is `CHANGES_REQUESTED` for M10-12-1 Search SQL/snippet case-normalization consistency.
-  See `docs/implementation/phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md`.
-  The maintenance final review is `READY FOR OWNER COMMIT` (2026-10-05); FRM10-12-1 is closed and independent
-  817-test verification passed. Owner commit/push is next, then `$codex-milestone-review`.
-  Phase 13 stays blocked until accepted maintenance, milestone acceptance and post-milestone reset.
+- Search case-normalization maintenance is complete/frozen after owner commit/push as `a881540`; FRM10-12-1 closed.
+- The Phase 10–12 milestone is `MILESTONE_READY` (2026-10-05); M10-12-1 closed and independent 817-test verification passed.
+  See `docs/implementation/phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md`.
+  Owner commits/pushes the milestone review/status docs next, then ChatGPT performs post-milestone synchronization/reset.
+  Phase 13 preparation stays blocked until those steps are complete; no next implementation handoff is authorized.
 
 Completed maintenance scope:
 
@@ -44,6 +44,7 @@ Completed maintenance scope:
 - `docs/implementation/maintenance/pre-phase4-code-hygiene/README.md`
 - `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md`
 - `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`
+- `docs/implementation/maintenance/milestone-10-12-search-case-normalization/README.md`
 
 Architecture-sensitive work must respect:
 

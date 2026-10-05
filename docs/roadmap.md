@@ -25,7 +25,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 10    | `feed` + `importdata` workflows                                                               | P-10 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **COMPLETE — FROZEN** | —                    |
-| 12    | PostgreSQL-first global `search` orchestration                                                | P-12 complete                                       | **COMPLETE — FROZEN** | **CHANGES_REQUESTED** |
+| 12    | PostgreSQL-first global `search` orchestration                                                | P-12 complete                                       | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 planned                                        | Not started           | —                    |
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 planned                                        | Not started           | —                    |
 | 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
@@ -159,12 +159,11 @@ The mandatory Phase 10–12 milestone review must now pass before Phase 13 prepa
 Phases 10–12 are complete/frozen. The current gate is
 [`implementation/phase-12/milestone-review.md`](implementation/phase-12/milestone-review.md).
 
-Codex [milestone review](implementation/phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md)
-returned **CHANGES_REQUESTED** for M10-12-1 Search SQL/snippet case-normalization consistency. Independent
-clean verification passed 815 tests; a disposable PostgreSQL probe reproduced the uncovered defect.
-The maintenance final acceptance is `READY FOR OWNER COMMIT`; FRM10-12-1 is closed and independent 817-test
-verification passed. Owner commit/push is next, then `$codex-milestone-review`.
-No broader frozen-module work or Phase 13 scope is authorized.
+Codex [milestone acceptance](implementation/phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md)
+returned **MILESTONE_READY**; M10-12-1 closed after accepted maintenance owner commit/push `a881540`.
+Fresh milestone clean verification passed 817 tests. Owner commits/pushes milestone review/status docs next,
+then ChatGPT completes post-milestone synchronization/reset and Phase 13 preparation.
+No broader frozen-module work or Phase 13 scope is authorized by this review.
 
 Phase 13 preparation remains blocked until the milestone is `MILESTONE_READY`, the owner commits/pushes the milestone
 review/status package, and ChatGPT completes post-milestone synchronization/reset.

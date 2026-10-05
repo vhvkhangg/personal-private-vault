@@ -46,7 +46,7 @@ Current gate:
 - Phase 10 Feed + ImportData — complete/frozen after owner commit/push
 - Phase 11 Finance + Journal + Personal — complete/frozen after owner commit/push
 - Phase 12 PostgreSQL-first Global Search — complete/frozen after owner commit/push
-- Phase 10–12 milestone — `CHANGES_REQUESTED` pending maintenance commit/re-review; maintenance `READY FOR OWNER COMMIT`, FRM10-12-1 closed (817 tests pass); owner commit/push, then `$codex-milestone-review`; Phase 13 remains blocked
+- Phase 10–12 milestone — `MILESTONE_READY`; M10-12-1 closed after committed `a881540` maintenance, 817 tests pass; owner commits/pushes milestone docs, then ChatGPT post-milestone reset; Phase 13 preparation remains gated
 
 ## Planned stack
 

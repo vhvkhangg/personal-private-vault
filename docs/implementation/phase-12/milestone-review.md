@@ -1,29 +1,28 @@
 # Phase 10–12 Milestone Review
 
-Status: **CHANGES_REQUESTED**
+Status: **MILESTONE_READY** — 2026-10-05.
 
-Codex [2026-10-04 milestone review](reviews/2026-10-04-phase-10-12-milestone-codex-review.md) found one Medium
-blocker, **M10-12-1**: Java/default-locale and PostgreSQL case normalization disagree across owner SQL/tag search,
-including an identical Unicode title/query failure under Locale.ROOT and locale-dependent snippet matching.
-Independent clean verify passed 815 tests, zero failures/errors/skips, finished 2026-10-04T20:30:19+07:00;
-a separate disposable PostgreSQL diagnostic reproduced the missing cases. Those results describe the pre-maintenance baseline.
+Codex [2026-10-05 milestone acceptance](reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md)
+closes **M10-12-1**. The owner-approved Search SQL/snippet
+[maintenance](../maintenance/milestone-10-12-search-case-normalization/README.md) was accepted (FRM10-12-1 closed)
+and owner committed/pushed as `a88154072afe26035accce58e1acb127ea253028`; HEAD equals local `origin/main`.
+Fresh committed-baseline clean verify passed 817 tests, zero failures/errors/skips, 01:47 min,
+finished `2026-10-05T07:26:35+07:00`. No blocking cross-phase findings remain.
 
-The owner approved the narrow Search normalization/snippet maintenance scope and ChatGPT prepared the canonical
-[maintenance slice](../maintenance/milestone-10-12-search-case-normalization/README.md). Its
-[final acceptance](../maintenance/milestone-10-12-search-case-normalization/reviews/2026-10-05-final-codex-acceptance.md)
-and [active maintenance handoff](../handoffs/ACTIVE.md) are `READY FOR OWNER COMMIT`; FRM10-12-1 is closed.
-Independent maintenance clean verify passed 817 tests. M10-12-1 implementation is accepted, but milestone closure
-still requires the owner commit/push and a separate milestone re-review.
-Phase 13 remains blocked; milestone status is unchanged until maintenance acceptance and re-review.
+The [2026-10-04 review](reviews/2026-10-04-phase-10-12-milestone-codex-review.md) remains historical.
+Low inherited placeholder/warning debt and accepted Search body-scan/planner/snapshot limitations are disclosed in acceptance.
+The existing active maintenance handoff is retained unchanged for post-milestone archive/reset; no next handoff is authorized.
 
-Next step: owner commits/pushes the accepted maintenance package, then reruns `$codex-milestone-review`.
+Next step: owner commits/pushes this milestone review/status package, then gives the latest package to ChatGPT for
+post-milestone synchronization/reset and Phase 13 preparation, before `$codex-pre-handoff-review`.
 
 ## Trigger
 
 Backend Phase 12 PostgreSQL-first Global Search passed final Codex acceptance and the owner committed/pushed the
 accepted implementation.
 
-Phases 10, 11, and 12 are now complete/frozen. This milestone review must pass before Phase 13 preparation begins.
+Phases 10, 11, and 12 are complete/frozen. This milestone has passed; its docs must be owner committed/pushed and
+ChatGPT must complete post-milestone synchronization/reset before Phase 13 preparation begins.
 
 ## Review window
 

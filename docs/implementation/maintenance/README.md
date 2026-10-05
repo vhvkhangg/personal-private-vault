@@ -25,5 +25,5 @@ Slices:
   **COMPLETE / FROZEN** — owner committed `785dd7d`; milestone re-review `MILESTONE_READY`.
 
 - [`milestone-10-12-search-case-normalization/`](milestone-10-12-search-case-normalization/README.md) —
-  **READY FOR OWNER COMMIT** — FRM10-12-1 closed; independent 817-test verification passed;
-  owner commit/push next, then `$codex-milestone-review`; Phase 13 blocked.
+  **COMPLETE / FROZEN** — owner committed/pushed `a881540`; FRM10-12-1/M10-12-1 closed;
+  milestone `MILESTONE_READY`, independent 817-test verification passed. Milestone docs commit/reset next.

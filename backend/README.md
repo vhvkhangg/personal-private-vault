@@ -97,11 +97,10 @@ full verification passed 815 tests. See `../docs/implementation/phase-12/README.
 
 ## Current milestone gate
 
-The Phase 10–12 milestone is `CHANGES_REQUESTED` for M10-12-1 Search SQL/snippet case-normalization consistency.
-See `../docs/implementation/phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md`.
-Independent milestone clean verification passed 815 tests. Maintenance final acceptance independently passed 817 tests
-and is `READY FOR OWNER COMMIT`; FRM10-12-1 is closed. Owner commit/push is next, then `$codex-milestone-review`.
-The milestone gate remains separate; no broader frozen-module work is authorized.
+The Phase 10–12 milestone is `MILESTONE_READY`; M10-12-1 is closed after accepted maintenance owner commit/push `a881540`.
+See `../docs/implementation/phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md`.
+Fresh milestone clean verification passed 817 tests. Owner commits/pushes the milestone review/status docs next,
+then ChatGPT performs post-milestone synchronization/reset. No broader frozen-module work is authorized.
 
 Phase 13 preparation remains blocked until the milestone reaches `MILESTONE_READY`, the owner commits/pushes the
 milestone review/status package, and ChatGPT completes post-milestone synchronization/reset.

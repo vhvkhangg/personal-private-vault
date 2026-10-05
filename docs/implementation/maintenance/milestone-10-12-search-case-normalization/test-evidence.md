@@ -3,7 +3,7 @@
 - Date: 2026-10-04 (remediated 2026-10-05)
 - Handoff ID: `maintenance-milestone-10-12-search-case-normalization`
 - Trigger Finding: M10-12-1 — Search Java/PostgreSQL case-normalization mismatch
-- Status: `READY_FOR_OWNER_COMMIT` — Codex acceptance 2026-10-05; FRM10-12-1 closed.
+- Status: `COMPLETE / FROZEN` — Codex acceptance 2026-10-05; owner committed/pushed `a881540`; FRM10-12-1 closed.
 - Implementer: Antigravity
 - Final reviewer: Codex
 - Pre-maintenance baseline: 815 tests (clean verify, 0 failures, 0 errors, 0 skips)
@@ -21,7 +21,9 @@ All 15 SQL query text blocks were rechecked against HEAD: only approved PostgreS
 The long U+0130 BODY regression closes FRM10-12-1. See [formal acceptance](reviews/2026-10-05-final-codex-acceptance.md).
 No separate Codex focused command was run; the independent full run executes all focused tests.
 Inherited Lombok/Unsafe and test-support compiler deprecations also remain; no IDE inspection/warning-free claim.
-Next: owner commit/push, then `$codex-milestone-review`. Milestone/Phase 13 gates remain separate.
+Owner subsequently committed/pushed `a881540`. Fresh milestone verification passed 817 tests, zero failures/errors/skips,
+01:47 min, finished `2026-10-05T07:26:35+07:00`; [milestone acceptance](../../phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md)
+is `MILESTONE_READY`. Next: owner commits/pushes milestone docs, then ChatGPT post-milestone synchronization/reset.
 
 ## Codex independent review & Antigravity remediation — 2026-10-04 / 2026-10-05
 
