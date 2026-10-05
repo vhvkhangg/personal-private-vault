@@ -39,10 +39,10 @@ public class FeedSearchService implements FeedSearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.query().trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String prefixPattern = escapeLike(lowerQuery) + "%";
-        String substringPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String prefixPattern = escapedRaw + "%";
+        String substringPattern = "%" + escapedRaw + "%";
 
         int targetCount = query.limit();
         int pageSize = Math.min(Math.max(targetCount, 50), 100);
@@ -58,77 +58,77 @@ public class FeedSearchService implements FeedSearchOperations {
                     COALESCE(sr.source_name, sr.author) AS secondary_text,
                     sr.summary AS summary_text,
                     CASE
-                        WHEN lower(sr.title) = :lowerQuery THEN 600
-                        WHEN lower(sr.title) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN lower(sr.title) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) = :lowerQuery)
-                          OR (sr.author IS NOT NULL AND lower(sr.author) = :lowerQuery)
-                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) = :lowerQuery)
-                          OR (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE :prefixPattern ESCAPE '\\')
-                          OR (sr.author IS NOT NULL AND lower(sr.author) LIKE :prefixPattern ESCAPE '\\')
-                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE :prefixPattern ESCAPE '\\') THEN 450
-                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE :substringPattern ESCAPE '\\')
-                          OR (sr.author IS NOT NULL AND lower(sr.author) LIKE :substringPattern ESCAPE '\\')
-                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE :substringPattern ESCAPE '\\') THEN 400
+                        WHEN lower(sr.title) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN lower(sr.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN lower(sr.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) = lower(CAST(:rawQuery AS text)))
+                          OR (sr.author IS NOT NULL AND lower(sr.author) = lower(CAST(:rawQuery AS text)))
+                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) = lower(CAST(:rawQuery AS text)))
+                          OR (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (sr.author IS NOT NULL AND lower(sr.author) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 450
+                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (sr.author IS NOT NULL AND lower(sr.author) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 400
                         WHEN :enableFuzzy AND (
-                            (lower(sr.title) % :lowerQuery AND similarity(lower(sr.title), :lowerQuery) >= 0.30)
-                            OR (sr.source_name IS NOT NULL AND similarity(lower(sr.source_name), :lowerQuery) >= 0.30)
-                            OR (sr.author IS NOT NULL AND similarity(lower(sr.author), :lowerQuery) >= 0.30)
+                            (lower(sr.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(sr.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (sr.source_name IS NOT NULL AND similarity(lower(sr.source_name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (sr.author IS NOT NULL AND similarity(lower(sr.author), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 350
-                        WHEN sr.summary IS NOT NULL AND lower(sr.summary) LIKE :substringPattern ESCAPE '\\' THEN 200
+                        WHEN sr.summary IS NOT NULL AND lower(sr.summary) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 200
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN lower(sr.title) = :lowerQuery THEN 0.0
-                        WHEN lower(sr.title) LIKE :prefixPattern ESCAPE '\\' THEN 0.0
-                        WHEN lower(sr.title) LIKE :substringPattern ESCAPE '\\' THEN 0.0
-                        WHEN (sr.source_name IS NOT NULL AND (lower(sr.source_name) = :lowerQuery OR lower(sr.source_name) LIKE :prefixPattern ESCAPE '\\' OR lower(sr.source_name) LIKE :substringPattern ESCAPE '\\'))
-                          OR (sr.author IS NOT NULL AND (lower(sr.author) = :lowerQuery OR lower(sr.author) LIKE :prefixPattern ESCAPE '\\' OR lower(sr.author) LIKE :substringPattern ESCAPE '\\'))
-                          OR (sr.external_id IS NOT NULL AND (lower(sr.external_id) = :lowerQuery OR lower(sr.external_id) LIKE :prefixPattern ESCAPE '\\' OR lower(sr.external_id) LIKE :substringPattern ESCAPE '\\')) THEN 0.0
+                        WHEN lower(sr.title) = lower(CAST(:rawQuery AS text)) THEN 0.0
+                        WHEN lower(sr.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN lower(sr.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN (sr.source_name IS NOT NULL AND (lower(sr.source_name) = lower(CAST(:rawQuery AS text)) OR lower(sr.source_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(sr.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'))
+                          OR (sr.author IS NOT NULL AND (lower(sr.author) = lower(CAST(:rawQuery AS text)) OR lower(sr.author) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(sr.author) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'))
+                          OR (sr.external_id IS NOT NULL AND (lower(sr.external_id) = lower(CAST(:rawQuery AS text)) OR lower(sr.external_id) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(sr.external_id) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')) THEN 0.0
                         WHEN :enableFuzzy AND (
-                            (lower(sr.title) % :lowerQuery AND similarity(lower(sr.title), :lowerQuery) >= 0.30)
-                            OR (sr.source_name IS NOT NULL AND similarity(lower(sr.source_name), :lowerQuery) >= 0.30)
-                            OR (sr.author IS NOT NULL AND similarity(lower(sr.author), :lowerQuery) >= 0.30)
+                            (lower(sr.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(sr.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (sr.source_name IS NOT NULL AND similarity(lower(sr.source_name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (sr.author IS NOT NULL AND similarity(lower(sr.author), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN GREATEST(
-                            similarity(lower(sr.title), :lowerQuery),
-                            CASE WHEN sr.source_name IS NOT NULL THEN similarity(lower(sr.source_name), :lowerQuery) ELSE 0.0 END,
-                            CASE WHEN sr.author IS NOT NULL THEN similarity(lower(sr.author), :lowerQuery) ELSE 0.0 END
+                            similarity(lower(sr.title), lower(CAST(:rawQuery AS text))),
+                            CASE WHEN sr.source_name IS NOT NULL THEN similarity(lower(sr.source_name), lower(CAST(:rawQuery AS text))) ELSE 0.0 END,
+                            CASE WHEN sr.author IS NOT NULL THEN similarity(lower(sr.author), lower(CAST(:rawQuery AS text))) ELSE 0.0 END
                         )
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN lower(sr.title) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN lower(sr.title) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN lower(sr.title) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) = :lowerQuery)
-                          OR (sr.author IS NOT NULL AND lower(sr.author) = :lowerQuery)
-                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) = :lowerQuery) THEN 'SECONDARY_EXACT'
-                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE :prefixPattern ESCAPE '\\')
-                          OR (sr.author IS NOT NULL AND lower(sr.author) LIKE :prefixPattern ESCAPE '\\')
-                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE :prefixPattern ESCAPE '\\') THEN 'SECONDARY_PREFIX'
-                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE :substringPattern ESCAPE '\\')
-                          OR (sr.author IS NOT NULL AND lower(sr.author) LIKE :substringPattern ESCAPE '\\')
-                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE :substringPattern ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
+                        WHEN lower(sr.title) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN lower(sr.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN lower(sr.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) = lower(CAST(:rawQuery AS text)))
+                          OR (sr.author IS NOT NULL AND lower(sr.author) = lower(CAST(:rawQuery AS text)))
+                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) = lower(CAST(:rawQuery AS text))) THEN 'SECONDARY_EXACT'
+                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (sr.author IS NOT NULL AND lower(sr.author) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_PREFIX'
+                        WHEN (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (sr.author IS NOT NULL AND lower(sr.author) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
                         WHEN :enableFuzzy AND (
-                            (lower(sr.title) % :lowerQuery AND similarity(lower(sr.title), :lowerQuery) >= 0.30)
-                            OR (sr.source_name IS NOT NULL AND similarity(lower(sr.source_name), :lowerQuery) >= 0.30)
-                            OR (sr.author IS NOT NULL AND similarity(lower(sr.author), :lowerQuery) >= 0.30)
+                            (lower(sr.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(sr.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (sr.source_name IS NOT NULL AND similarity(lower(sr.source_name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (sr.author IS NOT NULL AND similarity(lower(sr.author), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 'SHORT_FUZZY'
-                        WHEN sr.summary IS NOT NULL AND lower(sr.summary) LIKE :substringPattern ESCAPE '\\' THEN 'BODY'
+                        WHEN sr.summary IS NOT NULL AND lower(sr.summary) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'BODY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM saved_resources sr
                 WHERE (
-                    lower(sr.title) LIKE :substringPattern ESCAPE '\\'
-                    OR (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE :substringPattern ESCAPE '\\')
-                    OR (sr.author IS NOT NULL AND lower(sr.author) LIKE :substringPattern ESCAPE '\\')
-                    OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE :substringPattern ESCAPE '\\')
+                    lower(sr.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                    OR (sr.source_name IS NOT NULL AND lower(sr.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (sr.author IS NOT NULL AND lower(sr.author) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (sr.external_id IS NOT NULL AND lower(sr.external_id) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                     OR (:enableFuzzy AND (
-                        (lower(sr.title) % :lowerQuery AND similarity(lower(sr.title), :lowerQuery) >= 0.30)
-                        OR (sr.source_name IS NOT NULL AND similarity(lower(sr.source_name), :lowerQuery) >= 0.30)
-                        OR (sr.author IS NOT NULL AND similarity(lower(sr.author), :lowerQuery) >= 0.30)
+                        (lower(sr.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(sr.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                        OR (sr.source_name IS NOT NULL AND similarity(lower(sr.source_name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                        OR (sr.author IS NOT NULL AND similarity(lower(sr.author), lower(CAST(:rawQuery AS text))) >= 0.30)
                     ))
-                    OR (sr.summary IS NOT NULL AND lower(sr.summary) LIKE :substringPattern ESCAPE '\\')
+                    OR (sr.summary IS NOT NULL AND lower(sr.summary) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                 )
                 ORDER BY
                     rank_bucket DESC,
@@ -140,7 +140,7 @@ public class FeedSearchService implements FeedSearchOperations {
 
         while (qualifyingHits.size() < targetCount) {
             MapSqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("lowerQuery", lowerQuery)
+                    .addValue("rawQuery", rawQuery)
                     .addValue("prefixPattern", prefixPattern)
                     .addValue("substringPattern", substringPattern)
                     .addValue("enableFuzzy", enableFuzzy)
@@ -236,9 +236,8 @@ public class FeedSearchService implements FeedSearchOperations {
         if (cleaned.isBlank()) {
             return null;
         }
-        String lowerCleaned = cleaned.toLowerCase();
-        String lowerQuery = query.trim().toLowerCase();
-        int index = lowerCleaned.indexOf(lowerQuery);
+        String trimmedQuery = query.trim();
+        int index = findMatchIndex(cleaned, trimmedQuery);
         if (index < 0) {
             return null;
         }
@@ -246,7 +245,7 @@ public class FeedSearchService implements FeedSearchOperations {
             return cleaned;
         }
 
-        int queryLen = lowerQuery.length();
+        int queryLen = trimmedQuery.length();
         int contentLen = cleaned.length();
 
         if (index + queryLen <= maxLength - 3) {
@@ -310,6 +309,25 @@ public class FeedSearchService implements FeedSearchOperations {
             snippet = (needPrefix ? "..." : "") + sub + (needSuffix ? "..." : "");
         }
         return snippet;
+    }
+
+    private static int findMatchIndex(String text, String query) {
+        if (text == null || query == null || query.isEmpty()) {
+            return -1;
+        }
+        int exactIndex = text.indexOf(query);
+        if (exactIndex >= 0) {
+            return exactIndex;
+        }
+        int textLen = text.length();
+        int queryLen = query.length();
+        int limit = textLen - queryLen;
+        for (int i = 0; i <= limit; i++) {
+            if (text.regionMatches(true, i, query, 0, queryLen)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static String cleanPlainText(String input) {

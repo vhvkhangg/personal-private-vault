@@ -43,10 +43,10 @@ public class MediaSearchService implements MediaSearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.query().trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String prefixPattern = escapeLike(lowerQuery) + "%";
-        String substringPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String prefixPattern = escapedRaw + "%";
+        String substringPattern = "%" + escapedRaw + "%";
 
         int targetCount = query.limit();
         int pageSize = Math.min(Math.max(targetCount, 50), 100);
@@ -62,33 +62,33 @@ public class MediaSearchService implements MediaSearchOperations {
                     NULL AS secondary_text,
                     a.description AS description_text,
                     CASE
-                        WHEN lower(a.title) = :lowerQuery THEN 600
-                        WHEN lower(a.title) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN lower(a.title) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN :enableFuzzy AND lower(a.title) % :lowerQuery AND similarity(lower(a.title), :lowerQuery) >= 0.30 THEN 350
-                        WHEN a.description IS NOT NULL AND lower(a.description) LIKE :substringPattern ESCAPE '\\' THEN 200
+                        WHEN lower(a.title) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN lower(a.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN lower(a.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN :enableFuzzy AND lower(a.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(a.title), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 350
+                        WHEN a.description IS NOT NULL AND lower(a.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 200
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN lower(a.title) = :lowerQuery THEN 0.0
-                        WHEN lower(a.title) LIKE :prefixPattern ESCAPE '\\' THEN 0.0
-                        WHEN lower(a.title) LIKE :substringPattern ESCAPE '\\' THEN 0.0
-                        WHEN :enableFuzzy AND lower(a.title) % :lowerQuery AND similarity(lower(a.title), :lowerQuery) >= 0.30 THEN similarity(lower(a.title), :lowerQuery)
+                        WHEN lower(a.title) = lower(CAST(:rawQuery AS text)) THEN 0.0
+                        WHEN lower(a.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN lower(a.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN :enableFuzzy AND lower(a.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(a.title), lower(CAST(:rawQuery AS text))) >= 0.30 THEN similarity(lower(a.title), lower(CAST(:rawQuery AS text)))
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN lower(a.title) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN lower(a.title) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN lower(a.title) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN :enableFuzzy AND lower(a.title) % :lowerQuery AND similarity(lower(a.title), :lowerQuery) >= 0.30 THEN 'SHORT_FUZZY'
-                        WHEN a.description IS NOT NULL AND lower(a.description) LIKE :substringPattern ESCAPE '\\' THEN 'BODY'
+                        WHEN lower(a.title) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN lower(a.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN lower(a.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN :enableFuzzy AND lower(a.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(a.title), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 'SHORT_FUZZY'
+                        WHEN a.description IS NOT NULL AND lower(a.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'BODY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM albums a
                 WHERE (
-                    lower(a.title) LIKE :substringPattern ESCAPE '\\'
-                    OR (:enableFuzzy AND lower(a.title) % :lowerQuery AND similarity(lower(a.title), :lowerQuery) >= 0.30)
-                    OR (a.description IS NOT NULL AND lower(a.description) LIKE :substringPattern ESCAPE '\\')
+                    lower(a.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                    OR (:enableFuzzy AND lower(a.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(a.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                    OR (a.description IS NOT NULL AND lower(a.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' )
                 )
                 """;
 
@@ -100,60 +100,60 @@ public class MediaSearchService implements MediaSearchOperations {
                     i.location_text AS secondary_text,
                     NULL AS description_text,
                     CASE
-                        WHEN i.title IS NOT NULL AND lower(i.title) = :lowerQuery THEN 600
-                        WHEN i.title IS NOT NULL AND lower(i.title) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN i.title IS NOT NULL AND lower(i.title) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) = :lowerQuery)
-                          OR (i.image_type IS NOT NULL AND lower(i.image_type) = :lowerQuery)
-                          OR (i.location_text IS NOT NULL AND lower(i.location_text) LIKE :prefixPattern ESCAPE '\\')
-                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE :prefixPattern ESCAPE '\\') THEN 450
-                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) LIKE :substringPattern ESCAPE '\\')
-                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE :substringPattern ESCAPE '\\') THEN 400
+                        WHEN i.title IS NOT NULL AND lower(i.title) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN i.title IS NOT NULL AND lower(i.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN i.title IS NOT NULL AND lower(i.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) = lower(CAST(:rawQuery AS text)))
+                          OR (i.image_type IS NOT NULL AND lower(i.image_type) = lower(CAST(:rawQuery AS text)))
+                          OR (i.location_text IS NOT NULL AND lower(i.location_text) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 450
+                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 400
                         WHEN :enableFuzzy AND (
-                            (i.title IS NOT NULL AND lower(i.title) % :lowerQuery AND similarity(lower(i.title), :lowerQuery) >= 0.30)
-                            OR (i.location_text IS NOT NULL AND lower(i.location_text) % :lowerQuery AND similarity(lower(i.location_text), :lowerQuery) >= 0.30)
+                            (i.title IS NOT NULL AND lower(i.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (i.location_text IS NOT NULL AND lower(i.location_text) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.location_text), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 350
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN (i.title IS NOT NULL AND lower(i.title) = :lowerQuery)
-                          OR (i.title IS NOT NULL AND lower(i.title) LIKE :prefixPattern ESCAPE '\\')
-                          OR (i.title IS NOT NULL AND lower(i.title) LIKE :substringPattern ESCAPE '\\')
-                          OR (i.location_text IS NOT NULL AND lower(i.location_text) LIKE :substringPattern ESCAPE '\\')
-                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE :substringPattern ESCAPE '\\') THEN 0.0
+                        WHEN (i.title IS NOT NULL AND lower(i.title) = lower(CAST(:rawQuery AS text)))
+                          OR (i.title IS NOT NULL AND lower(i.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (i.title IS NOT NULL AND lower(i.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (i.location_text IS NOT NULL AND lower(i.location_text) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 0.0
                         WHEN :enableFuzzy AND (
-                            (i.title IS NOT NULL AND lower(i.title) % :lowerQuery AND similarity(lower(i.title), :lowerQuery) >= 0.30)
-                            OR (i.location_text IS NOT NULL AND lower(i.location_text) % :lowerQuery AND similarity(lower(i.location_text), :lowerQuery) >= 0.30)
+                            (i.title IS NOT NULL AND lower(i.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (i.location_text IS NOT NULL AND lower(i.location_text) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.location_text), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN GREATEST(
-                            CASE WHEN i.title IS NOT NULL AND lower(i.title) % :lowerQuery THEN similarity(lower(i.title), :lowerQuery) ELSE 0.0 END,
-                            CASE WHEN i.location_text IS NOT NULL AND lower(i.location_text) % :lowerQuery THEN similarity(lower(i.location_text), :lowerQuery) ELSE 0.0 END
+                            CASE WHEN i.title IS NOT NULL AND lower(i.title) % lower(CAST(:rawQuery AS text)) THEN similarity(lower(i.title), lower(CAST(:rawQuery AS text))) ELSE 0.0 END,
+                            CASE WHEN i.location_text IS NOT NULL AND lower(i.location_text) % lower(CAST(:rawQuery AS text)) THEN similarity(lower(i.location_text), lower(CAST(:rawQuery AS text))) ELSE 0.0 END
                         )
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN i.title IS NOT NULL AND lower(i.title) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN i.title IS NOT NULL AND lower(i.title) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN i.title IS NOT NULL AND lower(i.title) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) = :lowerQuery)
-                          OR (i.image_type IS NOT NULL AND lower(i.image_type) = :lowerQuery) THEN 'SECONDARY_EXACT'
-                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) LIKE :prefixPattern ESCAPE '\\')
-                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE :prefixPattern ESCAPE '\\') THEN 'SECONDARY_PREFIX'
-                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) LIKE :substringPattern ESCAPE '\\')
-                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE :substringPattern ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
+                        WHEN i.title IS NOT NULL AND lower(i.title) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN i.title IS NOT NULL AND lower(i.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN i.title IS NOT NULL AND lower(i.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) = lower(CAST(:rawQuery AS text)))
+                          OR (i.image_type IS NOT NULL AND lower(i.image_type) = lower(CAST(:rawQuery AS text))) THEN 'SECONDARY_EXACT'
+                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_PREFIX'
+                        WHEN (i.location_text IS NOT NULL AND lower(i.location_text) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
                         WHEN :enableFuzzy AND (
-                            (i.title IS NOT NULL AND lower(i.title) % :lowerQuery AND similarity(lower(i.title), :lowerQuery) >= 0.30)
-                            OR (i.location_text IS NOT NULL AND lower(i.location_text) % :lowerQuery AND similarity(lower(i.location_text), :lowerQuery) >= 0.30)
+                            (i.title IS NOT NULL AND lower(i.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (i.location_text IS NOT NULL AND lower(i.location_text) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.location_text), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 'SHORT_FUZZY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM images i
                 WHERE (
-                    (i.title IS NOT NULL AND lower(i.title) LIKE :substringPattern ESCAPE '\\')
-                    OR (i.location_text IS NOT NULL AND lower(i.location_text) LIKE :substringPattern ESCAPE '\\')
-                    OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE :substringPattern ESCAPE '\\')
+                    (i.title IS NOT NULL AND lower(i.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (i.location_text IS NOT NULL AND lower(i.location_text) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (i.image_type IS NOT NULL AND lower(i.image_type) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                     OR (:enableFuzzy AND (
-                        (i.title IS NOT NULL AND lower(i.title) % :lowerQuery AND similarity(lower(i.title), :lowerQuery) >= 0.30)
-                        OR (i.location_text IS NOT NULL AND lower(i.location_text) % :lowerQuery AND similarity(lower(i.location_text), :lowerQuery) >= 0.30)
+                        (i.title IS NOT NULL AND lower(i.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                        OR (i.location_text IS NOT NULL AND lower(i.location_text) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.location_text), lower(CAST(:rawQuery AS text))) >= 0.30)
                     ))
                 )
                 """;
@@ -172,7 +172,7 @@ public class MediaSearchService implements MediaSearchOperations {
 
         while (qualifyingHits.size() < targetCount) {
             MapSqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("lowerQuery", lowerQuery)
+                    .addValue("rawQuery", rawQuery)
                     .addValue("prefixPattern", prefixPattern)
                     .addValue("substringPattern", substringPattern)
                     .addValue("enableFuzzy", enableFuzzy)
@@ -277,9 +277,8 @@ public class MediaSearchService implements MediaSearchOperations {
         if (cleaned.isBlank()) {
             return null;
         }
-        String lowerCleaned = cleaned.toLowerCase();
-        String lowerQuery = query.trim().toLowerCase();
-        int index = lowerCleaned.indexOf(lowerQuery);
+        String trimmedQuery = query.trim();
+        int index = findMatchIndex(cleaned, trimmedQuery);
         if (index < 0) {
             return null;
         }
@@ -287,7 +286,7 @@ public class MediaSearchService implements MediaSearchOperations {
             return cleaned;
         }
 
-        int queryLen = lowerQuery.length();
+        int queryLen = trimmedQuery.length();
         int contentLen = cleaned.length();
 
         if (index + queryLen <= maxLength - 3) {
@@ -351,6 +350,25 @@ public class MediaSearchService implements MediaSearchOperations {
             snippet = (needPrefix ? "..." : "") + sub + (needSuffix ? "..." : "");
         }
         return snippet;
+    }
+
+    private static int findMatchIndex(String text, String query) {
+        if (text == null || query == null || query.isEmpty()) {
+            return -1;
+        }
+        int exactIndex = text.indexOf(query);
+        if (exactIndex >= 0) {
+            return exactIndex;
+        }
+        int textLen = text.length();
+        int queryLen = query.length();
+        int limit = textLen - queryLen;
+        for (int i = 0; i <= limit; i++) {
+            if (text.regionMatches(true, i, query, 0, queryLen)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static String cleanPlainText(String input) {

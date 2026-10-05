@@ -101,3 +101,16 @@ Use bind parameters.
 
 Use PostgreSQL Testcontainers. Verify all supported types, ranking, tags, trash exclusion, filters, pagination,
 literal wildcard behavior, pg_trgm migration/indexes, no N+1, and exact Modulith dependency direction.
+
+
+## Milestone 10–12 case-normalization maintenance
+
+When the owner-approved M10-12-1 maintenance is active:
+
+- PostgreSQL `lower(...)` is the sole folding authority for SQL Search comparison;
+- bind raw/LIKE-escaped query text and fold the parameter in PostgreSQL rather than Java;
+- never derive original snippet offsets from a lowercased/folded copy;
+- snippet location must be locale-independent and index-preserving;
+- retain existing lower-expression pg_trgm indexes, fuzzy threshold isolation, literal escaping, ranking and bounds;
+- test ROOT, `tr-TR`, identical `İD`, BODY snippets, wildcard escaping and fuzzy/index-plan regressions;
+- do not broaden into collation/unaccent/schema/public-contract work.

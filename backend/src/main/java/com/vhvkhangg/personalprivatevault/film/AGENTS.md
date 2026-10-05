@@ -82,3 +82,13 @@ Not allowed:
 - adding unbounded lists or per-hit cross-module calls.
 
 The Phase 12 active handoff, when present, is the authority for this narrow exception to the original phase gate.
+
+## M10-12-1 maintenance exception
+
+A Codex handoff created from
+`docs/implementation/maintenance/milestone-10-12-search-case-normalization/README.md` may modify this frozen module
+only for the Search SQL/query-folding and snippet-offset defect described there.
+
+Do not use the maintenance handoff to change mutation behavior, ownership, public Search contracts, ranking, source
+bounds, schema/index definitions, or unrelated code. The maintenance handoff is the temporary authority; otherwise
+the frozen phase rules remain in force.

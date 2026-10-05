@@ -103,15 +103,15 @@ public class VaultSearchService implements VaultSearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.query().trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String escapedPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String substringPattern = "%" + escapedRaw + "%";
 
         StringBuilder sql = new StringBuilder("""
                 SELECT
                     ve.id AS vault_entry_id,
                     CAST(ve.entry_type AS text) COLLATE "C" AS type_name,
-                    MAX(similarity(lower(t.name), :lowerQuery)) AS best_similarity,
+                    MAX(similarity(lower(t.name), lower(CAST(:rawQuery AS text)))) AS best_similarity,
                     MIN(t.name) AS matched_tag_name
                 FROM tags t
                 JOIN vault_entry_tags vet ON vet.tag_id = t.id
@@ -120,14 +120,14 @@ public class VaultSearchService implements VaultSearchOperations {
                   AND CAST(ve.entry_type AS text) != 'FILM_CREDIT'
                   AND CAST(ve.entry_type AS text) IN (:entryTypes)
                   AND (
-                      lower(t.name) LIKE :escapedPattern ESCAPE '\\'
-                      OR (:enableFuzzy AND lower(t.name) % :lowerQuery AND similarity(lower(t.name), :lowerQuery) >= 0.30)
+                      lower(t.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                      OR (:enableFuzzy AND lower(t.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(t.name), lower(CAST(:rawQuery AS text))) >= 0.30)
                   )
                 """);
 
         MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("lowerQuery", lowerQuery)
-                .addValue("escapedPattern", escapedPattern)
+                .addValue("rawQuery", rawQuery)
+                .addValue("substringPattern", substringPattern)
                 .addValue("enableFuzzy", enableFuzzy)
                 .addValue("entryTypes", effectiveTypeNames)
                 .addValue("limit", query.limit());

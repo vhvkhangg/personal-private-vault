@@ -25,7 +25,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 9     | `collection` + music/shopping/software                                                        | P-9 complete                                        | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 10    | `feed` + `importdata` workflows                                                               | P-10 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **COMPLETE — FROZEN** | —                    |
-| 12    | PostgreSQL-first global `search` orchestration                                                | **P-12: accepted / committed**                     | **READY FOR OWNER COMMIT** | **After completion** |
+| 12    | PostgreSQL-first global `search` orchestration                                                | P-12 complete                                       | **COMPLETE — FROZEN** | **CHANGES_REQUESTED** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 planned                                        | Not started           | —                    |
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 planned                                        | Not started           | —                    |
 | 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
@@ -147,12 +147,27 @@ Phase 12 prepares PostgreSQL-first global Search as a no-table leaf/orchestratio
 read-only search contracts to the frozen searchable modules, Vault-owned tag/trash qualification, deterministic
 cross-module ranking, and an append-only pg_trgm/index migration during implementation.
 
-Phase 12 preparation is accepted/owner committed as `44fdaa9`; P12-1/P12-2 closed. Implementation final review returned
+Phase 12 preparation was accepted/owner committed as `44fdaa9`; P12-1/P12-2 closed. Implementation final review returned
 [READY FOR OWNER COMMIT](implementation/phase-12/reviews/2026-10-04-phase-12-final-codex-acceptance.md); FR12-1–FR12-6 closed.
-Independent clean verify passed 815 tests. Owner commit/push and ChatGPT phase closeout are next; Phase 12 is not yet frozen.
+Independent clean verify passed 815 tests. The owner committed/pushed the accepted implementation and ChatGPT
+closed/froze Phase 12.
 
-After accepted Phase 12 implementation is owner committed/pushed, the mandatory Phase 10–12 milestone review must
-pass before Phase 13 preparation.
+The mandatory Phase 10–12 milestone review must now pass before Phase 13 preparation.
+
+## Phase 10–12 milestone review
+
+Phases 10–12 are complete/frozen. The current gate is
+[`implementation/phase-12/milestone-review.md`](implementation/phase-12/milestone-review.md).
+
+Codex [milestone review](implementation/phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md)
+returned **CHANGES_REQUESTED** for M10-12-1 Search SQL/snippet case-normalization consistency. Independent
+clean verification passed 815 tests; a disposable PostgreSQL probe reproduced the uncovered defect.
+The maintenance final acceptance is `READY FOR OWNER COMMIT`; FRM10-12-1 is closed and independent 817-test
+verification passed. Owner commit/push is next, then `$codex-milestone-review`.
+No broader frozen-module work or Phase 13 scope is authorized.
+
+Phase 13 preparation remains blocked until the milestone is `MILESTONE_READY`, the owner commits/pushes the milestone
+review/status package, and ChatGPT completes post-milestone synchronization/reset.
 
 ## Completed Phase 4–6 milestone maintenance
 

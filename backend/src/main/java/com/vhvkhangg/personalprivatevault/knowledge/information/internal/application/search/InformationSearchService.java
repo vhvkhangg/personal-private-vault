@@ -48,10 +48,10 @@ public class InformationSearchService implements InformationSearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String prefixPattern = escapeLike(lowerQuery) + "%";
-        String substringPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String prefixPattern = escapedRaw + "%";
+        String substringPattern = "%" + escapedRaw + "%";
 
         int pageSize = Math.min(Math.max(limit, 50), 100);
         int currentOffset = 0;
@@ -68,66 +68,66 @@ public class InformationSearchService implements InformationSearchOperations {
                     i.content_markdown AS markdown_text,
                     i.example AS example_text,
                     CASE
-                        WHEN lower(i.title) = :lowerQuery THEN 600
-                        WHEN lower(i.title) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN lower(i.title) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) = :lowerQuery THEN 450
-                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) LIKE :prefixPattern ESCAPE '\\' THEN 450
-                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) LIKE :substringPattern ESCAPE '\\' THEN 400
+                        WHEN lower(i.title) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN lower(i.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN lower(i.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) = lower(CAST(:rawQuery AS text)) THEN 450
+                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 450
+                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 400
                         WHEN :enableFuzzy AND (
-                            (lower(i.title) % :lowerQuery AND similarity(lower(i.title), :lowerQuery) >= 0.30)
-                            OR (i.source_name IS NOT NULL AND similarity(lower(i.source_name), :lowerQuery) >= 0.30)
+                            (lower(i.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (i.source_name IS NOT NULL AND similarity(lower(i.source_name), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 350
-                        WHEN (i.description IS NOT NULL AND lower(i.description) LIKE :substringPattern ESCAPE '\\')
-                          OR (i.content_markdown IS NOT NULL AND lower(i.content_markdown) LIKE :substringPattern ESCAPE '\\')
-                          OR (i.example IS NOT NULL AND lower(i.example) LIKE :substringPattern ESCAPE '\\') THEN 200
+                        WHEN (i.description IS NOT NULL AND lower(i.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (i.content_markdown IS NOT NULL AND lower(i.content_markdown) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (i.example IS NOT NULL AND lower(i.example) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 200
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN lower(i.title) = :lowerQuery THEN 0.0
-                        WHEN lower(i.title) LIKE :prefixPattern ESCAPE '\\' THEN 0.0
-                        WHEN lower(i.title) LIKE :substringPattern ESCAPE '\\' THEN 0.0
+                        WHEN lower(i.title) = lower(CAST(:rawQuery AS text)) THEN 0.0
+                        WHEN lower(i.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN lower(i.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 0.0
                         WHEN i.source_name IS NOT NULL AND (
-                            lower(i.source_name) = :lowerQuery
-                            OR lower(i.source_name) LIKE :prefixPattern ESCAPE '\\'
-                            OR lower(i.source_name) LIKE :substringPattern ESCAPE '\\'
+                            lower(i.source_name) = lower(CAST(:rawQuery AS text))
+                            OR lower(i.source_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\'
+                            OR lower(i.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
                         ) THEN 0.0
                         WHEN :enableFuzzy AND (
-                            (lower(i.title) % :lowerQuery AND similarity(lower(i.title), :lowerQuery) >= 0.30)
-                            OR (i.source_name IS NOT NULL AND similarity(lower(i.source_name), :lowerQuery) >= 0.30)
+                            (lower(i.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (i.source_name IS NOT NULL AND similarity(lower(i.source_name), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN GREATEST(
-                            similarity(lower(i.title), :lowerQuery),
-                            COALESCE(similarity(lower(i.source_name), :lowerQuery), 0.0)
+                            similarity(lower(i.title), lower(CAST(:rawQuery AS text))),
+                            COALESCE(similarity(lower(i.source_name), lower(CAST(:rawQuery AS text))), 0.0)
                         )
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN lower(i.title) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN lower(i.title) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN lower(i.title) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) = :lowerQuery THEN 'SECONDARY_EXACT'
-                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) LIKE :prefixPattern ESCAPE '\\' THEN 'SECONDARY_PREFIX'
-                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) LIKE :substringPattern ESCAPE '\\' THEN 'SECONDARY_SUBSTRING'
+                        WHEN lower(i.title) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN lower(i.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN lower(i.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) = lower(CAST(:rawQuery AS text)) THEN 'SECONDARY_EXACT'
+                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'SECONDARY_PREFIX'
+                        WHEN i.source_name IS NOT NULL AND lower(i.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'SECONDARY_SUBSTRING'
                         WHEN :enableFuzzy AND (
-                            (lower(i.title) % :lowerQuery AND similarity(lower(i.title), :lowerQuery) >= 0.30)
-                            OR (i.source_name IS NOT NULL AND similarity(lower(i.source_name), :lowerQuery) >= 0.30)
+                            (lower(i.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (i.source_name IS NOT NULL AND similarity(lower(i.source_name), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 'SHORT_FUZZY'
-                        WHEN (i.description IS NOT NULL AND lower(i.description) LIKE :substringPattern ESCAPE '\\')
-                          OR (i.content_markdown IS NOT NULL AND lower(i.content_markdown) LIKE :substringPattern ESCAPE '\\')
-                          OR (i.example IS NOT NULL AND lower(i.example) LIKE :substringPattern ESCAPE '\\') THEN 'BODY'
+                        WHEN (i.description IS NOT NULL AND lower(i.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (i.content_markdown IS NOT NULL AND lower(i.content_markdown) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (i.example IS NOT NULL AND lower(i.example) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'BODY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM information_items i
                 WHERE (
-                    lower(i.title) LIKE :substringPattern ESCAPE '\\'
-                    OR (i.source_name IS NOT NULL AND lower(i.source_name) LIKE :substringPattern ESCAPE '\\')
+                    lower(i.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                    OR (i.source_name IS NOT NULL AND lower(i.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                     OR (:enableFuzzy AND (
-                        (lower(i.title) % :lowerQuery AND similarity(lower(i.title), :lowerQuery) >= 0.30)
-                        OR (i.source_name IS NOT NULL AND similarity(lower(i.source_name), :lowerQuery) >= 0.30)
+                        (lower(i.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(i.title), lower(CAST(:rawQuery AS text))) >= 0.30)
+                        OR (i.source_name IS NOT NULL AND similarity(lower(i.source_name), lower(CAST(:rawQuery AS text))) >= 0.30)
                     ))
-                    OR (i.description IS NOT NULL AND lower(i.description) LIKE :substringPattern ESCAPE '\\')
-                    OR (i.content_markdown IS NOT NULL AND lower(i.content_markdown) LIKE :substringPattern ESCAPE '\\')
-                    OR (i.example IS NOT NULL AND lower(i.example) LIKE :substringPattern ESCAPE '\\')
+                    OR (i.description IS NOT NULL AND lower(i.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (i.content_markdown IS NOT NULL AND lower(i.content_markdown) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (i.example IS NOT NULL AND lower(i.example) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                 )
                 ORDER BY
                     rank_bucket DESC,
@@ -139,7 +139,7 @@ public class InformationSearchService implements InformationSearchOperations {
 
         while (qualifyingHits.size() < limit) {
             MapSqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("lowerQuery", lowerQuery)
+                    .addValue("rawQuery", rawQuery)
                     .addValue("prefixPattern", prefixPattern)
                     .addValue("substringPattern", substringPattern)
                     .addValue("enableFuzzy", enableFuzzy)
@@ -248,9 +248,8 @@ public class InformationSearchService implements InformationSearchOperations {
         if (cleaned.isBlank()) {
             return null;
         }
-        String lowerCleaned = cleaned.toLowerCase();
-        String lowerQuery = query.trim().toLowerCase();
-        int index = lowerCleaned.indexOf(lowerQuery);
+        String trimmedQuery = query.trim();
+        int index = findMatchIndex(cleaned, trimmedQuery);
         if (index < 0) {
             return null;
         }
@@ -258,7 +257,7 @@ public class InformationSearchService implements InformationSearchOperations {
             return cleaned;
         }
 
-        int queryLen = lowerQuery.length();
+        int queryLen = trimmedQuery.length();
         int contentLen = cleaned.length();
 
         if (index + queryLen <= maxLength - 3) {
@@ -322,6 +321,25 @@ public class InformationSearchService implements InformationSearchOperations {
             snippet = (needPrefix ? "..." : "") + sub + (needSuffix ? "..." : "");
         }
         return snippet;
+    }
+
+    private static int findMatchIndex(String text, String query) {
+        if (text == null || query == null || query.isEmpty()) {
+            return -1;
+        }
+        int exactIndex = text.indexOf(query);
+        if (exactIndex >= 0) {
+            return exactIndex;
+        }
+        int textLen = text.length();
+        int queryLen = query.length();
+        int limit = textLen - queryLen;
+        for (int i = 0; i <= limit; i++) {
+            if (text.regionMatches(true, i, query, 0, queryLen)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static String cleanPlainText(String input) {

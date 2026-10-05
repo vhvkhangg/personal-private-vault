@@ -48,10 +48,10 @@ public class ShoppingSearchService implements ShoppingSearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String prefixPattern = escapeLike(lowerQuery) + "%";
-        String substringPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String prefixPattern = escapedRaw + "%";
+        String substringPattern = "%" + escapedRaw + "%";
 
         int pageSize = Math.min(Math.max(limit, 50), 100);
         int currentOffset = 0;
@@ -66,33 +66,33 @@ public class ShoppingSearchService implements ShoppingSearchOperations {
                     NULL AS secondary_text,
                     s.description AS description_text,
                     CASE
-                        WHEN lower(s.name) = :lowerQuery THEN 600
-                        WHEN lower(s.name) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN lower(s.name) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN :enableFuzzy AND lower(s.name) % :lowerQuery AND similarity(lower(s.name), :lowerQuery) >= 0.30 THEN 350
-                        WHEN s.description IS NOT NULL AND lower(s.description) LIKE :substringPattern ESCAPE '\\' THEN 200
+                        WHEN lower(s.name) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN lower(s.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN lower(s.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN :enableFuzzy AND lower(s.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(s.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 350
+                        WHEN s.description IS NOT NULL AND lower(s.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 200
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN lower(s.name) = :lowerQuery THEN 0.0
-                        WHEN lower(s.name) LIKE :prefixPattern ESCAPE '\\' THEN 0.0
-                        WHEN lower(s.name) LIKE :substringPattern ESCAPE '\\' THEN 0.0
-                        WHEN :enableFuzzy AND lower(s.name) % :lowerQuery AND similarity(lower(s.name), :lowerQuery) >= 0.30 THEN similarity(lower(s.name), :lowerQuery)
+                        WHEN lower(s.name) = lower(CAST(:rawQuery AS text)) THEN 0.0
+                        WHEN lower(s.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN lower(s.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN :enableFuzzy AND lower(s.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(s.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN similarity(lower(s.name), lower(CAST(:rawQuery AS text)))
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN lower(s.name) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN lower(s.name) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN lower(s.name) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN :enableFuzzy AND lower(s.name) % :lowerQuery AND similarity(lower(s.name), :lowerQuery) >= 0.30 THEN 'SHORT_FUZZY'
-                        WHEN s.description IS NOT NULL AND lower(s.description) LIKE :substringPattern ESCAPE '\\' THEN 'BODY'
+                        WHEN lower(s.name) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN lower(s.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN lower(s.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN :enableFuzzy AND lower(s.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(s.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 'SHORT_FUZZY'
+                        WHEN s.description IS NOT NULL AND lower(s.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'BODY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM shopping_items s
                 WHERE (
-                    lower(s.name) LIKE :substringPattern ESCAPE '\\'
-                    OR (:enableFuzzy AND lower(s.name) % :lowerQuery AND similarity(lower(s.name), :lowerQuery) >= 0.30)
-                    OR (s.description IS NOT NULL AND lower(s.description) LIKE :substringPattern ESCAPE '\\')
+                    lower(s.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                    OR (:enableFuzzy AND lower(s.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(s.name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                    OR (s.description IS NOT NULL AND lower(s.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                 )
                 ORDER BY
                     rank_bucket DESC,
@@ -104,7 +104,7 @@ public class ShoppingSearchService implements ShoppingSearchOperations {
 
         while (qualifyingHits.size() < limit) {
             MapSqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("lowerQuery", lowerQuery)
+                    .addValue("rawQuery", rawQuery)
                     .addValue("prefixPattern", prefixPattern)
                     .addValue("substringPattern", substringPattern)
                     .addValue("enableFuzzy", enableFuzzy)
@@ -200,9 +200,8 @@ public class ShoppingSearchService implements ShoppingSearchOperations {
         if (cleaned.isBlank()) {
             return null;
         }
-        String lowerCleaned = cleaned.toLowerCase();
-        String lowerQuery = query.trim().toLowerCase();
-        int index = lowerCleaned.indexOf(lowerQuery);
+        String trimmedQuery = query.trim();
+        int index = findMatchIndex(cleaned, trimmedQuery);
         if (index < 0) {
             return null;
         }
@@ -210,7 +209,7 @@ public class ShoppingSearchService implements ShoppingSearchOperations {
             return cleaned;
         }
 
-        int queryLen = lowerQuery.length();
+        int queryLen = trimmedQuery.length();
         int contentLen = cleaned.length();
 
         if (index + queryLen <= maxLength - 3) {
@@ -274,6 +273,25 @@ public class ShoppingSearchService implements ShoppingSearchOperations {
             snippet = (needPrefix ? "..." : "") + sub + (needSuffix ? "..." : "");
         }
         return snippet;
+    }
+
+    private static int findMatchIndex(String text, String query) {
+        if (text == null || query == null || query.isEmpty()) {
+            return -1;
+        }
+        int exactIndex = text.indexOf(query);
+        if (exactIndex >= 0) {
+            return exactIndex;
+        }
+        int textLen = text.length();
+        int queryLen = query.length();
+        int limit = textLen - queryLen;
+        for (int i = 0; i <= limit; i++) {
+            if (text.regionMatches(true, i, query, 0, queryLen)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static String cleanPlainText(String input) {

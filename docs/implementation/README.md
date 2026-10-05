@@ -16,7 +16,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-9/`](phase-9/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `collection`
 - [`phase-10/`](phase-10/README.md) — **COMPLETE / FROZEN** — `feed` + `importdata`
 - [`phase-11/`](phase-11/README.md) — **COMPLETE / FROZEN** — `finance` + `journal` + `personal`
-- [`phase-12/`](phase-12/README.md) — **READY FOR OWNER COMMIT** — `search`
+- [`phase-12/`](phase-12/README.md) — **COMPLETE / FROZEN; MILESTONE REVIEW REQUIRED** — `search`
 
 Maintenance:
 
@@ -26,17 +26,22 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The [active Phase 12 implementation handoff](handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT`.
+The [active handoff](handoffs/ACTIVE.md) is `READY_FOR_OWNER_COMMIT` for approved M10-12-1 maintenance; FRM10-12-1 closed.
 
-Backend Phase 11 Finance + Journal + Personal is complete/frozen after final acceptance and owner commit/push. Its
-completed handoff is archived in [`phase-11/handoff.md`](phase-11/handoff.md), with verification evidence/reviews
-retained under `phase-11/`.
+Backend Phases 10, 11, and 12 are complete/frozen after final acceptance and owner commit/push. Phase 12's completed
+handoff is archived in [`phase-12/handoff.md`](phase-12/handoff.md), with retained evidence/reviews under `phase-12/`.
 
-Backend Phase 12 PostgreSQL-first Global Search final review returned
-[READY FOR OWNER COMMIT](phase-12/reviews/2026-10-04-phase-12-final-codex-acceptance.md); FR12-1–FR12-6 closed.
-Independent clean verify passed 815 tests. Owner commit/push and ChatGPT phase closeout are next; Phase 12 is not yet frozen.
+The [`Phase 10–12 milestone`](phase-12/milestone-review.md) is **CHANGES_REQUESTED** for M10-12-1 Search
+SQL/snippet case-normalization consistency. See the
+[formal review](phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md).
+Independent clean verification passed 815 tests; a disposable PostgreSQL probe reproduced the uncovered defect.
+Maintenance [final acceptance](maintenance/milestone-10-12-search-case-normalization/reviews/2026-10-05-final-codex-acceptance.md)
+passed 817 tests independently. Owner commit/push is next, then `$codex-milestone-review`.
+The milestone gate remains separate; no Phase 13 scope is opened.
 
-Phase 12 completion will trigger the mandatory Phase 10–12 milestone review before Phase 13.
+Do **not** prepare Phase 13 and do not create an implementation handoff until the milestone reaches
+`MILESTONE_READY`, the owner commits/pushes the milestone review/status package, and ChatGPT performs post-milestone
+synchronization/reset.
 
 ## Operational guidance
 

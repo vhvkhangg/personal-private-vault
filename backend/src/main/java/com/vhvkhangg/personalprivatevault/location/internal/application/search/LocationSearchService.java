@@ -43,10 +43,10 @@ public class LocationSearchService implements LocationSearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.query().trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String prefixPattern = escapeLike(lowerQuery) + "%";
-        String substringPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String prefixPattern = escapedRaw + "%";
+        String substringPattern = "%" + escapedRaw + "%";
 
         int targetCount = query.limit();
         int pageSize = Math.min(Math.max(targetCount, 50), 100);
@@ -63,36 +63,36 @@ public class LocationSearchService implements LocationSearchOperations {
                     b.description AS description_text,
                     b.review AS review_text,
                     CASE
-                        WHEN lower(b.name) = :lowerQuery THEN 600
-                        WHEN lower(b.name) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN lower(b.name) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN :enableFuzzy AND lower(b.name) % :lowerQuery AND similarity(lower(b.name), :lowerQuery) >= 0.30 THEN 350
-                        WHEN (b.description IS NOT NULL AND lower(b.description) LIKE :substringPattern ESCAPE '\\')
-                          OR (b.review IS NOT NULL AND lower(b.review) LIKE :substringPattern ESCAPE '\\') THEN 200
+                        WHEN lower(b.name) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN lower(b.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN lower(b.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN :enableFuzzy AND lower(b.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(b.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 350
+                        WHEN (b.description IS NOT NULL AND lower(b.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (b.review IS NOT NULL AND lower(b.review) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 200
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN lower(b.name) = :lowerQuery THEN 0.0
-                        WHEN lower(b.name) LIKE :prefixPattern ESCAPE '\\' THEN 0.0
-                        WHEN lower(b.name) LIKE :substringPattern ESCAPE '\\' THEN 0.0
-                        WHEN :enableFuzzy AND lower(b.name) % :lowerQuery AND similarity(lower(b.name), :lowerQuery) >= 0.30 THEN similarity(lower(b.name), :lowerQuery)
+                        WHEN lower(b.name) = lower(CAST(:rawQuery AS text)) THEN 0.0
+                        WHEN lower(b.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN lower(b.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN :enableFuzzy AND lower(b.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(b.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN similarity(lower(b.name), lower(CAST(:rawQuery AS text)))
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN lower(b.name) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN lower(b.name) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN lower(b.name) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN :enableFuzzy AND lower(b.name) % :lowerQuery AND similarity(lower(b.name), :lowerQuery) >= 0.30 THEN 'SHORT_FUZZY'
-                        WHEN (b.description IS NOT NULL AND lower(b.description) LIKE :substringPattern ESCAPE '\\')
-                          OR (b.review IS NOT NULL AND lower(b.review) LIKE :substringPattern ESCAPE '\\') THEN 'BODY'
+                        WHEN lower(b.name) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN lower(b.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN lower(b.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN :enableFuzzy AND lower(b.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(b.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 'SHORT_FUZZY'
+                        WHEN (b.description IS NOT NULL AND lower(b.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (b.review IS NOT NULL AND lower(b.review) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'BODY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM brands b
                 WHERE (
-                    lower(b.name) LIKE :substringPattern ESCAPE '\\'
-                    OR (:enableFuzzy AND lower(b.name) % :lowerQuery AND similarity(lower(b.name), :lowerQuery) >= 0.30)
-                    OR (b.description IS NOT NULL AND lower(b.description) LIKE :substringPattern ESCAPE '\\')
-                    OR (b.review IS NOT NULL AND lower(b.review) LIKE :substringPattern ESCAPE '\\')
+                    lower(b.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                    OR (:enableFuzzy AND lower(b.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(b.name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                    OR (b.description IS NOT NULL AND lower(b.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (b.review IS NOT NULL AND lower(b.review) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                 )
                 """;
 
@@ -105,53 +105,53 @@ public class LocationSearchService implements LocationSearchOperations {
                     l.description AS description_text,
                     l.review AS review_text,
                     CASE
-                        WHEN lower(l.name) = :lowerQuery THEN 600
-                        WHEN lower(l.name) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN lower(l.name) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN (a.locality IS NOT NULL AND lower(a.locality) = :lowerQuery)
-                          OR (a.street_address IS NOT NULL AND lower(a.street_address) = :lowerQuery)
-                          OR (a.locality IS NOT NULL AND lower(a.locality) LIKE :prefixPattern ESCAPE '\\')
-                          OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE :prefixPattern ESCAPE '\\') THEN 450
-                        WHEN (a.locality IS NOT NULL AND lower(a.locality) LIKE :substringPattern ESCAPE '\\')
-                          OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE :substringPattern ESCAPE '\\') THEN 400
-                        WHEN :enableFuzzy AND lower(l.name) % :lowerQuery AND similarity(lower(l.name), :lowerQuery) >= 0.30 THEN 350
-                        WHEN (l.description IS NOT NULL AND lower(l.description) LIKE :substringPattern ESCAPE '\\')
-                          OR (l.review IS NOT NULL AND lower(l.review) LIKE :substringPattern ESCAPE '\\') THEN 200
+                        WHEN lower(l.name) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN lower(l.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN lower(l.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN (a.locality IS NOT NULL AND lower(a.locality) = lower(CAST(:rawQuery AS text)))
+                          OR (a.street_address IS NOT NULL AND lower(a.street_address) = lower(CAST(:rawQuery AS text)))
+                          OR (a.locality IS NOT NULL AND lower(a.locality) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 450
+                        WHEN (a.locality IS NOT NULL AND lower(a.locality) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 400
+                        WHEN :enableFuzzy AND lower(l.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(l.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 350
+                        WHEN (l.description IS NOT NULL AND lower(l.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (l.review IS NOT NULL AND lower(l.review) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 200
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN lower(l.name) = :lowerQuery THEN 0.0
-                        WHEN lower(l.name) LIKE :prefixPattern ESCAPE '\\' THEN 0.0
-                        WHEN lower(l.name) LIKE :substringPattern ESCAPE '\\' THEN 0.0
-                        WHEN (a.locality IS NOT NULL AND (lower(a.locality) = :lowerQuery OR lower(a.locality) LIKE :prefixPattern ESCAPE '\\' OR lower(a.locality) LIKE :substringPattern ESCAPE '\\'))
-                          OR (a.street_address IS NOT NULL AND (lower(a.street_address) = :lowerQuery OR lower(a.street_address) LIKE :prefixPattern ESCAPE '\\' OR lower(a.street_address) LIKE :substringPattern ESCAPE '\\')) THEN 0.0
-                        WHEN :enableFuzzy AND lower(l.name) % :lowerQuery AND similarity(lower(l.name), :lowerQuery) >= 0.30 THEN similarity(lower(l.name), :lowerQuery)
+                        WHEN lower(l.name) = lower(CAST(:rawQuery AS text)) THEN 0.0
+                        WHEN lower(l.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN lower(l.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN (a.locality IS NOT NULL AND (lower(a.locality) = lower(CAST(:rawQuery AS text)) OR lower(a.locality) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(a.locality) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'))
+                          OR (a.street_address IS NOT NULL AND (lower(a.street_address) = lower(CAST(:rawQuery AS text)) OR lower(a.street_address) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(a.street_address) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')) THEN 0.0
+                        WHEN :enableFuzzy AND lower(l.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(l.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN similarity(lower(l.name), lower(CAST(:rawQuery AS text)))
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN lower(l.name) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN lower(l.name) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN lower(l.name) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN (a.locality IS NOT NULL AND lower(a.locality) = :lowerQuery)
-                          OR (a.street_address IS NOT NULL AND lower(a.street_address) = :lowerQuery) THEN 'SECONDARY_EXACT'
-                        WHEN (a.locality IS NOT NULL AND lower(a.locality) LIKE :prefixPattern ESCAPE '\\')
-                          OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE :prefixPattern ESCAPE '\\') THEN 'SECONDARY_PREFIX'
-                        WHEN (a.locality IS NOT NULL AND lower(a.locality) LIKE :substringPattern ESCAPE '\\')
-                          OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE :substringPattern ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
-                        WHEN :enableFuzzy AND lower(l.name) % :lowerQuery AND similarity(lower(l.name), :lowerQuery) >= 0.30 THEN 'SHORT_FUZZY'
-                        WHEN (l.description IS NOT NULL AND lower(l.description) LIKE :substringPattern ESCAPE '\\')
-                          OR (l.review IS NOT NULL AND lower(l.review) LIKE :substringPattern ESCAPE '\\') THEN 'BODY'
+                        WHEN lower(l.name) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN lower(l.name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN lower(l.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN (a.locality IS NOT NULL AND lower(a.locality) = lower(CAST(:rawQuery AS text)))
+                          OR (a.street_address IS NOT NULL AND lower(a.street_address) = lower(CAST(:rawQuery AS text))) THEN 'SECONDARY_EXACT'
+                        WHEN (a.locality IS NOT NULL AND lower(a.locality) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_PREFIX'
+                        WHEN (a.locality IS NOT NULL AND lower(a.locality) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
+                        WHEN :enableFuzzy AND lower(l.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(l.name), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 'SHORT_FUZZY'
+                        WHEN (l.description IS NOT NULL AND lower(l.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (l.review IS NOT NULL AND lower(l.review) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'BODY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM locations l
                 LEFT JOIN addresses a ON a.id = l.address_id
                 WHERE (
-                    lower(l.name) LIKE :substringPattern ESCAPE '\\'
-                    OR (a.locality IS NOT NULL AND lower(a.locality) LIKE :substringPattern ESCAPE '\\')
-                    OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE :substringPattern ESCAPE '\\')
-                    OR (:enableFuzzy AND lower(l.name) % :lowerQuery AND similarity(lower(l.name), :lowerQuery) >= 0.30)
-                    OR (l.description IS NOT NULL AND lower(l.description) LIKE :substringPattern ESCAPE '\\')
-                    OR (l.review IS NOT NULL AND lower(l.review) LIKE :substringPattern ESCAPE '\\')
+                    lower(l.name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                    OR (a.locality IS NOT NULL AND lower(a.locality) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (a.street_address IS NOT NULL AND lower(a.street_address) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (:enableFuzzy AND lower(l.name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(l.name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                    OR (l.description IS NOT NULL AND lower(l.description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (l.review IS NOT NULL AND lower(l.review) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                 )
                 """;
 
@@ -169,7 +169,7 @@ public class LocationSearchService implements LocationSearchOperations {
 
         while (qualifyingHits.size() < targetCount) {
             MapSqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("lowerQuery", lowerQuery)
+                    .addValue("rawQuery", rawQuery)
                     .addValue("prefixPattern", prefixPattern)
                     .addValue("substringPattern", substringPattern)
                     .addValue("enableFuzzy", enableFuzzy)
@@ -286,9 +286,8 @@ public class LocationSearchService implements LocationSearchOperations {
         if (cleaned.isBlank()) {
             return null;
         }
-        String lowerCleaned = cleaned.toLowerCase();
-        String lowerQuery = query.trim().toLowerCase();
-        int index = lowerCleaned.indexOf(lowerQuery);
+        String trimmedQuery = query.trim();
+        int index = findMatchIndex(cleaned, trimmedQuery);
         if (index < 0) {
             return null;
         }
@@ -296,7 +295,7 @@ public class LocationSearchService implements LocationSearchOperations {
             return cleaned;
         }
 
-        int queryLen = lowerQuery.length();
+        int queryLen = trimmedQuery.length();
         int contentLen = cleaned.length();
 
         if (index + queryLen <= maxLength - 3) {
@@ -360,6 +359,25 @@ public class LocationSearchService implements LocationSearchOperations {
             snippet = (needPrefix ? "..." : "") + sub + (needSuffix ? "..." : "");
         }
         return snippet;
+    }
+
+    private static int findMatchIndex(String text, String query) {
+        if (text == null || query == null || query.isEmpty()) {
+            return -1;
+        }
+        int exactIndex = text.indexOf(query);
+        if (exactIndex >= 0) {
+            return exactIndex;
+        }
+        int textLen = text.length();
+        int queryLen = query.length();
+        int limit = textLen - queryLen;
+        for (int i = 0; i <= limit; i++) {
+            if (text.regionMatches(true, i, query, 0, queryLen)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static String cleanPlainText(String input) {

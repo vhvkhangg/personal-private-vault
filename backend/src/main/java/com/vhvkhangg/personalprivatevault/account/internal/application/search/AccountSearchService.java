@@ -39,10 +39,10 @@ public class AccountSearchService implements AccountSearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.query().trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String prefixPattern = escapeLike(lowerQuery) + "%";
-        String substringPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String prefixPattern = escapedRaw + "%";
+        String substringPattern = "%" + escapedRaw + "%";
 
         int targetCount = query.limit();
         int pageSize = Math.min(Math.max(targetCount, 50), 100);
@@ -59,82 +59,82 @@ public class AccountSearchService implements AccountSearchOperations {
                     ea.profile_description AS desc_text,
                     ea.notes AS notes_text,
                     CASE
-                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) = :lowerQuery THEN 600
-                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN (ea.username IS NOT NULL AND lower(ea.username) = :lowerQuery)
-                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) = :lowerQuery)
-                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) = :lowerQuery)
-                          OR (ea.username IS NOT NULL AND lower(ea.username) LIKE :prefixPattern ESCAPE '\\')
-                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE :prefixPattern ESCAPE '\\')
-                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE :prefixPattern ESCAPE '\\') THEN 450
-                        WHEN (ea.username IS NOT NULL AND lower(ea.username) LIKE :substringPattern ESCAPE '\\')
-                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE :substringPattern ESCAPE '\\')
-                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE :substringPattern ESCAPE '\\') THEN 400
+                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN (ea.username IS NOT NULL AND lower(ea.username) = lower(CAST(:rawQuery AS text)))
+                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) = lower(CAST(:rawQuery AS text)))
+                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) = lower(CAST(:rawQuery AS text)))
+                          OR (ea.username IS NOT NULL AND lower(ea.username) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 450
+                        WHEN (ea.username IS NOT NULL AND lower(ea.username) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 400
                         WHEN :enableFuzzy AND (
-                            (ea.display_name IS NOT NULL AND lower(ea.display_name) % :lowerQuery AND similarity(lower(ea.display_name), :lowerQuery) >= 0.30)
-                            OR (ea.username IS NOT NULL AND lower(ea.username) % :lowerQuery AND similarity(lower(ea.username), :lowerQuery) >= 0.30)
-                            OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) % :lowerQuery AND similarity(lower(ea.owner_name), :lowerQuery) >= 0.30)
+                            (ea.display_name IS NOT NULL AND lower(ea.display_name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.display_name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (ea.username IS NOT NULL AND lower(ea.username) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.username), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.owner_name), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 350
-                        WHEN (ea.profile_description IS NOT NULL AND lower(ea.profile_description) LIKE :substringPattern ESCAPE '\\')
-                          OR (ea.notes IS NOT NULL AND lower(ea.notes) LIKE :substringPattern ESCAPE '\\') THEN 200
+                        WHEN (ea.profile_description IS NOT NULL AND lower(ea.profile_description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (ea.notes IS NOT NULL AND lower(ea.notes) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 200
                         ELSE 0
                     END AS rank_bucket,
                     CASE
                         WHEN ea.display_name IS NOT NULL AND (
-                            lower(ea.display_name) = :lowerQuery
-                            OR lower(ea.display_name) LIKE :prefixPattern ESCAPE '\\'
-                            OR lower(ea.display_name) LIKE :substringPattern ESCAPE '\\'
+                            lower(ea.display_name) = lower(CAST(:rawQuery AS text))
+                            OR lower(ea.display_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\'
+                            OR lower(ea.display_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
                         ) THEN 0.0
-                        WHEN (ea.username IS NOT NULL AND (lower(ea.username) = :lowerQuery OR lower(ea.username) LIKE :prefixPattern ESCAPE '\\' OR lower(ea.username) LIKE :substringPattern ESCAPE '\\'))
-                          OR (ea.owner_name IS NOT NULL AND (lower(ea.owner_name) = :lowerQuery OR lower(ea.owner_name) LIKE :prefixPattern ESCAPE '\\' OR lower(ea.owner_name) LIKE :substringPattern ESCAPE '\\'))
-                          OR (ea.external_id IS NOT NULL AND (lower(ea.external_id) = :lowerQuery OR lower(ea.external_id) LIKE :prefixPattern ESCAPE '\\' OR lower(ea.external_id) LIKE :substringPattern ESCAPE '\\')) THEN 0.0
+                        WHEN (ea.username IS NOT NULL AND (lower(ea.username) = lower(CAST(:rawQuery AS text)) OR lower(ea.username) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(ea.username) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'))
+                          OR (ea.owner_name IS NOT NULL AND (lower(ea.owner_name) = lower(CAST(:rawQuery AS text)) OR lower(ea.owner_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(ea.owner_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'))
+                          OR (ea.external_id IS NOT NULL AND (lower(ea.external_id) = lower(CAST(:rawQuery AS text)) OR lower(ea.external_id) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(ea.external_id) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')) THEN 0.0
                         WHEN :enableFuzzy AND (
-                            (ea.display_name IS NOT NULL AND lower(ea.display_name) % :lowerQuery AND similarity(lower(ea.display_name), :lowerQuery) >= 0.30)
-                            OR (ea.username IS NOT NULL AND lower(ea.username) % :lowerQuery AND similarity(lower(ea.username), :lowerQuery) >= 0.30)
-                            OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) % :lowerQuery AND similarity(lower(ea.owner_name), :lowerQuery) >= 0.30)
+                            (ea.display_name IS NOT NULL AND lower(ea.display_name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.display_name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (ea.username IS NOT NULL AND lower(ea.username) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.username), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.owner_name), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN GREATEST(
-                            CASE WHEN ea.display_name IS NOT NULL THEN similarity(lower(ea.display_name), :lowerQuery) ELSE 0.0 END,
-                            CASE WHEN ea.username IS NOT NULL THEN similarity(lower(ea.username), :lowerQuery) ELSE 0.0 END,
-                            CASE WHEN ea.owner_name IS NOT NULL THEN similarity(lower(ea.owner_name), :lowerQuery) ELSE 0.0 END
+                            CASE WHEN ea.display_name IS NOT NULL THEN similarity(lower(ea.display_name), lower(CAST(:rawQuery AS text))) ELSE 0.0 END,
+                            CASE WHEN ea.username IS NOT NULL THEN similarity(lower(ea.username), lower(CAST(:rawQuery AS text))) ELSE 0.0 END,
+                            CASE WHEN ea.owner_name IS NOT NULL THEN similarity(lower(ea.owner_name), lower(CAST(:rawQuery AS text))) ELSE 0.0 END
                         )
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN (ea.username IS NOT NULL AND lower(ea.username) = :lowerQuery)
-                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) = :lowerQuery)
-                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) = :lowerQuery) THEN 'SECONDARY_EXACT'
-                        WHEN (ea.username IS NOT NULL AND lower(ea.username) LIKE :prefixPattern ESCAPE '\\')
-                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE :prefixPattern ESCAPE '\\')
-                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE :prefixPattern ESCAPE '\\') THEN 'SECONDARY_PREFIX'
-                        WHEN (ea.username IS NOT NULL AND lower(ea.username) LIKE :substringPattern ESCAPE '\\')
-                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE :substringPattern ESCAPE '\\')
-                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE :substringPattern ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
+                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN (ea.username IS NOT NULL AND lower(ea.username) = lower(CAST(:rawQuery AS text)))
+                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) = lower(CAST(:rawQuery AS text)))
+                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) = lower(CAST(:rawQuery AS text))) THEN 'SECONDARY_EXACT'
+                        WHEN (ea.username IS NOT NULL AND lower(ea.username) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_PREFIX'
+                        WHEN (ea.username IS NOT NULL AND lower(ea.username) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
                         WHEN :enableFuzzy AND (
-                            (ea.display_name IS NOT NULL AND lower(ea.display_name) % :lowerQuery AND similarity(lower(ea.display_name), :lowerQuery) >= 0.30)
-                            OR (ea.username IS NOT NULL AND lower(ea.username) % :lowerQuery AND similarity(lower(ea.username), :lowerQuery) >= 0.30)
-                            OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) % :lowerQuery AND similarity(lower(ea.owner_name), :lowerQuery) >= 0.30)
+                            (ea.display_name IS NOT NULL AND lower(ea.display_name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.display_name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (ea.username IS NOT NULL AND lower(ea.username) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.username), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.owner_name), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 'SHORT_FUZZY'
-                        WHEN (ea.profile_description IS NOT NULL AND lower(ea.profile_description) LIKE :substringPattern ESCAPE '\\')
-                          OR (ea.notes IS NOT NULL AND lower(ea.notes) LIKE :substringPattern ESCAPE '\\') THEN 'BODY'
+                        WHEN (ea.profile_description IS NOT NULL AND lower(ea.profile_description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (ea.notes IS NOT NULL AND lower(ea.notes) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'BODY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM external_accounts ea
                 WHERE (
-                    (ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE :substringPattern ESCAPE '\\')
-                    OR (ea.username IS NOT NULL AND lower(ea.username) LIKE :substringPattern ESCAPE '\\')
-                    OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE :substringPattern ESCAPE '\\')
-                    OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE :substringPattern ESCAPE '\\')
+                    (ea.display_name IS NOT NULL AND lower(ea.display_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (ea.username IS NOT NULL AND lower(ea.username) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (ea.external_id IS NOT NULL AND lower(ea.external_id) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                     OR (:enableFuzzy AND (
-                        (ea.display_name IS NOT NULL AND lower(ea.display_name) % :lowerQuery AND similarity(lower(ea.display_name), :lowerQuery) >= 0.30)
-                        OR (ea.username IS NOT NULL AND lower(ea.username) % :lowerQuery AND similarity(lower(ea.username), :lowerQuery) >= 0.30)
-                        OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) % :lowerQuery AND similarity(lower(ea.owner_name), :lowerQuery) >= 0.30)
+                        (ea.display_name IS NOT NULL AND lower(ea.display_name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.display_name), lower(CAST(:rawQuery AS text))) >= 0.30)
+                        OR (ea.username IS NOT NULL AND lower(ea.username) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.username), lower(CAST(:rawQuery AS text))) >= 0.30)
+                        OR (ea.owner_name IS NOT NULL AND lower(ea.owner_name) % lower(CAST(:rawQuery AS text)) AND similarity(lower(ea.owner_name), lower(CAST(:rawQuery AS text))) >= 0.30)
                     ))
-                    OR (ea.profile_description IS NOT NULL AND lower(ea.profile_description) LIKE :substringPattern ESCAPE '\\')
-                    OR (ea.notes IS NOT NULL AND lower(ea.notes) LIKE :substringPattern ESCAPE '\\')
+                    OR (ea.profile_description IS NOT NULL AND lower(ea.profile_description) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (ea.notes IS NOT NULL AND lower(ea.notes) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                 )
                 ORDER BY
                     rank_bucket DESC,
@@ -146,7 +146,7 @@ public class AccountSearchService implements AccountSearchOperations {
 
         while (qualifyingHits.size() < targetCount) {
             MapSqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("lowerQuery", lowerQuery)
+                    .addValue("rawQuery", rawQuery)
                     .addValue("prefixPattern", prefixPattern)
                     .addValue("substringPattern", substringPattern)
                     .addValue("enableFuzzy", enableFuzzy)
@@ -251,9 +251,8 @@ public class AccountSearchService implements AccountSearchOperations {
         if (cleaned.isBlank()) {
             return null;
         }
-        String lowerCleaned = cleaned.toLowerCase();
-        String lowerQuery = query.trim().toLowerCase();
-        int index = lowerCleaned.indexOf(lowerQuery);
+        String trimmedQuery = query.trim();
+        int index = findMatchIndex(cleaned, trimmedQuery);
         if (index < 0) {
             return null;
         }
@@ -261,7 +260,7 @@ public class AccountSearchService implements AccountSearchOperations {
             return cleaned;
         }
 
-        int queryLen = lowerQuery.length();
+        int queryLen = trimmedQuery.length();
         int contentLen = cleaned.length();
 
         if (index + queryLen <= maxLength - 3) {
@@ -325,6 +324,25 @@ public class AccountSearchService implements AccountSearchOperations {
             snippet = (needPrefix ? "..." : "") + sub + (needSuffix ? "..." : "");
         }
         return snippet;
+    }
+
+    private static int findMatchIndex(String text, String query) {
+        if (text == null || query == null || query.isEmpty()) {
+            return -1;
+        }
+        int exactIndex = text.indexOf(query);
+        if (exactIndex >= 0) {
+            return exactIndex;
+        }
+        int textLen = text.length();
+        int queryLen = query.length();
+        int limit = textLen - queryLen;
+        for (int i = 0; i <= limit; i++) {
+            if (text.regionMatches(true, i, query, 0, queryLen)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static String cleanPlainText(String input) {

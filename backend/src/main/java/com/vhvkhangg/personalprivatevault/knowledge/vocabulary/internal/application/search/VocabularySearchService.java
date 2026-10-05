@@ -48,10 +48,10 @@ public class VocabularySearchService implements VocabularySearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String prefixPattern = escapeLike(lowerQuery) + "%";
-        String substringPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String prefixPattern = escapedRaw + "%";
+        String substringPattern = "%" + escapedRaw + "%";
 
         int pageSize = Math.min(Math.max(limit, 50), 100);
         int currentOffset = 0;
@@ -68,83 +68,83 @@ public class VocabularySearchService implements VocabularySearchOperations {
                     v.example AS example_text,
                     v.source_name AS source_text,
                     CASE
-                        WHEN lower(v.word) = :lowerQuery THEN 600
-                        WHEN lower(v.word) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN lower(v.word) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) = :lowerQuery)
-                          OR (v.ipa IS NOT NULL AND lower(v.ipa) = :lowerQuery)
-                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) = :lowerQuery)
-                          OR (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE :prefixPattern ESCAPE '\\' )
-                          OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE :prefixPattern ESCAPE '\\' )
-                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE :prefixPattern ESCAPE '\\' ) THEN 450
-                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE :substringPattern ESCAPE '\\' )
-                          OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE :substringPattern ESCAPE '\\' )
-                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE :substringPattern ESCAPE '\\' ) THEN 400
+                        WHEN lower(v.word) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN lower(v.word) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN lower(v.word) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) = lower(CAST(:rawQuery AS text)))
+                          OR (v.ipa IS NOT NULL AND lower(v.ipa) = lower(CAST(:rawQuery AS text)))
+                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) = lower(CAST(:rawQuery AS text)))
+                          OR (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 450
+                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 400
                         WHEN :enableFuzzy AND (
-                            (lower(v.word) % :lowerQuery AND similarity(lower(v.word), :lowerQuery) >= 0.30)
-                            OR (v.pronunciation IS NOT NULL AND similarity(lower(v.pronunciation), :lowerQuery) >= 0.30)
-                            OR (v.ipa IS NOT NULL AND similarity(lower(v.ipa), :lowerQuery) >= 0.30)
+                            (lower(v.word) % lower(CAST(:rawQuery AS text)) AND similarity(lower(v.word), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (v.pronunciation IS NOT NULL AND similarity(lower(v.pronunciation), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (v.ipa IS NOT NULL AND similarity(lower(v.ipa), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 350
-                        WHEN (v.meaning IS NOT NULL AND lower(v.meaning) LIKE :substringPattern ESCAPE '\\' )
-                          OR (v.example IS NOT NULL AND lower(v.example) LIKE :substringPattern ESCAPE '\\' )
-                          OR (v.source_name IS NOT NULL AND lower(v.source_name) LIKE :substringPattern ESCAPE '\\' ) THEN 200
+                        WHEN (v.meaning IS NOT NULL AND lower(v.meaning) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (v.example IS NOT NULL AND lower(v.example) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (v.source_name IS NOT NULL AND lower(v.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 200
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN lower(v.word) = :lowerQuery THEN 0.0
-                        WHEN lower(v.word) LIKE :prefixPattern ESCAPE '\\' THEN 0.0
-                        WHEN lower(v.word) LIKE :substringPattern ESCAPE '\\' THEN 0.0
-                        WHEN (v.pronunciation IS NOT NULL AND (lower(v.pronunciation) = :lowerQuery OR lower(v.pronunciation) LIKE :prefixPattern ESCAPE '\\' OR lower(v.pronunciation) LIKE :substringPattern ESCAPE '\\' ))
-                          OR (v.ipa IS NOT NULL AND (lower(v.ipa) = :lowerQuery OR lower(v.ipa) LIKE :prefixPattern ESCAPE '\\' OR lower(v.ipa) LIKE :substringPattern ESCAPE '\\' ))
-                          OR (v.part_of_speech IS NOT NULL AND (lower(v.part_of_speech) = :lowerQuery OR lower(v.part_of_speech) LIKE :prefixPattern ESCAPE '\\' OR lower(v.part_of_speech) LIKE :substringPattern ESCAPE '\\' )) THEN 0.0
+                        WHEN lower(v.word) = lower(CAST(:rawQuery AS text)) THEN 0.0
+                        WHEN lower(v.word) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN lower(v.word) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN (v.pronunciation IS NOT NULL AND (lower(v.pronunciation) = lower(CAST(:rawQuery AS text)) OR lower(v.pronunciation) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(v.pronunciation) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'))
+                          OR (v.ipa IS NOT NULL AND (lower(v.ipa) = lower(CAST(:rawQuery AS text)) OR lower(v.ipa) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(v.ipa) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'))
+                          OR (v.part_of_speech IS NOT NULL AND (lower(v.part_of_speech) = lower(CAST(:rawQuery AS text)) OR lower(v.part_of_speech) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' OR lower(v.part_of_speech) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')) THEN 0.0
                         WHEN :enableFuzzy AND (
-                            (lower(v.word) % :lowerQuery AND similarity(lower(v.word), :lowerQuery) >= 0.30)
-                            OR (v.pronunciation IS NOT NULL AND similarity(lower(v.pronunciation), :lowerQuery) >= 0.30)
-                            OR (v.ipa IS NOT NULL AND similarity(lower(v.ipa), :lowerQuery) >= 0.30)
+                            (lower(v.word) % lower(CAST(:rawQuery AS text)) AND similarity(lower(v.word), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (v.pronunciation IS NOT NULL AND similarity(lower(v.pronunciation), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (v.ipa IS NOT NULL AND similarity(lower(v.ipa), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN GREATEST(
-                            similarity(lower(v.word), :lowerQuery),
-                            CASE WHEN v.pronunciation IS NOT NULL THEN similarity(lower(v.pronunciation), :lowerQuery) ELSE 0.0 END,
-                            CASE WHEN v.ipa IS NOT NULL THEN similarity(lower(v.ipa), :lowerQuery) ELSE 0.0 END
+                            similarity(lower(v.word), lower(CAST(:rawQuery AS text))),
+                            CASE WHEN v.pronunciation IS NOT NULL THEN similarity(lower(v.pronunciation), lower(CAST(:rawQuery AS text))) ELSE 0.0 END,
+                            CASE WHEN v.ipa IS NOT NULL THEN similarity(lower(v.ipa), lower(CAST(:rawQuery AS text))) ELSE 0.0 END
                         )
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN lower(v.word) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN lower(v.word) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN lower(v.word) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) = :lowerQuery)
-                          OR (v.ipa IS NOT NULL AND lower(v.ipa) = :lowerQuery)
-                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) = :lowerQuery) THEN 'SECONDARY_EXACT'
-                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE :prefixPattern ESCAPE '\\' )
-                          OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE :prefixPattern ESCAPE '\\' )
-                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE :prefixPattern ESCAPE '\\' ) THEN 'SECONDARY_PREFIX'
-                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE :substringPattern ESCAPE '\\' )
-                          OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE :substringPattern ESCAPE '\\' )
-                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE :substringPattern ESCAPE '\\' ) THEN 'SECONDARY_SUBSTRING'
+                        WHEN lower(v.word) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN lower(v.word) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN lower(v.word) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) = lower(CAST(:rawQuery AS text)))
+                          OR (v.ipa IS NOT NULL AND lower(v.ipa) = lower(CAST(:rawQuery AS text)))
+                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) = lower(CAST(:rawQuery AS text))) THEN 'SECONDARY_EXACT'
+                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\')
+                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_PREFIX'
+                        WHEN (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'SECONDARY_SUBSTRING'
                         WHEN :enableFuzzy AND (
-                            (lower(v.word) % :lowerQuery AND similarity(lower(v.word), :lowerQuery) >= 0.30)
-                            OR (v.pronunciation IS NOT NULL AND similarity(lower(v.pronunciation), :lowerQuery) >= 0.30)
-                            OR (v.ipa IS NOT NULL AND similarity(lower(v.ipa), :lowerQuery) >= 0.30)
+                            (lower(v.word) % lower(CAST(:rawQuery AS text)) AND similarity(lower(v.word), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (v.pronunciation IS NOT NULL AND similarity(lower(v.pronunciation), lower(CAST(:rawQuery AS text))) >= 0.30)
+                            OR (v.ipa IS NOT NULL AND similarity(lower(v.ipa), lower(CAST(:rawQuery AS text))) >= 0.30)
                         ) THEN 'SHORT_FUZZY'
-                        WHEN (v.meaning IS NOT NULL AND lower(v.meaning) LIKE :substringPattern ESCAPE '\\' )
-                          OR (v.example IS NOT NULL AND lower(v.example) LIKE :substringPattern ESCAPE '\\' )
-                          OR (v.source_name IS NOT NULL AND lower(v.source_name) LIKE :substringPattern ESCAPE '\\' ) THEN 'BODY'
+                        WHEN (v.meaning IS NOT NULL AND lower(v.meaning) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (v.example IS NOT NULL AND lower(v.example) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                          OR (v.source_name IS NOT NULL AND lower(v.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\') THEN 'BODY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM vocabulary_items v
                 WHERE (
-                    lower(v.word) LIKE :substringPattern ESCAPE '\\'
-                    OR (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE :substringPattern ESCAPE '\\' )
-                    OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE :substringPattern ESCAPE '\\' )
-                    OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE :substringPattern ESCAPE '\\' )
+                    lower(v.word) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                    OR (v.pronunciation IS NOT NULL AND lower(v.pronunciation) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (v.ipa IS NOT NULL AND lower(v.ipa) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (v.part_of_speech IS NOT NULL AND lower(v.part_of_speech) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                     OR (:enableFuzzy AND (
-                        (lower(v.word) % :lowerQuery AND similarity(lower(v.word), :lowerQuery) >= 0.30)
-                        OR (v.pronunciation IS NOT NULL AND similarity(lower(v.pronunciation), :lowerQuery) >= 0.30)
-                        OR (v.ipa IS NOT NULL AND similarity(lower(v.ipa), :lowerQuery) >= 0.30)
+                        (lower(v.word) % lower(CAST(:rawQuery AS text)) AND similarity(lower(v.word), lower(CAST(:rawQuery AS text))) >= 0.30)
+                        OR (v.pronunciation IS NOT NULL AND similarity(lower(v.pronunciation), lower(CAST(:rawQuery AS text))) >= 0.30)
+                        OR (v.ipa IS NOT NULL AND similarity(lower(v.ipa), lower(CAST(:rawQuery AS text))) >= 0.30)
                     ))
-                    OR (v.meaning IS NOT NULL AND lower(v.meaning) LIKE :substringPattern ESCAPE '\\' )
-                    OR (v.example IS NOT NULL AND lower(v.example) LIKE :substringPattern ESCAPE '\\' )
-                    OR (v.source_name IS NOT NULL AND lower(v.source_name) LIKE :substringPattern ESCAPE '\\' )
+                    OR (v.meaning IS NOT NULL AND lower(v.meaning) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (v.example IS NOT NULL AND lower(v.example) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
+                    OR (v.source_name IS NOT NULL AND lower(v.source_name) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\')
                 )
                 ORDER BY
                     rank_bucket DESC,
@@ -156,7 +156,7 @@ public class VocabularySearchService implements VocabularySearchOperations {
 
         while (qualifyingHits.size() < limit) {
             MapSqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("lowerQuery", lowerQuery)
+                    .addValue("rawQuery", rawQuery)
                     .addValue("prefixPattern", prefixPattern)
                     .addValue("substringPattern", substringPattern)
                     .addValue("enableFuzzy", enableFuzzy)
@@ -265,9 +265,8 @@ public class VocabularySearchService implements VocabularySearchOperations {
         if (cleaned.isBlank()) {
             return null;
         }
-        String lowerCleaned = cleaned.toLowerCase();
-        String lowerQuery = query.trim().toLowerCase();
-        int index = lowerCleaned.indexOf(lowerQuery);
+        String trimmedQuery = query.trim();
+        int index = findMatchIndex(cleaned, trimmedQuery);
         if (index < 0) {
             return null;
         }
@@ -275,7 +274,7 @@ public class VocabularySearchService implements VocabularySearchOperations {
             return cleaned;
         }
 
-        int queryLen = lowerQuery.length();
+        int queryLen = trimmedQuery.length();
         int contentLen = cleaned.length();
 
         if (index + queryLen <= maxLength - 3) {
@@ -339,6 +338,25 @@ public class VocabularySearchService implements VocabularySearchOperations {
             snippet = (needPrefix ? "..." : "") + sub + (needSuffix ? "..." : "");
         }
         return snippet;
+    }
+
+    private static int findMatchIndex(String text, String query) {
+        if (text == null || query == null || query.isEmpty()) {
+            return -1;
+        }
+        int exactIndex = text.indexOf(query);
+        if (exactIndex >= 0) {
+            return exactIndex;
+        }
+        int textLen = text.length();
+        int queryLen = query.length();
+        int limit = textLen - queryLen;
+        for (int i = 0; i <= limit; i++) {
+            if (text.regionMatches(true, i, query, 0, queryLen)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static String cleanPlainText(String input) {

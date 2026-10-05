@@ -61,6 +61,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -1669,6 +1670,255 @@ class GlobalSearchIntegrationTest extends AbstractPostgresIntegrationTest {
             assertThat(fullPlan).contains("idx_persons_name_trgm");
         } finally {
             jdbcTemplate.execute("SET enable_seqscan = on");
+        }
+    }
+
+    @Test
+    @DisplayName("Search case normalization: ASCII ID and Unicode \\u0130D under Locale.ROOT and tr-TR")
+    void verifiesSearchCaseNormalizationUnderRootAndTurkishLocales() {
+        cleanUp();
+
+        // 1. Setup ASCII fixtures with title/name "ID"
+        long musicId = createMusicTrack("ID");
+        long feedId = createSavedResource("ID", "Source", "Author", "Summary");
+        long noteId = createNote("ID", "Summary");
+        long personId = createPerson("ID", "Notes");
+
+        // Attach tag "ID" to personId
+        long tagId = insertTag("ID");
+        attachTag(personId, tagId);
+
+        Locale originalLocale = Locale.getDefault();
+        try {
+            // Test under both Locale.ROOT and Turkish Locale tr-TR
+            List<Locale> testLocales = List.of(Locale.ROOT, Locale.forLanguageTag("tr-TR"));
+            for (Locale locale : testLocales) {
+                Locale.setDefault(locale);
+
+                // Both lowercase "id" and uppercase "ID" must produce identical hits/ranks/kinds
+                for (String q : List.of("id", "ID")) {
+                    // Representative owner: Music (collection.music)
+                    var musicHits = musicSearchOperations.search(q, Set.of(), 10);
+                    assertThat(musicHits).extracting(h -> h.vaultEntryId()).contains(musicId);
+                    var musicHit = musicHits.stream().filter(h -> h.vaultEntryId() == musicId).findFirst().orElseThrow();
+                    assertThat(musicHit.matchKind()).isEqualTo("PRIMARY_EXACT");
+                    assertThat(musicHit.rankBucket()).isEqualTo(600);
+
+                    // Representative owner: Feed (feed)
+                    var feedHits = feedSearchOperations.search(new FeedSearchQuery(q, Set.of(), Set.of(), 10));
+                    assertThat(feedHits).extracting(h -> h.vaultEntryId()).contains(feedId);
+                    var feedHit = feedHits.stream().filter(h -> h.vaultEntryId() == feedId).findFirst().orElseThrow();
+                    assertThat(feedHit.matchKind()).isEqualTo("PRIMARY_EXACT");
+                    assertThat(feedHit.rankBucket()).isEqualTo(600);
+
+                    // Representative owner: Note (knowledge.note)
+                    var noteHits = noteSearchOperations.search(q, Set.of(), 10);
+                    assertThat(noteHits).extracting(h -> h.vaultEntryId()).contains(noteId);
+                    var noteHit = noteHits.stream().filter(h -> h.vaultEntryId() == noteId).findFirst().orElseThrow();
+                    assertThat(noteHit.matchKind()).isEqualTo("PRIMARY_EXACT");
+                    assertThat(noteHit.rankBucket()).isEqualTo(600);
+
+                    // Representative owner: People (people)
+                    var peopleHits = peopleSearchOperations.search(new PeopleSearchQuery(q, Set.of(), Set.of(), 10));
+                    assertThat(peopleHits).extracting(h -> h.vaultEntryId()).contains(personId);
+                    var personHit = peopleHits.stream().filter(h -> h.vaultEntryId() == personId).findFirst().orElseThrow();
+                    assertThat(personHit.matchKind()).isEqualTo("PRIMARY_EXACT");
+                    assertThat(personHit.rankBucket()).isEqualTo(600);
+
+                    // Vault tag search
+                    var tagHits = vaultSearchOperations.searchByTag(new VaultTagSearchQuery(q, Set.of(VaultEntryType.PERSON), Set.of(), 10));
+                    assertThat(tagHits).extracting(h -> h.vaultEntryId()).contains(personId);
+                    var tagHit = tagHits.stream().filter(h -> h.vaultEntryId() == personId).findFirst().orElseThrow();
+                    assertThat(tagHit.matchedTagName()).isEqualTo("ID");
+
+                    // Global Search
+                    GlobalSearchPage globalPage = searchOperations.search(new GlobalSearchQuery(q, Set.of(), Set.of(), Set.of(), 0, 10));
+                    assertThat(globalPage.items()).extracting(GlobalSearchResult::vaultEntryId)
+                            .contains(musicId, feedId, noteId, personId);
+                }
+
+                // Global search ranking check: query "id" and "ID" produce identical qualifying entry ordering
+                GlobalSearchPage pageLower = searchOperations.search(new GlobalSearchQuery("id", Set.of(), Set.of(), Set.of(), 0, 10));
+                GlobalSearchPage pageUpper = searchOperations.search(new GlobalSearchQuery("ID", Set.of(), Set.of(), Set.of(), 0, 10));
+                List<Long> lowerIds = pageLower.items().stream().map(GlobalSearchResult::vaultEntryId).toList();
+                List<Long> upperIds = pageUpper.items().stream().map(GlobalSearchResult::vaultEntryId).toList();
+                assertThat(lowerIds).isEqualTo(upperIds);
+            }
+
+            // 2. Clean up and setup Unicode fixture with title/name "\u0130D" (U+0130 followed by D)
+            cleanUp();
+
+            long musicIdUnicode = createMusicTrack("\u0130D");
+            long feedIdUnicode = createSavedResource("\u0130D", "Source", "Author", "Summary");
+            long noteIdUnicode = createNote("\u0130D", "Summary");
+            long personIdUnicode = createPerson("\u0130D", "Notes");
+
+            // Attach tag "\u0130D" to personIdUnicode
+            long tagIdUnicode = insertTag("\u0130D");
+            attachTag(personIdUnicode, tagIdUnicode);
+
+            Locale.setDefault(Locale.ROOT);
+            String unicodeQuery = "\u0130D";
+
+            // Music
+            var musicUniHits = musicSearchOperations.search(unicodeQuery, Set.of(), 10);
+            assertThat(musicUniHits).extracting(h -> h.vaultEntryId()).contains(musicIdUnicode);
+            var musicUniHit = musicUniHits.stream().filter(h -> h.vaultEntryId() == musicIdUnicode).findFirst().orElseThrow();
+            assertThat(musicUniHit.matchKind()).isEqualTo("PRIMARY_EXACT");
+            assertThat(musicUniHit.rankBucket()).isEqualTo(600);
+
+            // Feed
+            var feedUniHits = feedSearchOperations.search(new FeedSearchQuery(unicodeQuery, Set.of(), Set.of(), 10));
+            assertThat(feedUniHits).extracting(h -> h.vaultEntryId()).contains(feedIdUnicode);
+            var feedUniHit = feedUniHits.stream().filter(h -> h.vaultEntryId() == feedIdUnicode).findFirst().orElseThrow();
+            assertThat(feedUniHit.matchKind()).isEqualTo("PRIMARY_EXACT");
+            assertThat(feedUniHit.rankBucket()).isEqualTo(600);
+
+            // Note
+            var noteUniHits = noteSearchOperations.search(unicodeQuery, Set.of(), 10);
+            assertThat(noteUniHits).extracting(h -> h.vaultEntryId()).contains(noteIdUnicode);
+            var noteUniHit = noteUniHits.stream().filter(h -> h.vaultEntryId() == noteIdUnicode).findFirst().orElseThrow();
+            assertThat(noteUniHit.matchKind()).isEqualTo("PRIMARY_EXACT");
+            assertThat(noteUniHit.rankBucket()).isEqualTo(600);
+
+            // People
+            var peopleUniHits = peopleSearchOperations.search(new PeopleSearchQuery(unicodeQuery, Set.of(), Set.of(), 10));
+            assertThat(peopleUniHits).extracting(h -> h.vaultEntryId()).contains(personIdUnicode);
+            var personUniHit = peopleUniHits.stream().filter(h -> h.vaultEntryId() == personIdUnicode).findFirst().orElseThrow();
+            assertThat(personUniHit.matchKind()).isEqualTo("PRIMARY_EXACT");
+            assertThat(personUniHit.rankBucket()).isEqualTo(600);
+
+            // Vault tag
+            var tagUniHits = vaultSearchOperations.searchByTag(new VaultTagSearchQuery(unicodeQuery, Set.of(VaultEntryType.PERSON), Set.of(), 10));
+            assertThat(tagUniHits).extracting(h -> h.vaultEntryId()).contains(personIdUnicode);
+            var tagUniHit = tagUniHits.stream().filter(h -> h.vaultEntryId() == personIdUnicode).findFirst().orElseThrow();
+            assertThat(tagUniHit.matchedTagName()).isEqualTo("\u0130D");
+
+            // Global search
+            GlobalSearchPage globalUniPage = searchOperations.search(new GlobalSearchQuery(unicodeQuery, Set.of(), Set.of(), Set.of(), 0, 10));
+            assertThat(globalUniPage.items()).extracting(GlobalSearchResult::vaultEntryId)
+                    .contains(musicIdUnicode, feedIdUnicode, noteIdUnicode, personIdUnicode);
+
+        } finally {
+            Locale.setDefault(originalLocale);
+        }
+    }
+
+    @Test
+    @DisplayName("Snippet extraction: locale-independent, offset-safe, boundary and length-changing casing safety")
+    void verifiesBodySnippetExtractionCaseNormalizationAndOffsets() {
+        cleanUp();
+
+        // 1. ASCII BODY-only fixture: primary text does not match "id", notes contain "ID"
+        long bodyPersonId = createPerson("Unrelated Name Alpha", "Prefix documentation with ID inside notes content.");
+
+        // 2. Unicode \u0130D BODY fixture
+        long bodyPersonUnicodeId = createPerson("Unrelated Name Beta", "Prefix documentation with \u0130D inside notes content.");
+
+        // 3. Boundary fixtures: match at beginning, match at end, match in middle of long content (> 240 chars)
+        String padding300 = "word ".repeat(60); // 300 chars
+        long startBoundPersonId = createPerson("Boundary Person Start", "ID " + padding300);
+        long endBoundPersonId = createPerson("Boundary Person End", padding300 + " ID");
+        long midBoundPersonId = createPerson("Boundary Person Center", padding300 + " ID " + padding300);
+
+        // 4. Character before later match:
+        // German capital sharp S '\u1E9E' ("ẞ") before the target "ID"
+        long sharpSPersonId = createPerson("Sharp S Person", "Special character \u1E9E before matching target ID in body.");
+
+        // 5. Genuinely expanding U+0130 before later match in long body (> 240 chars):
+        // In Java under Locale.ROOT, \u0130 lowercases to two code units (i + \u0307).
+        // 300 instances of \u0130 produce 600 characters in a lowercased copy.
+        // The old shifted-window algorithm found index 601 in lowercased copy, which in original
+        // text (length 708) fell into the tail branch (start=471), missing "TARGET" completely.
+        // With original-text offset matching, original index 301 is preserved and windowed.
+        long expandingPersonId = createPerson("Casing Expansion Person", "\u0130".repeat(300) + " TARGET " + "x".repeat(400));
+
+        // 6. Supplementary Unicode (surrogate pair) safety near boundary
+        String emoji = "\uD83D\uDE00"; // U+1F600 Grinning Face
+        String paddingNearBoundary = "A".repeat(230);
+        long surrogatePersonId = createPerson("Surrogate Person", paddingNearBoundary + emoji + " ID and more text following.");
+
+        // 7. Plaintext cleanup (HTML/Markdown)
+        long markdownPersonId = createPerson("Markdown Person", "## Section Header\n**Bold Info** with <span>ID</span> and [link](https://vault.internal)");
+
+        Locale originalLocale = Locale.getDefault();
+        try {
+            // Test ASCII ID under ROOT and tr-TR
+            for (Locale locale : List.of(Locale.ROOT, Locale.forLanguageTag("tr-TR"))) {
+                Locale.setDefault(locale);
+
+                GlobalSearchPage page = searchOperations.search(new GlobalSearchQuery("id", Set.of(SearchDomain.PEOPLE), Set.of(), Set.of(), 0, 10));
+                var hit = page.items().stream().filter(h -> h.vaultEntryId() == bodyPersonId).findFirst().orElseThrow();
+                assertThat(hit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+                assertThat(hit.snippet()).isNotNull();
+                assertThat(hit.snippet()).contains("ID");
+                assertThat(hit.snippet().length()).isLessThanOrEqualTo(240);
+
+                // Boundary: match at start -> begins with "ID", ends with "...", length <= 240
+                var startHit = page.items().stream().filter(h -> h.vaultEntryId() == startBoundPersonId).findFirst().orElseThrow();
+                assertThat(startHit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+                assertThat(startHit.snippet()).startsWith("ID");
+                assertThat(startHit.snippet()).endsWith("...");
+                assertThat(startHit.snippet().length()).isLessThanOrEqualTo(240);
+
+                // Boundary: match at end -> starts with "...", ends with "ID", length <= 240
+                var endHit = page.items().stream().filter(h -> h.vaultEntryId() == endBoundPersonId).findFirst().orElseThrow();
+                assertThat(endHit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+                assertThat(endHit.snippet()).startsWith("...");
+                assertThat(endHit.snippet()).endsWith("ID");
+                assertThat(endHit.snippet().length()).isLessThanOrEqualTo(240);
+
+                // Boundary: match in middle -> starts with "...", contains "ID", ends with "...", length <= 240
+                var midHit = page.items().stream().filter(h -> h.vaultEntryId() == midBoundPersonId).findFirst().orElseThrow();
+                assertThat(midHit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+                assertThat(midHit.snippet()).startsWith("...");
+                assertThat(midHit.snippet()).contains("ID");
+                assertThat(midHit.snippet()).endsWith("...");
+                assertThat(midHit.snippet().length()).isLessThanOrEqualTo(240);
+
+                // Character preservation: target ID and \u1E9E are intact
+                var sharpSHit = page.items().stream().filter(h -> h.vaultEntryId() == sharpSPersonId).findFirst().orElseThrow();
+                assertThat(sharpSHit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+                assertThat(sharpSHit.snippet()).contains("ID");
+                assertThat(sharpSHit.snippet()).contains("\u1E9E");
+
+                // Surrogate safety: snippet ends and begins with valid non-surrogate codepoints
+                var surrogateHit = page.items().stream().filter(h -> h.vaultEntryId() == surrogatePersonId).findFirst().orElseThrow();
+                assertThat(surrogateHit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+                assertThat(surrogateHit.snippet()).contains("ID");
+                assertThat(Character.isLowSurrogate(surrogateHit.snippet().charAt(0))).isFalse();
+                assertThat(Character.isHighSurrogate(surrogateHit.snippet().charAt(surrogateHit.snippet().length() - 1))).isFalse();
+                assertThat(surrogateHit.snippet().length()).isLessThanOrEqualTo(240);
+
+                // Markdown / HTML cleanup
+                var mdHit = page.items().stream().filter(h -> h.vaultEntryId() == markdownPersonId).findFirst().orElseThrow();
+                assertThat(mdHit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+                assertThat(mdHit.snippet()).doesNotContain("##", "**", "<span>", "[link]");
+                assertThat(mdHit.snippet()).contains("ID");
+            }
+
+            // Unicode \u0130D under Locale.ROOT
+            Locale.setDefault(Locale.ROOT);
+            GlobalSearchPage uniPage = searchOperations.search(new GlobalSearchQuery("\u0130D", Set.of(SearchDomain.PEOPLE), Set.of(), Set.of(), 0, 10));
+            var uniHit = uniPage.items().stream().filter(h -> h.vaultEntryId() == bodyPersonUnicodeId).findFirst().orElseThrow();
+            assertThat(uniHit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+            assertThat(uniHit.snippet()).isNotNull();
+            assertThat(uniHit.snippet()).contains("\u0130D");
+            assertThat(uniHit.snippet().length()).isLessThanOrEqualTo(240);
+
+            // Genuinely expanding U+0130 before later match in long body (> 240 chars) under Locale.ROOT:
+            // Proves that offset 301 in original text is preserved rather than shifted to 601 by lowercased copy.
+            GlobalSearchPage expandPage = searchOperations.search(new GlobalSearchQuery("target", Set.of(SearchDomain.PEOPLE), Set.of(), Set.of(), 0, 10));
+            var expandHit = expandPage.items().stream().filter(h -> h.vaultEntryId() == expandingPersonId).findFirst().orElseThrow();
+            assertThat(expandHit.matchKind()).isEqualTo(SearchMatchKind.BODY);
+            assertThat(expandHit.snippet()).isNotNull();
+            assertThat(expandHit.snippet()).contains("TARGET");
+            assertThat(expandHit.snippet()).startsWith("...");
+            assertThat(expandHit.snippet()).endsWith("...");
+            assertThat(expandHit.snippet().length()).isLessThanOrEqualTo(240);
+
+        } finally {
+            Locale.setDefault(originalLocale);
         }
     }
 }

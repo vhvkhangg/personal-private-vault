@@ -23,3 +23,7 @@ Slices:
 
 - [`milestone-7-9-integrity-and-query-shape/`](milestone-7-9-integrity-and-query-shape/README.md) —
   **COMPLETE / FROZEN** — owner committed `785dd7d`; milestone re-review `MILESTONE_READY`.
+
+- [`milestone-10-12-search-case-normalization/`](milestone-10-12-search-case-normalization/README.md) —
+  **READY FOR OWNER COMMIT** — FRM10-12-1 closed; independent 817-test verification passed;
+  owner commit/push next, then `$codex-milestone-review`; Phase 13 blocked.

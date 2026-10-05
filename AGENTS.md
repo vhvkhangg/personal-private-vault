@@ -30,11 +30,13 @@ This file defines repository-wide instructions for coding agents.
   verification, and owner commit/push.
 - Backend Phase 11 (`finance` + `journal` + `personal`) is complete/frozen after final acceptance, independent
   787-test verification, and owner commit/push.
-- Backend Phase 12 (`search`) preparation is accepted and owner committed/pushed as `44fdaa9`; P12-1/P12-2 closed.
-  Its implemented active handoff is `READY FOR OWNER COMMIT` after Codex final acceptance: FR12-1–FR12-6 closed.
-  Independent clean verify passed 815 tests (0 failures, 0 errors, 0 skips). Owner commit/push and ChatGPT
-  phase closeout are next; Phase 12 is not yet complete/frozen.
-  Phase 12 completion triggers the Phase 10–12 milestone review before Phase 13.
+- Backend Phase 12 (`search`) is complete/frozen after final acceptance, independent 815-test verification, and
+  owner commit/push. Its completed handoff is archived under `docs/implementation/phase-12/handoff.md`.
+- The Phase 10–12 milestone is `CHANGES_REQUESTED` for M10-12-1 Search SQL/snippet case-normalization consistency.
+  See `docs/implementation/phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md`.
+  The maintenance final review is `READY FOR OWNER COMMIT` (2026-10-05); FRM10-12-1 is closed and independent
+  817-test verification passed. Owner commit/push is next, then `$codex-milestone-review`.
+  Phase 13 stays blocked until accepted maintenance, milestone acceptance and post-milestone reset.
 
 Completed maintenance scope:
 
@@ -119,6 +121,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 9 collection foundation baseline
 - Backend Phase 10 feed/importdata foundation baseline
 - Backend Phase 11 finance/journal/personal foundation baseline
+- Backend Phase 12 search foundation baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

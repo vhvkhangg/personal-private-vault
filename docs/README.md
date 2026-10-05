@@ -2,16 +2,18 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0–11 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
+Backend Phases 0–12 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
 The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
 post-milestone synchronization/reset. Phase 7 (`account`), Phase 8 (`knowledge`), and Phase 9 (`collection`) are
 complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE_READY` after committed
 integrity/query-shape maintenance `785dd7d`; the owner committed/pushed milestone docs and ChatGPT completed
 post-milestone synchronization/reset. Phase 10 (`feed` + `importdata`) is complete/frozen after owner commit/push
 and final 685-test verification. Phase 11 (`finance` + `journal` + `personal`) is complete/frozen after final
-acceptance, owner commit/push, and 787-test verification. Phase 12 PostgreSQL-first Global Search implementation is
-`READY FOR OWNER COMMIT`; FR12-1–FR12-6 closed after independent 815-test verification. Owner commit/push and
-ChatGPT closeout are next, followed by mandatory Phase 10–12 milestone review before Phase 13. Phase 1 delivered the
+acceptance, owner commit/push, and 787-test verification. Phase 12 PostgreSQL-first Global Search is complete/frozen after final acceptance, owner commit/push, and
+independent 815-test verification. The Phase 10–12 milestone is `CHANGES_REQUESTED` for M10-12-1 Search normalization; the owner-approved
+maintenance handoff is `READY FOR OWNER COMMIT`, FRM10-12-1 closed (817 tests pass);
+owner commit/push is next, then `$codex-milestone-review`. Phase 13
+preparation remains blocked. Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
 
@@ -59,5 +61,5 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 4. Antigravity implements/tests the handoff.
 5. Codex performs final review; owner commits/pushes after `READY FOR OWNER COMMIT`.
 
-Backend Phases 0–11 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
+Backend Phases 0–12 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
 owner-approved maintenance or feature scope.

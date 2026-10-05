@@ -62,3 +62,13 @@ Search may batch-materialize those IDs through owning feature search contracts.
 
 Do not use fixed oversampling followed by post-filtering, do not query feature tables, and do not issue per-ID feature
 calls.
+
+## M10-12-1 maintenance exception
+
+A Codex handoff created from
+`docs/implementation/maintenance/milestone-10-12-search-case-normalization/README.md` may modify this frozen module
+only for the Search SQL/query-folding and snippet-offset defect described there.
+
+Do not use the maintenance handoff to change mutation behavior, ownership, public Search contracts, ranking, source
+bounds, schema/index definitions, or unrelated code. The maintenance handoff is the temporary authority; otherwise
+the frozen phase rules remain in force.

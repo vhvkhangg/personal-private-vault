@@ -1,198 +1,194 @@
 # Active Implementation Handoff
 
-- Handoff ID: `phase-12-global-search`
+- Handoff ID: `maintenance-milestone-10-12-search-case-normalization`
 - Created by: Codex, 2026-10-04
-- Status: `READY FOR OWNER COMMIT`
+- Status: `READY_FOR_OWNER_COMMIT`
 - Implementer: Antigravity
 - Final reviewer: Codex
-- Approved preparation baseline: `44fdaa9137472b44217c159e87e5bc2b89ca54d4`
+- Scope: owner-approved M10-12-1 maintenance of frozen Phase 12 read-only Search extensions only
+- Owner approval: 2026-10-04, recorded in the canonical maintenance scope (`APPROVED FOR HANDOFF`)
+- Committed implementation baseline: `449eaf686f5c869e2ec49d59051d2e63b82e5f83`
 
 ## Goal
 
-Implement Phase 12 PostgreSQL-first global Search across nine approved domains and 17 Vault-backed types through
-narrow read-only owner contracts. Search remains a no-table leaf/orchestrator. The owner's current invocation
-authorizes the accepted phase scope, not deferred features.
+Close M10-12-1 by making SQL Search comparisons PostgreSQL-folded and snippets locale-independent with original-text
+offsets. This temporarily reopens only approved query/snippet paths, not frozen owner mutation behavior. Phase 13
+remains blocked; milestone status remains `CHANGES_REQUESTED` until accepted maintenance and milestone re-review.
 
 ## Sources of truth
 
-- `docs/implementation/phase-12/README.md`: complete query/result, field, ranking, batching, index and test contract.
-- `docs/implementation/phase-12/preparation-review.md`: `READY FOR HANDOFF`.
-- `docs/implementation/phase-12/reviews/2026-10-04-phase-12-pre-handoff-codex-acceptance.md`: P12-1/P12-2 closed.
-- `docs/architecture/search-architecture.md` and `docs/adr/0010-postgresql-first-global-search.md`.
-- `docs/architecture/module-dependency-matrix.md`, `docs/architecture/module-boundaries.md` and
-  `docs/architecture/data-architecture.md`.
-- `docs/database/personal-private-vault-schema-v1-FROZEN-final.dbml` and frozen Flyway V1.
-- `docs/repository/repository-package-tree.md`, root/backend and affected module `AGENTS.md`.
-- `.agents/rules/backend-phase-12-global-search.md`.
-
-Before creation the working tree was clean and HEAD equaled local `origin/main` at the preparation baseline; no
-remote fetch was performed. Phase 11 is frozen with retained independent 787-test verification; its handoff is
-archived at `docs/implementation/phase-11/handoff.md`. No milestone gate is due before Phase 12. The Phase 10–12
-milestone is mandatory after its accepted owner commit/push. This handoff supersedes preparation-era next-step text.
+- `docs/implementation/maintenance/milestone-10-12-search-case-normalization/README.md` — approved targets,
+  PostgreSQL-only folding/snippet policy, non-goals and mandatory regressions; maintenance preparation exception applies.
+- `docs/implementation/phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md` — measured M10-12-1 failures.
+- `docs/implementation/phase-12/milestone-review.md` — canonical milestone gate, not implementation authority.
+- `docs/implementation/phase-12/README.md` and archived `handoff.md` — retained Search behavior only.
+- Root/backend/module/test `AGENTS.md`, including approved M10-12-1 module exceptions.
+- Frozen `docs/architecture/module-dependency-matrix.md`, `module-boundaries.md`, `search-architecture.md`;
+  `docs/database/personal-private-vault-schema-v1-FROZEN-final.dbml`, Flyway V1/V2 and
+  `docs/repository/repository-package-tree.md` — no baseline change authorized.
 
 ## Implementation targets
 
-Java package paths below are relative to `backend/src/main/java/com/vhvkhangg/personalprivatevault/`.
-
-- `search/`: `query`, `view`, `enums` named interfaces and internal application orchestration following the canonical
-  API direction. Narrow its descriptor to approved owner search interfaces and explicitly needed Vault public types;
-  no owned entity/repository/table.
-- `vault/search/` and Vault-owned internal application/query code: bounded active/type/tag qualification and exact
-  tag-origin candidates through one `vault::search` named interface.
-- `people/`, `fiction/`, `film/`, `media/`, `location/`, `knowledge/`, `collection/`, `account/`, `feed/`: one
-  top-level public `search` named interface per owner, bounded text search/bulk document lookup, owner-local
-  query/repository additions and necessary descriptors. Knowledge/Collection external contracts are parent-owned;
-  matching/persistence remains nested-owned, without leaking nested types to Search.
-- `backend/src/main/resources/db/migration/V2__add_search_support.sql`: append-only `pg_trgm` plus the required
-  search-index inventory, with predicate/expression alignment; additional body indexes require evidence.
-- `backend/src/test/java/com/vhvkhangg/personalprivatevault/`: focused Search/owner/Vault, migration, query-shape
-  and architecture regressions; preserve existing coverage without weakening assertions.
-- `docs/repository/repository-package-tree.md`: synchronize implemented search packages only, not ownership or
-  frozen module structure. Add meaningful package-info files; remove only placeholders filled by this slice.
-- `docs/implementation/phase-12/test-evidence.md` and this handoff's result section: exact implementation evidence.
-
-Frozen-module permission is limited to these read-only search contracts/queries, descriptors and tests. Do not
-change existing mutation, validation, identity, CRUD, lifecycle or unrelated query behavior.
+- Audit all **15 owner/Vault SearchService files** enumerated in the scope's “Affected production scope” section:
+  Account; Collection Music/Shopping/Software; Feed; Fiction; Film; Knowledge Information/Note/Study/Vocabulary;
+  Location; Media; People; Vault. Modify only SQL query-parameter folding and affected snippet helpers.
+- Tiny owner-local helpers are permitted only as the scope allows; no shared cross-module framework/dependency.
+- `backend/src/test/java/com/vhvkhangg/personalprivatevault/search/GlobalSearchIntegrationTest.java` — real owner/global/
+  Vault regression and actual-query evidence updates. Focused owner-local snippet-offset tests may be added as needed.
+- Canonical maintenance `test-evidence.md` and this handoff's implementation-result section — exact audit/change/test
+  results. Update only directly affected docs if necessary.
 
 ## Required behavior / invariants
 
-The entire accepted Phase 12 README is binding; these highlights do not replace it.
-
-- Support exactly its nine-domain/17-type mapping and field inventory. Only Vault-backed standalone results.
-  Domain/type filters intersect; a valid empty intersection yields an empty page.
-- Trim query, preserve internal whitespace, require 1..200 characters; positive required-tag IDs, at most 10,
-  AND semantics; offset 0..500, limit 1..100. Validate/bound all module/candidate/document transport batches.
-- Case-insensitive literal exact/prefix/substring, escaped `%`, `_` and escape characters, bound parameters.
-  Short-field fuzzy uses explicit `similarity(lower(field), lower(query)) >= 0.30` for query length >= 3 only;
-  body/Markdown uses partial matching. No accent folding or session-threshold-only semantics.
-- Shared rank buckets: 600 primary exact, 550 primary prefix, 500 primary substring, 450 secondary exact/prefix,
-  400 secondary substring, 350 short fuzzy, 300 tag, 200 body. Select the best representation.
-- Every source orders **before limiting** by rank DESC, similarity DESC, textual type name ASC, Vault ID ASC.
-  SQL uses `CAST(<owner-local entry-type expression> AS text) COLLATE "C" AS type_name`; Java compares
-  `VaultEntryType.name()` strings. Never native enum/ordinal order. `primaryText` is display-only.
-- Vault owns trash exclusion and required-tag qualification. Feature modules use its public batch contract, never
-  Vault tables/repositories. `FILM_CREDIT` is excluded from tag-origin/required-tag search.
-- Vault applies active/type/domain/required-tag qualification and per-entry best-tag-similarity collapse **before**
-  exact tag-source top-K selection. Materialize selected IDs through bounded owner bulk contracts; inability to
-  materialize a selected active supported entry is an integrity failure, not silent replacement/drop.
-- For `K = offset + limit <= 600`, each selected domain supplies exact top K qualifying text hits and Vault exact
-  top K qualified/deduplicated tag hits. Text candidates rejected by batch qualification require continued bounded
-  paging until K qualifiers or exhaustion. No fixed oversampling/post-filtered fixed prefix, load-all or per-hit
-  calls. Merge/deduplicate by Vault ID, keep stronger rank/similarity, sort/slice globally; identical scores prefer
-  text-origin presentation. Report `hasMore` only when determinable from bounded results.
-- Acyclic dependencies: Search -> Vault/People/Fiction/Film/Media/Location/Knowledge/Collection/Account/Feed, never
-  owner -> Search. No foreign internals/repositories/tables or nested contracts in Search. Foundations stay independent.
-- Read-only sequential fan-out, normal module transactions; no history/business writes, global lock/snapshot or
-  executor. Different committed snapshots during concurrent owner edits are acceptable.
-- Navigation DTOs and bounded plain-text snippets only; no entities, raw JSON/frontmatter, secrets, object keys or
-  highlight HTML. Never log raw terms/results/tags/private identifiers/Markdown/value-bearing vendor details.
-  Validation and diagnostics expose safe structural facts only.
+- Trim/validate the raw query as before. Bind **raw** query and raw-query LIKE-escaped patterns; do not lowercase SQL
+  parameters in Java. PostgreSQL must fold both sides consistently in all WHERE/rank/similarity/tag expressions.
+  Example: `lower(column) = lower(CAST(:rawQuery AS text))`; equivalent bind naming/layout is acceptable.
+- Retain indexed stored-side `lower(column)`. Escape literal percent, underscore and backslash **before** binding;
+  prefix/substring wildcards remain deliberate wrappers. Parameterize values; never interpolate them into SQL.
+- Snippets locate matches in **original cleaned text**, exact-first with an index-preserving, locale-independent
+  fallback or equivalent approved implementation. Never apply folded-copy offsets to original text; budget with
+  original matched extent. If unanchorable, retain safe fallback rather than inventing an offset.
+- Preserve plaintext Markdown/HTML cleanup, body-field fallback, ellipsis behavior, <=240-character budget,
+  surrogate safety and unchanged stored Markdown. Casing expansion before/within a match must not shift the window.
+- Preserve 17 result types; ranks 600/550/500/450/400/350/300/200; textual type-name then ID ordering; required-tag
+  AND/trash/type qualification, tag collapse/deduplication and parent Knowledge/Collection boundaries.
+- Retain fuzzy >=0.30, query-length >=3 suppression and transaction-local threshold restoration; sources remain
+  bounded at 601 with accepted K+1 lookahead, truthful hasMore, paged qualification and bulk materialization.
+- Search remains read-only; no raw query, snippet, tag/private identifier or vendor diagnostics in application logs/errors.
+  Evidence uses synthetic fixtures only; never include real private payloads or secrets.
 
 ## Non-goals
 
-- Finance/Journal/Personal search, non-Vault standalone results or additional module dependencies.
-- HTTP/OpenAPI, frontend, deployment, multi-user/authentication changes or Phase 13+ implementation.
-- History/analytics, recommendations, semantic/vector/RAG, Elasticsearch/OpenSearch or unaccent.
-- Central projection/table, background/event indexing, full-text vectors/generated columns, speculative frameworks.
-- V1 edits or logical schema changes: no new tables, columns, constraints, foreign keys, triggers or DBML redesign.
-- Unrelated frozen-module refactors, new agents/hooks, commits, pushes, tags or PRs.
+- No Phase 13 preparation/code, REST/OpenAPI, public Search DTO/contract shape changes or feature mutations.
+- No Phase 10 Feed/ImportData or Phase 11 Finance/Journal/Personal business changes; Feed's Phase 12 search path only.
+- No schema/DBML/V1/V2/index/dependency/collation rewrite, ILIKE/citext/unaccent/ICU replacement, NFC/NFD feature,
+  accent-folding or linguistic ranking promise, shadow column/projection/history or new search framework.
+- No unrelated refactor, placeholder/warning cleanup, auth/deployment/frontend/RAG or agent/hook changes.
 
 ## Test/evidence contract
 
-Use JUnit 5/AssertJ, Mockito where isolation adds value, Spring Modulith and real PostgreSQL Testcontainers/Flyway;
-never H2. All canonical README testing requirements are mandatory, including:
-
-- All 17 types/fields, ranking/match kinds, bounds, literal wildcards/escapes, case, explicit fuzzy threshold and
-  short-query suppression, body/Markdown, filter intersections, tags, trash, deduplication, pagination, privacy-safe
-  failure paths and no side effects.
-- P12-1: more-than-K equal-score tag hits with reverse ID/title order, offset/cross-domain ties, duplicate matching
-  tags, early rejected/late qualifying required-tag candidates, text/tag overlap and bounded bulk materialization.
-- P12-2: PostgreSQL tag-only ALBUM/IMAGE and multi-type Media text LIMIT/OFFSET with more-than-K equal-score
-  candidates; cross-domain pages compare source membership/order to the Java comparator. Post-LIMIT resorting
-  must not mask native-enum SQL mistakes.
-- V2 after frozen V1, extension/index inventory, unchanged V1 tables/columns/constraints, representative partial/fuzzy
-  query-plan compatibility with trigram expression indexes; record actual plans and limitations.
-- Query-count/batch evidence as candidate/result counts vary: no N+1, per-hit calls or load-all; qualification
-  continues across bounded pages. Modulith proves dependency direction, named-interface isolation, parent/nested
-  ownership and absence of Search persistence.
-
-Iterate focused tests, preserve all 787 baseline tests, then run from repository root:
-
-```text
-mvn -f backend/pom.xml -ntp clean verify
-git diff --check
-```
-
-Repository Maven wrapper equivalent is acceptable; record the exact command executed. Required evidence file:
-`docs/implementation/phase-12/test-evidence.md`. Include Java/Maven/PostgreSQL/Testcontainers versions, exit codes,
-total tests/failures/errors/skips, focused tests, migration/index/query-plan/query-count proof, Modulith results,
-warnings and limitations. Historical 787-test evidence does not replace a fresh final run.
+- Real PostgreSQL Testcontainers and real owner/global/Vault contracts; no H2 or rewritten test-only source SQL.
+- ROOT and tr-TR: title/tag `ID`, query `id` as specified, **also uppercase query `ID`** to expose the actual Java
+  default-locale defect. Compare exact IDs/ranks/kinds through representative owners in different modules and global Search.
+- ROOT: title/tag `\u0130D` (U+0130 followed by D), identical query -> exact text hit / tag hit. This two-character
+  fixture cannot rely on fuzzy rescue. Merely adding Locale.ROOT is not an acceptable SQL fix.
+- BODY-only fixtures: `ID` with query `id` under both locales and identical U+0130 content/query under ROOT -> anchored,
+  non-null snippets containing original matched text. Include long/boundary text and length-changing casing before a
+  later match; assert original offsets, <=240 budget, cleanup/fallback/ellipsis and supplementary Unicode preservation.
+- Save/restore prior JVM locale in finally; ensure locale-mutating tests cannot overlap other locale-sensitive tests.
+- Retain all 815 baseline tests, wildcard escaping, actual 600/602-row lookahead, late qualification [50,5], query/batch
+  counts, index inventory, captured production Music/Vault plans and pinned same-connection fuzzy-threshold proof.
+  Update affected captured binds to raw text and explain real updated queries; disclose forced settings/control queries/
+  body-scan limitations, not a normal-planner or latency guarantee.
+- Focused: `mvn -f backend/pom.xml -ntp -Dtest=GlobalSearchIntegrationTest test`, plus any added owner-local suite.
+  Final: `mvn -f backend/pom.xml -ntp clean verify` and `git diff --check`.
+- Evidence: `docs/implementation/maintenance/milestone-10-12-search-case-normalization/test-evidence.md` — commands,
+  versions, counts/failures/errors/skips, named ROOT/tr-TR/Unicode owner/global/tag/snippet tests, all-15-file audit,
+  SQL/index/batch/fuzzy preservation, warnings/limitations, Modulith/Flyway/Hibernate results and unchanged
+  schema/dependency/public-contract confirmation.
 
 ## Constraints / risks
 
-- Use `global-search-domain-modeling`, `java-spring-coding-standards`, `pragmatic-solid-design`,
-  `reuse-and-consistency`, `design-pattern-selection`, `modular-monolith-architecture`,
-  `jpa-postgresql-persistence` and `backend-testing` from `.agents/skills/`.
-- Exact qualified top-K and SQL/Java enum-name ordering are high-risk correctness boundaries; prove them on
-  PostgreSQL, not only mocks. Query/index efficiency is an implementation proof obligation, not assumed.
-- Keep APIs capability-oriented and reuse owner rules; no generic base repositories or speculative patterns.
-- If accepted scope conflicts with a frozen baseline, stop/report it; do not silently expand permission.
-- Graphify was limited navigation; canonical files govern. No production changes or implementation tests were
-  performed during handoff creation. Owner commits/pushes only after Codex final acceptance.
+- Implementation is committed; preparation/status changes are uncommitted and belong to the owner. Preserve them.
+  No commit/push/tag/PR. Do not modify the archived Phase 12 handoff or historical reviews.
+- Java/PostgreSQL lowercasing differs even under ROOT; folded-string offsets are unsafe. A locale-only patch or
+  global JVM-locale override does not close M10-12-1. Audit every WHERE/rank/similarity branch, not just eligibility.
+- Keep owner-local persistence and parent contracts. Stop/report conflicts or needed scope expansion.
+- Engineering skills: `global-search-domain-modeling`, `java-spring-coding-standards`, `pragmatic-solid-design`,
+  `reuse-and-consistency`, `design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`,
+  `backend-testing`; `graphify-context` for navigation. Authentication work is not in scope.
+- Codex performed planning/source checks only; no production/test implementation or build run during handoff creation.
 
 ## Implementation result
 
-- Remediation slice submitted by Antigravity for FR12-4 and FR12-6 following Codex final re-review 3; Codex closure is recorded below, not inferred from implementer claims.
-- Test evidence: [`docs/implementation/phase-12/test-evidence.md`](../phase-12/test-evidence.md).
-- Verification results:
-  - `mvn -f backend/pom.xml -ntp clean verify`: Exit status 0, BUILD SUCCESS, 815 tests run (0 failures, 0 errors, 0 skipped), 01:44 min, finished 2026-10-04T19:57:40+07:00. All 787 baseline tests preserved + 28 new/remediated tests passing (4 architecture tests + 24 search integration tests).
-  - `git diff --check`: Exit status 0 (clean, no whitespace warnings or errors).
-  - `powershell -ExecutionPolicy Bypass -File scripts/refresh-graphify.ps1`: Exit status 0.
-- Implementer-reported remediation details:
-  - **FR12-1 (Truthful bounded lookahead & hasMore):** Closed in prior review.
-  - **FR12-2 (Structural input validation):** Closed in prior review.
-  - **FR12-3 (Plaintext snippets and budget cap):** Closed in prior review.
-  - **FR12-4 (Pinned physical connection threshold isolation & query plans):**
-    - Remediation implemented strictly in `GlobalSearchIntegrationTest.java`: dedicated physical `Connection` checked out from the test container `DataSource` and wrapped in `SingleConnectionDataSource(pinnedConn, true)`.
-    - Real `MusicSearchService` wired via Spring `ProxyFactory` with `DataSourceTransactionManager(pinnedDataSource)` and `AnnotationTransactionAttributeSource`, ensuring service transaction executes on the exact same physical PostgreSQL backend connection.
-    - Verified identical PostgreSQL PID (`serviceObservedPid == pinnedConnPid`) between direct connection check and instrumented service execution (`SELECT pg_backend_pid()`).
-    - Verified candidate fixture "Symphony" vs query "symphoni" matches fuzzy-only (`startsWith` false, `contains` false) with exact PostgreSQL similarity measured as `0.6363636` (satisfying $0.30 \le 0.6363636 < 0.80$).
-    - Direct query on `pinnedConn` under prior session threshold 0.8 proves exclusion (`lower(title) % 'symphoni' == false`) without transaction override.
-    - Inside transaction, `SET LOCAL pg_trgm.similarity_threshold = 0.3;` executes on `pinnedConn`, successfully finding "Symphony" as a `SHORT_FUZZY` match.
-    - After transaction completion, `SHOW pg_trgm.similarity_threshold` on `pinnedConn` proves threshold restored to `0.8`.
-    - `finally` block safely resets session threshold back to baseline `0.3`.
-  - **FR12-5 (Comprehensive PostgreSQL test suite & transparent query instrumentation):** Closed in prior review.
-  - **FR12-6 (Documentation synchronization & factual evidence):**
-    - Updated `docs/implementation/phase-12/test-evidence.md` with:
-      - Measured similarity `0.6363636` and pinned PID proof details.
-      - Full captured query plans for Music candidate query (`Bitmap Heap Scan` on `music_tracks`, `Bitmap Index Scan` on `idx_music_tracks_title_trgm`) and Vault candidate query (`GroupAggregate`, `Incremental Sort`, `Index Scan` on `tags_pkey` and `vault_entries_pkey`).
-      - Planner disclosures explaining `SET enable_seqscan = off;` was used during isolation tests to verify index path capability on small test datasets against PostgreSQL cost-based preference for sequential scans on small tables.
-      - Clear distinction between full Vault production query plan and handwritten control query on tags (`Bitmap Index Scan` on `idx_tags_name_trgm`).
-      - Full plan and limitations for unindexed note content body search (`Seq Scan` on `notes` with `Filter: ((lower(content_markdown) ~~ '%symphonic%') OR (lower(summary) ~~ '%symphonic%'))`).
-      - Added existing pre-Phase-12 compiler deprecation notice for `importdata.internal.parsing.CsvImportParser`; normal compilation does not identify the deprecated member without additional diagnostics.
-      - Updated test counts and execution timestamps.
+Implemented by Antigravity on 2026-10-04; remediated on 2026-10-05. Status transitioned to `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
+
+### Summary of Changes
+
+1. **PostgreSQL-Side Query Parameter Folding (All 15 Search Services):**
+   - Audited and updated all 15 owner/Vault SearchService classes:
+     - `AccountSearchService.java`
+     - `MusicSearchService.java`
+     - `ShoppingSearchService.java`
+     - `SoftwareSearchService.java`
+     - `FeedSearchService.java`
+     - `FictionSearchService.java`
+     - `FilmSearchService.java`
+     - `InformationSearchService.java`
+     - `NoteSearchService.java`
+     - `StudySearchService.java`
+     - `VocabularySearchService.java`
+     - `LocationSearchService.java`
+     - `MediaSearchService.java`
+     - `PeopleSearchService.java`
+     - `VaultSearchService.java`
+   - Bound parameters using raw trimmed query and raw-query LIKE-escaped patterns (`rawQuery`, `prefixPattern`, `substringPattern`) without Java-side `toLowerCase()`.
+   - SQL expressions fold both sides PostgreSQL-side via `lower(CAST(:... AS text))` for exact (`=`), prefix (`LIKE ... ESCAPE '\'`), substring (`LIKE ... ESCAPE '\'`), pg_trgm fuzzy (`%`, `similarity`), and Vault tag searches.
+   - Retained indexed stored expressions `lower(column)` for trigram index compatibility.
+
+2. **Locale-Independent, Offset-Safe Snippet Matching (13 Search Services with Body Content):**
+   - Discontinued applying offsets from lowercased copies to original text across all 13 services searching body content (`MusicSearchService` and `VaultSearchService` do not search body text and have no snippet helpers).
+   - Implemented exact `indexOf(query)` first, followed by case-insensitive `findMatchIndex` using `regionMatches(true, ...)` across the original cleaned text.
+   - Casing expansions (e.g. U+0130 expanding from 1 to 2 UTF-16 code units under `Locale.ROOT`) cannot desynchronize character offsets or shift snippet windows.
+   - Preserved <= 240 character budget, Markdown/HTML stripping, body-field fallback, ellipsis rules, and surrogate pair boundaries.
+
+3. **Mandatory Regressions Added to `GlobalSearchIntegrationTest.java`:**
+   - `verifiesSearchCaseNormalizationUnderRootAndTurkishLocales`:
+     - Proves queries `"id"` and `"ID"` for title/tag `"ID"` produce identical hits, kinds (`PRIMARY_EXACT`), and rank buckets (`600`) across representative modules (`collection.music`, `feed`, `knowledge.note`, `people`, `vault` tags, and `GlobalSearchOperations`) under both `Locale.ROOT` and `tr-TR`.
+     - Proves two-character query `"\u0130D"` for title/tag `"\u0130D"` produces exact hits (`PRIMARY_EXACT`, rank 600) under `Locale.ROOT` without relying on fuzzy similarity rescue.
+     - Proves Global Search produces identical qualifying entry ordering under both lowercase and uppercase queries across JVM default locales.
+   - `verifiesBodySnippetExtractionCaseNormalizationAndOffsets`:
+     - Proves BODY match for ASCII `"ID"` with query `"id"` under both `Locale.ROOT` and `tr-TR` returns non-null snippet containing original `"ID"`.
+     - Proves BODY match for Unicode `"\u0130D"` with query `"\u0130D"` under `Locale.ROOT` returns non-null snippet containing `"\u0130D"`.
+     - Proves boundary positioning (start, middle, end) adheres to the <= 240 char budget and proper ellipsis formatting.
+     - Proves genuine casing expansion in long body (> 240 chars) under `Locale.ROOT` (`"\u0130".repeat(300) + " TARGET " + "x".repeat(400)` with query `"target"`): original offset 301 is preserved and windowed instead of shifted to 601, returning a <= 240 char snippet containing `"TARGET"` with ellipsis padding (`...`).
+     - Checks U+1E9E and `"ID"` character preservation in a short body; the separate long U+0130 fixture proves window offsets.
+     - Proves surrogate pair safety near boundary (`\uD83D\uDE00`) avoids splitting surrogate code units.
+     - Proves Markdown and HTML tags are cleaned from snippet while preserving content.
+
+### Verification Results
+
+- **Focused Test Suite:**
+  `mvn -f backend/pom.xml -ntp -Dtest=GlobalSearchIntegrationTest test`
+  - Result: `BUILD SUCCESS` (26 tests run, 0 failures, 0 errors, 0 skipped, 28.06 s, total time 46.634 s).
+  - Finished at: 2026-10-05T07:11:12+07:00.
+- **Full Verification Suite:**
+  `mvn -f backend/pom.xml -ntp clean verify`
+  - Result: `BUILD SUCCESS` (817 tests run, 0 failures, 0 errors, 0 skipped, 01:51 min).
+  - Finished at: 2026-10-05T07:13:35+07:00.
+- **Git Diff Check:**
+  `git diff --check`
+  - Result: Exit code 0 (clean).
+- **Canonical Evidence File:**
+  `docs/implementation/maintenance/milestone-10-12-search-case-normalization/test-evidence.md`.
 
 ## Codex remediation
 
-2026-10-04 Codex [final acceptance](../phase-12/reviews/2026-10-04-phase-12-final-codex-acceptance.md):
-**READY FOR OWNER COMMIT**. Independent clean verify passed 815 tests, zero failures/errors/skips,
-01:28 min, finished 20:04:55+07:00. FR12-1–FR12-6 closed; P12-1/P12-2 remain closed.
+Codex review, 2026-10-04: **FRM10-12-1 (Medium), tests/evidence only; CLOSED on 2026-10-05**. No production correction requested.
+Formal review: `../maintenance/milestone-10-12-search-case-normalization/reviews/2026-10-04-final-codex-review.md`.
 
-- FR12-1–FR12-3 and FR12-5 remain closed, including transparent real SQL/batch counting, late qualification
-  `[50, 5]`, actual maximum lookahead datasets and all 23 expected index mappings.
-- FR12-4 closed: same physical connection is pinned for prior-0.8 setup, the real proxied Music service transaction
-  and post-completion observation. Actual service-query PID matches setup PID; measured fuzzy-only similarity
-  is approximately 0.6363636, excluded without override, returned as SHORT_FUZZY with local 0.3, restored to 0.8
-  after transaction completion and cleaned to test baseline 0.3 in finally.
-- FR12-6 closed: full captured Music/Vault plans, forced planner settings, separate tags-only control, measured
-  threshold proof, correct ranks/null semantics/counts/package docs and observed warnings are recorded.
-  Codex corrected minor evidence wording and synchronized current status. Historical reviews remain unchanged.
+- Replace/add the claimed casing-expansion fixture: U+1E9E lowercases from one character to one, and its short body
+  bypasses snippet windowing. Use genuinely expanding U+0130 before a later match in >240-character BODY content
+  under ROOT; assert the original-text window contains the match and fails with the old shifted-offset algorithm.
+  See the formal review's concrete 301-versus-601-offset fixture. Preserve locale restoration and existing regressions.
+- Correct evidence/result claims: SQL changes in 15 services; snippet helpers in 13 (not Music/Vault); real binds
+  `rawQuery`/`prefixPattern`/`substringPattern`; U+1E9E is not a lowercase expansion fixture.
+- Antigravity `/antigravity-test-slice`; focused Search tests, full clean verify and diff check. Record actual results
+  and resubmit as `IMPLEMENTED_AWAITING_CODEX_REVIEW`. Keep all production changes and frozen baselines unchanged.
 
-No implementation/test remediation remains. Owner commit/push is required before phase closeout/freeze.
+**Remediation Status (2026-10-05):** Addressed via `/antigravity-test-slice`:
+- Replaced short U+1E9E casing expansion claim in `GlobalSearchIntegrationTest.java` with genuine expanding U+0130 long-body fixture (`"\u0130".repeat(300) + " TARGET " + "x".repeat(400)`, query `"target"`) under `Locale.ROOT`. Verified match at offset 301 is preserved within <= 240 char budget (`...<sub containing TARGET>...`) while old algorithm shifted offset to 601 (tail branch) and omitted `TARGET`.
+- Corrected evidence and summary claims: 15 search services audited with SQL parameter folding; 13 search services have snippet helpers (Music and Vault have no body snippet helpers). Actual bind names: `rawQuery`, `prefixPattern`, `substringPattern`.
+- Re-verified focused suite (26 tests, 0 failures, 28.06 s), full clean verify (817 tests, 0 failures, 0 errors, 0 skips, 01:51 min), and `git diff --check` (clean exit 0). Resubmitted as `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 
 ## Final review
 
-Codex final acceptance returned `READY FOR OWNER COMMIT`; FR12-1–FR12-6 closed after independent 815-test verification.
-Commit message: `feat(search): add PostgreSQL-first global search`.
-Next step: owner commits/pushes, then gives the latest package to ChatGPT for Phase 12 closeout.
-After owner commit/push and phase closeout, run the mandatory Phase 10–12 `$codex-milestone-review` before Phase 13.
+**READY FOR OWNER COMMIT**, 2026-10-05. FRM10-12-1 closed; no blocking findings remain.
+Formal acceptance: `../maintenance/milestone-10-12-search-case-normalization/reviews/2026-10-05-final-codex-acceptance.md`.
+Independent clean verify: 817 tests, zero failures/errors/skips, 01:53 min,
+finished `2026-10-05T07:18:21+07:00`; diff check clean.
+
+Suggested commit message: `fix(search): align PostgreSQL casing and snippet offsets`
+
+Next step: owner commits/pushes the accepted maintenance package, then reruns `$codex-milestone-review`.
+Phase 13 still requires `MILESTONE_READY`, committed milestone docs and ChatGPT post-milestone synchronization/reset.

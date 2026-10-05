@@ -48,10 +48,10 @@ public class MusicSearchService implements MusicSearchOperations {
         jdbcTemplate.getJdbcTemplate().execute("SET LOCAL pg_trgm.similarity_threshold = 0.3;");
 
         String rawQuery = query.trim();
-        String lowerQuery = rawQuery.toLowerCase();
         boolean enableFuzzy = rawQuery.length() >= 3;
-        String prefixPattern = escapeLike(lowerQuery) + "%";
-        String substringPattern = "%" + escapeLike(lowerQuery) + "%";
+        String escapedRaw = escapeLike(rawQuery);
+        String prefixPattern = escapedRaw + "%";
+        String substringPattern = "%" + escapedRaw + "%";
 
         int pageSize = Math.min(Math.max(limit, 50), 100);
         int currentOffset = 0;
@@ -65,30 +65,30 @@ public class MusicSearchService implements MusicSearchOperations {
                     m.title AS primary_text,
                     NULL AS secondary_text,
                     CASE
-                        WHEN lower(m.title) = :lowerQuery THEN 600
-                        WHEN lower(m.title) LIKE :prefixPattern ESCAPE '\\' THEN 550
-                        WHEN lower(m.title) LIKE :substringPattern ESCAPE '\\' THEN 500
-                        WHEN :enableFuzzy AND lower(m.title) % :lowerQuery AND similarity(lower(m.title), :lowerQuery) >= 0.30 THEN 350
+                        WHEN lower(m.title) = lower(CAST(:rawQuery AS text)) THEN 600
+                        WHEN lower(m.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 550
+                        WHEN lower(m.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 500
+                        WHEN :enableFuzzy AND lower(m.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(m.title), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 350
                         ELSE 0
                     END AS rank_bucket,
                     CASE
-                        WHEN lower(m.title) = :lowerQuery THEN 0.0
-                        WHEN lower(m.title) LIKE :prefixPattern ESCAPE '\\' THEN 0.0
-                        WHEN lower(m.title) LIKE :substringPattern ESCAPE '\\' THEN 0.0
-                        WHEN :enableFuzzy AND lower(m.title) % :lowerQuery AND similarity(lower(m.title), :lowerQuery) >= 0.30 THEN similarity(lower(m.title), :lowerQuery)
+                        WHEN lower(m.title) = lower(CAST(:rawQuery AS text)) THEN 0.0
+                        WHEN lower(m.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN lower(m.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 0.0
+                        WHEN :enableFuzzy AND lower(m.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(m.title), lower(CAST(:rawQuery AS text))) >= 0.30 THEN similarity(lower(m.title), lower(CAST(:rawQuery AS text)))
                         ELSE 0.0
                     END AS similarity,
                     CASE
-                        WHEN lower(m.title) = :lowerQuery THEN 'PRIMARY_EXACT'
-                        WHEN lower(m.title) LIKE :prefixPattern ESCAPE '\\' THEN 'PRIMARY_PREFIX'
-                        WHEN lower(m.title) LIKE :substringPattern ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
-                        WHEN :enableFuzzy AND lower(m.title) % :lowerQuery AND similarity(lower(m.title), :lowerQuery) >= 0.30 THEN 'SHORT_FUZZY'
+                        WHEN lower(m.title) = lower(CAST(:rawQuery AS text)) THEN 'PRIMARY_EXACT'
+                        WHEN lower(m.title) LIKE lower(CAST(:prefixPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_PREFIX'
+                        WHEN lower(m.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\' THEN 'PRIMARY_SUBSTRING'
+                        WHEN :enableFuzzy AND lower(m.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(m.title), lower(CAST(:rawQuery AS text))) >= 0.30 THEN 'SHORT_FUZZY'
                         ELSE 'NONE'
                     END AS match_kind
                 FROM music_tracks m
                 WHERE (
-                    lower(m.title) LIKE :substringPattern ESCAPE '\\'
-                    OR (:enableFuzzy AND lower(m.title) % :lowerQuery AND similarity(lower(m.title), :lowerQuery) >= 0.30)
+                    lower(m.title) LIKE lower(CAST(:substringPattern AS text)) ESCAPE '\\'
+                    OR (:enableFuzzy AND lower(m.title) % lower(CAST(:rawQuery AS text)) AND similarity(lower(m.title), lower(CAST(:rawQuery AS text))) >= 0.30)
                 )
                 ORDER BY
                     rank_bucket DESC,
@@ -100,7 +100,7 @@ public class MusicSearchService implements MusicSearchOperations {
 
         while (qualifyingHits.size() < limit) {
             MapSqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("lowerQuery", lowerQuery)
+                    .addValue("rawQuery", rawQuery)
                     .addValue("prefixPattern", prefixPattern)
                     .addValue("substringPattern", substringPattern)
                     .addValue("enableFuzzy", enableFuzzy)

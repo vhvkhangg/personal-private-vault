@@ -92,7 +92,16 @@ full verification passed 787 tests. See `../docs/implementation/phase-11/README.
 
 ## Phase 12
 
-PostgreSQL-first Global Search implementation is `READY FOR OWNER COMMIT`; FR12-1–FR12-6 closed.
-Independent clean verify passed 815 tests. Owner commit/push and ChatGPT phase closeout are next, followed by
-mandatory Phase 10–12 milestone review before Phase 13. Phase 12 is not yet complete/frozen. See
-`../docs/implementation/phase-12/README.md`.
+PostgreSQL-first Global Search is **complete and frozen** after final acceptance and owner commit/push. Independent
+full verification passed 815 tests. See `../docs/implementation/phase-12/README.md`.
+
+## Current milestone gate
+
+The Phase 10–12 milestone is `CHANGES_REQUESTED` for M10-12-1 Search SQL/snippet case-normalization consistency.
+See `../docs/implementation/phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md`.
+Independent milestone clean verification passed 815 tests. Maintenance final acceptance independently passed 817 tests
+and is `READY FOR OWNER COMMIT`; FRM10-12-1 is closed. Owner commit/push is next, then `$codex-milestone-review`.
+The milestone gate remains separate; no broader frozen-module work is authorized.
+
+Phase 13 preparation remains blocked until the milestone reaches `MILESTONE_READY`, the owner commits/pushes the
+milestone review/status package, and ChatGPT completes post-milestone synchronization/reset.
