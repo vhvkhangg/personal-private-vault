@@ -34,9 +34,9 @@ This file defines repository-wide instructions for coding agents.
   owner commit/push. Its completed handoff is archived under `docs/implementation/phase-12/handoff.md`.
 - Search case-normalization maintenance is complete/frozen after owner commit/push as `a881540`; FRM10-12-1 closed.
 - The Phase 10–12 milestone is `MILESTONE_READY` (2026-10-05); M10-12-1 closed and independent 817-test verification passed.
-  See `docs/implementation/phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md`.
-  Owner commits/pushes the milestone review/status docs next, then ChatGPT performs post-milestone synchronization/reset.
-  Phase 13 preparation stays blocked until those steps are complete; no next implementation handoff is authorized.
+  Milestone review/status docs are owner committed/pushed and ChatGPT post-milestone synchronization/reset is complete.
+- Backend Phase 13 Shared REST/API Contract + Module HTTP Exposure preparation is `READY FOR HANDOFF` (2026-10-05).
+  Owner preparation commit/push is next, followed by `$codex-create-handoff`; no implementation handoff is active.
 
 Completed maintenance scope:
 

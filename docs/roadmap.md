@@ -26,7 +26,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 10    | `feed` + `importdata` workflows                                                               | P-10 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 complete                                       | **COMPLETE — FROZEN** | **MILESTONE_READY** |
-| 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 planned                                        | Not started           | —                    |
+| 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | **P-13: READY FOR HANDOFF**                         | Not started           | —                    |
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 planned                                        | Not started           | —                    |
 | 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
 | 16    | RAG / semantic retrieval enhancement                                                          | P-16 planned                                        | Not started           | Final closeout       |
@@ -152,21 +152,36 @@ Phase 12 preparation was accepted/owner committed as `44fdaa9`; P12-1/P12-2 clos
 Independent clean verify passed 815 tests. The owner committed/pushed the accepted implementation and ChatGPT
 closed/froze Phase 12.
 
-The mandatory Phase 10–12 milestone review must now pass before Phase 13 preparation.
+The mandatory Phase 10–12 milestone review passed; milestone docs are owner committed/pushed and
+post-milestone synchronization/reset is complete.
 
 ## Phase 10–12 milestone review
 
-Phases 10–12 are complete/frozen. The current gate is
+Phases 10–12 are complete/frozen. The completed milestone gate is recorded in
 [`implementation/phase-12/milestone-review.md`](implementation/phase-12/milestone-review.md).
 
 Codex [milestone acceptance](implementation/phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md)
 returned **MILESTONE_READY**; M10-12-1 closed after accepted maintenance owner commit/push `a881540`.
-Fresh milestone clean verification passed 817 tests. Owner commits/pushes milestone review/status docs next,
-then ChatGPT completes post-milestone synchronization/reset and Phase 13 preparation.
-No broader frozen-module work or Phase 13 scope is authorized by this review.
+Fresh milestone clean verification passed 817 tests. The owner committed/pushed milestone review/status docs as
+`4220ad4`, and ChatGPT completed post-milestone synchronization/reset and Phase 13 preparation.
+The milestone review itself authorizes no broader frozen-module work or Phase 13 implementation.
 
-Phase 13 preparation remains blocked until the milestone is `MILESTONE_READY`, the owner commits/pushes the milestone
-review/status package, and ChatGPT completes post-milestone synchronization/reset.
+## Phase 13 preparation
+
+The Phase 10–12 milestone is `MILESTONE_READY`; accepted Search normalization maintenance `a881540` and milestone
+review/status docs are owner committed/pushed. ChatGPT post-milestone synchronization/reset is complete.
+
+Phase 13 finalizes the shared REST/JSON contract, `/api/v1` versioning, module-local HTTP adapters, authentication
+HTTP exposure, OpenAPI/error consistency and truthful pagination metadata without adding new domain use cases or a
+new Spring Modulith application module.
+
+Phase 13 preparation received [Codex acceptance](implementation/phase-13/reviews/2026-10-05-phase-13-pre-handoff-codex-acceptance.md)
+on 2026-10-05: **READY FOR HANDOFF**. The owner approved the concept and ADR-0016's narrow root HTTP exception
+for preparation review. Current gate: owner commit/push of preparation, then:
+
+```text
+$codex-create-handoff
+```
 
 ## Completed Phase 4–6 milestone maintenance
 

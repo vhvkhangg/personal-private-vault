@@ -727,3 +727,12 @@ Reused without new custom agents/hooks:
 - Next gate: [`milestone-review.md`](milestone-review.md) via `$codex-milestone-review`.
 - Phase 13 preparation remains blocked until the Phase 10–12 milestone is `MILESTONE_READY`, its review/status package
   is owner committed/pushed, and ChatGPT completes post-milestone synchronization/reset.
+
+
+## Post-milestone status
+
+- Phase 10–12 milestone: **MILESTONE_READY**.
+- Milestone review/status package: owner committed/pushed.
+- M10-12-1 maintenance: complete/frozen as `a881540`.
+- Post-milestone synchronization/reset: **COMPLETE**.
+- Phase 13 preparation is tracked separately under `../phase-13/`.

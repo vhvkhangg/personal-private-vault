@@ -29,3 +29,4 @@ When a frozen architectural decision changes materially, add a new ADR and mark 
 | [ADR-0013](0013-stable-compatible-version-policy.md)      | Use latest stable mutually compatible versions                        | Accepted |
 | [ADR-0014](0014-defer-frontend-rag-and-deployment.md)     | Defer frontend, RAG, and deployment-specific architecture             | Accepted |
 | [ADR-0015](0015-semantic-public-api-subpackages.md)       | Organize public module APIs into semantic named-interface subpackages | Accepted |
+| [ADR-0016](0016-root-http-contract-module-local-adapters.md) | Keep shared HTTP contract at root; adapters module-local              | Accepted |

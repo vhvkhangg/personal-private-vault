@@ -11,18 +11,16 @@ finished `2026-10-05T07:26:35+07:00`. No blocking cross-phase findings remain.
 
 The [2026-10-04 review](reviews/2026-10-04-phase-10-12-milestone-codex-review.md) remains historical.
 Low inherited placeholder/warning debt and accepted Search body-scan/planner/snapshot limitations are disclosed in acceptance.
-The existing active maintenance handoff is retained unchanged for post-milestone archive/reset; no next handoff is authorized.
+The completed maintenance handoff is archived and `ACTIVE.md` is reset to `NO_ACTIVE_HANDOFF`. Post-milestone synchronization is complete.
 
-Next step: owner commits/pushes this milestone review/status package, then gives the latest package to ChatGPT for
-post-milestone synchronization/reset and Phase 13 preparation, before `$codex-pre-handoff-review`.
+The owner committed/pushed the milestone review/status package and ChatGPT completed post-milestone synchronization/reset. Phase 13 preparation is now the current gate; run `$codex-pre-handoff-review` only against the prepared Phase 13 scope.
 
 ## Trigger
 
 Backend Phase 12 PostgreSQL-first Global Search passed final Codex acceptance and the owner committed/pushed the
 accepted implementation.
 
-Phases 10, 11, and 12 are complete/frozen. This milestone has passed; its docs must be owner committed/pushed and
-ChatGPT must complete post-milestone synchronization/reset before Phase 13 preparation begins.
+Phases 10, 11, and 12 are complete/frozen. This milestone has passed, its review/status docs are owner committed/pushed, and ChatGPT post-milestone synchronization/reset is complete.
 
 ## Review window
 

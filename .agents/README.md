@@ -43,6 +43,7 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `feed-import-workflow-modeling`
 - `finance-journal-personal-domain-modeling`
 - `global-search-domain-modeling`
+- `rest-api-http-contracts`
 
 ## Workflow/review skills
 

@@ -11,7 +11,7 @@ the genuine long-body casing-expansion regression and evidence corrections close
 See [formal final acceptance](reviews/2026-10-05-final-codex-acceptance.md).
 The owner committed/pushed the accepted maintenance as `a88154072afe26035accce58e1acb127ea253028`.
 [Milestone acceptance](../../phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md) is `MILESTONE_READY`.
-Next step: owner commits/pushes milestone review/status docs, then ChatGPT post-milestone synchronization/reset.
+Post-milestone synchronization/reset completed 2026-10-05. The completed maintenance handoff is archived in [`handoff.md`](handoff.md). Phase 13 preparation is now a separate gate.
 
 Trigger:
 [`../../phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md`](../../phase-12/reviews/2026-10-04-phase-10-12-milestone-codex-review.md)
@@ -296,12 +296,12 @@ docs/implementation/maintenance/milestone-10-12-search-case-normalization/test-e
 This scope is owner-approved and intentionally uses the maintenance exception.
 
 Maintenance is owner committed/pushed as `a881540`; the milestone is `MILESTONE_READY`.
-The active handoff retains its historical acceptance marker until ChatGPT archives/resets it; it is not executable.
+The completed handoff is archived in `handoff.md`; `ACTIVE.md` is reset to `NO_ACTIVE_HANDOFF`.
 
 The maintenance exception was used without a numbered-phase `$codex-pre-handoff-review` gate.
 
-Owner commits/pushes the milestone review/status package next, then gives the latest package to ChatGPT for
-post-milestone synchronization/reset and Phase 13 preparation before `$codex-pre-handoff-review`.
+The milestone review/status package is owner committed/pushed and ChatGPT completed post-milestone synchronization.
+Phase 13 preparation now proceeds through its own `$codex-pre-handoff-review` gate.
 
 Phase 13 remains blocked until the milestone returns `MILESTONE_READY`, the milestone review/status package is
 owner committed/pushed, and ChatGPT completes post-milestone synchronization/reset.

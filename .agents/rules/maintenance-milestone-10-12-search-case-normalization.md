@@ -1,34 +1,16 @@
 ---
 trigger: model_decision
-description: "Apply when creating, implementing, testing, or reviewing the owner-approved M10-12-1 Search case-normalization maintenance."
+description: "Historical guard for the completed M10-12-1 Search maintenance; it grants no current production authority."
 ---
 
-# Milestone 10–12 Maintenance — Search Case Normalization
+# Historical M10-12-1 Maintenance Rule
 
-Canonical scope:
+The Search case-normalization maintenance is **COMPLETE / FROZEN**, owner committed as `a881540`, and the
+Phase 10–12 milestone is `MILESTONE_READY`.
 
-`docs/implementation/maintenance/milestone-10-12-search-case-normalization/README.md`
+This file is retained only to interpret historical maintenance artifacts.
 
-This is an owner-approved maintenance exception over frozen Phase 12 Search behavior.
+It MUST NOT authorize new production/test changes. Any future Search maintenance requires a new explicit
+owner-approved scope and a new active Codex handoff.
 
-Implementation requires an active Codex maintenance handoff created by:
-
-```text
-$codex-create-handoff
-```
-
-Constraints:
-
-- PostgreSQL is the sole case-folding authority for SQL Search comparisons;
-- do not lowercase SQL comparison parameters in Java;
-- preserve raw-query validation and literal LIKE escaping;
-- keep stored-side `lower(column)` and V2 lower-expression index alignment;
-- snippets must locate matches in original cleaned text without applying offsets from length-changing folded copies;
-- default JVM locale must not affect text/tag/snippet behavior;
-- retain rank buckets, type-name order, bounds, fuzzy threshold isolation, query counts, batching and privacy;
-- no V1/V2/DBML/schema/dependency/public Search contract change;
-- no unaccent/citext/collation/Unicode-normalization feature work;
-- no generic cross-module normalization/persistence framework;
-- no Phase 13 work.
-
-After accepted maintenance owner commit/push, rerun `$codex-milestone-review`.
+Current work follows the repository's current numbered-phase rule instead.

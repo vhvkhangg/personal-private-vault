@@ -16,7 +16,8 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-9/`](phase-9/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `collection`
 - [`phase-10/`](phase-10/README.md) — **COMPLETE / FROZEN** — `feed` + `importdata`
 - [`phase-11/`](phase-11/README.md) — **COMPLETE / FROZEN** — `finance` + `journal` + `personal`
-- [`phase-12/`](phase-12/README.md) — **COMPLETE / FROZEN; MILESTONE REVIEW REQUIRED** — `search`
+- [`phase-12/`](phase-12/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `search`
+- [`phase-13/`](phase-13/README.md) — **READY FOR HANDOFF** — shared REST/API + HTTP exposure; implementation not started
 
 Maintenance:
 
@@ -26,21 +27,21 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-The [active handoff](handoffs/ACTIVE.md) retains its maintenance acceptance marker; that maintenance is owner
-committed/pushed as `a881540` and complete/frozen. ChatGPT post-milestone archive/reset is pending; do not execute it or create the next handoff.
+There is no active implementation handoff.
 
-Backend Phases 10, 11, and 12 are complete/frozen after final acceptance and owner commit/push. Phase 12's completed
-handoff is archived in [`phase-12/handoff.md`](phase-12/handoff.md), with retained evidence/reviews under `phase-12/`.
+Backend Phases 10–12 are complete/frozen. The Phase 10–12 milestone is `MILESTONE_READY`; M10-12-1 maintenance is
+complete/frozen as owner commit `a881540`, the milestone review/status package is owner committed/pushed, and
+post-milestone synchronization/reset is complete.
 
-The [`Phase 10–12 milestone`](phase-12/milestone-review.md) is **MILESTONE_READY**; M10-12-1 and FRM10-12-1 closed.
-See [formal milestone acceptance](phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md).
-Fresh committed-baseline clean verification passed 817 tests, zero failures/errors/skips.
-Owner commits/pushes the milestone review/status package next, then gives the latest package to ChatGPT for
-post-milestone synchronization/reset and Phase 13 preparation. No Phase 13 scope is opened by this review.
+Backend Phase 13 Shared REST/API Contract + Module HTTP Exposure preparation is `READY FOR HANDOFF` after
+[Codex acceptance](phase-13/reviews/2026-10-05-phase-13-pre-handoff-codex-acceptance.md).
+The owner commits/pushes this preparation slice next, then invokes:
 
-Do **not** prepare Phase 13 and do not create an implementation handoff until the milestone reaches
-`MILESTONE_READY`, the owner commits/pushes the milestone review/status package, and ChatGPT performs post-milestone
-synchronization/reset.
+```text
+$codex-create-handoff
+```
+
+Do **not** create the Phase 13 implementation handoff until the owner commits/pushes the accepted preparation slice.
 
 ## Operational guidance
 

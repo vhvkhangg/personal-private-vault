@@ -57,12 +57,29 @@ Production changes require:
 
 After Phase 12 owner commit/push, the Phase 10–12 milestone review is mandatory before Phase 13.
 
-## M10-12-1 maintenance exception
+## Phase 13 HTTP adapter exception
 
-A Codex handoff created from
-`docs/implementation/maintenance/milestone-10-12-search-case-normalization/README.md` may modify this frozen module
-only for the Search SQL/query-folding and snippet-offset defect described there.
+An accepted active Phase 13 handoff may modify this otherwise-frozen module only to add the REST/JSON adapter work
+authorized by `docs/implementation/phase-13/README.md`.
 
-Do not use the maintenance handoff to change mutation behavior, ownership, public Search contracts, ranking, source
-bounds, schema/index definitions, or unrelated code. The maintenance handoff is the temporary authority; otherwise
-the frozen phase rules remain in force.
+Allowed:
+
+- owner `internal/web` controller/request/response DTO/mapper/advice packages;
+- mapping to existing owner operations/facades;
+- HTTP Bean Validation and OpenAPI annotations;
+- module exception-to-HTTP translation;
+- tests needed for this HTTP surface.
+
+Not allowed:
+
+- changing existing domain/application invariants or persistence behavior;
+- importing another module's internal/repository/entity;
+- exposing application entities or internal Search contracts;
+- inventing new business operations solely for HTTP convenience;
+- schema/Flyway changes;
+- Phase 14+ work.
+
+The active Phase 13 handoff, when present, is the temporary authority for this narrow adapter exception. Otherwise
+the frozen-module rules remain in force.
+
+Phase 13 exposes only `GET /api/v1/search` through `GlobalSearchOperations`; owner-module Search contracts remain non-HTTP.

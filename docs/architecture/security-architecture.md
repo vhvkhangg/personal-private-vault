@@ -16,9 +16,11 @@ Internet-deployment hardening is **not frozen yet**.
 
 ## 2. Passwords and PIN
 
-Passwords and private-mode PINs must be stored only as strong password hashes. Plaintext password/PIN values must never be persisted or logged.
+Passwords and private-mode PINs must be stored only as strong password hashes. Plaintext password/PIN values must
+never be persisted or logged.
 
-The PIN is a UI/application privacy gate for someone physically using an already authenticated device. It is **not encryption of personal database fields** and must not be described as protection against database theft.
+The PIN is a UI/application privacy gate for someone physically using an already authenticated device. It is **not
+encryption of personal database fields** and must not be described as protection against database theft.
 
 ## 3. JWT model
 
@@ -32,57 +34,84 @@ Refresh-token requirements:
 - support rotation/replacement tracking;
 - do not log raw token material.
 
-Exact lifetimes and browser storage/cookie transport policy are finalized during security implementation, not in architecture v1.
+Protected Phase 13 HTTP requests use:
 
-## 4. Bootstrap
+```text
+Authorization: Bearer <access-token>
+```
+
+Refresh/revoke operations carry the raw refresh token only in an explicit HTTPS JSON request body at the API boundary.
+Browser cookie/storage policy remains deferred to frontend/deployment work.
+
+## 4. Phase 13 public/protected paths
+
+Public application paths:
+
+```text
+GET  /api/v1/auth/bootstrap/status
+POST /api/v1/auth/bootstrap
+POST /api/v1/auth/login
+POST /api/v1/auth/refresh
+POST /api/v1/auth/revoke
+```
+
+Existing public operational/documentation paths remain:
+
+```text
+/actuator/health
+/v3/api-docs/**
+/swagger-ui/**
+/swagger-ui.html
+```
+
+Everything else is bearer-protected by default, including `/api/v1/auth/private-pin/**` and every business route.
 
 There is no public registration endpoint.
 
-The first account is created by a one-time bootstrap/setup flow. Secrets must not be committed as seed SQL, migration constants, example credentials, or repository configuration.
+## 5. Bootstrap
 
-## 5. Secret management
+The first account is created by the one-time bootstrap API flow. Secrets come from request/runtime input and must not
+be committed as seed SQL, migration constants, example real credentials, or repository configuration.
 
-The repository may be public; the vault's data and runtime secrets are not.
+The public bootstrap status endpoint returns only whether bootstrap is complete.
 
-Never commit:
+## 6. Security error contract
 
-- passwords or hashes derived from known example passwords intended for real use;
-- JWT signing keys/secrets;
-- database credentials;
-- cloud/object-storage credentials;
-- private API keys;
-- production backups;
-- imported personal data or media.
+Missing/invalid/expired bearer authentication and access-denied responses use the shared Phase 13 `ApiResponse`
+error envelope rather than HTML/default framework bodies.
 
-Use environment/runtime secret injection once implementation begins.
+Authentication failures remain generic where needed to avoid username/email enumeration.
 
-## 6. Logging
+Error responses never include credentials, raw JWT/refresh token, authorization header, signing material, internal
+exception or SQL detail.
 
-SLF4J/Logback is the planned logging stack.
+## 7. Secret management
 
-Do not log:
+Never commit passwords, PINs, JWT signing keys, database/cloud credentials, private API keys, production backups,
+imported personal data or media.
 
-- passwords/PINs;
-- access or refresh tokens;
-- authorization headers;
-- sensitive personal note contents by default;
-- complete imported files;
-- unnecessary financial/private payloads.
+Use environment/runtime secret injection.
 
-Request correlation IDs may be added for troubleshooting without exposing private content.
+## 8. Logging
 
-## 7. Deferred hardening
+Use SLF4J/Logback. Do not log credentials/tokens/auth headers, imported content, private Markdown, financial/personal
+payloads or raw Search query/snippet/tag content.
 
-Before exposing the application broadly to the Internet, revisit at least:
+Request correlation IDs remain optional and are not introduced by Phase 13.
 
-- TLS termination and secure cookies/token transport;
-- CSRF implications of the chosen browser token transport;
-- rate limiting and failed-login throttling;
-- security headers;
-- 2FA/TOTP or passkeys;
-- session/device management;
-- audit/security event logging;
-- reverse proxy/network exposure;
-- backup encryption and secret rotation.
+## 9. CSRF/CORS/session policy
 
-These are deferred decisions, not rejected requirements.
+The backend remains stateless bearer-token based:
+
+- no server HTTP session;
+- CSRF remains disabled for this non-cookie bearer model;
+- Phase 13 does not add a CORS policy;
+- Phase 13 does not choose browser token storage/cookies.
+
+Revisit these if a later frontend/deployment phase adopts cookie-based authentication.
+
+## 10. Deferred hardening
+
+Before broad Internet exposure, revisit TLS termination, cookies/token transport, CSRF, rate limiting/login
+throttling, security headers, 2FA/passkeys, session/device management, audit logging, reverse proxy exposure, backup
+encryption and secret rotation.

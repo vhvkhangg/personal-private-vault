@@ -46,7 +46,8 @@ Current gate:
 - Phase 10 Feed + ImportData — complete/frozen after owner commit/push
 - Phase 11 Finance + Journal + Personal — complete/frozen after owner commit/push
 - Phase 12 PostgreSQL-first Global Search — complete/frozen after owner commit/push
-- Phase 10–12 milestone — `MILESTONE_READY`; M10-12-1 closed after committed `a881540` maintenance, 817 tests pass; owner commits/pushes milestone docs, then ChatGPT post-milestone reset; Phase 13 preparation remains gated
+- Phase 10–12 milestone — `MILESTONE_READY`; milestone docs owner committed/pushed; post-milestone reset complete
+- Phase 13 Shared REST/API Contract + Module HTTP Exposure — `READY FOR HANDOFF`; owner commits/pushes preparation, then runs `$codex-create-handoff`
 
 ## Planned stack
 

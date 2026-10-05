@@ -60,3 +60,11 @@ Avoid:
 - Prefer Spring Boot-managed dependency versions.
 - Antigravity may compile/test/fix iteratively within an active handoff.
 - Use Testcontainers PostgreSQL for persistence integration tests.
+
+## Phase 13 shared HTTP contract exception
+
+During an accepted active Phase 13 handoff, ADR-0016 permits a small allowlisted set of shared HTTP envelope/error/
+OpenAPI types directly in `com.vhvkhangg.personalprivatevault`.
+
+Do not turn this into a global technical subpackage or generic utility layer. Business controllers/DTOs/mappers/advice
+still belong under their owning module's `internal/web` package.

@@ -99,8 +99,11 @@ full verification passed 815 tests. See `../docs/implementation/phase-12/README.
 
 The Phase 10–12 milestone is `MILESTONE_READY`; M10-12-1 is closed after accepted maintenance owner commit/push `a881540`.
 See `../docs/implementation/phase-12/reviews/2026-10-05-phase-10-12-milestone-codex-acceptance.md`.
-Fresh milestone clean verification passed 817 tests. Owner commits/pushes the milestone review/status docs next,
-then ChatGPT performs post-milestone synchronization/reset. No broader frozen-module work is authorized.
+Fresh milestone clean verification passed 817 tests. The milestone review/status package is owner committed/pushed
+and ChatGPT post-milestone synchronization/reset is complete.
 
-Phase 13 preparation remains blocked until the milestone reaches `MILESTONE_READY`, the owner commits/pushes the
-milestone review/status package, and ChatGPT completes post-milestone synchronization/reset.
+## Phase 13
+
+Shared REST/API Contract + Module HTTP Exposure preparation is `READY FOR HANDOFF`. The owner commits/pushes
+preparation next, then runs `$codex-create-handoff`. Implementation has not started. See
+`../docs/implementation/phase-13/README.md`.

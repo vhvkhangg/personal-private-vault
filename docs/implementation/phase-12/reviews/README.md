@@ -30,3 +30,6 @@ Historical preparation acceptance: [2026-10-04 Codex pre-handoff acceptance](202
 Historical re-review: [2026-10-04 Codex pre-handoff re-review](2026-10-04-phase-12-pre-handoff-codex-rereview.md).
 
 Historical review: [2026-10-04 initial Codex pre-handoff review](2026-10-04-phase-12-pre-handoff-codex-review.md).
+
+Post-milestone synchronization/reset is complete. Phase 13 preparation now lives under
+[`../../phase-13/`](../../phase-13/README.md); historical Phase 12/milestone reviews remain unchanged.
