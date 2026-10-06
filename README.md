@@ -47,7 +47,7 @@ Current gate:
 - Phase 11 Finance + Journal + Personal — complete/frozen after owner commit/push
 - Phase 12 PostgreSQL-first Global Search — complete/frozen after owner commit/push
 - Phase 10–12 milestone — `MILESTONE_READY`; milestone docs owner committed/pushed; post-milestone reset complete
-- Phase 13 Shared REST/API Contract + Module HTTP Exposure — `READY FOR HANDOFF`; owner commits/pushes preparation, then runs `$codex-create-handoff`
+- Phase 13 Shared REST/API Contract + Module HTTP Exposure — `READY FOR OWNER COMMIT`; all findings closed, independent 867-test clean verification passed; owner commit/push and ChatGPT closeout are next
 
 ## Planned stack
 

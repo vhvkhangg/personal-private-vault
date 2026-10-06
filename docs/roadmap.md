@@ -26,7 +26,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 10    | `feed` + `importdata` workflows                                                               | P-10 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 complete                                       | **COMPLETE — FROZEN** | **MILESTONE_READY** |
-| 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | **P-13: READY FOR HANDOFF**                         | Not started           | —                    |
+| 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | **P-13: READY FOR HANDOFF**                         | **READY FOR OWNER COMMIT** | —             |
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 planned                                        | Not started           | —                    |
 | 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
 | 16    | RAG / semantic retrieval enhancement                                                          | P-16 planned                                        | Not started           | Final closeout       |
@@ -177,11 +177,12 @@ new Spring Modulith application module.
 
 Phase 13 preparation received [Codex acceptance](implementation/phase-13/reviews/2026-10-05-phase-13-pre-handoff-codex-acceptance.md)
 on 2026-10-05: **READY FOR HANDOFF**. The owner approved the concept and ADR-0016's narrow root HTTP exception
-for preparation review. Current gate: owner commit/push of preparation, then:
-
-```text
-$codex-create-handoff
-```
+for preparation review. Accepted preparation is owner committed/pushed as `b3d91a5`; Codex created active handoff
+`phase-13-rest-api`. [Final acceptance](implementation/phase-13/reviews/2026-10-06-phase-13-final-codex-acceptance.md)
+is **READY FOR OWNER COMMIT**: all seven findings closed; independent 867-test clean verification passed.
+The earlier intermittent baseline boundary-test failure remains preserved in historical evidence.
+Current gate: owner commit/push, then ChatGPT Phase 13 closeout/freeze and Phase 14 preparation. Phase 13 is not
+yet owner-committed/frozen; Phase 14 implementation remains deferred until its own accepted handoff.
 
 ## Completed Phase 4–6 milestone maintenance
 

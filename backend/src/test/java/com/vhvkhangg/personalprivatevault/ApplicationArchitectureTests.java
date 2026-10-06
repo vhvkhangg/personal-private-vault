@@ -844,4 +844,127 @@ class ApplicationArchitectureTests {
             }
         }
     }
+
+    @Test
+    @DisplayName("Verifies root package classes strictly adhere to ADR-0016 allowlist")
+    void verifiesRootPackageStrictAllowlist() {
+        var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()
+                .withImportOption(com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+                .importPackages("com.vhvkhangg.personalprivatevault");
+
+        var rootClasses = allClasses.stream()
+                .filter(c -> c.getPackageName().equals("com.vhvkhangg.personalprivatevault"))
+                .map(com.tngtech.archunit.core.domain.JavaClass::getSimpleName)
+                .filter(name -> !name.isEmpty() && !name.contains("$"))
+                .toList();
+
+        java.util.Set<String> allowedSimpleNames = java.util.Set.of(
+                "PersonalPrivateVaultApplication",
+                "ApiResponse",
+                "ApiError",
+                "ApiFieldError",
+                "ApiMeta",
+                "ApiPageMeta",
+                "ApiResponses",
+                "ApiExceptionHandler",
+                "OpenApiConfiguration",
+                "package-info"
+        );
+
+        assertThat(rootClasses).isSubsetOf(allowedSimpleNames);
+    }
+
+    @Test
+    @DisplayName("Verifies all @RestController classes reside strictly under internal.web.controller packages")
+    void verifiesAllControllersResideInInternalWebControllerPackages() {
+        var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()
+                .withImportOption(com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+                .importPackages("com.vhvkhangg.personalprivatevault");
+
+        var controllers = allClasses.stream()
+                .filter(c -> c.isAnnotatedWith(org.springframework.web.bind.annotation.RestController.class))
+                .toList();
+
+        assertThat(controllers).isNotEmpty();
+        for (var controller : controllers) {
+            assertThat(controller.getPackageName())
+                    .matches("com\\.vhvkhangg\\.personalprivatevault\\.[a-z]+\\.internal\\.web\\.controller");
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies no @RestController exposes JPA entities in public method signatures")
+    void verifiesNoControllersExposeJpaEntities() {
+        var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()
+                .withImportOption(com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+                .importPackages("com.vhvkhangg.personalprivatevault");
+
+        var controllers = allClasses.stream()
+                .filter(c -> c.isAnnotatedWith(org.springframework.web.bind.annotation.RestController.class))
+                .toList();
+
+        for (var controller : controllers) {
+            for (var method : controller.getMethods()) {
+                if (method.getModifiers().contains(com.tngtech.archunit.core.domain.JavaModifier.PUBLIC)) {
+                    assertNoEntityInType(method.getReturnType(), "Controller " + controller.getName() + " method " + method.getName() + " return type");
+
+                    for (var param : method.getParameters()) {
+                        assertNoEntityInType(param.getType(), "Controller " + controller.getName() + " method " + method.getName() + " parameter index " + param.getIndex());
+                    }
+                }
+            }
+        }
+    }
+
+    private void assertNoEntityInType(com.tngtech.archunit.core.domain.JavaType type, String locationDescription) {
+        if (type == null) {
+            return;
+        }
+        var rawType = type.toErasure();
+        assertThat(rawType.isAnnotatedWith(jakarta.persistence.Entity.class))
+                .as("%s contains entity type %s", locationDescription, rawType.getName())
+                .isFalse();
+
+        if (rawType.isArray()) {
+            assertNoEntityInType(rawType.getComponentType(), locationDescription);
+        }
+
+        if (type instanceof com.tngtech.archunit.core.domain.JavaParameterizedType parameterizedType) {
+            for (var arg : parameterizedType.getActualTypeArguments()) {
+                assertNoEntityInType(arg, locationDescription);
+            }
+        } else if (type instanceof com.tngtech.archunit.core.domain.JavaWildcardType wildcardType) {
+            for (var bound : wildcardType.getUpperBounds()) {
+                assertNoEntityInType(bound, locationDescription);
+            }
+            for (var bound : wildcardType.getLowerBounds()) {
+                assertNoEntityInType(bound, locationDescription);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies nested modules in Knowledge and Collection do not expose external web controllers")
+    void verifiesNestedModulesHaveNoExternalControllers() {
+        var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()
+                .withImportOption(com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+                .importPackages("com.vhvkhangg.personalprivatevault");
+
+        var forbiddenPrefixes = java.util.List.of(
+                "com.vhvkhangg.personalprivatevault.knowledge.study",
+                "com.vhvkhangg.personalprivatevault.knowledge.information",
+                "com.vhvkhangg.personalprivatevault.knowledge.vocabulary",
+                "com.vhvkhangg.personalprivatevault.knowledge.note",
+                "com.vhvkhangg.personalprivatevault.collection.music",
+                "com.vhvkhangg.personalprivatevault.collection.shopping",
+                "com.vhvkhangg.personalprivatevault.collection.software"
+        );
+
+        var nestedControllers = allClasses.stream()
+                .filter(c -> c.isAnnotatedWith(org.springframework.web.bind.annotation.RestController.class))
+                .filter(c -> forbiddenPrefixes.stream().anyMatch(prefix -> c.getPackageName().startsWith(prefix)))
+                .toList();
+
+        assertThat(nestedControllers).isEmpty();
+    }
 }

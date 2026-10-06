@@ -62,16 +62,60 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public org.springframework.security.web.AuthenticationEntryPoint authenticationEntryPoint() {
+        com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper()
+                .findAndRegisterModules();
+        return (request, response, authException) -> {
+            response.setStatus(jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding(java.nio.charset.StandardCharsets.UTF_8.name());
+            com.vhvkhangg.personalprivatevault.ApiResponse<Void> body =
+                    com.vhvkhangg.personalprivatevault.ApiResponses.error("AUTHENTICATION_REQUIRED", "Full authentication is required to access this resource");
+            objectMapper.writeValue(response.getWriter(), body);
+        };
+    }
+
+    @Bean
+    public org.springframework.security.web.access.AccessDeniedHandler accessDeniedHandler() {
+        com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper()
+                .findAndRegisterModules();
+        return (request, response, accessDeniedException) -> {
+            response.setStatus(jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding(java.nio.charset.StandardCharsets.UTF_8.name());
+            com.vhvkhangg.personalprivatevault.ApiResponse<Void> body =
+                    com.vhvkhangg.personalprivatevault.ApiResponses.error("ACCESS_DENIED", "Access is denied");
+            objectMapper.writeValue(response.getWriter(), body);
+        };
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            org.springframework.security.web.AuthenticationEntryPoint entryPoint,
+            org.springframework.security.web.access.AccessDeniedHandler accessDeniedHandler) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/actuator/health").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/auth/bootstrap/status").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/bootstrap").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/refresh").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/revoke").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(entryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(entryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+                );
         return http.build();
     }
 }

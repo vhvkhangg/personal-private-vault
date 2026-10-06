@@ -1,20 +1,30 @@
 # Backend Phase 13 — Shared REST/API Contract + Module HTTP Exposure
 
-Status: **READY FOR HANDOFF** (2026-10-05)
+Status: **READY FOR OWNER COMMIT** (2026-10-06)
+
+Preparation gate: **READY FOR HANDOFF**; accepted preparation owner committed/pushed as `b3d91a5`.
+Active handoff: [`../handoffs/ACTIVE.md`](../handoffs/ACTIVE.md), ID `phase-13-rest-api`.
+Codex [final acceptance](reviews/2026-10-06-phase-13-final-codex-acceptance.md) closes all FR13-1–FR13-7 findings.
+Independent full clean verification passed **867 tests**, 0 failures/errors/skips. The earlier intermittent
+baseline boundary-test failure is preserved in historical evidence and did not recur in this run.
+Next: owner commits/pushes using the acceptance report's commit message, then gives the latest package to ChatGPT
+for Phase 13 closeout/freeze and Phase 14 preparation. Agents must not commit/push; Phase 13 is not yet frozen.
 
 The owner approved the prepared Phase 13 concept and ADR-0016's narrow root HTTP exception for preparation review
 on 2026-10-05. Codex accepted the preparation in
 [`reviews/2026-10-05-phase-13-pre-handoff-codex-acceptance.md`](reviews/2026-10-05-phase-13-pre-handoff-codex-acceptance.md).
-The owner must commit/push this preparation before `$codex-create-handoff`; implementation has not started.
+The owner committed/pushed the accepted preparation and Codex created the active implementation handoff.
 
 The Phase 10–12 milestone is `MILESTONE_READY`, its review/status package is owner committed/pushed, and
 post-milestone synchronization/reset is complete.
 
-No Phase 13 production implementation is authorized until:
+The Phase 13 production implementation prerequisites are satisfied:
 
-1. this preparation passes `$codex-pre-handoff-review`;
+1. this preparation passed `$codex-pre-handoff-review`;
 2. the accepted Phase 13 preparation slice is owner committed/pushed;
-3. `$codex-create-handoff` creates the active Phase 13 implementation handoff.
+3. `$codex-create-handoff` created the active Phase 13 implementation handoff.
+
+Implementation authority is limited to that handoff.
 
 Phase 13 is not a milestone phase. The next milestone is after Phase 15.
 

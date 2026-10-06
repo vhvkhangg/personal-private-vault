@@ -101,9 +101,19 @@ Every future backend phase gets its own `phase-N/` directory rather than adding 
 
 ```text
 com.vhvkhangg.personalprivatevault
+├── PersonalPrivateVaultApplication.java
+├── package-info.java
+├── ApiResponse.java                  # Canonical unified API response envelope
+├── ApiError.java                     # Unified error payload
+├── ApiFieldError.java                # Field-level validation detail
+├── ApiMeta.java                      # Unified response metadata
+├── ApiPageMeta.java                  # Truthful pagination metadata
+├── ApiResponses.java                 # Static response builder utilities
+├── ApiExceptionHandler.java          # Framework-level exception advice
+└── OpenApiConfiguration.java         # OpenAPI/Swagger configuration
 ```
 
-The future Spring Boot bootstrap class will live directly in this root package so Spring Modulith can detect the direct child packages as top-level application modules.
+The Spring Boot bootstrap class lives directly in this root package so Spring Modulith can detect the direct child packages as top-level application modules. Per ADR-0016, this root package additionally contains only the narrow, explicitly bounded shared REST/HTTP wire contract. No business logic, repositories, entities, or module-specific DTOs live in the root package.
 
 ## 4. Top-level application modules
 
@@ -194,7 +204,11 @@ fiction/
     │   └── <capability>/             # mirror public capability when useful, e.g. FictionSearchService
     ├── domain/
     ├── infrastructure/persistence/
-    └── web/
+    └── web/                          # Phase 13 HTTP adapters
+        ├── advice/                   # module-specific @RestControllerAdvice
+        ├── controller/               # REST controllers under /api/v1
+        ├── dto/                      # request/response records
+        └── mapper/                   # static DTO mappers
 ```
 
 ### Feed
@@ -212,7 +226,8 @@ feed/
 └── internal/
     ├── application/                  # capability services: FeedSourceService, FeedItemService, SavedResourceService, SavedResourceConversionService, FeedSearchService
     ├── domain/                       # JPA entities: FeedSource, FeedItem, SavedResource, SavedResourceConversion, SavedResourceConversionId
-    └── infrastructure/persistence/   # Spring Data repositories
+    ├── infrastructure/persistence/   # Spring Data repositories
+    └── web/                          # Phase 13 HTTP adapters (advice, controller, dto, mapper)
 ```
 
 ### ImportData
@@ -227,7 +242,8 @@ importdata/
     ├── application/                  # capability service: ImportJobService
     ├── domain/                       # JPA entities: ImportJob, ImportJobItem
     ├── parsing/                      # parsers: CsvImportParser, JsonImportParser, MarkdownImportParser, TargetPayloadCanonicalizer
-    └── infrastructure/persistence/   # Spring Data repositories
+    ├── infrastructure/persistence/   # Spring Data repositories
+    └── web/                          # Phase 13 HTTP adapters (advice, controller, dto, mapper)
 ```
 
 ### Search
@@ -239,7 +255,8 @@ search/
 ├── view/                             # @NamedInterface("view") - GlobalSearchResult, GlobalSearchPage
 ├── enums/                            # @NamedInterface("enums") - SearchDomain, SearchMatchKind
 └── internal/
-    └── application/                  # orchestration service: GlobalSearchService (leaf/orchestration, no persistence tables)
+    ├── application/                  # orchestration service: GlobalSearchService (leaf/orchestration, no persistence tables)
+    └── web/                          # Phase 13 HTTP adapters (controller, dto, mapper)
 ```
 
 ### Module Search Capabilities (@NamedInterface("search"))
@@ -333,3 +350,4 @@ Local Docker support may be introduced during backend implementation when Postgr
 - [`ADR-0001`](../adr/0001-modular-monolith-with-spring-modulith.md) — modular monolith.
 - [`ADR-0002`](../adr/0002-package-by-business-capability.md) — package by business capability.
 - [`ADR-0015`](../adr/0015-semantic-public-api-subpackages.md) — semantic public API subpackages and named interfaces.
+- [`ADR-0016`](../adr/0016-root-http-contract-module-local-adapters.md) — root HTTP contract and module-local web adapters.

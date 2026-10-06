@@ -104,6 +104,8 @@ and ChatGPT post-milestone synchronization/reset is complete.
 
 ## Phase 13
 
-Shared REST/API Contract + Module HTTP Exposure preparation is `READY FOR HANDOFF`. The owner commits/pushes
-preparation next, then runs `$codex-create-handoff`. Implementation has not started. See
+Shared REST/API Contract + Module HTTP Exposure is `READY FOR OWNER COMMIT` under the active Codex handoff.
+Final acceptance closes all seven findings; independent clean verify passed 867 tests, 0 failures/errors/skips.
+The earlier baseline boundary-test failure remains in historical evidence and did not recur in this run.
+Owner commit/push, then ChatGPT Phase 13 closeout/Phase 14 preparation is next. See
 `../docs/implementation/phase-13/README.md`.

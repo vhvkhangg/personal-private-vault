@@ -36,7 +36,11 @@ This file defines repository-wide instructions for coding agents.
 - The Phase 10–12 milestone is `MILESTONE_READY` (2026-10-05); M10-12-1 closed and independent 817-test verification passed.
   Milestone review/status docs are owner committed/pushed and ChatGPT post-milestone synchronization/reset is complete.
 - Backend Phase 13 Shared REST/API Contract + Module HTTP Exposure preparation is `READY FOR HANDOFF` (2026-10-05).
-  Owner preparation commit/push is next, followed by `$codex-create-handoff`; no implementation handoff is active.
+  Accepted preparation is owner committed/pushed as `b3d91a5`; active handoff `phase-13-rest-api` is
+  `READY_FOR_OWNER_COMMIT` after final acceptance (all FR13-1–FR13-7 closed); independent 867-test clean verification
+  passed. See `docs/implementation/phase-13/reviews/2026-10-06-phase-13-final-codex-acceptance.md`.
+  The earlier intermittent baseline boundary-test failure remains preserved in historical evidence.
+  Owner commit/push, then ChatGPT Phase 13 closeout/Phase 14 preparation is next; Phase 14 implementation remains deferred.
 
 Completed maintenance scope:
 

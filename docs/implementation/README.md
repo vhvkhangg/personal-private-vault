@@ -17,7 +17,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-10/`](phase-10/README.md) — **COMPLETE / FROZEN** — `feed` + `importdata`
 - [`phase-11/`](phase-11/README.md) — **COMPLETE / FROZEN** — `finance` + `journal` + `personal`
 - [`phase-12/`](phase-12/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `search`
-- [`phase-13/`](phase-13/README.md) — **READY FOR HANDOFF** — shared REST/API + HTTP exposure; implementation not started
+- [`phase-13/`](phase-13/README.md) — **READY FOR OWNER COMMIT** — shared REST/API + HTTP exposure; all findings closed, independent 867-test verification passed
 
 Maintenance:
 
@@ -27,7 +27,8 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-There is no active implementation handoff.
+The active implementation handoff is [`handoffs/ACTIVE.md`](handoffs/ACTIVE.md), ID `phase-13-rest-api`,
+status `READY_FOR_OWNER_COMMIT` after final acceptance; all seven findings are closed.
 
 Backend Phases 10–12 are complete/frozen. The Phase 10–12 milestone is `MILESTONE_READY`; M10-12-1 maintenance is
 complete/frozen as owner commit `a881540`, the milestone review/status package is owner committed/pushed, and
@@ -35,13 +36,11 @@ post-milestone synchronization/reset is complete.
 
 Backend Phase 13 Shared REST/API Contract + Module HTTP Exposure preparation is `READY FOR HANDOFF` after
 [Codex acceptance](phase-13/reviews/2026-10-05-phase-13-pre-handoff-codex-acceptance.md).
-The owner commits/pushes this preparation slice next, then invokes:
-
-```text
-$codex-create-handoff
-```
-
-Do **not** create the Phase 13 implementation handoff until the owner commits/pushes the accepted preparation slice.
+Accepted preparation is owner committed/pushed as `b3d91a5`; [final acceptance](phase-13/reviews/2026-10-06-phase-13-final-codex-acceptance.md)
+closes all findings after independent 867-test clean verification. The earlier boundary-test failure remains
+recorded in historical evidence. Next: owner commits/pushes the accepted slice, then gives the latest package
+to ChatGPT for Phase 13 closeout/freeze and Phase 14 preparation. No agent commit/push or Phase 14 implementation
+is authorized; Phase 13 is not yet owner-committed/frozen.
 
 ## Operational guidance
 
