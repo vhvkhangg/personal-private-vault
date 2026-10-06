@@ -1,4 +1,4 @@
-# Repository and Java Package Tree v1.1.1 — Frozen
+# Repository and Java Package Tree v1.1.1 — Frozen baseline + approved Phase 14 delta
 
 ## 1. Repository principles
 
@@ -13,6 +13,11 @@
 - No implementation or dependency scaffold is committed in this repository-initialization baseline.
 
 Spring Modulith treats each direct subpackage below the Spring Boot application package as an application module. The module base package owns the module descriptor. Public contract subpackages are exposed deliberately with `@NamedInterface`; other subpackages remain internal. Nested modules are declared explicitly with `@ApplicationModule`.
+
+**Phase 14 preparation delta:** the owner-approved ADR-0017 adds a planned `portability` leaf module. At baseline
+commit `ef92d94` that package is **not implemented yet**; entries marked `Phase 14 planned` below document the accepted
+future structure for handoff review and must not be treated as existing production code. All original module edges and
+ownership rules remain frozen.
 
 ## 2. Root repository tree
 
@@ -52,7 +57,8 @@ personal-private-vault/
 │       │   │       ├── finance/
 │       │   │       ├── journal/
 │       │   │       ├── personal/
-│       │   │       └── search/
+│       │   │       ├── search/
+│       │   │       └── portability/           # Phase 14 planned; not implemented at ef92d94
 │       │   └── resources/
 │       │       └── db/migration/
 │       └── test/
@@ -136,10 +142,16 @@ com.vhvkhangg.personalprivatevault
 ├── finance
 ├── journal
 ├── personal
-└── search
+├── search
+└── portability    # Phase 14 planned; no business-module dependency; not implemented at ef92d94
 ```
 
-Module responsibilities and allowed dependencies are frozen in `docs/architecture/module-dependency-matrix.md`.
+`portability` is the sole approved Phase 14 top-level addition. Its planned minimal shape is module-local
+(`package-info.java` plus `internal/application`, `internal/infrastructure/snapshot`, and `internal/web` as actually
+needed). Do not create a public `@NamedInterface` merely for same-module controllers/tests.
+
+Module responsibilities and allowed dependencies are frozen except for this owner-approved ADR-0017 delta in
+`docs/architecture/module-dependency-matrix.md`.
 
 ## 5. Nested application modules
 
@@ -316,6 +328,11 @@ Each module owns its persistence implementation and the tables assigned to that 
 
 Database foreign keys do not grant Java-level repository access. Cross-domain operations use the target module's public API or an application/domain event according to the frozen dependency model.
 
+ADR-0017 adds one narrow exception only for the planned Phase 14 `portability` module: its internal snapshot adapter
+may issue **read-only JDBC** against an explicit allowlist of application tables inside one PostgreSQL read-only
+`REPEATABLE READ` export snapshot. This does not grant repository/entity/internal-package imports, writes, generic
+reporting SQL, or any Spring Modulith dependency edge to the owning business modules.
+
 Flyway scripts will live under:
 
 ```text
@@ -351,3 +368,4 @@ Local Docker support may be introduced during backend implementation when Postgr
 - [`ADR-0002`](../adr/0002-package-by-business-capability.md) — package by business capability.
 - [`ADR-0015`](../adr/0015-semantic-public-api-subpackages.md) — semantic public API subpackages and named interfaces.
 - [`ADR-0016`](../adr/0016-root-http-contract-module-local-adapters.md) — root HTTP contract and module-local web adapters.
+- [`ADR-0017`](../adr/0017-portability-readonly-snapshot-module.md) — planned portability leaf and narrow read-only JDBC snapshot exception.

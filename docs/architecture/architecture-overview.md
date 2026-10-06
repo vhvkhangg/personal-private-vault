@@ -59,7 +59,7 @@ See [`diagrams/exported/container.svg`](diagrams/exported/container.svg).
 
 ## 5. Application structure
 
-Top-level modules:
+Top-level modules (the original 18 are implemented at baseline `ef92d94`; `portability` is the owner-approved Phase 14 planned delta):
 
 ```text
 authentication
@@ -80,6 +80,7 @@ finance
 journal
 personal
 search
+portability
 ```
 
 Nested modules:
@@ -130,6 +131,12 @@ Feature modules depend on `reference`; `reference` does not depend on feature mo
 ### `search`
 
 Global search is intentionally separated from `vault` to avoid a reverse dependency from a foundation module back into feature modules. It is a leaf/orchestration module that calls public search contracts of searchable modules.
+
+### `portability`
+
+`portability` is approved for Phase 14 but is **not implemented at baseline `ef92d94`**. Once authorized implementation begins, portable export is a separate leaf capability. It owns no business tables and, under ADR-0017, may perform only a
+read-only repeatable-read JDBC snapshot over an explicit allowlist of application tables. It never mutates another
+module's data or imports another module's entities/repositories.
 
 ### `importdata`
 

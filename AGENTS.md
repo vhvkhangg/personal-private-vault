@@ -35,12 +35,12 @@ This file defines repository-wide instructions for coding agents.
 - Search case-normalization maintenance is complete/frozen after owner commit/push as `a881540`; FRM10-12-1 closed.
 - The Phase 10–12 milestone is `MILESTONE_READY` (2026-10-05); M10-12-1 closed and independent 817-test verification passed.
   Milestone review/status docs are owner committed/pushed and ChatGPT post-milestone synchronization/reset is complete.
-- Backend Phase 13 Shared REST/API Contract + Module HTTP Exposure preparation is `READY FOR HANDOFF` (2026-10-05).
-  Accepted preparation is owner committed/pushed as `b3d91a5`; active handoff `phase-13-rest-api` is
-  `READY_FOR_OWNER_COMMIT` after final acceptance (all FR13-1–FR13-7 closed); independent 867-test clean verification
-  passed. See `docs/implementation/phase-13/reviews/2026-10-06-phase-13-final-codex-acceptance.md`.
-  The earlier intermittent baseline boundary-test failure remains preserved in historical evidence.
-  Owner commit/push, then ChatGPT Phase 13 closeout/Phase 14 preparation is next; Phase 14 implementation remains deferred.
+- Backend Phase 13 Shared REST/API Contract + Module HTTP Exposure is complete/frozen after final acceptance,
+  independent 867-test verification, and owner commit/push `ef92d94`.
+- Backend Phase 14 Backend Integration Hardening + Portability/Object Storage Closure preparation is
+  `READY FOR HANDOFF` after 2026-10-06 pre-handoff acceptance (P14-1–P14-3 closed).
+  Owner concept/ADR-0017 approval remains preparation-only. Owner preparation commit/push, then
+  `$codex-create-handoff`, is next; no Phase 14 implementation handoff is active.
 
 Completed maintenance scope:
 
@@ -127,6 +127,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 10 feed/importdata foundation baseline
 - Backend Phase 11 finance/journal/personal foundation baseline
 - Backend Phase 12 search foundation baseline
+- Backend Phase 13 shared REST/API + HTTP exposure baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

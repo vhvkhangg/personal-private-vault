@@ -44,6 +44,7 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `finance-journal-personal-domain-modeling`
 - `global-search-domain-modeling`
 - `rest-api-http-contracts`
+- `backend-integration-portability-storage`
 
 ## Workflow/review skills
 

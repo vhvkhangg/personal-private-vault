@@ -2,7 +2,7 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0–12 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
+Backend Phases 0–13 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
 The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
 post-milestone synchronization/reset. Phase 7 (`account`), Phase 8 (`knowledge`), and Phase 9 (`collection`) are
 complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE_READY` after committed
@@ -13,10 +13,13 @@ acceptance, owner commit/push, and 787-test verification. Phase 12 PostgreSQL-fi
 independent 815-test verification. The Phase 10–12 milestone is `MILESTONE_READY`; M10-12-1 closed after
 accepted maintenance owner commit/push `a881540` and fresh 817-test verification.
 Milestone review/status docs are owner committed/pushed as `4220ad4`, and post-milestone synchronization/reset is complete.
-Phase 13 preparation is accepted and owner committed/pushed as `b3d91a5`; its active handoff is
-`READY FOR OWNER COMMIT` after [final acceptance](implementation/phase-13/reviews/2026-10-06-phase-13-final-codex-acceptance.md):
-all findings closed and independent 867-test clean verification passed. The earlier baseline boundary-test failure
-remains preserved in historical evidence; owner commit/push and ChatGPT Phase 13 closeout are next.
+Phase 13 passed [final acceptance](implementation/phase-13/reviews/2026-10-06-phase-13-final-codex-acceptance.md),
+was owner committed/pushed as `ef92d94`, and is complete/frozen with the retained 867-test verification. The earlier
+baseline boundary-test failure remains preserved in historical evidence.
+Phase 14 Backend Integration Hardening + Portability/Object Storage Closure preparation is
+[READY FOR HANDOFF](implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md).
+P14-1–P14-3 are closed; owner approval remains preparation-only. Owner preparation commit/push, then
+`$codex-create-handoff`, is next.
 Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
@@ -65,5 +68,5 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 4. Antigravity implements/tests the handoff.
 5. Codex performs final review; owner commits/pushes after `READY FOR OWNER COMMIT`.
 
-Backend Phases 0–12 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
+Backend Phases 0–13 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
 owner-approved maintenance or feature scope.

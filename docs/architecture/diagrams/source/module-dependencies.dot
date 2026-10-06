@@ -3,6 +3,7 @@ graph [rankdir=TB, bgcolor="white", pad=0.35, nodesep=0.35, ranksep=0.8, splines
 node [shape=box, style="rounded,filled", fontname="Arial", fontsize=10, margin="0.14,0.08"];
 edge [color="#6B7280", arrowsize=0.6, penwidth=1.0];
 search [label="search", fillcolor="#FCE4D6", color="#C65911"];
+portability [label="portability\n(Phase 14 planned)", style="rounded,dashed,filled", fillcolor="#FCE4D6", color="#C65911"];
 feed [label="feed", fillcolor="#E2F0D9", color="#70AD47"];
 importdata [label="importdata", fillcolor="#E2F0D9", color="#70AD47"];
 knowledge [label="knowledge\n(study / information / vocabulary / note)", fillcolor="#FFF2CC", color="#BF9000"];
@@ -20,6 +21,7 @@ settings [label="settings", fillcolor="#EDEDED", color="#7F7F7F"];
 authentication [label="authentication", fillcolor="#EDEDED", color="#7F7F7F"];
 vault [label="vault (Shared Core)", fillcolor="#DCE6F1", color="#4F81BD"];
 reference [label="reference", fillcolor="#DCE6F1", color="#4F81BD"];
+{rank=same; search portability}
 {rank=same; feed importdata knowledge collection account}
 {rank=same; fiction film media location finance journal personal}
 {rank=same; people settings authentication}

@@ -86,3 +86,17 @@ Not allowed:
 
 The active Phase 13 handoff, when present, is the temporary authority for this narrow adapter exception. Otherwise
 the frozen-module rules remain in force.
+
+## Phase 14 object-storage exception
+
+An accepted active Phase 14 handoff may extend frozen Media only for the S3-compatible binary workflow in
+`docs/implementation/phase-14/README.md`:
+
+- Media-owned storage port/infrastructure adapter;
+- managed upload + compensation;
+- binary download;
+- storage configuration/health;
+- focused tests and HTTP/OpenAPI updates.
+
+Do not change existing Image metadata invariants, Vault trash semantics, schema/Flyway, hard-delete behavior, or
+expose provider SDK types through public/domain/web DTO contracts.

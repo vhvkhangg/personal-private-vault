@@ -1,14 +1,16 @@
 # Backend Phase 13 — Shared REST/API Contract + Module HTTP Exposure
 
-Status: **READY FOR OWNER COMMIT** (2026-10-06)
+Status: **COMPLETE — FROZEN (2026-10-06)**
 
-Preparation gate: **READY FOR HANDOFF**; accepted preparation owner committed/pushed as `b3d91a5`.
-Active handoff: [`../handoffs/ACTIVE.md`](../handoffs/ACTIVE.md), ID `phase-13-rest-api`.
-Codex [final acceptance](reviews/2026-10-06-phase-13-final-codex-acceptance.md) closes all FR13-1–FR13-7 findings.
-Independent full clean verification passed **867 tests**, 0 failures/errors/skips. The earlier intermittent
-baseline boundary-test failure is preserved in historical evidence and did not recur in this run.
-Next: owner commits/pushes using the acceptance report's commit message, then gives the latest package to ChatGPT
-for Phase 13 closeout/freeze and Phase 14 preparation. Agents must not commit/push; Phase 13 is not yet frozen.
+Preparation was accepted and owner committed/pushed as `b3d91a5`.
+Codex [final acceptance](reviews/2026-10-06-phase-13-final-codex-acceptance.md) closed FR13-1–FR13-7.
+The owner committed/pushed the accepted implementation as `ef92d94` with commit message
+`feat(api): expose module capabilities through shared REST contracts`.
+Independent final verification retained **867 tests**, 0 failures/errors/skips. The earlier intermittent
+baseline boundary-test failure remains preserved in historical evidence and did not recur in final acceptance.
+
+The completed handoff is archived in [`handoff.md`](handoff.md). Phase 13 is complete/frozen; Phase 14 preparation
+is now the current workflow gate.
 
 The owner approved the prepared Phase 13 concept and ADR-0016's narrow root HTTP exception for preparation review
 on 2026-10-05. Codex accepted the preparation in

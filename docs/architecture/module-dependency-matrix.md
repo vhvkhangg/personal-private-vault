@@ -1,6 +1,8 @@
-# Module Dependency Matrix v1 — Frozen
+# Module Dependency Matrix v1 — Frozen baseline + approved Phase 14 delta
 
 An arrow `A → B` means module **A is allowed to depend on the public API of B**. Direct access to another module's internal entities/repositories remains forbidden.
+
+At baseline commit `ef92d94`, the original 18 modules are implemented. The `portability` row is an **owner-approved Phase 14 planned delta**, not yet production code; it adds no dependency edge.
 
 | Module           | Allowed dependencies                                                                                    |
 | ---------------- | ------------------------------------------------------------------------------------------------------- |
@@ -22,10 +24,13 @@ An arrow `A → B` means module **A is allowed to depend on the public API of B*
 | `journal`        | —                                                                                                       |
 | `personal`       | `reference`, `location`                                                                                 |
 | `search`         | `vault`, `people`, `fiction`, `film`, `media`, `location`, `knowledge`, `collection`, `account`, `feed` |
+| `portability`    | —                                                                                                       |
 
 ## Cross-domain rules
 
 - `search` is an orchestration/leaf module. No business module depends on `search`.
+- `portability` is a read-only leaf module with no business-module dependencies. ADR-0017 grants only its narrowly
+  scoped JDBC snapshot exception; it owns no business table and performs no cross-module writes.
 - `vault` and `reference` are foundation modules and do not depend on feature modules.
 - `reference` owns globally shared reference/lookup data, including country/language/currency/platform data and narrative taxonomies shared by both fiction and film.
 - `journal` and `finance` remain independent even if a future calendar UI aggregates both.

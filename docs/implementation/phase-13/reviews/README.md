@@ -9,3 +9,6 @@ implementation belong here.
 - [2026-10-05 final re-review 2](2026-10-05-phase-13-final-codex-rereview-2.md) — `CHANGES_REQUESTED`, narrowed FR13-2/FR13-5/FR13-6 remain; independent 865-test verification and count reconciliation passed.
 - [2026-10-06 final re-review 3](2026-10-06-phase-13-final-codex-rereview-3.md) — `CHANGES_REQUESTED`, Medium FR13-2/FR13-6 and one Low FR13-5 typo remain; 866-test clean repeat passed after one recorded baseline boundary-test failure.
 - [2026-10-06 final acceptance](2026-10-06-phase-13-final-codex-acceptance.md) — `READY FOR OWNER COMMIT`, all FR13-1–FR13-7 closed; independent 867-test clean verification passed, historical boundary failure preserved.
+
+Phase 13 closeout: the owner committed/pushed final acceptance as `ef92d94`; ChatGPT archived the handoff and
+froze Phase 13. Historical review files remain unchanged.

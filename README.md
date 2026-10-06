@@ -8,7 +8,7 @@ Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 deliver
 
 Backend Phases 2 (`authentication` + `settings`), 3 (`people`), 4 (`fiction`), 5 (`film`), 6
 (`media` + `location`), 7 (`account`), 8 (`knowledge`), 9 (`collection`), 10 (`feed` + `importdata`), and
-11 (`finance` + `journal` + `personal`), and 12 (`search`) are **complete and frozen** after owner commit/push. The Phase 1–3 milestone remains
+11 (`finance` + `journal` + `personal`), 12 (`search`), and 13 (shared REST/API + HTTP exposure) are **complete and frozen** after owner commit/push. The Phase 1–3 milestone remains
 `MILESTONE_READY`. The Phase 4–6 milestone is also `MILESTONE_READY` after committed privacy-safe constraint-logging maintenance. Phase 7 (`account`) is complete/frozen after owner commit/push.
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
@@ -39,6 +39,7 @@ Frozen implementation phases:
 - Backend Phase 10 — Feed + ImportData Foundations
 - Backend Phase 11 — Finance + Journal + Personal Foundations
 - Backend Phase 12 — PostgreSQL-First Global Search
+- Backend Phase 13 — Shared REST/API Contract + Module HTTP Exposure
 
 Current gate:
 
@@ -47,7 +48,10 @@ Current gate:
 - Phase 11 Finance + Journal + Personal — complete/frozen after owner commit/push
 - Phase 12 PostgreSQL-first Global Search — complete/frozen after owner commit/push
 - Phase 10–12 milestone — `MILESTONE_READY`; milestone docs owner committed/pushed; post-milestone reset complete
-- Phase 13 Shared REST/API Contract + Module HTTP Exposure — `READY FOR OWNER COMMIT`; all findings closed, independent 867-test clean verification passed; owner commit/push and ChatGPT closeout are next
+- Phase 13 Shared REST/API Contract + Module HTTP Exposure — complete/frozen after owner commit `ef92d94`; 867-test final acceptance retained
+- Phase 14 Backend Integration Hardening + Portability/Object Storage Closure — preparation
+  [READY FOR HANDOFF](docs/implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md);
+  all findings closed. Owner commits/pushes preparation, then runs `$codex-create-handoff`.
 
 ## Planned stack
 

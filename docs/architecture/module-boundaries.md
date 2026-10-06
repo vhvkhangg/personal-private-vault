@@ -1,10 +1,12 @@
-# Module Boundaries v1 — Frozen
+# Module Boundaries v1 — Frozen baseline + approved Phase 14 delta
 
 ## 1. Boundary rule
 
 Each business capability is owned by one Spring Modulith application module. Only the owning module may directly access its internal repositories and entities.
 
 The base package owns the module descriptor. Non-trivial public contracts are grouped into semantic subpackages and explicitly exposed with Spring Modulith `@NamedInterface`; implementation stays under `internal/`.
+
+At baseline commit `ef92d94`, `portability` is not implemented. Its row below is the owner-approved Phase 14 planned leaf/ADR-0017 exception; all other ownership/dependency boundaries remain frozen.
 
 ## 2. Top-level modules
 
@@ -28,6 +30,7 @@ The base package owns the module descriptor. Non-trivial public contracts are gr
 | `journal`        | Diary entries                                                                 | `diary_entries`                                                                                                                                         | —                                                                                                       |
 | `personal`       | Structured personal/family profiles                                           | `personal_profiles`                                                                                                                                     | `reference`, `location`                                                                                 |
 | `search`         | Cross-module global search orchestration                                      | no v1 tables                                                                                                                                            | `vault`, `people`, `fiction`, `film`, `media`, `location`, `knowledge`, `collection`, `account`, `feed` |
+| `portability`    | Whole-vault portable export orchestration                                     | none; ADR-0017 read-only snapshot exception only                                                                                                        | —                                                                                                       |
 
 The frozen dependency matrix remains canonical at [`module-dependency-matrix.md`](module-dependency-matrix.md).
 

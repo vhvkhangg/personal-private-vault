@@ -40,6 +40,7 @@ Use relevant skills progressively:
 - `finance-journal-personal-domain-modeling` when Finance/Journal/Personal work is in scope
 - `global-search-domain-modeling` when Phase 12 cross-module/global search work is in scope
 - `rest-api-http-contracts` when Phase 13 REST/API HTTP exposure is in scope
+- `backend-integration-portability-storage` when Phase 14 portability/object-storage/operational closure is in scope
 - `graphify-context` for broad navigation when available
 
 Read root/scoped `AGENTS.md`, then `docs/implementation/handoffs/ACTIVE.md`.

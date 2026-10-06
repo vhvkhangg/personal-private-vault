@@ -68,3 +68,16 @@ OpenAPI types directly in `com.vhvkhangg.personalprivatevault`.
 
 Do not turn this into a global technical subpackage or generic utility layer. Business controllers/DTOs/mappers/advice
 still belong under their owning module's `internal/web` package.
+
+## Phase 14 portability/object-storage exception
+
+Only an accepted active Phase 14 handoff may:
+
+- add the `portability` leaf module and ADR-0017 read-only JDBC snapshot adapter;
+- add Media-owned S3-compatible binary storage infrastructure;
+- add the approved binary HTTP routes/configuration/health integration;
+- add directly required Maven/test dependencies.
+
+The portability JDBC exception is read-only and export-only. It does not authorize generic cross-module SQL,
+repository/entity sharing, schema changes, provider-specific domain types, schedulers, hard delete, deployment,
+frontend, or RAG work.

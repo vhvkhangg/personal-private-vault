@@ -70,7 +70,19 @@ See ADR-0016.
 
 ## 4. Exact `ApiResponse` wire contract
 
-All `/api/v1/**` success and error responses use one envelope. Do not invent module-specific envelopes.
+All JSON `/api/v1/**` success and error responses use one envelope. Do not invent module-specific envelopes.
+
+Phase 14 adds two explicit successful binary-transfer exceptions:
+
+- `GET /api/v1/images/{id}/content` -> streamed media bytes;
+- `POST /api/v1/portability/exports` -> streamed `application/zip`.
+
+For those binary routes, failures **before the servlet response is committed** use the normal JSON `ApiResponse`
+envelope. After binary bytes/headers are committed, a stream/read/write/timeout/client-disconnect failure aborts the
+transfer; the server must not append JSON to the binary body or reset a committed response. A portability ZIP counts
+as complete only after ZIP finalization and normal response-body completion; truncated/non-finalized ZIPs are failed
+exports. Image downloads use `Content-Length` when known so truncation is detectable. Multipart image upload itself
+returns the normal JSON envelope.
 
 Conceptual Java shape:
 
@@ -158,8 +170,9 @@ Rules:
 - `meta` is null unless meaningful metadata exists;
 - never include exception class names, SQL/vendor detail, stack traces, tokens, secrets, rejected secret values, or
   private payload excerpts;
-- `/api/v1/**` does not use empty-body `204` responses; void/idempotent actions return `200` with `data: null` so the
-  response contract remains uniform;
+- `/api/v1/**` does not use empty-body `204` responses; void/idempotent JSON actions return `200` with `data: null`;
+- Phase 14 binary-success responses are the only approved non-envelope success bodies and still return JSON envelopes
+  for errors;
 - create operations normally return `201` with the envelope and may include `Location`;
 - JSON null behavior is part of the contract above; do not globally hide null envelope fields.
 

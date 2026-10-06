@@ -76,6 +76,22 @@ Target portable forms include:
 
 Export design must avoid binding personal data to an internal Java serialization format.
 
+### Phase 14 portable export contract
+
+Phase 14 implements owner-triggered portable export through the `portability` leaf module defined by ADR-0017.
+
+The export is a streamed ZIP containing:
+
+- a versioned manifest;
+- deterministic JSONL table snapshots for explicitly approved non-authentication application tables;
+- Markdown copies for Note, Information, and Diary content where present;
+- a media manifest with object keys/checksums/size/type metadata.
+
+The snapshot runs read-only at PostgreSQL `REPEATABLE READ`, includes retained trash/soft-deleted/history rows, and
+excludes authentication secret/security-state tables and Flyway metadata.
+
+Binary media is not embedded in this archive. Full provider-level binary backup remains coordinated separately.
+
 ## 7. Backup
 
 Planned backup scope:
