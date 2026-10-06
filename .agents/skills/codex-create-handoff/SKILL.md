@@ -17,6 +17,15 @@ If no owner-approved current scope exists, **STOP and ask the owner to define/ap
 Never infer next work from frozen phase documents, historical TODOs, archived handoffs, review history, Graphify,
 or repository structure. `COMPLETE — FROZEN` phases are historical inputs only.
 
+## Phase 15 audit-remediation exception
+
+Do not use this skill to invent a Phase 15 remediation scope from the Phase 15 README alone. Phase 15 remediation
+handoffs are created by `$codex-backend-audit` only after that audit has produced concrete findings and all required
+frozen-baseline owner decisions are resolved.
+
+If Phase 15 has not yet produced an authorized audit finding set, stop and instruct the owner to run
+`$codex-backend-audit`.
+
 ## Pre-handoff preparation gate
 
 ### Numbered implementation phase

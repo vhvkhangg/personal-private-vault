@@ -11,7 +11,9 @@
 7. Codex `$codex-final-review`.
 8. Owner commit/push.
 9. ChatGPT closeout + next preparation.
-10. After Phase 3/6/9/12/15: `$codex-milestone-review`.
+10. Historical milestone reviews apply after Phase 3/6/9/12. Phase 15 is the audit-first exception:
+    `$codex-pre-handoff-review` returns `READY FOR AUDIT`, owner commits preparation, then `$codex-backend-audit` runs.
+    It supersedes the former post-15 milestone.
 
 See `docs/workflow/owner-phase-workflow.md`.
 
@@ -53,6 +55,7 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `antigravity-implement-handoff`
 - `codex-final-review`
 - `codex-milestone-review`
+- `codex-backend-audit`
 - `graphify-context`
 - `architecture-change`
 - `database-migration-review`

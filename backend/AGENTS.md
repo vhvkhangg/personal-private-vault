@@ -71,13 +71,19 @@ still belong under their owning module's `internal/web` package.
 
 ## Phase 14 portability/object-storage exception
 
-Only an accepted active Phase 14 handoff may:
+Phase 14 is complete/frozen. Its accepted implementation contains:
 
-- add the `portability` leaf module and ADR-0017 read-only JDBC snapshot adapter;
-- add Media-owned S3-compatible binary storage infrastructure;
-- add the approved binary HTTP routes/configuration/health integration;
-- add directly required Maven/test dependencies.
+- the `portability` leaf module and ADR-0017 read-only JDBC snapshot adapter;
+- Media-owned S3-compatible binary storage infrastructure;
+- the approved binary HTTP routes/configuration/health integration;
+- directly required Maven/test dependencies.
 
-The portability JDBC exception is read-only and export-only. It does not authorize generic cross-module SQL,
+The portability JDBC exception remains read-only and export-only. It does not authorize generic cross-module SQL,
 repository/entity sharing, schema changes, provider-specific domain types, schedulers, hard delete, deployment,
-frontend, or RAG work.
+frontend, or RAG work. Future changes require an explicit approved scope.
+
+## Phase 15 backend audit
+
+Phase 15 is audit-first. Codex may inspect the entire non-RAG backend and run audit-only tooling, but production
+changes require the Phase 15 remediation handoff created from proven findings. Antigravity must not remediate audit
+observations or speculative cleanup outside that handoff.

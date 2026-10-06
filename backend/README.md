@@ -110,12 +110,19 @@ See `../docs/implementation/phase-13/README.md`.
 
 ## Phase 14
 
-Backend Integration Hardening + Portability/Object Storage Closure preparation is `READY FOR HANDOFF` after
-2026-10-06 acceptance. P14-1–P14-3 are closed; accepted preparation is owner committed/pushed as `6f1fd00`.
-Active handoff [phase-14-portability-storage](../docs/implementation/handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT`
-after [final acceptance](../docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md):
-all nine findings closed; independent clean verification passed 920 tests plus 49 focused tests.
-Owner commits/pushes the accepted implementation, then gives the latest package to ChatGPT for Phase 14 closeout
-and Phase 15 preparation. Phase 14 is accepted but not yet committed/frozen; no milestone review is due at Phase 14.
+Backend Integration Hardening + Portability/Object Storage Closure is **complete and frozen** after final acceptance,
+owner implementation commit `3bb3f2e`, and closeout commit `0a8f3d1`. Independent clean verification retained 920
+tests plus 49 focused tests. The completed handoff is archived at
+`../docs/implementation/phase-14/handoff.md`.
 
 See `../docs/implementation/phase-14/README.md`.
+
+## Phase 15
+
+Comprehensive Backend Audit & Remediation Gate preparation is **READY FOR AUDIT** after
+[Codex preparation acceptance](../docs/implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md)
+(P15-1 closed; no blocking preparation findings). It will audit the complete non-RAG
+backend from Phases 0–14 for correctness, SOLID/design-pattern fit, overengineering, duplication, validation,
+logging, OpenAPI, persistence/database/query quality, tests, docs/diagrams, static diagnostics, and repository hygiene.
+Next: owner commits/pushes accepted preparation, then runs `$codex-backend-audit`.
+The audit is unstarted; frontend/RAG remain deferred as Phases 16/17.

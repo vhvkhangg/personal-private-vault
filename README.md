@@ -54,8 +54,11 @@ Current gate:
 - Phase 14 Backend Integration Hardening + Portability/Object Storage Closure — **complete/frozen** after
   [final acceptance](docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md), owner
   commit/push `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and ChatGPT closeout. All nine findings are closed; independent 920-test clean
-  verification and 49 focused tests are retained. There is no active implementation handoff. Preparation of any
-  later phase is intentionally not started by this closeout.
+  verification and 49 focused tests are retained. There is no active implementation handoff.
+- Phase 15 Comprehensive Backend Audit & Remediation Gate — **READY FOR AUDIT** after
+  [preparation acceptance](docs/implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md):
+  P15-1 closed; no blocking preparation findings. Owner preparation commit/push is next, then
+  `$codex-backend-audit`. Backend audit remains unstarted; frontend/RAG remain owner-gated as Phases 16/17.
 
 ## Planned stack
 
@@ -81,12 +84,18 @@ The frozen database schema is under [`docs/database`](docs/database).
 
 ## Development workflow
 
+Normal feature phases:
+
 1. ChatGPT closes/freezes a committed phase and prepares the next phase.
 2. Codex runs `$codex-pre-handoff-review`.
 3. After `READY FOR HANDOFF` and preparation commit/push, Codex runs `$codex-create-handoff`.
 4. Antigravity implements/tests with `/antigravity-implement-handoff`.
 5. Codex runs `$codex-final-review`.
 6. Owner commits/pushes after `READY FOR OWNER COMMIT`.
+
+Phase 15 is the audit-first exception: run `$codex-pre-handoff-review`; after `READY FOR AUDIT`, commit/push its
+preparation, run `$codex-backend-audit`, remediate any Codex-created handoff, then rerun the audit until
+`BACKEND_AUDIT_READY`.
 
 See [`docs/workflow/owner-phase-workflow.md`](docs/workflow/owner-phase-workflow.md) and [`docs/roadmap.md`](docs/roadmap.md).
 

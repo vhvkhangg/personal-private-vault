@@ -2,14 +2,19 @@
 
 ## Structure
 
-The roadmap has **17 implementation phases numbered 0–16**.
+The roadmap has **18 implementation phases numbered 0–17**.
 
-For Phase 3 onward there is also a mandatory **Pre-Handoff Preparation Gate (P-N)** before each implementation
-handoff. This gate is not production implementation: ChatGPT prepares docs/tooling, Codex reviews them with
+For normal implementation phases from Phase 3 onward there is a mandatory **Pre-Handoff Preparation Gate (P-N)**
+before each implementation handoff. ChatGPT prepares docs/tooling, Codex reviews them with
 `$codex-pre-handoff-review`, and only `READY FOR HANDOFF` allows `$codex-create-handoff`.
 
-Phase 0 is excluded from the three-phase milestone cadence. Extra milestone reviews occur after Phases
-**3, 6, 9, 12, and 15**.
+**Phase 15 is the deliberate exception:** it is audit-first, not feature-first. `$codex-pre-handoff-review` reviews
+its audit design and returns `READY FOR AUDIT` on success; after the owner commits/pushes that preparation,
+`$codex-backend-audit` determines whether any remediation handoff is needed.
+
+Phase 0 is excluded from the three-phase milestone cadence. Historical extra milestone reviews occurred after Phases
+**3, 6, 9, and 12**. The former post-Phase-15 milestone is superseded by the stronger repository-wide Phase 15
+Comprehensive Backend Audit & Remediation Gate.
 
 | Phase | Scope                                                                                         | Preparation gate                                    | Implementation status | Extra milestone      |
 | ----- | --------------------------------------------------------------------------------------------- | --------------------------------------------------- | --------------------- | -------------------- |
@@ -27,9 +32,10 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 complete                                       | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 complete                                       | **COMPLETE — FROZEN** | —                    |
-| 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | **P-14: READY FOR HANDOFF**                          | **READY FOR OWNER COMMIT** | —                    |
-| 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
-| 16    | RAG / semantic retrieval enhancement                                                          | P-16 planned                                        | Not started           | Final closeout       |
+| 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 complete | **COMPLETE — FROZEN** | — |
+| 15    | Comprehensive Backend Audit & Remediation Gate over Phases 0–14 | **READY FOR AUDIT** → owner prep commit/push → audit | Audit not started | Replaces former post-15 milestone |
+| 16    | Next.js/TypeScript/shadcn frontend + E2E product workflows | P-16 planned | Not started | — |
+| 17    | RAG / semantic retrieval enhancement | P-17 planned | Not started | Final closeout |
 
 Production deployment provider/topology remains deferred and is not a numbered implementation phase until the
 owner explicitly brings deployment into scope.
@@ -200,8 +206,12 @@ Its scope covers:
 Production provider/deployment, automated backups, Feed scheduler/provider integrations, recurring Finance posting,
 frontend, and RAG remain explicitly deferred.
 
-Current gate: **NO_ACTIVE_HANDOFF**. Phase 14 is frozen. No later-phase preparation is started by this closeout;
-the owner will explicitly authorize the next phase/scope. Phase 14 itself is not a milestone phase.
+Current gate: **NO_ACTIVE_HANDOFF**. Phase 14 is frozen. The owner has authorized and prepared Phase 15 as the
+Comprehensive Backend Audit & Remediation Gate. The
+[preparation acceptance](implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md) closes
+P15-1 with no blocking preparation findings: **READY FOR AUDIT**. After the owner commits/pushes accepted
+preparation, run `$codex-backend-audit`. Any remediation must still pass the mandatory closure audit before the
+owner implementation commit. Phase 14 itself is not a milestone phase.
 
 ## Completed Phase 4–6 milestone maintenance
 
@@ -222,8 +232,9 @@ is `MILESTONE_READY`. Phase 7 pre-handoff re-review accepted the remediated prep
 - `knowledge` precedes `feed`/`importdata`.
 - `search` stays late because it orchestrates public contracts from many feature modules.
 - shared REST exposure is delayed until domain/module contracts stabilize.
-- frontend begins after the non-RAG backend is sufficiently complete.
-- RAG remains last, consistent with the accepted architecture.
+- Phase 15 performs a comprehensive quality/audit gate over the complete non-RAG backend before new product-surface work.
+- frontend begins only after Phase 15 is complete/frozen and the owner separately authorizes Phase 16 preparation.
+- RAG remains last as Phase 17, consistent with the accepted architecture.
 
 ## Status vocabulary
 
@@ -234,5 +245,8 @@ is `MILESTONE_READY`. Phase 7 pre-handoff re-review accepted the remediated prep
 - `READY FOR HANDOFF`: Codex approved preparation; owner commits/pushes preparation, then creates handoff.
 - `ACTIVE`: implementation handoff exists.
 - `READY FOR OWNER COMMIT`: final implementation review passed.
-- `MILESTONE_READY`: required three-phase cross-review passed; the next phase may proceed to pre-handoff review.
+- `MILESTONE_READY`: historical three-phase cross-review passed for the Phase 1–12 cadence.
+- `OWNER_DECISION_REQUIRED`: Phase 15 audit found a remediation that would change a frozen baseline and requires owner disposition before handoff.
+- `REMEDIATION_REQUIRED`: Phase 15 audit found authorized actionable defects and created a bounded remediation handoff.
+- `BACKEND_AUDIT_READY`: Phase 15 comprehensive audit has no unresolved actionable finding and is ready for owner commit/push.
 - `COMPLETE — FROZEN`: owner committed/pushed and closeout is complete.

@@ -335,7 +335,7 @@ Each module owns its persistence implementation and the tables assigned to that 
 
 Database foreign keys do not grant Java-level repository access. Cross-domain operations use the target module's public API or an application/domain event according to the frozen dependency model.
 
-ADR-0017 adds one narrow exception only for the planned Phase 14 `portability` module: its internal snapshot adapter
+ADR-0017 adds one narrow exception only for the implemented/frozen Phase 14 `portability` module: its internal snapshot adapter
 may issue **read-only JDBC** against an explicit allowlist of application tables inside one PostgreSQL read-only
 `REPEATABLE READ` export snapshot. This does not grant repository/entity/internal-package imports, writes, generic
 reporting SQL, or any Spring Modulith dependency edge to the owning business modules.

@@ -165,10 +165,12 @@ Every invocation must end with a concise **Next step:** statement derived from t
 
 - `CHANGES_REQUESTED` → direct the owner back to Antigravity `/antigravity-implement-handoff` (or
   `/antigravity-test-slice` only when the review explicitly requires test-only remediation);
-- `READY FOR OWNER COMMIT` → tell the owner to commit/push using the provided commit message, then state the
-  scope-specific next gate:
-  - completed numbered phase → give the latest package to ChatGPT for phase closeout/next-phase preparation;
-  - milestone-triggered maintenance → rerun `$codex-milestone-review` after the maintenance commit/push;
+- `READY FOR OWNER COMMIT` → state the scope-specific next gate:
+  - Phase 15 audit remediation → **do not commit yet**; rerun `$codex-backend-audit` for repository-wide closure and
+    commit only after `BACKEND_AUDIT_READY`;
+  - other completed numbered phase → tell the owner to commit/push using the provided commit message, then give the
+    latest package to ChatGPT for phase closeout/next-phase preparation;
+  - milestone-triggered maintenance → tell the owner to commit/push, then rerun `$codex-milestone-review`;
   - other maintenance → follow its canonical scope/workflow.
 
 Never leave the owner to infer the next workflow action.

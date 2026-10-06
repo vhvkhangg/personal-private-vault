@@ -6,7 +6,7 @@
 | ---------------------------------- | --------------------------------------------------------------------------- |
 | Owner                              | Approves scope, runs necessary local/environment commands, commits/pushes   |
 | ChatGPT                            | Phase closeout, docs consolidation, roadmap, next-phase preparation/tooling |
-| Codex                              | Pre-handoff review, handoff creation, final code review, milestone review   |
+| Codex                              | Pre-handoff review, handoff creation, final review, milestone review, Phase 15 backend audit |
 | Antigravity `backend-implementer`  | Production implementation + tests from active handoff                       |
 | Antigravity `architecture-auditor` | Optional read-only architecture/persistence audit                           |
 | Graphify                           | Optional navigation cache; never source of truth                            |
@@ -20,7 +20,7 @@ Owner commit + push
         ↓
 ChatGPT closes/freezes phase + prepares next phase
         ↓
-Is the completed phase 3 / 6 / 9 / 12 / 15?
+Is the completed phase 3 / 6 / 9 / 12?
         ├─ no ───────────────────────────────────────────────┐
         │                                                   ↓
         │                                  Codex $codex-pre-handoff-review
@@ -66,6 +66,36 @@ the owner first commits/pushes the milestone status changes, then returns the la
 post-milestone synchronization/reset step.
 
 See `docs/workflow/owner-phase-workflow.md` and `docs/roadmap.md`.
+
+## Phase 15 audit-first exception
+
+Phase 15 is the Comprehensive Backend Audit & Remediation Gate over Phases 0–14. It does not start with a normal
+implementation handoff. Its preparation still receives Codex governance review:
+
+```text
+Codex $codex-pre-handoff-review
+    ↓
+READY FOR AUDIT
+    ↓
+Owner commit/push preparation
+    ↓
+Codex $codex-backend-audit
+    ↓
+OWNER_DECISION_REQUIRED → owner disposition → rerun audit
+or
+REMEDIATION_REQUIRED → Codex creates one bounded ACTIVE handoff
+    ↓
+Antigravity /antigravity-implement-handoff
+    ↓
+Codex $codex-final-review
+    ↓
+accepted handoff → Codex $codex-backend-audit closure re-audit
+    ↓
+BACKEND_AUDIT_READY → owner commit/push → ChatGPT Phase 15 closeout
+```
+
+Phase 15 supersedes the former post-Phase-15 milestone. Frontend/RAG are renumbered to Phase 16/17 and remain
+owner-gated.
 
 ## Engineering guidance
 

@@ -17,15 +17,17 @@ Baseline before Phase 14 implementation: owner commit `ef92d94e4b551ec6c7449f251
 Backend Phase 13 remains complete/frozen. Phase 14 is now complete/frozen; future changes require a new
 owner-approved audit, maintenance, or feature scope.
 
-No Phase 14 production implementation is authorized until:
+Phase 14 production implementation historically required:
 
-1. `$codex-pre-handoff-review` returns `READY FOR HANDOFF`;
-2. the owner commits/pushes the accepted preparation;
-3. `$codex-create-handoff` creates the Phase 14 implementation handoff.
+1. `$codex-pre-handoff-review` = `READY FOR HANDOFF`;
+2. owner commit/push of accepted preparation;
+3. `$codex-create-handoff` creation of the Phase 14 implementation handoff.
 
-All three gates are satisfied as of 2026-10-06. Antigravity may implement/test only the active handoff's scope.
+All three gates were satisfied before implementation. The handoff is now archived; it grants no authority for future
+production changes. Phase 14 is not a milestone phase.
 
-Phase 14 is not a milestone phase. No later milestone or phase preparation is started by this closeout.
+The owner subsequently authorized Phase 15 as the comprehensive backend audit gate. That later audit may inspect
+Phase 14 but cannot reopen its frozen behavior without the Phase 15 owner-approval rules.
 
 ## Owner approval
 

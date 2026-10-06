@@ -15,9 +15,12 @@ For Phase 3+:
 6. Codex `$codex-final-review`.
 7. Owner commits/pushes after `READY FOR OWNER COMMIT`.
 8. ChatGPT closes/freezes the phase and prepares the next one.
-9. After Phase 3/6/9/12/15 run `$codex-milestone-review`.
-10. After `MILESTONE_READY`, owner commits/pushes milestone docs and returns the latest package to ChatGPT for
-    post-milestone synchronization/reset before the next `$codex-pre-handoff-review`.
+9. Historical milestone reviews run after Phase 3/6/9/12.
+10. Phase 15 is an audit-first exception: run `$codex-pre-handoff-review` on its preparation; success is
+    `READY FOR AUDIT`. After owner commit/push of accepted preparation, run `$codex-backend-audit`. Codex creates a
+    remediation handoff only from proven authorized findings; after remediation final review, rerun the backend audit
+    until `BACKEND_AUDIT_READY`.
+11. Phase 15 supersedes the former post-Phase-15 milestone. Frontend/RAG are Phase 16/17 and remain owner-gated.
 
 Do not bypass preparation or the active handoff by expanding scope from TODOs, tests, Graphify, or inferred needs.
 

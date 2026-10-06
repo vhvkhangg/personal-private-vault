@@ -21,7 +21,10 @@ Phase 14 Backend Integration Hardening + Portability/Object Storage Closure pass
 committed/pushed as `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and is **complete/frozen** after ChatGPT closeout. All nine findings are
 closed; independent 920-test clean verification and 49 focused tests are retained. The completed handoff is archived
 under `implementation/phase-14/handoff.md`; `implementation/handoffs/ACTIVE.md` is reset to `NO_ACTIVE_HANDOFF`.
-No later-phase preparation is started by this closeout.
+Phase 15 Comprehensive Backend Audit & Remediation Gate preparation is
+[READY FOR AUDIT](implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md): P15-1 closed,
+no blocking preparation findings. Owner preparation commit/push is next, then `$codex-backend-audit`;
+the audit is unstarted. Frontend/RAG are Phase 16/17 and remain owner-gated.
 Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
@@ -35,7 +38,7 @@ the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-00
 | [`database/`](database/README.md)                                         | Frozen DBML logical schema baseline and Flyway executable-schema guidance                                             |
 | [`repository/`](repository/repository-package-tree.md)                    | Frozen repository and Java package organization                                                                       |
 | [`owner-phase-workflow.md`](workflow/owner-phase-workflow.md)             | Owner checklist from phase closeout to the next handoff                                                               |
-| [`roadmap.md`](roadmap.md)                                                | 17-phase roadmap, prep gates, status, milestone cadence                                                               |
+| [`roadmap.md`](roadmap.md)                                                | 18-phase roadmap, prep/audit gates, status, milestone cadence                                                         |
 | [`agent-development-workflow.md`](workflow/agent-development-workflow.md) | Canonical ChatGPT → Codex → Antigravity → Codex workflow                                                              |
 | [`implementation/`](implementation/README.md)                             | Implementation-phase plans, completion records, test evidence, and operational guidance                               |
 
@@ -64,11 +67,13 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 
 ## Current development workflow
 
-1. ChatGPT closes the committed phase and prepares the next phase docs/tooling.
-2. Codex performs `$codex-pre-handoff-review`.
-3. After `READY FOR HANDOFF` and preparation commit/push, Codex creates `implementation/handoffs/ACTIVE.md`.
-4. Antigravity implements/tests the handoff.
-5. Codex performs final review; owner commits/pushes after `READY FOR OWNER COMMIT`.
+Normal feature phases use ChatGPT preparation → `$codex-pre-handoff-review` → preparation commit →
+`$codex-create-handoff` → Antigravity → `$codex-final-review` → owner commit.
 
-Backend Phases 0–14 remain frozen; future audit, milestone, or pre-handoff work does not reopen them without an
-explicit owner-approved maintenance or feature scope.
+Phase 15 is the dedicated exception: `$codex-pre-handoff-review` first returns `READY FOR AUDIT`, then its committed
+preparation is followed by `$codex-backend-audit`; Codex creates
+one bounded remediation handoff only from proven authorized findings, and the repository is re-audited after
+remediation until `BACKEND_AUDIT_READY`.
+
+Backend Phases 0–14 remain frozen; Phase 15 may inspect them but cannot change frozen schema/architecture/module/API/
+business baselines without explicit owner approval.

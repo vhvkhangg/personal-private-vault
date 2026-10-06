@@ -1,11 +1,14 @@
 ---
 name: codex-milestone-review
-description: Perform the extra cross-phase architecture, quality, security, maintainability, and performance review after every three implementation phases excluding Phase 0.
+description: Perform the historical cross-phase architecture, quality, security, maintainability, and performance milestone review after Phases 3, 6, 9, and 12; Phase 15 uses the stronger dedicated backend audit instead.
 ---
 
 # Codex Milestone Review
 
-Run after Phase 3, 6, 9, 12, and 15 is committed/pushed/frozen, before the next implementation handoff.
+Run after Phase 3, 6, 9, and 12 is committed/pushed/frozen, before the next implementation handoff.
+
+Do not run this skill after Phase 15. The dedicated `$codex-backend-audit` supersedes the former post-Phase-15
+milestone and covers the full backend rather than only Phases 13–15.
 
 ## Scope/status document
 
@@ -19,8 +22,7 @@ Do not create or modify the next implementation handoff.
 - after Phase 3: Phases 1–3;
 - after Phase 6: Phases 4–6;
 - after Phase 9: Phases 7–9;
-- after Phase 12: Phases 10–12;
-- after Phase 15: Phases 13–15.
+- after Phase 12: Phases 10–12.
 
 ## Mandatory checks
 

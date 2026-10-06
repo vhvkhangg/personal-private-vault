@@ -33,5 +33,5 @@ Constraints:
 - OpenAPI mirrors actual DTO/security behavior;
 - no new domain use case, schema, scheduler, object storage, hard delete, CORS/cookie policy, frontend or Phase 14+ work.
 
-After accepted Phase 13 implementation, owner commit/push then ChatGPT closeout/Phase 14 preparation; no milestone
-review is due until Phase 15.
+After accepted Phase 13 implementation, owner commit/push then ChatGPT closeout/Phase 14 preparation. The former
+post-Phase-15 milestone was later superseded by the dedicated Phase 15 comprehensive backend audit.

@@ -28,7 +28,8 @@ The Phase 13 production implementation prerequisites are satisfied:
 
 Implementation authority is limited to that handoff.
 
-Phase 13 is not a milestone phase. The next milestone is after Phase 15.
+Phase 13 is not a milestone phase. The former post-Phase-15 milestone was later superseded by the dedicated
+repository-wide Phase 15 Comprehensive Backend Audit & Remediation Gate.
 
 ## Goal
 

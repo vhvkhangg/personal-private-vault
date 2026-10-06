@@ -89,7 +89,7 @@ the frozen-module rules remain in force.
 
 ## Phase 14 object-storage exception
 
-An accepted active Phase 14 handoff may extend frozen Media only for the S3-compatible binary workflow in
+Phase 14 is complete/frozen with the S3-compatible binary workflow defined by
 `docs/implementation/phase-14/README.md`:
 
 - Media-owned storage port/infrastructure adapter;
@@ -98,5 +98,6 @@ An accepted active Phase 14 handoff may extend frozen Media only for the S3-comp
 - storage configuration/health;
 - focused tests and HTTP/OpenAPI updates.
 
-Do not change existing Image metadata invariants, Vault trash semantics, schema/Flyway, hard-delete behavior, or
-expose provider SDK types through public/domain/web DTO contracts.
+The accepted exception remains narrow. Future changes must not alter existing Image metadata invariants, Vault trash
+semantics, schema/Flyway, hard-delete behavior, or expose provider SDK types through public/domain/web DTO contracts
+without a new explicit approved scope.

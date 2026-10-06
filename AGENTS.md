@@ -37,15 +37,17 @@ This file defines repository-wide instructions for coding agents.
   Milestone review/status docs are owner committed/pushed and ChatGPT post-milestone synchronization/reset is complete.
 - Backend Phase 13 Shared REST/API Contract + Module HTTP Exposure is complete/frozen after final acceptance,
   independent 867-test verification, and owner commit/push `ef92d94`.
-- Backend Phase 14 Backend Integration Hardening + Portability/Object Storage Closure preparation is
-  `READY FOR HANDOFF` after 2026-10-06 pre-handoff acceptance (P14-1–P14-3 closed).
-  Accepted preparation is owner committed/pushed as `6f1fd00`; active handoff `phase-14-portability-storage` is
-  `READY FOR OWNER COMMIT` after 2026-10-06 final acceptance (FR14-1–FR14-9 closed; no blocking findings).
-  Independent 920-test clean verification and 49 focused tests passed, including deterministic database arbitration
-  and active-consumption resource cleanup. Owner commit/push is next, then ChatGPT Phase 14 closeout/Phase 15
-  preparation; Phase 14 is accepted but not yet owner committed/frozen. It is not a milestone gate.
-  See `docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md`.
-  The earlier concept/ADR approval was preparation-only; implementation scope remains governed by the active handoff.
+- Backend Phase 14 Backend Integration Hardening + Portability/Object Storage Closure is complete/frozen after
+  final acceptance, independent 920-test verification plus 49 focused tests, owner implementation commit `3bb3f2e`,
+  and closeout commit `0a8f3d1`. Its completed handoff is archived under `docs/implementation/phase-14/handoff.md`.
+- Backend Phase 15 is the owner-approved **Comprehensive Backend Audit & Remediation Gate** over Phases 0–14.
+  Preparation is `READY FOR AUDIT` after
+  [Codex acceptance](docs/implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md);
+  P15-1 is closed with no blocking preparation findings. The audit is `NOT_STARTED`: after owner commit/push of
+  accepted preparation, run `$codex-backend-audit`. The owner quick checklist separates the normal implementation
+  flow from Phase 15 and requires closure audit before any Phase 15 implementation commit.
+  Do not create a normal implementation handoff unless that audit produces
+  authorized actionable findings. Frontend is Phase 16 and RAG is Phase 17; neither preparation is authorized yet.
 
 Completed maintenance scope:
 
@@ -77,8 +79,9 @@ The default workflow is:
 6. Antigravity implements/tests with `/antigravity-implement-handoff`.
 7. Codex runs `$codex-final-review`.
 8. Owner commits/pushes after `READY FOR OWNER COMMIT`.
-9. ChatGPT closes/freezes the phase and prepares the next.
-10. After Phase 3/6/9/12/15, Codex runs `$codex-milestone-review`.
+9. ChatGPT closes/freezes the phase and prepares the next when authorized.
+10. Historical milestone reviews run after Phase 3/6/9/12. Phase 15 instead uses the dedicated
+    `$codex-backend-audit` workflow and supersedes the former post-15 milestone.
 
 Agents never commit, push, tag, or create/merge PRs.
 
@@ -133,6 +136,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 11 finance/journal/personal foundation baseline
 - Backend Phase 12 search foundation baseline
 - Backend Phase 13 shared REST/API + HTTP exposure baseline
+- Backend Phase 14 portability/object-storage/operational closure baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

@@ -48,11 +48,11 @@ ChatGPT should:
 - change hooks only for a real new command/security requirement;
 - not write next-phase production code.
 
-## 3. Extra milestone review every 3 implementation phases
+## 3. Extra milestone review every 3 implementation phases (historical cadence through Phase 12)
 
 Phase 0 does not count.
 
-After Phase **3, 6, 9, 12, and 15** is committed/pushed, run this additional review before the next handoff:
+After Phase **3, 6, 9, and 12** is committed/pushed, run this additional review before the next handoff:
 
 ```text
 $codex-milestone-review
@@ -98,9 +98,43 @@ When Codex requires frozen-phase implementation fixes:
 9. send the latest package to ChatGPT for post-milestone closeout/status synchronization;
 10. only after ChatGPT confirms the next phase is unblocked, run `$codex-pre-handoff-review`.
 
-## 4. Codex reviews next-phase preparation before handoff creation
+## 4. Phase 15 comprehensive backend audit exception
 
-After ChatGPT preparation, run:
+Phase 15 is not a normal feature implementation phase and intentionally supersedes the former post-Phase-15
+milestone. After ChatGPT prepares Phase 15, first run:
+
+```text
+$codex-pre-handoff-review
+```
+
+For Phase 15, success is `READY FOR AUDIT` rather than `READY FOR HANDOFF`. Commit/push the accepted preparation,
+then run:
+
+```text
+$codex-backend-audit
+```
+
+The audit covers all non-RAG backend work from Phases 0–14. It may return:
+
+- `OWNER_DECISION_REQUIRED` — a finding would change a frozen baseline; owner decides before any handoff;
+- `REMEDIATION_REQUIRED` — actionable authorized findings exist and Codex creates one bounded remediation handoff;
+- `BACKEND_AUDIT_READY` — no unresolved actionable findings remain.
+
+When remediation is required:
+
+```text
+/antigravity-implement-handoff
+$codex-final-review
+$codex-backend-audit
+```
+
+For Phase 15, a handoff-specific `READY FOR OWNER COMMIT` from `$codex-final-review` is not the final commit gate;
+rerun `$codex-backend-audit` first. Only `BACKEND_AUDIT_READY` permits the owner to commit/push the complete Phase 15
+slice. Phase 16/17 preparation remains owner-gated.
+
+## 5. Codex reviews normal next-phase preparation before handoff creation
+
+For normal implementation phases other than Phase 15, after ChatGPT preparation run:
 
 ```text
 $codex-pre-handoff-review
@@ -129,7 +163,7 @@ READY FOR HANDOFF
 
 commit/push the preparation/docs/tooling slice using Codex's one Conventional Commit message.
 
-## 5. Only then create the implementation handoff
+## 6. Only then create the implementation handoff
 
 After the preparation commit/push:
 
@@ -148,16 +182,54 @@ Then:
 
 ## Quick checklist
 
+Use exactly one branch below. **Do not continue from the Phase 15 branch into the normal implementation branch.**
+
+### Normal implementation phases (not Phase 15)
+
 ```text
 [ ] Final code review = READY FOR OWNER COMMIT
 [ ] Commit/push current implementation phase
 [ ] Ask ChatGPT: close current phase + prepare next phase
-[ ] If closing Phase 3/6/9/12/15: run $codex-milestone-review
+[ ] If closing Phase 3/6/9/12: run $codex-milestone-review
 [ ] If MILESTONE_READY: commit/push milestone docs, then give latest package to ChatGPT for post-milestone sync
 [ ] Confirm ACTIVE.md = NO_ACTIVE_HANDOFF and next phase = AWAITING CODEX PRE-HANDOFF REVIEW
 [ ] Run $codex-pre-handoff-review
-[ ] Resolve preparation findings
-[ ] Commit/push preparation after READY FOR HANDOFF
+[ ] Resolve preparation findings until READY FOR HANDOFF
+[ ] Commit/push accepted preparation
 [ ] Run $codex-create-handoff
 [ ] Run Antigravity implementation
+[ ] Run $codex-final-review until READY FOR OWNER COMMIT
+[ ] Commit/push implementation
+```
+
+### Phase 15 audit-first path only
+
+```text
+[ ] Confirm Phase 14 = COMPLETE — FROZEN and ACTIVE.md = NO_ACTIVE_HANDOFF
+[ ] Run $codex-pre-handoff-review
+[ ] Resolve preparation findings until READY FOR AUDIT
+[ ] Commit/push accepted Phase 15 preparation
+[ ] Run $codex-backend-audit
+
+[ ] If OWNER_DECISION_REQUIRED:
+    record the owner decision without creating/implementing an unauthorized handoff
+    rerun $codex-backend-audit
+
+[ ] If REMEDIATION_REQUIRED:
+    use only the remediation handoff created by $codex-backend-audit
+    run /antigravity-implement-handoff
+    run $codex-final-review until the handoff-specific result is READY FOR OWNER COMMIT
+    DO NOT COMMIT YET
+    rerun $codex-backend-audit as the mandatory repository-wide closure audit
+
+[ ] If the closure audit finds new/remnant actionable findings:
+    continue the same Phase 15 remediation handoff
+    repeat Antigravity remediation → $codex-final-review → $codex-backend-audit
+
+[ ] Only when $codex-backend-audit returns BACKEND_AUDIT_READY:
+    commit/push the complete Phase 15 audit/remediation slice
+    give ChatGPT the latest package for Phase 15 closeout only
+
+[ ] Do not run normal $codex-create-handoff for Phase 15 preparation
+[ ] Do not prepare Phase 16/17 until the owner separately authorizes it
 ```
