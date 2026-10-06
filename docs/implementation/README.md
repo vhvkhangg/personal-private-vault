@@ -28,10 +28,11 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-Active handoff [`phase-14-portability-storage`](handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT` after
-[final acceptance](phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md). Independent 920-test clean
-verification and 49 focused tests passed; all nine findings are closed. Phase 14 is accepted but not yet
-owner committed/frozen.
+No implementation handoff is active. [`handoffs/ACTIVE.md`](handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF`.
+Backend Phase 14 passed [final acceptance](phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md), was
+owner committed/pushed as `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and is **complete/frozen** after closeout. Independent 920-test clean
+verification and 49 focused tests are retained; all nine findings are closed. Its completed handoff is archived in
+[`phase-14/handoff.md`](phase-14/handoff.md). No later-phase preparation is started by this closeout.
 
 Backend Phases 10–12 are complete/frozen. The Phase 10–12 milestone is `MILESTONE_READY`; M10-12-1 maintenance is
 complete/frozen as owner commit `a881540`, the milestone review/status package is owner committed/pushed, and
@@ -41,13 +42,12 @@ Backend Phase 13 Shared REST/API Contract + Module HTTP Exposure passed
 [final acceptance](phase-13/reviews/2026-10-06-phase-13-final-codex-acceptance.md), was owner committed/pushed as
 `ef92d94`, and is complete/frozen with 867 tests retained.
 
-Backend Phase 14 Backend Integration Hardening + Portability/Object Storage Closure preparation is
-`READY FOR HANDOFF` after [2026-10-06 acceptance](phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md).
-P14-1–P14-3 are closed; accepted preparation is owner committed/pushed as `6f1fd00`.
-The earlier concept/ADR-0017 approval was preparation-only; implementation now requires adherence to the active
-Codex handoff. Next: owner commits/pushes the accepted Phase 14 implementation using the commit message in
-the final acceptance report, then gives the latest package to ChatGPT for Phase 14 closeout/Phase 15 preparation.
-Agents do not commit/push; Phase 14 is not a milestone gate.
+Backend Phase 14 Backend Integration Hardening + Portability/Object Storage Closure preparation was accepted and
+owner committed/pushed as `6f1fd00`; implementation then passed final Codex acceptance and was owner committed/pushed
+as `3bb3f2e`. ChatGPT closeout archives the handoff and freezes Phase 14. The earlier concept/ADR-0017 approval remains
+historical preparation authority; the completed implementation is governed by its archived handoff and accepted
+review evidence. Agents do not commit/push; Phase 14 is not a milestone gate. Later-phase preparation remains deferred
+until the owner explicitly starts it.
 
 ## Operational guidance
 

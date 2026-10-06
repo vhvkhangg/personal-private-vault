@@ -2,7 +2,7 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0–13 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
+Backend Phases 0–14 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
 The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
 post-milestone synchronization/reset. Phase 7 (`account`), Phase 8 (`knowledge`), and Phase 9 (`collection`) are
 complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE_READY` after committed
@@ -16,13 +16,12 @@ Milestone review/status docs are owner committed/pushed as `4220ad4`, and post-m
 Phase 13 passed [final acceptance](implementation/phase-13/reviews/2026-10-06-phase-13-final-codex-acceptance.md),
 was owner committed/pushed as `ef92d94`, and is complete/frozen with the retained 867-test verification. The earlier
 baseline boundary-test failure remains preserved in historical evidence.
-Phase 14 Backend Integration Hardening + Portability/Object Storage Closure preparation is
-[READY FOR HANDOFF](implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md).
-P14-1–P14-3 are closed; accepted preparation is owner committed/pushed as `6f1fd00`.
-Active handoff [phase-14-portability-storage](implementation/handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT` after
-[final acceptance](implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md): all nine findings
-closed; independent 920-test clean verification and 49 focused tests passed. Owner commit/push is next, followed by
-ChatGPT Phase 14 closeout/Phase 15 preparation. Phase 14 is accepted but not yet committed/frozen.
+Phase 14 Backend Integration Hardening + Portability/Object Storage Closure passed
+[final acceptance](implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md), was owner
+committed/pushed as `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and is **complete/frozen** after ChatGPT closeout. All nine findings are
+closed; independent 920-test clean verification and 49 focused tests are retained. The completed handoff is archived
+under `implementation/phase-14/handoff.md`; `implementation/handoffs/ACTIVE.md` is reset to `NO_ACTIVE_HANDOFF`.
+No later-phase preparation is started by this closeout.
 Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
@@ -71,5 +70,5 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 4. Antigravity implements/tests the handoff.
 5. Codex performs final review; owner commits/pushes after `READY FOR OWNER COMMIT`.
 
-Backend Phases 0–13 remain frozen; milestone/pre-handoff work does not reopen them without an explicit
-owner-approved maintenance or feature scope.
+Backend Phases 0–14 remain frozen; future audit, milestone, or pre-handoff work does not reopen them without an
+explicit owner-approved maintenance or feature scope.

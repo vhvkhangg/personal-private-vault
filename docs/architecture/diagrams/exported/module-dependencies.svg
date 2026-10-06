@@ -141,9 +141,8 @@
 <!-- portability -->
 <g id="node2" class="node">
 <title>portability</title>
-<path fill="#fce4d6" stroke="#c65911" stroke-dasharray="5,2" d="M625.5,-318C625.5,-318 544.5,-318 544.5,-318 538.5,-318 532.5,-312 532.5,-306 532.5,-306 532.5,-294 532.5,-294 532.5,-288 538.5,-282 544.5,-282 544.5,-282 625.5,-282 625.5,-282 631.5,-282 637.5,-288 637.5,-294 637.5,-294 637.5,-306 637.5,-306 637.5,-312 631.5,-318 625.5,-318"/>
-<text text-anchor="middle" x="585" y="-303" font-family="Arial" font-size="10.00">portability</text>
-<text text-anchor="middle" x="585" y="-292" font-family="Arial" font-size="10.00">(Phase 14 planned)</text>
+<path fill="#fce4d6" stroke="#c65911" d="M583.5,-318C583.5,-318 544.5,-318 544.5,-318 538.5,-318 532.5,-312 532.5,-306 532.5,-306 532.5,-294 532.5,-294 532.5,-288 538.5,-282 544.5,-282 544.5,-282 583.5,-282 583.5,-282 589.5,-282 595.5,-288 595.5,-294 595.5,-294 595.5,-306 595.5,-306 595.5,-312 589.5,-318 583.5,-318"/>
+<text text-anchor="middle" x="564" y="-297.5" font-family="Arial" font-size="10.00">portability</text>
 </g>
 <!-- feed&#45;&gt;knowledge -->
 <g id="edge23" class="edge">

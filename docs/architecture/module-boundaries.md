@@ -1,4 +1,4 @@
-# Module Boundaries v1 — Frozen baseline + approved Phase 14 delta
+# Module Boundaries v1 — Frozen baseline + implemented Phase 14 delta
 
 ## 1. Boundary rule
 
@@ -6,7 +6,7 @@ Each business capability is owned by one Spring Modulith application module. Onl
 
 The base package owns the module descriptor. Non-trivial public contracts are grouped into semantic subpackages and explicitly exposed with Spring Modulith `@NamedInterface`; implementation stays under `internal/`.
 
-At baseline commit `ef92d94`, `portability` is not implemented. Its row below is the owner-approved Phase 14 planned leaf/ADR-0017 exception; all other ownership/dependency boundaries remain frozen.
+At owner commit `3bb3f2e`, `portability` is implemented and frozen as the Phase 14 leaf defined by ADR-0017. It owns no business table and adds no Java module dependency edge; all prior ownership/dependency boundaries remain frozen.
 
 ## 2. Top-level modules
 

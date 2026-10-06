@@ -59,7 +59,7 @@ See [`diagrams/exported/container.svg`](diagrams/exported/container.svg).
 
 ## 5. Application structure
 
-Top-level modules (the original 18 are implemented at baseline `ef92d94`; `portability` is the owner-approved Phase 14 planned delta):
+Top-level modules (all 19 are implemented and frozen through Phase 14 owner commit `3bb3f2e`):
 
 ```text
 authentication
@@ -134,9 +134,9 @@ Global search is intentionally separated from `vault` to avoid a reverse depende
 
 ### `portability`
 
-`portability` is approved for Phase 14 but is **not implemented at baseline `ef92d94`**. Once authorized implementation begins, portable export is a separate leaf capability. It owns no business tables and, under ADR-0017, may perform only a
-read-only repeatable-read JDBC snapshot over an explicit allowlist of application tables. It never mutates another
-module's data or imports another module's entities/repositories.
+`portability` is the implemented/frozen Phase 14 portable-export leaf at owner commit `3bb3f2e`. It owns no business
+tables and, under ADR-0017, may perform only a read-only repeatable-read JDBC snapshot over an explicit allowlist of
+application tables. It never mutates another module's data or imports another module's entities/repositories.
 
 ### `importdata`
 

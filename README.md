@@ -7,8 +7,9 @@ Private, single-user personal information vault built as a backend-first modular
 Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
 Backend Phases 2 (`authentication` + `settings`), 3 (`people`), 4 (`fiction`), 5 (`film`), 6
-(`media` + `location`), 7 (`account`), 8 (`knowledge`), 9 (`collection`), 10 (`feed` + `importdata`), and
-11 (`finance` + `journal` + `personal`), 12 (`search`), and 13 (shared REST/API + HTTP exposure) are **complete and frozen** after owner commit/push. The Phase 1–3 milestone remains
+(`media` + `location`), 7 (`account`), 8 (`knowledge`), 9 (`collection`), 10 (`feed` + `importdata`),
+11 (`finance` + `journal` + `personal`), 12 (`search`), 13 (shared REST/API + HTTP exposure), and 14
+(backend integration hardening + portability/object storage closure) are **complete and frozen** after owner commit/push. The Phase 1–3 milestone remains
 `MILESTONE_READY`. The Phase 4–6 milestone is also `MILESTONE_READY` after committed privacy-safe constraint-logging maintenance. Phase 7 (`account`) is complete/frozen after owner commit/push.
 
 Development is agent-driven: Codex creates the handoff, Antigravity implements/tests it, Codex performs final review, and the owner commits/pushes.
@@ -40,6 +41,7 @@ Frozen implementation phases:
 - Backend Phase 11 — Finance + Journal + Personal Foundations
 - Backend Phase 12 — PostgreSQL-First Global Search
 - Backend Phase 13 — Shared REST/API Contract + Module HTTP Exposure
+- Backend Phase 14 — Backend Integration Hardening + Portability/Object Storage Closure
 
 Current gate:
 
@@ -49,13 +51,11 @@ Current gate:
 - Phase 12 PostgreSQL-first Global Search — complete/frozen after owner commit/push
 - Phase 10–12 milestone — `MILESTONE_READY`; milestone docs owner committed/pushed; post-milestone reset complete
 - Phase 13 Shared REST/API Contract + Module HTTP Exposure — complete/frozen after owner commit `ef92d94`; 867-test final acceptance retained
-- Phase 14 Backend Integration Hardening + Portability/Object Storage Closure — preparation
-  [READY FOR HANDOFF](docs/implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md);
-  preparation findings closed and owner committed/pushed as `6f1fd00`. Active handoff
-  [phase-14-portability-storage](docs/implementation/handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT` after
-  [final acceptance](docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md): all nine findings
-  closed; independent 920-test clean verification and 49 focused tests passed. Owner commit/push is next, then
-  ChatGPT Phase 14 closeout/Phase 15 preparation. Phase 14 is accepted but not yet committed/frozen.
+- Phase 14 Backend Integration Hardening + Portability/Object Storage Closure — **complete/frozen** after
+  [final acceptance](docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md), owner
+  commit/push `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and ChatGPT closeout. All nine findings are closed; independent 920-test clean
+  verification and 49 focused tests are retained. There is no active implementation handoff. Preparation of any
+  later phase is intentionally not started by this closeout.
 
 ## Planned stack
 

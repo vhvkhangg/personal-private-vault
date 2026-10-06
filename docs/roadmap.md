@@ -183,14 +183,14 @@ is **READY FOR OWNER COMMIT**: all seven findings closed; independent 867-test c
 The earlier intermittent baseline boundary-test failure remains preserved in historical evidence.
 The owner committed/pushed the accepted implementation as `ef92d94`; ChatGPT completed Phase 13 closeout/freeze.
 
-## Phase 14 preparation
+## Phase 14 — complete/frozen
 
-Phase 14 preparation is [READY FOR HANDOFF](implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md)
-after 2026-10-06 acceptance. P14-1–P14-3 are closed; accepted preparation is owner committed/pushed as `6f1fd00`.
-Active handoff [phase-14-portability-storage](implementation/handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT` after
-[final acceptance](implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md): all nine findings
-closed; independent 920-test clean verification and 49 focused tests passed. Implementation is accepted but not
-yet owner committed/frozen.
+Phase 14 preparation passed [pre-handoff acceptance](implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md)
+and was owner committed/pushed as `6f1fd00`. The implementation then passed
+[final acceptance](implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md): FR14-1–FR14-9 are
+closed; independent 920-test clean verification and 49 focused tests passed. The owner committed/pushed the accepted
+implementation as `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and ChatGPT completed Phase 14 closeout/freeze. Its completed handoff is archived
+at [phase-14/handoff.md](implementation/phase-14/handoff.md); there is no active handoff.
 Its scope covers:
 
 - a read-only `portability` leaf module and portable JSONL/Markdown/media-manifest export;
@@ -200,8 +200,8 @@ Its scope covers:
 Production provider/deployment, automated backups, Feed scheduler/provider integrations, recurring Finance posting,
 frontend, and RAG remain explicitly deferred.
 
-Current gate: owner commit/push of accepted Phase 14 implementation, then ChatGPT Phase 14 closeout/Phase 15
-preparation. Phase 14 is not a milestone phase; the next milestone follows Phase 15 completion.
+Current gate: **NO_ACTIVE_HANDOFF**. Phase 14 is frozen. No later-phase preparation is started by this closeout;
+the owner will explicitly authorize the next phase/scope. Phase 14 itself is not a milestone phase.
 
 ## Completed Phase 4–6 milestone maintenance
 

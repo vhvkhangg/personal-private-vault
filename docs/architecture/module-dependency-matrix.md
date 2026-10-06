@@ -1,8 +1,8 @@
-# Module Dependency Matrix v1 — Frozen baseline + approved Phase 14 delta
+# Module Dependency Matrix v1 — Frozen baseline + implemented Phase 14 delta
 
 An arrow `A → B` means module **A is allowed to depend on the public API of B**. Direct access to another module's internal entities/repositories remains forbidden.
 
-At baseline commit `ef92d94`, the original 18 modules are implemented. The `portability` row is an **owner-approved Phase 14 planned delta**, not yet production code; it adds no dependency edge.
+At owner commit `3bb3f2e`, all 19 top-level modules shown below are implemented. `portability` is the frozen Phase 14 leaf; it adds no Java module dependency edge and retains only ADR-0017's narrow read-only JDBC snapshot exception.
 
 | Module           | Allowed dependencies                                                                                    |
 | ---------------- | ------------------------------------------------------------------------------------------------------- |

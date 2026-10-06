@@ -1,4 +1,4 @@
-# Repository and Java Package Tree v1.1.1 — Frozen baseline + approved Phase 14 delta
+# Repository and Java Package Tree v1.1.1 — Frozen baseline + implemented Phase 14 delta
 
 ## 1. Repository principles
 
@@ -14,11 +14,11 @@
 
 Spring Modulith treats each direct subpackage below the Spring Boot application package as an application module. The module base package owns the module descriptor. Public contract subpackages are exposed deliberately with `@NamedInterface`; other subpackages remain internal. Nested modules are declared explicitly with `@ApplicationModule`.
 
-**Phase 14 delta:** owner-approved ADR-0017 adds the `portability` leaf module and ADR-0009/Phase 14 closure
-introduces Media-internal S3-compatible storage packages. At baseline commit `ef92d94` this was not implemented;
-in current Phase 14 implementation it comprises `portability` (`internal/application`, `internal/infrastructure/snapshot`,
-`internal/web/controller`) and `media` (`internal/application/storage`, `internal/infrastructure/storage`). All original
-module boundaries and ownership invariants remain strictly preserved.
+**Phase 14 delta:** ADR-0017 adds the implemented `portability` leaf module and ADR-0009/Phase 14 closure introduces
+Media-internal S3-compatible storage packages. The delta is frozen at owner commit `3bb3f2e` and comprises `portability`
+(`internal/application`, `internal/infrastructure/snapshot`, `internal/web/controller`) and `media`
+(`internal/application/storage`, `internal/infrastructure/storage`). All prior module boundaries and ownership
+invariants remain strictly preserved.
 
 ## 2. Root repository tree
 
@@ -59,7 +59,7 @@ personal-private-vault/
 │       │   │       ├── journal/
 │       │   │       ├── personal/
 │       │   │       ├── search/
-│       │   │       └── portability/           # Phase 14 planned; not implemented at ef92d94
+│       │   │       └── portability/           # Phase 14 implemented/frozen at 3bb3f2e
 │       │   └── resources/
 │       │       └── db/migration/
 │       └── test/
@@ -375,4 +375,4 @@ Local Docker support may be introduced during backend implementation when Postgr
 - [`ADR-0002`](../adr/0002-package-by-business-capability.md) — package by business capability.
 - [`ADR-0015`](../adr/0015-semantic-public-api-subpackages.md) — semantic public API subpackages and named interfaces.
 - [`ADR-0016`](../adr/0016-root-http-contract-module-local-adapters.md) — root HTTP contract and module-local web adapters.
-- [`ADR-0017`](../adr/0017-portability-readonly-snapshot-module.md) — planned portability leaf and narrow read-only JDBC snapshot exception.
+- [`ADR-0017`](../adr/0017-portability-readonly-snapshot-module.md) — implemented portability leaf and narrow read-only JDBC snapshot exception.
