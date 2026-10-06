@@ -29,8 +29,19 @@ public class ApiExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
+    private void abortIfCommitted(jakarta.servlet.http.HttpServletResponse response, Exception ex) {
+        if (response != null && response.isCommitted()) {
+            log.warn("Response already committed; aborting transfer without writing error envelope: exception={}", ex.getClass().getSimpleName());
+            throw new IllegalStateException("Committed response transfer aborted: " + ex.getClass().getSimpleName());
+        }
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         List<ApiFieldError> fieldErrors = ex.getBindingResult().getFieldErrors().stream()
                 .map(err -> new ApiFieldError(err.getField(), err.getDefaultMessage() != null ? err.getDefaultMessage() : "Invalid value"))
                 .toList();
@@ -38,7 +49,11 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
-    public ResponseEntity<ApiResponse<Void>> handleHandlerMethodValidation(HandlerMethodValidationException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleHandlerMethodValidation(
+            HandlerMethodValidationException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         List<ApiFieldError> fieldErrors = ex.getAllErrors().stream()
                 .map(err -> new ApiFieldError(
                         err instanceof org.springframework.validation.FieldError fe ? fe.getField() : "parameter",
@@ -48,7 +63,11 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiResponse<Void>> handleConstraintViolation(ConstraintViolationException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleConstraintViolation(
+            ConstraintViolationException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         List<ApiFieldError> fieldErrors = ex.getConstraintViolations().stream()
                 .map(cv -> new ApiFieldError(cv.getPropertyPath().toString(), cv.getMessage()))
                 .toList();
@@ -56,42 +75,101 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiResponse<Void>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.BAD_REQUEST, "MALFORMED_REQUEST", "Malformed or unreadable request payload");
     }
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, MissingServletRequestParameterException.class})
-    public ResponseEntity<ApiResponse<Void>> handleRequestParameterErrors(Exception ex) {
+    public ResponseEntity<ApiResponse<Void>> handleRequestParameterErrors(
+            Exception ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.BAD_REQUEST, "MALFORMED_REQUEST", "Invalid request parameters");
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleNoResourceFound(NoResourceFoundException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleNoResourceFound(
+            NoResourceFoundException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.NOT_FOUND, "RESOURCE_NOT_FOUND", "Requested resource not found");
     }
 
     @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
-    public ResponseEntity<ApiResponse<Void>> handleAccessDenied(org.springframework.security.access.AccessDeniedException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleAccessDenied(
+            org.springframework.security.access.AccessDeniedException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.FORBIDDEN, "ACCESS_DENIED", "Access is denied");
     }
 
     @ExceptionHandler(java.util.NoSuchElementException.class)
-    public ResponseEntity<ApiResponse<Void>> handleNoSuchElement(java.util.NoSuchElementException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleNoSuchElement(
+            java.util.NoSuchElementException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.NOT_FOUND, "RESOURCE_NOT_FOUND", "Requested resource not found");
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ApiResponse<Void>> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleMethodNotSupported(
+            HttpRequestMethodNotSupportedException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.METHOD_NOT_ALLOWED, "METHOD_NOT_ALLOWED", "HTTP method not supported");
     }
 
+    @ExceptionHandler(org.springframework.web.multipart.support.MissingServletRequestPartException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMissingServletRequestPart(
+            org.springframework.web.multipart.support.MissingServletRequestPartException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
+        return ApiResponses.of(HttpStatus.BAD_REQUEST, "MALFORMED_REQUEST", "Required multipart part is missing: " + ex.getRequestPartName());
+    }
+
+    @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMaxUploadSizeExceeded(
+            org.springframework.web.multipart.MaxUploadSizeExceededException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
+        return ApiResponses.of(HttpStatus.PAYLOAD_TOO_LARGE, "PAYLOAD_TOO_LARGE", "Uploaded file exceeds maximum permitted size limit");
+    }
+
+    @ExceptionHandler(org.springframework.web.multipart.MultipartException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMultipartException(
+            org.springframework.web.multipart.MultipartException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
+        return ApiResponses.of(HttpStatus.BAD_REQUEST, "MALFORMED_REQUEST", "Failed to parse multipart request");
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(IllegalArgumentException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(
+            IllegalArgumentException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.BAD_REQUEST, "INVALID_ARGUMENT", "Invalid argument provided");
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void>> handleUnexpected(Exception ex) {
+    public ResponseEntity<ApiResponse<Void>> handleUnexpected(
+            Exception ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) {
+        abortIfCommitted(response, ex);
         log.error("Unexpected server failure: exception={}", ex.getClass().getName());
         return ApiResponses.of(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "An unexpected error occurred");
     }

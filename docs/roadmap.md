@@ -27,7 +27,7 @@ Phase 0 is excluded from the three-phase milestone cadence. Extra milestone revi
 | 11    | `finance` + `journal` + `personal`                                                            | P-11 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 complete                                       | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 complete                                       | **COMPLETE — FROZEN** | —                    |
-| 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | **P-14: READY FOR HANDOFF**                          | Not started           | —                    |
+| 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | **P-14: READY FOR HANDOFF**                          | **READY FOR OWNER COMMIT** | —                    |
 | 15    | Next.js/TypeScript/shadcn frontend + E2E product workflows                                    | P-15 planned                                        | Not started           | **After completion** |
 | 16    | RAG / semantic retrieval enhancement                                                          | P-16 planned                                        | Not started           | Final closeout       |
 
@@ -186,8 +186,12 @@ The owner committed/pushed the accepted implementation as `ef92d94`; ChatGPT com
 ## Phase 14 preparation
 
 Phase 14 preparation is [READY FOR HANDOFF](implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md)
-after 2026-10-06 acceptance. P14-1–P14-3 are closed; owner concept/ADR-0017 approval remains preparation-only.
-Owner preparation commit/push, then `$codex-create-handoff`, is next. It prepares:
+after 2026-10-06 acceptance. P14-1–P14-3 are closed; accepted preparation is owner committed/pushed as `6f1fd00`.
+Active handoff [phase-14-portability-storage](implementation/handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT` after
+[final acceptance](implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md): all nine findings
+closed; independent 920-test clean verification and 49 focused tests passed. Implementation is accepted but not
+yet owner committed/frozen.
+Its scope covers:
 
 - a read-only `portability` leaf module and portable JSONL/Markdown/media-manifest export;
 - S3-compatible Media binary upload/download behind a Media-owned abstraction;
@@ -196,11 +200,8 @@ Owner preparation commit/push, then `$codex-create-handoff`, is next. It prepare
 Production provider/deployment, automated backups, Feed scheduler/provider integrations, recurring Finance posting,
 frontend, and RAG remain explicitly deferred.
 
-Current gate: owner commits/pushes accepted preparation first, then:
-
-```text
-$codex-create-handoff
-```
+Current gate: owner commit/push of accepted Phase 14 implementation, then ChatGPT Phase 14 closeout/Phase 15
+preparation. Phase 14 is not a milestone phase; the next milestone follows Phase 15 completion.
 
 ## Completed Phase 4–6 milestone maintenance
 

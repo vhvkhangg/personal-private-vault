@@ -51,7 +51,11 @@ Current gate:
 - Phase 13 Shared REST/API Contract + Module HTTP Exposure — complete/frozen after owner commit `ef92d94`; 867-test final acceptance retained
 - Phase 14 Backend Integration Hardening + Portability/Object Storage Closure — preparation
   [READY FOR HANDOFF](docs/implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md);
-  all findings closed. Owner commits/pushes preparation, then runs `$codex-create-handoff`.
+  preparation findings closed and owner committed/pushed as `6f1fd00`. Active handoff
+  [phase-14-portability-storage](docs/implementation/handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT` after
+  [final acceptance](docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md): all nine findings
+  closed; independent 920-test clean verification and 49 focused tests passed. Owner commit/push is next, then
+  ChatGPT Phase 14 closeout/Phase 15 preparation. Phase 14 is accepted but not yet committed/frozen.
 
 ## Planned stack
 

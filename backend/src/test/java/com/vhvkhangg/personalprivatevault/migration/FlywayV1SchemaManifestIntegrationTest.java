@@ -66,4 +66,28 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 .as("Flyway V1 must define exactly 103 foreign keys")
                 .isEqualTo(103);
     }
+
+    @Test
+    @DisplayName("Portability allowlist exactly matches all 67 non-auth application tables in physical schema")
+    void portabilityAllowlistMatchesPhysicalSchema() {
+        var physicalTables = jdbcTemplate.queryForList(
+                """
+                SELECT table_name
+                FROM information_schema.tables
+                WHERE table_schema = 'public'
+                  AND table_type = 'BASE TABLE'
+                  AND table_name NOT IN ('flyway_schema_history', 'app_users', 'refresh_tokens')
+                ORDER BY table_name
+                """,
+                String.class
+        );
+
+        assertThat(physicalTables)
+                .as("Expected exactly 67 non-auth application tables in PostgreSQL")
+                .hasSize(67);
+
+        assertThat(com.vhvkhangg.personalprivatevault.portability.internal.infrastructure.snapshot.PortabilitySnapshotAdapter.ALLOWED_TABLES)
+                .as("Portability ALLOWED_TABLES must match physical schema non-auth tables exactly")
+                .containsExactlyInAnyOrderElementsOf(physicalTables);
+    }
 }

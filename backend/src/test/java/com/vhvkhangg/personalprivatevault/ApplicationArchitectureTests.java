@@ -846,6 +846,80 @@ class ApplicationArchitectureTests {
     }
 
     @Test
+    @DisplayName("Verifies portability module configuration, zero dependencies, and leaf invariant")
+    void verifiesPortabilityModuleConfigurationAndLeafProperty() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var portabilityModuleOpt = modules.getModuleByName("portability");
+        assertThat(portabilityModuleOpt).isPresent();
+        var portabilityModule = portabilityModuleOpt.get();
+
+        // 1. Zero outbound dependencies to other application modules
+        assertThat(portabilityModule.getDirectDependencies(modules).stream().toList()).isEmpty();
+
+        // 2. Leaf invariant: no application module depends on portability
+        for (var module : modules) {
+            if (!module.equals(portabilityModule)) {
+                assertThat(module.getDirectDependencies(modules).stream().toList())
+                        .noneMatch(dep -> dep.getTargetModule().equals(portabilityModule));
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies portability module owns zero JPA entities and zero JPA repositories")
+    void verifiesPortabilityOwnsNoJpaEntitiesOrRepositories() {
+        var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()
+                .withImportOption(com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+                .importPackages("com.vhvkhangg.personalprivatevault.portability");
+
+        assertThat(allClasses.stream().filter(c -> c.isAnnotatedWith(jakarta.persistence.Entity.class)).toList()).isEmpty();
+        assertThat(allClasses.stream().filter(c -> c.isAnnotatedWith(jakarta.persistence.Table.class)).toList()).isEmpty();
+        assertThat(allClasses.stream().filter(c -> c.isAnnotatedWith(org.springframework.stereotype.Repository.class)).toList()).isEmpty();
+        assertThat(allClasses.stream().filter(c -> c.isAssignableTo(org.springframework.data.repository.Repository.class)).toList()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Verifies cross-table JDBC access in portability is strictly confined to PortabilitySnapshotAdapter")
+    void verifiesPortabilityJdbcAccessIsRestrictedToSnapshotAdapter() {
+        var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()
+                .withImportOption(com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+                .importPackages("com.vhvkhangg.personalprivatevault.portability");
+
+        var nonAdapterClasses = allClasses.stream()
+                .filter(c -> !c.getName().equals("com.vhvkhangg.personalprivatevault.portability.internal.infrastructure.snapshot.PortabilitySnapshotAdapter"))
+                .toList();
+
+        for (var javaClass : nonAdapterClasses) {
+            for (var dep : javaClass.getDirectDependenciesFromSelf()) {
+                String target = dep.getTargetClass().getName();
+                assertThat(target.startsWith("java.sql.") || target.startsWith("javax.sql.") || target.startsWith("org.springframework.jdbc."))
+                        .as("Class %s outside snapshot adapter illegally accesses JDBC: %s", javaClass.getName(), target)
+                        .isFalse();
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies AWS/S3 provider types do not leak outside Media infrastructure storage package")
+    void verifiesMediaStorageProviderTypesStayInInfrastructure() {
+        var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()
+                .withImportOption(com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+                .importPackages("com.vhvkhangg.personalprivatevault");
+
+        var nonStorageInfraClasses = allClasses.stream()
+                .filter(c -> !c.getPackageName().startsWith("com.vhvkhangg.personalprivatevault.media.internal.infrastructure.storage"))
+                .toList();
+
+        for (var javaClass : nonStorageInfraClasses) {
+            for (var dep : javaClass.getDirectDependenciesFromSelf()) {
+                assertThat(dep.getTargetClass().getName())
+                        .as("Class %s outside Media storage infrastructure leaks AWS/S3 type: %s", javaClass.getName(), dep.getTargetClass().getName())
+                        .doesNotContain("software.amazon.awssdk");
+            }
+        }
+    }
+
+    @Test
     @DisplayName("Verifies root package classes strictly adhere to ADR-0016 allowlist")
     void verifiesRootPackageStrictAllowlist() {
         var allClasses = new com.tngtech.archunit.core.importer.ClassFileImporter()

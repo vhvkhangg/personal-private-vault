@@ -1,23 +1,31 @@
 # Backend Phase 14 — Backend Integration Hardening + Portability/Object Storage Closure
 
-Status: **READY FOR HANDOFF** (2026-10-06)
+Preparation status: **READY FOR HANDOFF** (2026-10-06)
+
+Implementation status: **READY FOR OWNER COMMIT** after
+[final acceptance](reviews/2026-10-06-phase-14-final-codex-acceptance.md) (2026-10-06): FR14-1–FR14-9 closed;
+no blocking findings. Independent clean verification passed 920 tests plus 49 focused tests.
 
 Codex [pre-handoff acceptance](reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md) closes P14-1–P14-3.
 The [initial review](reviews/2026-10-06-phase-14-pre-handoff-codex-review.md) and
 [re-review 1](reviews/2026-10-06-phase-14-pre-handoff-codex-rereview-1.md) remain unchanged as historical evidence.
-Next: owner commits/pushes this accepted preparation, then invokes `$codex-create-handoff`.
+Accepted preparation is owner committed/pushed as `6f1fd00d89a2d0674677cf4c38b814bc434ec253`.
+Active handoff [phase-14-portability-storage](../handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT` (2026-10-06).
+Next: owner commit/push, then ChatGPT Phase 14 closeout/Phase 15 preparation.
 
 Baseline: owner commit `ef92d94e4b551ec6c7449f251f5186f3e376e0c3`
 (`feat(api): expose module capabilities through shared REST contracts`).
 
-Backend Phase 13 is complete/frozen after final Codex acceptance and owner commit/push. There is no active
-implementation handoff.
+Backend Phase 13 is complete/frozen after final Codex acceptance and owner commit/push. Phase 14 production
+implementation is accepted but not yet owner committed/frozen; the active handoff remains the scope authority.
 
 No Phase 14 production implementation is authorized until:
 
 1. `$codex-pre-handoff-review` returns `READY FOR HANDOFF`;
 2. the owner commits/pushes the accepted preparation;
 3. `$codex-create-handoff` creates the Phase 14 implementation handoff.
+
+All three gates are satisfied as of 2026-10-06. Antigravity may implement/test only the active handoff's scope.
 
 Phase 14 is not a milestone phase. The next milestone occurs after Phase 15.
 
@@ -31,9 +39,9 @@ preparation review, including:
 - no cross-module JPA/repository access, database writes, or unrelated architectural bypasses;
 - preservation of all otherwise-frozen architecture, schema, and module ownership boundaries.
 
-This approval authorizes preparation review and relevant preparation/governance documentation updates only.
-It does not authorize Phase 14 implementation or production code changes. The three implementation gates above
-remain mandatory; the owner-approval prerequisite is satisfied and is not an outstanding finding.
+That approval authorized preparation review and relevant preparation/governance documentation updates only,
+not Phase 14 implementation or production code changes. The three implementation gates above are now separately
+satisfied; implementation authority comes only from the active Codex handoff, not from preparation-only approval.
 
 ## Goal
 
@@ -528,11 +536,8 @@ No new custom agent/hook is planned.
 
 ## Next gate
 
-Owner commit/push of accepted preparation first, then:
-
-```text
-$codex-create-handoff
-```
-
-Preparation review is `READY FOR HANDOFF`; do not create the Phase 14 handoff until the owner commits/pushes the
-accepted preparation. Production implementation still requires that active handoff.
+Preparation review remains `READY FOR HANDOFF`; the owner committed/pushed accepted preparation as `6f1fd00`.
+The active handoff `phase-14-portability-storage` is `READY FOR OWNER COMMIT`. Owner commits/pushes the accepted
+implementation using the commit message in the final acceptance report, then gives the latest package to ChatGPT
+for Phase 14 closeout/Phase 15 preparation. Agents do not commit/push. Accepted preparation and historical reviews
+remain unchanged; Phase 14 is not frozen until owner commit/push and closeout.

@@ -14,10 +14,11 @@
 
 Spring Modulith treats each direct subpackage below the Spring Boot application package as an application module. The module base package owns the module descriptor. Public contract subpackages are exposed deliberately with `@NamedInterface`; other subpackages remain internal. Nested modules are declared explicitly with `@ApplicationModule`.
 
-**Phase 14 preparation delta:** the owner-approved ADR-0017 adds a planned `portability` leaf module. At baseline
-commit `ef92d94` that package is **not implemented yet**; entries marked `Phase 14 planned` below document the accepted
-future structure for handoff review and must not be treated as existing production code. All original module edges and
-ownership rules remain frozen.
+**Phase 14 delta:** owner-approved ADR-0017 adds the `portability` leaf module and ADR-0009/Phase 14 closure
+introduces Media-internal S3-compatible storage packages. At baseline commit `ef92d94` this was not implemented;
+in current Phase 14 implementation it comprises `portability` (`internal/application`, `internal/infrastructure/snapshot`,
+`internal/web/controller`) and `media` (`internal/application/storage`, `internal/infrastructure/storage`). All original
+module boundaries and ownership invariants remain strictly preserved.
 
 ## 2. Root repository tree
 
@@ -143,12 +144,18 @@ com.vhvkhangg.personalprivatevault
 ├── journal
 ├── personal
 ├── search
-└── portability    # Phase 14 planned; no business-module dependency; not implemented at ef92d94
+└── portability    # Phase 14 leaf module; no business-module dependency
 ```
 
-`portability` is the sole approved Phase 14 top-level addition. Its planned minimal shape is module-local
-(`package-info.java` plus `internal/application`, `internal/infrastructure/snapshot`, and `internal/web` as actually
-needed). Do not create a public `@NamedInterface` merely for same-module controllers/tests.
+`portability` is the sole approved Phase 14 top-level addition. Its implemented shape is module-local:
+`package-info.java` plus:
+- `internal/application/`: `PortabilityExportService` (archive orchestration and cleanup);
+- `internal/infrastructure/snapshot/`: `PortabilitySnapshotAdapter` (sole approved read-only JDBC allowlist adapter);
+- `internal/web/controller/`: `PortabilityController` (`POST /api/v1/portability/exports`).
+
+`media` internal storage packages:
+- `internal/application/storage/`: `MediaStoragePort`, `StorageDownloadResult`, `ImageUploadService`, `ImageDownloadService`, storage exceptions;
+- `internal/infrastructure/storage/`: `S3MediaStorageAdapter`, `DisabledMediaStorageAdapter`, `MediaStorageProperties`, `MediaStorageConfiguration`, `MediaStorageHealthIndicator`.
 
 Module responsibilities and allowed dependencies are frozen except for this owner-approved ADR-0017 delta in
 `docs/architecture/module-dependency-matrix.md`.

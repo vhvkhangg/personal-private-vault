@@ -100,6 +100,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/finance/wallets/{id} | getWallet | 200 | null | ApiResponseWalletResponse | true
             GET | /api/v1/finance/wallets/{id}/balance | getWalletBalance | 200 | null | ApiResponseWalletBalanceResponse | true
             GET | /api/v1/images/{id} | getImage | 200 | null | ApiResponseImageResponse | true
+            GET | /api/v1/images/{id}/content | downloadImageContent | 200 | null | binary | true
             GET | /api/v1/imports/jobs | findRecentImportJobs | 200 | null | ApiResponseListImportJobResponse | true
             GET | /api/v1/imports/jobs/{id} | getImportJob | 200 | null | ApiResponseImportJobResponse | true
             GET | /api/v1/imports/jobs/{id}/items | findImportJobItems | 200 | null | ApiResponseListImportJobItemResponse | true
@@ -174,6 +175,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/finance/wallets | createWallet | 201 | CreateWalletRequest | ApiResponseWalletResponse | false
             POST | /api/v1/finance/wallets/{id}/restore | restoreWallet | 200 | null | ApiResponseWalletResponse | true
             POST | /api/v1/images | createImage | 201 | CreateImageRequest | ApiResponseImageResponse | false
+            POST | /api/v1/images/upload | uploadImage | 201 | multipart | ApiResponseImageResponse | false
             POST | /api/v1/imports/jobs | createImportJob | 201 | CreateImportJobRequest | ApiResponseImportJobResponse | false
             POST | /api/v1/imports/jobs/{id}/cancel | cancelImportJob | 200 | null | ApiResponseImportJobResponse | true
             POST | /api/v1/imports/jobs/{id}/execute | executeImportJob | 200 | ExecuteImportJobRequest | ApiResponseImportJobResponse | true
@@ -192,6 +194,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/people/creator-groups | createCreatorGroup | 201 | CreateCreatorGroupRequest | ApiResponseCreatorGroupResponse | false
             POST | /api/v1/personal/profiles | createPersonalProfile | 201 | CreatePersonalProfileRequest | ApiResponsePersonalProfileResponse | false
             POST | /api/v1/personal/profiles/{id}/restore | restorePersonalProfile | 200 | null | ApiResponsePersonalProfileResponse | true
+            POST | /api/v1/portability/exports | exportVaultArchive | 200 | null | binary | false
             POST | /api/v1/saved-resources/{id}/convert/information | convertSavedResourceToInformation | 201 | ConvertToInformationRequest | ApiResponseSavedResourceConversionResponse | true
             POST | /api/v1/saved-resources/{id}/convert/note | convertSavedResourceToNote | 201 | ConvertToNoteRequest | ApiResponseSavedResourceConversionResponse | true
             POST | /api/v1/saved-resources/{id}/convert/study | convertSavedResourceToStudy | 201 | ConvertToStudyRequest | ApiResponseSavedResourceConversionResponse | true
@@ -308,7 +311,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 "/api/v1/finance",
                 "/api/v1/journal",
                 "/api/v1/personal",
-                "/api/v1/search"
+                "/api/v1/search",
+                "/api/v1/portability"
         );
 
         for (String prefix : expectedPathPrefixes) {
@@ -369,8 +373,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(211);
-        assertThat(uniqueIds).hasSize(211);
+        assertThat(operationIds).hasSize(214);
+        assertThat(uniqueIds).hasSize(214);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -435,7 +439,20 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         JsonNode settingsGet = paths.path("/api/v1/settings").path("get");
         assertThat(settingsGet.path("responses").has("404")).as("GET /api/v1/settings must document 404").isTrue();
 
-        // 6b. Verify exact 211-endpoint method/path/operation/status/DTO contract manifest (FR13-6)
+        // Phase 14 additions
+        JsonNode imageUploadPost = paths.path("/api/v1/images/upload").path("post");
+        assertThat(imageUploadPost.path("responses").has("201")).as("POST /api/v1/images/upload must document 201").isTrue();
+        assertThat(imageUploadPost.path("responses").has("200")).as("POST /api/v1/images/upload must NOT document 200").isFalse();
+
+        JsonNode imageContentGet = paths.path("/api/v1/images/{id}/content").path("get");
+        assertThat(imageContentGet.path("responses").has("409")).as("GET /api/v1/images/{id}/content must document 409").isTrue();
+
+        JsonNode exportArchivePost = paths.path("/api/v1/portability/exports").path("post");
+        assertThat(exportArchivePost.path("responses").has("200")).as("POST /api/v1/portability/exports must document 200").isTrue();
+        assertThat(exportArchivePost.path("responses").has("409")).as("POST /api/v1/portability/exports must NOT document 409").isFalse();
+        assertThat(exportArchivePost.path("responses").has("422")).as("POST /api/v1/portability/exports must NOT document 422").isFalse();
+
+        // 6b. Verify exact 214-endpoint method/path/operation/status/DTO contract manifest (FR13-6 + Phase 14)
         List<ExpectedRouteContract> expectedContracts = ACCEPTED_MANIFEST.lines()
                 .map(String::trim)
                 .filter(line -> !line.isEmpty() && !line.startsWith("#"))
@@ -453,7 +470,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 211 endpoints").hasSize(211);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 214 endpoints").hasSize(214);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -468,7 +485,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 211 manifest count").isEqualTo(211);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 214 manifest count").isEqualTo(214);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());
@@ -499,23 +516,76 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 assertThat(op.has("requestBody"))
                         .as("Missing expected requestBody on %s %s", contract.method(), contract.path())
                         .isTrue();
-                String reqRef = op.path("requestBody").path("content").path("application/json").path("schema").path("$ref").asText();
-                assertThat(reqRef)
-                        .as("Request DTO schema mismatch on %s %s", contract.method(), contract.path())
-                        .isEqualTo("#/components/schemas/" + contract.requestDto());
+                if ("multipart".equals(contract.requestDto())) {
+                    assertThat(op.path("requestBody").path("content").has("multipart/form-data"))
+                            .as("Expected multipart/form-data on %s %s", contract.method(), contract.path())
+                            .isTrue();
+                } else {
+                    String reqRef = op.path("requestBody").path("content").path("application/json").path("schema").path("$ref").asText();
+                    assertThat(reqRef)
+                            .as("Request DTO schema mismatch on %s %s", contract.method(), contract.path())
+                            .isEqualTo("#/components/schemas/" + contract.requestDto());
+                }
             } else {
                 assertThat(op.has("requestBody"))
                         .as("Unexpected requestBody on %s %s", contract.method(), contract.path())
                         .isFalse();
             }
 
-            JsonNode respContent = op.path("responses").path(String.valueOf(contract.successStatus())).path("content");
-            String respRef = respContent.has("*/*")
-                    ? respContent.path("*/*").path("schema").path("$ref").asText()
-                    : respContent.path("application/json").path("schema").path("$ref").asText();
-            assertThat(respRef)
-                    .as("Response DTO schema mismatch on %s %s", contract.method(), contract.path())
-                    .isEqualTo("#/components/schemas/" + contract.responseDto());
+            if ("binary".equals(contract.responseDto())) {
+                JsonNode respContent = op.path("responses").path(String.valueOf(contract.successStatus())).path("content");
+                assertThat(respContent.isObject() && !respContent.isEmpty())
+                        .as("Binary response content must be non-empty on %s %s", contract.method(), contract.path())
+                        .isTrue();
+                boolean hasBinarySchema = false;
+                java.util.Iterator<String> mediaTypeNames = respContent.fieldNames();
+                while (mediaTypeNames.hasNext()) {
+                    String mediaTypeName = mediaTypeNames.next();
+                    JsonNode mediaTypeNode = respContent.get(mediaTypeName);
+                    JsonNode schemaNode = mediaTypeNode.path("schema");
+                    if ("binary".equals(schemaNode.path("format").asText())
+                            && "string".equals(schemaNode.path("type").asText())) {
+                        if (contract.path().equals("/api/v1/portability/exports")) {
+                            assertThat(mediaTypeName).isEqualTo("application/zip");
+                        } else if (contract.path().equals("/api/v1/images/{id}/content")) {
+                            assertThat(mediaTypeName).isEqualTo("*/*");
+                        }
+                        hasBinarySchema = true;
+                        break;
+                    }
+                }
+                assertThat(hasBinarySchema)
+                        .as("Binary response schema (type=string, format=binary) and approved media type expected on %s %s", contract.method(), contract.path())
+                        .isTrue();
+            } else {
+                JsonNode respContent = op.path("responses").path(String.valueOf(contract.successStatus())).path("content");
+                String respRef = respContent.has("*/*")
+                        ? respContent.path("*/*").path("schema").path("$ref").asText()
+                        : respContent.path("application/json").path("schema").path("$ref").asText();
+                assertThat(respRef)
+                        .as("Response DTO schema mismatch on %s %s", contract.method(), contract.path())
+                        .isEqualTo("#/components/schemas/" + contract.responseDto());
+            }
+
+            if (contract.path().equals("/api/v1/images/upload")) {
+                JsonNode responsesNode = op.path("responses");
+                assertThat(responsesNode.hasNonNull("413"))
+                        .as("POST /api/v1/images/upload must document 413 Payload Too Large response")
+                        .isTrue();
+                assertThat(responsesNode.path("400").path("content").path("application/json").path("schema").path("$ref").asText())
+                        .as("POST /api/v1/images/upload 400 schema must be ErrorResponse")
+                        .isEqualTo("#/components/schemas/ErrorResponse");
+                assertThat(responsesNode.path("413").path("content").path("application/json").path("schema").path("$ref").asText())
+                        .as("POST /api/v1/images/upload 413 schema must be ErrorResponse")
+                        .isEqualTo("#/components/schemas/ErrorResponse");
+                JsonNode reqContent = op.path("requestBody").path("content");
+                assertThat(reqContent.hasNonNull("multipart/form-data"))
+                        .as("POST /api/v1/images/upload must consume multipart/form-data")
+                        .isTrue();
+                JsonNode fileSchema = reqContent.path("multipart/form-data").path("schema").path("properties").path("file");
+                assertThat(fileSchema.path("type").asText()).isEqualTo("string");
+                assertThat(fileSchema.path("format").asText()).isEqualTo("binary");
+            }
         }
 
         // 7. Excluded routes must not exist in OpenAPI

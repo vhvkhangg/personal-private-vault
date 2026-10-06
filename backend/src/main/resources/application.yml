@@ -25,6 +25,12 @@ spring:
     deserialization:
       fail-on-unknown-properties: true
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 55MB
+
 server:
   port: ${PPV_SERVER_PORT:8080}
 
@@ -35,7 +41,14 @@ management:
         include: health,info
   endpoint:
     health:
-      show-details: when-authorized
+      show-details: never
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,db,mediaStorage
+        liveness:
+          include: livenessState
 
 springdoc:
   api-docs:
@@ -56,3 +69,15 @@ ppv:
       access-token-lifetime: ${PPV_JWT_ACCESS_TOKEN_LIFETIME:15m}
       refresh-token-lifetime: ${PPV_JWT_REFRESH_TOKEN_LIFETIME:30d}
       secret: ${PPV_JWT_SECRET:}
+
+vault:
+  media:
+    storage:
+      enabled: ${PPV_MEDIA_STORAGE_ENABLED:false}
+      endpoint: ${PPV_MEDIA_STORAGE_ENDPOINT:}
+      region: ${PPV_MEDIA_STORAGE_REGION:us-east-1}
+      bucket: ${PPV_MEDIA_STORAGE_BUCKET:}
+      access-key: ${PPV_MEDIA_STORAGE_ACCESS_KEY:}
+      secret-key: ${PPV_MEDIA_STORAGE_SECRET_KEY:}
+      path-style-access: ${PPV_MEDIA_STORAGE_PATH_STYLE_ACCESS:true}
+      max-file-size: ${PPV_MEDIA_STORAGE_MAX_FILE_SIZE:52428800}

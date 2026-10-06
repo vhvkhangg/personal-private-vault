@@ -73,7 +73,8 @@ public class OpenApiConfiguration {
             "createSubscription",
             "createDiaryEntry",
             "createPersonalProfile",
-            "createTag"
+            "createTag",
+            "uploadImage"
     );
 
     @Bean
@@ -208,6 +209,33 @@ public class OpenApiConfiguration {
                         }
                     }
 
+                    if (pathKey.equals("/api/v1/images/{id}/content")) {
+                        if (!responses.containsKey("409")) {
+                            responses.addApiResponse("409", new ApiResponse()
+                                    .description("Conflict - Storage integrity error (metadata exists but object missing)")
+                                    .content(errorContent));
+                        }
+                    }
+
+                    if (pathKey.equals("/api/v1/images/upload")) {
+                        ApiResponse resp400 = responses.get("400");
+                        if (resp400 != null) {
+                            resp400.setContent(errorContent);
+                        } else {
+                            responses.addApiResponse("400", new ApiResponse()
+                                    .description("Bad Request - Malformed multipart request or invalid parameters")
+                                    .content(errorContent));
+                        }
+                        ApiResponse resp413 = responses.get("413");
+                        if (resp413 != null) {
+                            resp413.setContent(errorContent);
+                        } else {
+                            responses.addApiResponse("413", new ApiResponse()
+                                    .description("Payload Too Large - File exceeds maximum configured upload size limit")
+                                    .content(errorContent));
+                        }
+                    }
+
                     boolean isMutation = (httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.POST
                             || httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.PUT
                             || httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.DELETE
@@ -215,7 +243,8 @@ public class OpenApiConfiguration {
                             && !pathKey.equals("/api/v1/auth/login")
                             && !pathKey.equals("/api/v1/auth/refresh")
                             && !pathKey.equals("/api/v1/auth/revoke")
-                            && !pathKey.equals("/api/v1/auth/private-pin/verify");
+                            && !pathKey.equals("/api/v1/auth/private-pin/verify")
+                            && !pathKey.equals("/api/v1/portability/exports");
 
                     if (isMutation) {
                         if (!responses.containsKey("409")) {

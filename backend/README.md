@@ -111,11 +111,11 @@ See `../docs/implementation/phase-13/README.md`.
 ## Phase 14
 
 Backend Integration Hardening + Portability/Object Storage Closure preparation is `READY FOR HANDOFF` after
-2026-10-06 acceptance. P14-1–P14-3 are closed; owner approval remains preparation-only.
-The owner commits/pushes accepted preparation first, then runs:
-
-```text
-$codex-create-handoff
-```
+2026-10-06 acceptance. P14-1–P14-3 are closed; accepted preparation is owner committed/pushed as `6f1fd00`.
+Active handoff [phase-14-portability-storage](../docs/implementation/handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT`
+after [final acceptance](../docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md):
+all nine findings closed; independent clean verification passed 920 tests plus 49 focused tests.
+Owner commits/pushes the accepted implementation, then gives the latest package to ChatGPT for Phase 14 closeout
+and Phase 15 preparation. Phase 14 is accepted but not yet committed/frozen; no milestone review is due at Phase 14.
 
 See `../docs/implementation/phase-14/README.md`.

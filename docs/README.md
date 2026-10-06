@@ -18,8 +18,11 @@ was owner committed/pushed as `ef92d94`, and is complete/frozen with the retaine
 baseline boundary-test failure remains preserved in historical evidence.
 Phase 14 Backend Integration Hardening + Portability/Object Storage Closure preparation is
 [READY FOR HANDOFF](implementation/phase-14/reviews/2026-10-06-phase-14-pre-handoff-codex-acceptance.md).
-P14-1–P14-3 are closed; owner approval remains preparation-only. Owner preparation commit/push, then
-`$codex-create-handoff`, is next.
+P14-1–P14-3 are closed; accepted preparation is owner committed/pushed as `6f1fd00`.
+Active handoff [phase-14-portability-storage](implementation/handoffs/ACTIVE.md) is `READY FOR OWNER COMMIT` after
+[final acceptance](implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md): all nine findings
+closed; independent 920-test clean verification and 49 focused tests passed. Owner commit/push is next, followed by
+ChatGPT Phase 14 closeout/Phase 15 preparation. Phase 14 is accepted but not yet committed/frozen.
 Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.

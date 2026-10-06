@@ -42,4 +42,14 @@ public class MediaExceptionAdvice {
     public ResponseEntity<ApiResponse<Void>> handleInvalidImage(InvalidImageException ex) {
         return ApiResponses.of(HttpStatus.UNPROCESSABLE_CONTENT, "IMAGE_INVALID", "Invalid image data");
     }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageDisabledException.class)
+    public ResponseEntity<ApiResponse<Void>> handleStorageDisabled(com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageDisabledException ex) {
+        return ApiResponses.of(HttpStatus.CONFLICT, "STORAGE_DISABLED", "Managed image storage is not enabled");
+    }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageIntegrityException.class)
+    public ResponseEntity<ApiResponse<Void>> handleStorageIntegrity(com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageIntegrityException ex) {
+        return ApiResponses.of(HttpStatus.CONFLICT, "STORAGE_INTEGRITY_ERROR", "Image binary is unavailable or missing in storage");
+    }
 }

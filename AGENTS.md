@@ -39,8 +39,13 @@ This file defines repository-wide instructions for coding agents.
   independent 867-test verification, and owner commit/push `ef92d94`.
 - Backend Phase 14 Backend Integration Hardening + Portability/Object Storage Closure preparation is
   `READY FOR HANDOFF` after 2026-10-06 pre-handoff acceptance (P14-1–P14-3 closed).
-  Owner concept/ADR-0017 approval remains preparation-only. Owner preparation commit/push, then
-  `$codex-create-handoff`, is next; no Phase 14 implementation handoff is active.
+  Accepted preparation is owner committed/pushed as `6f1fd00`; active handoff `phase-14-portability-storage` is
+  `READY FOR OWNER COMMIT` after 2026-10-06 final acceptance (FR14-1–FR14-9 closed; no blocking findings).
+  Independent 920-test clean verification and 49 focused tests passed, including deterministic database arbitration
+  and active-consumption resource cleanup. Owner commit/push is next, then ChatGPT Phase 14 closeout/Phase 15
+  preparation; Phase 14 is accepted but not yet owner committed/frozen. It is not a milestone gate.
+  See `docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md`.
+  The earlier concept/ADR approval was preparation-only; implementation scope remains governed by the active handoff.
 
 Completed maintenance scope:
 
