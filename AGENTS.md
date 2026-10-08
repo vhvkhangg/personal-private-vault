@@ -43,8 +43,24 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 15 is the owner-approved **Comprehensive Backend Audit & Remediation Gate** over Phases 0–14.
   Preparation is `READY FOR AUDIT` after
   [Codex acceptance](docs/implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md);
-  P15-1 is closed with no blocking preparation findings. The audit is `NOT_STARTED`: after owner commit/push of
-  accepted preparation, run `$codex-backend-audit`. The owner quick checklist separates the normal implementation
+  P15-1 is closed with no blocking preparation findings. The initial audit returned `OWNER_DECISION_REQUIRED`:
+  [report](docs/implementation/phase-15/reviews/2026-10-06-phase-15-backend-audit.md), 17 open findings.
+  [Bounded owner decisions](docs/implementation/phase-15/owner-decisions.md) are recorded (2026-10-07);
+  [authorization re-review](docs/implementation/phase-15/reviews/2026-10-07-phase-15-authorized-remediation-codex-review.md)
+  is `REMEDIATION_REQUIRED`. Prior [final acceptance](docs/implementation/phase-15/reviews/2026-10-07-phase-15-final-codex-acceptance.md)
+  remains historical. The [closure audit](docs/implementation/phase-15/reviews/2026-10-07-phase-15-closure-backend-audit.md)
+  closes 13 findings and FR15-9, but retains four authorized Medium remnants: BA15-2, BA15-9, BA15-14, BA15-15.
+  The [latest 2026-10-08 final acceptance](docs/implementation/phase-15/reviews/2026-10-08-phase-15-final-codex-acceptance.md)
+  closes FR15-11/12 and preserves FR15-10's closure and all accepted repairs. No blocking final-review finding
+  remains. The [final closure audit](docs/implementation/phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md)
+  returns **BACKEND_AUDIT_READY**: all 17 BA15 findings CLOSED, FR15-9/10/11/12 closed, no actionable remnant or debt.
+  Fresh full/coverage verification passed 1021 tests, zero failures/errors/skips (04:07); static reports were triaged.
+  The single accepted handoff is archived at [phase-15/handoff.md](docs/implementation/phase-15/handoff.md),
+  and ACTIVE.md is `NO_ACTIVE_HANDOFF`. Preserve accepted source/tests, evidence and owner authority.
+  The owner may now commit/push with `fix(backend): remediate phase 15 audit findings`, then give ChatGPT the
+  latest package for Phase 15 closeout only. Phase 15 is not complete/frozen until publication and closeout.
+  BA15-13 architecture expansion and BA15-14 new total limits
+  stop for owner approval. The owner quick checklist separates normal implementation
   flow from Phase 15 and requires closure audit before any Phase 15 implementation commit.
   Do not create a normal implementation handoff unless that audit produces
   authorized actionable findings. Frontend is Phase 16 and RAG is Phase 17; neither preparation is authorized yet.

@@ -154,11 +154,12 @@ public class ImageController {
                 .contentType(mediaType)
                 .header(org.springframework.http.HttpHeaders.CACHE_CONTROL, "private, no-store");
 
-        Long sizeBytes = download.metadata().sizeBytes();
-        if (sizeBytes != null && sizeBytes > 0) {
-            builder.contentLength(sizeBytes);
-        } else if (download.downloadResult().sizeBytes() != null && download.downloadResult().sizeBytes() > 0) {
-            builder.contentLength(download.downloadResult().sizeBytes());
+        Long providerLength = download.downloadResult().sizeBytes();
+        Long metadataLength = download.metadata().sizeBytes();
+        if (providerLength != null && providerLength >= 0) {
+            builder.contentLength(providerLength);
+        } else if (metadataLength != null && metadataLength >= 0) {
+            builder.contentLength(metadataLength);
         }
 
         return builder.body(outputStream -> {

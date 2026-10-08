@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public record UpdateKnowledgeStudyRequest(
         @NotBlank(message = "Title must not be blank")
-        @Size(max = 255, message = "Title must not exceed 255 characters")
+        @Size(max = 500, message = "Title must not exceed 500 characters")
         String title,
         @Size(max = 2048, message = "Poster URL must not exceed 2048 characters")
         String posterUrl,
@@ -32,7 +32,7 @@ public record UpdateKnowledgeStudyRequest(
         String review,
         KnowledgeStudyStatus learningStatus,
         BigDecimal progressPercent,
-        @Size(max = 255, message = "Current progress text must not exceed 255 characters")
+        @Size(max = 500, message = "Current progress text must not exceed 500 characters")
         String currentProgressText
 ) {
 }

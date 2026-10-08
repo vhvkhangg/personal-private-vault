@@ -25,7 +25,11 @@ public interface ImportJobOperations {
 
     Optional<ImportJobView> findJobById(Long id);
 
-    List<ImportJobItemView> findJobItems(Long jobId, int limit);
+    default List<ImportJobItemView> findJobItems(Long jobId, int limit) {
+        return findJobItems(jobId, 0, limit);
+    }
+
+    List<ImportJobItemView> findJobItems(Long jobId, int page, int limit);
 
     List<ImportJobView> findRecentJobs(int limit);
 }

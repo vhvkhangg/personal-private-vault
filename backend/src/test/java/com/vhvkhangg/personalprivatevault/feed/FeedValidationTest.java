@@ -10,6 +10,7 @@ import com.vhvkhangg.personalprivatevault.feed.source.command.CreateFeedSourceCo
 import com.vhvkhangg.personalprivatevault.feed.source.exception.InvalidFeedSourceException;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedJsonSnapshot;
 import com.vhvkhangg.personalprivatevault.feed.view.InvalidFeedJsonException;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -31,7 +32,7 @@ class FeedValidationTest {
     @BeforeEach
     void setUp() {
         feedSourceRepository = mock(FeedSourceRepository.class);
-        feedSourceService = new FeedSourceService(feedSourceRepository);
+        feedSourceService = new FeedSourceService(feedSourceRepository, mock(EntityManager.class));
     }
 
     // =========================================================================

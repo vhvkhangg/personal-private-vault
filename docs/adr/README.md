@@ -31,3 +31,4 @@ When a frozen architectural decision changes materially, add a new ADR and mark 
 | [ADR-0015](0015-semantic-public-api-subpackages.md)       | Organize public module APIs into semantic named-interface subpackages | Accepted |
 | [ADR-0016](0016-root-http-contract-module-local-adapters.md) | Keep shared HTTP contract at root; adapters module-local              | Accepted |
 | [ADR-0017](0017-portability-readonly-snapshot-module.md)     | Use a read-only portability module for lossless export snapshots      | Accepted |
+| [ADR-0018](0018-phase-15-bounded-backend-remediation.md) | Authorize bounded Phase 15 audit remediation without schema/edge expansion | Accepted |

@@ -36,4 +36,19 @@ public class ImportDataExceptionAdvice {
     public ResponseEntity<ApiResponse<Void>> handleInvalidJson(InvalidImportJsonException ex) {
         return ApiResponses.of(HttpStatus.BAD_REQUEST, "INVALID_IMPORT_JSON", "Invalid import JSON data");
     }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.knowledge.api.InvalidKnowledgeItemException.class)
+    public ResponseEntity<ApiResponse<Void>> handleInvalidKnowledgeItem(com.vhvkhangg.personalprivatevault.knowledge.api.InvalidKnowledgeItemException ex) {
+        return ApiResponses.of(HttpStatus.UNPROCESSABLE_CONTENT, "INVALID_KNOWLEDGE_ITEM", "Invalid knowledge item data");
+    }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeConflictException.class)
+    public ResponseEntity<ApiResponse<Void>> handleKnowledgeConflict(com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeConflictException ex) {
+        return ApiResponses.of(HttpStatus.CONFLICT, "KNOWLEDGE_CONFLICT", "Knowledge item conflict");
+    }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleKnowledgeNotFound(com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNotFoundException ex) {
+        return ApiResponses.of(HttpStatus.NOT_FOUND, "KNOWLEDGE_NOT_FOUND", "Knowledge item not found");
+    }
 }

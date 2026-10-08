@@ -12,10 +12,12 @@ import com.vhvkhangg.personalprivatevault.importdata.job.ImportJobOperations;
 import com.vhvkhangg.personalprivatevault.importdata.view.ImportJobItemView;
 import com.vhvkhangg.personalprivatevault.importdata.view.ImportJobView;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,8 +100,13 @@ public class ImportJobController {
     @Operation(summary = "Find items for an import job", operationId = "findImportJobItems")
     public ResponseEntity<ApiResponse<List<ImportJobItemResponse>>> findItems(
             @PathVariable Long id,
-            @RequestParam(defaultValue = "50") @Positive @Max(100) int limit) {
-        List<ImportJobItemView> items = importJobOperations.findJobItems(id, limit);
+            @RequestParam(defaultValue = "0") @PositiveOrZero
+            @Parameter(description = "Zero-based page index. Pages with offset beyond integer capacity return an empty list.")
+            int page,
+            @RequestParam(defaultValue = "50") @Positive @Max(100)
+            @Parameter(description = "Page size limit (maximum 100).")
+            int limit) {
+        List<ImportJobItemView> items = importJobOperations.findJobItems(id, page, limit);
         return ApiResponses.ok(items.stream().map(ImportDataWebMapper::toResponse).toList());
     }
 }

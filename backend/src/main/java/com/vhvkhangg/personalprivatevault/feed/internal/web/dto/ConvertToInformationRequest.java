@@ -6,11 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record ConvertToInformationRequest(
-        @NotBlank @Size(max = 255) String title,
+        @NotBlank @Size(max = 500) String title,
         @NotNull KnowledgeInformationType type,
         String description,
         String contentMarkdown,
         String example,
-        @Size(max = 255) String sourceName,
+        @Size(max = 500) String sourceName,
         @Size(max = 2048) String sourceUrl
 ) {}

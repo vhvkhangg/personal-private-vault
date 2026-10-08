@@ -54,11 +54,15 @@ Current gate:
 - Phase 14 Backend Integration Hardening + Portability/Object Storage Closure — **complete/frozen** after
   [final acceptance](docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md), owner
   commit/push `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and ChatGPT closeout. All nine findings are closed; independent 920-test clean
-  verification and 49 focused tests are retained. There is no active implementation handoff.
-- Phase 15 Comprehensive Backend Audit & Remediation Gate — **READY FOR AUDIT** after
-  [preparation acceptance](docs/implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md):
-  P15-1 closed; no blocking preparation findings. Owner preparation commit/push is next, then
-  `$codex-backend-audit`. Backend audit remains unstarted; frontend/RAG remain owner-gated as Phases 16/17.
+  verification and 49 focused tests are retained. Its completed handoff is archived.
+- Phase 15 Comprehensive Backend Audit & Remediation Gate — **BACKEND_AUDIT_READY** after the
+  [final closure audit](docs/implementation/phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md):
+  all 17 BA15 findings CLOSED; FR15-9/10/11/12 closed; no unresolved actionable finding or debt.
+  Fresh full/coverage verification passed 1021 tests, zero failures/errors/skips (04:07); static reports triaged.
+  The [accepted handoff](docs/implementation/phase-15/handoff.md) is archived and ACTIVE is NO_ACTIVE_HANDOFF.
+  Historical reviews, owner decisions and 920-test baseline evidence are preserved.
+  The owner may commit/push with `fix(backend): remediate phase 15 audit findings`, then give ChatGPT the latest
+  package for Phase 15 closeout only. Phase 15 is not yet complete/frozen; Phase 16/17 preparation remains owner-gated.
 
 ## Planned stack
 

@@ -8,11 +8,16 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data JPA repository for {@link FeedSource}.
  */
 public interface FeedSourceRepository extends JpaRepository<FeedSource, Long> {
+
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT s FROM FeedSource s WHERE s.id = :id")
+    Optional<FeedSource> findByIdForUpdate(@Param("id") Long id);
 
     @Query("SELECT s FROM FeedSource s " +
             "WHERE s.enabled = true " +

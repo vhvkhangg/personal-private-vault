@@ -6,8 +6,8 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 
 - **Style:** backend-first modular monolith
 - **Modularity:** Spring Modulith application modules with explicit ownership and allowed dependencies
-- **Persistence:** PostgreSQL + JPA/Hibernate; Flyway will own executable schema migrations once implementation starts
-- **API:** REST/JSON + OpenAPI; a consistent `ApiResponse` contract is required, but its exact JSON shape is intentionally deferred to backend bootstrap
+- **Persistence:** PostgreSQL + JPA/Hibernate; Flyway owns executable schema migrations
+- **API:** REST/JSON + OpenAPI; consistent `ApiResponse` envelope contract with OpenAPI documentation
 - **Media:** structured metadata in PostgreSQL; binary media in an S3-compatible object-storage abstraction
 - **Search:** dedicated orchestration module; PostgreSQL-first implementation
 - **Authentication:** permanent single-user account, password login, JWT access/refresh tokens, 6-digit private-mode PIN

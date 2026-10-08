@@ -18,12 +18,6 @@ public abstract class AbstractPostgresIntegrationTest {
                 .withUsername("ppv_test")
                 .withPassword("ppv_test_password");
         POSTGRES.start();
-
-        Flyway flyway = Flyway.configure()
-                .dataSource(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword())
-                .locations("classpath:db/migration")
-                .load();
-        flyway.migrate();
     }
 
     @DynamicPropertySource

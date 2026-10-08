@@ -331,11 +331,18 @@ public class ImportJobService implements ImportJobOperations {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ImportJobItemView> findJobItems(Long jobId, int limit) {
+    public List<ImportJobItemView> findJobItems(Long jobId, int page, int limit) {
+        if (page < 0) {
+            throw new InvalidImportJobException("Page must be non-negative");
+        }
         if (limit <= 0) {
             throw new InvalidImportJobException("Limit must be positive");
         }
-        return importJobItemRepository.findByImportJobIdOrderByItemIndexAsc(jobId, PageRequest.of(0, limit))
+        long offset = (long) page * (long) limit;
+        if (offset > Integer.MAX_VALUE) {
+            return List.of();
+        }
+        return importJobItemRepository.findByImportJobIdOrderByItemIndexAsc(jobId, PageRequest.of(page, limit))
                 .stream()
                 .map(this::toItemView)
                 .toList();

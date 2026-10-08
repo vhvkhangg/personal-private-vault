@@ -27,6 +27,7 @@ import java.util.Optional;
 public class FeedSourceService implements FeedSourceOperations {
 
     private final FeedSourceRepository feedSourceRepository;
+    private final jakarta.persistence.EntityManager entityManager;
 
     @Override
     @Transactional
@@ -57,8 +58,9 @@ public class FeedSourceService implements FeedSourceOperations {
     @Override
     @Transactional
     public FeedSourceView updateSource(Long id, UpdateFeedSourceCommand command) {
-        FeedSource source = feedSourceRepository.findById(id)
+        FeedSource source = feedSourceRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new FeedSourceNotFoundException(id));
+        entityManager.refresh(source);
 
         validateCommon(command.name(), command.type(), command.sourceUrl(), command.feedUrl());
 

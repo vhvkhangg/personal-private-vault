@@ -18,38 +18,55 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MediaExceptionAdvice {
 
+    private void abortIfCommitted(jakarta.servlet.http.HttpServletResponse response, Exception ex) {
+        if (response != null && !response.isCommitted()) {
+            response.reset();
+        }
+    }
+
     @ExceptionHandler(AlbumNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleAlbumNotFound(AlbumNotFoundException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleAlbumNotFound(AlbumNotFoundException ex, jakarta.servlet.http.HttpServletResponse response) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.NOT_FOUND, "ALBUM_NOT_FOUND", "Album not found");
     }
 
     @ExceptionHandler(InvalidAlbumException.class)
-    public ResponseEntity<ApiResponse<Void>> handleInvalidAlbum(InvalidAlbumException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleInvalidAlbum(InvalidAlbumException ex, jakarta.servlet.http.HttpServletResponse response) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.UNPROCESSABLE_CONTENT, "ALBUM_INVALID", "Invalid album data");
     }
 
     @ExceptionHandler(ImageNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleImageNotFound(ImageNotFoundException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleImageNotFound(ImageNotFoundException ex, jakarta.servlet.http.HttpServletResponse response) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.NOT_FOUND, "IMAGE_NOT_FOUND", "Image not found");
     }
 
     @ExceptionHandler(ImageConflictException.class)
-    public ResponseEntity<ApiResponse<Void>> handleImageConflict(ImageConflictException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleImageConflict(ImageConflictException ex, jakarta.servlet.http.HttpServletResponse response) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.CONFLICT, "IMAGE_CONFLICT", "Image metadata conflicts with existing record");
     }
 
     @ExceptionHandler(InvalidImageException.class)
-    public ResponseEntity<ApiResponse<Void>> handleInvalidImage(InvalidImageException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleInvalidImage(InvalidImageException ex, jakarta.servlet.http.HttpServletResponse response) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.UNPROCESSABLE_CONTENT, "IMAGE_INVALID", "Invalid image data");
     }
 
     @ExceptionHandler(com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageDisabledException.class)
-    public ResponseEntity<ApiResponse<Void>> handleStorageDisabled(com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageDisabledException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleStorageDisabled(
+            com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageDisabledException ex,
+            jakarta.servlet.http.HttpServletResponse response) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.CONFLICT, "STORAGE_DISABLED", "Managed image storage is not enabled");
     }
 
     @ExceptionHandler(com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageIntegrityException.class)
-    public ResponseEntity<ApiResponse<Void>> handleStorageIntegrity(com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageIntegrityException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleStorageIntegrity(
+            com.vhvkhangg.personalprivatevault.media.internal.application.storage.StorageIntegrityException ex,
+            jakarta.servlet.http.HttpServletResponse response) {
+        abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.CONFLICT, "STORAGE_INTEGRITY_ERROR", "Image binary is unavailable or missing in storage");
     }
 }

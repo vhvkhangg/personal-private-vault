@@ -121,8 +121,24 @@ See `../docs/implementation/phase-14/README.md`.
 
 Comprehensive Backend Audit & Remediation Gate preparation is **READY FOR AUDIT** after
 [Codex preparation acceptance](../docs/implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md)
-(P15-1 closed; no blocking preparation findings). It will audit the complete non-RAG
+(P15-1 closed; no blocking preparation findings). The initial audit covered the complete non-RAG
 backend from Phases 0–14 for correctness, SOLID/design-pattern fit, overengineering, duplication, validation,
 logging, OpenAPI, persistence/database/query quality, tests, docs/diagrams, static diagnostics, and repository hygiene.
-Next: owner commits/pushes accepted preparation, then runs `$codex-backend-audit`.
-The audit is unstarted; frontend/RAG remain deferred as Phases 16/17.
+The [initial audit](../docs/implementation/phase-15/reviews/2026-10-06-phase-15-backend-audit.md) returned
+**OWNER_DECISION_REQUIRED**. All 17 findings now have [bounded owner approvals](../docs/implementation/phase-15/owner-decisions.md);
+the [authorization re-review](../docs/implementation/phase-15/reviews/2026-10-07-phase-15-authorized-remediation-codex-review.md)
+is **REMEDIATION_REQUIRED**. Prior
+[final acceptance](../docs/implementation/phase-15/reviews/2026-10-07-phase-15-final-codex-acceptance.md) remains historical.
+The [closure audit](../docs/implementation/phase-15/reviews/2026-10-07-phase-15-closure-backend-audit.md) closes 13 findings
+and FR15-9; it retained BA15-2, BA15-9, BA15-14 and BA15-15. The
+[latest 2026-10-08 final acceptance](../docs/implementation/phase-15/reviews/2026-10-08-phase-15-final-codex-acceptance.md)
+closes FR15-11/12 and retains FR15-10's closure. No blocking final-review findings remain.
+Independent clean verification passed 1021 tests, zero failures/errors/skips (03:53).
+The [final closure audit](../docs/implementation/phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md)
+returns **BACKEND_AUDIT_READY**: all 17 BA15 findings CLOSED, no actionable remnant/debt; FR15-9/10/11/12 closed.
+Fresh full/coverage verification passed 1021 tests, zero failures/errors/skips (04:07), with static reports triaged.
+The [accepted handoff](../docs/implementation/phase-15/handoff.md) is archived; ACTIVE is NO_ACTIVE_HANDOFF.
+Preserve historical reviews/evidence. Owner commit/push is now permitted with
+`fix(backend): remediate phase 15 audit findings`, followed by the latest package to ChatGPT for Phase 15 closeout only.
+Phase 15 is not complete/frozen until publication and closeout.
+The preserved 920-test evidence is the pre-remediation baseline; frontend/RAG remain deferred as Phases 16/17.

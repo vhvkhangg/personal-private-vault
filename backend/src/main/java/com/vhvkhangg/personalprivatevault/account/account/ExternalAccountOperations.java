@@ -16,5 +16,7 @@ public interface ExternalAccountOperations {
 
     Optional<ExternalAccountView> findById(Long id);
 
+    Optional<ExternalAccountView> findAndLock(Long id);
+
     List<ExternalAccountView> findRecentByPlatformId(Long platformId, int limit);
 }

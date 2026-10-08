@@ -322,13 +322,13 @@ class KnowledgeValidationTest {
                     .isInstanceOf(InvalidStudyItemException.class)
                     .hasMessageContaining("Site domain must be null for YOUTUBE_CHANNEL");
 
-            when(externalAccountOperations.findById(10L)).thenReturn(Optional.empty());
+            when(externalAccountOperations.findAndLock(10L)).thenReturn(Optional.empty());
             var nonExistentAccount = new CreateStudyItemCommand("Fireship", null, StudyType.YOUTUBE_CHANNEL, null, 10L, null, null, null, null, null, null, null, null, null, null, null);
             assertThatThrownBy(() -> studyItemService.create(nonExistentAccount))
                     .isInstanceOf(InvalidStudyItemException.class)
                     .hasMessageContaining("does not exist");
 
-            when(externalAccountOperations.findById(11L)).thenReturn(Optional.of(
+            when(externalAccountOperations.findAndLock(11L)).thenReturn(Optional.of(
                     new ExternalAccountView(11L, 1L, ExternalAccountOwnership.TRACKED, ExternalAccountType.SOCIAL, "user", null, null, null, null, null, null, null, null)
             ));
             var wrongAccountType = new CreateStudyItemCommand("Fireship", null, StudyType.YOUTUBE_CHANNEL, null, 11L, null, null, null, null, null, null, null, null, null, null, null);
@@ -336,7 +336,7 @@ class KnowledgeValidationTest {
                     .isInstanceOf(InvalidStudyItemException.class)
                     .hasMessageContaining("must be of type YOUTUBE_CHANNEL");
 
-            when(externalAccountOperations.findById(12L)).thenReturn(Optional.of(
+            when(externalAccountOperations.findAndLock(12L)).thenReturn(Optional.of(
                     new ExternalAccountView(12L, 2L, ExternalAccountOwnership.TRACKED, ExternalAccountType.YOUTUBE_CHANNEL, "user", null, null, null, null, null, null, null, null)
             ));
             when(referenceCatalog.platform(2L)).thenReturn(Optional.of(
@@ -347,7 +347,7 @@ class KnowledgeValidationTest {
                     .isInstanceOf(InvalidStudyItemException.class)
                     .hasMessageContaining("must belong to the YouTube platform");
 
-            when(externalAccountOperations.findById(13L)).thenReturn(Optional.of(
+            when(externalAccountOperations.findAndLock(13L)).thenReturn(Optional.of(
                     new ExternalAccountView(13L, 3L, ExternalAccountOwnership.TRACKED, ExternalAccountType.YOUTUBE_CHANNEL, "fireship", null, null, null, null, null, null, null, null)
             ));
             when(referenceCatalog.platform(3L)).thenReturn(Optional.of(

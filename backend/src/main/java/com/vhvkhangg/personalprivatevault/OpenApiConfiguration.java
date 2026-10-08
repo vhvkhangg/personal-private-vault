@@ -259,6 +259,22 @@ public class OpenApiConfiguration {
                         }
                     }
 
+                    boolean hasRequestBody = operation.getRequestBody() != null
+                            || httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.POST
+                            || httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.PUT
+                            || httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.PATCH;
+                    if (hasRequestBody && !responses.containsKey("415")) {
+                        responses.addApiResponse("415", new ApiResponse()
+                                .description("Unsupported Media Type - Content-Type is not supported")
+                                .content(errorContent));
+                    }
+
+                    if (!responses.containsKey("406")) {
+                        responses.addApiResponse("406", new ApiResponse()
+                                .description("Not Acceptable - Acceptable representation cannot be produced")
+                                .content(errorContent));
+                    }
+
                     if (!responses.containsKey("500")) {
                         responses.addApiResponse("500", new ApiResponse()
                                 .description("Internal Server Error - Unexpected server failure")

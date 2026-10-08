@@ -1,12 +1,31 @@
 # Backend Phase 15 — Comprehensive Backend Audit & Remediation Gate
 
-Status: **READY FOR AUDIT — PREPARATION ACCEPTED** (2026-10-06)
+Status: **BACKEND_AUDIT_READY — OWNER COMMIT/PUSH AND CLOSEOUT PENDING** (2026-10-08)
 
 [Codex preparation acceptance](reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md) closes P15-1 from the
 [initial review](reviews/2026-10-06-phase-15-pre-audit-codex-review.md). No blocking preparation finding remains.
 The owner quick checklist separates normal implementation from Phase 15 and requires closure audit before any
-implementation commit. Next: owner commits/pushes accepted preparation, then runs `$codex-backend-audit`.
-The comprehensive backend audit has not started; no implementation handoff exists.
+implementation commit. Preparation was committed as `6a89a998c512dda27c3e494a3525bf6118ee981e`.
+The [initial audit](reviews/2026-10-06-phase-15-backend-audit.md) records 17 open findings and preserved 920-test
+verification. The [owner decisions](owner-decisions.md) now approve all 17 within exact bounds;
+[authorization re-review](reviews/2026-10-07-phase-15-authorized-remediation-codex-review.md) consolidates them into
+the single [now-archived remediation handoff](handoff.md). Prior
+[final acceptance](reviews/2026-10-07-phase-15-final-codex-acceptance.md) remains historical.
+The [closure audit](reviews/2026-10-07-phase-15-closure-backend-audit.md) closes 13 original findings and FR15-9,
+but retained four Medium remnants: BA15-2, BA15-9, BA15-14, BA15-15, with 1012-test full/coverage verification.
+The [latest 2026-10-08 final acceptance](reviews/2026-10-08-phase-15-final-codex-acceptance.md) closes FR15-11/12
+and preserves FR15-10's closure and all accepted repairs. No blocking final-review findings remain.
+Independent clean verification passed 1021 tests, zero failures/errors/skips (03:53).
+The [final closure audit](reviews/2026-10-08-phase-15-closure-backend-audit.md) returns **BACKEND_AUDIT_READY**:
+all 17 BA15 findings CLOSED, FR15-9/10/11/12 closed, no unresolved actionable finding or owner-accepted debt.
+Fresh full/coverage verification passed 1021 tests, zero failures/errors/skips (04:07), with static reports triaged
+and architecture/database/storage/wire/live-OpenAPI/repository checks complete.
+The [accepted handoff](handoff.md) is archived and [ACTIVE](../handoffs/ACTIVE.md) reset to NO_ACTIVE_HANDOFF.
+The owner may commit/push with `fix(backend): remediate phase 15 audit findings`, then give ChatGPT the latest
+package for Phase 15 closeout only. Phase 15 is not complete/frozen until publication and closeout.
+Earlier final reviews/evidence remain historical; no second handoff or broader approval is created.
+See [audit status](audit-status.md).
+BA15-13 architecture expansion and BA15-14 additional total ingestion limits remain explicit owner-decision stops.
 
 Owner-approved concept decisions (2026-10-06):
 

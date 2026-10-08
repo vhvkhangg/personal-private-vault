@@ -41,6 +41,7 @@ public class StudyItemService implements StudyItemOperations {
     private static final Pattern HOSTNAME_PATTERN = Pattern.compile(
             "^(?=.{1,255}$)[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*$"
     );
+    private static final BigDecimal MAX_PRICE = new BigDecimal("999999999999999.9999");
 
     private final StudyItemRepository studyItemRepository;
     private final VaultEntryOperations vaultEntryOperations;
@@ -240,8 +241,16 @@ public class StudyItemService implements StudyItemOperations {
             throw new InvalidStudyItemException("Current progress text must not exceed 500 characters");
         }
 
-        if (priceAmount != null && priceAmount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidStudyItemException("Price amount must be nonnegative: " + priceAmount);
+        if (priceAmount != null) {
+            if (priceAmount.compareTo(BigDecimal.ZERO) < 0) {
+                throw new InvalidStudyItemException("Price amount must be nonnegative: " + priceAmount);
+            }
+            if (priceAmount.compareTo(MAX_PRICE) > 0) {
+                throw new InvalidStudyItemException("Price amount exceeds maximum precision 19");
+            }
+            if (priceAmount.scale() > 4 && priceAmount.stripTrailingZeros().scale() > 4) {
+                throw new InvalidStudyItemException("Price amount scale must not exceed 4 without rounding");
+            }
         }
 
         String currencyCode = trimOrNull(rawCurrencyCode);
@@ -297,7 +306,7 @@ public class StudyItemService implements StudyItemOperations {
             if (rawSiteDomain != null && !rawSiteDomain.isBlank()) {
                 throw new InvalidStudyItemException("Site domain must be null for YOUTUBE_CHANNEL study item");
             }
-            ExternalAccountView account = externalAccountOperations.findById(youtubeChannelAccountId)
+            ExternalAccountView account = externalAccountOperations.findAndLock(youtubeChannelAccountId)
                     .orElseThrow(() -> new InvalidStudyItemException("YouTube channel account with ID " + youtubeChannelAccountId + " does not exist"));
 
             if (account.accountType() != ExternalAccountType.YOUTUBE_CHANNEL) {

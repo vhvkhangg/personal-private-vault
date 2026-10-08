@@ -16,6 +16,10 @@ public interface PersonalProfileRepository extends JpaRepository<PersonalProfile
 
     Optional<PersonalProfile> findByIdAndDeletedAtIsNull(Long id);
 
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @org.springframework.data.jpa.repository.Query("SELECT p FROM PersonalProfile p WHERE p.id = :id")
+    Optional<PersonalProfile> findByIdForUpdate(@org.springframework.data.repository.query.Param("id") Long id);
+
     Optional<PersonalProfile> findByIsSelfTrueAndDeletedAtIsNull();
 
     boolean existsByIsSelfTrueAndDeletedAtIsNull();

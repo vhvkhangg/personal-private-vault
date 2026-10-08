@@ -32,6 +32,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SoftwareService implements SoftwareOperations {
 
+    private static final BigDecimal MAX_PRICE = new BigDecimal("999999999999999.9999");
+
     private final SoftwareItemRepository softwareItemRepository;
     private final SoftwareItemPlatformRepository softwareItemPlatformRepository;
     private final VaultEntryOperations vaultEntryOperations;
@@ -188,8 +190,16 @@ public class SoftwareService implements SoftwareOperations {
 
         String description = trimOrNull(rawDescription);
 
-        if (priceAmount != null && priceAmount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidSoftwareItemException("Price amount must be nonnegative");
+        if (priceAmount != null) {
+            if (priceAmount.compareTo(BigDecimal.ZERO) < 0) {
+                throw new InvalidSoftwareItemException("Price amount must be nonnegative");
+            }
+            if (priceAmount.compareTo(MAX_PRICE) > 0) {
+                throw new InvalidSoftwareItemException("Price amount exceeds maximum precision 19");
+            }
+            if (priceAmount.scale() > 4 && priceAmount.stripTrailingZeros().scale() > 4) {
+                throw new InvalidSoftwareItemException("Price amount scale must not exceed 4 without rounding");
+            }
         }
 
         String currencyCode = trimOrNull(rawCurrencyCode);

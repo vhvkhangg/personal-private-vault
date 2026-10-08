@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 public record CreateAlbumRequest(
         @NotBlank(message = "Title must not be blank")
-        @Size(max = 255, message = "Title must not exceed 255 characters")
+        @Size(max = 500, message = "Title must not exceed 500 characters")
         String title,
         String description
 ) {

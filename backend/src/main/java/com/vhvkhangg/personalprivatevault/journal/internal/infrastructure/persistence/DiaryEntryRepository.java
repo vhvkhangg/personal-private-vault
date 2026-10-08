@@ -19,6 +19,10 @@ public interface DiaryEntryRepository extends JpaRepository<DiaryEntry, Long> {
 
     Optional<DiaryEntry> findByIdAndDeletedAtIsNull(Long id);
 
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT d FROM DiaryEntry d WHERE d.id = :id")
+    Optional<DiaryEntry> findByIdForUpdate(@Param("id") Long id);
+
     List<DiaryEntry> findByDeletedAtIsNullOrderByEntryDateDescIdDesc(Pageable pageable);
 
     List<DiaryEntry> findByDeletedAtIsNullAndEntryDateGreaterThanEqualOrderByEntryDateDescIdDesc(

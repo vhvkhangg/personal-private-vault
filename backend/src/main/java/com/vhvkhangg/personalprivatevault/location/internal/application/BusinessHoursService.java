@@ -12,6 +12,7 @@ import com.vhvkhangg.personalprivatevault.location.internal.infrastructure.persi
 import com.vhvkhangg.personalprivatevault.location.internal.infrastructure.persistence.LocationRepository;
 import com.vhvkhangg.personalprivatevault.location.view.BusinessHoursIntervalView;
 import com.vhvkhangg.personalprivatevault.location.view.BusinessHoursScheduleView;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,14 +28,17 @@ public class BusinessHoursService implements BusinessHoursOperations {
 
     private final LocationRepository locationRepository;
     private final LocationBusinessHourRepository businessHourRepository;
+    private final EntityManager entityManager;
 
     @Autowired
     public BusinessHoursService(
             LocationRepository locationRepository,
-            LocationBusinessHourRepository businessHourRepository
+            LocationBusinessHourRepository businessHourRepository,
+            EntityManager entityManager
     ) {
         this.locationRepository = Objects.requireNonNull(locationRepository, "locationRepository must not be null");
         this.businessHourRepository = Objects.requireNonNull(businessHourRepository, "businessHourRepository must not be null");
+        this.entityManager = Objects.requireNonNull(entityManager, "entityManager must not be null");
     }
 
     @Override
@@ -47,6 +51,7 @@ public class BusinessHoursService implements BusinessHoursOperations {
 
         Location location = locationRepository.findByIdForUpdate(command.locationId())
                 .orElseThrow(() -> new BusinessHoursNotFoundException(command.locationId()));
+        entityManager.refresh(location);
 
         if (!command.businessHoursKnown()) {
             if (command.intervals() != null && !command.intervals().isEmpty()) {
@@ -109,6 +114,7 @@ public class BusinessHoursService implements BusinessHoursOperations {
 
         Location location = locationRepository.findByIdForShare(locationId)
                 .orElseThrow(() -> new BusinessHoursNotFoundException(locationId));
+        entityManager.refresh(location);
 
         List<LocationBusinessHour> hours = businessHourRepository.findByLocationIdOrderByDayOfWeekAscSequenceAsc(locationId);
         List<BusinessHoursIntervalView> intervalViews = hours.stream()

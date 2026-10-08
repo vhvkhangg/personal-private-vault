@@ -6,8 +6,38 @@ Status: **READY FOR AUDIT** (2026-10-06)
 the [initial review](reviews/2026-10-06-phase-15-pre-audit-codex-review.md). The owner quick checklist has mutually
 exclusive normal and Phase 15 paths, and requires the closure `$codex-backend-audit` after handoff-specific final
 review and before implementation commit. No blocking preparation finding remains.
-Next: owner commits/pushes the accepted preparation slice, then runs `$codex-backend-audit`.
-No full backend audit or implementation handoff has been started.
+At preparation acceptance, the next step was owner preparation commit/push and `$codex-backend-audit`.
+At preparation acceptance, no full backend audit or implementation handoff had started.
+Subsequently, accepted preparation was committed as `6a89a998c512dda27c3e494a3525bf6118ee981e` and the
+[initial audit](reviews/2026-10-06-phase-15-backend-audit.md) returned **OWNER_DECISION_REQUIRED**.
+The preparation verdict remains READY FOR AUDIT; current disposition is in [audit-status.md](audit-status.md).
+On 2026-10-07 the [owner decisions](owner-decisions.md) authorized all 17 findings and
+[re-review](reviews/2026-10-07-phase-15-authorized-remediation-codex-review.md) returned **REMEDIATION_REQUIRED**.
+The single handoff was created READY_FOR_IMPLEMENTATION. Its submitted implementation subsequently received
+[CHANGES_REQUESTED](reviews/2026-10-07-phase-15-final-codex-review.md); this does not change the historical
+preparation verdict. The [previous implementation re-review](reviews/2026-10-07-phase-15-final-codex-rereview.md)
+closed six specific defects. The [re-review 2](reviews/2026-10-07-phase-15-final-codex-rereview-2.md) accepts
+further test improvements and passes 996 tests, but retains two regression/evidence/docs blockers.
+The [re-review 3](reviews/2026-10-07-phase-15-final-codex-rereview-3.md) accepts further contention,
+monetary, persisted-state and pagination coverage and passes 1007 tests, but retains two narrowed Medium
+regression/schema and canonical-note/evidence blockers. No new production defect or scope expansion is asserted.
+The [re-review 4](reviews/2026-10-07-phase-15-final-codex-rereview-4.md) accepts most remaining matrix/schema
+coverage and documentation corrections and passes 1012 tests. Two narrowed Medium blockers remain: successful
+Finance description update-boundary controls and canonical-note/pre-fix evidence corrections; no production expansion.
+The prior [final acceptance](reviews/2026-10-07-phase-15-final-codex-acceptance.md) closes the remaining blocking
+requirements with independent 1012-test verification: READY FOR OWNER COMMIT, **but do not commit yet**.
+FR15-9 was a Low documentation-symbol follow-up; the next gate at that point was the comprehensive closure audit.
+The [Oct7 closure audit](reviews/2026-10-07-phase-15-closure-backend-audit.md) returned **REMEDIATION_REQUIRED**:
+13 findings and FR15-9 CLOSED; BA15-2, BA15-9, BA15-14 and BA15-15 were authorized Medium remnants at that gate.
+Its fresh full/coverage verification passed 1012 tests, zero failures/errors/skips. The same handoff was CHANGES_REQUESTED;
+next was Antigravity `/antigravity-implement-handoff` for those remnants only. No historical review record is rewritten.
+
+The [final closure audit](reviews/2026-10-08-phase-15-closure-backend-audit.md) returns **BACKEND_AUDIT_READY**:
+all 17 findings and FR15-9/10/11/12 are closed. Fresh full/coverage verification passed 1021 tests,
+zero failures/errors/skips (04:07). The accepted handoff is archived under [handoff.md](handoff.md), and `ACTIVE.md`
+is `NO_ACTIVE_HANDOFF`. Owner implementation commit/push is now permitted; Phase 15 closeout remains pending,
+so Phase 15 is not yet complete/frozen. Phase 16/17 preparation remains separately owner-gated.
+Current disposition remains in [audit-status.md](audit-status.md); the historical preparation verdict is unchanged.
 
 This is the preparation gate for the audit-first Phase 15. It reuses `$codex-pre-handoff-review`, but the successful
 Phase 15 result is **`READY FOR AUDIT`**, not `READY FOR HANDOFF`.

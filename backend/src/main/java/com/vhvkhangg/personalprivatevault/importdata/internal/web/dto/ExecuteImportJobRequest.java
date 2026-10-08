@@ -6,5 +6,5 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record ExecuteImportJobRequest(
-        @NotNull @Valid List<ImportItemDecisionRequest> itemDecisions
+        @NotNull List<@NotNull @Valid ImportItemDecisionRequest> itemDecisions
 ) {}

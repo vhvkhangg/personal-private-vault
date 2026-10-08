@@ -29,6 +29,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShoppingService implements ShoppingOperations {
 
+    private static final BigDecimal MAX_PRICE = new BigDecimal("999999999999999.9999");
+
     private final ShoppingItemRepository shoppingItemRepository;
     private final VaultEntryOperations vaultEntryOperations;
     private final ReferenceCatalog referenceCatalog;
@@ -147,8 +149,16 @@ public class ShoppingService implements ShoppingOperations {
 
         String description = trimOrNull(rawDescription);
 
-        if (priceAmount != null && priceAmount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidShoppingItemException("Price amount must be nonnegative");
+        if (priceAmount != null) {
+            if (priceAmount.compareTo(BigDecimal.ZERO) < 0) {
+                throw new InvalidShoppingItemException("Price amount must be nonnegative");
+            }
+            if (priceAmount.compareTo(MAX_PRICE) > 0) {
+                throw new InvalidShoppingItemException("Price amount exceeds maximum precision 19");
+            }
+            if (priceAmount.scale() > 4 && priceAmount.stripTrailingZeros().scale() > 4) {
+                throw new InvalidShoppingItemException("Price amount scale must not exceed 4 without rounding");
+            }
         }
 
         String currencyCode = trimOrNull(rawCurrencyCode);

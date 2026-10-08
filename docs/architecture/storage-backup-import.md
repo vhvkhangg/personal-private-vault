@@ -103,3 +103,8 @@ Planned backup scope:
 - binary media according to the selected object-storage provider strategy.
 
 Backup destination, retention, encryption, and automation details are deferred until deployment architecture is selected.
+
+## 8. Phase 15 implementation notes
+
+For bounded import review pagination, deterministic item traversal, and atomic multi-page failure rollback guarantees, see:
+[`phase-15-implementation-notes.md`](phase-15-implementation-notes.md)

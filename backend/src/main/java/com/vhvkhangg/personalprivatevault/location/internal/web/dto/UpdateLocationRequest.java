@@ -9,12 +9,12 @@ public record UpdateLocationRequest(
         Long brandId,
         Long addressId,
         @NotBlank(message = "Location name must not be blank")
-        @Size(max = 255, message = "Location name must not exceed 255 characters")
+        @Size(max = 500, message = "Location name must not exceed 500 characters")
         String name,
         @Size(max = 2048, message = "Image URL must not exceed 2048 characters")
         String imageUrl,
         String description,
-        @Size(max = 50, message = "Phone must not exceed 50 characters")
+        @Size(max = 64, message = "Phone must not exceed 64 characters")
         String phone,
         @Size(max = 2048, message = "Website URL must not exceed 2048 characters")
         String websiteUrl,
@@ -24,4 +24,8 @@ public record UpdateLocationRequest(
         String currencyCode,
         String review
 ) {
+    public UpdateLocationRequest {
+        name = name != null ? name.trim() : null;
+        phone = (phone == null || phone.isBlank()) ? null : phone.trim();
+    }
 }

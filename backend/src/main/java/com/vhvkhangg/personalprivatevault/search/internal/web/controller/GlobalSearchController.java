@@ -36,11 +36,21 @@ public class GlobalSearchController {
     private final GlobalSearchOperations globalSearchOperations;
 
     @GetMapping
-    @Operation(summary = "Search vault entries across modules", operationId = "globalSearch")
+    @Operation(
+            summary = "Search vault entries across modules",
+            description = "Performs case-insensitive literal and trigram similarity search across searchable modules. "
+                    + "When multiple tagId parameters are provided, matched entries must have all specified tags (AND semantics). "
+                    + "Query string q must be 1 to 200 characters.",
+            operationId = "globalSearch"
+    )
     public ResponseEntity<ApiResponse<List<GlobalSearchResultResponse>>> search(
+            @io.swagger.v3.oas.annotations.Parameter(description = "Search query string (1-200 characters; trimmed)")
             @RequestParam("q") String q,
+            @io.swagger.v3.oas.annotations.Parameter(description = "Optional search domain filter set (defaults to all domains when omitted)")
             @RequestParam(required = false) Set<SearchDomain> domain,
+            @io.swagger.v3.oas.annotations.Parameter(description = "Optional vault entry type filter set")
             @RequestParam(required = false) Set<VaultEntryType> entryType,
+            @io.swagger.v3.oas.annotations.Parameter(description = "Optional tag IDs filter; requires matching entries to contain all specified tags")
             @RequestParam(required = false) Set<Long> tagId,
             @RequestParam(defaultValue = "0") @PositiveOrZero @Max(500) int offset,
             @RequestParam(defaultValue = "50") @Positive @Max(100) int limit) {

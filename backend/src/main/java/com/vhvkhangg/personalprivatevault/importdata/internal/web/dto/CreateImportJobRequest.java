@@ -9,6 +9,6 @@ import jakarta.validation.constraints.Size;
 public record CreateImportJobRequest(
         @NotNull ImportTargetType targetType,
         @NotNull ImportFormat format,
-        @NotBlank @Size(max = 255) String originalFileName,
+        @NotBlank @Size(max = 500) String originalFileName,
         @Size(max = 1024) String rawFileObjectKey
 ) {}

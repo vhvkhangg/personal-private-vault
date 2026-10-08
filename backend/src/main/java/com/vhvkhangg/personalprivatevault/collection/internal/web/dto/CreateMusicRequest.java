@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CreateMusicRequest(
-        @NotBlank @Size(max = 255) String title,
-        @NotNull CollectionMusicVersion version,
+        @NotBlank @Size(max = 500) String title,
+        CollectionMusicVersion version,
         Long platformId,
         @Size(max = 2048) String url
 ) {}

@@ -115,3 +115,8 @@ Revisit these if a later frontend/deployment phase adopts cookie-based authentic
 Before broad Internet exposure, revisit TLS termination, cookies/token transport, CSRF, rate limiting/login
 throttling, security headers, 2FA/passkeys, session/device management, audit logging, reverse proxy exposure, backup
 encryption and secret rotation.
+
+## 11. Phase 15 implementation notes
+
+For password length bounds (12–128 characters) and delegating legacy BCrypt verification details, see:
+[`phase-15-implementation-notes.md`](phase-15-implementation-notes.md)

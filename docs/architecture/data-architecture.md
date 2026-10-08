@@ -116,3 +116,8 @@ JSONB is used for metadata that is naturally source-dependent or heterogeneous, 
 Search implementation may add PostgreSQL indexes/extensions such as `pg_trgm` and full-text indexes through Flyway. Indexes are driven by real query behavior and do not change module ownership.
 
 Vietnamese accent-insensitive matching is not a requirement. Case-insensitive, partial, fuzzy, and filtered search are required.
+
+## 14. Phase 15 implementation notes
+
+For runtime Flyway ordering before Hibernate validation and transactional rollback guarantees across modules, see:
+[`phase-15-implementation-notes.md`](phase-15-implementation-notes.md)

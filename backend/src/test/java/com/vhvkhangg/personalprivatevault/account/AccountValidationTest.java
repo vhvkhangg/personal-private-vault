@@ -64,7 +64,7 @@ class AccountValidationTest {
         snapshotRepository = mock(FollowerSnapshotRepository.class);
         snapshotEntryRepository = mock(FollowerSnapshotEntryRepository.class);
 
-        accountService = new ExternalAccountService(referenceCatalog, vaultEntryOperations, accountRepository);
+        accountService = new ExternalAccountService(referenceCatalog, vaultEntryOperations, accountRepository, List.of(), mock(jakarta.persistence.EntityManager.class));
         relationshipService = new ExternalAccountRelationshipService(accountRepository, relationshipRepository);
         snapshotService = new FollowerSnapshotService(accountRepository, snapshotRepository, snapshotEntryRepository);
     }

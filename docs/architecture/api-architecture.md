@@ -353,3 +353,8 @@ Stable structural diagnostics may include endpoint name, safe error code, field 
 
 Phase 13 does not include frontend, object-storage I/O, export/backup, scheduler runtime, CORS/browser cookie storage,
 rate limiting/security deployment hardening, RAG/vector search, or production deployment.
+
+## 15. Phase 15 implementation notes
+
+For standardized HTTP error status codes (415, 406, 400 with indexed paths, 422/409 domain translations) and streaming transfer error boundaries, see:
+[`phase-15-implementation-notes.md`](phase-15-implementation-notes.md)

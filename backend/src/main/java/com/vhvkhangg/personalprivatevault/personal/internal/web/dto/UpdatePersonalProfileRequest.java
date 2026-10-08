@@ -1,7 +1,6 @@
 package com.vhvkhangg.personalprivatevault.personal.internal.web.dto;
 
 import com.vhvkhangg.personalprivatevault.personal.enums.Gender;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -13,10 +12,14 @@ public record UpdatePersonalProfileRequest(
         Boolean isSelf,
         Gender gender,
         LocalDate birthDate,
-        @Size(min = 2, max = 2) String nationalityCode,
-        @Size(max = 50) String phone,
-        @Email @Size(max = 255) String email,
+        @Size(max = 2) String nationalityCode,
+        @Size(max = 64) String phone,
+        @Size(max = 320) String email,
         Long addressId,
         @Size(max = 255) String occupation,
         String notesMarkdown
-) {}
+) {
+    public UpdatePersonalProfileRequest {
+        nationalityCode = (nationalityCode != null && !nationalityCode.isBlank()) ? nationalityCode.trim() : null;
+    }
+}

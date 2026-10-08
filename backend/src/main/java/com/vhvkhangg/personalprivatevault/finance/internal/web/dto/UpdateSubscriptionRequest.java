@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record UpdateSubscriptionRequest(
-        @NotBlank @Size(max = 255) String name,
-        @Size(max = 255) String provider,
+        @NotBlank @Size(max = 500) String name,
+        @Size(max = 500) String provider,
         @NotNull @PositiveOrZero BigDecimal priceAmount,
         @NotBlank @Size(min = 3, max = 3) String currencyCode,
         @NotNull BillingCycle billingCycle,

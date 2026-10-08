@@ -9,6 +9,8 @@ import com.vhvkhangg.personalprivatevault.location.category.UpdateLocationCatego
 import com.vhvkhangg.personalprivatevault.location.internal.domain.LocationCategory;
 import com.vhvkhangg.personalprivatevault.location.internal.infrastructure.persistence.LocationCategoryAssignmentRepository;
 import com.vhvkhangg.personalprivatevault.location.internal.infrastructure.persistence.LocationCategoryRepository;
+import com.vhvkhangg.personalprivatevault.location.internal.infrastructure.persistence.LocationRepository;
+import com.vhvkhangg.personalprivatevault.location.location.LocationNotFoundException;
 import com.vhvkhangg.personalprivatevault.location.view.LocationCategoryView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,14 +26,17 @@ public class LocationCategoryService implements LocationCategoryOperations {
 
     private final LocationCategoryRepository categoryRepository;
     private final LocationCategoryAssignmentRepository assignmentRepository;
+    private final LocationRepository locationRepository;
 
     @Autowired
     public LocationCategoryService(
             LocationCategoryRepository categoryRepository,
-            LocationCategoryAssignmentRepository assignmentRepository
+            LocationCategoryAssignmentRepository assignmentRepository,
+            LocationRepository locationRepository
     ) {
         this.categoryRepository = Objects.requireNonNull(categoryRepository, "categoryRepository must not be null");
         this.assignmentRepository = Objects.requireNonNull(assignmentRepository, "assignmentRepository must not be null");
+        this.locationRepository = Objects.requireNonNull(locationRepository, "locationRepository must not be null");
     }
 
     @Override
@@ -120,7 +125,24 @@ public class LocationCategoryService implements LocationCategoryOperations {
         if (categoryId == null) {
             throw new InvalidLocationCategoryException("categoryId must not be null");
         }
-        assignmentRepository.insertIfAbsent(locationId, categoryId);
+        if (!locationRepository.existsById(locationId)) {
+            throw new LocationNotFoundException("Location not found with id: " + locationId);
+        }
+        if (!categoryRepository.existsById(categoryId)) {
+            throw new LocationCategoryNotFoundException("Location category not found with id: " + categoryId);
+        }
+        try {
+            assignmentRepository.insertIfAbsent(locationId, categoryId);
+        } catch (DataIntegrityViolationException ex) {
+            String constraint = extractConstraintName(ex);
+            if (constraint.contains("location_id") || constraint.contains("locations")) {
+                throw new LocationNotFoundException("Location not found with id: " + locationId);
+            }
+            if (constraint.contains("category_id") || constraint.contains("location_categories")) {
+                throw new LocationCategoryNotFoundException("Location category not found with id: " + categoryId);
+            }
+            throw ex;
+        }
     }
 
     @Override
@@ -182,5 +204,20 @@ public class LocationCategoryService implements LocationCategoryOperations {
         }
         String msg = ex.getMessage() != null ? ex.getMessage().toLowerCase(Locale.ROOT) : "";
         return msg.contains("uq_ci_location_categories_name") || msg.contains("location_categories_name");
+    }
+
+    private String extractConstraintName(DataIntegrityViolationException ex) {
+        Throwable cause = ex.getCause();
+        while (cause != null) {
+            if (cause instanceof org.hibernate.exception.ConstraintViolationException cve && cve.getConstraintName() != null) {
+                return cve.getConstraintName().toLowerCase(Locale.ROOT);
+            }
+            cause = cause.getCause();
+        }
+        Throwable root = ex.getRootCause();
+        if (root != null && root.getMessage() != null) {
+            return root.getMessage().toLowerCase(Locale.ROOT);
+        }
+        return ex.getMessage() != null ? ex.getMessage().toLowerCase(Locale.ROOT) : "";
     }
 }

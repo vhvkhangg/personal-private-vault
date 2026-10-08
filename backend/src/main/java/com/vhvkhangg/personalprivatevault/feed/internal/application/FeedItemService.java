@@ -39,6 +39,7 @@ public class FeedItemService implements FeedItemOperations {
 
     private final FeedSourceRepository feedSourceRepository;
     private final FeedItemRepository feedItemRepository;
+    private final jakarta.persistence.EntityManager entityManager;
 
     @Override
     @Transactional
@@ -126,13 +127,17 @@ public class FeedItemService implements FeedItemOperations {
                 }
             }
 
-            // Update feed source fetch timestamps atomically
+            // Update feed source fetch timestamps under lock with authoritative configuration
+            FeedSource sourceToUpdate = feedSourceRepository.findByIdForUpdate(sourceId)
+                    .orElseThrow(() -> new FeedSourceNotFoundException(sourceId));
+            entityManager.refresh(sourceToUpdate);
+
             Instant nextFetch = null;
-            if (source.isScheduledRefreshEnabled() && source.getRefreshIntervalMinutes() != null) {
-                nextFetch = fetchedAt.plus(Duration.ofMinutes(source.getRefreshIntervalMinutes()));
+            if (sourceToUpdate.isScheduledRefreshEnabled() && sourceToUpdate.getRefreshIntervalMinutes() != null) {
+                nextFetch = fetchedAt.plus(Duration.ofMinutes(sourceToUpdate.getRefreshIntervalMinutes()));
             }
-            source.recordFetch(fetchedAt, nextFetch);
-            feedSourceRepository.save(source);
+            sourceToUpdate.recordFetch(fetchedAt, nextFetch);
+            feedSourceRepository.saveAndFlush(sourceToUpdate);
             feedItemRepository.flush();
 
             return resultItems.stream().map(this::toView).toList();

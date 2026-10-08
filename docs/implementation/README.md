@@ -19,7 +19,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-12/`](phase-12/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `search`
 - [`phase-13/`](phase-13/README.md) — **COMPLETE / FROZEN** — shared REST/API + HTTP exposure
 - [`phase-14/`](phase-14/README.md) — **COMPLETE / FROZEN** — portability + managed object storage + operational closure
-- [`phase-15/`](phase-15/README.md) — **READY FOR AUDIT** — preparation accepted; backend audit unstarted
+- [`phase-15/`](phase-15/README.md) — **BACKEND_AUDIT_READY** — all findings closed; owner commit/push and closeout pending
 
 Maintenance:
 
@@ -29,7 +29,13 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-No implementation handoff is active. [`handoffs/ACTIVE.md`](handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF`.
+The [final closure audit](phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md) returns **BACKEND_AUDIT_READY**:
+all 17 BA15 findings CLOSED, FR15-9/10/11/12 closed, no unresolved actionable finding or debt.
+Fresh full/coverage verification passed 1021 tests, zero failures/errors/skips (04:07); static reports triaged.
+The single [accepted remediation handoff](phase-15/handoff.md) is archived; [ACTIVE](handoffs/ACTIVE.md)
+is NO_ACTIVE_HANDOFF. Prior formal reviews, owner decisions and evidence remain historical and unchanged.
+Owner commit/push is now permitted with `fix(backend): remediate phase 15 audit findings`, then give ChatGPT the
+latest package for Phase 15 closeout only. Phase 15 is not yet complete/frozen; no broader authority is created.
 Backend Phase 14 passed [final acceptance](phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md), was
 owner committed/pushed as `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and is **complete/frozen** after closeout. Independent 920-test clean
 verification and 49 focused tests are retained; all nine findings are closed. Its completed handoff is archived in
@@ -55,9 +61,17 @@ Phase 15 as the comprehensive backend audit gate; Phase 16/17 preparation remain
 The owner approved Phase 15 as a comprehensive audit of the entire non-RAG backend before frontend/RAG work. This is
 an audit-first phase, not a normal feature implementation phase. Preparation review is
 [READY FOR AUDIT](phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md): P15-1 closed; no blocking
-preparation findings. After the owner commits/pushes the accepted preparation/docs/tooling slice, run
-`$codex-backend-audit`. It may produce `OWNER_DECISION_REQUIRED`, create one bounded
-`REMEDIATION_REQUIRED` handoff, or return `BACKEND_AUDIT_READY`. Phase 16/17 preparation remains owner-gated.
+preparation findings. The committed preparation was audited:
+[initial report](phase-15/reviews/2026-10-06-phase-15-backend-audit.md), **OWNER_DECISION_REQUIRED**, 17 open findings.
+[Owner decisions](phase-15/owner-decisions.md) are recorded; [authorization re-review](phase-15/reviews/2026-10-07-phase-15-authorized-remediation-codex-review.md)
+is **REMEDIATION_REQUIRED**. The [closure audit](phase-15/reviews/2026-10-07-phase-15-closure-backend-audit.md)
+closes 13 findings and FR15-9 and retained four authorized Medium remnants. Their submitted repairs now have
+[final acceptance](phase-15/reviews/2026-10-08-phase-15-final-codex-acceptance.md): FR15-10/11/12 closed,
+no blocking final-review findings; independent 1021-test verification passed.
+The [final closure audit](phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md) now closes all 17 findings
+and returns BACKEND_AUDIT_READY. The same handoff is [archived](phase-15/handoff.md), ACTIVE reset to
+NO_ACTIVE_HANDOFF. Owner commit/push and ChatGPT Phase 15 closeout are the remaining gates.
+Phase 16/17 preparation remains owner-gated.
 
 ## Operational guidance
 

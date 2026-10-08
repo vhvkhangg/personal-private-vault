@@ -137,14 +137,7 @@ public class VaultMetadataService implements VaultMetadataOperations {
         VaultCapabilityMatrix.assertCanRate(entry.getEntryType());
 
         Instant now = clock.instant();
-        Optional<Rating> existing = ratingRepository.findById(vaultEntryId);
-        if (existing.isPresent()) {
-            Rating rating = existing.get();
-            rating.updateGrade(grade, now);
-            ratingRepository.save(rating);
-        } else {
-            ratingRepository.save(new Rating(vaultEntryId, grade, now));
-        }
+        ratingRepository.upsert(vaultEntryId, grade.name(), now);
     }
 
     @Override

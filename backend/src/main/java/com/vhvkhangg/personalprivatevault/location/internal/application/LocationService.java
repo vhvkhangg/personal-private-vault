@@ -16,6 +16,7 @@ import com.vhvkhangg.personalprivatevault.reference.catalog.ReferenceCatalog;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
 import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public class LocationService implements LocationOperations {
     private final LocationDiningServiceStyleRepository diningServiceStyleRepository;
     private final VaultEntryOperations vaultEntryOperations;
     private final ReferenceCatalog referenceCatalog;
+    private final EntityManager entityManager;
 
     @Autowired
     public LocationService(
@@ -42,7 +44,8 @@ public class LocationService implements LocationOperations {
             AddressRepository addressRepository,
             LocationDiningServiceStyleRepository diningServiceStyleRepository,
             VaultEntryOperations vaultEntryOperations,
-            ReferenceCatalog referenceCatalog
+            ReferenceCatalog referenceCatalog,
+            EntityManager entityManager
     ) {
         this.locationRepository = Objects.requireNonNull(locationRepository, "locationRepository must not be null");
         this.brandRepository = Objects.requireNonNull(brandRepository, "brandRepository must not be null");
@@ -50,6 +53,7 @@ public class LocationService implements LocationOperations {
         this.diningServiceStyleRepository = Objects.requireNonNull(diningServiceStyleRepository, "diningServiceStyleRepository must not be null");
         this.vaultEntryOperations = Objects.requireNonNull(vaultEntryOperations, "vaultEntryOperations must not be null");
         this.referenceCatalog = Objects.requireNonNull(referenceCatalog, "referenceCatalog must not be null");
+        this.entityManager = Objects.requireNonNull(entityManager, "entityManager must not be null");
     }
 
     @Override
@@ -99,8 +103,9 @@ public class LocationService implements LocationOperations {
             throw new InvalidLocationException("Location id must not be null");
         }
 
-        Location location = locationRepository.findById(command.id())
+        Location location = locationRepository.findByIdForUpdate(command.id())
                 .orElseThrow(() -> new LocationNotFoundException("Location not found with id: " + command.id()));
+        entityManager.refresh(location);
 
         ValidatedLocation validated = validate(
                 command.brandId(),
@@ -216,12 +221,8 @@ public class LocationService implements LocationOperations {
             validatedCurrencyCode = upper;
         }
 
-        if (minPrice != null && minPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidLocationException("Location minPrice must be non-negative");
-        }
-        if (maxPrice != null && maxPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidLocationException("Location maxPrice must be non-negative");
-        }
+        validatePriceBounds(minPrice, "Location minPrice");
+        validatePriceBounds(maxPrice, "Location maxPrice");
         if (minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) > 0) {
             throw new InvalidLocationException("Location minPrice cannot exceed maxPrice");
         }
@@ -274,6 +275,23 @@ public class LocationService implements LocationOperations {
                 location.getCurrencyCode(),
                 location.getReview()
         );
+    }
+
+    private static final BigDecimal MAX_PRICE = new BigDecimal("999999999999999.9999");
+
+    private void validatePriceBounds(BigDecimal price, String fieldName) {
+        if (price == null) {
+            return;
+        }
+        if (price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidLocationException(fieldName + " must be non-negative");
+        }
+        if (price.compareTo(MAX_PRICE) > 0) {
+            throw new InvalidLocationException(fieldName + " exceeds maximum precision 19");
+        }
+        if (price.scale() > 4 && price.stripTrailingZeros().scale() > 4) {
+            throw new InvalidLocationException(fieldName + " scale must not exceed 4 without rounding");
+        }
     }
 
     private record ValidatedLocation(

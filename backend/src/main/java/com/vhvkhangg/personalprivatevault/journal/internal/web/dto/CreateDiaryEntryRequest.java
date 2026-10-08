@@ -8,6 +8,6 @@ import java.time.LocalDate;
 
 public record CreateDiaryEntryRequest(
         @NotNull LocalDate entryDate,
-        @Size(max = 255) String title,
-        @NotBlank String contentMarkdown
+        @Size(max = 500) String title,
+        @NotNull String contentMarkdown
 ) {}

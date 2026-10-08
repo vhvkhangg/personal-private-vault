@@ -31,6 +31,8 @@ public class ExternalAccountService implements ExternalAccountOperations {
     private final ReferenceCatalog referenceCatalog;
     private final VaultEntryOperations vaultEntryOperations;
     private final ExternalAccountRepository externalAccountRepository;
+    private final List<com.vhvkhangg.personalprivatevault.account.account.ExternalAccountMutationGuard> mutationGuards;
+    private final jakarta.persistence.EntityManager entityManager;
 
     @Override
     @Transactional
@@ -104,8 +106,15 @@ public class ExternalAccountService implements ExternalAccountOperations {
             throw new InvalidExternalAccountException("UpdateExternalAccountCommand must not be null");
         }
 
-        ExternalAccount account = externalAccountRepository.findById(id)
+        ExternalAccount account = externalAccountRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new ExternalAccountNotFoundException("External account with id " + id + " does not exist"));
+        entityManager.refresh(account);
+
+        if (account.getAccountType() != command.accountType() || !Objects.equals(account.getPlatformId(), command.platformId())) {
+            for (com.vhvkhangg.personalprivatevault.account.account.ExternalAccountMutationGuard guard : mutationGuards) {
+                guard.validateMutation(id, command.accountType(), command.platformId());
+            }
+        }
 
         validateIdentifiersAndMetadata(
                 command.platformId(),
@@ -167,6 +176,19 @@ public class ExternalAccountService implements ExternalAccountOperations {
             return Optional.empty();
         }
         return externalAccountRepository.findById(id).map(this::toView);
+    }
+
+    @Override
+    @Transactional
+    public Optional<ExternalAccountView> findAndLock(Long id) {
+        if (id == null) {
+            return Optional.empty();
+        }
+        return externalAccountRepository.findByIdForUpdate(id)
+                .map(account -> {
+                    entityManager.refresh(account);
+                    return toView(account);
+                });
     }
 
     @Override

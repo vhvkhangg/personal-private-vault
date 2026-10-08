@@ -19,4 +19,8 @@ public interface ExternalAccountRepository extends JpaRepository<ExternalAccount
 
     @Query("SELECT a.id FROM ExternalAccount a WHERE a.id IN :ids")
     List<Long> findExistingIds(@Param("ids") Collection<Long> ids);
+
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT a FROM ExternalAccount a WHERE a.id = :id")
+    Optional<ExternalAccount> findByIdForUpdate(@Param("id") Long id);
 }

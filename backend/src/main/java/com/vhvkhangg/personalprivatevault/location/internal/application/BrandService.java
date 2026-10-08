@@ -161,12 +161,8 @@ public class BrandService implements BrandOperations {
             validatedCurrencyCode = upper;
         }
 
-        if (minPrice != null && minPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidBrandException("Brand minPrice must be non-negative");
-        }
-        if (maxPrice != null && maxPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidBrandException("Brand maxPrice must be non-negative");
-        }
+        validatePriceBounds(minPrice, "Brand minPrice");
+        validatePriceBounds(maxPrice, "Brand maxPrice");
         if (minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) > 0) {
             throw new InvalidBrandException("Brand minPrice cannot exceed maxPrice");
         }
@@ -201,6 +197,23 @@ public class BrandService implements BrandOperations {
                 brand.getCurrencyCode(),
                 brand.getReview()
         );
+    }
+
+    private static final BigDecimal MAX_PRICE = new BigDecimal("999999999999999.9999");
+
+    private void validatePriceBounds(BigDecimal price, String fieldName) {
+        if (price == null) {
+            return;
+        }
+        if (price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidBrandException(fieldName + " must be non-negative");
+        }
+        if (price.compareTo(MAX_PRICE) > 0) {
+            throw new InvalidBrandException(fieldName + " exceeds maximum precision 19");
+        }
+        if (price.scale() > 4 && price.stripTrailingZeros().scale() > 4) {
+            throw new InvalidBrandException(fieldName + " scale must not exceed 4 without rounding");
+        }
     }
 
     private record ValidatedBrand(

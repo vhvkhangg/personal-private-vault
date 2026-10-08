@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record ConvertToStudyRequest(
-        @NotBlank @Size(max = 255) String title,
+        @NotBlank @Size(max = 500) String title,
         @Size(max = 2048) String posterUrl,
         KnowledgeStudyType type,
         @Size(max = 255) String siteDomain,
@@ -21,11 +21,24 @@ public record ConvertToStudyRequest(
         Long authorGroupId,
         LocalDate publishedDate,
         @PositiveOrZero BigDecimal priceAmount,
-        @Size(min = 3, max = 3) String currencyCode,
+        @Size(max = 3) String currencyCode,
         String description,
         @Size(max = 2048) String url,
         String review,
         KnowledgeStudyStatus learningStatus,
         @DecimalMin("0.00") @DecimalMax("100.00") BigDecimal progressPercent,
-        @Size(max = 255) String currentProgressText
-) {}
+        @Size(max = 500) String currentProgressText
+) {
+    public ConvertToStudyRequest {
+        title = title != null ? title.trim() : null;
+        currencyCode = trimOrNull(currencyCode);
+    }
+
+    private static String trimOrNull(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
+    }
+}

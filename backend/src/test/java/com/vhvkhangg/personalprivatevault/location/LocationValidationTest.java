@@ -40,6 +40,7 @@ import com.vhvkhangg.personalprivatevault.reference.catalog.ReferenceCatalog;
 import com.vhvkhangg.personalprivatevault.reference.view.CountryView;
 import com.vhvkhangg.personalprivatevault.reference.view.CurrencyView;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
+import jakarta.persistence.EntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -95,12 +96,13 @@ class LocationValidationTest {
 
         brandService = new BrandService(brandRepository, vaultEntryOperations, referenceCatalog);
         addressService = new AddressService(addressRepository, referenceCatalog);
-        categoryService = new LocationCategoryService(categoryRepository, categoryAssignmentRepository);
+        categoryService = new LocationCategoryService(categoryRepository, categoryAssignmentRepository, locationRepository);
         locationService = new LocationService(
                 locationRepository, brandRepository, addressRepository,
-                diningStyleRepository, vaultEntryOperations, referenceCatalog
+                diningStyleRepository, vaultEntryOperations, referenceCatalog,
+                mock(EntityManager.class)
         );
-        businessHoursService = new BusinessHoursService(locationRepository, businessHourRepository);
+        businessHoursService = new BusinessHoursService(locationRepository, businessHourRepository, mock(EntityManager.class));
     }
 
     @Nested

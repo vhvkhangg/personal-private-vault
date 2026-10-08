@@ -73,7 +73,7 @@ public abstract class AbstractWebIntegrationTest extends AbstractPostgresIntegra
     }
 
     @AfterEach
-    void cleanUpDatabase() {
+    protected void cleanUpDatabase() {
         jdbcTemplate.execute("""
                 TRUNCATE TABLE
                     follower_snapshot_entries,
@@ -149,5 +149,26 @@ public abstract class AbstractWebIntegrationTest extends AbstractPostgresIntegra
 
     protected String bearerHeader() {
         return "Bearer " + bearerToken();
+    }
+
+    protected void awaitCompetingLock(java.time.Duration timeout) {
+        java.time.Instant deadline = java.time.Instant.now().plus(timeout);
+        while (java.time.Instant.now().isBefore(deadline)) {
+            Integer waiting = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON l.pid = a.pid " +
+                    "WHERE NOT l.granted AND a.pid <> pg_backend_pid()",
+                    Integer.class
+            );
+            if (waiting != null && waiting > 0) {
+                return;
+            }
+            try {
+                Thread.sleep(25);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
+            }
+        }
+        throw new AssertionError("Timed out waiting for competing ungranted PostgreSQL lock");
     }
 }

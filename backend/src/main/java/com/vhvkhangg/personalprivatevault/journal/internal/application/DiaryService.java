@@ -25,6 +25,7 @@ import java.util.List;
 public class DiaryService implements DiaryOperations {
 
     private final DiaryEntryRepository diaryEntryRepository;
+    private final jakarta.persistence.EntityManager entityManager;
 
     @Override
     @Transactional
@@ -51,8 +52,12 @@ public class DiaryService implements DiaryOperations {
         }
         validateEntry(command.entryDate(), command.title(), command.contentMarkdown());
 
-        DiaryEntry entry = diaryEntryRepository.findByIdAndDeletedAtIsNull(command.id())
+        DiaryEntry entry = diaryEntryRepository.findByIdForUpdate(command.id())
                 .orElseThrow(() -> new DiaryEntryNotFoundException(command.id()));
+        entityManager.refresh(entry);
+        if (entry.getDeletedAt() != null) {
+            throw new DiaryEntryNotFoundException(command.id());
+        }
 
         String normalizedTitle = normalizeTitle(command.title());
         entry.update(command.entryDate(), normalizedTitle, command.contentMarkdown());
@@ -102,8 +107,9 @@ public class DiaryService implements DiaryOperations {
         if (id == null) {
             throw new InvalidDiaryEntryException("Diary entry id must not be null");
         }
-        DiaryEntry entry = diaryEntryRepository.findById(id)
+        DiaryEntry entry = diaryEntryRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new DiaryEntryNotFoundException(id));
+        entityManager.refresh(entry);
         entry.softDelete();
         return toView(entry);
     }
@@ -114,8 +120,9 @@ public class DiaryService implements DiaryOperations {
         if (id == null) {
             throw new InvalidDiaryEntryException("Diary entry id must not be null");
         }
-        DiaryEntry entry = diaryEntryRepository.findById(id)
+        DiaryEntry entry = diaryEntryRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new DiaryEntryNotFoundException(id));
+        entityManager.refresh(entry);
         entry.restore();
         return toView(entry);
     }

@@ -36,6 +36,7 @@ public class PersonalProfileService implements PersonalProfileOperations {
     private final PersonalProfileRepository personalProfileRepository;
     private final ReferenceCatalog referenceCatalog;
     private final AddressOperations addressOperations;
+    private final jakarta.persistence.EntityManager entityManager;
 
     @Override
     @Transactional
@@ -108,8 +109,12 @@ public class PersonalProfileService implements PersonalProfileOperations {
                 command.occupation()
         );
 
-        PersonalProfile profile = personalProfileRepository.findByIdAndDeletedAtIsNull(command.id())
+        PersonalProfile profile = personalProfileRepository.findByIdForUpdate(command.id())
                 .orElseThrow(() -> new PersonalProfileNotFoundException(command.id()));
+        entityManager.refresh(profile);
+        if (profile.getDeletedAt() != null) {
+            throw new PersonalProfileNotFoundException(command.id());
+        }
 
         if (isSelf && personalProfileRepository.existsByIsSelfTrueAndDeletedAtIsNullAndIdNot(profile.getId())) {
             throw new PersonalProfileConflictException("An active self profile already exists");
@@ -178,8 +183,9 @@ public class PersonalProfileService implements PersonalProfileOperations {
         if (id == null) {
             throw new InvalidPersonalProfileException("Profile id must not be null");
         }
-        PersonalProfile profile = personalProfileRepository.findById(id)
+        PersonalProfile profile = personalProfileRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new PersonalProfileNotFoundException(id));
+        entityManager.refresh(profile);
         profile.softDelete();
         return toView(profile);
     }
@@ -190,8 +196,9 @@ public class PersonalProfileService implements PersonalProfileOperations {
         if (id == null) {
             throw new InvalidPersonalProfileException("Profile id must not be null");
         }
-        PersonalProfile profile = personalProfileRepository.findById(id)
+        PersonalProfile profile = personalProfileRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new PersonalProfileNotFoundException(id));
+        entityManager.refresh(profile);
 
         if (profile.getDeletedAt() == null) {
             return toView(profile);

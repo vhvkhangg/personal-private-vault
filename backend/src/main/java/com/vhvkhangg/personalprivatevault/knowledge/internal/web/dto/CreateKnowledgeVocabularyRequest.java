@@ -9,7 +9,7 @@ import java.time.Instant;
 
 public record CreateKnowledgeVocabularyRequest(
         @NotBlank(message = "Word must not be blank")
-        @Size(max = 255, message = "Word must not exceed 255 characters")
+        @Size(max = 500, message = "Word must not exceed 500 characters")
         String word,
         @NotBlank(message = "Language code must not be blank")
         @Size(max = 10, message = "Language code must not exceed 10 characters")
@@ -17,13 +17,13 @@ public record CreateKnowledgeVocabularyRequest(
         @NotBlank(message = "Meaning must not be blank")
         String meaning,
         String example,
-        @Size(max = 255, message = "Pronunciation must not exceed 255 characters")
+        @Size(max = 500, message = "Pronunciation must not exceed 500 characters")
         String pronunciation,
         @Size(max = 255, message = "IPA must not exceed 255 characters")
         String ipa,
-        @Size(max = 50, message = "Part of speech must not exceed 50 characters")
+        @Size(max = 100, message = "Part of speech must not exceed 100 characters")
         String partOfSpeech,
-        @Size(max = 255, message = "Source name must not exceed 255 characters")
+        @Size(max = 500, message = "Source name must not exceed 500 characters")
         String sourceName,
         @Size(max = 2048, message = "Source URL must not exceed 2048 characters")
         String sourceUrl,

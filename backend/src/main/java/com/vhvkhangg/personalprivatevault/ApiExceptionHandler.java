@@ -29,10 +29,19 @@ public class ApiExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
+    private final com.fasterxml.jackson.databind.ObjectMapper objectMapper =
+            new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules();
+
+    public ApiExceptionHandler() {
+    }
+
     private void abortIfCommitted(jakarta.servlet.http.HttpServletResponse response, Exception ex) {
         if (response != null && response.isCommitted()) {
             log.warn("Response already committed; aborting transfer without writing error envelope: exception={}", ex.getClass().getSimpleName());
             throw new IllegalStateException("Committed response transfer aborted: " + ex.getClass().getSimpleName());
+        }
+        if (response != null) {
+            response.reset();
         }
     }
 
@@ -126,6 +135,32 @@ public class ApiExceptionHandler {
     ) {
         abortIfCommitted(response, ex);
         return ApiResponses.of(HttpStatus.METHOD_NOT_ALLOWED, "METHOD_NOT_ALLOWED", "HTTP method not supported");
+    }
+
+    @ExceptionHandler(org.springframework.web.HttpMediaTypeNotSupportedException.class)
+    public void handleMediaTypeNotSupported(
+            org.springframework.web.HttpMediaTypeNotSupportedException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) throws java.io.IOException {
+        abortIfCommitted(response, ex);
+        response.setStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value());
+        response.setContentType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(java.nio.charset.StandardCharsets.UTF_8.name());
+        ApiResponse<Void> body = ApiResponses.error("UNSUPPORTED_MEDIA_TYPE", "Content-Type is not supported");
+        objectMapper.writeValue(response.getWriter(), body);
+    }
+
+    @ExceptionHandler(org.springframework.web.HttpMediaTypeNotAcceptableException.class)
+    public void handleMediaTypeNotAcceptable(
+            org.springframework.web.HttpMediaTypeNotAcceptableException ex,
+            jakarta.servlet.http.HttpServletResponse response
+    ) throws java.io.IOException {
+        abortIfCommitted(response, ex);
+        response.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+        response.setContentType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(java.nio.charset.StandardCharsets.UTF_8.name());
+        ApiResponse<Void> body = ApiResponses.error("NOT_ACCEPTABLE", "Acceptable representation cannot be produced");
+        objectMapper.writeValue(response.getWriter(), body);
     }
 
     @ExceptionHandler(org.springframework.web.multipart.support.MissingServletRequestPartException.class)
