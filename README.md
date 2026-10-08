@@ -42,6 +42,7 @@ Frozen implementation phases:
 - Backend Phase 12 — PostgreSQL-First Global Search
 - Backend Phase 13 — Shared REST/API Contract + Module HTTP Exposure
 - Backend Phase 14 — Backend Integration Hardening + Portability/Object Storage Closure
+- Backend Phase 15 — Comprehensive Backend Audit & Remediation Gate
 
 Current gate:
 
@@ -55,14 +56,15 @@ Current gate:
   [final acceptance](docs/implementation/phase-14/reviews/2026-10-06-phase-14-final-codex-acceptance.md), owner
   commit/push `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and ChatGPT closeout. All nine findings are closed; independent 920-test clean
   verification and 49 focused tests are retained. Its completed handoff is archived.
-- Phase 15 Comprehensive Backend Audit & Remediation Gate — **BACKEND_AUDIT_READY** after the
-  [final closure audit](docs/implementation/phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md):
-  all 17 BA15 findings CLOSED; FR15-9/10/11/12 closed; no unresolved actionable finding or debt.
-  Fresh full/coverage verification passed 1021 tests, zero failures/errors/skips (04:07); static reports triaged.
-  The [accepted handoff](docs/implementation/phase-15/handoff.md) is archived and ACTIVE is NO_ACTIVE_HANDOFF.
-  Historical reviews, owner decisions and 920-test baseline evidence are preserved.
-  The owner may commit/push with `fix(backend): remediate phase 15 audit findings`, then give ChatGPT the latest
-  package for Phase 15 closeout only. Phase 15 is not yet complete/frozen; Phase 16/17 preparation remains owner-gated.
+- Phase 15 Comprehensive Backend Audit & Remediation Gate — **COMPLETE — FROZEN** after
+  [final acceptance](docs/implementation/phase-15/reviews/2026-10-08-phase-15-final-codex-acceptance.md),
+  [repository-wide closure audit](docs/implementation/phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md)
+  (`BACKEND_AUDIT_READY`) and owner commit/push `0b1ab11` (`fix(backend): remediate phase 15 audit findings`).
+  All 17 BA15 findings and FR15-9/10/11/12 are closed, with no unresolved actionable finding or accepted debt.
+  Fresh full/coverage verification passed 1021 tests with zero failures/errors/skips; static reports were triaged.
+  The [handoff](docs/implementation/phase-15/handoff.md) is archived and ACTIVE is `NO_ACTIVE_HANDOFF`;
+  [audit status](docs/implementation/phase-15/audit-status.md), reviews, owner decisions and evidence are preserved.
+  **Phase 16 Frontend and Phase 17 RAG have not started; both remain subject to separate owner approval.**
 
 ## Planned stack
 

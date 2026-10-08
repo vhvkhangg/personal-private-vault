@@ -1,6 +1,6 @@
 # Phase 15 Backend Audit Status
 
-Status: **BACKEND_AUDIT_READY** (final closure audit 2026-10-08)
+Status: **COMPLETE — FROZEN** (2026-10-08; closure audit `BACKEND_AUDIT_READY`; published `0b1ab11`)
 
 ## Current repository-wide closure
 
@@ -11,9 +11,10 @@ Fresh full/coverage verification: **1021 tests, zero failures/errors/skips (04:0
 reports generated and triaged (239/57/70, not zero-warning claims); architecture/schema/PostgreSQL/MinIO/wire,
 live generated OpenAPI and repository/docs/diagram/hook checks complete. Transparent tool limits are in the report.
 The single accepted handoff is [archived](handoff.md); [ACTIVE](../handoffs/ACTIVE.md) is NO_ACTIVE_HANDOFF.
-Owner commit/push is permitted with `fix(backend): remediate phase 15 audit findings`, followed by the latest
-package to ChatGPT for Phase 15 closeout only. Phase 15 is not yet complete/frozen; Phase 16/17 remain owner-gated.
-Codex changed no source/tests/POM or frozen artifacts. All formal reports and owner decisions remain preserved.
+The owner committed/pushed `0b1ab1100084f8c7a4362a42874595b25b2b50ee`
+(`fix(backend): remediate phase 15 audit findings`). Phase 15 is **COMPLETE — FROZEN** after this closeout;
+Phase 16/17 remain not started and require separate owner approval. The accepted remediation, historical reviews,
+test evidence and bounded owner decisions are preserved; this closeout changes documentation only.
 
 ## Historical audit and review lineage
 
@@ -160,16 +161,9 @@ The latest final acceptance closed FR15-11/12 and marked the handoff READY_FOR_O
 its formal report records source/POM and historical-review integrity checks. Codex did not repair source/tests/POM.
 The above Oct7 closure and handoff-specific verification remains historical; the new repository-wide full/static/
 coverage/live-contract result is recorded in the current closure section and final dated audit report.
-Phase 15 is not complete/frozen; Phase 16/17 preparation remains deferred.
-
-Next:
-
-```text
-fix(backend): remediate phase 15 audit findings
-```
-
-Owner commit/push using that message, then give ChatGPT the latest package for Phase 15 closeout only.
-Retain accepted repairs, prior tests and historical reports; Phase 16/17 preparation remains owner-gated.
+That repository-wide audit gate has now been satisfied; owner commit/push `0b1ab11` and Phase 15 documentation
+closeout are complete. Retain accepted repairs, prior tests and historical reports. Phase 16/17 preparation remains
+owner-gated and has not started.
 
 Allowed audit outcomes:
 
@@ -179,5 +173,5 @@ Allowed audit outcomes:
 
 Formal audit/re-audit reports belong in `reviews/`.
 
-Final review and repository-wide closure have passed. BACKEND_AUDIT_READY permits owner commit/push and
-subsequent Phase 15 closeout; it does not mean owner publication/freeze has already occurred.
+Final review and repository-wide closure passed, followed by owner commit/push and this Phase 15 closeout.
+`BACKEND_AUDIT_READY` was the prerequisite; current Phase 15 status is `COMPLETE — FROZEN`.

@@ -1,6 +1,6 @@
 # Backend Phase 15 — Comprehensive Backend Audit & Remediation Gate
 
-Status: **BACKEND_AUDIT_READY — OWNER COMMIT/PUSH AND CLOSEOUT PENDING** (2026-10-08)
+Status: **COMPLETE — FROZEN** (2026-10-08; owner commit/push `0b1ab11`)
 
 [Codex preparation acceptance](reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md) closes P15-1 from the
 [initial review](reviews/2026-10-06-phase-15-pre-audit-codex-review.md). No blocking preparation finding remains.
@@ -21,9 +21,11 @@ all 17 BA15 findings CLOSED, FR15-9/10/11/12 closed, no unresolved actionable fi
 Fresh full/coverage verification passed 1021 tests, zero failures/errors/skips (04:07), with static reports triaged
 and architecture/database/storage/wire/live-OpenAPI/repository checks complete.
 The [accepted handoff](handoff.md) is archived and [ACTIVE](../handoffs/ACTIVE.md) reset to NO_ACTIVE_HANDOFF.
-The owner may commit/push with `fix(backend): remediate phase 15 audit findings`, then give ChatGPT the latest
-package for Phase 15 closeout only. Phase 15 is not complete/frozen until publication and closeout.
-Earlier final reviews/evidence remain historical; no second handoff or broader approval is created.
+The owner committed/pushed the accepted remediation as
+`0b1ab1100084f8c7a4362a42874595b25b2b50ee` (`fix(backend): remediate phase 15 audit findings`).
+This documentation closeout marks Phase 15 **COMPLETE — FROZEN**, with no further remediation or implementation
+handoff outstanding. Earlier final reviews/evidence remain historical; no second handoff or broader approval is
+created. Phase 16 Frontend and Phase 17 RAG are not prepared and remain subject to explicit owner approval.
 See [audit status](audit-status.md).
 BA15-13 architecture expansion and BA15-14 additional total ingestion limits remain explicit owner-decision stops.
 

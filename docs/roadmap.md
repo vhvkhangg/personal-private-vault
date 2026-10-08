@@ -33,7 +33,7 @@ Comprehensive Backend Audit & Remediation Gate.
 | 12    | PostgreSQL-first global `search` orchestration                                                | P-12 complete                                       | **COMPLETE — FROZEN** | **MILESTONE_READY** |
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 complete | **COMPLETE — FROZEN** | — |
-| 15    | Comprehensive Backend Audit & Remediation Gate over Phases 0–14 | **BACKEND_AUDIT_READY** — all 17 findings closed | Accepted handoff archived; owner commit/push and closeout pending | Replaces former post-15 milestone |
+| 15    | Comprehensive Backend Audit & Remediation Gate over Phases 0–14 | P-15 `READY FOR AUDIT`; closure `BACKEND_AUDIT_READY` | **COMPLETE — FROZEN** (owner commit `0b1ab11`) | Replaces former post-15 milestone |
 | 16    | Next.js/TypeScript/shadcn frontend + E2E product workflows | P-16 planned | Not started | — |
 | 17    | RAG / semantic retrieval enhancement | P-17 planned | Not started | Final closeout |
 
@@ -206,10 +206,12 @@ Its scope covers:
 Production provider/deployment, automated backups, Feed scheduler/provider integrations, recurring Finance posting,
 frontend, and RAG remain explicitly deferred.
 
-Current audit gate: **BACKEND_AUDIT_READY** (2026-10-08). All BA15-1–BA15-17 and FR15-9/10/11/12 are closed,
-with no unresolved actionable finding or owner decision. Fresh full/coverage verification passed 1021 tests,
-zero failures/errors/skips (04:07). The accepted handoff is archived and `ACTIVE.md` is `NO_ACTIVE_HANDOFF`;
-owner commit/push and Phase 15 closeout are next. Phase 14 remains frozen.
+Phase 15 closeout: **COMPLETE — FROZEN** after owner commit/push
+`0b1ab1100084f8c7a4362a42874595b25b2b50ee` (`fix(backend): remediate phase 15 audit findings`) and the
+2026-10-08 repository-wide **BACKEND_AUDIT_READY** verdict. All BA15-1–BA15-17 and FR15-9/10/11/12 are closed;
+no unresolved actionable finding or owner-accepted debt remains. Fresh full/coverage verification passed 1021 tests,
+zero failures/errors/skips (04:07). The single accepted handoff remains archived and `ACTIVE.md` is
+`NO_ACTIVE_HANDOFF`. Backend Phases 0–15 are frozen; Phase 16/17 preparation is not authorized.
 The owner has authorized and prepared Phase 15 as the
 Comprehensive Backend Audit & Remediation Gate. The
 [preparation acceptance](implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md) closes
@@ -228,9 +230,9 @@ zero failures/errors/skips (03:53), without itself asserting a backend-audit ver
 The [final closure audit](implementation/phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md)
 now returns **BACKEND_AUDIT_READY**, closes all 17 findings, and passes fresh 1021/0/0/0 full/coverage verification
 (04:07). The [accepted handoff](implementation/phase-15/handoff.md) is archived; no active implementation remains.
-The owner may commit/push with `fix(backend): remediate phase 15 audit findings`, then provide the latest repository
-package to ChatGPT for Phase 15 closeout only. Phase 15 is not complete/frozen until owner publication and closeout;
-Phase 16/17 preparation remains separately owner-gated. Phase 14 itself is not a milestone phase.
+The owner published the accepted remediation as `0b1ab11`; this closeout freezes Phase 15 without creating a
+new handoff. Phase 16/17 preparation remains separately owner-gated and has not started. Phase 14 itself is not a
+milestone phase.
 
 ## Completed Phase 4–6 milestone maintenance
 

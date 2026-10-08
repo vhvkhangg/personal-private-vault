@@ -40,30 +40,18 @@ This file defines repository-wide instructions for coding agents.
 - Backend Phase 14 Backend Integration Hardening + Portability/Object Storage Closure is complete/frozen after
   final acceptance, independent 920-test verification plus 49 focused tests, owner implementation commit `3bb3f2e`,
   and closeout commit `0a8f3d1`. Its completed handoff is archived under `docs/implementation/phase-14/handoff.md`.
-- Backend Phase 15 is the owner-approved **Comprehensive Backend Audit & Remediation Gate** over Phases 0–14.
-  Preparation is `READY FOR AUDIT` after
-  [Codex acceptance](docs/implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md);
-  P15-1 is closed with no blocking preparation findings. The initial audit returned `OWNER_DECISION_REQUIRED`:
-  [report](docs/implementation/phase-15/reviews/2026-10-06-phase-15-backend-audit.md), 17 open findings.
-  [Bounded owner decisions](docs/implementation/phase-15/owner-decisions.md) are recorded (2026-10-07);
-  [authorization re-review](docs/implementation/phase-15/reviews/2026-10-07-phase-15-authorized-remediation-codex-review.md)
-  is `REMEDIATION_REQUIRED`. Prior [final acceptance](docs/implementation/phase-15/reviews/2026-10-07-phase-15-final-codex-acceptance.md)
-  remains historical. The [closure audit](docs/implementation/phase-15/reviews/2026-10-07-phase-15-closure-backend-audit.md)
-  closes 13 findings and FR15-9, but retains four authorized Medium remnants: BA15-2, BA15-9, BA15-14, BA15-15.
-  The [latest 2026-10-08 final acceptance](docs/implementation/phase-15/reviews/2026-10-08-phase-15-final-codex-acceptance.md)
-  closes FR15-11/12 and preserves FR15-10's closure and all accepted repairs. No blocking final-review finding
-  remains. The [final closure audit](docs/implementation/phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md)
-  returns **BACKEND_AUDIT_READY**: all 17 BA15 findings CLOSED, FR15-9/10/11/12 closed, no actionable remnant or debt.
-  Fresh full/coverage verification passed 1021 tests, zero failures/errors/skips (04:07); static reports were triaged.
-  The single accepted handoff is archived at [phase-15/handoff.md](docs/implementation/phase-15/handoff.md),
-  and ACTIVE.md is `NO_ACTIVE_HANDOFF`. Preserve accepted source/tests, evidence and owner authority.
-  The owner may now commit/push with `fix(backend): remediate phase 15 audit findings`, then give ChatGPT the
-  latest package for Phase 15 closeout only. Phase 15 is not complete/frozen until publication and closeout.
-  BA15-13 architecture expansion and BA15-14 new total limits
-  stop for owner approval. The owner quick checklist separates normal implementation
-  flow from Phase 15 and requires closure audit before any Phase 15 implementation commit.
-  Do not create a normal implementation handoff unless that audit produces
-  authorized actionable findings. Frontend is Phase 16 and RAG is Phase 17; neither preparation is authorized yet.
+- Backend Phase 15 **Comprehensive Backend Audit & Remediation Gate** over Phases 0–14 is **COMPLETE — FROZEN**
+  after the [final Codex acceptance](docs/implementation/phase-15/reviews/2026-10-08-phase-15-final-codex-acceptance.md),
+  [repository-wide closure audit](docs/implementation/phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md)
+  (`BACKEND_AUDIT_READY`) and owner remediation commit/push `0b1ab1100084f8c7a4362a42874595b25b2b50ee`
+  (`fix(backend): remediate phase 15 audit findings`). All 17 BA15 findings and FR15-9/10/11/12 are closed; no
+  unresolved actionable finding or owner-accepted debt remains. Fresh full/coverage verification passed 1021 tests
+  with zero failures/errors/skips; static diagnostics were triaged, not asserted to be warning-free. The
+  [owner decisions](docs/implementation/phase-15/owner-decisions.md), [audit status](docs/implementation/phase-15/audit-status.md),
+  historical reviews, test evidence and [archived handoff](docs/implementation/phase-15/handoff.md) remain preserved.
+  `ACTIVE.md` is `NO_ACTIVE_HANDOFF`. The accepted Phase 15 remediation is frozen; future baseline-changing work
+  requires a separately approved scope. Frontend Phase 16 and RAG Phase 17 remain **not started / owner-gated**;
+  neither preparation nor implementation is authorized by this closeout.
 
 Completed maintenance scope:
 
@@ -153,6 +141,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 12 search foundation baseline
 - Backend Phase 13 shared REST/API + HTTP exposure baseline
 - Backend Phase 14 portability/object-storage/operational closure baseline
+- Backend Phase 15 accepted backend audit/remediation and closure baseline
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 
