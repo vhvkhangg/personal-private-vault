@@ -12,7 +12,16 @@ before each implementation handoff. ChatGPT prepares docs/tooling, Codex reviews
 its audit design and returns `READY FOR AUDIT` on success; after the owner commits/pushes that preparation,
 `$codex-backend-audit` determines whether any remediation handoff is needed.
 
-**Owner-authorized sequencing exception (2026-10-13):** keep historical numbering: **RAG Phases 17–22 prepare/execute before Phase 16 Frontend**, which remains deferred. The last completed prerequisite for Phase 17 is the frozen Phase 15 closure (`BACKEND_AUDIT_READY`) plus `NO_ACTIVE_HANDOFF`; completion of the *unstarted* Phase 16 is NOT a prerequisite for Phase 17 or its RAG successors. Phase 18 onward require completion of the prior RAG phase. Codex has returned `READY FOR HANDOFF` for Phase 17 foundation design, and the owner accepted its bounded integration delta; preparation still requires owner commit/push and a separate active handoff. The accepted architecture/order decision is documented in [ADR-0019](adr/0019-local-rag-before-frontend.md) and [Phase 17 preparation](implementation/phase-17/README.md).
+**Owner-authorized sequencing exception (2026-10-13):** keep historical numbering: **RAG Phases 17–22 prepare/execute before Phase 16 Frontend**, which remains deferred. The last completed prerequisite for Phase 17 is the frozen Phase 15 closure (`BACKEND_AUDIT_READY`) plus `NO_ACTIVE_HANDOFF`; completion of the *unstarted* Phase 16 is NOT a prerequisite for Phase 17 or its RAG successors. Phase 18 onward require completion of the prior RAG phase. Codex has returned `READY FOR HANDOFF` for Phase 17 foundation design, and the owner accepted its bounded integration delta; preparation was owner committed/pushed as `dd414861`; the separate Phase 17 foundation handoff is still pending. The accepted architecture/order decision is documented in [ADR-0019](adr/0019-local-rag-before-frontend.md) and [Phase 17 preparation](implementation/phase-17/README.md).
+
+**Supplemental backend maintenance closeout (2026-10-13):** After a separate full-scope audit of
+frozen Phases 0–15, the owner approved all SBA-001–007 corrections. Codex final acceptance closed
+SBA-001–007 and FR-SBA-1–4, independently verified **1,152 passing tests**, and the owner
+committed/pushed implementation as `d195b6260274`. The [maintenance closeout](implementation/maintenance/supplemental-backend-audit-2026-10-13/closeout.md)
+archives its handoff and resets `ACTIVE.md` to `NO_ACTIVE_HANDOFF` in a documentation-only patch.
+After the owner commits/pushes that closeout, the **next step is `$codex-create-handoff` for Phase 17
+foundation only**; Phase 17 is **not implemented**. Source fencing and privacy enforcement for
+RAG still require separate runtime proofs.
 
 Phase 0 is excluded from the three-phase milestone cadence. Historical extra milestone reviews occurred after Phases
 **3, 6, 9, and 12**. The former post-Phase-15 milestone is superseded by the stronger repository-wide Phase 15

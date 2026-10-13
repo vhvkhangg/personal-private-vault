@@ -7,7 +7,7 @@ This file defines repository-wide instructions for coding agents.
 - Private, permanently single-user personal vault.
 - Backend-first modular monolith using Spring Boot and Spring Modulith.
 - PostgreSQL + Flyway; Maven build.
-- Phase 17 **RAG preparation** is now owner-authorized ahead of deferred Phase 16 Frontend (2026-10-13). Neither RAG production implementation nor Frontend nor production deployment is authorized yet; see proposed ADR-0019.
+- Phase 17 **RAG preparation** is accepted and owner committed/pushed ahead of deferred Phase 16 Frontend (2026-10-13), but no RAG implementation handoff exists; Frontend and production deployment remain deferred. See accepted ADR-0019.
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 - Backend Phase 2 is complete/frozen after owner commit/push.
@@ -61,6 +61,9 @@ Completed maintenance scope:
 - `docs/implementation/maintenance/milestone-4-6-privacy-safe-constraint-logging/README.md`
 - `docs/implementation/maintenance/milestone-7-9-integrity-and-query-shape/README.md`
 - `docs/implementation/maintenance/milestone-10-12-search-case-normalization/README.md`
+- `docs/implementation/maintenance/supplemental-backend-audit-2026-10-13/` —
+  **COMPLETE / FROZEN** after all SBA-001–007 and FR-SBA-1–4 closed, independent 1,152-test
+  verification and owner commit/push `d195b6260274`. See its `closeout.md`.
 
 Architecture-sensitive work must respect:
 
@@ -189,7 +192,13 @@ Do not use H2 as a PostgreSQL substitute.
 
 ## Scope discipline
 
-**Owner-authorized 2026-10-13 exception:** Phase 17 RAG may enter **preparation review before Phase 16 Frontend** after the frozen Phase 15 gate. Preserve original phase numbers; `ACTIVE.md` stays `NO_ACTIVE_HANDOFF` until the normal Codex acceptance/owner preparation commit/Codex handoff. See proposed ADR-0019 and `docs/implementation/phase-17/`. This authorizes no production code, DB migration, Java dependency edge, Python runtime or Ideaverse integration.
+**Owner-authorized 2026-10-13 exception:** Phase 17 RAG foundation preparation was reviewed (`READY FOR HANDOFF`) and owner committed/pushed
+before Phase 16 Frontend, after the frozen Phase 15 gate. Preserve original phase numbers. The
+supplemental backend maintenance was separately accepted and owner committed/pushed; the closeout
+resets `ACTIVE.md` to `NO_ACTIVE_HANDOFF`. See accepted ADR-0019 and
+`docs/implementation/phase-17/`. This authorizes Codex to create the **separate Phase 17 foundation
+handoff after owner commit/push of closeout docs**, not production code, DB migration, Java
+dependency changes, Python runtime or Ideaverse integration without that handoff.
 
 
 Do not implement deferred scope without an explicit Codex handoff:

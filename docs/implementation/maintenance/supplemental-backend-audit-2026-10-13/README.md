@@ -1,6 +1,11 @@
-# Prioritized supplemental backend maintenance recommendation
+# Supplemental backend audit maintenance — approved scope and retained contract
 
-Status: **APPROVED FOR HANDOFF — IMPLEMENTATION NOT STARTED**
+Status: **COMPLETE — FROZEN (owner commit/push `d195b6260274`, 2026-10-13)**.
+See [closeout](closeout.md), [archived handoff](handoff.md),
+[Codex final acceptance](reviews/2026-10-13-sba-001-007-final-codex-acceptance.md) and
+[test evidence](test-evidence.md). All SBA-001–007 and FR-SBA-1–4 are **CLOSED**.
+The planning/acceptance requirements below are retained as the **historical authorized scope**,
+not a pending handoff.
 
 Owner approval: **2026-10-13** — explicitly authorize remediation of **all seven** verified defects
 `SBA-001` through `SBA-007` as **one bounded maintenance slice**, before starting Phase 17 RAG
@@ -138,7 +143,7 @@ snippet adapters. Consolidate only after a concrete drift/maintenance problem an
 Portability's full retained-data export and Vault timestamps must not substitute for Phase 17 eligible-source
 allowlists and authoritative content revisions.
 
-**Next step:** after applying this documentation-only owner-approval patch, check `git diff` and commit/push the
-approved maintenance scope. In a separate Codex maintenance chat, run `$codex-create-handoff` **for this single
-approved slice (SBA-001–007)**. Codex, not ChatGPT, creates `ACTIVE.md`. Do not start Phase 17 implementation
-until maintenance final review and owner commit/push. No implementation code or active handoff is included here.
+**Closeout transition:** maintenance implementation is final-reviewed, committed/pushed and archived;
+`ACTIVE.md` has been reset in the [documentation closeout](closeout.md). This scope no longer
+authorizes a new maintenance handoff. The next handoff is the **separate Phase 17 RAG foundation** handoff,
+after the owner commits/pushes closeout documentation.

@@ -17,8 +17,9 @@ Rules:
 Slices:
 
 - [`supplemental-backend-audit-2026-10-13/`](supplemental-backend-audit-2026-10-13/README.md) —
-  **APPROVED FOR HANDOFF (2026-10-13)** — single bounded maintenance slice for `SBA-001`–`SBA-007`;
-  no implementation handoff or production fixes yet; Phase 17 implementation paused pending closure.
+  **COMPLETE / FROZEN (2026-10-13)** — all `SBA-001`–`SBA-007` and `FR-SBA-1`–`FR-SBA-4` closed;
+  Codex independently verified 1,152 passing tests; owner committed/pushed `d195b6260274`.
+  See [closeout](supplemental-backend-audit-2026-10-13/closeout.md).
 
 - [`milestone-1-3-concurrency/`](milestone-1-3-concurrency/README.md) — **COMPLETE / FROZEN**
 - [`pre-phase4-code-hygiene/`](pre-phase4-code-hygiene/README.md) — **COMPLETE / FROZEN**

@@ -64,7 +64,17 @@ Current gate:
   Fresh full/coverage verification passed 1021 tests with zero failures/errors/skips; static reports were triaged.
   The [handoff](docs/implementation/phase-15/handoff.md) is archived and ACTIVE is `NO_ACTIVE_HANDOFF`;
   [audit status](docs/implementation/phase-15/audit-status.md), reviews, owner decisions and evidence are preserved.
-  **2026-10-13 update:** the owner authorized **Phase 17 RAG foundation preparation before Phase 16 Frontend**. The [focused Codex review](docs/implementation/phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) returns **READY FOR HANDOFF — foundation only**: P17-1/2/3 closed at design-contract level; runtime enforcement remains unverified. Owner acceptance of the bounded integration delta is [recorded](docs/implementation/phase-17/owner-decisions.md); preparation commit/push and separate handoff remain required. Later RAG phases 18–22 have independent gates. Phase 16 stays deferred. See [P-17](docs/implementation/phase-17/README.md) and accepted [ADR-0019](docs/adr/0019-local-rag-before-frontend.md).
+  **2026-10-13 update:** The owner authorized Phase 17 RAG foundation preparation before deferred
+  Frontend Phase 16. The [Codex review](docs/implementation/phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md)
+  returned `READY FOR HANDOFF` for the foundation design, and the owner accepted the bounded
+  integration delta and committed/pushed preparation as `dd414861`. The subsequent
+  [supplemental backend maintenance](docs/implementation/maintenance/supplemental-backend-audit-2026-10-13/closeout.md)
+  closed all SBA-001–007 and FR-SBA-1–4, with 1,152 passing tests independently verified by Codex;
+  the owner committed/pushed implementation as `d195b626`. In this closeout, `ACTIVE.md` is reset
+  to `NO_ACTIVE_HANDOFF`. **Next:** owner commit/push closeout docs, then create a separate Phase 17
+  foundation handoff. Phase 17 is not implemented, Phases 18–22 have independent gates, and
+  Frontend/Ideaverse remain deferred. See [P-17](docs/implementation/phase-17/README.md) and
+  accepted [ADR-0019](docs/adr/0019-local-rag-before-frontend.md).
 
 ## Planned stack
 

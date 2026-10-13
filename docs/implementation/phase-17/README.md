@@ -1,6 +1,9 @@
 # Phase 17 — Local RAG Foundation and Source Authority (RAG-first execution)
 
-**Status:** `READY FOR HANDOFF` — **Phase 17 foundation preparation only**, per the [focused P17-3 and 29-dimension Codex review](reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) (2026-10-13). P17-1/2/3 are CLOSED at the design-contract level; actual runtime enforcement remains a mandatory implementation gate. Earlier rejections are preserved as historical evidence. **No implementation handoff has been created.**
+**Status:** `READY FOR HANDOFF` — **Phase 17 foundation preparation only**, per the [focused P17-3 and 29-dimension Codex review](reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) (2026-10-13). P17-1/2/3 are CLOSED at the design-contract level; actual runtime enforcement remains a mandatory implementation gate. Earlier rejections are preserved as historical evidence. **No Phase 17 implementation handoff has been created.**
+
+Supplemental backend maintenance (SBA-001–007) is [closed and owner committed/pushed](../maintenance/supplemental-backend-audit-2026-10-13/closeout.md)
+as `d195b626`; the maintenance closeout resets `ACTIVE.md` for a new handoff.
 
 ## Authorization and sequence
 
@@ -32,7 +35,7 @@ The owner explicitly starts RAG preparation **before** Frontend. Retain original
 - [P17-2 authoritative classification and field matrix](source-eligibility-and-allowlists.md): individually approved non-private Fiction/Film and external-file sources only in the first slice; unreviewed modules, secret/sensitive fields and embedded children deny by default.
 - [P17-3 revocation and derived artifact fencing](revocation-and-derived-data.md): synchronous deny, source epochs/content revisions, transclusion dependency invalidation, active/retired/staged content purge and deterministic late-worker/judge tests.
 
-The end-state requirements above are allocated across Phases 17–22; only the **Phase 17 foundation** is eligible for the immediate handoff after owner acceptance/commit. Codex closes all three preparation findings; this does not certify runtime enforcement or grant later-phase permission. See the latest review for mandatory tests, nonblocking follow-ups and optimization decisions. Owner approval of the bounded additive guard/role/inventory delta and preparation commit precede separate handoff creation.
+The end-state requirements above are allocated across Phases 17–22; only the **Phase 17 foundation** is eligible for the immediate handoff after owner acceptance/commit. Codex closes all three preparation findings; this does not certify runtime enforcement or grant later-phase permission. See the latest review for mandatory tests, nonblocking follow-ups and optimization decisions. Owner approval and the Phase 17 preparation commit (`dd414861`) are complete; the separate Phase 17 foundation handoff is still pending.
 
 ## Scope boundaries and implementation ownership (owner-approved for handoff, not implemented)
 
@@ -57,6 +60,9 @@ The owner accepted only the bounded P17-1/2/3 foundation integration delta descr
 ## Gate and next step
 
 1. Codex **already completed** `$codex-pre-handoff-review` with `READY FOR HANDOFF` for foundation only; the owner acceptance is recorded in [owner decisions](owner-decisions.md). Do not reopen the closed preparation findings without new evidence.
-2. Owner commits/pushes the **preparation-only** slice using Codex's Conventional Commit message.
-3. Only afterward run **`$codex-create-handoff`** for Phase 17 foundation; review the bounded handoff before Antigravity implementation.
+2. Phase 17 preparation was owner committed/pushed as `dd414861`; supplemental maintenance was
+   independently final-reviewed and owner committed/pushed as `d195b626`. Its closeout resets
+   `ACTIVE.md` to `NO_ACTIVE_HANDOFF` after the owner commits/pushes this documentation patch.
+3. Then run **`$codex-create-handoff`** for **Phase 17 foundation only**; Codex reviews the bounded
+   handoff before Antigravity implementation.
 4. Do not start or redesign Frontend. Ideaverse integration remains an explicit later owner gate.

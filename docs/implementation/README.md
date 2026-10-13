@@ -31,7 +31,20 @@ See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
 
-**Current gate as of 2026-10-13:** The owner explicitly authorized **RAG foundation Phase 17 preparation, with proposed successor phases 18–22, before Frontend Phase 16**. See [RAG phase plan](rag-phase-plan.md), [P-17](phase-17/README.md), [proposed ADR-0019](../adr/0019-local-rag-before-frontend.md) and [preparation review](phase-17/preparation-review.md). Phase 15 is frozen and [ACTIVE](handoffs/ACTIVE.md) remains `NO_ACTIVE_HANDOFF`. The [focused Codex review](phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) returns **READY FOR HANDOFF — foundation only**: P17-1/2/3 design contracts closed, actual implementation/security evidence pending. Owner acceptance/commit precede separate `$codex-create-handoff`; Phases 18–22 require independent gates. Phase 16 and Ideaverse remain deferred. Historical narrative below is retained.
+**Current gate as of 2026-10-13:** Phase 17 **RAG foundation** preparation is accepted
+(`READY FOR HANDOFF`), and the owner committed/pushed it as `dd414861`. Phase 16 Frontend
+remains deferred; Phases 18–22 have independent preparation/handoff gates. The subsequent
+[supplemental backend audit maintenance](maintenance/supplemental-backend-audit-2026-10-13/closeout.md)
+closed SBA-001–007 and FR-SBA-1–4 (Codex independent **1,152-test** verification), and the owner
+committed/pushed its implementation as `d195b626`. The completed maintenance handoff is
+[archived](maintenance/supplemental-backend-audit-2026-10-13/handoff.md) and
+[ACTIVE](handoffs/ACTIVE.md) is reset to `NO_ACTIVE_HANDOFF` in this documentation-only closeout.
+**Next:** owner commit/push closeout docs, then Codex `$codex-create-handoff` for Phase 17
+foundation only. No Phase 17 runtime implementation has started; no new handoff has been created.
+The [Phase 17 preparation](phase-17/README.md), [owner decisions](phase-17/owner-decisions.md),
+[accepted ADR-0019](../adr/0019-local-rag-before-frontend.md) and
+[29-dimension Codex review](phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md)
+remain authoritative. Historical narrative below is retained.
 
 The [final closure audit](phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md) returns **BACKEND_AUDIT_READY**:
 all 17 BA15 findings CLOSED, FR15-9/10/11/12 closed, no unresolved actionable finding or debt.
