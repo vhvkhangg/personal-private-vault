@@ -16,6 +16,10 @@ Rules:
 
 Slices:
 
+- [`supplemental-backend-audit-2026-10-13/`](supplemental-backend-audit-2026-10-13/README.md) —
+  **APPROVED FOR HANDOFF (2026-10-13)** — single bounded maintenance slice for `SBA-001`–`SBA-007`;
+  no implementation handoff or production fixes yet; Phase 17 implementation paused pending closure.
+
 - [`milestone-1-3-concurrency/`](milestone-1-3-concurrency/README.md) — **COMPLETE / FROZEN**
 - [`pre-phase4-code-hygiene/`](pre-phase4-code-hygiene/README.md) — **COMPLETE / FROZEN**
 - [`milestone-4-6-privacy-safe-constraint-logging/`](milestone-4-6-privacy-safe-constraint-logging/README.md) —
