@@ -2,7 +2,7 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0–14 are **complete and frozen**. The Phase 1–3 milestone is `MILESTONE_READY`.
+Backend Phases 0–15 are **complete and frozen**. **Phase 17 RAG foundation preparation is READY FOR HANDOFF; RAG phases 18–22 are planned but unprepared**, per the [focused Codex review](implementation/phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md). P17-1/2/3 are closed at design-contract level; runtime enforcement/tests remain required. See [multi-phase plan](implementation/rag-phase-plan.md), [Phase 17](implementation/phase-17/README.md), accepted [ADR-0019](adr/0019-local-rag-before-frontend.md) and [architecture](architecture/rag-architecture.md). Owner [acceptance](implementation/phase-17/owner-decisions.md) is recorded; preparation commit/push precede separate handoff; `ACTIVE.md` remains `NO_ACTIVE_HANDOFF`. Phase 16 stays deferred. The following Phase 15 narrative is historical. The Phase 1–3 milestone is `MILESTONE_READY`.
 The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
 post-milestone synchronization/reset. Phase 7 (`account`), Phase 8 (`knowledge`), and Phase 9 (`collection`) are
 complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE_READY` after committed
@@ -21,7 +21,7 @@ Phase 14 Backend Integration Hardening + Portability/Object Storage Closure pass
 committed/pushed as `3bb3f2e` (`feat(backend): add portable exports and managed image storage`), and is **complete/frozen** after ChatGPT closeout. All nine findings are
 closed; independent 920-test clean verification and 49 focused tests are retained. The completed handoff is archived
 under `implementation/phase-14/handoff.md`; at Phase 14 closeout, ACTIVE.md was reset to `NO_ACTIVE_HANDOFF`.
-Phase 15 Comprehensive Backend Audit & Remediation Gate preparation is
+**Historical Phase 15 audit timeline (closed; not an active RAG workflow):** Phase 15 Comprehensive Backend Audit & Remediation Gate preparation was
 [READY FOR AUDIT](implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md): P15-1 closed,
 no blocking preparation findings. Preparation was committed; the
 [initial audit](implementation/phase-15/reviews/2026-10-06-phase-15-backend-audit.md) returned
@@ -38,8 +38,8 @@ returns **BACKEND_AUDIT_READY**: all 17 findings CLOSED; FR15-9/10/11/12 closed,
 Fresh full/coverage verification passed 1021/0/0/0 (04:07), and static/architecture/live-OpenAPI checks completed.
 The [accepted handoff](implementation/phase-15/handoff.md) is archived; ACTIVE is NO_ACTIVE_HANDOFF.
 Owner commit/push is permitted with `fix(backend): remediate phase 15 audit findings`; afterward give ChatGPT
-the latest package for Phase 15 closeout only. Historical records are preserved; Phase 15 is not yet complete/frozen.
-Frontend/RAG are Phase 16/17 and remain owner-gated.
+the latest package for Phase 15 closeout only. Historical records are preserved; Phase 15 was subsequently committed/pushed and is **COMPLETE — FROZEN**.
+Frontend remains Phase 16 and deferred. RAG Phase 17 is now approved for **preparation only** under ADR-0019; no implementation handoff exists.
 Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
@@ -53,7 +53,7 @@ the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-00
 | [`database/`](database/README.md)                                         | Frozen DBML logical schema baseline and Flyway executable-schema guidance                                             |
 | [`repository/`](repository/repository-package-tree.md)                    | Frozen repository and Java package organization                                                                       |
 | [`owner-phase-workflow.md`](workflow/owner-phase-workflow.md)             | Owner checklist from phase closeout to the next handoff                                                               |
-| [`roadmap.md`](roadmap.md)                                                | 18-phase roadmap, prep/audit gates, status, milestone cadence                                                         |
+| [`roadmap.md`](roadmap.md)                                                | multi-phase roadmap (Phase 0–22, Phase 16 deferred), prep/audit gates, status                                                         |
 | [`agent-development-workflow.md`](workflow/agent-development-workflow.md) | Canonical ChatGPT → Codex → Antigravity → Codex workflow                                                              |
 | [`implementation/`](implementation/README.md)                             | Implementation-phase plans, completion records, test evidence, and operational guidance                               |
 
@@ -85,10 +85,6 @@ A frozen baseline is not immutable forever. It means changes require a concrete 
 Normal feature phases use ChatGPT preparation → `$codex-pre-handoff-review` → preparation commit →
 `$codex-create-handoff` → Antigravity → `$codex-final-review` → owner commit.
 
-Phase 15 is the dedicated exception: `$codex-pre-handoff-review` first returns `READY FOR AUDIT`, then its committed
-preparation is followed by `$codex-backend-audit`; Codex creates
-one bounded remediation handoff only from proven authorized findings, and the repository is re-audited after
-remediation until `BACKEND_AUDIT_READY`.
+**Historical Phase 15-only exception (no longer callable as the active pre-handoff branch):** `$codex-pre-handoff-review` formerly returned `READY FOR AUDIT` for Phase 15; after its preparation commit, `$codex-backend-audit` ran, with any authorized remediation handoff and a final closure audit reaching `BACKEND_AUDIT_READY`. The present active RAG phase uses `READY FOR HANDOFF` instead.
 
-Backend Phases 0–14 remain frozen; Phase 15 may inspect them but cannot change frozen schema/architecture/module/API/
-business baselines without explicit owner approval.
+Backend Phases 0–15 remain frozen. The newly authorized Phase 17 preparation may propose bounded changes, but must not implement a new module, migration, service or alter frozen schema/architecture/module/API/business baselines before Codex/owner authorization.

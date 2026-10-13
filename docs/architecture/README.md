@@ -11,8 +11,8 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 - **Media:** structured metadata in PostgreSQL; binary media in an S3-compatible object-storage abstraction
 - **Search:** dedicated orchestration module; PostgreSQL-first implementation
 - **Authentication:** permanent single-user account, password login, JWT access/refresh tokens, 6-digit private-mode PIN
-- **Frontend:** deferred until backend completion
-- **RAG:** deferred
+- **Frontend:** Phase 16 remains deferred/owner-gated; not started
+- **RAG:** Phase 17 owner-approved for **preparation only** ahead of Phase 16; proposed offline architecture, not implemented
 - **Deployment topology:** intentionally not frozen
 
 ## Documents
@@ -28,6 +28,7 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 | [`security-architecture.md`](security-architecture.md)       | Current authentication/privacy boundary and deferred hardening                                          |
 | [`integration-and-eventing.md`](integration-and-eventing.md) | Synchronous module APIs, events, scheduled jobs, and external integrations                              |
 | [`search-architecture.md`](search-architecture.md)           | Global search behavior and PostgreSQL-first implementation strategy                                     |
+| [`rag-architecture.md`](rag-architecture.md)                 | Proposed Phase 17 offline RAG, module-source and file ingestion, privacy, retrieval, recommendation, evaluation |
 | [`storage-backup-import.md`](storage-backup-import.md)       | Object storage, import pipeline, export, backup, and portability                                        |
 | [`testing-and-review.md`](testing-and-review.md)             | Planned test stack and owner/Antigravity/Codex workflow                                                 |
 | [`deferred-decisions.md`](deferred-decisions.md)             | Explicitly deferred architecture decisions                                                              |

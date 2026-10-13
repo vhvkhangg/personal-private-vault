@@ -9,29 +9,13 @@ Invoke with `$codex-pre-handoff-review`.
 
 This is a review-only preparation gate. Do not write production code and do not create the implementation handoff.
 
-## Phase 15 audit-preparation mode
+## Historical Phase 15 is already closed
 
-Phase 15 reuses this skill to review the audit design/tooling before the repository-wide audit starts.
-
-For Phase 15:
-
-- require `docs/implementation/phase-15/README.md` and `preparation-review.md`;
-- review the audit scope, evidence standard, static-tool policy, overengineering calibration, frozen-baseline gate,
-  remediation workflow, and workflow/status synchronization;
-- do not perform the full backend audit yet;
-- do not create an implementation handoff;
-- `CHANGES_REQUESTED` works normally;
-- successful result is **`READY FOR AUDIT`**, not `READY FOR HANDOFF`;
-- set Phase 15 `preparation-review.md` to `READY FOR AUDIT`;
-- provide exactly one Conventional Commit message for the preparation/docs/tooling slice;
-- next step is owner commit/push of preparation, then `$codex-backend-audit`.
-
-For Phase 16 and later, Phase 15 must already be `COMPLETE — FROZEN` and its final audit result must be
-`BACKEND_AUDIT_READY`.
+The Phase 15 audit-first special path is **historical**, not a current phase-review mode. Its original `READY FOR AUDIT` and `$codex-backend-audit` steps are preserved in `docs/implementation/phase-15/`, `docs/workflow/owner-phase-workflow.md` and the dedicated `$codex-backend-audit` skill. **Do not reopen Phase 15 or reissue `READY FOR AUDIT` during a new RAG phase.** The old branch appeared here to support the initial Phase 15 audit workflow; it is now removed from this active pre-handoff skill to prevent choosing the wrong gate.
 
 ## Preconditions
 
-- Previous implementation phase is committed/pushed and frozen.
+- Prior required implementation phase is committed/pushed and frozen. **RAG sequence exception:** P-17 needs frozen Phase 15 `BACKEND_AUDIT_READY` (Phase 16 deferred); P-18 through P-22 each require the immediately preceding **RAG phase** frozen. Phase 16 Frontend is reviewed only when the owner separately starts it after Phase 22. Verify proposed ADR-0019, the [RAG multi-phase plan](../../../docs/implementation/rag-phase-plan.md), and no simulated Phase 16 completion. The roadmap's active approved phase governs which phase gets the next review.
 - `docs/implementation/handoffs/ACTIVE.md` is `NO_ACTIVE_HANDOFF`.
 - Owner approved the next phase concept.
 - Next phase has a `README.md` and `preparation-review.md`.
@@ -61,7 +45,9 @@ Review the next-phase preparation for:
     and consistency with repository/package architecture docs;
 13. static diagnostics and reported IDE warnings: classify each as actionable, configuration-dependent/false positive,
     or intentionally accepted; do not claim IDE-clean status unless an IDE inspection was actually run;
-14. readiness for a precise implementation handoff, or for Phase 15, readiness to execute the comprehensive audit.
+14. readiness for a precise implementation handoff and its bounded current RAG phase scope;
+15. for RAG Phases 17–22, validate the narrow source classification, actual last-check-to-COMMIT guard, offline/privacy gates, measured resource plan and no unapproved frozen boundary/schema changes;
+16. **all applicable categories in [`codex-review-coverage`](../codex-review-coverage/SKILL.md)**, with evidence/status per category: include folder structure, cross-module shared API/exception placement, whole workflow completeness/efficiency and specific future runtime test gates. Report `N/A` or `NOT_VERIFIED` explicitly, never omit a category silently. A draft handoff must contain measured vs proposed acceptance distinctions.
 
 ## CHANGES_REQUESTED
 
@@ -69,7 +55,7 @@ Review the next-phase preparation for:
 - Record findings in that phase's `reviews/` folder.
 - Do not create a handoff.
 
-## READY FOR HANDOFF (normal implementation phases only)
+## READY FOR HANDOFF
 
 - Set `preparation-review.md` to `READY FOR HANDOFF`.
 - Record the review in that phase's `reviews/` folder.
@@ -86,8 +72,6 @@ Every invocation must end with a concise **Next step:** statement.
 - prerequisite/gate failure → name the exact prerequisite/action to resolve before rerunning this skill;
 - `CHANGES_REQUESTED` → tell the owner to give the findings/latest package to ChatGPT for preparation remediation,
   then rerun `$codex-pre-handoff-review`;
-- Phase 15 `READY FOR AUDIT` → tell the owner to commit/push the preparation slice using the provided commit message,
-  then run `$codex-backend-audit`;
 - normal `READY FOR HANDOFF` → tell the owner to commit/push the preparation slice using the provided commit message,
   then run `$codex-create-handoff`.
 

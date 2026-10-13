@@ -24,6 +24,10 @@ Do not create or modify the next implementation handoff.
 - after Phase 9: Phases 7–9;
 - after Phase 12: Phases 10–12.
 
+## Mandatory shared coverage gate
+
+Use [`codex-review-coverage`](../codex-review-coverage/SKILL.md) for a per-dimension ledger across the reviewed phase window, emphasizing actual module/package/folder inventory, shared HTTP contracts and exception grouping (respect ADR-0016). Evaluate interactions/accumulated risk, not merely each phase's previous PASS. The historical milestones after Phases 3/6/9/12 remain closed; do not automatically insert one between RAG phases 17–22 without a newly owner-approved gate.
+
 ## Mandatory checks
 
 - business/domain invariant consistency across phases;

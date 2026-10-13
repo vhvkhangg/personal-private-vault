@@ -16,5 +16,8 @@ pushed its authorized remediation as `0b1ab1100084f8c7a4362a42874595b25b2b50ee`
 All 17 original audit findings and the remaining final-review findings are closed. No active implementation
 handoff exists, and this closeout does not authorize new production changes.
 
-Phase 16 Frontend and Phase 17 RAG remain **not started and owner-gated**. Do not prepare either phase until the
-owner explicitly approves its concept and decisions. Production deployment remains deferred.
+**2026-10-13 owner sequencing authorization:** Phase 17 local RAG preparation is now staged under
+[Phase 17 README](../phase-17/README.md), ahead of deferred Phase 16 Frontend. **This is not an implementation handoff**;
+this file remains `NO_ACTIVE_HANDOFF` until Codex pre-handoff review returns `READY FOR HANDOFF`, owner commits/pushes
+preparation, and Codex separately runs `$codex-create-handoff`. Phase 16 Frontend, Ideaverse integration and production
+deployment remain deferred/owner-gated.

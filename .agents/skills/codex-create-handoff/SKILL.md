@@ -30,7 +30,7 @@ If Phase 15 has not yet produced an authorized audit finding set, stop and instr
 
 ### Numbered implementation phase
 
-For Phase 3 and later, the phase's `preparation-review.md` must be `READY FOR HANDOFF`.
+For Phase 3 and later, the **current owner-approved numbered phase**'s `preparation-review.md` must be `READY FOR HANDOFF`. In the owner-approved RAG-first sequence, P-17 is the foundation only; P-18 through P-22 require completion of the preceding RAG phase and their own independent preparation. Never use P-17 acceptance as authority for later OCR/QA/recommendation work or silently resume deferred Phase 16.
 
 If it is missing, `CHANGES_REQUESTED`, or still awaiting review, stop and instruct the owner to run
 `$codex-pre-handoff-review`.
@@ -64,6 +64,10 @@ Do not merge preparation review and handoff creation into one step.
 10. Include targets, invariants, non-goals, acceptance criteria, test/evidence contract, frozen references,
     relevant engineering skills, and known risks.
 11. Keep the handoff concise.
+
+## Review-to-handoff traceability
+
+Read the latest phase-specific Codex preparation report **and** shared [`codex-review-coverage`](../codex-review-coverage/SKILL.md). Translate applicable risk/quality dimensions, explicit N/A/NOT_VERIFIED limits, source ownership guard and privacy requirements into concrete handoff acceptance cases. Every High/Critical deferred-runtime risk needs exact evidence to be produced in implementation. Do not substitute a vague instruction to "follow best practices" for testable obligations. Ensure scope names package/folder ownership and permitted exception/shared HTTP conventions from ADR-0016 where relevant.
 
 ## Engineering skills
 

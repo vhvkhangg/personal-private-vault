@@ -35,6 +35,10 @@ Apply the relevant review skills:
 - `authentication-security` when relevant
 - any phase/domain-specific skill named by the active handoff
 
+## Mandatory shared coverage gate
+
+Use [`codex-review-coverage`](../codex-review-coverage/SKILL.md) as a **29-dimension evidence ledger**, in addition to the targeted rules below. In particular perform an actual recursive changed-package/folder inspection, compare `ApiResponse` and other shared transport abstractions against accepted ADR-0016 (do not demand an arbitrary `common` module), and inspect exception/interface/enum/command/view grouping and coupling. Every dimension must be PASS/FINDING/N/A/NOT_VERIFIED with rationale and code or test evidence where applicable. For RAG implementation also require live source-commit guards, external-file handle behavior and local-only model/worker/security integration tests.
+
 ## Mandatory final-review dimensions
 
 ### Business / logical correctness

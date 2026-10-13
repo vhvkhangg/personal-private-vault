@@ -2,7 +2,7 @@
 
 ## Structure
 
-The roadmap has **18 implementation phases numbered 0–17**.
+The roadmap retains historical identifiers **0–16** and proposes **six RAG implementation phases 17–22** (23 identifiers 0–22 in total). Phases 17–22 are **proposed**, not yet accepted/completed; the [RAG multi-phase plan](implementation/rag-phase-plan.md) defines their boundaries.
 
 For normal implementation phases from Phase 3 onward there is a mandatory **Pre-Handoff Preparation Gate (P-N)**
 before each implementation handoff. ChatGPT prepares docs/tooling, Codex reviews them with
@@ -11,6 +11,8 @@ before each implementation handoff. ChatGPT prepares docs/tooling, Codex reviews
 **Phase 15 is the deliberate exception:** it is audit-first, not feature-first. `$codex-pre-handoff-review` reviews
 its audit design and returns `READY FOR AUDIT` on success; after the owner commits/pushes that preparation,
 `$codex-backend-audit` determines whether any remediation handoff is needed.
+
+**Owner-authorized sequencing exception (2026-10-13):** keep historical numbering: **RAG Phases 17–22 prepare/execute before Phase 16 Frontend**, which remains deferred. The last completed prerequisite for Phase 17 is the frozen Phase 15 closure (`BACKEND_AUDIT_READY`) plus `NO_ACTIVE_HANDOFF`; completion of the *unstarted* Phase 16 is NOT a prerequisite for Phase 17 or its RAG successors. Phase 18 onward require completion of the prior RAG phase. Codex has returned `READY FOR HANDOFF` for Phase 17 foundation design, and the owner accepted its bounded integration delta; preparation still requires owner commit/push and a separate active handoff. The accepted architecture/order decision is documented in [ADR-0019](adr/0019-local-rag-before-frontend.md) and [Phase 17 preparation](implementation/phase-17/README.md).
 
 Phase 0 is excluded from the three-phase milestone cadence. Historical extra milestone reviews occurred after Phases
 **3, 6, 9, and 12**. The former post-Phase-15 milestone is superseded by the stronger repository-wide Phase 15
@@ -34,8 +36,13 @@ Comprehensive Backend Audit & Remediation Gate.
 | 13    | Shared REST/API contract + module HTTP exposure + OpenAPI/error/pagination consistency        | P-13 complete                                       | **COMPLETE — FROZEN** | —                    |
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 complete | **COMPLETE — FROZEN** | — |
 | 15    | Comprehensive Backend Audit & Remediation Gate over Phases 0–14 | P-15 `READY FOR AUDIT`; closure `BACKEND_AUDIT_READY` | **COMPLETE — FROZEN** (owner commit `0b1ab11`) | Replaces former post-15 milestone |
-| 16    | Next.js/TypeScript/shadcn frontend + E2E product workflows | P-16 planned | Not started | — |
-| 17    | RAG / semantic retrieval enhancement | P-17 planned | Not started | Final closeout |
+| 16    | Next.js/TypeScript/shadcn frontend + E2E product workflows | P-16 deferred/owner-gated; reconsider only after Phase 22 closeout | Not started | — |
+| 17    | Local RAG foundation, authorities, source commit fencing, storage/jobs and offline runtime | **P-17 READY FOR HANDOFF — foundation only; P17-1/2/3 design contracts closed** | Not started | RAG foundation gate |
+| 18    | Document/Obsidian/OCR/Excel ingestion and adaptive indexing | P-18 not prepared; requires Phase 17 frozen | Not started | — |
+| 19    | Grounded local QA, hybrid retrieval, citations/highlight | P-19 not prepared; requires Phase 18 frozen | Not started | — |
+| 20    | Fiction/Film catalog recommendation for all statuses | P-20 not prepared; requires Phase 19 frozen | Not started | — |
+| 21    | Reviewed module-source expansion and exact structured lookups | P-21 not prepared; requires Phase 20 frozen | Not started | — |
+| 22    | RAG reliability, offline regression/evaluation and system closeout | P-22 not prepared; requires Phase 21 frozen | Not started | Final RAG closeout |
 
 Production deployment provider/topology remains deferred and is not a numbered implementation phase until the
 owner explicitly brings deployment into scope.
@@ -211,7 +218,7 @@ Phase 15 closeout: **COMPLETE — FROZEN** after owner commit/push
 2026-10-08 repository-wide **BACKEND_AUDIT_READY** verdict. All BA15-1–BA15-17 and FR15-9/10/11/12 are closed;
 no unresolved actionable finding or owner-accepted debt remains. Fresh full/coverage verification passed 1021 tests,
 zero failures/errors/skips (04:07). The single accepted handoff remains archived and `ACTIVE.md` is
-`NO_ACTIVE_HANDOFF`. Backend Phases 0–15 are frozen; Phase 16/17 preparation is not authorized.
+`NO_ACTIVE_HANDOFF`. Backend Phases 0–15 are frozen. This was the Phase 15 closeout baseline; the owner subsequently authorized Phase 17 RAG preparation (2026-10-13), with Phase 16 still deferred.
 The owner has authorized and prepared Phase 15 as the
 Comprehensive Backend Audit & Remediation Gate. The
 [preparation acceptance](implementation/phase-15/reviews/2026-10-06-phase-15-pre-audit-codex-acceptance.md) closes
@@ -231,7 +238,7 @@ The [final closure audit](implementation/phase-15/reviews/2026-10-08-phase-15-cl
 now returns **BACKEND_AUDIT_READY**, closes all 17 findings, and passes fresh 1021/0/0/0 full/coverage verification
 (04:07). The [accepted handoff](implementation/phase-15/handoff.md) is archived; no active implementation remains.
 The owner published the accepted remediation as `0b1ab11`; this closeout freezes Phase 15 without creating a
-new handoff. Phase 16/17 preparation remains separately owner-gated and has not started. Phase 14 itself is not a
+new handoff. **2026-10-13 owner update:** Phase 17 RAG preparation is now authorized and staged for Codex review, despite Phase 16 remaining deferred; no implementation handoff exists. Phase 14 itself is not a
 milestone phase.
 
 ## Completed Phase 4–6 milestone maintenance
@@ -254,8 +261,8 @@ is `MILESTONE_READY`. Phase 7 pre-handoff re-review accepted the remediated prep
 - `search` stays late because it orchestrates public contracts from many feature modules.
 - shared REST exposure is delayed until domain/module contracts stabilize.
 - Phase 15 performs a comprehensive quality/audit gate over the complete non-RAG backend before new product-surface work.
-- frontend begins only after Phase 15 is complete/frozen and the owner separately authorizes Phase 16 preparation.
-- RAG remains last as Phase 17, consistent with the accepted architecture.
+- frontend Phase 16 remains deferred and owner-gated; it will be reconsidered **after RAG Phases 17–22**, not automatically started.
+- RAG retains the identifier **Phase 17** but becomes the next owner-authorized **preparation** gate after frozen Phase 15 under the explicit sequencing exception; no Phase 17 implementation is authorized yet.
 
 ## Status vocabulary
 

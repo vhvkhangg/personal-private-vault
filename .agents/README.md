@@ -11,9 +11,11 @@
 7. Codex `$codex-final-review`.
 8. Owner commit/push.
 9. ChatGPT closeout + next preparation.
-10. Historical milestone reviews apply after Phase 3/6/9/12. Phase 15 is the audit-first exception:
-    `$codex-pre-handoff-review` returns `READY FOR AUDIT`, owner commits preparation, then `$codex-backend-audit` runs.
+10. Historical milestone reviews applied after Phase 3/6/9/12. **Closed Phase 15 audit workflow (history only; not for current RAG phases):**
+    `$codex-pre-handoff-review` returned `READY FOR AUDIT`, the owner committed preparation, then `$codex-backend-audit` ran.
     It supersedes the former post-15 milestone.
+
+**Current gate (2026-10-13):** owner-authorized Phase 17 RAG foundation preparation, then separately gated planned phases 18–22, precedes deferred Phase 16 Frontend, preserving the original numbers; see accepted ADR-0019 and `docs/implementation/phase-17/owner-decisions.md`. No RAG implementation handoff exists yet. See `docs/implementation/rag-phase-plan.md`.
 
 See `docs/workflow/owner-phase-workflow.md`.
 
@@ -48,8 +50,11 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `rest-api-http-contracts`
 - `backend-integration-portability-storage`
 
+- `local-rag-engineering` — proposed Phase 17 offline Python/RAG, source-privacy and evaluation conventions
+
 ## Workflow/review skills
 
+- `codex-review-coverage` — shared 29-dimension evidence checklist (folder structure, SOLID/patterns, API/common placement, concurrency, security, performance, AI quality)
 - `codex-pre-handoff-review`
 - `codex-create-handoff`
 - `antigravity-implement-handoff`

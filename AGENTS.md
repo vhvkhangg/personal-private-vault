@@ -7,7 +7,7 @@ This file defines repository-wide instructions for coding agents.
 - Private, permanently single-user personal vault.
 - Backend-first modular monolith using Spring Boot and Spring Modulith.
 - PostgreSQL + Flyway; Maven build.
-- Frontend, RAG, and production deployment remain deferred.
+- Phase 17 **RAG preparation** is now owner-authorized ahead of deferred Phase 16 Frontend (2026-10-13). Neither RAG production implementation nor Frontend nor production deployment is authorized yet; see proposed ADR-0019.
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 - Backend Phase 2 is complete/frozen after owner commit/push.
@@ -51,7 +51,8 @@ This file defines repository-wide instructions for coding agents.
   historical reviews, test evidence and [archived handoff](docs/implementation/phase-15/handoff.md) remain preserved.
   `ACTIVE.md` is `NO_ACTIVE_HANDOFF`. The accepted Phase 15 remediation is frozen; future baseline-changing work
   requires a separately approved scope. Frontend Phase 16 and RAG Phase 17 remain **not started / owner-gated**;
-  neither preparation nor implementation is authorized by this closeout.
+  this Phase 15 closeout alone authorizes neither. The owner separately authorized **Phase 17 RAG preparation** on
+  2026-10-13; Phase 16 Frontend remains deferred, and RAG implementation requires the usual Codex handoff.
 
 Completed maintenance scope:
 
@@ -187,6 +188,9 @@ Preferred tools:
 Do not use H2 as a PostgreSQL substitute.
 
 ## Scope discipline
+
+**Owner-authorized 2026-10-13 exception:** Phase 17 RAG may enter **preparation review before Phase 16 Frontend** after the frozen Phase 15 gate. Preserve original phase numbers; `ACTIVE.md` stays `NO_ACTIVE_HANDOFF` until the normal Codex acceptance/owner preparation commit/Codex handoff. See proposed ADR-0019 and `docs/implementation/phase-17/`. This authorizes no production code, DB migration, Java dependency edge, Python runtime or Ideaverse integration.
+
 
 Do not implement deferred scope without an explicit Codex handoff:
 

@@ -20,7 +20,7 @@ Read first:
 - `docs/roadmap.md`
 - `docs/implementation/handoffs/ACTIVE.md`
 
-The Phase 15 README is the canonical audit contract. Do not shrink its mandatory dimensions.
+The Phase 15 README is the canonical **historical** audit contract. Do not shrink its mandatory dimensions. Apply [`codex-review-coverage`](../codex-review-coverage/SKILL.md) to record explicit evidence/N/A/NOT_VERIFIED for all 29 categories. This skill is not a fresh Phase 17–22 audit launcher; full later system audits need their own owner-approved scope. The additional checklist is prospective reviewer guidance, not proof the completed 2026-10-07 audit actually performed each check.
 
 ## Preconditions
 
@@ -64,7 +64,7 @@ Complete every dimension in the Phase 15 README, including explicitly:
 12. transaction/concurrency/external-I/O failure boundaries;
 13. concrete performance/resource risks;
 14. test sufficiency/reliability;
-15. package/repository/file hygiene, including stale `.gitkeep`/generated/duplicate files;
+15. **deep package/repository/file structure and responsibility audit**: inventory the actual complete subtree including classes/interfaces/exceptions/enums/commands/views, package visibility, coherent owner grouping, cross-module accidental reuse, misplaced or competing `ApiResponse`/shared transport types (respect ADR-0016), and stale `.gitkeep`/generated/duplicate files;
 16. docs/spelling/current-state drift and architecture diagrams;
 17. configuration/operational consistency.
 

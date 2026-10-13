@@ -98,17 +98,16 @@ When Codex requires frozen-phase implementation fixes:
 9. send the latest package to ChatGPT for post-milestone closeout/status synchronization;
 10. only after ChatGPT confirms the next phase is unblocked, run `$codex-pre-handoff-review`.
 
-## 4. Phase 15 comprehensive backend audit exception
+## 4. Historical Phase 15 comprehensive backend audit exception (closed)
 
-Phase 15 is not a normal feature implementation phase and intentionally supersedes the former post-Phase-15
-milestone. After ChatGPT prepares Phase 15, first run:
+Phase 15 was not a normal feature implementation phase and intentionally superseded the former post-Phase-15
+milestone. **The following commands document the closed Phase 15 historical sequence; do not execute them as the active RAG preparation route.** After ChatGPT prepared Phase 15, the historical flow ran:
 
 ```text
 $codex-pre-handoff-review
 ```
 
-For Phase 15, success is `READY FOR AUDIT` rather than `READY FOR HANDOFF`. Commit/push the accepted preparation,
-then run:
+For historical Phase 15, success was `READY FOR AUDIT` rather than `READY FOR HANDOFF`. After committing/pushing its accepted preparation, the owner then ran:
 
 ```text
 $codex-backend-audit
@@ -131,6 +130,10 @@ $codex-backend-audit
 For Phase 15, a handoff-specific `READY FOR OWNER COMMIT` from `$codex-final-review` is not the final commit gate;
 rerun `$codex-backend-audit` first. Only `BACKEND_AUDIT_READY` permits the owner to commit/push the complete Phase 15
 slice. Phase 16/17 preparation remains owner-gated.
+
+## 4A. Approved out-of-order gate: RAG phases 17–22 before Frontend Phase 16 (2026-10-13)
+
+The owner explicitly authorized **preparing Phase 17 RAG after Phase 15**, and subsequently accepted the [bounded foundation integration](../implementation/phase-17/owner-decisions.md), while **Phase 16 Frontend is deferred**. Keep the existing phase numbers; do not fabricate completion or preparation of Phase 16. This exception changes only prerequisite ordering: require committed/frozen Phase 15 with `BACKEND_AUDIT_READY`, `NO_ACTIVE_HANDOFF`, accepted [ADR-0019](../adr/0019-local-rag-before-frontend.md), and the Phase 17 preparation artifacts. The normal `$codex-pre-handoff-review` gate, Codex acceptance, owner commit/push, `$codex-create-handoff` and Antigravity/Codex final reviews remain mandatory. If Codex objects to the exception or an unapproved change to a frozen boundary, stop for owner disposition; do not use a maintenance handoff as a bypass. Phase 16 remains owner-gated **after RAG Phase 22**. Phase 18 follows a frozen Phase 17, Phase 19 follows 18, etc.; apply the normal review/handoff/final-review workflow **per numbered RAG phase**, never reuse P-17 acceptance to implement Phase 18–22. See [RAG phase plan](../implementation/rag-phase-plan.md).
 
 ## 5. Codex reviews normal next-phase preparation before handoff creation
 
@@ -202,7 +205,7 @@ Use exactly one branch below. **Do not continue from the Phase 15 branch into th
 [ ] Commit/push implementation
 ```
 
-### Phase 15 audit-first path only
+### Historical Phase 15 audit-first path only — closed; do not use for RAG
 
 ```text
 [ ] Confirm Phase 14 = COMPLETE — FROZEN and ACTIVE.md = NO_ACTIVE_HANDOFF
@@ -233,3 +236,7 @@ Use exactly one branch below. **Do not continue from the Phase 15 branch into th
 [ ] Do not run normal $codex-create-handoff for Phase 15 preparation
 [ ] Do not prepare Phase 16/17 until the owner separately authorizes it
 ```
+
+## Active-phase review scope and historical audit routing
+
+For every new phase, Codex pre-handoff/final reviewers should apply the common [`codex-review-coverage`](../../.agents/skills/codex-review-coverage/SKILL.md) rubric (including actual folder/package hygiene, shared HTTP exceptions per ADR-0016, security races, workflow efficiency and evidence classification). The pre-handoff skill no longer branches into the **completed** Phase 15 `READY FOR AUDIT` path: that path remains documented above as an audit-history exception, not a current instruction. `$codex-backend-audit` remains a dedicated archived Phase 15 workflow, not a substitute for current RAG gates.

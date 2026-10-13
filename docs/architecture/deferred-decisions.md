@@ -18,11 +18,11 @@ Deferred until backend completion:
 - token transport implementation details in the browser;
 - frontend test stack details beyond the current Playwright E2E direction.
 
-## RAG
+## RAG — authorized preparation, implementation still gated
 
-Python/RAG is explicitly out of scope until the non-RAG backend and frontend reach the agreed point.
+The owner authorized **Phase 17 RAG preparation ahead of Phase 16 Frontend** on 2026-10-13, after Phases 0–15 were frozen. Phase numbering remains unchanged; see proposed [ADR-0019](../adr/0019-local-rag-before-frontend.md) and [RAG architecture proposal](rag-architecture.md). No production RAG implementation, new Java module, schema migration or network service exists yet.
 
-No vector database, embedding model, ingestion pipeline, or RAG service boundary is frozen now.
+An offline Python/FastAPI engine + Spring read-only source orchestration + PostgreSQL/pgvector is a **proposal for Codex review**, not a settled implemented or frozen stack. Exact model/runtime, OCR engine and multilingual/table quality, chunk sizes, vector index parameters, service contracts, extension image compatibility, schema details and numeric acceptance thresholds require measurement/owner acceptance. Ideaverse is **not integrated** and future read-only Obsidian synchronization remains a later owner-approved extension.
 
 ## Deployment
 

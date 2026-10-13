@@ -19,7 +19,9 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-12/`](phase-12/README.md) — **COMPLETE / FROZEN; MILESTONE_READY** — `search`
 - [`phase-13/`](phase-13/README.md) — **COMPLETE / FROZEN** — shared REST/API + HTTP exposure
 - [`phase-14/`](phase-14/README.md) — **COMPLETE / FROZEN** — portability + managed object storage + operational closure
-- [`phase-15/`](phase-15/README.md) — **BACKEND_AUDIT_READY** — all findings closed; owner commit/push and closeout pending
+- [`phase-15/`](phase-15/README.md) — **COMPLETE / FROZEN** — closure audit `BACKEND_AUDIT_READY`, owner remediation committed/pushed
+- Phase 16 — **DEFERRED / OWNER-GATED** — Frontend not started (see [roadmap](../roadmap.md); no implementation directory yet)
+- [`phase-17/`](phase-17/README.md) — **READY FOR HANDOFF** — RAG foundation preparation only; P17-1/2/3 design contracts closed, runtime evidence pending
 
 Maintenance:
 
@@ -28,6 +30,8 @@ Maintenance:
 See [`../roadmap.md`](../roadmap.md).
 
 ## Current state
+
+**Current gate as of 2026-10-13:** The owner explicitly authorized **RAG foundation Phase 17 preparation, with proposed successor phases 18–22, before Frontend Phase 16**. See [RAG phase plan](rag-phase-plan.md), [P-17](phase-17/README.md), [proposed ADR-0019](../adr/0019-local-rag-before-frontend.md) and [preparation review](phase-17/preparation-review.md). Phase 15 is frozen and [ACTIVE](handoffs/ACTIVE.md) remains `NO_ACTIVE_HANDOFF`. The [focused Codex review](phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) returns **READY FOR HANDOFF — foundation only**: P17-1/2/3 design contracts closed, actual implementation/security evidence pending. Owner acceptance/commit precede separate `$codex-create-handoff`; Phases 18–22 require independent gates. Phase 16 and Ideaverse remain deferred. Historical narrative below is retained.
 
 The [final closure audit](phase-15/reviews/2026-10-08-phase-15-closure-backend-audit.md) returns **BACKEND_AUDIT_READY**:
 all 17 BA15 findings CLOSED, FR15-9/10/11/12 closed, no unresolved actionable finding or debt.
@@ -56,7 +60,7 @@ historical preparation authority; the completed implementation is governed by it
 review evidence. Agents do not commit/push; Phase 14 is not a milestone gate. The owner has now explicitly started
 Phase 15 as the comprehensive backend audit gate; Phase 16/17 preparation remains deferred.
 
-## Phase 15 current gate
+## Historical Phase 15 gate (superseded by completed closure)
 
 The owner approved Phase 15 as a comprehensive audit of the entire non-RAG backend before frontend/RAG work. This is
 an audit-first phase, not a normal feature implementation phase. Preparation review is

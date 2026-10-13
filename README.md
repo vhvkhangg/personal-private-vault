@@ -64,15 +64,15 @@ Current gate:
   Fresh full/coverage verification passed 1021 tests with zero failures/errors/skips; static reports were triaged.
   The [handoff](docs/implementation/phase-15/handoff.md) is archived and ACTIVE is `NO_ACTIVE_HANDOFF`;
   [audit status](docs/implementation/phase-15/audit-status.md), reviews, owner decisions and evidence are preserved.
-  **Phase 16 Frontend and Phase 17 RAG have not started; both remain subject to separate owner approval.**
+  **2026-10-13 update:** the owner authorized **Phase 17 RAG foundation preparation before Phase 16 Frontend**. The [focused Codex review](docs/implementation/phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) returns **READY FOR HANDOFF — foundation only**: P17-1/2/3 closed at design-contract level; runtime enforcement remains unverified. Owner acceptance of the bounded integration delta is [recorded](docs/implementation/phase-17/owner-decisions.md); preparation commit/push and separate handoff remain required. Later RAG phases 18–22 have independent gates. Phase 16 stays deferred. See [P-17](docs/implementation/phase-17/README.md) and accepted [ADR-0019](docs/adr/0019-local-rag-before-frontend.md).
 
 ## Planned stack
 
 - Backend: Java + Spring Boot + Spring Modulith + Spring Data JPA/Hibernate
 - Database: PostgreSQL
 - Build: Maven
-- Frontend (deferred until backend completion): Next.js + TypeScript + shadcn/ui + pnpm
-- RAG (deferred): Python
+- Frontend (Phase 16 deferred until after RAG, subject to owner authorization): Next.js + TypeScript + shadcn/ui + pnpm
+- RAG (Phase 17 preparation only): Python/FastAPI offline engine proposed; model/vector/OCR details pending benchmark and Codex review
 - API: REST/JSON + OpenAPI
 - Media: S3-compatible object storage abstraction
 
@@ -99,8 +99,8 @@ Normal feature phases:
 5. Codex runs `$codex-final-review`.
 6. Owner commits/pushes after `READY FOR OWNER COMMIT`.
 
-Phase 15 is the audit-first exception: run `$codex-pre-handoff-review`; after `READY FOR AUDIT`, commit/push its
-preparation, run `$codex-backend-audit`, remediate any Codex-created handoff, then rerun the audit until
+**Historical Phase 15 audit workflow (closed; not an active Phase 17–22 gate):** Phase 15 used `$codex-pre-handoff-review`; after `READY FOR AUDIT`, the owner committed/pushed its
+preparation, ran `$codex-backend-audit`, remediated any Codex-created handoff, then reran the audit until
 `BACKEND_AUDIT_READY`.
 
 See [`docs/workflow/owner-phase-workflow.md`](docs/workflow/owner-phase-workflow.md) and [`docs/roadmap.md`](docs/roadmap.md).
