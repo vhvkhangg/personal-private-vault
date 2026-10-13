@@ -28,6 +28,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -805,6 +806,256 @@ class ImportDataIntegrationTest extends AbstractPostgresIntegrationTest {
 
             Integer totalNotes = jdbcTemplate.queryForObject("SELECT count(*) FROM notes", Integer.class);
             assertThat(totalNotes).isEqualTo(0);
+        }
+
+        @Test
+        @DisplayName("SBA-004: Markdown import with prefix lookalike frontmatter retains summary and completes full execution")
+        void markdownAuditWorkflowEndToEnd() {
+            String rawMarkdown = """
+                    ---
+                    title: Sovereign Architecture
+                    ---custom: retained-metadata
+                    summary: Architectural overview of sovereign vault
+                    sourceName: Architecture Digest
+                    sourceUrl: https://arch.example.com
+                    ---
+                    # Sovereign Architecture
+                    Content of note byte-for-byte preserved.
+                    """;
+
+            ImportJobView job = importJobOperations.createJob(new CreateImportJobCommand(
+                    ImportTargetType.NOTE, ImportFormat.MARKDOWN, "audit-note.md", null
+            ));
+            assertThat(job.status()).isEqualTo(ImportJobStatus.CREATED);
+
+            // 1. Parse
+            ImportJobView parsed = importJobOperations.parse(job.id(), rawMarkdown);
+            assertThat(parsed.status()).isEqualTo(ImportJobStatus.PARSED);
+            assertThat(parsed.fileHash()).isEqualTo(sha256Hex(rawMarkdown));
+            assertThat(parsed.totalItems()).isEqualTo(1);
+            assertThat(parsed.validItems()).isEqualTo(1);
+
+            List<ImportJobItemView> items = importJobOperations.findJobItems(job.id(), 10);
+            assertThat(items).hasSize(1);
+            ImportJobItemView item = items.getFirst();
+            assertThat(item.status()).isEqualTo(ImportItemStatus.VALID);
+            assertThat(item.parsedPayload()).containsEntry("title", "Sovereign Architecture");
+            assertThat(item.parsedPayload()).containsEntry("summary", "Architectural overview of sovereign vault");
+            assertThat(item.parsedPayload()).containsEntry("sourceName", "Architecture Digest");
+            assertThat(item.parsedPayload()).containsEntry("sourceUrl", "https://arch.example.com");
+            assertThat(item.parsedPayload()).containsEntry("contentMarkdown", rawMarkdown);
+
+            // 2. Validate
+            ImportJobView validated = importJobOperations.validate(job.id());
+            assertThat(validated.status()).isEqualTo(ImportJobStatus.VALIDATED);
+            assertThat(validated.validItems()).isEqualTo(1);
+
+            // 3. Execute
+            ImportJobView executed = importJobOperations.execute(job.id(), new ExecuteImportJobCommand(
+                    List.of(new ImportItemDecisionInput(0, ImportItemDecision.IMPORT))
+            ));
+            assertThat(executed.status()).isEqualTo(ImportJobStatus.IMPORTED);
+            assertThat(executed.importedItems()).isEqualTo(1);
+
+            // 4. Verify Note via Knowledge parent operations
+            Optional<com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNoteView> noteOpt =
+                    knowledgeOperations.findNoteByImportedFileHash(sha256Hex(rawMarkdown));
+            assertThat(noteOpt).isPresent();
+            com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNoteView note = noteOpt.get();
+            assertThat(note.title()).isEqualTo("Sovereign Architecture");
+            assertThat(note.summary()).isEqualTo("Architectural overview of sovereign vault");
+            assertThat(note.sourceName()).isEqualTo("Architecture Digest");
+            assertThat(note.sourceUrl()).isEqualTo("https://arch.example.com");
+            assertThat(note.importedFileName()).isEqualTo("audit-note.md");
+            assertThat(note.contentMarkdown()).isEqualTo(rawMarkdown);
+            assertThat(note.frontmatter()).containsEntry("---custom", "retained-metadata");
+
+            // 5. Fresh JDBC assertions
+            Map<String, Object> dbNote = jdbcTemplate.queryForMap(
+                    "SELECT title, summary, content_markdown FROM notes WHERE id = ?", note.id()
+            );
+            assertThat(dbNote.get("title")).isEqualTo("Sovereign Architecture");
+            assertThat(dbNote.get("summary")).isEqualTo("Architectural overview of sovereign vault");
+            assertThat(dbNote.get("content_markdown")).isEqualTo(rawMarkdown);
+
+            Integer vaultCount = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entries WHERE id = ? AND entry_type = 'NOTE'",
+                    Integer.class, note.id()
+            );
+            assertThat(vaultCount).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("SBA-006: JSON import with trailing tokens fails parse catastrophically leaving job and database untouched")
+        void jsonTrailingTokensJobParseFailsCatastrophicallyLeavingPriorJobUnchanged() {
+            String jsonWithTrailingObject = """
+                    [{"title": "Note 1", "contentMarkdown": "Content 1"}]
+                    {"ignored": true}
+                    """;
+
+            ImportJobView job = importJobOperations.createJob(new CreateImportJobCommand(
+                    ImportTargetType.NOTE, ImportFormat.JSON, "invalid-trailing.json", null
+            ));
+            assertThat(job.status()).isEqualTo(ImportJobStatus.CREATED);
+
+            assertThatThrownBy(() -> importJobOperations.parse(job.id(), jsonWithTrailingObject))
+                    .isInstanceOf(InvalidImportJobException.class)
+                    .hasMessage("Invalid JSON syntax in import file");
+
+            // Job status and hash unchanged after rollback
+            ImportJobView refreshed = importJobOperations.findJobById(job.id()).orElseThrow();
+            assertThat(refreshed.status()).isEqualTo(ImportJobStatus.CREATED);
+            assertThat(refreshed.fileHash()).isNull();
+            assertThat(refreshed.totalItems()).isEqualTo(0);
+
+            // Zero job items and zero notes written
+            Integer jobItemCount = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM import_job_items WHERE import_job_id = ?",
+                    Integer.class, job.id()
+            );
+            assertThat(jobItemCount).isZero();
+
+            Integer noteCount = jdbcTemplate.queryForObject("SELECT count(*) FROM notes", Integer.class);
+            assertThat(noteCount).isZero();
+        }
+
+        @Test
+        @DisplayName("SBA-004: Markdown import with empty frontmatter and body thematic break persists note accurately")
+        void markdownEmptyFrontmatterThematicBreakEndToEnd() {
+            String rawMarkdown = """
+                    ---
+                    ---
+                    # Architectural Principles
+                    ---
+                    Section following horizontal rule thematic break.
+                    """;
+
+            ImportJobView job = importJobOperations.createJob(new CreateImportJobCommand(
+                    ImportTargetType.NOTE, ImportFormat.MARKDOWN, "principles-note.md", null
+            ));
+            assertThat(job.status()).isEqualTo(ImportJobStatus.CREATED);
+
+            ImportJobView parsed = importJobOperations.parse(job.id(), rawMarkdown);
+            assertThat(parsed.status()).isEqualTo(ImportJobStatus.PARSED);
+            assertThat(parsed.totalItems()).isEqualTo(1);
+            assertThat(parsed.validItems()).isEqualTo(1);
+
+            List<ImportJobItemView> items = importJobOperations.findJobItems(job.id(), 10);
+            assertThat(items).hasSize(1);
+            ImportJobItemView item = items.getFirst();
+            assertThat(item.status()).isEqualTo(ImportItemStatus.VALID);
+            assertThat(item.parsedPayload()).containsEntry("title", "principles-note");
+            assertThat(item.parsedPayload()).containsEntry("contentMarkdown", rawMarkdown);
+            assertThat(item.parsedPayload()).containsEntry("summary", null);
+
+            ImportJobView validated = importJobOperations.validate(job.id());
+            assertThat(validated.status()).isEqualTo(ImportJobStatus.VALIDATED);
+
+            ImportJobView executed = importJobOperations.execute(job.id(), new ExecuteImportJobCommand(
+                    List.of(new ImportItemDecisionInput(0, ImportItemDecision.IMPORT))
+            ));
+            assertThat(executed.status()).isEqualTo(ImportJobStatus.IMPORTED);
+
+            Optional<com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNoteView> noteOpt =
+                    knowledgeOperations.findNoteByImportedFileHash(sha256Hex(rawMarkdown));
+            assertThat(noteOpt).isPresent();
+            com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNoteView note = noteOpt.get();
+            assertThat(note.title()).isEqualTo("principles-note");
+            assertThat(note.summary()).isNull();
+            assertThat(note.contentMarkdown()).isEqualTo(rawMarkdown);
+            assertThat(note.frontmatter()).isNotNull().isEmpty();
+
+            Map<String, Object> dbNote = jdbcTemplate.queryForMap(
+                    "SELECT title, summary, content_markdown FROM notes WHERE id = ?", note.id()
+            );
+            assertThat(dbNote.get("title")).isEqualTo("principles-note");
+            assertThat(dbNote.get("summary")).isNull();
+            assertThat(dbNote.get("content_markdown")).isEqualTo(rawMarkdown);
+
+            Integer vaultCount = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entries WHERE id = ? AND entry_type = 'NOTE'",
+                    Integer.class, note.id()
+            );
+            assertThat(vaultCount).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("SBA-004: Markdown import preserves positive nested and unknown frontmatter metadata with full fidelity")
+        void markdownPositiveNestedMetadataFidelityEndToEnd() {
+            String rawMarkdown = """
+                    ---
+                    title: Distributed Ledger Notes
+                    summary: High level ledger design
+                    sourceName: Consensus Weekly
+                    sourceUrl: https://consensus.example.com
+                    domain: Architecture
+                    tags:
+                      - consensus
+                      - state-machine
+                    properties:
+                      replicationFactor: 3
+                      byzantine: false
+                    ---
+                    # Distributed Ledger Notes
+                    Full body content preserved faithfully.
+                    """;
+
+            ImportJobView job = importJobOperations.createJob(new CreateImportJobCommand(
+                    ImportTargetType.NOTE, ImportFormat.MARKDOWN, "ledger.md", null
+            ));
+            assertThat(job.status()).isEqualTo(ImportJobStatus.CREATED);
+
+            ImportJobView parsed = importJobOperations.parse(job.id(), rawMarkdown);
+            assertThat(parsed.status()).isEqualTo(ImportJobStatus.PARSED);
+
+            List<ImportJobItemView> items = importJobOperations.findJobItems(job.id(), 10);
+            assertThat(items).hasSize(1);
+            ImportJobItemView item = items.getFirst();
+            assertThat(item.status()).isEqualTo(ImportItemStatus.VALID);
+            assertThat(item.parsedPayload()).containsEntry("title", "Distributed Ledger Notes");
+            assertThat(item.parsedPayload()).containsEntry("summary", "High level ledger design");
+            assertThat(item.parsedPayload()).containsEntry("sourceName", "Consensus Weekly");
+            assertThat(item.parsedPayload()).containsEntry("sourceUrl", "https://consensus.example.com");
+
+            ImportJobView validated = importJobOperations.validate(job.id());
+            assertThat(validated.status()).isEqualTo(ImportJobStatus.VALIDATED);
+
+            ImportJobView executed = importJobOperations.execute(job.id(), new ExecuteImportJobCommand(
+                    List.of(new ImportItemDecisionInput(0, ImportItemDecision.IMPORT))
+            ));
+            assertThat(executed.status()).isEqualTo(ImportJobStatus.IMPORTED);
+
+            Optional<com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNoteView> noteOpt =
+                    knowledgeOperations.findNoteByImportedFileHash(sha256Hex(rawMarkdown));
+            assertThat(noteOpt).isPresent();
+            com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNoteView note = noteOpt.get();
+            assertThat(note.title()).isEqualTo("Distributed Ledger Notes");
+            assertThat(note.summary()).isEqualTo("High level ledger design");
+            assertThat(note.sourceName()).isEqualTo("Consensus Weekly");
+            assertThat(note.sourceUrl()).isEqualTo("https://consensus.example.com");
+
+            Map<String, Object> fm = note.frontmatter();
+            assertThat(fm).isNotNull();
+            assertThat(fm).containsEntry("domain", "Architecture");
+            assertThat(fm).containsKey("tags");
+            assertThat(fm).containsKey("properties");
+            @SuppressWarnings("unchecked")
+            Map<String, Object> props = (Map<String, Object>) fm.get("properties");
+            assertThat(props).containsEntry("replicationFactor", 3);
+            assertThat(props).containsEntry("byzantine", false);
+
+            Map<String, Object> dbNote = jdbcTemplate.queryForMap(
+                    "SELECT title, summary, content_markdown FROM notes WHERE id = ?", note.id()
+            );
+            assertThat(dbNote.get("title")).isEqualTo("Distributed Ledger Notes");
+            assertThat(dbNote.get("summary")).isEqualTo("High level ledger design");
+            assertThat(dbNote.get("content_markdown")).isEqualTo(rawMarkdown);
+
+            Integer vaultCount = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entries WHERE id = ? AND entry_type = 'NOTE'",
+                    Integer.class, note.id()
+            );
+            assertThat(vaultCount).isEqualTo(1);
         }
     }
 }

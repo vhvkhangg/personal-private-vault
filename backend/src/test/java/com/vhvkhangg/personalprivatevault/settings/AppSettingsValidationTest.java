@@ -9,6 +9,7 @@ import com.vhvkhangg.personalprivatevault.settings.internal.application.configur
 import com.vhvkhangg.personalprivatevault.settings.internal.domain.AppSettings;
 import com.vhvkhangg.personalprivatevault.settings.internal.infrastructure.persistence.AppSettingsRepository;
 import com.vhvkhangg.personalprivatevault.settings.view.AppSettingsView;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -33,6 +34,7 @@ class AppSettingsValidationTest {
 
     private AppSettingsRepository appSettingsRepository;
     private ReferenceCatalog referenceCatalog;
+    private EntityManager entityManager;
     private Clock clock;
     private AppSettingsOperations settingsOperations;
 
@@ -42,8 +44,9 @@ class AppSettingsValidationTest {
     void setUp() {
         appSettingsRepository = mock(AppSettingsRepository.class);
         referenceCatalog = mock(ReferenceCatalog.class);
+        entityManager = mock(EntityManager.class);
         clock = Clock.fixed(FIXED_NOW, ZoneOffset.UTC);
-        settingsOperations = new AppSettingsService(appSettingsRepository, referenceCatalog, clock);
+        settingsOperations = new AppSettingsService(appSettingsRepository, referenceCatalog, entityManager, clock);
 
         when(referenceCatalog.currency("USD")).thenReturn(Optional.of(new CurrencyView("USD", "US Dollar", "$", 2)));
         when(referenceCatalog.currency("VND")).thenReturn(Optional.of(new CurrencyView("VND", "Vietnamese Dong", "₫", 0)));
@@ -56,7 +59,7 @@ class AppSettingsValidationTest {
         @Test
         @DisplayName("Initializes with Schema v1 defaults when only currency is provided")
         void initializesWithSchemaDefaults() {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
             when(appSettingsRepository.save(any(AppSettings.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
             AppSettingsView view = settingsOperations.initialize("usd");
@@ -83,7 +86,7 @@ class AppSettingsValidationTest {
         @Test
         @DisplayName("Accepts valid standard ZoneId timezone")
         void acceptsValidTimezone() {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
             when(appSettingsRepository.save(any(AppSettings.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
             UpdateSettingsCommand command = new UpdateSettingsCommand("UTC", "USD", 25, 10, false, null);
@@ -96,7 +99,7 @@ class AppSettingsValidationTest {
         @ValueSource(strings = {"Invalid/Timezone", "Unknown", "GMT+99"})
         @DisplayName("Rejects malformed or unrecognized timezone")
         void rejectsInvalidTimezone(String invalidTimezone) {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
 
             UpdateSettingsCommand command = new UpdateSettingsCommand(invalidTimezone, "USD", 20, 5, false, null);
 
@@ -109,7 +112,7 @@ class AppSettingsValidationTest {
         @ValueSource(strings = {"", "   "})
         @DisplayName("Rejects explicitly blank timezone on creation")
         void rejectsBlankTimezoneOnCreation(String blankTimezone) {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
 
             UpdateSettingsCommand command = new UpdateSettingsCommand(blankTimezone, "USD", 20, 5, false, null);
 
@@ -126,7 +129,7 @@ class AppSettingsValidationTest {
         @Test
         @DisplayName("Rejects currency code not found in ReferenceCatalog")
         void rejectsNonExistentCurrency() {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
             when(referenceCatalog.currency("EUR")).thenReturn(Optional.empty());
 
             UpdateSettingsCommand command = new UpdateSettingsCommand("UTC", "EUR", 20, 5, false, null);
@@ -139,7 +142,7 @@ class AppSettingsValidationTest {
         @Test
         @DisplayName("Rejects currency code exceeding 3 characters")
         void rejectsCurrencyCodeTooLong() {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
 
             UpdateSettingsCommand command = new UpdateSettingsCommand("UTC", "USDT", 20, 5, false, null);
 
@@ -157,7 +160,7 @@ class AppSettingsValidationTest {
         @ValueSource(ints = {0, -1, -50})
         @DisplayName("Rejects zero or negative pagination size")
         void rejectsNonPositivePaginationSize(int paginationSize) {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
 
             UpdateSettingsCommand command = new UpdateSettingsCommand("UTC", "USD", paginationSize, 5, false, null);
 
@@ -170,7 +173,7 @@ class AppSettingsValidationTest {
         @ValueSource(ints = {0, -1, -10})
         @DisplayName("Rejects zero or negative private mode auto-lock minutes")
         void rejectsNonPositiveAutoLock(int autoLockMinutes) {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
 
             UpdateSettingsCommand command = new UpdateSettingsCommand("UTC", "USD", 20, autoLockMinutes, false, null);
 
@@ -187,7 +190,7 @@ class AppSettingsValidationTest {
         @Test
         @DisplayName("Rejects backup enabled when backup interval is null")
         void rejectsBackupEnabledWithoutInterval() {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
 
             UpdateSettingsCommand command = new UpdateSettingsCommand("UTC", "USD", 20, 5, true, null);
 
@@ -200,7 +203,7 @@ class AppSettingsValidationTest {
         @ValueSource(ints = {0, -1, -24})
         @DisplayName("Rejects non-positive backup interval")
         void rejectsNonPositiveBackupInterval(int interval) {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
 
             UpdateSettingsCommand command = new UpdateSettingsCommand("UTC", "USD", 20, 5, true, interval);
 
@@ -212,7 +215,7 @@ class AppSettingsValidationTest {
         @Test
         @DisplayName("Accepts backup enabled with valid positive interval")
         void acceptsValidBackupConfiguration() {
-            when(appSettingsRepository.findById(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
+            when(appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID)).thenReturn(Optional.empty());
             when(appSettingsRepository.save(any(AppSettings.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
             UpdateSettingsCommand command = new UpdateSettingsCommand("UTC", "USD", 20, 5, true, 24);

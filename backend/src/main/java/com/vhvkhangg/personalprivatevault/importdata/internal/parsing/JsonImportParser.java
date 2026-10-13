@@ -25,13 +25,24 @@ public final class JsonImportParser {
     private JsonImportParser() {}
 
     public static List<ImportParsedItem> parse(ImportTargetType targetType, String rawText) throws IOException {
+        if (rawText == null) {
+            throw new InvalidImportJobException("Invalid JSON syntax in import file");
+        }
+
         JsonNode root;
-        try {
-            root = OBJECT_MAPPER.readTree(rawText);
+        try (com.fasterxml.jackson.core.JsonParser parser = OBJECT_MAPPER.createParser(rawText)) {
+            root = OBJECT_MAPPER.readTree(parser);
+            if (root == null) {
+                throw new InvalidImportJobException("Invalid JSON syntax in import file");
+            }
+            if (parser.nextToken() != null) {
+                throw new InvalidImportJobException("Invalid JSON syntax in import file");
+            }
         } catch (JsonProcessingException ex) {
             throw new InvalidImportJobException("Invalid JSON syntax in import file");
         }
-        if (root == null || !root.isArray()) {
+
+        if (!root.isArray()) {
             throw new InvalidImportJobException("Top-level JSON value must be an array");
         }
 

@@ -4,6 +4,7 @@ import com.vhvkhangg.personalprivatevault.vault.enums.RatingGrade;
 import com.vhvkhangg.personalprivatevault.vault.view.TagView;
 import com.vhvkhangg.personalprivatevault.vault.metadata.VaultMetadataOperations;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultMetadataView;
+import com.vhvkhangg.personalprivatevault.vault.internal.application.entry.VaultEntryMutationGuard;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.Rating;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.Tag;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.VaultCapabilityMatrix;
@@ -32,6 +33,7 @@ import java.util.Optional;
 public class VaultMetadataService implements VaultMetadataOperations {
 
     private final VaultEntryRepository vaultEntryRepository;
+    private final VaultEntryMutationGuard vaultEntryMutationGuard;
     private final FavoriteRepository favoriteRepository;
     private final RatingRepository ratingRepository;
     private final TagRepository tagRepository;
@@ -42,6 +44,7 @@ public class VaultMetadataService implements VaultMetadataOperations {
     @Autowired
     VaultMetadataService(
             VaultEntryRepository vaultEntryRepository,
+            VaultEntryMutationGuard vaultEntryMutationGuard,
             FavoriteRepository favoriteRepository,
             RatingRepository ratingRepository,
             TagRepository tagRepository,
@@ -49,6 +52,7 @@ public class VaultMetadataService implements VaultMetadataOperations {
             TagCreator tagCreator,
             @Autowired(required = false) Clock clock) {
         this.vaultEntryRepository = Objects.requireNonNull(vaultEntryRepository, "vaultEntryRepository must not be null");
+        this.vaultEntryMutationGuard = Objects.requireNonNull(vaultEntryMutationGuard, "vaultEntryMutationGuard must not be null");
         this.favoriteRepository = Objects.requireNonNull(favoriteRepository, "favoriteRepository must not be null");
         this.ratingRepository = Objects.requireNonNull(ratingRepository, "ratingRepository must not be null");
         this.tagRepository = Objects.requireNonNull(tagRepository, "tagRepository must not be null");
@@ -59,21 +63,23 @@ public class VaultMetadataService implements VaultMetadataOperations {
 
     public VaultMetadataService(
             VaultEntryRepository vaultEntryRepository,
+            VaultEntryMutationGuard vaultEntryMutationGuard,
             FavoriteRepository favoriteRepository,
             RatingRepository ratingRepository,
             TagRepository tagRepository,
             VaultEntryTagRepository vaultEntryTagRepository,
             Clock clock) {
-        this(vaultEntryRepository, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, new TagCreator(tagRepository), clock);
+        this(vaultEntryRepository, vaultEntryMutationGuard, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, new TagCreator(tagRepository), clock);
     }
 
     public VaultMetadataService(
             VaultEntryRepository vaultEntryRepository,
+            VaultEntryMutationGuard vaultEntryMutationGuard,
             FavoriteRepository favoriteRepository,
             RatingRepository ratingRepository,
             TagRepository tagRepository,
             VaultEntryTagRepository vaultEntryTagRepository) {
-        this(vaultEntryRepository, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, Clock.systemUTC());
+        this(vaultEntryRepository, vaultEntryMutationGuard, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, Clock.systemUTC());
     }
 
     @Override
@@ -225,8 +231,7 @@ public class VaultMetadataService implements VaultMetadataOperations {
     }
 
     private VaultEntry getEntryOrThrow(Long vaultEntryId) {
-        return vaultEntryRepository.findById(vaultEntryId)
-                .orElseThrow(() -> new NoSuchElementException("Vault entry not found with id: " + vaultEntryId));
+        return vaultEntryMutationGuard.lockAndRefresh(vaultEntryId);
     }
 
     private void assertNotDeleted(VaultEntry entry) {

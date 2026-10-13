@@ -20,16 +20,21 @@ import java.util.Optional;
 public class VaultEntryService implements VaultEntryOperations {
 
     private final VaultEntryRepository vaultEntryRepository;
+    private final VaultEntryMutationGuard vaultEntryMutationGuard;
     private final Clock clock;
 
     @Autowired
-    public VaultEntryService(VaultEntryRepository vaultEntryRepository, @Autowired(required = false) Clock clock) {
+    public VaultEntryService(
+            VaultEntryRepository vaultEntryRepository,
+            VaultEntryMutationGuard vaultEntryMutationGuard,
+            @Autowired(required = false) Clock clock) {
         this.vaultEntryRepository = Objects.requireNonNull(vaultEntryRepository, "vaultEntryRepository must not be null");
+        this.vaultEntryMutationGuard = Objects.requireNonNull(vaultEntryMutationGuard, "vaultEntryMutationGuard must not be null");
         this.clock = clock != null ? clock : Clock.systemUTC();
     }
 
-    public VaultEntryService(VaultEntryRepository vaultEntryRepository) {
-        this(vaultEntryRepository, Clock.systemUTC());
+    public VaultEntryService(VaultEntryRepository vaultEntryRepository, VaultEntryMutationGuard vaultEntryMutationGuard) {
+        this(vaultEntryRepository, vaultEntryMutationGuard, Clock.systemUTC());
     }
 
     @Override
@@ -58,12 +63,11 @@ public class VaultEntryService implements VaultEntryOperations {
         if (vaultEntryId == null) {
             throw new IllegalArgumentException("vaultEntryId must not be null");
         }
-        VaultEntry entry = vaultEntryRepository.findById(vaultEntryId)
-                .orElseThrow(() -> new NoSuchElementException("Vault entry not found with id: " + vaultEntryId));
+        VaultEntry entry = getAndGuardEntry(vaultEntryId);
 
         Instant now = clock.instant();
         if (entry.moveToTrash(now)) {
-            entry = vaultEntryRepository.save(entry);
+            entry = vaultEntryRepository.saveAndFlush(entry);
         }
         return toView(entry);
     }
@@ -74,14 +78,17 @@ public class VaultEntryService implements VaultEntryOperations {
         if (vaultEntryId == null) {
             throw new IllegalArgumentException("vaultEntryId must not be null");
         }
-        VaultEntry entry = vaultEntryRepository.findById(vaultEntryId)
-                .orElseThrow(() -> new NoSuchElementException("Vault entry not found with id: " + vaultEntryId));
+        VaultEntry entry = getAndGuardEntry(vaultEntryId);
 
         Instant now = clock.instant();
         if (entry.restore(now)) {
-            entry = vaultEntryRepository.save(entry);
+            entry = vaultEntryRepository.saveAndFlush(entry);
         }
         return toView(entry);
+    }
+
+    private VaultEntry getAndGuardEntry(Long vaultEntryId) {
+        return vaultEntryMutationGuard.lockAndRefresh(vaultEntryId);
     }
 
     private VaultEntryView toView(VaultEntry entry) {

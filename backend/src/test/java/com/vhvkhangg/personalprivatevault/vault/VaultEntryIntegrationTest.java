@@ -5,6 +5,7 @@ import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
 
 import com.vhvkhangg.personalprivatevault.support.AbstractPostgresIntegrationTest;
+import com.vhvkhangg.personalprivatevault.vault.internal.application.entry.VaultEntryMutationGuard;
 import com.vhvkhangg.personalprivatevault.vault.internal.application.entry.VaultEntryService;
 import com.vhvkhangg.personalprivatevault.vault.internal.infrastructure.persistence.VaultEntryRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -29,6 +30,9 @@ class VaultEntryIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Autowired
     private VaultEntryRepository vaultEntryRepository;
+
+    @Autowired
+    private VaultEntryMutationGuard vaultEntryMutationGuard;
 
     @Test
     @DisplayName("Create vault entry sets active identity and matching timestamps")
@@ -73,7 +77,7 @@ class VaultEntryIntegrationTest extends AbstractPostgresIntegrationTest {
 
         // 1. Create with fixed clock at t0
         Clock clock0 = Clock.fixed(t0, ZoneOffset.UTC);
-        VaultEntryService service0 = new VaultEntryService(vaultEntryRepository, clock0);
+        VaultEntryService service0 = new VaultEntryService(vaultEntryRepository, vaultEntryMutationGuard, clock0);
         VaultEntryView created = service0.create(VaultEntryType.FILM);
 
         assertThat(created.createdAt()).isEqualTo(t0);
@@ -82,7 +86,7 @@ class VaultEntryIntegrationTest extends AbstractPostgresIntegrationTest {
 
         // 2. Move to trash at t1
         Clock clock1 = Clock.fixed(t1, ZoneOffset.UTC);
-        VaultEntryService service1 = new VaultEntryService(vaultEntryRepository, clock1);
+        VaultEntryService service1 = new VaultEntryService(vaultEntryRepository, vaultEntryMutationGuard, clock1);
         VaultEntryView trashed = service1.moveToTrash(created.id());
 
         assertThat(trashed.deletedAt()).isEqualTo(t1);
@@ -91,7 +95,7 @@ class VaultEntryIntegrationTest extends AbstractPostgresIntegrationTest {
 
         // 3. Repeated trash at t2 is idempotent: preserves original deletedAt and does not change updatedAt
         Clock clock2 = Clock.fixed(t2, ZoneOffset.UTC);
-        VaultEntryService service2 = new VaultEntryService(vaultEntryRepository, clock2);
+        VaultEntryService service2 = new VaultEntryService(vaultEntryRepository, vaultEntryMutationGuard, clock2);
         VaultEntryView repeatTrashed = service2.moveToTrash(created.id());
 
         assertThat(repeatTrashed.deletedAt()).isEqualTo(t1);
@@ -99,7 +103,7 @@ class VaultEntryIntegrationTest extends AbstractPostgresIntegrationTest {
 
         // 4. Restore at t3
         Clock clock3 = Clock.fixed(t3, ZoneOffset.UTC);
-        VaultEntryService service3 = new VaultEntryService(vaultEntryRepository, clock3);
+        VaultEntryService service3 = new VaultEntryService(vaultEntryRepository, vaultEntryMutationGuard, clock3);
         VaultEntryView restored = service3.restore(created.id());
 
         assertThat(restored.deletedAt()).isNull();
@@ -108,7 +112,7 @@ class VaultEntryIntegrationTest extends AbstractPostgresIntegrationTest {
 
         // 5. Repeated restore at t4 is idempotent: does not alter updatedAt
         Clock clock4 = Clock.fixed(t4, ZoneOffset.UTC);
-        VaultEntryService service4 = new VaultEntryService(vaultEntryRepository, clock4);
+        VaultEntryService service4 = new VaultEntryService(vaultEntryRepository, vaultEntryMutationGuard, clock4);
         VaultEntryView repeatRestored = service4.restore(created.id());
 
         assertThat(repeatRestored.deletedAt()).isNull();

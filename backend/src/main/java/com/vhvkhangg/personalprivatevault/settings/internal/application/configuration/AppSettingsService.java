@@ -7,7 +7,9 @@ import com.vhvkhangg.personalprivatevault.settings.configuration.UpdateSettingsC
 import com.vhvkhangg.personalprivatevault.settings.internal.domain.AppSettings;
 import com.vhvkhangg.personalprivatevault.settings.internal.infrastructure.persistence.AppSettingsRepository;
 import com.vhvkhangg.personalprivatevault.settings.view.AppSettingsView;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,12 +22,31 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class AppSettingsService implements AppSettingsOperations {
 
     private final AppSettingsRepository appSettingsRepository;
     private final ReferenceCatalog referenceCatalog;
     private final Clock clock;
+    private final EntityManager entityManager;
+
+    @Autowired
+    public AppSettingsService(
+            AppSettingsRepository appSettingsRepository,
+            ReferenceCatalog referenceCatalog,
+            EntityManager entityManager,
+            @Autowired(required = false) Clock clock) {
+        this.appSettingsRepository = Objects.requireNonNull(appSettingsRepository, "appSettingsRepository must not be null");
+        this.referenceCatalog = Objects.requireNonNull(referenceCatalog, "referenceCatalog must not be null");
+        this.entityManager = Objects.requireNonNull(entityManager, "entityManager must not be null");
+        this.clock = clock != null ? clock : Clock.systemUTC();
+    }
+
+    public AppSettingsService(
+            AppSettingsRepository appSettingsRepository,
+            ReferenceCatalog referenceCatalog,
+            EntityManager entityManager) {
+        this(appSettingsRepository, referenceCatalog, entityManager, Clock.systemUTC());
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -51,7 +72,10 @@ public class AppSettingsService implements AppSettingsOperations {
     public AppSettingsView initializeOrUpdate(UpdateSettingsCommand command) {
         Objects.requireNonNull(command, "command must not be null");
 
-        Optional<AppSettings> existingOpt = appSettingsRepository.findById(AppSettings.SINGLETON_ID);
+        Optional<AppSettings> existingOpt = appSettingsRepository.findByIdForUpdate(AppSettings.SINGLETON_ID);
+        if (existingOpt.isPresent()) {
+            entityManager.refresh(existingOpt.get(), LockModeType.PESSIMISTIC_WRITE);
+        }
         Instant now = clock.instant();
 
         if (existingOpt.isEmpty()) {
@@ -90,7 +114,8 @@ public class AppSettingsService implements AppSettingsOperations {
                     now
             );
 
-            return toView(appSettingsRepository.save(newSettings));
+            AppSettings saved = appSettingsRepository.save(newSettings);
+            return toView(saved);
         }
 
         // Updating existing singleton row
@@ -132,7 +157,8 @@ public class AppSettingsService implements AppSettingsOperations {
                 now
         );
 
-        return toView(appSettingsRepository.save(settings));
+        AppSettings saved = appSettingsRepository.save(settings);
+        return toView(saved);
     }
 
     private void validateTimezone(String timezone) {

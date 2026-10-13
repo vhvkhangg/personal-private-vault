@@ -98,7 +98,7 @@ class PersonValidationTest {
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {"0", "-0.01", "-175.50"})
+        @ValueSource(strings = {"0", "-0.01", "-175.50", "-1E+2147483647"})
         @DisplayName("Rejects non-positive height")
         void rejectsNonPositiveHeight(String height) {
             CreatePersonCommand command = new CreatePersonCommand(
@@ -111,7 +111,7 @@ class PersonValidationTest {
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {"180.123", "10000.00", "99999.9"})
+        @ValueSource(strings = {"180.123", "10000", "10000.00", "99999.9", "1E+2147483647", "100E+2147483647", "1000E+2147483647", "1E-2147483647"})
         @DisplayName("Rejects height exceeding numeric(6,2)")
         void rejectsHeightExceedingPrecision(String height) {
             CreatePersonCommand command = new CreatePersonCommand(
@@ -121,10 +121,12 @@ class PersonValidationTest {
             assertThatThrownBy(() -> personService.create(command))
                     .isInstanceOf(InvalidPersonException.class)
                     .hasMessageContaining("Height must fit numeric(6,2)");
+            org.mockito.Mockito.verifyNoInteractions(vaultEntryOperations);
+            org.mockito.Mockito.verify(personRepository, org.mockito.Mockito.never()).save(org.mockito.ArgumentMatchers.any());
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {"0", "-1.00", "-70"})
+        @ValueSource(strings = {"0", "-1.00", "-70", "-1E+2147483647"})
         @DisplayName("Rejects non-positive weight")
         void rejectsNonPositiveWeight(String weight) {
             CreatePersonCommand command = new CreatePersonCommand(
@@ -134,10 +136,12 @@ class PersonValidationTest {
             assertThatThrownBy(() -> personService.create(command))
                     .isInstanceOf(InvalidPersonException.class)
                     .hasMessageContaining("Weight must be positive");
+            org.mockito.Mockito.verifyNoInteractions(vaultEntryOperations);
+            org.mockito.Mockito.verify(personRepository, org.mockito.Mockito.never()).save(org.mockito.ArgumentMatchers.any());
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {"70.123", "10000.00", "99999"})
+        @ValueSource(strings = {"70.123", "10000", "10000.00", "99999", "1E+2147483647", "100E+2147483647", "1000E+2147483647", "1E-2147483647"})
         @DisplayName("Rejects weight exceeding numeric(6,2)")
         void rejectsWeightExceedingPrecision(String weight) {
             CreatePersonCommand command = new CreatePersonCommand(
@@ -147,6 +151,28 @@ class PersonValidationTest {
             assertThatThrownBy(() -> personService.create(command))
                     .isInstanceOf(InvalidPersonException.class)
                     .hasMessageContaining("Weight must fit numeric(6,2)");
+            org.mockito.Mockito.verifyNoInteractions(vaultEntryOperations);
+            org.mockito.Mockito.verify(personRepository, org.mockito.Mockito.never()).save(org.mockito.ArgumentMatchers.any());
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"9999.99", "1E+3", "175.500"})
+        @DisplayName("Accepts valid boundary and scientific notation height/weight")
+        void acceptsValidBoundaryDecimals(String validNumeric) {
+            when(personRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(inv -> inv.getArgument(0));
+            when(vaultEntryOperations.create(org.mockito.ArgumentMatchers.any())).thenReturn(
+                    new com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView(
+                            1L, com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType.PERSON,
+                            java.time.Instant.now(), java.time.Instant.now(), null
+                    )
+            );
+
+            BigDecimal val = new BigDecimal(validNumeric);
+            CreatePersonCommand command = new CreatePersonCommand(
+                    "Valid Name", null, null, null,
+                    val, val, null, null
+            );
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> personService.create(command));
         }
 
         @ParameterizedTest
@@ -209,6 +235,104 @@ class PersonValidationTest {
             assertThatThrownBy(() -> personService.update(command))
                     .isInstanceOf(PersonNotFoundException.class)
                     .hasMessageContaining("Person not found with id: 999");
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"180.123", "10000", "10000.00", "99999.9", "1E+2147483647", "100E+2147483647", "1000E+2147483647", "1E-2147483647"})
+        @DisplayName("Rejects height exceeding numeric(6,2) on update")
+        void rejectsHeightExceedingPrecisionOnUpdate(String height) {
+            com.vhvkhangg.personalprivatevault.people.internal.domain.Person existing =
+                    new com.vhvkhangg.personalprivatevault.people.internal.domain.Person(
+                            1L, "Existing", null, null, null, null, null, null, null
+                    );
+            when(personRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+            UpdatePersonCommand command = new UpdatePersonCommand(
+                    1L, "Existing", null, null, null,
+                    new BigDecimal(height), null, null, null
+            );
+            assertThatThrownBy(() -> personService.update(command))
+                    .isInstanceOf(InvalidPersonException.class)
+                    .hasMessageContaining("Height must fit numeric(6,2)");
+            org.mockito.Mockito.verify(personRepository, org.mockito.Mockito.never()).save(org.mockito.ArgumentMatchers.any());
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"0", "-1.00", "-1E+2147483647"})
+        @DisplayName("Rejects non-positive height on update")
+        void rejectsNonPositiveHeightOnUpdate(String height) {
+            com.vhvkhangg.personalprivatevault.people.internal.domain.Person existing =
+                    new com.vhvkhangg.personalprivatevault.people.internal.domain.Person(
+                            1L, "Existing", null, null, null, null, null, null, null
+                    );
+            when(personRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+            UpdatePersonCommand command = new UpdatePersonCommand(
+                    1L, "Existing", null, null, null,
+                    new BigDecimal(height), null, null, null
+            );
+            assertThatThrownBy(() -> personService.update(command))
+                    .isInstanceOf(InvalidPersonException.class)
+                    .hasMessageContaining("Height must be positive");
+            org.mockito.Mockito.verify(personRepository, org.mockito.Mockito.never()).save(org.mockito.ArgumentMatchers.any());
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"70.123", "10000", "10000.00", "99999", "1E+2147483647", "100E+2147483647", "1000E+2147483647", "1E-2147483647"})
+        @DisplayName("Rejects weight exceeding numeric(6,2) on update")
+        void rejectsWeightExceedingPrecisionOnUpdate(String weight) {
+            com.vhvkhangg.personalprivatevault.people.internal.domain.Person existing =
+                    new com.vhvkhangg.personalprivatevault.people.internal.domain.Person(
+                            1L, "Existing", null, null, null, null, null, null, null
+                    );
+            when(personRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+            UpdatePersonCommand command = new UpdatePersonCommand(
+                    1L, "Existing", null, null, null,
+                    null, new BigDecimal(weight), null, null
+            );
+            assertThatThrownBy(() -> personService.update(command))
+                    .isInstanceOf(InvalidPersonException.class)
+                    .hasMessageContaining("Weight must fit numeric(6,2)");
+            org.mockito.Mockito.verify(personRepository, org.mockito.Mockito.never()).save(org.mockito.ArgumentMatchers.any());
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"0", "-1.00", "-1E+2147483647"})
+        @DisplayName("Rejects non-positive weight on update")
+        void rejectsNonPositiveWeightOnUpdate(String weight) {
+            com.vhvkhangg.personalprivatevault.people.internal.domain.Person existing =
+                    new com.vhvkhangg.personalprivatevault.people.internal.domain.Person(
+                            1L, "Existing", null, null, null, null, null, null, null
+                    );
+            when(personRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+            UpdatePersonCommand command = new UpdatePersonCommand(
+                    1L, "Existing", null, null, null,
+                    null, new BigDecimal(weight), null, null
+            );
+            assertThatThrownBy(() -> personService.update(command))
+                    .isInstanceOf(InvalidPersonException.class)
+                    .hasMessageContaining("Weight must be positive");
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"9999.99", "1E+3", "175.500"})
+        @DisplayName("Accepts valid boundary and scientific notation on update")
+        void acceptsValidBoundaryOnUpdate(String validNumeric) {
+            com.vhvkhangg.personalprivatevault.people.internal.domain.Person existing =
+                    new com.vhvkhangg.personalprivatevault.people.internal.domain.Person(
+                            1L, "Existing", null, null, null, null, null, null, null
+                    );
+            when(personRepository.findById(1L)).thenReturn(Optional.of(existing));
+            when(personRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(inv -> inv.getArgument(0));
+
+            BigDecimal val = new BigDecimal(validNumeric);
+            UpdatePersonCommand command = new UpdatePersonCommand(
+                    1L, "Existing", null, null, null,
+                    val, val, null, null
+            );
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> personService.update(command));
         }
     }
 

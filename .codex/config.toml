@@ -3,3 +3,9 @@
 
 [mcp_servers.idea.tools.build_project]
 approval_mode = "approve"
+
+[mcp_servers.idea.tools.execute_terminal_command]
+approval_mode = "approve"
+
+[mcp_servers.idea.tools.create_new_file]
+approval_mode = "approve"

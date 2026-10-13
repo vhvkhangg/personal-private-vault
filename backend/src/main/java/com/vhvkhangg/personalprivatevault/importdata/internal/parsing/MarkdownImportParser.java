@@ -39,38 +39,54 @@ public final class MarkdownImportParser {
         String title = null;
 
         // Frontmatter detection: begins with --- followed by newline
-        if (rawText.startsWith("---\n") || rawText.startsWith("---\r\n")) {
-            int startIdx = rawText.indexOf('\n') + 1;
-            int endIdx = -1;
+        int startIdx = -1;
+        if (rawText.startsWith("---\r\n")) {
+            startIdx = 5;
+        } else if (rawText.startsWith("---\n")) {
+            startIdx = 4;
+        }
 
-            // Search for closing delimiter
-            int marker = rawText.indexOf("\n---", startIdx);
-            if (marker != -1) {
-                endIdx = marker;
+        if (startIdx != -1) {
+            int closingLineStart = -1;
+            if (isDelimiterLine(rawText, startIdx)) {
+                closingLineStart = startIdx;
             } else {
-                marker = rawText.indexOf("\r\n---", startIdx);
-                if (marker != -1) {
-                    endIdx = marker;
+                int cursor = startIdx;
+                while (cursor < rawText.length()) {
+                    int newline = rawText.indexOf('\n', cursor);
+                    if (newline == -1) {
+                        break;
+                    }
+                    int nextLineStart = newline + 1;
+                    if (isDelimiterLine(rawText, nextLineStart)) {
+                        closingLineStart = nextLineStart;
+                        break;
+                    }
+                    cursor = nextLineStart;
                 }
             }
 
-            if (endIdx != -1) {
-                String yamlContent = rawText.substring(startIdx, endIdx);
-                try {
-                    Object parsed = YAML_MAPPER.readValue(yamlContent, Object.class);
-                    if (parsed != null) {
-                        if (!(parsed instanceof Map<?, ?> rawMap)) {
-                            return List.of(new ImportParsedItem(0, null, ImportItemStatus.INVALID, "Invalid frontmatter YAML syntax"));
+            if (closingLineStart != -1) {
+                String yamlContent = (closingLineStart == startIdx)
+                        ? ""
+                        : rawText.substring(startIdx, closingLineStart);
+                if (!yamlContent.isBlank()) {
+                    try {
+                        Object parsed = YAML_MAPPER.readValue(yamlContent, Object.class);
+                        if (parsed != null) {
+                            if (!(parsed instanceof Map<?, ?> rawMap)) {
+                                return List.of(new ImportParsedItem(0, null, ImportItemStatus.INVALID, "Invalid frontmatter YAML syntax"));
+                            }
+                            if (!TargetPayloadCanonicalizer.isValidFrontmatter(rawMap)) {
+                                return List.of(new ImportParsedItem(0, null, ImportItemStatus.INVALID, "Malformed frontmatter in note item"));
+                            }
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> castMap = (Map<String, Object>) rawMap;
+                            frontmatter = castMap;
                         }
-                        if (!TargetPayloadCanonicalizer.isValidFrontmatter(rawMap)) {
-                            return List.of(new ImportParsedItem(0, null, ImportItemStatus.INVALID, "Malformed frontmatter in note item"));
-                        }
-                        @SuppressWarnings("unchecked")
-                        Map<String, Object> castMap = (Map<String, Object>) rawMap;
-                        frontmatter = castMap;
+                    } catch (Exception ex) {
+                        return List.of(new ImportParsedItem(0, null, ImportItemStatus.INVALID, "Invalid frontmatter YAML syntax"));
                     }
-                } catch (Exception ex) {
-                    return List.of(new ImportParsedItem(0, null, ImportItemStatus.INVALID, "Invalid frontmatter YAML syntax"));
                 }
             }
         }
@@ -103,6 +119,24 @@ public final class MarkdownImportParser {
         raw.put("frontmatter", frontmatter);
 
         return List.of(TargetPayloadCanonicalizer.canonicalize(targetType, 0, raw));
+    }
+
+    private static boolean isDelimiterLine(String text, int pos) {
+        if (!text.startsWith("---", pos)) {
+            return false;
+        }
+        int after = pos + 3;
+        if (after == text.length()) {
+            return true;
+        }
+        char c = text.charAt(after);
+        if (c == '\n') {
+            return true;
+        }
+        if (c == '\r') {
+            return after + 1 == text.length() || text.charAt(after + 1) == '\n';
+        }
+        return false;
     }
 
     private static String extractStem(String fileName) {

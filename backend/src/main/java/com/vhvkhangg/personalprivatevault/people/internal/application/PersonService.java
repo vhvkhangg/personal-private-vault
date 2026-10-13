@@ -216,9 +216,18 @@ public class PersonService implements PersonOperations {
         if (value.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidPersonException(fieldName + " must be positive when present");
         }
-        BigDecimal normalized = value.stripTrailingZeros();
-        int scale = Math.max(0, normalized.scale());
-        int integerDigits = normalized.precision() - normalized.scale();
+        long rawIntegerDigits = (long) value.precision() - (long) value.scale();
+        if (rawIntegerDigits > 4) {
+            throw new InvalidPersonException(fieldName + " must fit numeric(6,2)");
+        }
+        BigDecimal normalized;
+        try {
+            normalized = value.stripTrailingZeros();
+        } catch (ArithmeticException ex) {
+            throw new InvalidPersonException(fieldName + " must fit numeric(6,2)");
+        }
+        long scale = Math.max(0L, (long) normalized.scale());
+        long integerDigits = (long) normalized.precision() - (long) normalized.scale();
         if (scale > 2 || integerDigits > 4) {
             throw new InvalidPersonException(fieldName + " must fit numeric(6,2)");
         }

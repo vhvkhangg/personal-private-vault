@@ -132,6 +132,10 @@ public class FeedItemService implements FeedItemOperations {
                     .orElseThrow(() -> new FeedSourceNotFoundException(sourceId));
             entityManager.refresh(sourceToUpdate);
 
+            if (!sourceToUpdate.isEnabled()) {
+                throw new InvalidFeedSourceException("Feed source is disabled");
+            }
+
             Instant nextFetch = null;
             if (sourceToUpdate.isScheduledRefreshEnabled() && sourceToUpdate.getRefreshIntervalMinutes() != null) {
                 nextFetch = fetchedAt.plus(Duration.ofMinutes(sourceToUpdate.getRefreshIntervalMinutes()));

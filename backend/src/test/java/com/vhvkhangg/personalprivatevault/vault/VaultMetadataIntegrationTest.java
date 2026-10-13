@@ -9,6 +9,7 @@ import com.vhvkhangg.personalprivatevault.vault.view.VaultMetadataView;
 import com.vhvkhangg.personalprivatevault.vault.view.TagView;
 
 import com.vhvkhangg.personalprivatevault.support.AbstractPostgresIntegrationTest;
+import com.vhvkhangg.personalprivatevault.vault.internal.application.entry.VaultEntryMutationGuard;
 import com.vhvkhangg.personalprivatevault.vault.internal.application.metadata.VaultMetadataService;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.Rating;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.Tag;
@@ -53,6 +54,9 @@ class VaultMetadataIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Autowired
     private VaultEntryRepository vaultEntryRepository;
+
+    @Autowired
+    private VaultEntryMutationGuard vaultEntryMutationGuard;
 
     @Autowired
     private FavoriteRepository favoriteRepository;
@@ -109,7 +113,7 @@ class VaultMetadataIntegrationTest extends AbstractPostgresIntegrationTest {
         // 1. Initial rating at t0
         Clock clock0 = Clock.fixed(t0, ZoneOffset.UTC);
         VaultMetadataService service0 = new VaultMetadataService(
-                vaultEntryRepository, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, clock0
+                vaultEntryRepository, vaultEntryMutationGuard, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, clock0
         );
         service0.setRating(entry.id(), RatingGrade.B);
 
@@ -124,7 +128,7 @@ class VaultMetadataIntegrationTest extends AbstractPostgresIntegrationTest {
         // 2. Update rating at t1: preserves createdAt, updates updatedAt
         Clock clock1 = Clock.fixed(t1, ZoneOffset.UTC);
         VaultMetadataService service1 = new VaultMetadataService(
-                vaultEntryRepository, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, clock1
+                vaultEntryRepository, vaultEntryMutationGuard, favoriteRepository, ratingRepository, tagRepository, vaultEntryTagRepository, clock1
         );
         service1.setRating(entry.id(), RatingGrade.S);
 

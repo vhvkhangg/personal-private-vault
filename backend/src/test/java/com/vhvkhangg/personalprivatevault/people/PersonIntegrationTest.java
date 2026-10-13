@@ -353,4 +353,84 @@ class PersonIntegrationTest extends AbstractPostgresIntegrationTest {
         assertThat(count).isZero();
         assertThat(personOperations.getRoles(person.id())).isEmpty();
     }
+
+    @Test
+    @DisplayName("SBA-007: Domain rejects extreme exponent height and weight on create before any repository/Vault write")
+    void extremeExponentRejectsBeforeVaultWriteOnCreate() {
+        for (String exponentValue : List.of("1E+2147483647", "100E+2147483647", "1000E+2147483647")) {
+            BigDecimal extreme = new BigDecimal(exponentValue);
+
+            // 1. Height create rejection
+            CreatePersonCommand heightCommand = new CreatePersonCommand(
+                    "Extreme Height Person", null, null, null,
+                    extreme, null, null, null
+            );
+            assertThatThrownBy(() -> personOperations.create(heightCommand))
+                    .isInstanceOf(InvalidPersonException.class)
+                    .hasMessageContaining("Height must fit numeric(6,2)");
+
+            Integer personCountAfterHeight = jdbcTemplate.queryForObject("SELECT count(*) FROM persons", Integer.class);
+            Integer vaultCountAfterHeight = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entries WHERE entry_type = 'PERSON'", Integer.class
+            );
+            assertThat(personCountAfterHeight).isZero();
+            assertThat(vaultCountAfterHeight).isZero();
+
+            // 2. Weight create rejection
+            CreatePersonCommand weightCommand = new CreatePersonCommand(
+                    "Extreme Weight Person", null, null, null,
+                    null, extreme, null, null
+            );
+            assertThatThrownBy(() -> personOperations.create(weightCommand))
+                    .isInstanceOf(InvalidPersonException.class)
+                    .hasMessageContaining("Weight must fit numeric(6,2)");
+
+            Integer personCountAfterWeight = jdbcTemplate.queryForObject("SELECT count(*) FROM persons", Integer.class);
+            Integer vaultCountAfterWeight = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entries WHERE entry_type = 'PERSON'", Integer.class
+            );
+            assertThat(personCountAfterWeight).isZero();
+            assertThat(vaultCountAfterWeight).isZero();
+        }
+    }
+
+    @Test
+    @DisplayName("SBA-007: Domain rejects extreme exponent height and weight on update leaving row unchanged")
+    void extremeExponentRejectsOnUpdateLeavingRowUnchanged() {
+        PersonView created = personOperations.create(new CreatePersonCommand(
+                "Normal Person", null, null, null,
+                new BigDecimal("170.00"), new BigDecimal("65.00"), null, null
+        ));
+        Long personId = created.id();
+
+        for (String exponentValue : List.of("1E+2147483647", "100E+2147483647", "1000E+2147483647")) {
+            BigDecimal extreme = new BigDecimal(exponentValue);
+
+            // 1. Height update rejection
+            UpdatePersonCommand heightCommand = new UpdatePersonCommand(
+                    personId, "Normal Person", null, null, null,
+                    extreme, new BigDecimal("65.00"), null, null
+            );
+            assertThatThrownBy(() -> personOperations.update(heightCommand))
+                    .isInstanceOf(InvalidPersonException.class)
+                    .hasMessageContaining("Height must fit numeric(6,2)");
+
+            // 2. Weight update rejection
+            UpdatePersonCommand weightCommand = new UpdatePersonCommand(
+                    personId, "Normal Person", null, null, null,
+                    new BigDecimal("170.00"), extreme, null, null
+            );
+            assertThatThrownBy(() -> personOperations.update(weightCommand))
+                    .isInstanceOf(InvalidPersonException.class)
+                    .hasMessageContaining("Weight must fit numeric(6,2)");
+
+            // Assert DB row is strictly unchanged
+            java.util.Map<String, Object> row = jdbcTemplate.queryForMap(
+                    "SELECT height_cm, weight_kg, name FROM persons WHERE id = ?", personId
+            );
+            assertThat(new BigDecimal(row.get("height_cm").toString())).isEqualByComparingTo("170.00");
+            assertThat(new BigDecimal(row.get("weight_kg").toString())).isEqualByComparingTo("65.00");
+            assertThat(row.get("name")).isEqualTo("Normal Person");
+        }
+    }
 }
