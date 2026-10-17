@@ -14,7 +14,7 @@ This file defines repository-wide instructions for coding agents.
   is `NO_ACTIVE_HANDOFF` in this documentation-only closeout. FR17-1–11 and AB-1–6 are closed for
   bounded Foundation scope; `AUTH-CLOCK` remains OPEN in Authentication under its narrow owner exception,
   which was **not used** by the successful clean gate. Default containment and disabled live external-file
-  capability remain active. Frontend Phase 16 and RAG Phases 18–22 remain deferred/owner-gated.
+  capability remain active. Frontend Phase 16 and RAG Phases 19–22 remain deferred/owner-gated; **Phase 18 preparation** is owner-authorized and Codex **READY FOR HANDOFF**. Owner preparation commit/push and a separate handoff are required; Phase 18 implementation remains blocked.
 
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
@@ -91,8 +91,12 @@ ACTIVE to `NO_ACTIVE_HANDOFF`. Independent `mvn clean verify` passed **1,308/1,3
 (including 154 RAG), Python 37 and safety hooks 13; full reviewer receipts are linked from the
 [final review](docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md).
 `AUTH-CLOCK` remains OPEN as a separate frozen Authentication/environment issue (exception unused).
-No Phase 18–22, Frontend, Ideaverse, deployment or containment-removal authorization is implied.
+This Phase 17 closeout implies no follow-on implementation authorization. The owner has separately authorized **Phase 18 preparation** ([decisions](docs/implementation/phase-18/owner-decisions.md), [scope](docs/implementation/phase-18/README.md)); implementation, Frontend, Ideaverse, deployment and containment-removal remain unauthorized.
 
+
+## Phase 18 preparation state — owner authorization 2026-10-17
+
+Phase 18 preparation is **READY FOR HANDOFF** after [independent Codex re-review 2](docs/implementation/phase-18/reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md): P18-PH-01–04 are closed for preparation. See [preparation status](docs/implementation/phase-18/preparation-review.md). Scope retains all formats, OCR languages, embeddings and verified indexing, with separately measured **16 GB system RAM** and **8 GB GPU VRAM**. The owner **approved all eight D18-A clauses** for the additive multi-root/file-indexing design in [ADR-0021](docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md). This is **preparation acceptance only**; owner preparation commit/push and a separate Codex implementation handoff are still required. Do not edit frozen ADR-0020 or enable live NTFS sources before R7. `ACTIVE.md` stays `NO_ACTIVE_HANDOFF`, external live-file ingestion stays disabled pending R7; no Phase 18 runtime success is asserted.
 
 ## Future RAG delivery efficiency — owner policy 2026-10-17
 

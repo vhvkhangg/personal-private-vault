@@ -10,10 +10,10 @@ Phase 17 single-job Local RAG Foundation (Alternative B / ADR-0020) was independ
 and committed/pushed by the owner as [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).
 [Phase 17 closeout](docs/implementation/phase-17/closeout.md) archives the
 [handoff](docs/implementation/phase-17/handoff.md); [ACTIVE](docs/implementation/handoffs/ACTIVE.md)
-is `NO_ACTIVE_HANDOFF` in the separate closeout-docs patch awaiting owner commit/push.
+is `NO_ACTIVE_HANDOFF` after the owner-published Phase 17 closeout.
 `AUTH-CLOCK` remains OPEN in Authentication under the owner-approved narrow exception (not used in
 successful verification). Default containment and disabled live external-file capability remain.
-Phase 16 Frontend is deferred; Phases 18–22 are not started or authorized.
+Phase 16 Frontend is deferred. **Phase 18 preparation** is [Codex READY FOR HANDOFF](docs/implementation/phase-18/preparation-review.md), awaiting owner preparation commit/push; there is **no Phase 18 implementation handoff**. Phases 19–22 remain unprepared/owner-gated.
 
 **Historical progression (superseded by the current status above):**
 
@@ -114,7 +114,7 @@ The frozen database schema is under [`docs/database`](docs/database).
 
 ## Future RAG engineering workflow
 
-The completed Phase 17 Foundation remains frozen. Before authorizing RAG Phases 18–22, use the [scope simplification review](docs/implementation/rag-scope-simplification-review.md) and [proportional delivery/escalation rules](docs/workflow/rag-phase-delivery-guardrails.md). These are **proposals/workflow constraints**, not a Phase 18 implementation handoff. The existing stable-compatible version policy remains [ADR-0013](docs/adr/0013-stable-compatible-version-policy.md); new major language/tool releases are not automatically required.
+The completed Phase 17 Foundation remains frozen. For the owner-authorized [Phase 18 preparation](docs/implementation/phase-18/README.md) and subsequent separately gated phases, use the [scope simplification review](docs/implementation/rag-scope-simplification-review.md) and [proportional delivery/escalation rules](docs/workflow/rag-phase-delivery-guardrails.md). These are **proposals/workflow constraints**, not a Phase 18 implementation handoff. The existing stable-compatible version policy remains [ADR-0013](docs/adr/0013-stable-compatible-version-policy.md); new major language/tool releases are not automatically required.
 
 ## Development workflow
 

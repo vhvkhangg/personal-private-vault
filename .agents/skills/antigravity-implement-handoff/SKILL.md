@@ -22,7 +22,10 @@ the requested production change, **STOP**. Never infer work from frozen phase do
 
 Apply relevant skills progressively:
 
-- `java-spring-coding-standards`
+- `java-spring-coding-standards` for Java/Spring changes
+- `python-rag-coding` for approved Python extraction, OCR, chunking, embeddings and worker code
+- `local-rag-engineering` for RAG source authority, job/worker isolation and Phase 17 frozen contracts
+- `bounded-command-execution` for potentially long external commands; actual watchdog invocation required
 - `pragmatic-solid-design`
 - `reuse-and-consistency`
 - `design-pattern-selection`
@@ -36,7 +39,7 @@ Apply relevant skills progressively:
 
 1. Read exact handoff references.
 2. Use Graphify before broad exploration when available; verify source facts.
-3. Implement only approved targets.
+3. Implement only approved targets. For Phase 18 preserve per-file outcome semantics, **one final trusted Java physical COMMIT**, source-set reservations and the R7 external-file disabled-by-default gate until proven. Record peak **system RAM** separately from **GPU VRAM** for resource evidence; never assume model/limit choices before target-host measurement.
 4. Add/update tests.
 5. Iterate focused tests.
 6. Do not rerun an unchanged failing full suite for a lucky PASS; use focused evidence and diagnose the failure. Two-remediation-round policy is independent of raw test retry count.

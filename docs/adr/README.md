@@ -34,3 +34,7 @@ When a frozen architectural decision changes materially, add a new ADR and mark 
 | [ADR-0018](0018-phase-15-bounded-backend-remediation.md) | Authorize bounded Phase 15 audit remediation without schema/edge expansion | Accepted |
 | [ADR-0019](0019-local-rag-before-frontend.md) | RAG-first sequencing; Phase 17 clauses 2–5 amended by ADR-0020 | Accepted / amended |
 | [ADR-0020](0020-phase-17-single-job-reservations-e1.md) | Alternative B durable reservations, single job, consent CAS, E1 and independent completed-index lifetime | Accepted contract; not implemented |
+
+## Phase 18 proposed bounded amendment (owner-approved design)
+
+[ADR-0021](0021-phase-18-bounded-multi-file-verified-indexing.md) — **owner-approved design, NOT IMPLEMENTED; Phase 18 preparation READY FOR HANDOFF** after [Codex re-review 2](../implementation/phase-18/reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md). Owner preparation commit/push and a separate handoff remain required. Additive D18-A multi-root/source authority, independent generations, single atomic finalization. Historical ADR-0020 remains unchanged and effective for frozen Foundation runtime.

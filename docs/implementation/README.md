@@ -2,7 +2,7 @@
 
 Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 
-For future RAG Phases 18–22, the [owner-approved efficient delivery workflow](../workflow/rag-phase-delivery-guardrails.md), [nonbinding overengineering/scope review](rag-scope-simplification-review.md), and [long agent prompt placeholder](agent-launcher-prompt.md) apply. This addition does **not** open a numbered phase or change frozen Phase 17.
+For future RAG Phases 18–22, the [owner-approved efficient delivery workflow](../workflow/rag-phase-delivery-guardrails.md), [nonbinding overengineering/scope review](rag-scope-simplification-review.md), and [long agent prompt placeholder](agent-launcher-prompt.md) apply. Owner separately authorized **Phase 18 preparation** on 2026-10-17; that authorization does **not** create an implementation handoff or change frozen Phase 17.
 
 ## Phases
 
@@ -24,6 +24,7 @@ For future RAG Phases 18–22, the [owner-approved efficient delivery workflow](
 - [`phase-15/`](phase-15/README.md) — **COMPLETE / FROZEN** — closure audit `BACKEND_AUDIT_READY`, owner remediation committed/pushed
 - Phase 16 — **DEFERRED / OWNER-GATED** — Frontend not started (see [roadmap](../roadmap.md); no implementation directory yet)
 - [`phase-17/`](phase-17/README.md) — **COMPLETE / FROZEN** — single-job Local RAG Foundation; [closeout](phase-17/closeout.md) / [archived handoff](phase-17/handoff.md)
+- [`phase-18/`](phase-18/README.md) — **PREPARATION / READY FOR HANDOFF** — OCR, parsers, embedding, verified indexing; [decisions](phase-18/owner-decisions.md) / [acceptance](phase-18/acceptance-and-evidence.md)
 
 Maintenance:
 
@@ -36,9 +37,9 @@ See [`../roadmap.md`](../roadmap.md).
 Phase 17 Foundation is **COMPLETE — FROZEN** after [Codex independent acceptance](phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
 and owner implementation commit [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).
 The [formal closeout](phase-17/closeout.md) archives its [handoff](phase-17/handoff.md),
-and [ACTIVE](handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF` in this pending owner-published closeout patch.
+and [ACTIVE](handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF` after its owner-published closeout.
 `AUTH-CLOCK` remains OPEN separately; the accepted Foundation retains default containment.
-Phase 16 is deferred; Phase 18–22 are not prepared or started.
+Phase 16 is deferred. Phase 18 **preparation re-review 2 is READY FOR HANDOFF; D18-A owner approval is recognized and P18-PH-01–04 are closed for preparation**. Owner preparation commit/push and a separate handoff are required. Implementation is not started and `ACTIVE.md` remains `NO_ACTIVE_HANDOFF`. Phase 19–22 are still not prepared or started.
 
 ### Historical preparation and Phase 15 timeline (superseded)
 

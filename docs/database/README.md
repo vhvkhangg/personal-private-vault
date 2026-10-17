@@ -65,3 +65,7 @@ in contract synchronization; separately authorized implementation appends after 
 DBML is a canonical logical extension/inventory, not executable DDL or a claim
 that newly listed fields/APIs exist. Exact physical reuse/key/index/trigger mapping
 must be reviewed with the future append-only migration. No schema acceptance here.
+
+## Phase 18 D18-A additive logical target — preparation, not executable
+
+[Phase 18 document-index DBML](phase-18-document-indexing.dbml), [ADR-0021](../adr/0021-phase-18-bounded-multi-file-verified-indexing.md) and [typed API inventory](../architecture/rag-phase-18-api-extension.md) record owner-approved *proposed* RAG-owned external source, multi-root job outcome, chunk/vector and per-generation manifest responsibilities. The historical *candidate* V3–V13 list above reflects its original preparation time, **not** the present Flyway tip. The Phase 17 foundation reached **V17**; only **V18 or later append-only migrations** may implement Phase 18 after independent gates and an active handoff. V1–V17, Schema v1, frozen Phase 17 DBML/ADR and deployed roles remain unchanged by this documentation.

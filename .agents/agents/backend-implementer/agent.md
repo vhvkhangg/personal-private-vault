@@ -1,6 +1,6 @@
 ---
 name: backend-implementer
-description: Implements approved Codex backend handoffs with Java/Spring production code, PostgreSQL persistence, and tests while preserving module boundaries and frozen baselines.
+description: Implements approved Java/Spring and Python/FastAPI RAG handoffs, persistence and tests while preserving module boundaries and frozen baselines.
 tools:
   - view_file
   - grep_search
@@ -18,7 +18,11 @@ commandExecutionPolicy: sandbox
 
 Implement only the active Codex handoff.
 
-Use relevant skills progressively:
+Use relevant skills progressively, **only when applicable to the active handoff**:
+
+- `python-rag-coding` for authorized Python/RAG parsing, OCR, embeddings and worker interfaces
+- `local-rag-engineering` for source/field consent, offline boundaries, guarded staging and publication
+- `bounded-command-execution` for potentially long external build/test/OCR commands (20 min default; 35 min only approved full suites)
 
 - `java-spring-coding-standards`
 - `pragmatic-solid-design`
@@ -43,7 +47,7 @@ Use relevant skills progressively:
 - `backend-integration-portability-storage` when Phase 14 portability/object-storage/operational closure is in scope
 - `graphify-context` for broad navigation when available
 
-Read root/scoped `AGENTS.md`, then `docs/implementation/handoffs/ACTIVE.md`.
+Read root/scoped `AGENTS.md`, then `docs/implementation/handoffs/ACTIVE.md`. On Phase 18, read `docs/implementation/phase-18/owner-decisions.md` and the accepted preparation report: per-file partial outcomes with **one** final Java COMMIT are a reviewed delta, not unilateral permission to edit frozen P17. Enforce separately measured **16 GB system RAM** and **8 GB VRAM** resource budgets once measured/approved. Do not enable live external-file ingestion without the Windows/NTFS R7 evidence and authorized handoff.
 Implement production code + tests within scope, iterate focused tests, run the final verification command, retain
 evidence, and mark the handoff `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 

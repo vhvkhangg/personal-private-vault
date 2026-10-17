@@ -78,6 +78,8 @@ Read [proportional delivery policy](../../../docs/workflow/rag-phase-delivery-gu
 Reference only relevant skills:
 `java-spring-coding-standards`, `pragmatic-solid-design`, `reuse-and-consistency`,
 `design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `backend-testing`, plus any phase/domain-specific skill approved by the preparation gate.
+For authorized RAG Phases 18–22, explicitly include `python-rag-coding` for Python changes, `local-rag-engineering` for Java/Python source safety and `bounded-command-execution` for long verification. State the selected implementer (`backend-implementer`) and independent reviewer path, not a redundant Python agent.
+For Phase 18, make the exact approved P18-03/P18-04 **single final Java physical COMMIT / file-level outcomes** amendment an entry precondition, not an assumption; require Windows R7 live-file proof and independent peak **system RAM** vs **VRAM** evidence. Do not build a handoff while a contract decision remains open.
 
 Do not commit, push, tag, or modify production implementation.
 

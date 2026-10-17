@@ -9,8 +9,7 @@ and was owner committed/pushed as [`829d294`](https://github.com/vhvkhangg/perso
 [archived handoff](implementation/phase-17/handoff.md) reset
 [ACTIVE](implementation/handoffs/ACTIVE.md) to `NO_ACTIVE_HANDOFF`. AUTH-CLOCK remains
 OPEN in Authentication (the narrow exception was unused); default containment and disabled live
-external-file capability remain. Phase 16 Frontend stays deferred; RAG Phases 18–22 are planned,
-unprepared and require separate owner approval. See the [multi-phase plan](implementation/rag-phase-plan.md),
+external-file capability remain. Phase 16 Frontend stays deferred. [Phase 18](implementation/phase-18/README.md) preparation is independent Codex **READY FOR HANDOFF**, awaiting owner preparation commit/push, with **no implementation handoff**; Phases 19–22 remain unprepared and owner-gated. See the [multi-phase plan](implementation/rag-phase-plan.md),
 [ADR-0019](adr/0019-local-rag-before-frontend.md) and [ADR-0020](adr/0020-phase-17-single-job-reservations-e1.md).
 
 The following Phase 15 narrative is historical. The Phase 1–3 milestone is `MILESTONE_READY`.
@@ -98,4 +97,4 @@ Normal feature phases use ChatGPT preparation → `$codex-pre-handoff-review` �
 
 **Historical Phase 15-only exception (no longer callable as the active pre-handoff branch):** `$codex-pre-handoff-review` formerly returned `READY FOR AUDIT` for Phase 15; after its preparation commit, `$codex-backend-audit` ran, with any authorized remediation handoff and a final closure audit reaching `BACKEND_AUDIT_READY`. The present active RAG phase uses `READY FOR HANDOFF` instead.
 
-Backend Phases 0–15 and 17 are frozen. Phase 18 and any other follow-on work require their own explicit owner-authorized preparation and independent review. Existing privacy, consent, SQL and native containment boundaries remain in force.
+Backend Phases 0–15 and 17 are frozen. Phase 18 **preparation** is Codex **READY FOR HANDOFF**; owner preparation commit/push and a separate handoff are required before implementation. Existing privacy, consent, SQL and native containment boundaries remain in force.

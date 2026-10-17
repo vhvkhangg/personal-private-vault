@@ -1,0 +1,76 @@
+// Phase 18 D18-A owner-approved PROPOSED logical extension (ADR-0021).
+// NOT deployed DDL; neither alters frozen Schema v1 nor the Phase 17 additive DBML.
+// Append actual migrations AFTER V17 (V18+); exact physical keys/names/indexes must
+// be reconciled with V3-V17 effective schema and audited role/fence SQL before writing migrations.
+// Mixed-source lock order (ADR-0021 clause 2): optional graph barrier -> sorted Vault
+// source-state guards -> sorted RAG external-file source guards -> Vault lifecycle
+// -> owner projection/assignment -> sorted RAG policy -> job/attempt ->
+// generation/staging/run. Preserve the preexisting relative Phase 17 order.
+// Owner commands take applicable subset; worker uses attempt -> staging only;
+// attempt-only stop-request TX ends before source/process action. NOWAIT trigger
+// backstop must not wait backwards. These are logical ordering requirements,
+// NOT grants, added global coordinator or production lock implementation.
+Project phase18_rag_document_index {
+  database_type: 'PostgreSQL'
+  Note: 'RAG-owned additions only. Logical keys below, not literal new production tables or worker grants. Existing rag.sources/job_leases/index_generations/grants/staging are reused.'
+}
+
+Table rag.external_file_sources_phase18 {
+  file_source_id uuid [pk, note: 'Proposed stable RAG-owned external file identity; NEVER cast to Vault ID']
+  canonical_identity_digest varchar(128) [not null, note: 'No raw private path in operational report']
+  source_version bigint [not null]
+  consent_reset_version bigint [not null]
+  authorization_epoch bigint [not null]
+  field_policy_version int [not null]
+  eligible boolean [not null]
+  reserved_by uuid [note: 'Durable exact job reservation, no TTL/unverified release']
+  Note: 'Logical RAG-owned source/version/consent/guard; preserve classified field grants and retained revocation history. Physical identity/NTFS handle validation and policy rows require audited implementation.'
+}
+
+Table rag.batch_roots_phase18 {
+  job_id uuid [not null]
+  root_key varchar(255) [not null, note: 'Tagged source identity: Vault-backed or RAG external; not a path nor coerced Vault ID']
+  expected_source_version bigint [not null]
+  expected_authorization_epoch bigint [not null]
+  Note: 'Immutable explicit manual root set; each root independently approved. Reservation manifest separately binds union of all actual dependency closures.'
+  indexes { (job_id, root_key) [pk] }
+}
+
+Table rag.file_outcomes_phase18 {
+  job_id uuid [not null]
+  root_key varchar(255) [not null]
+  result varchar(32) [not null, note: 'Typed per-file success/failure and sanitized reason; NOT a new job enum']
+  candidate_generation_id bigint [note: 'Only for fully validated per-file candidate']
+  warning_codes jsonb [note: 'Safe non-content reasons only; no raw OCR text or file paths']
+  Note: 'One outcome per selected root. Only trusted Java marks final published outcome after staging verification.'
+  indexes { (job_id, root_key) [pk] }
+}
+
+Table rag.generation_roots_phase18 {
+  generation_id bigint [not null, note: 'Reuse index_generations identity; one independent successful root']
+  root_key varchar(255) [not null]
+  exact_dependency_manifest jsonb [not null, note: 'Only actual root/child/edge/field/version/consent/reset proofs, NOT job-wide union']
+  model_artifact_hash varchar(128) [not null]
+  model_version varchar(128) [not null]
+  tokenizer_version varchar(128) [not null]
+  parser_version varchar(128) [not null]
+  chunker_version varchar(128) [not null]
+  ocr_pipeline_version varchar(128) [not null]
+  vector_dimensions int [not null]
+  Note: 'Logical per-generation CURRENT/OUTDATED/revoke/purge closure; no cached permission boolean; do not mutate unrelated generation.'
+  indexes { (generation_id) [pk] }
+}
+
+Table rag.document_chunks_phase18 {
+  chunk_id bigint [pk]
+  generation_id bigint [not null, ref: > rag.generation_roots_phase18.generation_id]
+  source_identity varchar(255) [not null, note: 'Exact approved attributed original source including embed child']
+  content text [not null, note: 'Sensitive derived content: never operational logs; purge with source/descendants']
+  locator jsonb [not null, note: 'Typed mandatory provenance fields validated per source format']
+  structure_metadata jsonb [note: 'Allowlisted headings/tables/header context only']
+  embedding vector [note: 'Proposed pgvector with dimension enforced per selected model in executable migration; NOT generic unbounded type']
+  Note: 'Atomic staged candidate and published content lifecycle fenced by actual worker and trusted Java transaction.'
+}
+// Existing rag.job_leases, rag.index_generations, rag.worker_grants and audited staging functions
+// remain authority. Real physical schema may consolidate these proposed logical records.
+// No new business module/reverse FK/global slot/worker direct DML/publication privilege.

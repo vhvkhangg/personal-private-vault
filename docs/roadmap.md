@@ -2,7 +2,7 @@
 
 ## Structure
 
-The roadmap retains historical identifiers **0–16** and allocates **six RAG implementation phases 17–22** (23 identifiers 0–22 in total). Phase 17 Alternative B Foundation is **COMPLETE — FROZEN** following independent re-review 3 and owner implementation commit `829d294`, with formal documentation-only closeout recorded in [Phase 17 closeout](implementation/phase-17/closeout.md). Phases 18–22 are not started and each requires its own preparation/handoff gate; the [RAG multi-phase plan](implementation/rag-phase-plan.md) defines their boundaries.
+The roadmap retains historical identifiers **0–16** and allocates **six RAG implementation phases 17–22** (23 identifiers 0–22 in total). Phase 17 Alternative B Foundation is **COMPLETE — FROZEN** following independent re-review 3 and owner implementation commit `829d294`, with formal documentation-only closeout recorded in [Phase 17 closeout](implementation/phase-17/closeout.md). Phase 18 preparation is **D18-A owner-approved / Codex re-review 2 READY FOR HANDOFF**, awaiting owner preparation commit/push (no implementation handoff); Phases 19–22 are not started and require their own preparation/handoff gates; the [RAG multi-phase plan](implementation/rag-phase-plan.md) defines their boundaries.
 
 For normal implementation phases from Phase 3 onward there is a mandatory **Pre-Handoff Preparation Gate (P-N)**
 before each implementation handoff. ChatGPT prepares docs/tooling, Codex reviews them with
@@ -46,7 +46,7 @@ Comprehensive Backend Audit & Remediation Gate.
 | 15    | Comprehensive Backend Audit & Remediation Gate over Phases 0–14 | P-15 `READY FOR AUDIT`; closure `BACKEND_AUDIT_READY` | **COMPLETE — FROZEN** (owner commit `0b1ab11`) | Replaces former post-15 milestone |
 | 16    | Next.js/TypeScript/shadcn frontend + E2E product workflows | P-16 deferred/owner-gated; reconsider only after Phase 22 closeout | Not started | — |
 | 17    | Local RAG foundation, authorities, source commit fencing, storage/jobs and offline runtime | **P-17 preparation accepted; design contracts closed** | **COMPLETE — FROZEN** — owner commit `829d294`; FR17-1–11 & AB-1–6 closed for bounded scope | RAG foundation gate |
-| 18    | Document/Obsidian/OCR/Excel ingestion and adaptive indexing | P-18 not prepared; requires Phase 17 frozen | Not started | — |
+| 18    | Document/Obsidian/OCR/Excel ingestion, embedding and verified indexing | [P-18 preparation accepted](implementation/phase-18/preparation-review.md); `READY FOR HANDOFF`; owner prep commit/push pending; P17 frozen | **Implementation NOT_STARTED** | — |
 | 19    | Grounded local QA, hybrid retrieval, citations/highlight | P-19 not prepared; requires Phase 18 frozen | Not started | — |
 | 20    | Fiction/Film catalog recommendation for all statuses | P-20 not prepared; requires Phase 19 frozen | Not started | — |
 | 21    | Reviewed module-source expansion and exact structured lookups | P-21 not prepared; requires Phase 20 frozen | Not started | — |

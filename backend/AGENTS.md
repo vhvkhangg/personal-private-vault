@@ -13,19 +13,25 @@ requested production change, stop and request a Codex handoff instead of improvi
 
 Codex remains planning/review-only for production implementation unless the owner explicitly overrides the workflow.
 
-Phase 17 Alternative B implementation and remediation under existing handoff `P17-RAG-FOUNDATION`
-and [ADR-0020](../docs/adr/0020-phase-17-single-job-reservations-e1.md) has been accepted by the
-independent final re-review 3 with verdict `READY FOR OWNER COMMIT`. Findings FR17-1 through FR17-11
-and AB-1 through AB-6 are closed for bounded Foundation scope. AUTH-CLOCK remains OPEN under an
-owner-approved narrow acceptance exception. Default containment and disabled live external-file
-capability remain active. The candidate awaits owner commit; Phase 17 closeout and freezing are
-reserved for post-owner-commit synchronization.
+Phase 17 Alternative B/E1 **Foundation is COMPLETE — FROZEN** after independent final re-review 3,
+owner implementation commit/push `829d294aca7d916851348ff21004c631915d572e` and
+[formal closeout](../docs/implementation/phase-17/closeout.md). Its `P17-RAG-FOUNDATION` handoff
+is archived; current [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF`.
+FR17-1–11 and AB-1–6 are closed for bounded Foundation scope. `AUTH-CLOCK` remains separately OPEN
+in Authentication; no blanket test waiver. Default containment and **disabled live external-file
+indexing** remain until independent Windows/NTFS R7 proof and an accepted new handoff.
 
-## Current Phase 17 status — 2026-10-17
+## Current RAG authorization — 2026-10-17
 
-Alternative B implementation is accepted as `READY_FOR_OWNER_COMMIT`. Keep default containment
-and disabled live external-file capability. No production modifications, later phases, new handoff,
-commit or push.
+Owner approved Phase 18 **design/preparation**, including bounded D18-A in
+[ADR-0021](../docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md); Codex pre-handoff
+is **READY FOR HANDOFF** after [re-review 2](../docs/implementation/phase-18/reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md), with all four preparation findings closed. This is not a production handoff. Maintain
+frozen [ADR-0020](../docs/adr/0020-phase-17-single-job-reservations-e1.md) semantics until a
+separately accepted/owner-committed Phase 18 preparation and new Codex-created active handoff
+specifically authorize implementation. No production work under a closed Phase 17 handoff, no
+automatic live-file enablement, and no unapproved commit/push. After two actual Antigravity
+implementation remediation + Codex re-review rounds, a separate Codex takeover/reviewer workflow
+may apply **only per the existing authorized workflow**, not during preparation.
 
 ## Package structure
 

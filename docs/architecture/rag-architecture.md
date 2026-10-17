@@ -1,3 +1,5 @@
+> **Current authority note (2026-10-17):** The Phase 17 Alternative B/E1 Foundation is **COMPLETE — FROZEN** (see [closeout](../implementation/phase-17/closeout.md)); older “candidate/contained” wording below is historical design narrative, not current implementation status. The owner has **approved D18-A as a Phase 18 design extension only**, proposed in [ADR-0021](../adr/0021-phase-18-bounded-multi-file-verified-indexing.md) with [separate API](rag-phase-18-api-extension.md) and [DBML](../database/phase-18-document-indexing.dbml). Live external files remain disabled until R7. No Phase 18 implementation, handoff or Phase 19 retrieval authorization is implied.
+
 # Local RAG Architecture — approved Alternative B contract
 
 **2026-10-15 owner-approved contract, not accepted implementation.** See accepted
