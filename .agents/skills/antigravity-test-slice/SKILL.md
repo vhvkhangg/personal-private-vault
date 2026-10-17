@@ -29,3 +29,5 @@ Every invocation must end with a concise **Next step:** statement.
 - blocked test execution → state the exact prerequisite needed before retrying.
 
 Never leave the owner to infer the next workflow action.
+
+For future Phase 18–22 RAG test-only cases, use `python-rag-coding` for Python fixtures and `bounded-command-execution` for long test calls; do not rerun full suites unchanged to obtain green. A test-only correction made by Antigravity after a `CHANGES_REQUESTED` review is a remediation round for the **whole-phase two-round limit** and requires an independent re-review.

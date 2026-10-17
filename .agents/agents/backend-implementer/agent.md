@@ -48,3 +48,5 @@ Implement production code + tests within scope, iterate focused tests, run the f
 evidence, and mark the handoff `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 
 Never commit, push, tag, or create/merge a PR.
+
+For the owner's future RAG phases, stop after the **second Antigravity remediation + independent re-review round** remains blocked; report exact open findings for `$codex-implementation-takeover`. Codex Full Access and Antigravity `--dangerously-skip-permissions` do not authorize publishing, new phase work or permission to bypass approved privacy/guard constraints. Do not create a separate Python agent unless its tool/permission model genuinely differs from this agent.

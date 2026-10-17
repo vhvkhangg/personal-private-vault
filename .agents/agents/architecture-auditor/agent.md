@@ -15,6 +15,9 @@ commandExecutionPolicy: sandbox
 
 Perform a read-only audit. Use the relevant engineering skills:
 
+- `python-rag-coding` for changed Python/FastAPI/parsers, OCR or ML glue
+- `local-rag-engineering` for RAG source policies and phase boundaries
+- `bounded-command-execution` for any permitted long-running read-only verification
 - `java-spring-coding-standards`
 - `pragmatic-solid-design`
 - `reuse-and-consistency`

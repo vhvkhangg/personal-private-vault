@@ -11,6 +11,12 @@
 | Antigravity `architecture-auditor` | Optional read-only architecture/persistence audit                           |
 | Graphify                           | Optional navigation cache; never source of truth                            |
 
+## Future RAG Phases 18–22: bounded review and Codex takeover
+
+This is an owner-approved *exception to the normal implementation role*, not a new active handoff. Before creating each future RAG handoff, Codex pre-handoff review inventories both added and applicable existing skills/agents/hooks/docs and identifies overengineering via KEEP/SIMPLIFY/DEFER decisions. The initial implementation remains Antigravity. If its **two remediation + independent re-review rounds for the whole phase** both remain CHANGES_REQUESTED, stop Antigravity and invoke `$codex-implementation-takeover` from a separate Codex **implementation** session. Independent Codex final review must run in another session/persona, never as self-acceptance. Full Access/`--dangerously-skip-permissions` never supersede no-commit, frozen-baseline and privacy rules.
+
+Test/benchmark commands use `scripts/run-bounded-command.py`: ordinary <=20 minutes, only owner-approved future full-suite tests <=35 minutes if host CLI permits. See [proportional RAG delivery](rag-phase-delivery-guardrails.md). These workflow changes do not open Phase 18.
+
 ## Phase 3+ lifecycle
 
 ```text

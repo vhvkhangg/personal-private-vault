@@ -25,6 +25,10 @@ Completed Phase 17 is archived at [Phase 17 handoff](../phase-17/handoff.md).
 
 Handoffs should link to canonical documents rather than duplicating large schema/design content.
 
+## RAG Phase 18–22 remediation escalation (owner-approved)
+
+For future RAG handoffs, the `CHANGES_REQUESTED` branch allows at most **two** Antigravity remediation + independent Codex re-review cycles after the initial implementation review. Record the remaining finding IDs, immutable report paths and the current round in the **existing** handoff. If both re-reviews remain blocked, continue the *same handoff* with Codex `$codex-implementation-takeover` in a separate implementation session, not a third Antigravity round. An independent reviewing session must verify Codex-authored fixes. This is a role transition, **not** a new handoff state, exception to security, permission to skip tests, or owner commit authorization. Use existing `CHANGES_REQUESTED` → `IMPLEMENTED_AWAITING_CODEX_REVIEW` → independent final-review transitions.
+
 ## Phase 15 audit exception
 
 Phase 15 starts with no handoff. `$codex-backend-audit` creates at most one remediation handoff when actionable

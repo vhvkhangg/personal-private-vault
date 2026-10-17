@@ -112,6 +112,10 @@ Architecture sources and exports are under [`docs/architecture`](docs/architectu
 
 The frozen database schema is under [`docs/database`](docs/database).
 
+## Future RAG engineering workflow
+
+The completed Phase 17 Foundation remains frozen. Before authorizing RAG Phases 18–22, use the [scope simplification review](docs/implementation/rag-scope-simplification-review.md) and [proportional delivery/escalation rules](docs/workflow/rag-phase-delivery-guardrails.md). These are **proposals/workflow constraints**, not a Phase 18 implementation handoff. The existing stable-compatible version policy remains [ADR-0013](docs/adr/0013-stable-compatible-version-policy.md); new major language/tool releases are not automatically required.
+
 ## Development workflow
 
 Normal feature phases:

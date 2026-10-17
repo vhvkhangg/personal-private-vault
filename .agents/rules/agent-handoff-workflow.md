@@ -22,6 +22,14 @@ For Phase 3+:
     until `BACKEND_AUDIT_READY`.
 11. Phase 15 supersedes the former post-Phase-15 milestone. Frontend/RAG are Phase 16/17 and remain owner-gated.
 
+## Owner's future RAG workflow additions (2026-10-17)
+
+- Phase 17 is closed/frozen. For future 18–22, pre-handoff review must inspect new and applicable old docs, skills, rules, hooks, agents, selected code and tests, and issue concrete KEEP/SIMPLIFY/DEFER/REJECT/OWNER DECISION REQUIRED verdicts before handoff.
+- The initial Antigravity implementation does not use a remediation round. After two completed Antigravity remediation and independent Codex re-review rounds still block, use `$codex-implementation-takeover` in a separate Codex implementation session. A separate independent reviewer must accept that code.
+- Codex Full Access / Antigravity `--dangerously-skip-permissions` are owner-preferred execution modes, not changes to commit/security/scope authority.
+- Use `python-rag-coding` for Python and `bounded-command-execution` for long commands (20 min normally; 35 min only for owner-approved future full suites). Store long custom tasks in `docs/implementation/agent-launcher-prompt.md` and send a short launcher.
+- See `docs/workflow/rag-phase-delivery-guardrails.md`; Phase 18 still requires owner authorization.
+
 Do not bypass preparation or the active handoff by expanding scope from TODOs, tests, Graphify, or inferred needs.
 
 

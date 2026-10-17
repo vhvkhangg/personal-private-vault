@@ -240,3 +240,13 @@ Use exactly one branch below. **Do not continue from the Phase 15 branch into th
 ## Active-phase review scope and historical audit routing
 
 For every new phase, Codex pre-handoff/final reviewers should apply the common [`codex-review-coverage`](../../.agents/skills/codex-review-coverage/SKILL.md) rubric (including actual folder/package hygiene, shared HTTP exceptions per ADR-0016, security races, workflow efficiency and evidence classification). The pre-handoff skill no longer branches into the **completed** Phase 15 `READY FOR AUDIT` path: that path remains documented above as an audit-history exception, not a current instruction. `$codex-backend-audit` remains a dedicated archived Phase 15 workflow, not a substitute for current RAG gates.
+
+## Future RAG Phase 18–22 cost/time safeguards (owner decision 2026-10-17)
+
+Use [proportional RAG delivery guardrails](rag-phase-delivery-guardrails.md) and [complexity review](../implementation/rag-scope-simplification-review.md). Before Codex handoff, `$codex-pre-handoff-review` must review added/applicable existing docs/skills/agents/hooks and identify overengineering with a KEEP/SIMPLIFY/DEFER/OWNER DECISION matrix. Contract changes require owner approval.
+
+The owner uses Antigravity implementation for the initial pass, then **at most two remediation → independent re-review rounds for the whole phase**. If the second still returns CHANGES_REQUESTED, stop Antigravity and ask a Codex **implementation** session to invoke `$codex-implementation-takeover` under the existing handoff. A separate independent Codex review session must assess the takeover output. Agents never commit/push. Codex runs Full Access and Antigravity runs `--dangerously-skip-permissions`, without bypassing these controls.
+
+Ordinary external commands have an executable 1,200-second watchdog; only required future-phase **full suites** may have up to 2,100 seconds using `scripts/run-bounded-command.py` when the tool's outer timeout permits it. Prefer skills over custom prompts; when necessary populate `docs/implementation/agent-launcher-prompt.md` and send a short launcher.
+
+This section is a workflow amendment only. It neither opens Phase 18 nor changes frozen Phase 17 contracts.

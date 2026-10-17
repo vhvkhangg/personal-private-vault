@@ -39,8 +39,8 @@ Apply relevant skills progressively:
 3. Implement only approved targets.
 4. Add/update tests.
 5. Iterate focused tests.
-6. Limit repeated full-suite failures to three for the same unresolved cause.
-7. Run final verification after convergence.
+6. Do not rerun an unchanged failing full suite for a lucky PASS; use focused evidence and diagnose the failure. Two-remediation-round policy is independent of raw test retry count.
+7. Run final verification after convergence through `scripts/run-bounded-command.py` when a long external command is expected (ordinary 1,200 s; required future-phase full suites up to 2,100 s if supported by the host CLI).
 8. Record exact command/result/test counts.
 9. Refresh Graphify with `scripts/refresh-graphify.ps1` after meaningful source changes when installed.
 10. Mark `IMPLEMENTED_AWAITING_CODEX_REVIEW` and summarize changes/evidence/risks.
@@ -54,6 +54,8 @@ Every invocation must end with a concise **Next step:** statement.
 - implementation/tests complete and handoff marked `IMPLEMENTED_AWAITING_CODEX_REVIEW` → tell the owner to run
   `$codex-final-review`;
 - blocked implementation → state the exact blocker and whether the owner/Codex must clarify or amend the handoff;
-- remediation complete after a Codex `CHANGES_REQUESTED` review → tell the owner to rerun `$codex-final-review`.
+- remediation round 1 complete → tell the owner to rerun `$codex-final-review`;
+- remediation round 2 complete → tell the owner to rerun independent `$codex-final-review`, and if still blocked to switch to `$codex-implementation-takeover`;
+- after round 2 is independently blocked → stop Antigravity and request a Codex implementation takeover, not a third Antigravity attempt.
 
 Never leave the owner to infer the next workflow action.

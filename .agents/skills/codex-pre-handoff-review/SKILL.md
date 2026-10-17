@@ -49,6 +49,16 @@ Review the next-phase preparation for:
 15. for RAG Phases 17–22, validate the narrow source classification, actual last-check-to-COMMIT guard, offline/privacy gates, measured resource plan and no unapproved frozen boundary/schema changes;
 16. **all applicable categories in [`codex-review-coverage`](../codex-review-coverage/SKILL.md)**, with evidence/status per category: include folder structure, cross-module shared API/exception placement, whole workflow completeness/efficiency and specific future runtime test gates. Report `N/A` or `NOT_VERIFIED` explicitly, never omit a category silently. A draft handoff must contain measured vs proposed acceptance distinctions.
 
+## Mandatory proportionality and complete preparation audit — RAG Phases 18–22
+
+Apply [owner-approved efficient delivery policy](../../../docs/workflow/rag-phase-delivery-guardrails.md). Inventory and review **all newly added or modified** docs, skills, rules, hooks and agents **plus every existing applicable item**: root/scoped `AGENTS.md`, `.agents/`, `.codex/`, relevant module code/tests, build/lockfiles, current/historical ADRs, phase plan and owner hardware constraints. Name the reviewed paths/categories; do not read irrelevant historic phases merely to maximize context. Explicitly determine whether `python-rag-coding`, `bounded-command-execution`, `backend-implementer` and an actual Codex takeover path are sufficient before proposing more agents.
+
+Do not merely mention "overengineering": produce a short **KEEP / SIMPLIFY / DEFER / REJECT / OWNER DECISION REQUIRED** matrix for each major feature, API, dependency, evaluation and benchmark obligation. Trace every mandatory check to owner needs, approved phase scope or a reproducible defect. A hypothetical multi-user/cluster/enterprise threat is not a blocker in this single-user desktop unless a genuine local failure applies. Preserve all authorized privacy/consent/source and OS/process bounds. Never silently relax a frozen/security contract; show exact minimal amendment for owner approval instead.
+
+Distinguish mandatory current-phase acceptance from end-state Phase 22 features, and from an independent reviewer finding unrelated to the phase. Identify proposed model/OCR/parser selection via small Windows+8 GB VRAM measurements, not a full speculative ML stack. Prefer latest **stable mutually compatible** release set (ADR-0013); don't demand every numerically newest major, runtime download or untested CUDA wheel. Use the pinned Phase 17 baseline as evidence, not permission for incidental upgrades.
+
+Set one named final verification gate and bounded focused slices; reference the watchdog and two-round escalation policy. A 29-dimension rubric is 29 **review considerations**, not 29 required subsystems or 29 independent benchmark builds. If the proposed phase is too wide, mark `CHANGES_REQUESTED` with a **finite owner decision**, not an implementation plan for every possible future feature.
+
 ## CHANGES_REQUESTED
 
 - Set the phase's `preparation-review.md` to `CHANGES_REQUESTED`.

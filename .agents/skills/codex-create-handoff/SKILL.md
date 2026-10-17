@@ -69,6 +69,10 @@ Do not merge preparation review and handoff creation into one step.
 
 Read the latest phase-specific Codex preparation report **and** shared [`codex-review-coverage`](../codex-review-coverage/SKILL.md). Translate applicable risk/quality dimensions, explicit N/A/NOT_VERIFIED limits, source ownership guard and privacy requirements into concrete handoff acceptance cases. Every High/Critical deferred-runtime risk needs exact evidence to be produced in implementation. Do not substitute a vague instruction to "follow best practices" for testable obligations. Ensure scope names package/folder ownership and permitted exception/shared HTTP conventions from ADR-0016 where relevant.
 
+## Minimal handoff and remediation budget — future RAG
+
+Read [proportional delivery policy](../../../docs/workflow/rag-phase-delivery-guardrails.md) and the pre-handoff KEEP/SIMPLIFY/DEFER decisions. Keep the handoff a bounded vertical slice of **that** numbered phase, no runtime features from later phases, no duplicate job engine or speculative adapter framework. List MUST acceptance, explicit optional/deferred items, changed paths, actual skill/agent choices, a few risk-based negative cases and the single final full-suite gate. A generic 29-dimension rubric does not make new features mandatory. Specify 20-minute default and 35-minute future-phase full-suite-only watchdog, and remediation counter initialized at zero. Codex takeover eligibility begins **only after two Antigravity remediation plus independent re-review cycles**, not automatically on the first finding.
+
 ## Engineering skills
 
 Reference only relevant skills:

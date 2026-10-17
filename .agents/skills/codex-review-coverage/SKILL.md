@@ -7,6 +7,10 @@ description: Evidence-driven shared review coverage and repository/package-tree 
 
 **Scope-aware, not mechanically exhaustive:** This is a **checklist of dimensions to consider** for each review. Classify each item `PASS / FINDING / N/A / NOT_VERIFIED`, with exact paths and evidence for high-risk dimensions. Only declare `N/A` with a reason, e.g. "no API code in docs-only preparation". `NOT_VERIFIED` is **not** `PASS`. A docs-only review MUST inspect whether evidence obligations are specified; it must not pretend to have run runtime tests. Historical frozen phases remain untouched without owner-approved maintenance.
 
+## Proportionality rule for single-user RAG Phases 18–22
+
+**29 dimensions are review questions, not 29 implementation requirements.** Before marking a finding blocking, distinguish: (a) a concrete defect in an existing approved behavior, (b) missing mandatory evidence for the **current phase**, (c) a proposed optional optimization, and (d) an acceptance/architecture change requiring explicit owner consent. State smallest correction and actual proof; prefer reusing unchanged independent tests/benchmarks. Do not demand full distributed/enterprise resilience, all-future model evaluation or new OS Firewall/WFP controls for Practical Local Offline. Use the [owner's KEEP/SIMPLIFY/DEFER review gate](../../../docs/workflow/rag-phase-delivery-guardrails.md) and keep current RAG privacy/consent and process/transaction correctness mandatory.
+
 ## 29 review dimensions
 
 1. Owner intent, business acceptance criteria, changed behavior, permitted source selection and explicit non-goals.

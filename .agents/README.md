@@ -15,13 +15,13 @@
     `$codex-pre-handoff-review` returned `READY FOR AUDIT`, the owner committed preparation, then `$codex-backend-audit` ran.
     It supersedes the former post-15 milestone.
 
-**Current gate (2026-10-13):** owner-authorized Phase 17 RAG foundation preparation, then separately gated planned phases 18–22, precedes deferred Phase 16 Frontend, preserving the original numbers; see accepted ADR-0019 and `docs/implementation/phase-17/owner-decisions.md`. No RAG implementation handoff exists yet. See `docs/implementation/rag-phase-plan.md`.
+**Current gate (2026-10-17):** Phase 17 RAG Foundation is **COMPLETE — FROZEN** (owner closeout commit `d02ed14844a2fcc775145fa032d3bee7fc2f370c`); `ACTIVE.md` is `NO_ACTIVE_HANDOFF`. Phases 18–22 remain owner-gated and Phase 16 deferred. Use [RAG efficiency and two-round escalation policy](../docs/workflow/rag-phase-delivery-guardrails.md) before preparing the next phase.
 
 See `docs/workflow/owner-phase-workflow.md`.
 
 ## Agents
 
-- `backend-implementer`
+- `backend-implementer` (shared Java + Python RAG implementation; no extra agent per language unless a real role boundary appears)
 - `architecture-auditor`
 
 Reuse them by default. Add another agent only for a materially different role/tool/permission boundary.
@@ -50,11 +50,14 @@ Reuse them by default. Add another agent only for a materially different role/to
 - `rest-api-http-contracts`
 - `backend-integration-portability-storage`
 
-- `local-rag-engineering` — proposed Phase 17 offline Python/RAG, source-privacy and evaluation conventions
+- `local-rag-engineering` — approved Phase 17–22 scope-aware local RAG constraints
+- `python-rag-coding` — Python/FastAPI/OCR/parser/ML glue and compatible locked tooling
+- `bounded-command-execution` — executable 20-minute default / 35-minute future full-suite watchdog
 
 ## Workflow/review skills
 
 - `codex-review-coverage` — shared 29-dimension evidence checklist (folder structure, SOLID/patterns, API/common placement, concurrency, security, performance, AI quality)
+- `codex-implementation-takeover` — after two failed Antigravity remediation/re-review cycles, separate from independent reviewer
 - `codex-pre-handoff-review`
 - `codex-create-handoff`
 - `antigravity-implement-handoff`

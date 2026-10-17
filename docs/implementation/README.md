@@ -2,6 +2,8 @@
 
 Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 
+For future RAG Phases 18–22, the [owner-approved efficient delivery workflow](../workflow/rag-phase-delivery-guardrails.md), [nonbinding overengineering/scope review](rag-scope-simplification-review.md), and [long agent prompt placeholder](agent-launcher-prompt.md) apply. This addition does **not** open a numbered phase or change frozen Phase 17.
+
 ## Phases
 
 - [`phase-0/`](phase-0/README.md) — **COMPLETE / FROZEN** — bootstrap

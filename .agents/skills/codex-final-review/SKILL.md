@@ -37,7 +37,7 @@ Apply the relevant review skills:
 
 ## Mandatory shared coverage gate
 
-Use [`codex-review-coverage`](../codex-review-coverage/SKILL.md) as a **29-dimension evidence ledger**, in addition to the targeted rules below. In particular perform an actual recursive changed-package/folder inspection, compare `ApiResponse` and other shared transport abstractions against accepted ADR-0016 (do not demand an arbitrary `common` module), and inspect exception/interface/enum/command/view grouping and coupling. Every dimension must be PASS/FINDING/N/A/NOT_VERIFIED with rationale and code or test evidence where applicable. For RAG implementation also require live source-commit guards, external-file handle behavior and local-only model/worker/security integration tests.
+Use [`codex-review-coverage`](../codex-review-coverage/SKILL.md) as a **29-dimension evidence ledger**, in addition to the targeted rules below. In particular perform an actual recursive changed-package/folder inspection, compare `ApiResponse` and other shared transport abstractions against accepted ADR-0016 (do not demand an arbitrary `common` module), and inspect exception/interface/enum/command/view grouping and coupling. Every dimension must be PASS/FINDING/N/A/NOT_VERIFIED with rationale and code or test evidence where applicable. For RAG, require live source-commit guards and local-only worker/security integration tests **only for changed/enabled capabilities**. Require external-file handle/identity proof when the active phase enables actual file ingestion; do not demand proofs for Phase 17-disabled future capabilities.
 
 ## Mandatory final-review dimensions
 
@@ -167,7 +167,7 @@ If no blocking finding remains:
 
 Every invocation must end with a concise **Next step:** statement derived from the reviewed scope.
 
-- `CHANGES_REQUESTED` → direct the owner back to Antigravity `/antigravity-implement-handoff` (or
+- `CHANGES_REQUESTED` → if two Antigravity remediation/re-review rounds are already exhausted, direct the owner to `$codex-implementation-takeover` in a separate implementation session; otherwise back to Antigravity `/antigravity-implement-handoff` (or
   `/antigravity-test-slice` only when the review explicitly requires test-only remediation);
 - `READY FOR OWNER COMMIT` → state the scope-specific next gate:
   - Phase 15 audit remediation → **do not commit yet**; rerun `$codex-backend-audit` for repository-wide closure and

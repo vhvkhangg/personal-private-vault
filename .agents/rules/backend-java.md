@@ -14,4 +14,4 @@ description: "Java/Spring backend architecture, module ownership, persistence, A
 - Use Flyway for physical schema evolution.
 - Use SLF4J and exclude secrets/sensitive payloads from logs.
 - Prefer framework-managed dependency versions.
-- Do not introduce frontend, RAG, deployment, or multi-user behavior.
+- Do not introduce unapproved frontend, deployment or multi-user behavior. Future RAG changes are permitted **only** inside their separately owner-approved active Phase 18–22 handoff; preserve the frozen Phase 17 Foundation and its privacy/process/transaction boundaries.

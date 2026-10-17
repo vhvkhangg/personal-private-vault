@@ -94,6 +94,12 @@ ACTIVE to `NO_ACTIVE_HANDOFF`. Independent `mvn clean verify` passed **1,308/1,3
 No Phase 18–22, Frontend, Ideaverse, deployment or containment-removal authorization is implied.
 
 
+## Future RAG delivery efficiency — owner policy 2026-10-17
+
+For not-yet-started Phases 18–22, follow [proportional RAG delivery guardrails](docs/workflow/rag-phase-delivery-guardrails.md). Codex pre-handoff reviews the **new and applicable existing docs/skills/agents/hooks/source**, explicitly challenges unnecessary scope and test burden, and requests owner approval before changing a contract. The owner allows **two Antigravity remediation + independent re-review rounds per phase**; if still blocked, stop Antigravity and use a separately authorized Codex `$codex-implementation-takeover` session with a separate independent review. No automatic takeover during frozen Phase 17.
+
+Use `python-rag-coding` for Python and `bounded-command-execution` for long commands; ordinary max 20 minutes, **owner-authorized full-suite-only** max 35 minutes in future RAG phases when the invoking CLI permits it. The owner uses Codex Full Access and Antigravity `--dangerously-skip-permissions`; neither gives permission to skip handoff, review, privacy or no-commit rules. Long custom prompts go in [the agent prompt workspace](docs/implementation/agent-launcher-prompt.md) with a short launcher, never in a duplicated long chat prompt. No Phase 18 preparation/implementation is authorized by this workflow-only change.
+
 ## Development workflow
 
 The owner no longer writes production implementation.
