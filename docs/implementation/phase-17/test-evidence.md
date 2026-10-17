@@ -1,4 +1,12 @@
-# Phase 17 current implementation evidence
+# Phase 17 — Foundation Verification Evidence
+
+**Final accepted result (2026-10-17):** See [Independent Final Re-review 3](reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
+and [formal closeout](closeout.md). The reviewer ran one full `clean verify`: 1,308/1,308 distinct
+Java tests PASS (154 RAG subset), exit 0, 812.432 seconds; Python 37 PASS; safety hooks 13 PASS.
+The approved `AUTH-CLOCK` exception was **not used** and remains separately OPEN. The
+420-job native performance evidence was explicitly reused with reviewer-controlled small-fixture
+cleanup/recovery/purge measurements. The dated receipts below preserve historical failures
+and implementation results; earlier `CHANGES_REQUESTED` statements apply to their review dates only.
 
 ## 2026-10-16 Alternative B — Review Remediation Verification Receipts and Evidence Ledger
 

@@ -7,7 +7,15 @@ This file defines repository-wide instructions for coding agents.
 - Private, permanently single-user personal vault.
 - Backend-first modular monolith using Spring Boot and Spring Modulith.
 - PostgreSQL + Flyway; Maven build.
-- Phase 17 **RAG foundation** is implemented, verified, and accepted as `READY_FOR_OWNER_COMMIT` under the existing handoff `P17-RAG-FOUNDATION` by the 2026-10-17 independent final re-review 3. All RAG foundation findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope. AUTH-CLOCK remains OPEN under an owner-approved narrow acceptance exception. Default containment and disabled live external-file capability remain active. Phase 17 closeout and freeze are reserved for post-owner-commit synchronization. Frontend and production deployment remain deferred. See ADR-0019, ADR-0020, ACTIVE and `docs/implementation/phase-17/test-evidence.md`.
+- Phase 17 **RAG Foundation (Alternative B / ADR-0020)** is **COMPLETE — FROZEN** after
+  [Codex independent final acceptance](docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
+  and owner implementation commit/push `829d294aca7d916851348ff21004c631915d572e`. Its accepted handoff is
+  [archived](docs/implementation/phase-17/handoff.md) and [ACTIVE](docs/implementation/handoffs/ACTIVE.md)
+  is `NO_ACTIVE_HANDOFF` in this documentation-only closeout. FR17-1–11 and AB-1–6 are closed for
+  bounded Foundation scope; `AUTH-CLOCK` remains OPEN in Authentication under its narrow owner exception,
+  which was **not used** by the successful clean gate. Default containment and disabled live external-file
+  capability remain active. Frontend Phase 16 and RAG Phases 18–22 remain deferred/owner-gated.
+
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 - Backend Phase 2 is complete/frozen after owner commit/push.
@@ -50,8 +58,9 @@ This file defines repository-wide instructions for coding agents.
   [owner decisions](docs/implementation/phase-15/owner-decisions.md), [audit status](docs/implementation/phase-15/audit-status.md),
   historical reviews, test evidence and [archived handoff](docs/implementation/phase-15/handoff.md) remain preserved.
   `ACTIVE.md` is `NO_ACTIVE_HANDOFF`. The accepted Phase 15 remediation is frozen; future baseline-changing work
-  requires a separately approved scope. Frontend Phase 16 and RAG Phase 17 remain **not started / owner-gated**;
-  this Phase 15 closeout alone authorizes neither. The owner separately authorized **Phase 17 RAG preparation** on
+  requires a separately approved scope. At that historical **Phase 15 closeout**, Frontend Phase 16 and RAG Phase 17 were still
+  not started; the later explicit owner authorization, accepted Phase 17 implementation and
+  this closeout supersede that historical status. The owner separately authorized **Phase 17 RAG preparation** on
   2026-10-13; Phase 16 Frontend remains deferred, and RAG implementation requires the usual Codex handoff.
 
 Completed maintenance scope:
@@ -75,7 +84,15 @@ Architecture-sensitive work must respect:
 
 ## Current Phase 17 status — 2026-10-17
 
-Phase 17 Alternative B implementation and remediation under [ADR-0020](docs/adr/0020-phase-17-single-job-reservations-e1.md) and the existing `P17-RAG-FOUNDATION` handoff has been accepted by the independent final re-review 3 with verdict `READY FOR OWNER COMMIT`. Findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope; AUTH-CLOCK remains OPEN under its owner-approved narrow acceptance exception. Default containment and disabled live external-file capability remain active. Candidate is awaiting owner commit. Phase 17 closeout and freezing remain reserved for post-owner-commit synchronization. No self-acceptance, new handoff, later phases, commit or push.
+Phase 17 is **COMPLETE — FROZEN** under the accepted bounded Alternative B / E1 / Practical Local
+Offline contract. Implementation commit/push: `829d294aca7d916851348ff21004c631915d572e`; the
+[formal closeout](docs/implementation/phase-17/closeout.md) archives P17-RAG-FOUNDATION and resets
+ACTIVE to `NO_ACTIVE_HANDOFF`. Independent `mvn clean verify` passed **1,308/1,308** Java tests
+(including 154 RAG), Python 37 and safety hooks 13; full reviewer receipts are linked from the
+[final review](docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md).
+`AUTH-CLOCK` remains OPEN as a separate frozen Authentication/environment issue (exception unused).
+No Phase 18–22, Frontend, Ideaverse, deployment or containment-removal authorization is implied.
+
 
 ## Development workflow
 
@@ -150,6 +167,7 @@ The following remain frozen unless the owner explicitly approves an architectura
 - Backend Phase 13 shared REST/API + HTTP exposure baseline
 - Backend Phase 14 portability/object-storage/operational closure baseline
 - Backend Phase 15 accepted backend audit/remediation and closure baseline
+- Backend Phase 17 accepted Local RAG Foundation (Alternative B, E1 and Practical Local Offline)
 
 A frozen-baseline change requires an ADR update/new ADR and synchronized affected docs.
 

@@ -21,7 +21,7 @@ Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 - [`phase-14/`](phase-14/README.md) — **COMPLETE / FROZEN** — portability + managed object storage + operational closure
 - [`phase-15/`](phase-15/README.md) — **COMPLETE / FROZEN** — closure audit `BACKEND_AUDIT_READY`, owner remediation committed/pushed
 - Phase 16 — **DEFERRED / OWNER-GATED** — Frontend not started (see [roadmap](../roadmap.md); no implementation directory yet)
-- [`phase-17/`](phase-17/README.md) — **READY FOR HANDOFF** — RAG foundation preparation only; P17-1/2/3 design contracts closed, runtime evidence pending
+- [`phase-17/`](phase-17/README.md) — **COMPLETE / FROZEN** — single-job Local RAG Foundation; [closeout](phase-17/closeout.md) / [archived handoff](phase-17/handoff.md)
 
 Maintenance:
 
@@ -29,7 +29,16 @@ Maintenance:
 
 See [`../roadmap.md`](../roadmap.md).
 
-## Current state
+## Current state — 2026-10-17
+
+Phase 17 Foundation is **COMPLETE — FROZEN** after [Codex independent acceptance](phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
+and owner implementation commit [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).
+The [formal closeout](phase-17/closeout.md) archives its [handoff](phase-17/handoff.md),
+and [ACTIVE](handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF` in this pending owner-published closeout patch.
+`AUTH-CLOCK` remains OPEN separately; the accepted Foundation retains default containment.
+Phase 16 is deferred; Phase 18–22 are not prepared or started.
+
+### Historical preparation and Phase 15 timeline (superseded)
 
 **Current gate as of 2026-10-13:** Phase 17 **RAG foundation** preparation is accepted
 (`READY FOR HANDOFF`), and the owner committed/pushed it as `dd414861`. Phase 16 Frontend

@@ -19,6 +19,9 @@ IMPLEMENTED_AWAITING_CODEX_REVIEW
 ```
 
 Codex creates/plans and reviews. Antigravity implements/tests. The owner commits/pushes.
+After the owner implementation commit/push, ChatGPT archives the accepted handoff in the owning
+phase folder and resets `ACTIVE.md` to `NO_ACTIVE_HANDOFF` with a separate owner-published closeout.
+Completed Phase 17 is archived at [Phase 17 handoff](../phase-17/handoff.md).
 
 Handoffs should link to canonical documents rather than duplicating large schema/design content.
 

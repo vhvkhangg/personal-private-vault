@@ -1,4 +1,9 @@
-# Phase 17 Codex implementation remediation candidate
+# Phase 17 — Accepted Foundation Implementation (historical remediation details)
+
+**Current status:** `COMPLETE — FROZEN` after owner implementation commit `829d294` and
+[formal closeout](closeout.md). Independent [final acceptance](reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
+verifies 1,308 Java tests with exit 0; `AUTH-CLOCK` stays OPEN outside RAG. The
+remediation narratives below record the submitted and independently verified candidate at their stated dates.
 
 ## 2026-10-17 Alternative B Implementation Remediation — Accepted Candidate (READY_FOR_OWNER_COMMIT)
 

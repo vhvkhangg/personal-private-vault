@@ -4,6 +4,19 @@ Private, single-user personal information vault built as a backend-first modular
 
 ## Current status
 
+**Current as of 2026-10-17:** Backend **Phases 0–15 and 17 are COMPLETE — FROZEN**.
+Phase 17 single-job Local RAG Foundation (Alternative B / ADR-0020) was independently accepted
+([Codex final re-review 3](docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md))
+and committed/pushed by the owner as [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).
+[Phase 17 closeout](docs/implementation/phase-17/closeout.md) archives the
+[handoff](docs/implementation/phase-17/handoff.md); [ACTIVE](docs/implementation/handoffs/ACTIVE.md)
+is `NO_ACTIVE_HANDOFF` in the separate closeout-docs patch awaiting owner commit/push.
+`AUTH-CLOCK` remains OPEN in Authentication under the owner-approved narrow exception (not used in
+successful verification). Default containment and disabled live external-file capability remain.
+Phase 16 Frontend is deferred; Phases 18–22 are not started or authorized.
+
+**Historical progression (superseded by the current status above):**
+
 Backend Phase 0 and Backend Phase 1 are **complete and frozen**. Phase 1 delivered the executable PostgreSQL/Flyway Schema v1 plus the implemented and verified `reference` and `vault` foundation modules (57 tests, 0 failures against PostgreSQL 18.6 Testcontainers).
 
 Backend Phases 2 (`authentication` + `settings`), 3 (`people`), 4 (`fiction`), 5 (`film`), 6
@@ -43,8 +56,9 @@ Frozen implementation phases:
 - Backend Phase 13 — Shared REST/API Contract + Module HTTP Exposure
 - Backend Phase 14 — Backend Integration Hardening + Portability/Object Storage Closure
 - Backend Phase 15 — Comprehensive Backend Audit & Remediation Gate
+- Backend Phase 17 — Single-job Local RAG Foundation (Alternative B / E1)
 
-Current gate:
+Historical gates (as of the Phase 15 / Phase 17 preparation timeline):
 
 - Phase 7–9 milestone — `MILESTONE_READY` and post-milestone synchronization complete
 - Phase 10 Feed + ImportData — complete/frozen after owner commit/push
@@ -62,7 +76,7 @@ Current gate:
   (`BACKEND_AUDIT_READY`) and owner commit/push `0b1ab11` (`fix(backend): remediate phase 15 audit findings`).
   All 17 BA15 findings and FR15-9/10/11/12 are closed, with no unresolved actionable finding or accepted debt.
   Fresh full/coverage verification passed 1021 tests with zero failures/errors/skips; static reports were triaged.
-  The [handoff](docs/implementation/phase-15/handoff.md) is archived and ACTIVE is `NO_ACTIVE_HANDOFF`;
+  The [handoff](docs/implementation/phase-15/handoff.md) is archived; at that historical Phase 15 closeout ACTIVE was `NO_ACTIVE_HANDOFF`;
   [audit status](docs/implementation/phase-15/audit-status.md), reviews, owner decisions and evidence are preserved.
   **2026-10-13 update:** The owner authorized Phase 17 RAG foundation preparation before deferred
   Frontend Phase 16. The [Codex review](docs/implementation/phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md)
@@ -72,7 +86,7 @@ Current gate:
   closed all SBA-001–007 and FR-SBA-1–4, with 1,152 passing tests independently verified by Codex;
   the owner committed/pushed implementation as `d195b626`. In this closeout, `ACTIVE.md` is reset
   to `NO_ACTIVE_HANDOFF`. **Next:** owner commit/push closeout docs, then create a separate Phase 17
-  foundation handoff. Phase 17 is not implemented, Phases 18–22 have independent gates, and
+  foundation handoff. At that historical preparation gate, Phase 17 was not implemented; Phases 18–22 have independent gates, and
   Frontend/Ideaverse remain deferred. See [P-17](docs/implementation/phase-17/README.md) and
   accepted [ADR-0019](docs/adr/0019-local-rag-before-frontend.md).
 
@@ -82,7 +96,7 @@ Current gate:
 - Database: PostgreSQL
 - Build: Maven
 - Frontend (Phase 16 deferred until after RAG, subject to owner authorization): Next.js + TypeScript + shadcn/ui + pnpm
-- RAG (Phase 17 preparation only): Python/FastAPI offline engine proposed; model/vector/OCR details pending benchmark and Codex review
+- RAG: Phase 17 Local Java/Python/FastAPI/PostgreSQL Foundation complete/frozen; external-file parsing, OCR, model inference, retrieval and recommendations remain owner-gated for Phases 18–22
 - API: REST/JSON + OpenAPI
 - Media: S3-compatible object storage abstraction
 

@@ -2,7 +2,7 @@
 
 ## Structure
 
-The roadmap retains historical identifiers **0–16** and allocates **six RAG implementation phases 17–22** (23 identifiers 0–22 in total). Phase 17 Alternative B implementation is accepted and READY_FOR_OWNER_COMMIT following independent re-review 3. Phases 18–22 are not started and each requires its own preparation/handoff gate; the [RAG multi-phase plan](implementation/rag-phase-plan.md) defines their boundaries.
+The roadmap retains historical identifiers **0–16** and allocates **six RAG implementation phases 17–22** (23 identifiers 0–22 in total). Phase 17 Alternative B Foundation is **COMPLETE — FROZEN** following independent re-review 3 and owner implementation commit `829d294`, with formal documentation-only closeout recorded in [Phase 17 closeout](implementation/phase-17/closeout.md). Phases 18–22 are not started and each requires its own preparation/handoff gate; the [RAG multi-phase plan](implementation/rag-phase-plan.md) defines their boundaries.
 
 For normal implementation phases from Phase 3 onward there is a mandatory **Pre-Handoff Preparation Gate (P-N)**
 before each implementation handoff. ChatGPT prepares docs/tooling, Codex reviews them with
@@ -12,7 +12,7 @@ before each implementation handoff. ChatGPT prepares docs/tooling, Codex reviews
 its audit design and returns `READY FOR AUDIT` on success; after the owner commits/pushes that preparation,
 `$codex-backend-audit` determines whether any remediation handoff is needed.
 
-**Owner-authorized sequencing exception (2026-10-13):** keep historical numbering: **RAG Phases 17–22 prepare/execute before Phase 16 Frontend**, which remains deferred. The frozen Phase 15 closure (`BACKEND_AUDIT_READY`) and `NO_ACTIVE_HANDOFF` prerequisite were satisfied before creating the Phase 17 foundation handoff. Phase 18 onward require completion of the prior RAG phase and separate preparation/handoff gates. Phase 17 preparation was accepted and owner committed/pushed as `dd414861`; its implementation is **READY_FOR_OWNER_COMMIT** following acceptance in the [2026-10-17 independent final re-review 3](implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md), closing FR17-1 through FR17-11 and AB-1 through AB-6 for bounded scope, with AUTH-CLOCK open under its approved narrow exception. The accepted architecture/order decision remains in [ADR-0019](adr/0019-local-rag-before-frontend.md) and [Phase 17 preparation](implementation/phase-17/README.md).
+**Owner-authorized sequencing exception (2026-10-13):** keep historical numbering: **RAG Phases 17–22 prepare/execute before Phase 16 Frontend**, which remains deferred. The frozen Phase 15 closure (`BACKEND_AUDIT_READY`) and `NO_ACTIVE_HANDOFF` prerequisite were satisfied before creating the Phase 17 foundation handoff. Phase 18 onward require completion of the prior RAG phase and separate preparation/handoff gates. Phase 17 preparation was accepted and owner committed/pushed as `dd414861`; its implementation was owner committed/pushed as `829d294` after acceptance in the [2026-10-17 independent final re-review 3](implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md), closing FR17-1 through FR17-11 and AB-1 through AB-6 for bounded scope, with AUTH-CLOCK open under its approved narrow exception. The accepted architecture/order decision remains in [ADR-0019](adr/0019-local-rag-before-frontend.md) and [Phase 17 preparation](implementation/phase-17/README.md).
 
 **Supplemental backend maintenance closeout (2026-10-13):** After a separate full-scope audit of
 frozen Phases 0–15, the owner approved all SBA-001–007 corrections. Codex final acceptance closed
@@ -20,7 +20,7 @@ SBA-001–007 and FR-SBA-1–4, independently verified **1,152 passing tests**, 
 committed/pushed implementation as `d195b6260274`. The [maintenance closeout](implementation/maintenance/supplemental-backend-audit-2026-10-13/closeout.md)
 archives its handoff and resets `ACTIVE.md` to `NO_ACTIVE_HANDOFF` in a documentation-only patch.
 The closeout was owner committed/pushed as `24e6268`, and the separate Phase 17 foundation handoff was created.
-Its implementation has completed remediation and verification: **accepted as READY_FOR_OWNER_COMMIT by the 2026-10-17 independent final re-review 3**. All findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope; live external files remain disabled and default containment is active. AUTH-CLOCK remains open under its approved narrow exception. Phase 17 remains uncompleted/unfrozen pending owner commit and subsequent closeout.
+Its implementation passed the 2026-10-17 independent final re-review 3, was committed/pushed by the owner as `829d294`, and is **COMPLETE — FROZEN** after formal closeout. All findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope; live external files remain disabled and default containment is active. AUTH-CLOCK remains open under its approved narrow exception. The Phase 17 handoff is archived; ACTIVE is `NO_ACTIVE_HANDOFF` in the closeout-docs patch pending owner commit/push.
 
 Phase 0 is excluded from the three-phase milestone cadence. Historical extra milestone reviews occurred after Phases
 **3, 6, 9, and 12**. The former post-Phase-15 milestone is superseded by the stronger repository-wide Phase 15
@@ -45,7 +45,7 @@ Comprehensive Backend Audit & Remediation Gate.
 | 14    | Non-RAG backend integration hardening, portability/export, object-storage/operational closure | P-14 complete | **COMPLETE — FROZEN** | — |
 | 15    | Comprehensive Backend Audit & Remediation Gate over Phases 0–14 | P-15 `READY FOR AUDIT`; closure `BACKEND_AUDIT_READY` | **COMPLETE — FROZEN** (owner commit `0b1ab11`) | Replaces former post-15 milestone |
 | 16    | Next.js/TypeScript/shadcn frontend + E2E product workflows | P-16 deferred/owner-gated; reconsider only after Phase 22 closeout | Not started | — |
-| 17    | Local RAG foundation, authorities, source commit fencing, storage/jobs and offline runtime | **P-17 preparation accepted; design contracts closed** | **READY_FOR_OWNER_COMMIT — FR17-1–11 & AB-1–6 closed for bounded scope** | RAG foundation gate |
+| 17    | Local RAG foundation, authorities, source commit fencing, storage/jobs and offline runtime | **P-17 preparation accepted; design contracts closed** | **COMPLETE — FROZEN** — owner commit `829d294`; FR17-1–11 & AB-1–6 closed for bounded scope | RAG foundation gate |
 | 18    | Document/Obsidian/OCR/Excel ingestion and adaptive indexing | P-18 not prepared; requires Phase 17 frozen | Not started | — |
 | 19    | Grounded local QA, hybrid retrieval, citations/highlight | P-19 not prepared; requires Phase 18 frozen | Not started | — |
 | 20    | Fiction/Film catalog recommendation for all statuses | P-20 not prepared; requires Phase 19 frozen | Not started | — |
@@ -270,7 +270,7 @@ is `MILESTONE_READY`. Phase 7 pre-handoff re-review accepted the remediated prep
 - shared REST exposure is delayed until domain/module contracts stabilize.
 - Phase 15 performs a comprehensive quality/audit gate over the complete non-RAG backend before new product-surface work.
 - frontend Phase 16 remains deferred and owner-gated; it will be reconsidered **after RAG Phases 17–22**, not automatically started.
-- RAG retains the identifier **Phase 17**; its preparation gate and handoff creation are complete. Only remediation under the existing `P17-RAG-FOUNDATION` is authorized; no later-phase implementation is authorized.
+- RAG retains the identifier **Phase 17**; its preparation gate and handoff creation are complete. The `P17-RAG-FOUNDATION` handoff is archived after owner implementation commit; no Phase 18–22 or Frontend implementation is authorized.
 
 ## Status vocabulary
 

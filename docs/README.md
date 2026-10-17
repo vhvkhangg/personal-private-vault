@@ -2,7 +2,18 @@
 
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
-Backend Phases 0–15 are **complete and frozen**. **Phase 17 RAG foundation preparation is READY FOR HANDOFF; RAG phases 18–22 are planned but unprepared**, per the [focused Codex review](implementation/phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md). P17-1/2/3 are closed at design-contract level; runtime enforcement/tests remain required. See [multi-phase plan](implementation/rag-phase-plan.md), [Phase 17](implementation/phase-17/README.md), accepted [ADR-0019](adr/0019-local-rag-before-frontend.md) and [architecture](architecture/rag-architecture.md). Owner [acceptance](implementation/phase-17/owner-decisions.md) is recorded; preparation commit/push precede separate handoff; `ACTIVE.md` remains `NO_ACTIVE_HANDOFF`. Phase 16 stays deferred. The following Phase 15 narrative is historical. The Phase 1–3 milestone is `MILESTONE_READY`.
+Backend Phases 0–15 and **Phase 17** are **COMPLETE — FROZEN**. Phase 17
+Alternative B / E1 Foundation passed the [independent final re-review 3](implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
+and was owner committed/pushed as [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).
+[Formal Phase 17 closeout](implementation/phase-17/closeout.md) and
+[archived handoff](implementation/phase-17/handoff.md) reset
+[ACTIVE](implementation/handoffs/ACTIVE.md) to `NO_ACTIVE_HANDOFF`. AUTH-CLOCK remains
+OPEN in Authentication (the narrow exception was unused); default containment and disabled live
+external-file capability remain. Phase 16 Frontend stays deferred; RAG Phases 18–22 are planned,
+unprepared and require separate owner approval. See the [multi-phase plan](implementation/rag-phase-plan.md),
+[ADR-0019](adr/0019-local-rag-before-frontend.md) and [ADR-0020](adr/0020-phase-17-single-job-reservations-e1.md).
+
+The following Phase 15 narrative is historical. The Phase 1–3 milestone is `MILESTONE_READY`.
 The Phase 4–6 milestone is `MILESTONE_READY` after owner-committed privacy-safe constraint-logging maintenance and
 post-milestone synchronization/reset. Phase 7 (`account`), Phase 8 (`knowledge`), and Phase 9 (`collection`) are
 complete/frozen after owner commit/push. The Phase 7–9 milestone is `MILESTONE_READY` after committed
@@ -39,7 +50,7 @@ Fresh full/coverage verification passed 1021/0/0/0 (04:07), and static/architect
 The [accepted handoff](implementation/phase-15/handoff.md) is archived; ACTIVE is NO_ACTIVE_HANDOFF.
 Owner commit/push is permitted with `fix(backend): remediate phase 15 audit findings`; afterward give ChatGPT
 the latest package for Phase 15 closeout only. Historical records are preserved; Phase 15 was subsequently committed/pushed and is **COMPLETE — FROZEN**.
-Frontend remains Phase 16 and deferred. RAG Phase 17 is now approved for **preparation only** under ADR-0019; no implementation handoff exists.
+Frontend remains Phase 16 and deferred. The historical Phase 17 preparation gate was superseded by its accepted implementation and 2026-10-17 formal closeout; no current handoff exists.
 Phase 1 delivered the
 executable Flyway Schema v1 and verified `reference` and `vault` foundation modules. The frozen logical DBML/module baselines remain unchanged;
 the owner-approved Repository/Package Tree v1.1 refinement is recorded by ADR-0015.
@@ -87,4 +98,4 @@ Normal feature phases use ChatGPT preparation → `$codex-pre-handoff-review` �
 
 **Historical Phase 15-only exception (no longer callable as the active pre-handoff branch):** `$codex-pre-handoff-review` formerly returned `READY FOR AUDIT` for Phase 15; after its preparation commit, `$codex-backend-audit` ran, with any authorized remediation handoff and a final closure audit reaching `BACKEND_AUDIT_READY`. The present active RAG phase uses `READY FOR HANDOFF` instead.
 
-Backend Phases 0–15 remain frozen. The newly authorized Phase 17 preparation may propose bounded changes, but must not implement a new module, migration, service or alter frozen schema/architecture/module/API/business baselines before Codex/owner authorization.
+Backend Phases 0–15 and 17 are frozen. Phase 18 and any other follow-on work require their own explicit owner-authorized preparation and independent review. Existing privacy, consent, SQL and native containment boundaries remain in force.
