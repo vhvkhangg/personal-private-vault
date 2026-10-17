@@ -1,17 +1,8 @@
-  [mcp_servers.idea]
-    url = "http://127.0.0.1:64342/stream"
+# Project-scoped Codex defaults. Loaded when this repository is trusted.
+model_verbosity = "low"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
 
-[mcp_servers.idea.tools.build_project]
-approval_mode = "approve"
-
-[mcp_servers.idea.tools.execute_terminal_command]
-approval_mode = "approve"
-
-[mcp_servers.idea.tools.create_new_file]
-approval_mode = "approve"
-
-[mcp_servers.idea.tools.apply_patch]
-approval_mode = "approve"
-
-[mcp_servers.idea.tools.reformat_file]
-approval_mode = "approve"
+[mcp_servers.idea]
+url = "http://127.0.0.1:64342/stream"
+default_tools_approval_mode = "approve"
