@@ -87,7 +87,7 @@ class ApplicationArchitectureTests {
         var fictionModule = modules.getModuleByName("fiction");
         assertThat(fictionModule).isPresent();
         assertThat(fictionModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
-                .contains("enums", "fiction", "genre", "link", "view", "search");
+                .contains("enums", "fiction", "genre", "link", "view", "search", "source");
     }
 
     @Test
@@ -100,7 +100,7 @@ class ApplicationArchitectureTests {
         assertThat(fictionModule.getNamedInterfaces().stream()
                 .filter(org.springframework.modulith.core.NamedInterface::isNamed)
                 .map(org.springframework.modulith.core.NamedInterface::getName))
-                .containsExactlyInAnyOrder("enums", "fiction", "genre", "link", "view", "search");
+                .containsExactlyInAnyOrder("enums", "fiction", "genre", "link", "view", "search", "source");
 
         // 2. Verify genre named interface exposes operations, commands, and exceptions
         var genreInterface = fictionModule.getNamedInterfaces().getByName("genre").orElseThrow();
@@ -165,7 +165,17 @@ class ApplicationArchitectureTests {
                 "com.vhvkhangg.personalprivatevault.fiction.view.FictionView"
         );
 
-        // 7. Verify no internal type is exposed through any named interface of fiction module
+        // 7. Verify source named interface exposes RAG projection contracts
+        var sourceInterface = fictionModule.getNamedInterfaces().getByName("source").orElseThrow();
+        var sourceTypeNames = sourceInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(sourceTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.fiction.source.FictionSourceOperations",
+                "com.vhvkhangg.personalprivatevault.fiction.source.FictionSourceProjection"
+        );
+
+        // 8. Verify no internal type is exposed through any named interface of fiction module
         for (var namedInterface : fictionModule.getNamedInterfaces()) {
             assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
                     .noneMatch(name -> name.contains(".internal."));
@@ -179,7 +189,7 @@ class ApplicationArchitectureTests {
         var filmModule = modules.getModuleByName("film");
         assertThat(filmModule).isPresent();
         assertThat(filmModule.get().getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
-                .contains("credit", "enums", "film", "genre", "link", "view", "search");
+                .contains("credit", "enums", "film", "genre", "link", "view", "search", "source");
     }
 
     @Test
@@ -192,7 +202,7 @@ class ApplicationArchitectureTests {
         assertThat(filmModule.getNamedInterfaces().stream()
                 .filter(org.springframework.modulith.core.NamedInterface::isNamed)
                 .map(org.springframework.modulith.core.NamedInterface::getName))
-                .containsExactlyInAnyOrder("credit", "enums", "film", "genre", "link", "view", "search");
+                .containsExactlyInAnyOrder("credit", "enums", "film", "genre", "link", "view", "search", "source");
 
         // 2. Verify film named interface exposes operations, commands, and exceptions
         var filmInterface = filmModule.getNamedInterfaces().getByName("film").orElseThrow();
@@ -272,7 +282,17 @@ class ApplicationArchitectureTests {
                 "com.vhvkhangg.personalprivatevault.film.view.FilmClassificationsView"
         );
 
-        // 8. Verify no internal type is exposed through any named interface of film module
+        // 8. Verify source named interface exposes projection and operations
+        var sourceInterface = filmModule.getNamedInterfaces().getByName("source").orElseThrow();
+        var sourceTypeNames = sourceInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(sourceTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.film.source.FilmSourceOperations",
+                "com.vhvkhangg.personalprivatevault.film.source.FilmSourceProjection"
+        );
+
+        // 9. Verify no internal type is exposed through any named interface of film module
         for (var namedInterface : filmModule.getNamedInterfaces()) {
             assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
                     .noneMatch(name -> name.contains(".internal."));
@@ -1040,5 +1060,68 @@ class ApplicationArchitectureTests {
                 .toList();
 
         assertThat(nestedControllers).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Verifies that rag module defines expected named interfaces and maintains leaf module property")
+    void verifiesRagModuleConfigurationAndLeafProperty() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var ragModuleOpt = modules.getModuleByName("rag");
+        assertThat(ragModuleOpt).isPresent();
+        var ragModule = ragModuleOpt.get();
+
+        assertThat(ragModule.getNamedInterfaces().stream().map(org.springframework.modulith.core.NamedInterface::getName))
+                .contains("api", "source");
+
+        // Leaf invariant: no other application module depends on rag
+        for (var module : modules) {
+            if (!module.equals(ragModule)) {
+                assertThat(module.getDirectDependencies(modules).stream().toList())
+                        .noneMatch(dep -> dep.getTargetModule().equals(ragModule));
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Verifies rag module named interfaces expose capability contracts and hide internal packages")
+    void verifiesRagNamedInterfacesExposureAndEncapsulation() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var ragModule = modules.getModuleByName("rag").orElseThrow();
+
+        // 1. Verify exact logical named interfaces: no unexpected named interface introduced
+        assertThat(ragModule.getNamedInterfaces().stream()
+                .filter(org.springframework.modulith.core.NamedInterface::isNamed)
+                .map(org.springframework.modulith.core.NamedInterface::getName))
+                .containsExactlyInAnyOrder("api", "source");
+
+        // 2. Verify api named interface exposes operations and models
+        var apiInterface = ragModule.getNamedInterfaces().getByName("api").orElseThrow();
+        var apiTypeNames = apiInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(apiTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.rag.api.RagOperations",
+                "com.vhvkhangg.personalprivatevault.rag.api.RagJobAdmissionResult",
+                "com.vhvkhangg.personalprivatevault.rag.api.RagJobStatusView",
+                "com.vhvkhangg.personalprivatevault.rag.api.RagFinalizationResult"
+        );
+
+        // 3. Verify source named interface exposes source types and views
+        var sourceInterface = ragModule.getNamedInterfaces().getByName("source").orElseThrow();
+        var sourceTypeNames = sourceInterface.asJavaClasses()
+                .map(com.tngtech.archunit.core.domain.JavaClass::getName)
+                .toList();
+        assertThat(sourceTypeNames).contains(
+                "com.vhvkhangg.personalprivatevault.rag.source.RagSourceType",
+                "com.vhvkhangg.personalprivatevault.rag.source.RagClassification",
+                "com.vhvkhangg.personalprivatevault.rag.source.RagAccessState",
+                "com.vhvkhangg.personalprivatevault.rag.source.RagSourceView"
+        );
+
+        // 4. Verify no internal type is exposed through any named interface of rag module
+        for (var namedInterface : ragModule.getNamedInterfaces()) {
+            assertThat(namedInterface.asJavaClasses().map(com.tngtech.archunit.core.domain.JavaClass::getName))
+                    .noneMatch(name -> name.contains(".internal."));
+        }
     }
 }

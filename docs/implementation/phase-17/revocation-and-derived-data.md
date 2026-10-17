@@ -1,77 +1,288 @@
-# P17-3 — Revocation, version fencing and derived-data lifetime
+# P17-3 — Alternative B reservations, E1 and derived-data lifetime
 
-**Status:** Codex-accepted and owner-approved design contract (2026-10-13) for the bounded Phase 17 foundation; no worker, index, schema or revocation mechanism is implemented. See [eligibility matrix](source-eligibility-and-allowlists.md) and [ownership/DB privileges](integration-ownership-and-permissions.md).
+**Status:** Owner-approved contract amendment, 2026-10-15; NOT implementation
+acceptance. [ADR-0020](../../adr/0020-phase-17-single-job-reservations-e1.md),
+[owner decisions](owner-decisions.md#2026-10-15--alternative-b-owner-design-approval)
+and [independent checklist §8](reviews/2026-10-15-phase-17-architecture-simplification-independent-design-review.md#8-exact-owner-approvals-and-canonical-amendments)
+replace the prior F+H+V+E proposal and strict E2 time requirement. Full source,
+NSFW/Private, provenance and freshness protections remain. Containment stays;
+ACTIVE CHANGES_REQUESTED and FR17-5/8/9/10 OPEN. No runtime proof is claimed.
 
-## 1. Authority and a bounded version fence
+## 1. Authority and lifetimes
 
-- An eligible source has immutable identity plus current **source content revision/hash**, `authorization_epoch` (monotonically incremented on approve, revoke, trash, NSFW transition, field-policy reduction, replace or consent change), `field_policy_version`, and an explicit source `access_state`. Owner-controlled selection grants bind `(source_id, revision/hash, epoch, approved fields, session/job ID, expiry)` and all transclusion child revisions/epochs. A selection alone is never an authorization for later source versions.
-- Java `rag` gate is the sole owner of grant/epoch/canonical job state and index publication. Authoritative business checks come freshly from owning module projections (`deletedAt`, `isNsfw`, domain revision) and external-file adapter checks; **policy metadata alone is not enough**. A missing, inconsistent, timed-out, or inaccessible authority denies; never serve "last known-good" text when freshness cannot be proven. Each grant/job/publish result contains an immutable *dependency manifest* for all actually used sources, including every transcluded child.
-- Owner revocation is a **synchronous Java gate transaction**: increment epoch + tombstone approval, revoke dependent grants and source/generation pointers before acknowledging. Source mutations such as trash/NSFW/content update must be rechecked against live owning-module truth at all security boundaries even when post-commit events are lost. The future implementation must prove the source-ownership/mutation integration and transaction ordering in tests; if a source cannot be revalidated promptly, it is not indexable. Watchers/events/periodic reconciliation are **repair signals**, not proof of permission.
-- Define authorization linearization points precisely: **job admission**, **staging publication**, **retrieval/candidate-set construction before scoring**, **final answer/response-history commit before delivery**, **source/highlight resolution**, and **judge admission and just before judge consumes content or saves output**. Re-check the full dependency manifest at each of these gates; for long generation, check before/after model invocation and again before output. If a revocation commits before a gate, the gate cannot pass. Results already delivered before a later revocation cannot be retracted, but all *future* retrieval/history reads must deny and purge. Never assert impossible retroactive removal of a response already seen by a user.
-- A publication attempt carries `(job_id, attempt_id, generation_id, source revision/hash, epoch, dependency manifest, session expiry)`; Java uses a transactional compare-and-swap against authoritative source/grant/active state before activating. Revocation and publication must serialize using both the owning-source transaction guard from §1A and the Java-owned RAG approval lock, not the RAG row alone. A stale worker cannot mutate the active pointer or source policy, regardless of whether an old staging write finishes. **No Python-controlled publish endpoint**. Cancel token + lease expiry prevents staging reuse, and an idempotent fenced completion attempt cannot revive a SUPERSEDED/CANCELLED job.
-- For external files, at admission and *again* at publication, query and evidence resolution, canonicalize/reopen within the authorized root using safe handles and verify identity/content hash (not only mtime, path string or watcher event). Rehash on every security-critical freshness gate or use a demonstrably equivalent immutable content snapshot tied to a revalidated source hash; if file is replaced or inaccessible, deny and invalidate. A changed source requires renewed approval before content may be indexed. Avoid caching positive proof beyond one explicitly bounded transaction.
+Only explicit per-item/field consent plus current owning-source eligibility can
+authorize content. See [P17-2](source-eligibility-and-allowlists.md). Vault owns
+retained source_version and consent_reset_version; RAG owns authorization_epoch,
+field_policy_version, classification and standing consent. An ordinary projected
+edit advances source_version only. Eligibility loss/trash/delete/restore advances
+source_version and its reset watermark atomically. RAG Private/revoke/policy
+changes advance the applicable epoch and retain effective denial. Restoring an
+eligible classification never renews consent, even if events and hashes repeat.
+No new global V or separate H/control ledger is required.
+
+Every job/generation binds an immutable full source/child/field/dependency manifest,
+versions/hashes, captured reset values and policy epochs. Relevant dependency
+mutation advances the affected ancestor scope epoch/source_version, including
+remove/readd; today's equal edge set cannot resurrect a stale generation.
+Compare actual historical manifests, not all jobs with the same root ID.
+
+| Object | Authoritative lifetime |
+| --- | --- |
+| Standing item consent | Until reset/revoke/Private/field-policy change or its own explicit consent limit; normal eligible edit/worker restart/work TTL does not revoke it |
+| Execution grant/lease/service credential | Finite gate-time work budget, job/attempt/process/scope bound; one-use input claim; no renewal/replay |
+| Durable source reservation | From known admission COMMIT through verified finish COMMIT; no TTL/disconnect/ACK/health release |
+| Untrusted stage S | Attempt-isolated candidate only, never active content or authority; seal and verify/discard |
+| Historical job outcome | Immutable execution result after known terminal COMMIT; SUCCEEDED is not an index freshness claim |
+| Published generation | CURRENT only under fresh source/reset/epoch/field/full-closure and independent retention/selection proof; OUTDATED/revoked/absent otherwise |
+
+IndexCurrent(G) freshly requires live/right-type/non-NSFW/NON_PRIVATE sources,
+valid explicit item/field consent, matching captured reset/epoch/policy values,
+exact source versions/hashes and dependency topology, active nonrevoked generation
+and legitimate independent retention/selection scope. It does **not** require an
+unexpired completed worker lease, service session, current worker boot or worker
+health. Filter before scoring/counts/content/history. No cached positive flag,
+old hash or lost notification can authorize access. Missing proof denies.
+
+## 1A. Durable reservation and physical transaction contract
+
+### 1. Admission and edit exclusion
+
+Only one active indexing attempt, no automatic queue. A static partial unique
+index on a constant key over every nonterminal status enforces this in PostgreSQL;
+include RESERVED/STARTING/RUNNING/STOPPING/RECOVERY_REQUIRED/FINALIZING and uncertain
+outcomes. Closed supported-status constraints and trusted transitions prevent
+eviction or terminalizing an active row to free capacity. A second start is 409
+RAG_JOB_BUSY; count-then-insert and time predicates are insufficient.
+
+In one short writable admission TX, obtain fresh entire approved closure, lock
+ordered sources, prove current owner/consent/field/reset/version state, insert
+the job and scoped grant and reserve every source atomically. Known physical
+COMMIT precedes spawn/input. Unknown admission sends nothing and reconciles the
+actual outcome, not a duplicate start. No partial reservation/source omission.
+
+All selected-source modifications, deletion, classification, revoke, fields and
+relevant dependency changes return **409 RAG_SOURCE_BUSY with no requested
+change committed**. Do not queue/retry the denied mutation automatically. Owner
+cancels, waits for safe release and retries. Unrelated items remain editable.
+No lock is held through the indexing interval; the committed reservation is
+durable authorization state. Unknown process/SQL outcomes retain it and job
+exclusivity. Cannot promise immediate successful revocation during indexing.
+
+### 2. Common guards, ambient entry and SQL backstop
+
+Use stable Vault source_state rows, not a deletable vault_entries row as the
+sole lifetime witness. Public reserve/lockReserved/release join the caller's same
+writable physical transaction/connection (MANDATORY). Existing Vault lifecycle
+locks remain where required. No REQUIRES_NEW/async/autocommit release, swallowed
+savepoint rollback or stale EntityManager proof. Reject ambient dispatch TXs
+before external effects; compose owner REQUIRED calls only in proven order.
+
+Every relevant owner command obtains guards before managed mutation/flush.
+Mandatory owner-local triggers canonically maintain version/reset history and
+busy checks for direct/indirect/bulk/import/cascade/OLD-NEW assignment paths.
+Do not duplicate competing Java/trigger version rules or whole-entity-overwrite
+reservation/version metadata. A fallback trigger already holding a target row
+acquires an earlier source guard with NOWAIT; conflict aborts the command, not
+backwards waiting or SKIP LOCKED. Missing/overflow metadata denies. Runtime roles
+cannot disable/evade enforcement. Unsupported admin writes/restore require
+suspension/reconciliation, not hostile-administrator protection.
+
+### 3. Global lock order and budgets
+
+Short RAG graph barrier (only where needed) -> sorted stable source_state IDs ->
+sorted Vault lifecycle rows -> owner projection/assignment rows -> sorted RAG
+policy -> job/attempt -> generation/staging/run. Owner mutations omit RAG locks;
+worker takes attempt -> staging only. A separate attempt-only stop-request TX
+finishes before any source/process/control action. Never wait backwards from a
+target-row trigger. Ancestor affected-set proof is bounded; unsafe sets deny.
+
+Fresh DTO/projection reads follow locks. Hash bounded coherent snapshots outside
+DB guards, then recheck captured version before admission/confirmation. No full
+digest, HTTP, client delivery, model or process wait under SQL locks. Use total
+remaining lock/statement/TX budgets (initial 3s/5s/10s ceilings) rather than
+multiplying per-row waits. Timeout returns bounded conflict/pending, never safe
+release. Graph/source caps remain 100 nodes/depth 5/1 MiB selected input.
+
+### 4. Transfer, ACK, consumption and process ownership
+
+T is bytes transferred into Python. U begins with parsing/inspection/hashing the
+body, not inference. S is isolated raw-free staging. ACK is transport/receipt
+acknowledgement only. AI inference is a separate later-phase capability, not
+enabled here. P is trusted Java verification/publication, effective at physical
+COMMIT C. An ACK proves neither permission, quiescence nor publication.
+
+RAG owns one job-scoped loopback Python/FastAPI process/tree adapter. Persist
+STARTING before spawn, launch suspended/confined, bind actual controller/worker
+creation identity and native containment before allowing input. No fallback to an
+existing daemon/port listener. Prove endpoint/readiness/capability belongs to the
+actual job-owned child; bind failure/stale health/port collision denies input.
+Use one atomic issued-grant claim before body consumption; duplicate/unknown
+claim never reexecutes. Worker only mutates its audited claim marker, not job state.
+
+Use correctly owned noninheritable Windows handles/Job Object, no breakaway or
+unreviewed descendant consumer. Kill-on-controller-close is a backstop, not death
+proof. Stop/join all launcher/sender tasks and wait on actual process/tree identity
+on success as well as cancellation. Kill request/ACK/PID/connection loss/timeout
+is not positive termination; stuck tasks keep reservations. No live-controller
+takeover on TTL, including accidental second JVM. No F, Vault DRAIN or leader lease.
+
+### 5. E1(a), E1(b), E1(c): approved expiry changes
+
+PG clock_timestamp() is authoritative for persisted deadlines; sample after
+waits, not transaction-start now(). Java/Python wall clocks cannot certify it.
+For local units sample monotonic m0 before requesting PG remaining time, cap at
+m0 + remaining - safety margin and any prior earlier deadline; never renew or
+compare monotonic origins across restarts/processes. Credential/service session
+expiry remains an execution gate, distinct from source selection retention.
+
+**E1(a):** a passed read/send/work gate may be followed by post-deadline transfer/
+consumption under arbitrary pause/buffering. Elapsed residual can be unbounded.
+**E1(b):** sensitive raw-free S can physically commit after expiry, including
+checks triggered early; S stays untrusted/isolated. Fresh verification observing
+expiry denies; do not grant new authority to stored expired candidates.
+**E1(c):** Java's final verification/P gate may pass before expiry yet physical
+trusted VERIFIED/P COMMIT complete after it. The owner explicitly accepts that
+late transition and that the resulting CURRENT index can remain usable.
+
+Retain observed-expiry rejection before input/S/new verification/P, post-lock and
+default deferred checks. Transaction-time validation and deferred-constraint
+execution are not the final WAL durability/physical COMMIT instant. Arbitrary
+pause can follow the last check. Physical C remains P's linearization point;
+response/ACK follows known outcome and is not C. Later read denial never makes
+an earlier unauthorized durable transition timely. This amends strict E2 rather
+than proving it. E1 time passing cannot release source reservations or relax
+NSFW/Private, consent, source/dependency, producer or cancellation proof.
+
+### 6. Staging fence and atomic finish
+
+Every permitted/legacy worker SQL route locks the attempt, freshly reloads
+scope/state/staging_closed/current execution identity/observed deadline after
+waiting and holds the guard through S physical COMMIT. No pre-lock/RLS-only
+boolean, direct unfenced DML, arbitrary-job access or worker publication right.
+
+After actual terminal launch/send tasks and worker/tree death, a short finish TX
+takes source/policy/attempt guards in order, drains prior S writers, seals staging,
+checks exact committed typed stage/digests/actual rag_worker provenance and current
+manifest, and CASes Java P or discards on abort. **P-or-abort, seal, terminal job
+and exact reservation release share one physical COMMIT.** No release-only TX.
+If S wins, finish waits then verifies/discards; if seal wins, queued old writers
+reload closed state and reject. Negative abort cleanup requires no live work lease.
+
+Stop-request TX can deny future S/P without release. If stop wins the attempt
+guard, P denies. If P wins, its actual C precedes cancellation state change;
+report already completed, not fictitious cancellation or participation revoke.
+Cancellation of a new job never deletes an independently CURRENT previous index.
+
+### 7. Recovery and safe release
+
+No automatic resume/resend/retry/reindex. Startup resolves actual PG outcomes
+under source/attempt guards; lost ACK is not rollback. Terminal marker + sealed
+attempt + released reservations/publication in one resolved C proves finish.
+Otherwise discard unfinished candidates and abort only after real process/task
+and SQL safety. Never auto-finalize partial S or replay a completion callback.
+
+Spawn-to-bind uncertainty, live paused old controller, failed termination,
+unresolved SQL/backend, DB outage or missing identity keeps RECOVERY_REQUIRED,
+reservation and active slot. Other items remain editable when DB is available.
+Only genuine controller death plus verified worker/tree death and writer closure
+permits maintenance recovery; hibernation/new Java UUID is not Windows boot proof.
+Trusted full OS restart can establish old processes cannot resume, but actual
+adapter/boot/SQL proofs remain implementation obligations, not asserted facts.
+
+Normal restart preserves standing consent and completed CURRENT indexes after
+fresh proof; only execution credentials are boot-bound. Declared restore or
+uncertain source history suspends affected RAG for reconciliation/renewed consent.
+Do not claim detection of hostile undeclared administrator restore.
+
+## 2. OUTDATED, access denial and verified purge
+
+An ordinary eligible edit makes dependent published versions **effectively
+OUTDATED at its COMMIT**, even if cached status still says PUBLISHED. Preserve
+standing consent/configuration but never serve stale results as current. Hash or
+edge remove/readd cannot restore the old generation; explicit manual reindex is
+required. Restriction/reset/revoke commits immediately deny every affected
+dependency and require renewed consent; cleanup follows, not access permission.
+
+Owner modules need no RAG callback. Persistent source/reset/epoch mismatch is
+durable cleanup-required evidence even when notifications vanish. A bounded RAG
+reconciler scans actual generation/attempt manifests, materializes/retries purge
+and exposes effective status. It never dispatches indexing. An old B derivative
+containing A can be purged without cancelling new B whose fixed scope excludes A.
+
+### 2.1 Operator Declared Restore and Authority Suspension Procedure
+
+When an operator restores the database from backup, recovers from an ungraceful hardware fault, or encounters uncertain source history across an administrative boundary:
+
+1. **In-Flight Cancellation and Quiescence**:
+   Any in-flight indexing job is cancelled via `rag.cancelJob(jobId)`. The system verifies the native worker process is stopped, seals any untrusted candidate staging rows, and marks the job lease terminal (`CANCELLED`), releasing all source reservations.
+2. **Authority Revocation & Index Suspension**:
+   The operator calls `rag.revokeSource(sourceId)`. This marks the RAG source registration as `REVOKED` and advances the source's authorization epoch / reset watermark.
+   Any existing published index is immediately downgraded from `CURRENT` to `REVOKED` and denied for retrieval.
+3. **Stale Consent Rejection**:
+   Any attempt to admit a job using the stale pre-restore consent or reset version is rejected with `ILLEGAL_STATE` / CAS failure.
+4. **Operator Inspection & Renewed Approval**:
+   The operator inspects the fresh source state and dependency topology via `rag.findSource(sourceId)`.
+   Upon verification of content integrity, the operator explicitly approves renewed consent via `rag.approveSource(sourceId, new RagConsentCommand(approvedFields, expectedSourceVersion, expectedConsentResetVersion, expectedAuthorizationEpoch, expectedFieldPolicyVersion, confirmedDescriptionHash))`.
+5. **Fresh Admission & Publication**:
+   A fresh indexing job is admitted with updated source and policy versions via `rag.admitJob(sourceId, new RagIndexCommand(expectedSourceVersion, expectedAuthorizationEpoch, expectedFieldPolicyVersion, descriptionConfirmations))`.
+   The supervised worker executes, stages output, and upon successful finalization the index transitions cleanly back to `CURRENT`.
 
 
-## 1A. Required cross-owner commit guard — closes the check-to-commit design gap (proposal)
-
-**Invariant:** for any eligible live domain source, an owning business write that changes indexable content, NSFW, trash/restore, or source availability **must not commit between the final authoritative proof and the dependent RAG publish/output commit**. Approval/epoch CAS alone does not achieve this. The contract below is a **proposed additive integration change to frozen owners**, requiring explicit owner authorization and a future migration/public-API review; it does not describe currently implemented locks.
-
-**Shared lock target / transaction composition (Fiction, Film, Vault):**
-
-1. Use the existing `vault_entries.id` row (same `bigint` key as `fictions.id` and `films.id`) as a **common PostgreSQL transaction-scoped guard**. A narrow `vault`-owned public contract obtains `SELECT ... FROM vault_entries WHERE id = :id FOR UPDATE` on the **same local PostgreSQL connection/transaction**. `rag`, `fiction` and `film` call this public contract; `vault` owns it. This is **not** a `vault -> rag` dependency, a Python SQL read of business tables, a remote transaction, or a new generic shared module. A Java `@Transactional` REQUIRED boundary is necessary but insufficient on its own: verify same datasource, physical DB transaction, and no `REQUIRES_NEW`, async handoff, autocommit or read-only transaction that drops/releases the lock before the final write. The domain owner alone reads/writes its internal data.
-2. **Mutation participation is mandatory, not advisory:** every relevant domain mutation path must obtain the guard **before** changing ORM-managed Fiction/Film data or Vault trash state, and hold it through the owning transaction COMMIT. Review *all* direct/indirect writes (including delete/restore/bulk/import jobs); unsafe unguarded write paths are blocked from RAG eligibility until corrected. A proposal for a DB trigger/guard on domain writes can protect out-of-band writers, but triggers on frozen owners require a separate approved migration plus lock-order testing; do not assume triggers already exist. Admin writes/restore outside enforced entry points require explicit RAG suspension and reconciliation before serving. No after-commit event can replace this condition.
-3. **Bounded Java final gate:** start a fresh short writable transaction, acquire all involved `vault_entries` guards in globally sorted ascending numeric ID order, then the relevant RAG approval/lease/generation rows in sorted ID order. After locks are acquired, query **fresh authoritative** projections through `fiction`/`film`/`vault` public APIs (clear/refresh any JPA first-level managed state or use a verified fresh DTO/projection read; no pre-lock cached entity or Python result). Validate active/not-NSFW state, content revision/hash, field grants, approval epoch, session/lease, entire transclusion manifest and current allowed scope. Only then do the Java-owned CAS/pointer and answer/history authorization write; COMMIT while still holding all locks. Do not release a guard after final SELECT but before commit. `READ COMMITTED` plus explicit row locks/fresh reads is the proposed default; isolation names or `SERIALIZABLE` alone are not accepted as the proof.
-4. **Order and failure:** owning business writes acquire their Vault guard first, before locking/updating their owner record; RAG acquires ordered Vault guards then ordered RAG rows. No domain owner may acquire a RAG lock, avoiding dependency cycles. Use bounded `lock_timeout`, transaction/statement deadline and limited retries for deadlock/timeout; on exhaustion return `SOURCE_BUSY`/`SOURCE_UNVERIFIED`, **deny** publication or response, and do not persist source-bearing failure diagnostics. A dependency set too large to guard within the measured budget fails closed instead of omitting checks. No OCR, parsing, embedding, full-corpus hashing, local LLM generation or network/client send while these DB locks are held.
-5. **Linearization and delivery:** index visibility and finalized response authorization take effect on successful **Java transaction COMMIT**. The response may contain locally generated candidate text before that point only in inaccessible staging. No SSE/chunk/token streaming or early HTTP response body escapes before commit; a failed gate returns a content-free error. Once committed, a later revocation cannot retract bytes already authorized for delivery; serving stored history or opening citations needs a **new** guard. This limitation must be reported explicitly, not hidden behind "zero-latency revocation" claims.
-6. **Worker staging/purge race (DB-enforced):** A worker may have a leased staging `INSERT/UPDATE` in flight when Java revokes and purges. A Python-side lease check/RLS visibility check **alone** is not a commit fence. Each authorized worker staging transaction must obtain a **database-enforced transaction-scoped guard on its Java-owned attempt/job lease row** (e.g. a narrowly scoped `BEFORE INSERT/UPDATE` trigger/function that locks and checks that row, runs with fixed safe `search_path`, is audited for `SECURITY DEFINER` escalation, and is inaccessible for arbitrary job IDs). Java cancellation/purge obtains the same attempt/job lock **before** declaring purge complete, revokes the lease, fences the generation, removes staged derivatives, checks no in-flight eligible writers, then commits. Thus any old worker write either commits **before** purge (and is deleted) or obtains the lock after purge (and is rejected). Python gets no approval/job state mutation rights. Deterministic test must pause worker **after its last lease check and before staging COMMIT**, then attempt purge and reverse order; assertions check zero resurfaced rows *after* `PURGE_COMPLETE`. Apply the same fence to judge staged evidence/results.
-7. **Worker and purge:** Python's staging writes are never active/owner-visible. All activation and derived-output commits use the same source+RAG guard. Revocation takes the Vault source guard (for domain writes) or a matching RAG policy row for RAG-only consent changes, fences active pointers and grants in one Java-owned transaction; after acknowledged denial, purge runs under a **generation/epoch barrier**. A late worker cannot recreate authorized active content or make obsolete staging visible. Cleanup completion is recorded only after a serializable-at-the-guard check of active attempts, staged rows, orphan derivatives and dependency references; concurrent new work must first acquire the new approval/epoch. Distinguish *instant read denial* from *eventual secure purge*; do not claim physical byte removal until verified.
-
-**External mutable files — a different authority:** Obsidian/editor writes are not part of the PostgreSQL transaction, so a RAG database row lock or a rehash-and-close **cannot** guarantee live-path stability. On the first Windows 11/NTFS desktop implementation, implement a reviewed OS file-handle **read/share mode that denies concurrent write and rename/delete**, including checking the canonical root and path-to-file identity (reparse points, replacement, hard links, already-open writers) and recording an approved immutable content-version manifest. During each final bounded Java gate: acquire the scoped OS handle(s) in deterministic canonical-path order, verify current identity and byte hash against the approved version **while handles remain held**, acquire the short Java DB guard/approval transaction, verify permission and commit, then release handles. An edit/replacement must either finish **before** handles are obtained (so hash/identity mismatch denies) or wait/fail until after the RAG commit (so the earlier authorized result has a valid commit order). Hold neither file nor DB locks during parsing, OCR or model inference.
-
-This OS strategy is **conditional on empirical Win32/NTFS handle-semantics tests**; default-deny unsupported volumes/filesystems, uncooperative writers, network shares, unsafe reparse traversal, changed directory identity, already-open conflicting handles and budgets/timeouts. A managed immutable, owner-approved copy may be used as a **separately named snapshot source**, not deceptively represented as the current mutable live path; changing the path invalidates/requires reapproval for live-file mode. A naive `flock`, Java `FileLock`, watcher, mtime, post-check rehash or close-and-reopen proof is *not* sufficient to make uncoordinated file writes transactionally safe. The file gate holds the verified handle(s) across the last check **until** the publication/final-output commit.
-
-**Mixed dependency manifest:** obtain bounded OS handles in ordered path order **before** any PostgreSQL row locks, then sorted Vault guards, then sorted RAG rows; apply one transaction to the entire manifest. Missing/expired approval, inaccessible file, exception, lock timeout, or unprovable guard means no output/index activation. No hidden Python re-fetch or release/reopen between check and COMMIT. For ad-hoc files, source selection/session lifetime remains an additional guard, even for unchanged identical bytes.
-
-**Explicit future acceptance gate:** Codex/owner must approve the guarded mutations to frozen owner modules (or equivalent enforceable DB guard) and Windows source handle capability **before** Phase 17 foundation handoff. The team must prove in Java+Postgres and Windows integration tests that each mutation and final gate shares the guard **and** lock lifetime; if this cannot be implemented without unacceptable coupling/latency, pause the eligible feature rather than relax P17-3.
-
-## 2. Retention, purge and read-denial by artifact
-
-**Revocation dominates all TTL and historical-retention settings.** Mark ineligible and deny access/metrics/ranking **synchronously**; then cancel queued/running work and purge all content-bearing derivatives with retry/reconciliation until verified gone. No "retain for debugging" exception for source text. Current user privacy and source-policy revision are mandatory on reads of even old answers.
-
-| Artifact | On revoke/session expiry or source/hash change | Safe retention rule |
+| Artifact | Denial/cleanup requirement | Safe retained state |
 | --- | --- | --- |
-| Raw upload bytes, selected external-file copies, OCR page images, parsing temp files/snapshots | Stop reads; secure-delete managed copies as feasible, clear temp dirs/leases; original owner files unchanged | Ad-hoc TTL only while grant active; never backup raw scratch by default |
-| Extracted/normalized text, transcluded copies, chunks, embeddings, lexical index, feature projections, retired/staged generations | Deny from query/candidate ranks immediately; purge active, staging, retired and orphan rows dependent on revoked source | No content-bearing backup; rebuildable only with renewed approval |
-| Embedding/vector and retrieval/rerank caches, query context buffers, prompt buffers, serialized LLM input/output, in-memory worker caches | Invalidate by source+epoch+generation; cancel/expire leases, unload/discard buffers where feasible; no reuse/new publication | Memory lifetime bounded to authorized work; no persistent raw prompt cache |
-| Generated answers, conversation/history rows, result snippets, citations, highlights, recommendation explanations/candidates | Deny retrieval and erase content for **any** answer referencing affected source/child; do not keep cached original text in a summary | Sanitized tombstone (run ID, error code, timestamps) permitted; not previous content |
-| Local judge queue payloads, ground-truth excerpts, judge prompts, evidence, raw scores/comments derived from revoked content | Cancel before starting; invalidate running judge output, remove queued payload/evidence/results tied to revoked source; reject late result | Redacted numeric performance aggregate only if irreversible/non-identifying and validated non-leaking |
-| Authorization grants, ad-hoc session indexes, source-selection manifests, scoped source aliases | Revoke/expire, deny all reads, scrub identifying aliases and any content-bearing fields; invalidate dependent jobs | Minimal non-identifying audit tombstone/epoch for anti-replay |
-| Logs, traces, operational counters and run/evaluation metrics | Never write raw source/query/private paths by default; remove unexpected content-bearing artifacts on incident | Only sanitized run ID, typed codes and non-identifying aggregate timing/count statistics; check count/metadata leaks for filtered views |
+| Raw uploads/managed copies/OCR/temp snapshots | Stop reads; erase controlled copies, original external files untouched | No raw debug retention; live external capability disabled pending R7 |
+| Text/transclusions/chunks/vectors/lexical/features and active/retired/staged/orphan generations | Deny before ranks/counts; purge actual transitive derivatives | Sanitized OUTDATED/revoked tombstone only |
+| Context/prompts/caches/worker memory | No reuse/new publication; stop consumer, discard buffers and persistent artifacts | No persistent raw prompt cache |
+| Answers/history/snippets/citations/highlights/recommendation artifacts | Future reads deny and content removed for every dependent child | Sanitized provenance only if nonidentifying/nonleaking |
+| Judge queues/evidence/prompts/results | Stop before further consumption, seal late result writers, erase dependent evidence | Validated irreversible nonidentifying aggregate only |
+| Grants/selection aliases | Close execution; apply independent selection retention where applicable | Minimal anti-replay state; no work-TTL deletion of current persistent index |
+| Logs/metrics | Never log raw source/query/credentials/private paths; remediate unexpected sensitive artifacts | Safe typed codes/timestamps/nonleaking aggregate |
 
-Purge must cover **transitive dependencies**: a child `B` used via `![[B]]` into parent `A` makes the A generation/answer/judge dependent on B. Revoking B invalidates and removes every parent derivation containing B, while allowing *new* A generations built only from independently approved remaining content. Do not leave orphan embeddings in a supposedly clean parent. Persist forward/reverse dependency IDs with generations and derived outputs so traversal is deterministic; missing dependency manifest = deny and rebuild.
+Purge completion requires verified rows/files/orphans gone and no eligible
+writers, under the attempt/generation fence. Failed erasure remains PENDING and
+inaccessible. Safe editing release may precede physical erasure only after all
+consumers/tasks and SQL writers are impossible; do not confuse inaccessible file
+deletion failure with unresolved writer safety. No bounded erasure guarantee
+during storage/service outage. Sensitive digests are not automatically anonymous.
 
-## 3. Running jobs and recovery protocol
+## 3. Published reads and later capabilities
 
-1. **Admission:** Java allocates a scoped lease and records input source+child revisions/epochs; absence or expiry denies. Separate ad-hoc session TTL bounds all descendant run/judge work.
-2. **Execution:** Python reads only leased, preapproved input; each stage boundary checks cancellation/lease status. Long parsing, embedding, LLM generation and judging can be interrupted; any leftover output remains non-public staging and is rejected by the Java completion gate.
-3. **Publication:** Java acquires and holds §1A owning-source/file guards through its final commit, performs fresh authoritative source/field/policy checks and transactional CAS only while guarded; activate only if revisions/epochs, job lease and selection still match. Expired/revoked grants cannot be refreshed implicitly.
-4. **Answer/history:** retrieval and recommendation SQL constrain eligible source/grant IDs **before ranking/counting**, and Java acquires §1A source/file guards, freshly verifies candidate IDs and evidence and holds guards through final authorization commit; no output tokens are delivered beforehand. History stores only authorized provenance references by default; if an answer body is retained, it must be dependency-bound and purged or redacted at revoke. Highlight resolution repeats checks and may return `SOURCE_REVOKED` instead of text.
-5. **Judge:** queued local evaluation gets no free-standing permanent copy of a prompt; just a reference to an active session/source dependency manifest. Check at dequeue, pre-inference and persistence; stale/late judge results are rejected and their raw evidence destroyed. Ad-hoc session expiry cancels queued judges and removes saved answers even when source remains independently approved elsewhere.
-6. **Recovery:** on worker restart, lost events, backup restore, pending purge or policy uncertainty: default deny affected generation until fresh authoritative reconciliation. Reconciliation compares owner-source revision/hash, current policy epoch, dependencies, job leases, generations, temporary files and session expiry. Never republish an old staging record; use a new fenced attempt if owner reapproves. Preserve only source-free, sanitized incident/operation metrics.
+1. Persistent completed index uses IndexCurrent, never completed work TTL/boot.
+   Preserve historical job success separately from effective index state.
+2. Explicit ad-hoc selection-session retention can independently expire its own
+   artifacts; it does not revoke another persistent generation/consent solely
+   because a worker credential expired.
+3. No owner-visible streaming before successful authorization COMMIT. Every new
+   stored history/source/highlight access needs fresh dependency proof. A later
+   restriction cannot retract bytes already delivered before its authoritative C.
+4. Future QA/judge/model consumers are not enabled by this indexing contract.
+   Their actual context-consumption lifetime must receive reviewed source-use
+   protection; a fresh pre-inference SELECT alone is not sufficient. No claim
+   that indexing reservations already certify parallel later-phase consumers.
+5. Live external files remain fail-closed/disabled. R7 protected Win32 identity/
+   root/ancestor/reparse/hard-link/writer/mapping/hash lifetime proofs are still
+   required before enablement; DB reservations do not stop external editors.
+   Approved immutable snapshot is a separately identified source, not the live path.
+6. Offline, original field exclusions, actual producer provenance and least
+   privilege remain unchanged. No model/parsing/inference product added here.
 
-An event arriving late may accelerate cleanup, but **no event arrival or watcher delivery can authorize content**. The first unauthorized read/publish following an authoritative change must fail through fresh boundary checks, not through a stale materialized eligible flag. The read-owning service must not serve unchecked cached RAG answers.
+## 4. Deterministic acceptance scenarios (actual boundaries)
 
-## 4. Deterministic acceptance scenarios (test at actual boundaries)
+[Alternative B verification plan](alternative-b-verification-plan.md) is the
+normative B01–B20 obligation and changed-expectation map. Preserve R1–R8 coverage:
 
-| Test | Controlled interleaving / failure | Required assertion |
-| --- | --- | --- |
-| R1 — Embedding vs revoke | Pause worker after OCR/chunking and before embedding/staging. Commit source revocation; resume old worker. | No active generation, no late publish, no answer/judge/output containing source; staged contents are purged; only sanitized metrics remain. |
-| R2 — Domain last-read race | Barrier **after the last successful live Fiction/Film/Vault read but before CAS/COMMIT**; concurrently attempt `isNsfw` flip, content update and Vault trash/restore, including lost event; repeat in both commit orders. Verify a writer that starts before/after the RAG guard. | Same `vault_entries FOR UPDATE` guard is held by domain writer and final gate across commit; writer-first forces fresh read/reject, RAG-first authorizes before writer commits and subsequent reads deny. No stale published content after earlier mutation commit, even with dropped notifications. Test lock timeout and uncaught unguarded mutation paths. |
-| R3 — Generate vs revoke | Pause between retrieval and local LLM response; revoke source/embedded child, finish generation. | Final response/history commit fails; answer/citation/highlight, counts and ranking reveal no revoked content; local judge not admitted. |
-| R4 — Lost deletion event + restart | Delete/trash source, drop event, kill/restart Python and Java workers, attempt query and reconciliation. | Live read denies pre-reconciliation; restarted worker cannot republish; later reconciliation purges generation/caches and confirms no leaked count/result. |
-| R5 — Embedded child B | Approved A contains `![[B]]`; revoke previously approved B without changing A. | All A generations/answers/evaluation dependent on B deny/purge; A may be reindexed without B if parser isolates it; no B text survives. |
-| R6 — Session expiry + queued judge | Let ad-hoc session expire after answer queued for judge; dequeue judge, request saved answer/highlight; try a late judge completion. | Judge denied/discarded, content history removed, source aliases scrubbed, output inaccessible; sanitized tombstone only. |
-| R7 — External post-check replacement | Hold a barrier **after the last successful hash/identity check and before CAS/COMMIT**; concurrently replace/rewrite the selected `.pdf/.md` using an independent Windows handle (also same path/mtime, rename, symlink/reparse attempt); drop watcher events, try both orders. | Guarded Win32 handle prevents concurrent path/data mutation until after commit or causes fail-closed lock error; writer-first produces mismatch and rejection. Unsupported FS/unsafe identity/timeout refuses output; no close/reopen gap, no stale reapproval, no source-bearing early stream. |
-| R8 — Field-policy reduction | Remove `description` from approved Fiction fields with worker reading old grant; simultaneously request category count/recommendation. | Description-related vectors/prompts/score and derived history deny/purge; only allowed fields remain after a new generation with new epoch. |
+| Legacy case | Required Alternative B interpretation |
+| --- | --- |
+| R1 — work vs revoke | Reservation-first revoke conflicts; cancel, prove death/seal/release, retry revoke; no later old input/S/P |
+| R2 — final owner read vs mutation | Stable source row and physical C in both orders, admission/body/finish barriers; owner-first denies, reserved-first conflicts |
+| R3 — generation vs revoke | Synthetic later-output artifacts only; no future consumer acceptance; fresh dependency/output denial after authoritative revoke |
+| R4 — lost deletion + restart | Fresh denial, durable history, no partial auto-resume; normal completed consent/index survives restart |
+| R5 — child dependency | Actual transitive manifest denial/purge; no unapproved/new child, no unrelated new-generation cancellation |
+| R6 — selection expiry/judge | Independent ad-hoc selection expiry denies its own artifacts; completed worker TTL alone does not invalidate persistent index |
+| R7 — external replacement | Real supported Windows/NTFS proof or explicit disabled capability; no DB-only/rehash-close substitute |
+| R8 — field reduction | Reserved mutation conflicts; after safe release/reduction C, old fields/epochs/artifacts deny and purge |
 
-Run deterministic barriers/latches precisely after successful last checks; use real PostgreSQL transactions and Win32 NTFS file-handle integration (not mocked locking), plus separate writer connections/processes. Test guard-first/writer-first, DB timeout/deadlock, unguarded mutation detection, lost notification, worker staging insert and judge-result commit paused **after lease check** vs purge completion in both orders, purge completion vs new attempt, and mixed-source sorted ordering; include negative SQL permission tests from [P17-1](integration-ownership-and-permissions.md). Assert **no leaked text, source-identifying metadata, unauthorized counts/ranking changes or late republishing**, not merely a success HTTP code. Document cleanup retries, failure-injection evidence and residual limitations; security invariants are release blockers regardless of average RAG evaluation scores.
+Use bounded latches/barriers and real PG connections/roles/Windows processes,
+both orders, actual physical COMMIT and unknown outcome recovery. No sleeps,
+mock/native assertion or abstract model substitutes. E1 changes only explicitly
+mapped deadline/lifetime expectations; all other security regressions remain.

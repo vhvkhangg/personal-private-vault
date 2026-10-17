@@ -8,6 +8,7 @@
  *   <li>{@code ratings}</li>
  *   <li>{@code tags}</li>
  *   <li>{@code vault_entry_tags}</li>
+ *   <li>{@code vault_rag_source_state} (retained source/reset history and edit reservations)</li>
  * </ul>
  *
  * <h2>Primary responsibilities</h2>

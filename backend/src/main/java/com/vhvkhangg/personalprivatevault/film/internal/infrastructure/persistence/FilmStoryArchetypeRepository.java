@@ -17,6 +17,9 @@ public interface FilmStoryArchetypeRepository extends JpaRepository<FilmStoryArc
 
     List<FilmStoryArchetypeAssignment> findByIdFilmId(Long filmId);
 
+    @Query("SELECT a FROM FilmStoryArchetypeAssignment a WHERE a.id.filmId IN :filmIds")
+    List<FilmStoryArchetypeAssignment> findByIdFilmIdIn(@Param("filmIds") java.util.Collection<Long> filmIds);
+
     @Query("SELECT a.id.storyArchetypeId FROM FilmStoryArchetypeAssignment a WHERE a.id.filmId = :filmId")
     Set<Long> findStoryArchetypeIdsByFilmId(@Param("filmId") Long filmId);
 

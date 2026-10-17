@@ -358,3 +358,33 @@ rate limiting/security deployment hardening, RAG/vector search, or production de
 
 For standardized HTTP error status codes (415, 406, 400 with indexed paths, 422/409 domain translations) and streaming transfer error boundaries, see:
 [`phase-15-implementation-notes.md`](phase-15-implementation-notes.md)
+
+
+## 16. Phase 17 Alternative B contract amendment
+
+Owner-approved 2026-10-15, [ADR-0020](../adr/0020-phase-17-single-job-reservations-e1.md).
+Required future contract, not current wire support or execution enablement;
+ADR-0016 root envelopes/auth/module-local adapters remain unchanged.
+
+| Existing foundation surface | Approved bounded change |
+| --- | --- |
+| POST /api/v1/rag/sources/register-domain, /register-file; GET /sources and /sources/{id} | Registration never implies approval. Return current sourceVersion/consentResetVersion/authorizationEpoch/fieldPolicyVersion and selected fields/confirmed description hash only under authorized safe preview. Live file execution remains disabled. |
+| POST /api/v1/rag/sources/{id}/approve | approvedFields plus required expectedSourceVersion, expectedConsentResetVersion, expectedAuthorizationEpoch, expectedFieldPolicyVersion; optional exact description confirmation only for opted-in field. Guarded CAS mismatch 409 SOURCE_CHANGED/no renewal. No automatic Private->NON_PRIVATE or implicit latest values. |
+| POST /api/v1/rag/sources/{id}/revoke and every maintained affected owner/classification/field/dependency mutation | Reserved set: 409 RAG_SOURCE_BUSY/no mutation C; cancel-first, no queued edit. Unreserved revoke C denies related derivatives and starts verified purge, preserving unrelated item configuration. |
+| POST /api/v1/rag/jobs/admit | Explicit owner Index/Reindex; no automatic launch/resume. Fixed approved closure, required current version/epoch scope and exact current changed-description hash confirmations. Persist confirmation/admission/reservations atomically; stale/missing required confirmation rejects, never silently drops fields. Second active job 409 RAG_JOB_BUSY. |
+| GET /api/v1/rag/jobs/{id} | Report historical outcome separately from generation effective CURRENT/OUTDATED/REVOKED, cleanup status and pending recovery. No promise job SUCCEEDED implies current permission. Safe bounded status without denied content/count leaks. |
+| POST /api/v1/rag/jobs/{id}/cancel | Stop request does not acknowledge safe editing release until verified tasks/process/tree termination plus SQL seal and release C. Pending/unknown stays nonterminal/reserved. Already finished reports actual completion/conflict; never participation revoke or deleting previous CURRENT index. |
+| POST /api/v1/rag/jobs/{id}/finalize | Java-only trusted verification path, exact receipt/manifest/current authority; source/attempt seal/terminal/P/release atomic. E1 gate-time expiry; current late P can outlive completed work lease. Duplicate returns resolved identity, never new publication or replay of unknown C. |
+
+These are amendments to the existing candidate actions, not new query/preview/
+classification endpoint authorization. Use existing owning commands for config;
+do not invent a new REST subsystem. Any final URI/DTO compatibility mapping must
+be synchronized with OpenAPI/tests during separately authorized implementation.
+
+Internal Java public operations are specified by P17-1; worker typed versioned
+loopback scope binds actual job-owned process/endpoint, one-use grant, attempt,
+input/field/dependency digests and deadlines. Claim before body consumption;
+strict output/stage/kind/producer validation and SQL attempt fencing. No owner
+JWT/PIN to Python, arbitrary path/SQL, existing-daemon fallback or worker P.
+NSFW/Private and restrictive quoted metadata always deny. Unknown returns safe
+typed conflict/unverified/pending; no raw source/path/credential diagnostics.

@@ -37,14 +37,14 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 .as("Flyway V1 must define exactly 41 named PostgreSQL enum types")
                 .isEqualTo(41);
 
-        // 2. Assert 69 application tables (excluding flyway_schema_history)
+        // 2. Assert 69 application tables (excluding flyway_schema_history and post-v1 system tables)
         Integer tableCount = jdbcTemplate.queryForObject(
                 """
                 SELECT count(*)
                 FROM information_schema.tables
                 WHERE table_schema = 'public'
                   AND table_type = 'BASE TABLE'
-                  AND table_name != 'flyway_schema_history'
+                  AND table_name NOT IN ('flyway_schema_history', 'vault_rag_source_state')
                 """,
                 Integer.class
         );
@@ -76,7 +76,7 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 FROM information_schema.tables
                 WHERE table_schema = 'public'
                   AND table_type = 'BASE TABLE'
-                  AND table_name NOT IN ('flyway_schema_history', 'app_users', 'refresh_tokens')
+                  AND table_name NOT IN ('flyway_schema_history', 'app_users', 'refresh_tokens', 'vault_rag_source_state')
                 ORDER BY table_name
                 """,
                 String.class

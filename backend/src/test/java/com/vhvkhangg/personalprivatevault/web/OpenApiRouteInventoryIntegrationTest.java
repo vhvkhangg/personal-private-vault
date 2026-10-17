@@ -125,6 +125,9 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/personal/profiles | findPersonalProfiles | 200 | null | ApiResponseListPersonalProfileResponse | true
             GET | /api/v1/personal/profiles/{id} | getPersonalProfile | 200 | null | ApiResponsePersonalProfileResponse | true
             GET | /api/v1/personal/profiles/self | getSelfPersonalProfile | 200 | null | ApiResponsePersonalProfileResponse | true
+            GET | /api/v1/rag/jobs/{id} | getRagJobStatus | 200 | null | ApiResponseRagJobStatusResponse | true
+            GET | /api/v1/rag/sources | listRagSources | 200 | null | ApiResponseListRagSourceResponse | true
+            GET | /api/v1/rag/sources/{id} | getRagSource | 200 | null | ApiResponseRagSourceResponse | true
             GET | /api/v1/reference/countries | listCountries | 200 | null | ApiResponseListCountryResponse | true
             GET | /api/v1/reference/countries/{code} | getCountry | 200 | null | ApiResponseCountryResponse | true
             GET | /api/v1/reference/currencies | listCurrencies | 200 | null | ApiResponseListCurrencyResponse | true
@@ -195,6 +198,13 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/personal/profiles | createPersonalProfile | 201 | CreatePersonalProfileRequest | ApiResponsePersonalProfileResponse | false
             POST | /api/v1/personal/profiles/{id}/restore | restorePersonalProfile | 200 | null | ApiResponsePersonalProfileResponse | true
             POST | /api/v1/portability/exports | exportVaultArchive | 200 | null | binary | false
+            POST | /api/v1/rag/jobs/admit | admitRagJob | 201 | AdmitJobRequest | ApiResponseRagJobAdmissionResponse | false
+            POST | /api/v1/rag/jobs/{id}/cancel | cancelRagJob | 200 | null | ApiResponseVoid | true
+            POST | /api/v1/rag/jobs/{id}/finalize | finalizeRagGeneration | 200 | FinalizeGenerationRequest | ApiResponseRagFinalizationResponse | true
+            POST | /api/v1/rag/sources/register-domain | registerDomainCandidate | 201 | RegisterDomainSourceRequest | ApiResponseRagSourceResponse | false
+            POST | /api/v1/rag/sources/register-file | registerFileCandidate | 201 | RegisterFileSourceRequest | ApiResponseRagSourceResponse | false
+            POST | /api/v1/rag/sources/{id}/approve | approveRagSource | 200 | ApproveSourceRequest | ApiResponseRagSourceResponse | true
+            POST | /api/v1/rag/sources/{id}/revoke | revokeRagSource | 200 | null | ApiResponseRagSourceResponse | true
             POST | /api/v1/saved-resources/{id}/convert/information | convertSavedResourceToInformation | 201 | ConvertToInformationRequest | ApiResponseSavedResourceConversionResponse | true
             POST | /api/v1/saved-resources/{id}/convert/note | convertSavedResourceToNote | 201 | ConvertToNoteRequest | ApiResponseSavedResourceConversionResponse | true
             POST | /api/v1/saved-resources/{id}/convert/study | convertSavedResourceToStudy | 201 | ConvertToStudyRequest | ApiResponseSavedResourceConversionResponse | true
@@ -373,8 +383,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(214);
-        assertThat(uniqueIds).hasSize(214);
+        assertThat(operationIds).hasSize(224);
+        assertThat(uniqueIds).hasSize(224);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -452,7 +462,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(exportArchivePost.path("responses").has("409")).as("POST /api/v1/portability/exports must NOT document 409").isFalse();
         assertThat(exportArchivePost.path("responses").has("422")).as("POST /api/v1/portability/exports must NOT document 422").isFalse();
 
-        // 6b. Verify exact 214-endpoint method/path/operation/status/DTO contract manifest (FR13-6 + Phase 14)
+        // 6b. Verify exact 224-endpoint method/path/operation/status/DTO contract manifest (FR13-6 + Phase 14 + Phase 17)
         List<ExpectedRouteContract> expectedContracts = ACCEPTED_MANIFEST.lines()
                 .map(String::trim)
                 .filter(line -> !line.isEmpty() && !line.startsWith("#"))
@@ -470,7 +480,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 214 endpoints").hasSize(214);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 224 endpoints").hasSize(224);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -485,7 +495,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 214 manifest count").isEqualTo(214);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 224 manifest count").isEqualTo(224);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());

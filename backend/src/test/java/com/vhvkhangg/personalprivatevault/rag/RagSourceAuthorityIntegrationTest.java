@@ -1,0 +1,183 @@
+package com.vhvkhangg.personalprivatevault.rag;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vhvkhangg.personalprivatevault.rag.api.*;
+import com.vhvkhangg.personalprivatevault.rag.internal.application.*;
+import com.vhvkhangg.personalprivatevault.rag.source.*;
+import com.vhvkhangg.personalprivatevault.support.AbstractWebIntegrationTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.PlatformTransactionManager;
+import java.util.*;
+import static org.assertj.core.api.Assertions.*;
+
+@Timeout(30)
+class RagSourceAuthorityIntegrationTest extends AbstractEnabledRagIntegrationTest {
+    @Autowired RagOperations rag;
+    @Autowired RagJobService jobs;
+    @Autowired RagSourceAuthority authority;
+    @Autowired PlatformTransactionManager transactions;
+
+    private RagSourceView approved(String title) {
+        Long genre = jdbcTemplate.queryForObject("INSERT INTO fiction_genres(name) VALUES (?) RETURNING id", Long.class, UUID.randomUUID().toString());
+        Long person = jdbcTemplate.queryForObject("INSERT INTO vault_entries(entry_type) VALUES ('PERSON') RETURNING id", Long.class);
+        jdbcTemplate.update("INSERT INTO persons(id,name) VALUES (?,'Synthetic person')", person);
+        Long id = jdbcTemplate.queryForObject("INSERT INTO vault_entries(entry_type) VALUES ('FICTION') RETURNING id", Long.class);
+        jdbcTemplate.update("INSERT INTO fictions(id,title,format,genre_id,author_person_id,description,is_nsfw) VALUES (?,?,'NOVEL',?,?,'Synthetic description',false)", id,title,genre,person);
+        return RagTestCommands.approve(rag, RagTestCommands.register(rag, RagSourceType.FICTION,id.toString()).id(),Set.of("title","description"));
+    }
+
+
+    @Autowired com.vhvkhangg.personalprivatevault.fiction.source.FictionSourceOperations fictionSources;
+    @Autowired com.vhvkhangg.personalprivatevault.film.source.FilmSourceOperations filmSources;
+    @Autowired jakarta.persistence.EntityManagerFactory entityManagerFactory;
+
+    @Test void everyAllowedFieldAndConsumptionStateHasTypedSelectedOnlyInput() throws Exception {
+        Long filmId=jdbcTemplate.queryForObject("INSERT INTO vault_entries(entry_type) VALUES ('FILM') RETURNING id",Long.class);
+        jdbcTemplate.update("INSERT INTO films(id,title,format,production_style,is_nsfw) VALUES (?,'Synthetic film','SERIES','LIVE_ACTION',false)",filmId);
+        var fiction=approved("Synthetic fields");
+        var film=RagTestCommands.register(rag, RagSourceType.FILM,filmId.toString());
+        for(var source:List.of(fiction,film)) {
+            String table=source.sourceType()==RagSourceType.FICTION?"fictions":"films";
+            var states=jdbcTemplate.queryForList("SELECT unnest(enum_range(NULL::consumption_status))::text",String.class);
+            for(String state:states) {
+                jdbcTemplate.update("UPDATE "+table+" SET consumption_status=CAST(? AS consumption_status) WHERE id=?",state,Long.valueOf(source.sourceId()));
+                for(String field:com.vhvkhangg.personalprivatevault.rag.internal.domain.RagFieldAllowlist.getAllowedFields(source.sourceType())) {
+                    RagTestCommands.approve(rag, source.id(),Set.of(field));
+                    var proof=new TransactionTemplate(transactions).execute(status->authority.lockSource(source.id()));
+                    var values=new ObjectMapper().readTree(Objects.requireNonNull(proof).payload()).path("sources").get(0).path("fields");
+                    assertThat(values.size()).isEqualTo(1);
+                    assertThat(values.has(field)).as(field+" / "+state).isTrue();
+                    if(field.equals("consumptionStatus"))assertThat(values.path(field).asText()).isEqualTo(state);
+                }
+            }
+        }
+    }
+
+    @Test void nullEmptyAndWhitespaceDescriptionsHaveDistinctAuthoritativeRevisions() {
+        var source=approved("Synthetic exact bytes");
+        Long id=Long.valueOf(source.sourceId());
+        Set<String> revisions=new HashSet<>();
+        for(String value:Arrays.asList(null,""," ","Synthetic description","Synthetic description ")) {
+            jdbcTemplate.update("UPDATE fictions SET description=? WHERE id=?",value,id);
+            revisions.add(fictionSources.findSource(id).orElseThrow().descriptionRevisionHash());
+        }
+        assertThat(revisions).hasSize(5);
+    }
+
+    @Test void genuinelyFreshBatchProjectionsHaveConstantQueryCountsAndEnforceByteBudget() {
+        List<Long> fictionIds=new ArrayList<>(),filmIds=new ArrayList<>();
+        for(int i=0;i<8;i++) {
+            fictionIds.add(Long.valueOf(approved("Synthetic batch "+i).sourceId()));
+            Long id=jdbcTemplate.queryForObject("INSERT INTO vault_entries(entry_type) VALUES ('FILM') RETURNING id",Long.class);
+            jdbcTemplate.update("INSERT INTO films(id,title,format,production_style,is_nsfw) VALUES (?,'Synthetic batch film','SERIES','LIVE_ACTION',false)",id);
+            filmIds.add(id);
+        }
+        var statistics=entityManagerFactory.unwrap(org.hibernate.SessionFactory.class).getStatistics();
+        boolean enabled=statistics.isStatisticsEnabled();statistics.setStatisticsEnabled(true);
+        try {
+            for(int n:List.of(1,8)) {
+                statistics.clear();assertThat(fictionSources.findSources(fictionIds.subList(0,n))).hasSize(n);
+                assertThat(statistics.getPrepareStatementCount()).isEqualTo(5);
+                statistics.clear();assertThat(filmSources.findSources(filmIds.subList(0,n))).hasSize(n);
+                assertThat(statistics.getPrepareStatementCount()).isEqualTo(6);
+            }
+        }finally {statistics.setStatisticsEnabled(enabled);}
+        jdbcTemplate.update("UPDATE fictions SET description=repeat('x',1048577) WHERE id=?",fictionIds.getFirst());
+        assertThatThrownBy(()->fictionSources.findSources(fictionIds)).isInstanceOf(IllegalStateException.class).hasMessageContaining("byte budget");
+        assertThatThrownBy(()->fictionSources.findSources(java.util.stream.LongStream.range(1,102).boxed().toList()))
+                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("selection budget");
+    }
+    @Test
+    void nsfwAfterAdmissionNeverReachesWorker() {
+        var source = approved("Synthetic restricted title");
+        var attempt = RagTestCommands.index(rag, source.id());
+        assertThatThrownBy(()->jdbcTemplate.update("UPDATE fictions SET is_nsfw=true WHERE id=?",Long.valueOf(source.sourceId())))
+                .satisfies(error->assertThat(sqlState(error)).isEqualTo("P1701"));
+        rag.cancelJob(attempt.jobId());
+        jdbcTemplate.update("UPDATE fictions SET is_nsfw=true WHERE id=?",Long.valueOf(source.sourceId()));
+        assertThatThrownBy(() -> jobs.executeSyntheticStage(attempt.jobId(),attempt.attemptId(),"SYNTHETIC_TEST"))
+                .isInstanceOf(IllegalStateException.class);
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM rag.staged_outputs",Integer.class)).isZero();
+    }
+
+    @Test
+    void trashChangedRevisionAndFieldReductionDenyInput() {
+        for (String mutation : List.of("UPDATE vault_entries SET deleted_at=clock_timestamp() WHERE id=?",
+                "UPDATE fictions SET title='Changed title' WHERE id=?")) {
+            var source = approved("Synthetic old title");
+            var attempt = RagTestCommands.index(rag, source.id());
+            assertThatThrownBy(()->jdbcTemplate.update(mutation,Long.valueOf(source.sourceId())))
+                    .satisfies(error->assertThat(sqlState(error)).isEqualTo("P1701"));
+            rag.cancelJob(attempt.jobId());
+            jdbcTemplate.update(mutation,Long.valueOf(source.sourceId()));
+            assertThatThrownBy(() -> jobs.executeSyntheticStage(attempt.jobId(),attempt.attemptId(),"SYNTHETIC_TEST"))
+                    .isInstanceOf(IllegalStateException.class);
+        }
+        var source = approved("Synthetic field title");
+        var attempt = RagTestCommands.index(rag, source.id());
+        assertThatThrownBy(()->RagTestCommands.approve(rag, source.id(),Set.of("title")))
+                .satisfies(error->assertThat(sqlState(error)).isEqualTo("P1701"));
+        rag.cancelJob(attempt.jobId());
+        RagTestCommands.approve(rag, source.id(),Set.of("title"));
+        assertThatThrownBy(() -> jobs.executeSyntheticStage(attempt.jobId(),attempt.attemptId(),"SYNTHETIC_TEST"))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    void newTransitiveChildInvalidatesOldGrantAndPublication() {
+        var root = approved("Root"); var child = approved("Child"); var grandchild = approved("Grandchild");
+        rag.addDependency(root.id(),child.id());
+        var attempt = RagTestCommands.index(rag, root.id());
+        assertThatThrownBy(()->rag.addDependency(child.id(),grandchild.id()))
+                .satisfies(error->assertThat(sqlState(error)).isEqualTo("P1701"));
+        rag.cancelJob(attempt.jobId());
+        rag.addDependency(child.id(),grandchild.id());
+        jdbcTemplate.update("UPDATE fictions SET is_nsfw=true WHERE id=?",Long.valueOf(grandchild.sourceId()));
+        assertThatThrownBy(() -> jobs.executeSyntheticStage(attempt.jobId(),attempt.attemptId(),"SYNTHETIC_TEST"))
+                .isInstanceOf(IllegalStateException.class);
+        assertThatThrownBy(() -> rag.finalizeGeneration(attempt.jobId(),attempt.attemptId(),null))
+                .isInstanceOf(IllegalStateException.class);
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM rag.index_generations WHERE is_active",Integer.class)).isZero();
+    }
+
+    @Test
+    void inputContainsExactlyApprovedTypedFieldsAndNormalJsonEscaping() throws Exception {
+        var source = approved("Synthetic \"title\"\n\\backslash");
+        var snapshot = new TransactionTemplate(transactions).execute(status -> authority.lockSource(source.id()));
+        var node = new ObjectMapper().readTree(Objects.requireNonNull(snapshot).payload()).path("sources").get(0).path("fields");
+        assertThat(node.size()).isEqualTo(2);
+        assertThat(node.path("title").asText()).isEqualTo("Synthetic \"title\"\n\\backslash");
+        assertThat(node.path("description").asText()).isEqualTo("Synthetic description");
+        assertThat(node.has("review")).isFalse();
+    }
+
+    @Test
+    void externalCapabilityCannotBeApprovedOrDispatchedEvenFromRestoredCatalog() {
+        Long id = jdbcTemplate.queryForObject("INSERT INTO rag.sources(source_type,source_id,classification,approved_fields_text,access_state,source_revision_hash,description_revision_hash,created_at,updated_at) VALUES ('EXTERNAL_FILE','synthetic.txt','NON_PRIVATE','content','APPROVED','x','x',clock_timestamp(),clock_timestamp()) RETURNING id",Long.class);
+        var restored=rag.findSource(id).orElseThrow();
+        assertThatThrownBy(() -> rag.approveSource(id,new RagConsentCommand(Set.of("content"),1,1,
+                restored.authorizationEpoch(),restored.fieldPolicyVersion(),null)))
+                .isInstanceOf(IllegalStateException.class).hasMessageContaining("disabled");
+        assertThatThrownBy(() -> rag.admitJob(id,new RagIndexCommand(1,restored.authorizationEpoch(),restored.fieldPolicyVersion(),Map.of())))
+                .isInstanceOf(IllegalStateException.class).hasMessageContaining("disabled");
+    }
+
+    @Test void admissionQueueCannotGrowBeyondTheReviewedGlobalBudget() {
+        var source=approved("Synthetic queue budget");
+        var unrelated=approved("Synthetic unrelated queue contender");
+        RagTestCommands.index(rag, source.id());
+        assertThatThrownBy(()->RagTestCommands.index(rag, unrelated.id())).isInstanceOf(RagJobBusyException.class);
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM rag.job_leases",Integer.class)).isEqualTo(1);
+    }
+
+    private static String sqlState(Throwable error) {
+        while (error != null) {
+            if (error instanceof java.sql.SQLException sql) return sql.getSQLState();
+            error = error.getCause();
+        }
+        throw new AssertionError("Expected actual PostgreSQL failure");
+    }
+}

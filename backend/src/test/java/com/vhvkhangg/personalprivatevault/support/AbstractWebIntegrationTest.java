@@ -29,6 +29,10 @@ public abstract class AbstractWebIntegrationTest extends AbstractPostgresIntegra
 
     @Autowired
     private WebApplicationContext context;
+    @Autowired
+    private com.vhvkhangg.personalprivatevault.rag.internal.application.RagRecoveryService ragRecovery;
+    @Autowired
+    private org.springframework.transaction.PlatformTransactionManager fixtureTransactions;
 
     @BeforeEach
     void setUpMockMvcAndReferenceData() {
@@ -37,6 +41,9 @@ public abstract class AbstractWebIntegrationTest extends AbstractPostgresIntegra
                 .build();
 
         cleanUpDatabase();
+        // Multiple cached Spring test contexts share this disposable database. Reinitialize the
+        // current empty fixture through the production startup fence, rather than replay consent.
+        ragRecovery.afterSingletonsInstantiated();
 
         jdbcTemplate.update("""
                 INSERT INTO countries (code, name_en, name_vi) VALUES ('US', 'United States', 'Hoa Kỳ')
@@ -74,8 +81,19 @@ public abstract class AbstractWebIntegrationTest extends AbstractPostgresIntegra
 
     @AfterEach
     protected void cleanUpDatabase() {
+        new org.springframework.transaction.support.TransactionTemplate(fixtureTransactions).executeWithoutResult(status -> {
+        // Serialize disposable test-table reset with asynchronous RAG cleanup's production barrier.
+        jdbcTemplate.queryForObject("SELECT pg_advisory_xact_lock(?)",Object.class,
+                com.vhvkhangg.personalprivatevault.rag.internal.application.RagDependencyGraph.LOCK_ID);
         jdbcTemplate.execute("""
                 TRUNCATE TABLE
+                    public.vault_rag_source_state,
+                    rag.runs,
+                    rag.dependencies,
+                    rag.staged_outputs,
+                    rag.job_leases,
+                    rag.index_generations,
+                    rag.sources,
                     follower_snapshot_entries,
                     follower_snapshots,
                     external_account_relationships,
@@ -141,6 +159,7 @@ public abstract class AbstractWebIntegrationTest extends AbstractPostgresIntegra
                     app_settings
                 CASCADE
                 """);
+        });
     }
 
     protected String bearerToken() {

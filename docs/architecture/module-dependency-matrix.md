@@ -25,12 +25,14 @@ At owner commit `3bb3f2e`, all 19 top-level modules shown below are implemented.
 | `personal`       | `reference`, `location`                                                                                 |
 | `search`         | `vault`, `people`, `fiction`, `film`, `media`, `location`, `knowledge`, `collection`, `account`, `feed` |
 | `portability`    | —                                                                                                       |
+| `rag`            | `vault`, `fiction`, `film`                                                                              |
 
 ## Cross-domain rules
 
 - `search` is an orchestration/leaf module. No business module depends on `search`.
 - `portability` is a read-only leaf module with no business-module dependencies. ADR-0017 grants only its narrowly
   scoped JDBC snapshot exception; it owns no business table and performs no cross-module writes.
+- `rag` is an orchestration/leaf module. No business module depends on `rag`. It depends only on `vault` (stable source/version/reset/reservation public API), `fiction` and `film` (source projections and revision hashes). ADR-0020 approves mandatory owner-local trigger -> Vault metadata SQL calls, never worker business/Vault SQL or reverse Java edges. RAG owns job-scoped native worker supervision; Vault owns no process/DRAIN coordinator. This is an approved contract target, not proof of the existing candidate.
 - `vault` and `reference` are foundation modules and do not depend on feature modules.
 - `reference` owns globally shared reference/lookup data, including country/language/currency/platform data and narrative taxonomies shared by both fiction and film.
 - `journal` and `finance` remain independent even if a future calendar UI aggregates both.

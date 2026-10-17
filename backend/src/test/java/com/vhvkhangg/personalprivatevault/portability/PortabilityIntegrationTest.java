@@ -173,7 +173,7 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         JsonNode manifestNode = objectMapper.readTree(entries.get("manifest.json"));
         assertThat(manifestNode.path("formatVersion").asInt()).isEqualTo(1);
         assertThat(manifestNode.hasNonNull("generatedAt")).isTrue();
-        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("2");
+        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("17");
 
         JsonNode excludedNode = manifestNode.path("excludedSecurityTables");
         assertThat(excludedNode.isArray()).isTrue();

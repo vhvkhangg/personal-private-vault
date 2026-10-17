@@ -69,6 +69,20 @@ ppv:
       access-token-lifetime: ${PPV_JWT_ACCESS_TOKEN_LIFETIME:15m}
       refresh-token-lifetime: ${PPV_JWT_REFRESH_TOKEN_LIFETIME:30d}
       secret: ${PPV_JWT_SECRET:}
+  rag:
+    engine:
+      url: ${PPV_RAG_ENGINE_URL:http://127.0.0.1:8001}
+      service-key: ${PPV_RAG_SERVICE_KEY:}
+      timeout-seconds: ${PPV_RAG_TIMEOUT_SECONDS:30}
+    worker:
+      db-url: ${PPV_RAG_WORKER_DB_URL:jdbc:postgresql://localhost:5432/personal_private_vault}
+      db-username: ${PPV_RAG_WORKER_DB_USERNAME:rag_worker}
+      db-password: ${PPV_RAG_WORKER_DB_PASSWORD:}
+    limits:
+      max-selected-sources: ${PPV_RAG_MAX_SELECTED_SOURCES:100}
+      max-dependency-depth: ${PPV_RAG_MAX_DEPENDENCY_DEPTH:5}
+      max-source-bytes: ${PPV_RAG_MAX_SOURCE_BYTES:52428800}
+      lease-duration-minutes: ${PPV_RAG_LEASE_DURATION_MINUTES:15}
 
 vault:
   media:

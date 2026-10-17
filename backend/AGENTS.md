@@ -13,6 +13,20 @@ requested production change, stop and request a Codex handoff instead of improvi
 
 Codex remains planning/review-only for production implementation unless the owner explicitly overrides the workflow.
 
+Phase 17 Alternative B implementation and remediation under existing handoff `P17-RAG-FOUNDATION`
+and [ADR-0020](../docs/adr/0020-phase-17-single-job-reservations-e1.md) has been accepted by the
+independent final re-review 3 with verdict `READY FOR OWNER COMMIT`. Findings FR17-1 through FR17-11
+and AB-1 through AB-6 are closed for bounded Foundation scope. AUTH-CLOCK remains OPEN under an
+owner-approved narrow acceptance exception. Default containment and disabled live external-file
+capability remain active. The candidate awaits owner commit; Phase 17 closeout and freezing are
+reserved for post-owner-commit synchronization.
+
+## Current Phase 17 status — 2026-10-17
+
+Alternative B implementation is accepted as `READY_FOR_OWNER_COMMIT`. Keep default containment
+and disabled live external-file capability. No production modifications, later phases, new handoff,
+commit or push.
+
 ## Package structure
 
 Keep code inside the owning business module.

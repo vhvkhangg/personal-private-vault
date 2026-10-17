@@ -74,7 +74,10 @@ public class OpenApiConfiguration {
             "createDiaryEntry",
             "createPersonalProfile",
             "createTag",
-            "uploadImage"
+            "uploadImage",
+            "registerFileCandidate",
+            "registerDomainCandidate",
+            "admitRagJob"
     );
 
     @Bean

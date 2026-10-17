@@ -100,7 +100,7 @@ class FlywayStartupIntegrationTest {
             var info = restartedFlyway.info();
             assertThat(info.pending()).isEmpty();
             assertThat(info.applied()).hasSizeGreaterThanOrEqualTo(2);
-            assertThat(info.current().getVersion().getVersion()).isEqualTo("2");
+            assertThat(info.current().getVersion().getVersion()).isEqualTo("17");
         }
     }
 }

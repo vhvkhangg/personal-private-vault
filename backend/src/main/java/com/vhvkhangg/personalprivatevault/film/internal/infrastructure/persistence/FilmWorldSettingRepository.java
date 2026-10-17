@@ -17,6 +17,9 @@ public interface FilmWorldSettingRepository extends JpaRepository<FilmWorldSetti
 
     List<FilmWorldSettingAssignment> findByIdFilmId(Long filmId);
 
+    @Query("SELECT a FROM FilmWorldSettingAssignment a WHERE a.id.filmId IN :filmIds")
+    List<FilmWorldSettingAssignment> findByIdFilmIdIn(@Param("filmIds") java.util.Collection<Long> filmIds);
+
     @Query("SELECT a.id.worldSettingId FROM FilmWorldSettingAssignment a WHERE a.id.filmId = :filmId")
     Set<Long> findWorldSettingIdsByFilmId(@Param("filmId") Long filmId);
 

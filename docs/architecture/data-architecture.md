@@ -121,3 +121,28 @@ Vietnamese accent-insensitive matching is not a requirement. Case-insensitive, p
 
 For runtime Flyway ordering before Hibernate validation and transactional rollback guarantees across modules, see:
 [`phase-15-implementation-notes.md`](phase-15-implementation-notes.md)
+
+
+## 15. Phase 17 Alternative B contract and current candidate
+
+Accepted [ADR-0020](../adr/0020-phase-17-single-job-reservations-e1.md) amends
+ADR-0019/P17-1/2/3. [Additive DBML](../database/phase-17-alternative-b.dbml) is
+the canonical logical target. V3–V13 remain historical unaccepted RAG migrations;
+no rewrite/execution here. Approved future changes append after V13 and add
+Vault-owned stable source/version/reset/reservation metadata with mandatory
+owner-local SQL guard/version backstops, preserving original business ownership.
+
+RAG reuses jobs/grants/staging/dependencies/generations/runs, adds one static
+nonterminal unique constraint, one-use grant marker, process identity and staging
+seal, and atomically finishes P-or-abort/terminal/release. No global V/F/DRAIN
+tables, worker Vault/business SQL or reverse Java dependency. Runtime roles remain
+non-owner; fixed audited definer scope and actual effective-role tests required.
+
+Current code's blanket startup consent revocation/work-TTL cleanup and deferred
+deadline triggers are not Alternative B compliance. Target preserves standing
+consent/completed CURRENT indexes across ordinary restart and completed work
+expiry; E1 explicitly permits valid late trusted P while keeping fresh gates.
+Historical job success is separate from effective CURRENT/OUTDATED/revoked state.
+Monotonic versions/reset/scope epochs prevent event/hash/edge replay; verified
+cleanup is separate from safe process/writer release. No new runtime proof here;
+current containment remains and all implementation acceptance gates stay open.

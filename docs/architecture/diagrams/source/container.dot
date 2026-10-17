@@ -1,10 +1,11 @@
 digraph C4Container {
- graph [rankdir=LR, bgcolor="white", pad=0.4, nodesep=0.7, ranksep=1.0, splines=ortho, label="Personal Private Vault — C4 Container", labelloc=t, fontsize=20, fontname="Arial Bold"];
+ graph [rankdir=LR, bgcolor="white", pad=0.4, nodesep=0.7, ranksep=1.0, splines=polyline, label="Personal Private Vault — C4 Container", labelloc=t, fontsize=20, fontname="Arial"];
  node [shape=box, style="rounded,filled", fontname="Arial", margin="0.18,0.12"];
  edge [fontname="Arial", fontsize=9, color="#666666", arrowsize=0.7];
  owner [label="Owner", fillcolor="#08427B", fontcolor="white", color="#06345F"];
  subgraph cluster_vault {
-   label="Personal Private Vault"; color="#1168BD"; penwidth=2; style="rounded"; fontname="Arial Bold"; fontsize=14;
+    worker [label="Local RAG Foundation Worker\nPython 3.14.4 / synthetic digest only\nPhase 17 candidate",fillcolor="#438DD5",fontcolor="white",color="#2E75B6"];
+   label="Personal Private Vault"; color="#1168BD"; penwidth=2; style="rounded"; fontname="Arial"; fontsize=14;
    web [label="Web Application
 Next.js + TypeScript + shadcn/ui
 (Future frontend phase)", fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
@@ -20,7 +21,9 @@ Media binaries", fillcolor="#999999", fontcolor="white", color="#777777"];
 GitHub Trending • HN • Reddit • RSS • tech sites", fillcolor="#999999", fontcolor="white", color="#777777"];
  owner -> web [label="Uses"];
  web -> api [label="HTTPS / REST / JSON"];
- api -> db [label="JPA/Hibernate / SQL"];
+  api -> db [label="rag_runtime / JPA + SQL\nseparate migrator process"];
+  api -> worker [label="issued scope / loopback HTTP"];
+  worker -> db [label="rag_worker / scoped grant + receipt functions\nno business reads or publication"];
  api -> storage [label="S3-compatible API"];
  api -> feeds [label="HTTPS fetch"];
 }

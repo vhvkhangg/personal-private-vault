@@ -1,0 +1,63 @@
+// ADR-0020 / owner approved 2026-10-15. Canonical additive LOGICAL target only.
+// Not an executable migration, not the deployed schema, not a replacement for
+// personal-private-vault-schema-v1-FROZEN-final.dbml. V1-V13 are untouched.
+Project phase17_alternative_b {
+  database_type: 'PostgreSQL'
+  Note: 'Required fields/relationships only; unlisted existing columns remain. Implementation and SQL syntax/role/trigger validation require separate authorization.'
+}
+
+Table public.vault_rag_source_state {
+  source_id bigint [pk, not null, note: 'Vault entry ID, not rag.sources.id; retained tombstone, no deletion cascade or ID/type reuse']
+  source_type varchar(32) [not null, note: 'Immutable eligible owner type']
+  source_version bigint [not null, note: '>0, canonical atomic increment on projected/lifecycle/eligibility change; overflow denies']
+  consent_reset_version bigint [not null, note: '>0 and <=source_version; reset at NSFW/trash/delete/restore']
+  deleted boolean [not null]
+  reserved_by uuid [note: 'Opaque exact job reservation token; no TTL and no reverse FK/dependency on RAG']
+  Note: 'Vault owns state/public guard. Mandatory owner-local SQL backstops check all affected IDs, busy state and canonical version/reset update in the business TX. Missing state denies.'
+}
+
+Table rag.sources {
+  id bigint [pk]
+  source_type varchar(32) [not null]
+  source_id varchar(255) [not null, note: 'Existing typed locator maps domain source to stable Vault ID through public API']
+  authorization_epoch bigint [not null]
+  field_policy_version int [not null]
+  approved_owner_reset_version bigint [note: 'Captured only by explicit CAS approval; NULL/mismatch denies']
+  description_revision_hash varchar(128) [note: 'Confirmed exact description bytes under current policy; not whole-item consent']
+  Note: 'Reuse existing classification/access_state/approved_fields. Standing consent is not boot-bound. Approval CAS checks expected owner source/reset versions and consent/policy epochs. New migration invalidates old unbound approvals.'
+}
+
+Table rag.job_leases {
+  id bigint [pk]
+  job_id uuid [not null]
+  attempt_id uuid [not null]
+  status varchar(32) [not null, note: 'Closed status set; static unique constant-key partial index over ALL nonterminal indexing statuses, not a time predicate']
+  leased_until timestamptz [not null, note: 'Execution E1 gate deadline only, never reservation TTL or completed-index lifetime']
+  reservation_token uuid [not null]
+  controller_identity jsonb [note: 'Verified process creation identity/runtime, not PID/TTL alone']
+  worker_identity jsonb [note: 'Actual confined process/tree and bound endpoint identity']
+  staging_closed boolean [not null]
+  Note: 'Existing canonical job/attempt reused. Terminal outcome + attempt seal + publication-or-abort + exact source release share one physical COMMIT. Normal retention cannot evict a nonterminal row.'
+}
+
+Table rag.worker_grants {
+  job_id uuid [not null]
+  attempt_id uuid [not null]
+  consumed_at timestamptz [note: 'One atomic job-scoped input claim; worker can mutate this audited marker only']
+  indexes {
+    (job_id, attempt_id) [pk]
+  }
+  Note: 'Reuse existing composite grant key and scope/attempt data; no v3 ticket ledger. Claim before body consumption; expiry/closed attempt deny. Physical mapping must match append-only reviewed DDL.'
+}
+
+Table rag.index_generations {
+  id bigint [pk]
+  effective_state varchar(32) [note: 'Logical derived CURRENT/OUTDATED/REVOKED predicate, not a cached permission flag']
+  source_manifest jsonb [note: 'Logical immutable exact nodes/edges/fields/hash/source version/reset/consent/policy/scope bindings; reuse existing generation proof representation']
+  Note: 'Historical job success is separate. Fresh IndexCurrent ignores completed worker deadline/service boot. Relevant source/topology changes permanently stale old generation, including hash/edge round trip.'
+}
+
+// No cross-module worker SELECT, no reverse Vault->RAG FK, no new global slot/V/H
+// or DRAIN table. Existing dependencies, staged_outputs and runs remain RAG-owned.
+// Partial index predicate, guard triggers, attempt enforcement, effective roles,
+// retained-history seeding, recovery and graph epoch mapping require real PG tests.

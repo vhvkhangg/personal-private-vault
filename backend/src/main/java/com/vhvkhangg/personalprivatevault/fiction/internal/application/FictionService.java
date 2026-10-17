@@ -156,6 +156,11 @@ public class FictionService implements FictionOperations {
             throw new InvalidFictionException("Fiction id must not be null");
         }
 
+        if (!fictionRepository.existsById(command.id())) {
+            throw new FictionNotFoundException(command.id());
+        }
+        vaultEntryOperations.acquireSourceGuard(command.id());
+
         Fiction fiction = fictionRepository.findById(command.id())
                 .orElseThrow(() -> new FictionNotFoundException(command.id()));
 

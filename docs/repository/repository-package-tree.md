@@ -1,8 +1,8 @@
-# Repository and Java Package Tree v1.1.1 — Frozen baseline + implemented Phase 14 delta
+# Repository and Java Package Tree v1.1.1 — Frozen baseline + Phase 14 and Phase 17 candidate deltas
 
 ## 1. Repository principles
 
-- Backend-first. Frontend and RAG implementation are deliberately not initialized yet.
+- Backend-first. Frontend remains deferred. The Phase 17 RAG foundation candidate is implemented under its active handoff and awaits independent review.
 - One repository, one `main` branch, no pull-request workflow.
 - Package by business capability/domain, never a repository-wide `controller/service/repository/entity` layout.
 - Spring Modulith application modules map to direct subpackages of the root Java package.
@@ -59,12 +59,20 @@ personal-private-vault/
 │       │   │       ├── journal/
 │       │   │       ├── personal/
 │       │   │       ├── search/
-│       │   │       └── portability/           # Phase 14 implemented/frozen at 3bb3f2e
+│       │   │       ├── portability/           # Phase 14 implemented/frozen at 3bb3f2e
+│       │   │       └── rag/                   # Phase 17 RAG foundation leaf module
 │       │   └── resources/
 │       │       └── db/migration/
 │       └── test/
 │           └── java/
 │               └── com/vhvkhangg/personalprivatevault/
+│
+├── rag-engine/                                # Phase 17 Python worker service
+│   ├── pyproject.toml
+│   ├── README.md
+│   ├── src/
+│   │   └── ppv_rag/
+│   └── tests/
 │
 └── docs/
     ├── README.md
@@ -83,7 +91,7 @@ personal-private-vault/
         └── repository-package-tree.md
 ```
 
-`frontend/`, `rag/`, and deployment/infra directories are intentionally not created yet. They will be introduced only when their phases begin.
+`frontend/` and deployment/infra directories are intentionally not created yet. They will be introduced only when their phases begin. Phase 17 introduces the backend `rag` leaf module and local isolated `rag-engine` worker.
 
 
 
@@ -144,7 +152,8 @@ com.vhvkhangg.personalprivatevault
 ├── journal
 ├── personal
 ├── search
-└── portability    # Phase 14 leaf module; no business-module dependency
+├── portability    # Phase 14 leaf module; no business-module dependency
+└── rag            # Phase 17 foundation candidate; vault/fiction/film public contracts only
 ```
 
 `portability` is the sole approved Phase 14 top-level addition. Its implemented shape is module-local:
@@ -363,7 +372,7 @@ The following are intentionally deferred and must not be bootstrapped in the ini
 
 ```text
 frontend/       # after backend completion
-rag/            # after non-RAG backend + frontend work reaches the agreed point
+rag-engine/     # Phase 17 foundation candidate; original phase numbering retained
 infra/          # deployment decisions are explicitly deferred
 ```
 
@@ -376,3 +385,27 @@ Local Docker support may be introduced during backend implementation when Postgr
 - [`ADR-0015`](../adr/0015-semantic-public-api-subpackages.md) — semantic public API subpackages and named interfaces.
 - [`ADR-0016`](../adr/0016-root-http-contract-module-local-adapters.md) — root HTTP contract and module-local web adapters.
 - [`ADR-0017`](../adr/0017-portability-readonly-snapshot-module.md) — implemented portability leaf and narrow read-only JDBC snapshot exception.
+
+## Phase 17 candidate package and tooling inventory
+
+The additive `rag` leaf exposes `api` and `source`; its internals contain application authority/graph/grants/finalization/purge/recovery/runtime budgets, domain state, persistence, bounded loopback client and module-local HTTP adapters. All 12 RAG package descriptors remain present (nine internal packages plus root, `api` and `source`; FR17-11 preserved). Fiction/Film `source` named interfaces supply fresh immutable projections; Vault `entry` supplies transaction guards and fresh views. No owner imports RAG internals.
+
+`rag-engine/src/ppv_rag` contains strict versioned contracts, service authentication, raw transport bounds, restricted psycopg staging and one controlled synthetic worker. Tests and verification scripts live beneath `rag-engine/tests` and `rag-engine/scripts`. `uv.lock` and `.python-version` enforce the measured environment.
+
+`backend/dev/rag-db` supplies a separate provisioning process; `backend/dev/rag-postgres` builds a digest/source-pinned PostgreSQL 18.6 / pgvector 0.8.6 development image. `backend/compose.rag.dev.yml` is local database tooling, not deployment authorization. `rag-engine/Dockerfile.offline-check` is a runtime isolation verification fixture. Generated logs, targets, environments, graphs and caches are excluded from delivery. Phase 16 and Phases 18–22 retain their separate gates.
+- [`ADR-0019`](../adr/0019-local-rag-before-frontend.md) — accepted RAG-first sequence and bounded Phase 17 owner integration.
+
+
+## Approved Alternative B contract inventory (2026-10-15; pending implementation)
+
+[ADR-0020](../adr/0020-phase-17-single-job-reservations-e1.md) retains the existing
+rag leaf/api/source/internal boundaries and all 12 package descriptors (FR17-11).
+Required additions stay in existing owners: vault.entry immutable source versions/
+edit-reservation API, Vault internal source-state persistence, Fiction/Film guard/
+projection integration, RAG policy/job/grant/finalization/recovery/purge changes
+and one internal Windows process-tree adapter. Python retains typed loopback
+FastAPI contracts and restricted stage path, hosted once per job. No new shared,
+Vault supervisor/DRAIN/global fence/ticket engine or speculative events package.
+SQL backstops and additive fields are catalogued in the separate Phase 17 DBML;
+future migrations append after V13. Listed additions are contracts, not files
+created by synchronization. Current runtime remains contained and unaccepted.

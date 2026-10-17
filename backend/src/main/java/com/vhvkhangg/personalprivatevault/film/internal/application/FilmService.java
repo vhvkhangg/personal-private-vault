@@ -175,6 +175,11 @@ public class FilmService implements FilmOperations {
             throw new InvalidFilmException("Film id must not be null");
         }
 
+        if (!filmRepository.existsById(command.id())) {
+            throw new FilmNotFoundException(command.id());
+        }
+        vaultEntryOperations.acquireSourceGuard(command.id());
+
         Film film = filmRepository.findById(command.id())
                 .orElseThrow(() -> new FilmNotFoundException(command.id()));
 

@@ -123,7 +123,8 @@ public class PortabilitySnapshotAdapter {
     );
 
     public static final Set<String> EXCLUDED_SYSTEM_TABLES = Set.of(
-            "flyway_schema_history"
+            "flyway_schema_history",
+            "vault_rag_source_state"
     );
 
     public record RawJsonValue(String value) implements com.fasterxml.jackson.databind.JsonSerializable {

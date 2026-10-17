@@ -1,13 +1,29 @@
 # Phase 17 — Local RAG Foundation and Source Authority (RAG-first execution)
 
-**Status:** `READY FOR HANDOFF` — **Phase 17 foundation preparation only**, per the [focused P17-3 and 29-dimension Codex review](reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) (2026-10-13). P17-1/2/3 are CLOSED at the design-contract level; actual runtime enforcement remains a mandatory implementation gate. Earlier rejections are preserved as historical evidence. **No Phase 17 implementation handoff has been created.**
+**2026-10-15 owner-approved Alternative B contract:** the owner approved the
+complete [independent review §8 package](reviews/2026-10-15-phase-17-architecture-simplification-independent-design-review.md#8-exact-owner-approvals-and-canonical-amendments),
+recorded in [owner decisions](owner-decisions.md#2026-10-15--alternative-b-owner-design-approval)
+and [ADR-0020](../../adr/0020-phase-17-single-job-reservations-e1.md). Contract
+synchronization was independently accepted. The subsequent explicit owner
+authorization covers implementation and mandatory verification of Groups A–D
+under the same handoff. Default execution remains contained; only isolated
+test-scoped execution is permitted while verification is incomplete. Live
+external-file capability remains disabled.
+
+**Implementation status:** READY_FOR_OWNER_COMMIT in the EXISTING handoff.
+FR17-5, FR17-8, FR17-9, FR17-10 and Alternative B findings AB-1 through AB-6 are
+closed for the reviewed bounded Phase 17 Foundation scope following the accepted
+[independent final re-review 3](reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md).
+AUTH-CLOCK remains OPEN under its approved narrow acceptance exception. Default
+containment and disabled live external-file capability remain active. Phase 17
+remains uncompleted/unfrozen pending owner commit and subsequent closeout.
 
 Supplemental backend maintenance (SBA-001–007) is [closed and owner committed/pushed](../maintenance/supplemental-backend-audit-2026-10-13/closeout.md)
 as `d195b626`; the maintenance closeout resets `ACTIVE.md` for a new handoff.
 
 ## Authorization and sequence
 
-The owner explicitly starts RAG preparation **before** Frontend. Retain original identifiers: **Phase 17 = RAG foundation**, **Phases 18–22 = later RAG delivery**, **Phase 16 = Frontend (deferred)**. See accepted [ADR-0019](../../adr/0019-local-rag-before-frontend.md) and [roadmap](../../roadmap.md). Backend Phases 0–15 are complete/frozen, Phase 15 result is `BACKEND_AUDIT_READY`, and [`ACTIVE.md`](../handoffs/ACTIVE.md) must remain `NO_ACTIVE_HANDOFF`. Phase 17's exceptional immediate predecessor is Phase 15; Codex verified and the owner accepted this sequence without inventing retroactive Phase 16 completion.
+The owner explicitly starts RAG **before** Frontend. Retain original identifiers: **Phase 17 = RAG foundation**, **Phases 18–22 = later RAG delivery**, **Phase 16 = Frontend (deferred)**. See accepted [ADR-0019](../../adr/0019-local-rag-before-frontend.md) and [roadmap](../../roadmap.md). Backend Phases 0–15 are frozen with `BACKEND_AUDIT_READY`. The preparation's `NO_ACTIVE_HANDOFF` gate was satisfied before creating the current foundation handoff; it is now active for remediation. No later-phase implementation is authorized.
 
 ## Owner-approved RAG end-state requirements (not all Phase 17 deliverables)
 
@@ -23,7 +39,7 @@ The owner explicitly starts RAG preparation **before** Frontend. Retain original
 
 ## Canonical design references
 
-- [Proposed RAG architecture](../../architecture/rag-architecture.md)
+- [Approved Alternative B architecture](../../architecture/rag-architecture.md)
 - [Accepted ADR-0019](../../adr/0019-local-rag-before-frontend.md)
 - [Frozen Module boundaries](../../architecture/module-boundaries.md) and [dependency matrix](../../architecture/module-dependency-matrix.md)
 - [Global Search](../../architecture/search-architecture.md), [Security](../../architecture/security-architecture.md), [Existing import/export](../../architecture/storage-backup-import.md)
@@ -31,15 +47,15 @@ The owner explicitly starts RAG preparation **before** Frontend. Retain original
 
 ## Codex-approved design contracts (runtime enforcement still unverified)
 
-- [P17-1 proposed module/storage ownership and DB roles](integration-ownership-and-permissions.md): one proposed Java `rag` leaf, bounded `vault`/`fiction`/`film` edges, Flyway authority and actual least-privilege worker-credential test gate.
+- [P17-1 approved ownership, reservations and DB roles](integration-ownership-and-permissions.md): one Java `rag` leaf, bounded public edges, Vault source/version/reset/reservation APIs and SQL backstops, RAG-owned process supervision and actual restricted-role test gate; target not runtime proof.
 - [P17-2 authoritative classification and field matrix](source-eligibility-and-allowlists.md): individually approved non-private Fiction/Film and external-file sources only in the first slice; unreviewed modules, secret/sensitive fields and embedded children deny by default.
 - [P17-3 revocation and derived artifact fencing](revocation-and-derived-data.md): synchronous deny, source epochs/content revisions, transclusion dependency invalidation, active/retired/staged content purge and deterministic late-worker/judge tests.
 
-The end-state requirements above are allocated across Phases 17–22; only the **Phase 17 foundation** is eligible for the immediate handoff after owner acceptance/commit. Codex closes all three preparation findings; this does not certify runtime enforcement or grant later-phase permission. See the latest review for mandatory tests, nonblocking follow-ups and optimization decisions. Owner approval and the Phase 17 preparation commit (`dd414861`) are complete; the separate Phase 17 foundation handoff is still pending.
+The end-state requirements above are allocated across Phases 17–22; only the **Phase 17 foundation** is authorized by the current handoff. All three preparation findings remain closed at design level; this does not certify runtime enforcement or grant later-phase permission. See the latest review for mandatory tests, nonblocking follow-ups and optimization decisions. Owner approval and the Phase 17 preparation commit (`dd414861`) are complete; the implementation candidate remains under the existing handoff's remediation gate.
 
-## Scope boundaries and implementation ownership (owner-approved for handoff, not implemented)
+## Scope boundaries and implementation ownership (accepted contract; candidate under review)
 
-- Proposed thin Spring orchestration/source-read facade remains owner-authorized and publicly authenticated; all domain access via owning module read-only contracts. No domain repository/entity leakage and no arbitrary Python DB reads. The initial proposed module name/dependency edges, division of durable state and worker DB permissions are bounded in P17-1, now have Codex/owner design acceptance but still require a separate handoff, runtime verification and later integration synchronization; frozen Phase 0–15 code/schema/matrix stay unchanged in this preparation package.
+- Approved Alternative B keeps public source projections, durable source-set reservations, one job-scoped worker, consent intent CAS, exact description confirmation, cancel-first conflicts and E1. Completed CURRENT indexes outlive execution credentials; historical jobs remain separate. No owner internals/worker business SQL. Existing handoff is retained; current authorization is documentation only and later implementation requires explicit authorization and real evidence.
 - Python/FastAPI owns extraction, parsing, local ML inference, retrieval, reranking, staging and evaluation computation **only**; Java owns authorization, source policy and atomic activation/owner-visible output. PostgreSQL/pgvector proposed pending verified Postgres image and migration compatibility. Local model runtime benchmark decides actual dependencies.
 - Preserve imported domain record semantics: indexing a `.md` or `.xlsx` does **not** automatically create a Vault Note/Information record and cannot sidestep existing ImportData preview/validation policy.
 
@@ -55,14 +71,11 @@ Tests must cover full Java + Python contract, concurrency/retries, PostgreSQL se
 
 ## Owner acceptance — 2026-10-13
 
-The owner accepted only the bounded P17-1/2/3 foundation integration delta described in [owner decisions](owner-decisions.md). Codex has already returned `READY FOR HANDOFF` at design level. This does not indicate a handoff has been created or any runtime guard/role test has passed. Commit/push preparation first, then invoke `$codex-create-handoff` scoped to foundation only.
+The owner accepted only the bounded P17-1/2/3 foundation integration delta described in [owner decisions](owner-decisions.md). The preparation's `READY FOR HANDOFF` and commit/push steps are historical and complete. The existing foundation handoff is now the sole remediation authority; do not create another handoff. Runtime finding dispositions come from the newest independent review, not preparation acceptance.
 
 ## Gate and next step
 
-1. Codex **already completed** `$codex-pre-handoff-review` with `READY FOR HANDOFF` for foundation only; the owner acceptance is recorded in [owner decisions](owner-decisions.md). Do not reopen the closed preparation findings without new evidence.
-2. Phase 17 preparation was owner committed/pushed as `dd414861`; supplemental maintenance was
-   independently final-reviewed and owner committed/pushed as `d195b626`. Its closeout resets
-   `ACTIVE.md` to `NO_ACTIVE_HANDOFF` after the owner commits/pushes this documentation patch.
-3. Then run **`$codex-create-handoff`** for **Phase 17 foundation only**; Codex reviews the bounded
-   handoff before Antigravity implementation.
-4. Do not start or redesign Frontend. Ideaverse integration remains an explicit later owner gate.
+1. Preparation/owner acceptance (`dd414861`) and supplemental maintenance/closeout (`d195b626` / `24e6268`) are committed; the foundation handoff was implemented, remediated, and verified across three review cycles.
+2. The [2026-10-17 independent final re-review 3](reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md) accepted the candidate with verdict **READY FOR OWNER COMMIT**. All RAG foundation findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope. AUTH-CLOCK remains OPEN under its approved narrow exception.
+3. The candidate is ready for owner commit. Phase 17 closeout and freezing remain reserved for post-owner-commit synchronization.
+4. Phases 18–22 retain separate preparation/handoff gates. Phase 16 Frontend and Ideaverse remain deferred.

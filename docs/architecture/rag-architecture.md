@@ -1,6 +1,25 @@
-# Local RAG Architecture — Proposed Phase 17 contract (not implemented)
+# Local RAG Architecture — approved Alternative B contract
 
-**Status:** Preparation design for Codex review; no implementation, migration, extra module, or frozen baseline change has occurred. Governing proposal: [ADR-0019](../adr/0019-local-rag-before-frontend.md). Existing [Global Search](search-architecture.md) remains separate and implemented.
+**2026-10-15 owner-approved contract, not accepted implementation.** See accepted
+[ADR-0020](../adr/0020-phase-17-single-job-reservations-e1.md) and
+[owner decisions](../implementation/phase-17/owner-decisions.md#2026-10-15--alternative-b-owner-design-approval).
+Current task synchronizes documentation only. Existing candidate stays contained,
+ACTIVE CHANGES_REQUESTED; FR17-5/8/9/10 OPEN, closed findings preserved.
+
+Permanently one user/account, local Windows desktop, one active manual indexing
+job. Durable whole-closure source edit reservations, small source/reset history,
+explicit standing consent/CAS, one supervised job-scoped FastAPI worker, one-use
+grant and SQL-writer seal replace F+H+V+E. No global native source lock/V/Vault
+DRAIN/ticket ledgers, distributed coordination, queue or automatic resume/reindex.
+Unrelated items remain editable. Normal completed CURRENT indexes and consent
+survive work expiry/boot after fresh proof. Full bounded Foundation remains;
+live external files remain disabled pending R7; no later product is enabled.
+
+The later-phase pipeline/model/query paragraphs below allocate future capabilities
+only. They do not authorize live consumers or background indexing; any later
+consumer must receive reviewed source-use lifetime protection. Historical
+[implementation evidence](../implementation/phase-17/test-evidence.md) does not
+certify this architecture. Existing Global Search remains separate.
 
 ## 1. Scope and topology
 
@@ -20,11 +39,11 @@ Owner-selected non-private files  ---->  Spring RAG owner adapter  <---- Public 
 
 The Spring modular monolith remains canonical for data, authentication and domain semantics. RAG is **not** permitted to query arbitrary business tables, copy finance/auth secrets, or depend on internal Java packages. For any module lacking a safe read-only export/public contract, mark it **not indexable yet** until the owning module gains an explicitly reviewed projection. Do not bypass the boundary with a JDBC snapshot (the portability-specific ADR-0017 exception is not reusable by RAG). Python must not accept an arbitrary URL or path from a remote caller. The internal HTTP interface is loopback-bound and service-authenticated independently of user JWTs. Browser/remote clients eventually talk to Spring only.
 
-Architecture design principle: the modular monolith does not become a distributed application simply to deploy a Python ML runtime. All local components can run on the same machine; durable work state and process boundaries are explicit.
+Architecture design principle: the modular monolith does not become a distributed application simply to deploy a Python ML runtime. All RAG components run on the single supported Windows desktop; durable work state and process boundaries are explicit. One job-scoped Python child must be verified unable to continue before source editing is released.
 
 ## 2. Eligibility and source catalog
 
-**Normative preparation contracts:** [P17-2 source/field matrix](../implementation/phase-17/source-eligibility-and-allowlists.md), [P17-3 revocation fences](../implementation/phase-17/revocation-and-derived-data.md), and [P17-1 module/storage/worker-role delta](../implementation/phase-17/integration-ownership-and-permissions.md). If a generic paragraph here sounds more permissive than these specific allowlists/fences, use the narrower fail-closed contract.
+**Normative approved contracts:** [P17-2 source/field matrix](../implementation/phase-17/source-eligibility-and-allowlists.md), [P17-3 revocation fences](../implementation/phase-17/revocation-and-derived-data.md), and [P17-1 module/storage/worker-role delta](../implementation/phase-17/integration-ownership-and-permissions.md). If a generic paragraph here sounds more permissive than these specific allowlists/fences, use the narrower fail-closed contract.
 
 An **explicit SourceSelection** belongs to each ingest/query/recommendation job:
 - `scope`: an allowlisted collection of approved module/entity types, specific document IDs, or explicit user-selected external files/directories; defaults to the owner's approved non-private corpus, never the whole drive;
@@ -34,15 +53,15 @@ An **explicit SourceSelection** belongs to each ingest/query/recommendation job:
 
 **Fail closed:** unknown private classification, unavailable source, unknown module-field privacy, unexpected symlink/path or stale policy -> refuse ingestion/answer and record sanitized error. `isNsfw=true` in Fiction/Film is excluded. No private or NSFW source can enter embeddings, full-text index, candidate pools, metrics contents or local judge prompts. Finance, Personal, Journal, Account, authentication/security state and **all other unreviewed modules are excluded in the first integration slice**; only approved Fiction/Film fields and individually approved external documents are initial candidates. Future modules require owner/Codex approval of type-specific classification and field-level projections, never broad DTO export. Structured finance calculations must call typed read-only domain operations; do not rely on chunk approximations. Private-state and deletion filtering is verified at ingestion **and** query/candidate/answer time.
 
-Explicitly prohibit indexing credentials, PIN/password hashes, JWT/refresh tokens, API keys, authentication/session metadata and sensitive operational logs. No embeddings or derivative caches of excluded content. When classification changes, synchronously deny new access and revoke grants; purge **all** dependent content-bearing derivatives (including answer/history/judge/cache/session artifacts and transcluded copies), not only chunks/embeddings. Apply per-source epoch/source-revision fencing to in-flight jobs and publication (P17-3); do not wait for a scheduled full refresh. Same for trash, deletion and source revocation. Enforce authorization/scope before score calculation to prevent leaks through aggregate counts or ranking.
+Explicitly prohibit indexing credentials, PIN/password hashes, JWT/refresh tokens, API keys, authentication/session metadata and sensitive operational logs. No embeddings or derivative caches of excluded content. While reserved, relevant classification/revoke edits return 409 with no change until safe cancellation/recovery. When an authoritative change commits, synchronously deny new access and invalidate grants; purge **all** dependent content-bearing derivatives (including answer/history/judge/cache/session artifacts and transcluded copies), not only chunks/embeddings. Apply per-source epoch/source-revision fencing to in-flight jobs and publication (P17-3); do not wait for a scheduled full refresh. Same for trash, deletion and source revocation. Enforce authorization/scope before score calculation to prevent leaks through aggregate counts or ranking.
 
-Sources from the filesystem require **per-file, per-version owner classification and field approval** even when a directory was selected, plus canonical path verification; disallow traversal, symlink escape, untrusted archives, network paths and external file execution. The application must never write back to selected files. Persistent directory sync must use watched allowlisted directories plus periodic reconciliation; watcher events are hints, not authoritative state. **Ideaverse is not yet in the Vault**; no Ideaverse-specific watcher/module/ingestion obligation is active. Future owner authorization may enable one-way Obsidian-to-Vault synchronization with source directories strictly read-only.
+Sources from the filesystem require **per-file, per-version owner classification and field approval** even when a directory was selected, plus canonical path verification; disallow traversal, symlink escape, untrusted archives, network paths and external file execution. The application must never write back to selected files. Directory watchers/periodic reconciliation may identify changed candidates or cleanup; indexing remains explicit manual work. No automatic background reindex or crawl. Watcher events are hints, not authoritative state. **Ideaverse is not yet in the Vault**; no Ideaverse-specific watcher/module/ingestion obligation is active. Future owner authorization may enable one-way Obsidian-to-Vault synchronization with source directories strictly read-only.
 
 ## 3. Ingestion pipeline and idempotency
 
 `ACCEPTED -> VALIDATING -> EXTRACTING -> NORMALIZING -> CHUNKING -> EMBEDDING -> STAGING -> VERIFYING -> PUBLISHED`; terminal `FAILED`, `CANCELLED`, `SUPERSEDED`, or `QUARANTINED` with typed error. Statuses are design proposals, not DB enum names.
 
-- Deduplicate work by `(source_kind, source_id, content_hash, parser_version, normalization_version, chunk_strategy_version, embedding_model_id, privacy_policy_version)`; handle retried/duplicate events safely.
+- Deduplicate work by `(source_kind, source_id, content_hash, parser_version, normalization_version, chunk_strategy_version, embedding_model_id, privacy_policy_version)`; reject duplicate execution and preserve outcome identity; no automatic indexing retry/resume from events.
 - Preserve provenance through parse/chunk/embedding, with stable IDs anchored to source content and structure; keep source snapshots bounded to needed data and never copy private fields.
 - Publish an index generation atomically only after checks pass; failed attempts must not corrupt last known-good eligible version. An eligibility revocation is **immediate deny**, even if cleanup is retrying. Publication and revocation must serialize on authoritative RAG source policy; worker staging cannot activate itself. Every transcluded child appears in the generation dependency manifest; a stale epoch, source hash, field policy, lease or child revocation prevents late publish.
 - Emit update/delete/restore triggers only after owning domain transactions commit; event loss is addressed through **periodic reconciliation**. Evaluate a transactional outbox only if measured failure modes require stronger guarantees; do not assert that an existing outbox exists.
@@ -89,25 +108,67 @@ Every evidence span must include stable `source_kind/source_id/source_version`, 
 
 Return `cited_evidence[]` and `highlight_spans[]` separately from display text, never only a generated quote substring. A client may render search-term highlight and evidence highlight; **persistent annotation editing is out of scope**. If stable exact source mapping is impossible, return a `locator_quality` warning and do not pretend a precise highlight exists. Source version changes invalidate stale offsets until recalculated.
 
-## 6. Service and storage contracts (proposal; no endpoints exist yet)
+## 6. Service and storage contracts (approved target; not implemented)
 
-**Bounded initial delta:** new Java `rag` leaf (`rag -> vault, fiction, film` via public interfaces), Java-owned eligibility/jobs/grants/publish, Python-owned disposable computation/staging, Java/Flyway-only migration authority and a **distinct least-privilege `rag_worker` PostgreSQL credential**. The initial source/field allowlist is Fiction/Film plus individually approved external files. See [P17-1](../implementation/phase-17/integration-ownership-and-permissions.md). These are proposed future changes to be owner-accepted and synchronized with the frozen matrix/tree/diagrams in an authorized integration slice, **not** existing Java packages/DB roles.
+Java rag -> vault/fiction/film public edges only. Vault owns retained source state,
+version/reset watermark and reservation operations; original modules keep content/
+NSFW/trash authority. RAG owns policy/jobs/process lifecycle/grants/staging seal/
+publication/cleanup. Worker has no business/Vault SQL, policy/job/release/pointer/
+DDL authority. No reverse owner dependency or reused portability exception.
 
-- Spring public endpoints later: owner JWT-protected orchestration for source selection, ingest/reindex jobs, query/recommend, run details, cancellation, and read-only source resolution; conform to existing versioned `ApiResponse`, error and OpenAPI contracts. The eventual frontend is out of scope.
-- Spring->Python: loopback-only service-authenticated private HTTP protocol with typed schema/version, `request_id`, `idempotency_key`, `scope_token` (opaque short-lived bound selection, not owner JWT), `source_version` and strict deadlines; streamed contents only from authorized Spring adapter or explicit owner-selected locally accessible file adapter. Python must not bypass Spring policy to fetch module data or arbitrary files. Every worker request and staged result must carry a source-grant/epoch/lease/dependency fence; the Java gateway alone approves final answer/history, publication and source resolution.
-- Prefer **opaque source grants** and scoped canonical refs over user-controlled arbitrary filesystem paths. Require binding to source selection in every worker and every retrieval call, including local background jobs.
-- RAG tables proposed for **future new namespace/schema**: `rag_sources`, `rag_source_versions`, `rag_chunks`, `rag_embeddings` (or co-located vector), `rag_index_generations`, `rag_jobs`, `rag_job_attempts`, `rag_runs`, `rag_run_metrics`, `rag_evaluation_cases`, `rag_evaluation_results`, and minimal `rag_recommendation_feedback`. Do not add tables without data-lifecycle and migration review; this is a logical conceptual inventory, not a required 1:1 physical schema.
-- Do not reuse a broad app/migration DB credential for Python: grant worker only leased staging and vetted RAG retrieval projections, with no business/security table access, schema DDL, policy or active-pointer mutation; prove this via negative PostgreSQL role tests. Use PostgreSQL transactional consistency, timestamps UTC, stable PKs/FKs/uniques, partial/index filters where measured. Index vectors with appropriate dimension/model version; validate extension support for repository's exact PostgreSQL image before Flyway migrations. Do not modify frozen Schema v1 or use Hibernate DDL to create tables. Estimate disk and use mounted storage: Windows C: has limited free headroom in the provided DxDiag.
-- Source revocation and session expiry **override TTL/history retention** and invalidate all content-bearing derivatives; cleaned operational metrics may remain. Maintain explicit TTL for ad-hoc documents, generated answer histories, local-judge evidence and temp files; content logging off by default. Backup/portability of **derived RAG data** is a separate reviewed policy; derived indexes may be rebuilt from authorized sources, whereas feedback/evaluation history needs deliberate retention.
+Canonical [API inventory](api-architecture.md#16-phase-17-alternative-b-contract-amendment)
+defines the bounded existing source/job actions, expected approval version/reset/
+epoch/policy CAS, exact description-hash confirmation, typed 409 busy/changed and
+historical outcome versus effective index freshness. ADR-0016 remains unchanged.
+No query/chat/recommendation endpoint implementation is authorized in Phase 17.
 
-## Source-commit guard and revocation invariant
+Canonical [additive DBML](../database/phase-17-alternative-b.dbml) records the target:
+stable Vault source metadata and reuse of RAG sources/job_leases/worker_grants/
+staged_outputs/dependencies/index_generations/runs. One static unique constant-key
+partial index over all nonterminal attempts; no new global slot table. Append
+migrations after V13 only; preserve Schema v1/history. PostgreSQL 18.6/pgvector
+compatibility and actual privileges remain tested gates, not assumptions.
 
-Before index activation, final answer/history authorization, highlight/source resolution and purge-completion checkpoints, Java must satisfy the **same final-check-to-COMMIT fence** as the owning source authority. For Fiction/Film/Vault, this requires a `vault`-owned transaction-scoped row lock shared by all participating mutations and the RAG final gate; RAG-only CAS or a fresh read outside the lock is insufficient. For approved mutable external files, Windows/NTFS native guarded handles must prevent write/replacement **until commit**, or live-file eligibility fails closed. Model/OCR work remains *outside* these short gates; no tokens stream before authorization commit. Exact ordering, failure/retry and deterministic after-last-check races are specified in [P17-3](../implementation/phase-17/revocation-and-derived-data.md). The bounded owner mutation/guard integration delta has been [accepted by the owner](../implementation/phase-17/owner-decisions.md) following Codex design review; it still needs a separate implementation handoff and verified runtime tests, not silent modifications to original modules.
+## Source-consumption, physical COMMIT and index lifetime
+
+Admission physically commits exact source-set reservations/job/grant before any
+input. Every relevant maintained owner/policy/dependency mutation checks the same
+stable source guard plus mandatory SQL backstop; reserved changes conflict with
+no mutation C. RAG confines/identifies/binds one actual job-owned FastAPI process,
+claims the grant once before body use, and joins launch/send tasks and verifies
+actual worker/tree death on success/cancel. No ACK/connection/timeout substitute.
+
+Attempt-row locks fence every S route through its physical C. Finish drains and
+seals writers and atomically commits P-or-abort, terminal status and exact source
+release. Short SQL guards only; no HTTP/digest/inference/process wait under them.
+Uncertain process/controller/SQL outcomes retain reservation and active-job
+exclusivity; unrelated items remain available. No timer takeover or auto-resume.
+Detailed lock order/process/recovery requirements are in
+[P17-3](../implementation/phase-17/revocation-and-derived-data.md).
+
+The owner accepts E1(a)/(b)/(c): passed gates can precede post-deadline transfer/
+consumption, late untrusted S and late trusted verification/P physical C. Retain
+observed-expiry and post-wait/default-deferred rejection; strict E2 is replaced,
+not proved. A valid late P can remain CURRENT after completed work TTL/session/
+boot. IndexCurrent always requires fresh live NON_PRIVATE/non-NSFW explicit
+consent/reset/epoch/field/version/full topology and independent retention/selection
+scope. No execution TTL on persistent current index; ad-hoc selection-session
+expiry still applies to its own artifacts. Historical SUCCEEDED is not CURRENT.
+
+Normal eligible edits preserve consent but permanently OUTDATE old versions;
+reset/restriction commits deny and require renewed consent plus verified cleanup.
+No automatic reindex; reset/epoch and source/scope monotonicity defeat lost events
+and hash/edge round trips. Normal restart preserves fresh completed indexes and
+consent; abort/discard unfinished work after positive recovery proof. External
+live-file capability stays disabled; OS identity/handle proof is separate.
+
+Later parsing/query/judge source-use lifetimes need their own reviewed protection;
+the indexing reservation is not blanket acceptance for a future parallel consumer.
 
 ## 7. Models and evaluation
 
 - All model runtimes, parsers and evaluation judges operate offline after separately verified download/installation; prohibit live model pulls, AI SaaS calls and telemetry during test/inference. Audit transitive network clients and egress. Model licenses/sizes/checksums recorded.
-- Hardware: Windows 11 Pro, i5-9600K (6-core), 16 GB RAM, RTX 2070 **8 GB dedicated VRAM**. Use CPU/offloaded workflows, sequential model loading/queues and memory budgets. Benchmark, do not promise arbitrary 7B/8B model performance.
+- Hardware: Windows 11 Pro, i5-9600K (6-core), 16 GB RAM, RTX 2070 **8 GB dedicated VRAM**. Use CPU/offloaded workflows, sequential model loading and memory budgets; Foundation has no indexing queue. Benchmark, do not promise arbitrary 7B/8B model performance.
 - Candidate LLM: multilingual small quantized class (~3B–4B first); candidate embedding: BGE-M3 or small multilingual alternative; candidate reranker: multilingual cross-encoder. A specific version is chosen after offline VRAM/latency/accuracy tests. Spring AI vs Python is a responsibility choice, not a blanket capability claim.
 - Per-ingestion: parse/coverage/schema/table checks, source/eligibility proofs, dedup, pipeline timing and checked publish. Per-query: source filter pass, citation resolution, abstention, latency, error status, selected evidence IDs. Per-recommendation: catalog membership, constraints/status correctness, evidence grounding, ranking timings. Use asynchronous local judge for semantic metrics and distinguish **PENDING/FAILED/COMPLETE** judge status from passing synchronous checks.
 - Regression corpus target: 50–100 consented manually labeled questions/tasks covering Vietnamese/Hán Việt/English/Han, PDF OCR/tabular, DOCX/Obsidian/Excel, module structured answers, no-answer, Private/NSFW exclusion, deletion/revocation and recommendation across all statuses. Include 10+ table extraction fixtures and adversarial prompt-injection/zip-slip/path traversal fixtures as appropriate. Store only fabricated or owner-approved sample data in git; never commit actual private files.
@@ -125,7 +186,7 @@ Before index activation, final answer/history authorization, highlight/source re
 
 - **No Ideaverse data integration until the owner later supplies/authorizes it.** Preserve only a generic external-directory read-only adapter concept, no feature-specific code.
 - No private content indexing, private PIN unlock for RAG, cloud API, frontend, mobile/laptop runtime, remote public network access, multiuser, annotations, write tools, external web scraping, or automatic outside recommendations.
-- Codex has accepted the bounded Phase 17 public-contract/DB/worker-role delta at the design level and the owner recorded [approval](../implementation/phase-17/owner-decisions.md). Before handoff, the owner commits/pushes accepted preparation; the implementation slice must synchronize affected architectural artifacts and pass actual runtime tests. Phase 16 Frontend remains unstarted/owner-gated.
+- The owner accepted Alternative B contracts under ADR-0020 in the existing handoff. Current authorization is documentation synchronization only; separate implementation authorization, actual runtime evidence and independent review remain required. Phase 16 Frontend remains unstarted/owner-gated.
 
 ## Reference material (not a pinned dependency declaration)
 

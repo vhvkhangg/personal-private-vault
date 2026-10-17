@@ -35,6 +35,25 @@ public class ApiExceptionHandler {
     public ApiExceptionHandler() {
     }
 
+    /** Shared safe translation for the approved owner SQL busy backstop. */
+    public static boolean isSourceBusy(Throwable failure) {
+        for (Throwable cause = failure; cause != null; cause = cause.getCause()) {
+            if (cause instanceof java.sql.SQLException sql
+                    && "P1701".equals(sql.getSQLState())) return true;
+        }
+        return false;
+    }
+
+    @ExceptionHandler(org.springframework.dao.DataAccessException.class)
+    public ResponseEntity<ApiResponse<Void>> handlePersistenceConflict(org.springframework.dao.DataAccessException ex,
+            jakarta.servlet.http.HttpServletResponse response) {
+        if (isSourceBusy(ex)) {
+            abortIfCommitted(response, ex);
+            return ApiResponses.of(HttpStatus.CONFLICT, "RAG_SOURCE_BUSY", "Cancel indexing before editing this source");
+        }
+        return handleUnexpected(ex, response);
+    }
+
     private void abortIfCommitted(jakarta.servlet.http.HttpServletResponse response, Exception ex) {
         if (response != null && response.isCommitted()) {
             log.warn("Response already committed; aborting transfer without writing error envelope: exception={}", ex.getClass().getSimpleName());

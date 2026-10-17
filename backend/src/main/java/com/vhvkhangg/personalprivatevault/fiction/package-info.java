@@ -21,8 +21,8 @@
  *
  * <h2>Module boundary</h2>
  * <p>Allowed dependencies: narrowed to exact named interfaces.</p>
- * <p>Public contracts belong under {@code fiction}, {@code genre}, {@code link}, {@code enums}, and
- * {@code view}. Entities, repositories, application services, and infrastructure adapters remain under
+ * <p>Public contracts belong under {@code fiction}, {@code genre}, {@code link}, {@code enums},
+ * {@code view}, and {@code source}. Entities, repositories, application services, and infrastructure adapters remain under
  * {@code internal}. Other modules must not import this module's {@code internal} packages.</p>
  *
  * <h2>Notes</h2>

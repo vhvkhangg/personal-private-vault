@@ -1,18 +1,86 @@
 # P17-2 — Source eligibility, authoritative classification and field allowlists
 
-**Status:** Codex-accepted and owner-approved design contract (2026-10-13) for the bounded Phase 17 foundation; no source or field allowlist is active or implemented. Governed by [RAG architecture](../../architecture/rag-architecture.md) and [integration ownership](integration-ownership-and-permissions.md).
+**Status:** Owner-approved contract, amended 2026-10-15 under
+[ADR-0020](../../adr/0020-phase-17-single-job-reservations-e1.md). This is required
+behavior, not implemented proof. Containment remains; no execution or production
+implementation is authorized by contract synchronization. The initial field
+matrix remains unchanged. Live external capability stays disabled pending R7.
 
 ## 1. Mandatory two-authority proof (deny by default)
 
-A source becomes RAG eligible only when **all** are true at the point of extraction, index publication, retrieval/candidate building, citation resolution and final response:
+At admission/transfer/consumption/publication and every fresh index read, require
+explicit individual item/field RAG consent AND fresh owning-domain proof of live,
+right-type, non-NSFW source. NON_PRIVATE is an independent configuration veto;
+approval cannot set a Private item NON_PRIVATE. Login/PIN/status/directory choice,
+prior index or isNsfw=false alone never grant consent. Unknown/missing/malformed,
+restricted quoted metadata or unapproved source/field/child fails closed.
 
-1. The owner explicitly approves this **specific source ID + source type + exact field set** for RAG; approval is held by Java `rag` catalog with `classification=NON_PRIVATE`, a monotonic `authorization_epoch`, `field_policy_version`, expiration/revocation state, and an auditable approval timestamp. Neither JWT login, Private-PIN state, `isNsfw=false`, a successful prior index, nor a broad directory picker implies approval. A batch review UI/API may approve multiple **enumerated** records, but must materialize individual proofs and display field previews/exclusions; unenumerated future records remain unknown/denied.
-2. Authoritative owning domain projection (or external-file check) independently proves that the source is current/live, not soft-deleted/trashed, not NSFW or otherwise marked restricted, and has an exact current revision/content hash. **Unknown or missing proof denies.** `VaultEntryView.deletedAt == null` verifies trash for Vault-backed Fiction/Film; `FictionView.isNsfw`/`FilmView.isNsfw` is an additional exclusion, **not** a generic private-classification source. The existing `FictionOperations.find`, `FilmOperations.find`, `VaultEntryOperations.find` do not alone provide all RAG proofs; new owning-module read-only RAG projection contracts and RAG catalog policy are required before indexing.
-3. Requested operation and `SourceSelection` match explicit grant, currently approved field set, input version and current policy epoch. Unapproved source types or fields deny even when present in current public views or existing Global Search documents. `UNKNOWN`, `PRIVATE`, `NSFW`, missing metadata, source stale/unavailable or untrusted extracted metadata are **not indexable**. Distinguish `NOT_AUTHORIZED` from `SOURCE_NOT_FOUND` internally but do not reveal existence to unauthorized callers.
+RAG retains authorization_epoch, field_policy_version, approved fields, captured
+Vault consent_reset_version and exact description confirmation hash. Vault retains
+monotonic source_version/reset history even after deletion. Ordinary eligible
+projected edits preserve standing participation, advance source_version and make
+old indexes OUTDATED. Relevant dependency remove/readd also advances affected
+scope/version. NSFW/trash/delete/restore resets consent history; Private/revoke/
+field changes advance RAG policy epochs and preserve effective denial. Eligibility
+restoration never restores consent. Settings are independent and retained.
 
-**Classification precedence (highest first):** authoritative domain deletion/trash, NSFW/Private flag or current **revocation/expired grant** vetoes all other claims; then explicit source/field denial in owner policy; then restrictive source metadata (e.g. approved parser recognizes `private: true`, `nsfw: true`, `visibility: private`) vetoes eligibility; only then may a still-current individual owner `NON_PRIVATE` approval permit listed fields. A marker such as `private: false` or `public: true` **cannot** grant access. Unknown/malformed classification keys, metadata that cannot be safely parsed, and conflicting signals produce `UNKNOWN`/quarantine, not permissive fallback. Changes to restrictive metadata invalidate prior approval/revision and cannot be overridden by an old grant. Text in an arbitrary file cannot grant access by claiming it is public.
+### Approval/renewal intent CAS
 
-Sensitive-data classifiers and secret-pattern checks may raise quarantine warnings, **never positively certify safety**. Explicit owner approval does not override known secret fields, domain NSFW, deletion or an externally imposed restriction. Prompt files/frontmatter cannot declare themselves eligible or override the Java policy. The owner may revoke source or any approved field at any time; effective deny is immediate at every authorization gate, independent of asynchronous purge.
+An owner view exposes current sourceVersion, consentResetVersion,
+authorizationEpoch and fieldPolicyVersion. Explicit approve/renew supplies
+expectedSourceVersion, expectedConsentResetVersion, expectedAuthorizationEpoch,
+expectedFieldPolicyVersion and the exact approvedFields. Under the stable source
+and policy guards compare all expected values to fresh current state, verify
+NON_PRIVATE/eligible/type/fields and any description confirmation, then capture
+reset and advance consent epoch/policy atomically. Mismatch returns HTTP 409
+SOURCE_CHANGED with no approval. Missing expected values never mean latest.
+Do not auto-refresh/retry stale intent in background. A delayed pre-reset,
+pre-revoke or pre-field-reduction request cannot grant fresh consent.
+
+Comparing sourceVersion protects the approval command's observed intent; it
+does not revoke standing participation on ordinary eligible edits. New approval
+never reauthorizes an old job/generation. Item configuration and consent remain
+separate; switching Private back to NON_PRIVATE leaves approval invalid.
+
+### Exact description-hash rule
+
+Retain explicit description opt-in and last confirmed exact description hash,
+separate from item participation. At manual Index/Reindex, selected description
+with the same confirmed hash needs no repeated prompt. Title/other edits alone
+need neither item reapproval nor description confirmation. Changed description
+must be explicitly confirmed with the current exact hash shown in preview; the
+manual-start action may carry that confirmation, with no redundant separate
+approval dialog. Missing/stale hash returns SOURCE_CHANGED/confirmation-required;
+never silently include changed text or omit a requested field to report success.
+
+Hash a coherent version-bound snapshot outside DB guards, then compare captured
+source version and exact hash under fresh guards. Persist confirmation and job/
+reservation admission atomically, or reserve first and safely abort before input
+if confirmation fails. Preserve authoritative encoding and null/empty/whitespace
+distinctions. Returning to identical confirmed description bytes may reuse that
+confirmation on manual start, but source_version still makes the old index
+OUTDATED. Description confirmation cannot renew reset/Private/revoked consent,
+expand fields or authorize a child. Restrictive/unknown metadata still vetoes.
+
+### Precedence, reservations and lifetimes
+
+Domain trash/deletion/NSFW/Private/revocation and restrictive source metadata veto
+all permissive claims, then exact source/field policy applies. public:true or
+private:false cannot approve; malformed/conflicting or quoted restrictive values
+deny/quarantine. Classifiers may flag risk but never certify eligibility. Preserve
+all original exact initial field exclusions below and no source/secret logging.
+
+During indexing every relevant selected-source edit/revoke/field/classification/
+dependency change conflicts with 409 RAG_SOURCE_BUSY and commits no change.
+Cancel, await verified safe termination/SQL sealing/release, then retry the edit;
+never queue a denied change. After authoritative exclusion COMMIT, related data
+is inaccessible immediately and enters verified cleanup. Unrelated items editable.
+
+Completed persistent index authority uses current consent/reset/source versions/
+fields/full dependency state and its own selection/retention policy. It is
+independent of completed worker execution lease/service session/boot. Execution
+observed-expiry gates remain under E1 in P17-3; ad-hoc selection expiry remains a
+separate artifact scope, not a global consent or persistent-index TTL.
 
 ## 2. Initial source and field eligibility matrix
 

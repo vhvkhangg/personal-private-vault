@@ -31,6 +31,7 @@ At owner commit `3bb3f2e`, `portability` is implemented and frozen as the Phase 
 | `personal`       | Structured personal/family profiles                                           | `personal_profiles`                                                                                                                                     | `reference`, `location`                                                                                 |
 | `search`         | Cross-module global search orchestration                                      | no v1 tables                                                                                                                                            | `vault`, `people`, `fiction`, `film`, `media`, `location`, `knowledge`, `collection`, `account`, `feed` |
 | `portability`    | Whole-vault portable export orchestration                                     | none; ADR-0017 read-only snapshot exception only                                                                                                        | —                                                                                                       |
+| `rag`            | Source authority, approval, issued synthetic jobs/receipts, guarded publication and revocation/purge; live external files disabled | `rag.sources`, `rag.job_leases`, `rag.staged_outputs`, `rag.dependencies`, `rag.index_generations`, `rag.runs`, `rag.worker_grants`, `rag.runtime_state` | `vault`, `fiction`, `film` |
 
 The frozen dependency matrix remains canonical at [`module-dependency-matrix.md`](module-dependency-matrix.md).
 
@@ -127,3 +128,16 @@ When implementation begins, Spring Modulith verification should enforce:
 - nested module encapsulation.
 
 An architecture verification test belongs in the backend test suite and is written/run under the agreed Antigravity testing workflow.
+
+
+## Phase 17 approved Alternative B delta (2026-10-15; not implemented)
+
+[ADR-0020](../adr/0020-phase-17-single-job-reservations-e1.md) adds Vault-owned
+public.vault_rag_source_state (retained version/reset/reservation) and narrow
+vault.entry source reservation DTO/operations; Fiction/Film and RAG policy/
+dependency owner-local triggers use the Vault metadata guard. Existing business
+data remains with its owner. No vault -> rag Java edge or RAG process logic in Vault.
+RAG alone owns the one-job/process/attempt seal/P-or-abort/release lifecycle.
+Worker has no owner metadata SQL rights. Existing table above describes the
+candidate; the additive target is [canonical DBML](../database/phase-17-alternative-b.dbml).
+Current contract synchronization does not implement this delta or certify Modulith.

@@ -1,5 +1,5 @@
 digraph Modules {
-graph [rankdir=TB, bgcolor="white", pad=0.35, nodesep=0.35, ranksep=0.8, splines=ortho, label="Personal Private Vault — Module Dependency Diagram", labelloc=t, fontsize=20, fontname="Arial Bold"];
+graph [rankdir=TB, bgcolor="white", pad=0.35, nodesep=0.35, ranksep=0.8, splines=polyline, label="Personal Private Vault — Module Dependency Diagram", labelloc=t, fontsize=20, fontname="Arial"];
 node [shape=box, style="rounded,filled", fontname="Arial", fontsize=10, margin="0.14,0.08"];
 edge [color="#6B7280", arrowsize=0.6, penwidth=1.0];
 search [label="search", fillcolor="#FCE4D6", color="#C65911"];
@@ -21,7 +21,11 @@ settings [label="settings", fillcolor="#EDEDED", color="#7F7F7F"];
 authentication [label="authentication", fillcolor="#EDEDED", color="#7F7F7F"];
 vault [label="vault (Shared Core)", fillcolor="#DCE6F1", color="#4F81BD"];
 reference [label="reference", fillcolor="#DCE6F1", color="#4F81BD"];
-{rank=same; search portability}
+rag [label="rag (Phase 17 candidate)", fillcolor="#FCE4D6", color="#C65911"];
+rag -> vault;
+rag -> fiction;
+rag -> film;
+{rank=same; search portability rag}
 {rank=same; feed importdata knowledge collection account}
 {rank=same; fiction film media location finance journal personal}
 {rank=same; people settings authentication}

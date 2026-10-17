@@ -17,6 +17,9 @@ public interface FictionWorldSettingRepository extends JpaRepository<FictionWorl
 
     List<FictionWorldSettingAssignment> findByIdFictionId(Long fictionId);
 
+    @Query("SELECT a FROM FictionWorldSettingAssignment a WHERE a.id.fictionId IN :fictionIds")
+    List<FictionWorldSettingAssignment> findByIdFictionIdIn(@Param("fictionIds") java.util.Collection<Long> fictionIds);
+
     @Query("SELECT a.id.worldSettingId FROM FictionWorldSettingAssignment a WHERE a.id.fictionId = :fictionId")
     Set<Long> findWorldSettingIdsByFictionId(@Param("fictionId") Long fictionId);
 

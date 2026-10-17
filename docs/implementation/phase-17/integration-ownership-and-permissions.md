@@ -1,43 +1,108 @@
-# P17-1 — Owner-approved bounded integration delta, ownership and database permissions
+# P17-1 — Alternative B ownership, integration and database permissions
 
-**Status:** Owner-approved bounded design contract for Phase 17 foundation handoff (2026-10-13); this document specifies a future additive delta only; it does not modify any frozen Java module, DBML, dependency matrix, Flyway migration or credential now. See [ADR-0019](../../adr/0019-local-rag-before-frontend.md) and the [latest accepted Codex design review](reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md).
+**Status:** Accepted contract, amended by explicit owner approval on 2026-10-15.
+[ADR-0020](../../adr/0020-phase-17-single-job-reservations-e1.md) amends ADR-0019;
+[independent review §8](reviews/2026-10-15-phase-17-architecture-simplification-independent-design-review.md#8-exact-owner-approvals-and-canonical-amendments)
+is the synchronization checklist. This records required behavior, not implemented
+guarantees. Current code stays contained; separate implementation authorization
+is required under the existing CHANGES_REQUESTED handoff. FR17-5/8/9/10 OPEN.
 
-## 1. Initial bounded Java boundary
+## 1. Bounded public integration
 
-- Propose one new leaf/orchestration top-level Spring Modulith module `com.vhvkhangg.personalprivatevault.rag` under `backend/src/main/java/`. Future explicit named public contracts, only if approved: `rag/api` (owner-facing orchestration and read-only source selection), `rag/source` (typed read-only source projections/eligibility proofs), `rag/events` (RAG-owned lifecycle events if justified). Its implementations remain in `rag/internal/`; module-local HTTP adapters conform to the existing root API contract. **These packages do not exist yet.** Do not expose worker storage entities or authorize source mutation from Python.
-- Initial *proposed* Spring Modulith dependency delta: `rag -> vault`, `rag -> fiction`, `rag -> film` through their approved public interfaces; no reverse dependency, no `search`/`portability` JDBC exception, no access to other modules' `internal/` repositories/entities. No edge to `authentication` is proposed; use already established HTTP security boundaries. `reference` may be proposed later only if a reviewed cross-module name-resolution need is demonstrated.
-- Existing `FictionOperations.find`, `FilmOperations.find` and `VaultEntryOperations.find` supply candidate reads and trash state but **do not** supply source-specific RAG eligibility, approved fields, durable revision proof, enumeration with safe filtering, or policy epoch. Phase 17 foundation must add the *minimal read-only projection contract(s) owned by the relevant domain*, with version and classification proof, plus bounded enumeration/lookup for preapproved sources. The new `rag` module orchestrates these contracts; it does not redefine the domains' business semantics. The Phase 17 foundation must also add a `vault`-owned public transaction-scoped `vault_entries FOR UPDATE` source guard and integrate every eligible Fiction/Film/Vault write path with it; the RAG final gate holds that *same* physical DB lock through commit. See [P17-3 §1A](revocation-and-derived-data.md). This is a proposed, owner-approved additive change to frozen owners, **not** a currently present API/transaction guarantee.
-- **Initial domain content:** approved Fiction and Film projections only, plus individually approved external files. Generic source adapter seam exists for later modules, but Finance, Personal, Journal, Account, Knowledge, Feed, Media, etc. **are not indexable in the first slice** without a new source/field allowlist and owner acceptance. This is intentionally narrower than the owner's eventual all-suitable-module goal. All Fiction/Film consumption statuses remain eligible when other rules pass. Ideaverse integration remains deferred.
-- `rag` is authoritative for the RAG-specific source-approval/classification catalog and query/job admission; owning domain modules are authoritative for NSFW, deletion and content versions. A source cannot be indexed unless both authorities grant it. External-file authority is an explicit owner-approved file grant plus current, canonicalized on-disk bytes/hash, not implicit directory membership.
+One Java `rag` leaf depends only on public `vault`, `fiction`, `film` contracts.
+No reverse owner -> RAG feature dependency, internal entity/repository access,
+generic JDBC export or reused portability exception. Existing `rag/api` and
+`rag/source` are the candidate named interfaces; do not add speculative packages.
+Owning Fiction/Film projections contain only P17-2 fields and fresh type/NSFW/
+trash/version proof. All consumption statuses are eligible subject to consent.
+
+Vault owns a stable retained source_state row per source ID, independent of
+vault_entries deletion. It holds immutable source type, monotonic source_version,
+consent_reset_version, deleted state and nullable reserved_by token. Source
+creation seeds it; missing/overflow/reused identity denies. No cascade removes
+history. The canonical owner enforcement path advances versions atomically with
+the business write; reservation-only changes cannot overwrite version history.
+
+Extend the existing vault.entry public boundary with narrow immutable DTOs:
+
+~~~java
+void SourceEditGuard.requireEditable(SortedSet<Long> ids);
+void SourceIndexReservations.reserve(SortedSet<Long> ids, UUID reservation);
+SourceVersions SourceIndexReservations.lockReserved(SortedSet<Long> ids, UUID reservation);
+void SourceIndexReservations.release(SortedSet<Long> ids, UUID reservation);
+~~~
+
+These are contract-level operations, not claims that classes already exist.
+reserve/lockReserved/release require MANDATORY participation in the caller's
+same writable physical PostgreSQL transaction/connection; no asynchronous,
+autocommit or REQUIRES_NEW release. RAG alone is the maintained reserve/release
+caller. Vault validates the exact token/set; RAG proves process/writer safety.
+Vault does not accept a worker-supplied quiescent flag or control Python.
+
+Every relevant owner mutation uses this common source guard before managed
+mutation/flush, then existing Vault lifecycle/owner row guards. Mandatory
+owner-local SQL trigger backstops cover indirect/bulk/import/cascade writes,
+RAG policy/dependency paths and OLD/NEW affected source IDs. A trigger already
+holding a target row acquires an earlier guard with NOWAIT, never backwards
+blocking or SKIP LOCKED. Runtime roles cannot disable triggers or use unsupported
+TRUNCATE/DDL. Unprovable affected sets fail closed. See P17-3 for complete order.
+
+Initial enabled-content target remains approved Fiction/Film only. Individually
+approved external documents remain in the functional plan, but live-file
+capability stays disabled until separate R7 proof. DB reservations cannot fence
+external editors. No expanded module/field allowlist or later parsing is granted.
 
 ## 2. One logical owner per durable responsibility
 
-| Durable concern | Logical owner and mutation authority | Worker access |
+| Concern | Logical owner | Worker rights |
 | --- | --- | --- |
-| Original Vault domain records, deletion, NSFW, business timestamps | Existing `vault`/`fiction`/`film` owning modules | None; only Java safe projection over internal service boundary |
-| Source approval, classification, field-policy version, canonical source revision / authorization epoch | New Java `rag` orchestration module, checked against domain truth or file source before every operation | Read only *minimal* approved job/grant data; cannot change eligibility or epoch |
-| Job admission, source grants, cancellation, retries, durable state transitions | Java `rag` module, one canonical job state machine | Submit bounded attempt progress and staged output; cannot grant own access or force `PUBLISHED` |
-| Source bytes granted to an admitted job | Source owner / owner-selected external-file adapter through Java gate | Only leased stream/chunks scoped to one active grant; no arbitrary domain SQL/path fetch |
-| Parser output, staging chunks/vectors, candidate index, judge work product | Python RAG engine produces; RAG schema holds *disposable* derivatives | Write to worker staging namespace only under current lease; no active-generation pointer updates |
-| Verification, index-generation publication, revocation/tombstone and active pointer | Java `rag` gate, transactionally guarded by source/policy/version checks | No publish/revoke privileges |
-| Query/recommendation output validation, citations, safe response-history persistence | Java `rag` gate owns final allow/deny and durable response reference | Worker may propose result; cannot persist an owner-visible answer directly |
-| Evaluation run metadata and sanitized metrics | Java `rag` lifecycle owner; Python evaluator supplies metrics under bounded contract | Write staged metrics, no authority to mark security gate passed |
-| Golden test fixtures/feedback | RAG capability; owner-approved only | Worker consumes explicitly staged, eligible fixtures; not arbitrary production records |
+| Business content/type/NSFW/trash/deletion | Existing owning module | None; safe Java projections only |
+| Stable source/version/reset/reservation metadata | Vault, via common public guard and owner-local SQL backstop | None, including no Vault definer-chain access |
+| RAG classification, standing consent, epoch, field policy, description confirmation, dependencies | Java RAG, checked against owner truth | No policy rights |
+| Single job admission, controller/worker identity, stop/recovery, one-use issued grant | Java RAG | Only own audited grant-claim marker, not canonical job mutation |
+| Source transfer and input scope | Java RAG under committed whole-closure reservation | Only exact job-bound input; no arbitrary SQL/path refetch |
+| Raw-free stage/receipt computation | Python, disposable RAG staging | Only audited scoped stage route, attempt-row fence and provenance |
+| Verification/publication, terminal state and atomic reservation release | Java RAG | No publish, release or active-pointer rights |
+| OUTDATED/revoked read denial, scoped purge and verified cleanup | Java RAG using fresh owner state | No self-certification of cleanup |
+| Later QA/history/judging/evaluation | Allocated to later handoffs; synthetic lifecycle fixtures only here | No later product authorization |
 
-The names `rag_sources`, `rag_jobs`, `rag_chunks`, `rag_index_generations`, etc. in the architecture are **conceptual**, not a required table-per-concept schema. Source approvals and active pointers are distinct from disposable staging/generations regardless of physical schema. Apply minimum schema, indexes and append-only Flyway migration only after slice authorization.
+RAG owns one job-scoped loopback FastAPI process/tree adapter, including launch,
+job-bound readiness/endpoint identity, stop/wait and crash recovery. No generic
+daemon fallback, Vault DRAIN, global F/V coordinator or second job engine.
 
-## 3. Database identity and least-privilege boundary
+## 3. PostgreSQL least privilege and attempt enforcement
 
-- Proposed database namespace: `rag` schema (or approved equivalent). **Migration authority is Spring/Flyway only** using a separate deployment-time schema owner/migrator credential. No Python DDL, no Hibernate `ddl-auto` schema authoring; PostgreSQL 18.6 + pgvector image/extension installation remains a compatibility gate.
-- **Java RAG runtime role**: necessary DML for RAG-owned authoritative approval/job/generation-publication rows (under business rules); original application domain reads continue through existing owning-module public Java APIs, not a new worker connection to domain schemas. Any elevated schema-owner privilege must not be shared with long-running Java/Python services.
-- **Python `rag_worker` runtime role**: distinct non-superuser, non-schema-owner, `NOBYPASSRLS`, no role inheritance from app/migrator, no `CREATE` on database/schema, no DDL or role management; `USAGE` on `rag` and narrowly enumerated `SELECT` on worker-visible *authorized projections*/active generation data and `INSERT/UPDATE` only on leased staging/attempt/judge-result rows. Explicitly **no** direct `SELECT/INSERT/UPDATE/DELETE` on `public` business/security tables, no read of RAG policy secrets or source grants of other jobs, no mutation of source approval/epoch, index publication pointer, tombstones or canonical job state. Do not grant `ALL ON ALL TABLES` or default PUBLIC rights; validate `search_path`, function `SECURITY DEFINER`, extensions and ownership. Enforce row/job scopes with restricted views/functions/RLS where needed, validated in real Postgres tests. **Mandatory staging COMMIT fence:** worker staging/late judge writes must acquire a DB-enforced transaction lock on the Java-owned attempt/lease row and recheck state before committing (e.g. scoped PostgreSQL trigger/function with audited fixed `search_path`); revocation/purge holds that same lock through cleanup and `PURGE_COMPLETE`. Direct staging-table DML without this enforcement is unsafe, even if a pre-insert lease read or RLS policy previously succeeded. See [P17-3 §1A](revocation-and-derived-data.md).
-- Separate PostgreSQL credentials/DSNs and narrowly scoped internal HTTP service authentication. Source-grant tokens are short-lived, bound to job, exact selection, source version, dependency closure, and epoch; never owner JWTs. Rotated credentials must not be committed or placed in logs. Spring remains the **only** ingress for user-authenticated requests. Python HTTP binds loopback; restrict unsolicited egress/offline model pulls.
-- Negative integration tests **as the real worker role** must establish `permission denied` on representative business (`fictions`, `films`), auth/security (`app_users`, refresh-token) tables, `CREATE` in `rag`, and update to source-policy/active-generation pointers; prove allowed staging operations work. Also test no use of broad migration credential at runtime and run Spring Modulith `ApplicationModules.verify()` with the *actual* approved new edges.
+Migration authority remains separate Spring/Flyway migrator; Java runtime is
+non-owner, Python rag_worker non-superuser/non-schema-owner/NOBYPASSRLS without
+inherited app/migrator authority. No runtime DDL, role management, business/auth
+SQL or public CREATE/TEMP escalation. Use qualified names, fixed search_path,
+audited SECURITY DEFINER ownership, restricted views/functions and default-deny
+PUBLIC/effective privileges. Separate DSNs; never log credentials/owner JWTs.
 
-## 4. Frozen-source synchronization and owner gate
+Owner-local triggers may call the narrow Vault metadata guard; this is an
+explicit owner-to-Vault SQL dependency, not worker access or a Java module cycle.
+Worker can atomically consume only its own issued grant marker and stage bounded
+typed raw-free receipts. Every supported/legacy stage route locks and freshly
+checks the Java-owned attempt after waits, including scope, staging_closed,
+stop/runtime execution identity and observed expiry. It holds the attempt through
+S physical COMMIT. No direct unfenced table DML or arbitrary-job access.
 
-This preparation **does not edit** these frozen authoritative artifacts: [module boundaries](../../architecture/module-boundaries.md), [dependency matrix](../../architecture/module-dependency-matrix.md), [package tree](../../repository/repository-package-tree.md), [Schema v1 DBML](../../database/personal-private-vault-schema-v1-FROZEN-final.dbml), or generated diagrams.
+Finish obtains the same attempt fence after source guards, drains old writers,
+seals staging and physically commits terminal/P-or-abort/release atomically.
+Execution expiry uses approved E1, not a claimed physical-instant constraint.
+Worker expiry/service boot is never the authority for a completed CURRENT index.
 
-**Owner/Codex acceptance gate satisfied at the design level:** Codex closed P17-1/2/3 and returned `READY FOR HANDOFF`; the owner accepted the bounded additive Phase 17 integration and worker-role isolation in [owner decisions](owner-decisions.md). This authorization is **not implementation evidence**. Preparation commit/push and a *separate bounded handoff* remain prerequisites. The future authorized slice must list and synchronously update the **affected** sources: module boundaries/matrix, package tree, relevant architecture/C4/Structurizr **source** diagrams (and exports if changed), data architecture/DB migration inventory, ADR-0019's accepted disposition, new Flyway migrations and Java public named interfaces. Preserve historical Phase 0–15 records and frozen Schema v1; do not rewrite old schema or alter `portability`'s exception. Run module-verification/DB privilege/contract tests before accepting integration.
+Actual restricted-role tests must prove allowed staging and all forbidden owner,
+policy, job, pointer, reservation, DDL, role, function/legacy and inherited PUBLIC
+routes. ApplicationModules.verify must verify actual public edges. Abstract
+design or admin-credential tests do not establish runtime privilege correctness.
 
-If Codex or owner rejects any needed edge or DB role, stop and re-scope the integration slice; **do not** bypass with Python reads of domain SQL, a generic JDBC export, a handoff with unresolved permissions, or an assumed source whitelist.
+## 4. Canonical synchronization and implementation gate
+
+The approved additive schema contract is [Phase 17 DBML](../../database/phase-17-alternative-b.dbml);
+Schema v1 and V1–V13 remain immutable. No migration executes in this synchronization.
+Append-only future migrations after V13, public DTOs, module/data/API/package
+inventories and affected diagram semantics must match this contract. Existing
+topology edges are unchanged. Preserve frozen phases, prior reviews and evidence.
+Unknown source/process/SQL outcomes remain denied and reserved, not timer-released.
+Actual Windows/PG/offline/resource/full-suite proof remains an acceptance blocker.

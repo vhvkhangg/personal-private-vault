@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface VaultEntryRepository extends JpaRepository<VaultEntry, Long> {
+    @Query("SELECT new com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView(e.id,e.entryType,e.createdAt,e.updatedAt,e.deletedAt) FROM VaultEntry e WHERE e.id IN :ids ORDER BY e.id")
+    java.util.List<com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView> findSourceViews(@Param("ids") java.util.Collection<Long> ids);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT e FROM VaultEntry e WHERE e.id = :id")

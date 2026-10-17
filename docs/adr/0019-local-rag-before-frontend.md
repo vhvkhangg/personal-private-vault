@@ -1,6 +1,6 @@
 # ADR-0019 — Owner-approved local RAG preparation before deferred frontend
 
-- **Status:** Accepted — owner-approved 2026-10-13 following `READY FOR HANDOFF` Phase 17 foundation review; implementation not yet started
+- **Status:** Accepted 2026-10-13; clauses 2–5 amended by accepted [ADR-0020](0020-phase-17-single-job-reservations-e1.md), owner-approved 2026-10-15. Current candidate is CHANGES_REQUESTED, not accepted implementation.
 - **Date:** 2026-10-13
 - **Decision owner:** Repository owner
 - **Supersedes:** Only the *sequencing/deferral* of RAG in ADR-0014; the original reasons for deferral and all unrelated frozen decisions remain historical.
@@ -14,10 +14,40 @@ The owner requires a local-only personal RAG system on a Windows 11 desktop (i5-
 ## Accepted decision and guardrails
 
 1. **Out-of-order phase gate:** Prepare/implement Phase **17–22 (RAG)** before Phase **16 (Frontend)** after owner approval and a successful **separate pre-handoff review for each numbered phase** (`P-17` for foundation, `P-18` for ingestion, etc.). Retain phase numbers and histories; this is an explicit exception to the ordinary previous-number prerequisite. Phase 15 is the required completed predecessor for P-17. `ACTIVE.md` must be `NO_ACTIVE_HANDOFF` before Codex creates a handoff. The exception does not waive preparation/implementation reviews, owner commits, or frozen-baseline gates.
-2. **Runtime separation:** Existing Spring Boot remains the source-of-truth and sole business access/policy enforcement boundary. Add a minimal future Java RAG orchestration/adapter capability, subject to module-boundary review, to expose approved read-only source projections to a loopback-only **Python/FastAPI** service. Python owns parsing, local inference, retrieval, reranking, evaluation, and disposable derived indexes. Neither Python nor other Java modules may access owning modules' internal repositories/entities. No generic service mesh, agent framework, or microservice expansion.
-3. **Bounded future module and ownership delta:** Propose one new Java `rag` leaf module with only `rag -> vault`, `rag -> fiction`, `rag -> film` dependencies via reviewed public source projections. Java `rag` owns owner approval/classification, grants, jobs and final generation publication; owning domain modules keep NSFW/deletion/content authority; Python owns disposable extraction/index staging and evaluation computation, not final access decisions. A new RAG DB namespace is migrated only by Spring/Flyway; a distinct, least-privilege `rag_worker` PostgreSQL role must be blocked by grants from business/security schemas and DDL, and from authoritative RAG policy/publish tables. See [P17-1 approval boundary](../implementation/phase-17/integration-ownership-and-permissions.md). **These bounded new edges/permissions are owner-approved for the separately gated Phase 17 foundation handoff, but are not implemented**; synchronize the affected module matrix/tree/diagram artifacts with the authorized implementation, never by changing frozen history.
-4. **Persistence:** PostgreSQL remains the source for RAG metadata and indexes; pgvector and lexical retrieval are proposed subject to PostgreSQL-version/extension compatibility and performance benchmarks. Only append-only migrations for new RAG-owned data are permitted *after implementation authorization*. Existing frozen DBML/ownership and the implemented 19-module matrix are unchanged in preparation. The bounded Phase 17 `rag` dependency edges are explicitly owner-approved for later implementation only, and must be synchronously recorded in the architecture/matrix as implemented; any additional edge requires separate approval.
-5. **Local privacy:** Query, corpus, OCR, embeddings, model inference, reranking, and local evaluation never transmit document content to outside AI services; disable telemetry and runtime downloads. Private/NSFW content is **excluded from ingestion/indexing** rather than gated by a PIN, and secrets/security state are prohibited. Unknown classification fails closed. File scopes are explicit; no blanket filesystem scan. The **initial** eligible module source list is Fiction/Film, with a per-source NON_PRIVATE owner grant, owning-module `isNsfw` + Vault deletion proof and a narrow field whitelist; free-text description needs an extra revision-bound approval. External file selection also requires **individual owner classification**; an approved parent cannot authorize an unclassified embed. All other modules/fields remain denied until their reviewed source projection and owner-approved field matrix are added ([P17-2](../implementation/phase-17/source-eligibility-and-allowlists.md)). No write-back to user-managed external sources, including future Obsidian/Ideaverse. On revoke, revision change or session expiry, Java synchronously denies and **fences active jobs, generations, answers/history, caches, highlights and queued/running judges**, including transclusion dependencies. Late publications are rejected and all content-bearing derivatives purged despite longer TTL settings ([P17-3](../implementation/phase-17/revocation-and-derived-data.md)).
+2. **Runtime separation (amended ADR-0020):** Spring remains sole business/policy
+   authority. Phase 17 uses one RAG-owned job-scoped loopback Python/FastAPI process
+   for the actual bounded synthetic workflow. The supported runtime is one local
+   Windows desktop, one permanent user/account and one active indexing job.
+   Later parser/model/query functions retain separate phase gates. No distributed
+   execution, daemon fallback, generic framework or remote worker.
+3. **Bounded owner delta (amended ADR-0020):** rag -> vault/fiction/film public
+   edges only; Vault owns stable retained source/version/reset/reservation state
+   and narrow transaction operations; owning mutations have mandatory SQL guard/
+   version backstops. RAG owns consent/policy/dependencies, single-job admission,
+   native process lifecycle, grants, exact staging and Java P. Worker has no
+   business/Vault SQL, canonical job/policy/publish/release/DDL rights. See P17-1.
+4. **Persistence (amended ADR-0020):** PostgreSQL remains metadata/index authority,
+   pgvector subject to measured compatibility. Accepted additive logical target is
+   [Phase 17 DBML](../database/phase-17-alternative-b.dbml); preserve Schema v1 and
+   V1–V13. Future implementation appends after V13, separately authorized. Durable
+   source reservations span the entire indexing lifetime without long SQL locks;
+   one static nonterminal attempt constraint, one-use grant and attempt writer seal
+   suffice, not F/V/DRAIN/v3 tickets. P-or-abort/seal/terminal/release share physical C.
+5. **Privacy/consent/expiry (amended ADR-0020):** Private/NSFW and unknown/secret
+   content categorically excluded; exact initial source/field matrix retained.
+   Explicit per-item consent uses reset/version/epoch/policy CAS; ordinary eligible
+   edits preserve it but OUTDATE dependent indexes. Eligibility loss/restore never
+   renews consent. Exact description-hash confirmation may accompany manual start.
+   Reserved relevant edits/revoke/classification return 409 with no change; after
+   safe cancel/recovery release the owner retries. Committed exclusion immediately
+   denies transitive artifacts before verified purge. Accept E1(a)/(b)/(c), including
+   post-deadline activity and late trusted P after valid final gates; do not claim
+   strict physical-C-before-expiry. A current persistent published index, including
+   valid late P, is independent of completed execution lease/service session/boot.
+   Independent ad-hoc selection retention still applies. No automatic reindex or
+   resume; normal restart preserves fresh consent/completed indexes. No external
+   network/AI/telemetry/runtime downloads or source write-back. See P17-2/P17-3.
+
 6. **Separate capability paths:** Grounded Q&A uses hybrid retrieval, evidence filtering, bounded retry and citation/grounding checks; catalog recommendation uses candidate eligibility, feature/semantic scoring, reranking, grounded explanations and validated item IDs; structured factual questions may use **allowlisted read-only APIs**, not LLM-generated SQL. Full autonomous Agentic RAG is out of scope until measured evidence justifies it.
 7. **Continuous evaluation:** Each ingest/query/recommendation run records typed outcome, provenance, metrics and error codes, with fast synchronous safety checks and bounded asynchronous local judging. Regression/benchmark comparisons against curated ground truth are required before model/parser/chunking/index changes are promoted.
 8. **Ideaverse deferment:** Preserve adapter seams for eventual one-way sync from an owner-selected Obsidian directory, but do **not** add an Ideaverse module, schema, watcher, seeded content, or implementation in RAG Phases 17–22 without later explicit owner approval.
@@ -39,7 +69,7 @@ The owner requires a local-only personal RAG system on a Windows 11 desktop (i5-
 
 ## Owner acceptance and implementation gate
 
-The owner explicitly accepted the bounded P17-1/P17-2/P17-3 integration delta on 2026-10-13, recorded in [Phase 17 owner decisions](../implementation/phase-17/owner-decisions.md). The [Codex design review](../implementation/phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) is `READY FOR HANDOFF` for the **foundation only**; it is not a runtime security certification. The accepted preparation must be committed/pushed before a separate `$codex-create-handoff` can authorize implementation. Later phases have independent gates.
+The following preparation sequencing is historical; the existing handoff is now CHANGES_REQUESTED. ADR-0020 and the 2026-10-15 owner record approve contract synchronization only; separate implementation authorization is required. The owner explicitly accepted the bounded P17-1/P17-2/P17-3 integration delta on 2026-10-13, recorded in [Phase 17 owner decisions](../implementation/phase-17/owner-decisions.md). The [Codex design review](../implementation/phase-17/reviews/2026-10-13-phase-17-p17-3-and-coverage-codex-review.md) is `READY FOR HANDOFF` for the **foundation only**; it is not a runtime security certification. The accepted preparation must be committed/pushed before a separate `$codex-create-handoff` can authorize implementation. Later phases have independent gates.
 
 ## Related documents
 

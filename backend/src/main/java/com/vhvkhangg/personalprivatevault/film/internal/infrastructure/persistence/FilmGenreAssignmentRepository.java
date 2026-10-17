@@ -17,6 +17,9 @@ public interface FilmGenreAssignmentRepository extends JpaRepository<FilmGenreAs
 
     List<FilmGenreAssignment> findByIdFilmId(Long filmId);
 
+    @Query("SELECT a FROM FilmGenreAssignment a WHERE a.id.filmId IN :filmIds")
+    List<FilmGenreAssignment> findByIdFilmIdIn(@Param("filmIds") java.util.Collection<Long> filmIds);
+
     @Query("SELECT a.id.genreId FROM FilmGenreAssignment a WHERE a.id.filmId = :filmId")
     Set<Long> findGenreIdsByFilmId(@Param("filmId") Long filmId);
 

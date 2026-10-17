@@ -1,0 +1,12 @@
+# Local Phase 17 runtime only. Migrations/provisioning run in a separate process.
+spring:
+  datasource:
+    url: ${PPV_RAG_RUNTIME_URL}
+    username: rag_runtime
+    password: ${PPV_RAG_RUNTIME_PASSWORD}
+  flyway:
+    enabled: false
+ppv:
+  rag:
+    engine:
+      service-key: ${PPV_RAG_SERVICE_KEY}

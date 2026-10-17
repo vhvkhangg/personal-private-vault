@@ -17,6 +17,9 @@ public interface FictionStoryArchetypeRepository extends JpaRepository<FictionSt
 
     List<FictionStoryArchetypeAssignment> findByIdFictionId(Long fictionId);
 
+    @Query("SELECT a FROM FictionStoryArchetypeAssignment a WHERE a.id.fictionId IN :fictionIds")
+    List<FictionStoryArchetypeAssignment> findByIdFictionIdIn(@Param("fictionIds") java.util.Collection<Long> fictionIds);
+
     @Query("SELECT a.id.storyArchetypeId FROM FictionStoryArchetypeAssignment a WHERE a.id.fictionId = :fictionId")
     Set<Long> findStoryArchetypeIdsByFictionId(@Param("fictionId") Long fictionId);
 

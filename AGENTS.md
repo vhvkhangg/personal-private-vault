@@ -7,7 +7,7 @@ This file defines repository-wide instructions for coding agents.
 - Private, permanently single-user personal vault.
 - Backend-first modular monolith using Spring Boot and Spring Modulith.
 - PostgreSQL + Flyway; Maven build.
-- Phase 17 **RAG preparation** is accepted and owner committed/pushed ahead of deferred Phase 16 Frontend (2026-10-13), but no RAG implementation handoff exists; Frontend and production deployment remain deferred. See accepted ADR-0019.
+- Phase 17 **RAG foundation** is implemented, verified, and accepted as `READY_FOR_OWNER_COMMIT` under the existing handoff `P17-RAG-FOUNDATION` by the 2026-10-17 independent final re-review 3. All RAG foundation findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope. AUTH-CLOCK remains OPEN under an owner-approved narrow acceptance exception. Default containment and disabled live external-file capability remain active. Phase 17 closeout and freeze are reserved for post-owner-commit synchronization. Frontend and production deployment remain deferred. See ADR-0019, ADR-0020, ACTIVE and `docs/implementation/phase-17/test-evidence.md`.
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
 - Backend Phase 2 is complete/frozen after owner commit/push.
@@ -72,6 +72,10 @@ Architecture-sensitive work must respect:
 - `docs/repository/repository-package-tree.md`
 - `docs/adr/`
 - `docs/implementation/phase-1/README.md`
+
+## Current Phase 17 status — 2026-10-17
+
+Phase 17 Alternative B implementation and remediation under [ADR-0020](docs/adr/0020-phase-17-single-job-reservations-e1.md) and the existing `P17-RAG-FOUNDATION` handoff has been accepted by the independent final re-review 3 with verdict `READY FOR OWNER COMMIT`. Findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope; AUTH-CLOCK remains OPEN under its owner-approved narrow acceptance exception. Default containment and disabled live external-file capability remain active. Candidate is awaiting owner commit. Phase 17 closeout and freezing remain reserved for post-owner-commit synchronization. No self-acceptance, new handoff, later phases, commit or push.
 
 ## Development workflow
 

@@ -12,7 +12,7 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 - **Search:** dedicated orchestration module; PostgreSQL-first implementation
 - **Authentication:** permanent single-user account, password login, JWT access/refresh tokens, 6-digit private-mode PIN
 - **Frontend:** Phase 16 remains deferred/owner-gated; not started
-- **RAG:** Phase 17 owner-approved for **preparation only** ahead of Phase 16; proposed offline architecture, not implemented
+- **RAG:** Owner-approved Alternative B contract under ADR-0020; current task is contract synchronization only. Existing contained candidate remains CHANGES_REQUESTED; separate implementation authorization and NEW independent review required. Live external files disabled; later phases separately gated.
 - **Deployment topology:** intentionally not frozen
 
 ## Documents
@@ -28,7 +28,7 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 | [`security-architecture.md`](security-architecture.md)       | Current authentication/privacy boundary and deferred hardening                                          |
 | [`integration-and-eventing.md`](integration-and-eventing.md) | Synchronous module APIs, events, scheduled jobs, and external integrations                              |
 | [`search-architecture.md`](search-architecture.md)           | Global search behavior and PostgreSQL-first implementation strategy                                     |
-| [`rag-architecture.md`](rag-architecture.md)                 | Proposed Phase 17 offline RAG, module-source and file ingestion, privacy, retrieval, recommendation, evaluation |
+| [`rag-architecture.md`](rag-architecture.md)                 | Approved Alternative B Foundation; later ingestion/query/recommendation remain allocated, not enabled |
 | [`storage-backup-import.md`](storage-backup-import.md)       | Object storage, import pipeline, export, backup, and portability                                        |
 | [`testing-and-review.md`](testing-and-review.md)             | Planned test stack and owner/Antigravity/Codex workflow                                                 |
 | [`deferred-decisions.md`](deferred-decisions.md)             | Explicitly deferred architecture decisions                                                              |
@@ -40,6 +40,7 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 - `diagrams/source/functional-decomposition.drawio`
 - `diagrams/source/module-dependencies.drawio`
 - `structurizr/workspace.dsl`
+- `diagrams/source/container.dot` and `diagrams/source/module-dependencies.dot` (current candidate export sources)
 
 ### Review exports
 
@@ -50,6 +51,11 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 - `diagrams/exported/module-dependencies.svg`
 
 Use SVG exports for documentation/review. Edit the canonical source and regenerate exports after changes.
+
+The current C4 and module dependency views include the bounded ADR-0019 candidate delta: Java owns source
+authority/publication, while Python uses restricted SQL functions for issued-grant verification and digest-only
+staging. The functional decomposition and system context retain their frozen v1 baseline meaning; they do not
+certify future RAG products. See [current implementation evidence](../implementation/phase-17/test-evidence.md).
 
 ## Architecture Decision Records
 

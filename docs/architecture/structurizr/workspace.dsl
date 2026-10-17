@@ -1,3 +1,6 @@
+// ADR-0020 (2026-10-15): approved target is one RAG-owned job-scoped Windows worker,
+// durable source reservations and E1. Topology below is unchanged candidate context,
+// not proof of lifecycle implementation; see rag-architecture.md and P17-3.
 workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 baseline" {
 
     model {
@@ -18,6 +21,10 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
 
             database = container "PostgreSQL Database" "Stores all structured application data and metadata. Binary media is not stored here." "PostgreSQL" {
                 tags "Database"
+            }
+
+            ragEngine = container "Local RAG Engine" "Isolated local non-root worker for bounded candidate staging." "Python 3.14 / uv + FastAPI / worker" {
+                tags "Worker"
             }
         }
 
@@ -43,6 +50,8 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
         backend -> database "Reads and writes" "JPA/Hibernate / SQL"
         backend -> objectStorage "Stores/retrieves objects" "S3-compatible API"
         backend -> feedSources "Fetches configured feeds" "HTTPS"
+        backend -> ragEngine "Dispatches issued synthetic tasks; checks committed receipts" "HTTP / exact loopback :8001"
+        ragEngine -> database "Restricted grant verification and digest-only staging; no business reads" "rag_worker / scoped SECURITY DEFINER functions"
     }
 
     views {
@@ -60,9 +69,10 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
             include database
             include objectStorage
             include feedSources
+            include ragEngine
             autoLayout lr
             title "Personal Private Vault — C4 Container"
-            description "Planned containers. Frontend is shown for system completeness but implementation remains backend-first."
+            description "Planned containers including local RAG engine worker."
         }
 
         styles {
