@@ -1,6 +1,6 @@
-# Phase 18 — Simplified implementation handoff (planning only)
+# Phase 18 — Simplified four-slice implementation plan (planning reference)
 
-**Status:** `DESIGN-ONLY / NOT AUTHORIZED FOR IMPLEMENTATION`, 2026-10-19. Owner approved [ADR-0023](../../adr/0023-phase-18-application-level-snapshot-worker-trust.md) and D12, **not** a production change set. This document supersedes the **prospective unimplemented instructions** in the two earlier ADR-0022 A+B native/Restricted Token proof handoffs. Keep them and their independent reviews as dated history; do not backdate PASS or rewrite those outputs. RAG snapshot ingest inactive.
+**Status:** `SLICE_1_SEPARATELY_OWNER_AUTHORIZED / SLICES_2_TO_4_NOT_AUTHORIZED`, 2026-10-19. The owner approved [D13](owner-decisions.md) to begin **only** [P18-S1 Import & Snapshot](slice-1-import-snapshot-handoff.md) under [ADR-0023](../../adr/0023-phase-18-application-level-snapshot-worker-trust.md). This document remains **planning, not the executable active handoff**; use [ACTIVE](../handoffs/ACTIVE.md). Earlier ADR-0022 native/Restricted Token proof handoffs and independent reviews are historical; do not backdate PASS. Snapshot indexing remains inactive and P18-FINAL not accepted.
 
 ## Working rules
 

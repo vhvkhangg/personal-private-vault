@@ -4,7 +4,7 @@
 
 - **Status:** Accepted prospective contract, 2026-10-18 — `OWNER_APPROVED / CANONICALLY_SYNCHRONIZED`; independent documentation synchronization review pending.
 - **Decision owner:** Repository owner, explicit approval of the two exact reviewed inputs below and separate authorization of one documentation-only synchronization.
-- **Implementation / runtime:** `STOPPED / INCOMPLETE / NOT_VERIFIED`. This ADR authorizes no implementation, migration, experiment, worker, ingestion activation or publishing. Live ingestion remains `DISABLED / DEFERRED`; new snapshot ingestion is inactive.
+- **Implementation / runtime:** `INCOMPLETE / NOT_VERIFIED`. This ADR itself authorizes no code changes; separate owner [D13](../implementation/phase-18/owner-decisions.md) and [active Slice 1 handoff](../implementation/phase-18/slice-1-import-snapshot-handoff.md) authorize **only A+B+C** implementation under the ADR-0023 amendment. Live-original indexing stays `DISABLED / DEFERRED`; snapshot indexing inactive; no publishing or broader rollout.
 - **Scope:** Only Phase 18 external **RAG-owned Immutable Snapshot** sources. This is the consolidated effective target contract; apply it prospectively instead of the superseded external-only clauses listed below. Historical Phase 17 acceptance and reviews are unchanged.
 
 ## Authority and context
