@@ -63,8 +63,9 @@ abstract class AbstractRagIntegrationTest extends AbstractWebIntegrationTest {
             connection.setAutoCommit(false);
             statement.execute("SELECT pg_advisory_xact_lock("+com.vhvkhangg.personalprivatevault.rag.internal.application.RagDependencyGraph.LOCK_ID+")");
             // Administrative fixture reset only. Production source tombstones must never be truncated.
-            statement.execute("TRUNCATE public.vault_rag_source_state,rag.runs,rag.dependencies,rag.staged_outputs,rag.worker_grants,rag.job_leases,rag.index_generations,rag.sources,public.vault_entries,public.fiction_genres,public.film_genres CASCADE");
+            statement.execute("TRUNCATE public.vault_rag_source_state,rag.external_file_sources,rag.batch_roots,rag.file_outcomes,rag.generation_roots,rag.document_chunks,rag.staged_document_outputs,rag.runs,rag.dependencies,rag.staged_outputs,rag.worker_grants,rag.job_leases,rag.index_generations,rag.sources,public.vault_entries,public.fiction_genres,public.film_genres CASCADE");
             connection.commit();
+
         }catch(SQLException failure){throw new IllegalStateException(failure);}
     }
 }

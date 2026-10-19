@@ -13,6 +13,12 @@
  *   <li>{@code rag.runs}</li>
  *   <li>{@code rag.worker_grants}</li>
  *   <li>{@code rag.runtime_state}</li>
+ *   <li>{@code rag.external_file_sources}</li>
+ *   <li>{@code rag.batch_roots}</li>
+ *   <li>{@code rag.file_outcomes}</li>
+ *   <li>{@code rag.generation_roots}</li>
+ *   <li>{@code rag.document_chunks}</li>
+ *   <li>{@code rag.staged_document_outputs}</li>
  * </ul>
  *
  * <h2>Module boundary</h2>

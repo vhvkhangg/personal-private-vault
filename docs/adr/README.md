@@ -1,3 +1,5 @@
+> **Current Phase 18 amendment:** [ADR-0023](0023-phase-18-application-level-snapshot-worker-trust.md) is accepted (2026-10-19) and takes precedence over ADR-0022 for same-Windows-user worker trust and G1/G3 OS-level requirements. ADR-0022 remains the underlying whole-file snapshot/NO_CHANGE contract.
+
 # Architecture Decision Records
 
 ADRs capture **why** important architectural decisions were accepted.
@@ -33,8 +35,11 @@ When a frozen architectural decision changes materially, add a new ADR and mark 
 | [ADR-0017](0017-portability-readonly-snapshot-module.md)     | Use a read-only portability module for lossless export snapshots      | Accepted |
 | [ADR-0018](0018-phase-15-bounded-backend-remediation.md) | Authorize bounded Phase 15 audit remediation without schema/edge expansion | Accepted |
 | [ADR-0019](0019-local-rag-before-frontend.md) | RAG-first sequencing; Phase 17 clauses 2–5 amended by ADR-0020 | Accepted / amended |
-| [ADR-0020](0020-phase-17-single-job-reservations-e1.md) | Alternative B durable reservations, single job, consent CAS, E1 and independent completed-index lifetime | Accepted contract; not implemented |
+| [ADR-0020](0020-phase-17-single-job-reservations-e1.md) | Alternative B durable reservations, single job, consent CAS, E1 and independent completed-index lifetime | Accepted / frozen Phase 17; scoped external applicability amended by ADR-0022 |
 
-## Phase 18 proposed bounded amendment (owner-approved design)
+## Phase 18 prospective contracts
 
-[ADR-0021](0021-phase-18-bounded-multi-file-verified-indexing.md) — **owner-approved design, NOT IMPLEMENTED; Phase 18 preparation READY FOR HANDOFF** after [Codex re-review 2](../implementation/phase-18/reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md). Owner preparation commit/push and a separate handoff remain required. Additive D18-A multi-root/source authority, independent generations, single atomic finalization. Historical ADR-0020 remains unchanged and effective for frozen Foundation runtime.
+- [ADR-0021](0021-phase-18-bounded-multi-file-verified-indexing.md) – accepted design, **partially superseded for external snapshots** by ADR-0022; historical rationale and unaffected D18-A guarantees preserved.
+- [ADR-0022](0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) – **OWNER_APPROVED / CANONICALLY_SYNCHRONIZED**, 2026-10-18: consolidated Immutable Snapshot + Whole-File Consent + SHA-256 NO_CHANGE, exact external-only applicability and C_N/C_D/C_R/C_P. Independent documentation synchronization review pending.
+
+[ACTIVE](../implementation/handoffs/ACTIVE.md): **P18-DOCUMENT-INDEXING / CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED**. Live ingestion DISABLED / DEFERRED; snapshot ingestion inactive. G1–G4 and FR18-1–11 remain OPEN; no implementation or runtime acceptance from contract approval.

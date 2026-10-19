@@ -77,7 +77,8 @@ public class OpenApiConfiguration {
             "uploadImage",
             "registerFileCandidate",
             "registerDomainCandidate",
-            "admitRagJob"
+            "admitRagJob",
+            "admitRagDocumentBatch"
     );
 
     @Bean

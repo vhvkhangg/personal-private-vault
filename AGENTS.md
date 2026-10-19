@@ -10,11 +10,11 @@ This file defines repository-wide instructions for coding agents.
 - Phase 17 **RAG Foundation (Alternative B / ADR-0020)** is **COMPLETE — FROZEN** after
   [Codex independent final acceptance](docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
   and owner implementation commit/push `829d294aca7d916851348ff21004c631915d572e`. Its accepted handoff is
-  [archived](docs/implementation/phase-17/handoff.md) and [ACTIVE](docs/implementation/handoffs/ACTIVE.md)
-  is `NO_ACTIVE_HANDOFF` in this documentation-only closeout. FR17-1–11 and AB-1–6 are closed for
+  [archived](docs/implementation/phase-17/handoff.md); [ACTIVE](docs/implementation/handoffs/ACTIVE.md)
+  was reset to `NO_ACTIVE_HANDOFF` at that closeout and now carries the separate Phase 18 handoff. FR17-1–11 and AB-1–6 are closed for
   bounded Foundation scope; `AUTH-CLOCK` remains OPEN in Authentication under its narrow owner exception,
   which was **not used** by the successful clean gate. Default containment and disabled live external-file
-  capability remain active. Frontend Phase 16 and RAG Phases 19–22 remain deferred/owner-gated; **Phase 18 preparation** is owner-authorized and Codex **READY FOR HANDOFF**. Owner preparation commit/push and a separate handoff are required; Phase 18 implementation remains blocked.
+  capability remain active. Frontend Phase 16 and RAG Phases 19–22 remain deferred/owner-gated. **Phase 18 preparation** was accepted and owner committed/pushed as `435ffea`; **P18-DOCUMENT-INDEXING** is `CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED`. The owner approved the prospective [ADR-0022](docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) snapshot/whole-file/NO_CHANGE contract and one documentation-only synchronization; no implementation is authorized. Live ingestion is DISABLED / DEFERRED; snapshot ingestion inactive.
 
 - Backend Phase 0 is complete/frozen.
 - Backend Phase 1 is complete/frozen: executable Schema v1 + `reference` + `vault`.
@@ -87,16 +87,20 @@ Architecture-sensitive work must respect:
 Phase 17 is **COMPLETE — FROZEN** under the accepted bounded Alternative B / E1 / Practical Local
 Offline contract. Implementation commit/push: `829d294aca7d916851348ff21004c631915d572e`; the
 [formal closeout](docs/implementation/phase-17/closeout.md) archives P17-RAG-FOUNDATION and resets
-ACTIVE to `NO_ACTIVE_HANDOFF`. Independent `mvn clean verify` passed **1,308/1,308** Java tests
+ACTIVE to `NO_ACTIVE_HANDOFF` at that closeout. Independent `mvn clean verify` passed **1,308/1,308** Java tests
 (including 154 RAG), Python 37 and safety hooks 13; full reviewer receipts are linked from the
 [final review](docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md).
 `AUTH-CLOCK` remains OPEN as a separate frozen Authentication/environment issue (exception unused).
-This Phase 17 closeout implies no follow-on implementation authorization. The owner has separately authorized **Phase 18 preparation** ([decisions](docs/implementation/phase-18/owner-decisions.md), [scope](docs/implementation/phase-18/README.md)); implementation, Frontend, Ideaverse, deployment and containment-removal remain unauthorized.
+This Phase 17 closeout implies no follow-on implementation authorization. The owner separately authorized Phase 18, published its accepted preparation as `435ffea` and invoked the separate **P18-DOCUMENT-INDEXING** [active handoff](docs/implementation/handoffs/ACTIVE.md). That handoff is currently STOPPED; the new ADR-0022 contract and documentation synchronization do not authorize implementation. Frontend, later RAG phases, Ideaverse, deployment and blanket containment-removal remain unauthorized.
 
 
-## Phase 18 preparation state — owner authorization 2026-10-17
+## Phase 18 active handoff — 2026-10-18
 
-Phase 18 preparation is **READY FOR HANDOFF** after [independent Codex re-review 2](docs/implementation/phase-18/reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md): P18-PH-01–04 are closed for preparation. See [preparation status](docs/implementation/phase-18/preparation-review.md). Scope retains all formats, OCR languages, embeddings and verified indexing, with separately measured **16 GB system RAM** and **8 GB GPU VRAM**. The owner **approved all eight D18-A clauses** for the additive multi-root/file-indexing design in [ADR-0021](docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md). This is **preparation acceptance only**; owner preparation commit/push and a separate Codex implementation handoff are still required. Do not edit frozen ADR-0020 or enable live NTFS sources before R7. `ACTIVE.md` stays `NO_ACTIVE_HANDOFF`, external live-file ingestion stays disabled pending R7; no Phase 18 runtime success is asserted.
+**Final contract:** [ADR-0022](docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) is `OWNER_APPROVED / CANONICALLY_SYNCHRONIZED`: Immutable Snapshot + Whole-File Consent + SHA-256 NO_CHANGE. It prospectively replaces only the named external-source portions of ADR-0020/P17 and ADR-0021/D18-A. Vault privacy/field rules, accepted Phase 17 history and unaffected E1/reservation/process/producer/publication/quality/resource guarantees remain frozen. D1–D11 are final for this documentation scope.
+
+[ACTIVE](docs/implementation/handoffs/ACTIVE.md) is **P18-DOCUMENT-INDEXING / CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED**. Owner authorized exactly one documentation-only canonical synchronization; no code, tests, migrations, experiments, workers, ingestion activation or finding closure. Live-original capability remains **DISABLED / DEFERRED** with historical R7 evidence preserved; new snapshot ingestion is inactive. G1–G4 and FR18-1–11 remain OPEN for independent adjudication; FR18-3, all original retained quality/resource/producer obligations and P18-FINAL remain mandatory.
+
+Preserve credited takeover input/native DOMAIN publication, VECTOR mapping, source-union, generation-specific purge and parser/chunker/geometry repairs. Antigravity rounds remain **2/2 exhausted; no third round or automatic takeover loop**. The historical post-takeover D18-PT-A/B decision pointer is superseded by the owner's final contract decision. **Next gate: independent documentation synchronization review.** No automatic implementation handoff/resumption, commit/push or Phase 18 acceptance follows.
 
 ## Future RAG delivery efficiency — owner policy 2026-10-17
 

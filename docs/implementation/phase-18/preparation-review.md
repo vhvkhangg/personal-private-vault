@@ -1,12 +1,16 @@
 # Phase 18 — Pre-Handoff Preparation Review
 
+> **Current routing pointer, 2026-10-18:** This entire preparation/re-review record below is historical, preserved at its original gate. Its former Next step does not launch work now. [ADR-0022](../../adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) is OWNER_APPROVED / CANONICALLY_SYNCHRONIZED; [ACTIVE](../handoffs/ACTIVE.md) is CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED. Next: independent documentation synchronization review; no implementation/experiments/ingestion. G1–G4 and FR18-1–11 remain OPEN.
+
 **Status:** `READY FOR HANDOFF` after independent re-review 2. **Baseline:** `86b08a1a44d7672b111af1977098ef6c4c3e800a` (owner-pushed HEAD, 2026-10-17). **Preparation author:** ChatGPT; **independent reviewer:** Codex. **No Phase 18 implementation, ML benchmark or live-file activation has run.**
+
+**Subsequent workflow:** owner committed/pushed accepted preparation as `435ffea979681f22d723f551dd8b0cd0b733c8cd`; Codex then separately created [P18-DOCUMENT-INDEXING](../handoffs/ACTIVE.md), `READY_FOR_IMPLEMENTATION`. This preparation record remains historical gate evidence, not a second implementation contract.
 
 ## Latest independent result — re-review 2, 2026-10-17
 
 [Codex re-review 2](reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md): **READY FOR HANDOFF**. **P18-PH-01–04 are CLOSED for preparation; no blocking finding remains.** ADR-0021 clause 2, the Phase 18 API inventory and additive DBML now share the frozen Phase 17-compatible source-first order, including the external-file guard slot, separate attempt-only stop request and NOWAIT backstop. Owner-approved D18-A scope is preserved.
 
-Fresh documentation/source-order, whitespace/local-target/TOML and P18-FINAL PowerShell syntax checks pass. Prior unchanged native Windows watchdog **5/5** and safety hooks **13/13** evidence is explicitly reused, not rerun. Actual R7, PostgreSQL/content/vector/finalization, parser/model/held-out quality, RAM/VRAM and P18-FINAL execution remain **NOT_VERIFIED mandatory implementation gates**. This is preparation acceptance only; ACTIVE remains `NO_ACTIVE_HANDOFF`. No Antigravity implementation remediation round has occurred.
+Fresh documentation/source-order, whitespace/local-target/TOML and P18-FINAL PowerShell syntax checks pass. Prior unchanged native Windows watchdog **5/5** and safety hooks **13/13** evidence is explicitly reused, not rerun. Actual R7, PostgreSQL/content/vector/finalization, parser/model/held-out quality, RAM/VRAM and P18-FINAL execution remain **NOT_VERIFIED mandatory implementation gates**. At preparation acceptance ACTIVE was `NO_ACTIVE_HANDOFF`; the separate handoff was issued afterward as recorded above. No Antigravity implementation remediation round has occurred.
 
 ## Re-review 1 result — 2026-10-17 (historical)
 
@@ -42,7 +46,7 @@ The uploaded source ZIP contains `docs/`, scripts and agent tooling but **omits*
 
 ## Preconditions and authority
 
-- Phase 17 Alternative B/E1 is [COMPLETE — FROZEN](../phase-17/closeout.md) under [ADR-0020](../../adr/0020-phase-17-single-job-reservations-e1.md); predecessor gate satisfied. Frontend Phase 16 remains deferred, `AUTH-CLOCK` remains an independent open Authentication issue, and [ACTIVE](../handoffs/ACTIVE.md) remains `NO_ACTIVE_HANDOFF`.
+- Phase 17 Alternative B/E1 is [COMPLETE — FROZEN](../phase-17/closeout.md) under [ADR-0020](../../adr/0020-phase-17-single-job-reservations-e1.md); predecessor gate satisfied. Frontend Phase 16 remains deferred and `AUTH-CLOCK` remains separate. ACTIVE was `NO_ACTIVE_HANDOFF` during preparation review; the separate [current handoff](../handoffs/ACTIVE.md) was created after owner preparation commit/push.
 - Owner explicitly approved [P18-01–P18-10](owner-decisions.md) and AC-01–AC-08 *as design/preparation intent*. Implementation remains blocked until this review passes, owner commits/pushes accepted preparation and Codex separately creates an implementation handoff.
 - New scope is contained in [Phase 18 README](README.md), [owner decisions](owner-decisions.md) and [acceptance evidence](acceptance-and-evidence.md). Historical/frozen Phase 17 artifacts are evidence, **not** editable remediation targets.
 
@@ -67,4 +71,4 @@ Produce a dated, immutable Codex report under `reviews/` with paths/line evidenc
 
 **Evidence status at preparation:** ChatGPT supplied Linux watchdog **5/5 PASS**. Codex independently confirmed native Windows watchdog **5/5 PASS**, safety hooks **13/13 PASS**, remote `main` matching the baseline SHA, TOML syntax, changed Markdown local file targets and `git diff --check`; see the report for exact limits. Existing `.codex/config.toml` was inspected and preserved. `py -3` is unavailable on this host's PATH; the existing native `rag-engine/.venv/Scripts/python.exe` (3.14.4) ran verification successfully. **NOT VERIFIED:** Phase 18 runtime code/tests, OCR+embedding feasibility on owner hardware, live-file R7, PostgreSQL subset-finalization and real RAM/VRAM peaks, final full/static gate and IDE diagnostics. These remain *future handoff/implementation* evidence obligations. The successful watchdog fixture does not certify universal process-tree cleanup or the RAG worker's new runtime behavior.
 
-**Next step:** Owner commits/pushes the accepted preparation using the single commit message in [re-review 2](reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md), then invokes `$codex-create-handoff` separately. This review does not create the implementation handoff or start implementation.
+**Next step:** Run Antigravity `/antigravity-implement-handoff` under [ACTIVE](../handoffs/ACTIVE.md), then request independent `$codex-final-review`. The owner preparation commit/push and separate handoff-creation steps are complete.

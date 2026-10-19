@@ -10,10 +10,12 @@ Phase 17 single-job Local RAG Foundation (Alternative B / ADR-0020) was independ
 and committed/pushed by the owner as [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).
 [Phase 17 closeout](docs/implementation/phase-17/closeout.md) archives the
 [handoff](docs/implementation/phase-17/handoff.md); [ACTIVE](docs/implementation/handoffs/ACTIVE.md)
-is `NO_ACTIVE_HANDOFF` after the owner-published Phase 17 closeout.
+was reset to `NO_ACTIVE_HANDOFF` at that closeout; it now carries the separate Phase 18 handoff below.
 `AUTH-CLOCK` remains OPEN in Authentication under the owner-approved narrow exception (not used in
 successful verification). Default containment and disabled live external-file capability remain.
-Phase 16 Frontend is deferred. **Phase 18 preparation** is [Codex READY FOR HANDOFF](docs/implementation/phase-18/preparation-review.md), awaiting owner preparation commit/push; there is **no Phase 18 implementation handoff**. Phases 19–22 remain unprepared/owner-gated.
+Phase 18 contract is **OWNER_APPROVED / CANONICALLY_SYNCHRONIZED** under [ADR-0022](docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md): Immutable Snapshot + Whole-File Consent + SHA-256 NO_CHANGE. [ACTIVE](docs/implementation/handoffs/ACTIVE.md) is **CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED**; no implementation authorization from this documentation synchronization. Live ingestion DISABLED / DEFERRED; snapshot ingestion inactive. Phase 16 and Phases 19–22 remain owner-gated.
+
+Phase 18 preserves credited repairs and all historical reviews/evidence. G1–G4 and FR18-1–11 remain OPEN, including exact producer, retained OCR/table/locator/resource and P18-FINAL obligations. Antigravity 2/2 rounds remain exhausted. **Next gate: independent documentation synchronization review.** See the [synchronization receipt](docs/implementation/phase-18/canonical-synchronization-2026-10-18.md).
 
 **Historical progression (superseded by the current status above):**
 

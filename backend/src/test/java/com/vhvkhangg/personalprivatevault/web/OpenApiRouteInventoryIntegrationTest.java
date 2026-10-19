@@ -126,6 +126,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/personal/profiles/{id} | getPersonalProfile | 200 | null | ApiResponsePersonalProfileResponse | true
             GET | /api/v1/personal/profiles/self | getSelfPersonalProfile | 200 | null | ApiResponsePersonalProfileResponse | true
             GET | /api/v1/rag/jobs/{id} | getRagJobStatus | 200 | null | ApiResponseRagJobStatusResponse | true
+            GET | /api/v1/rag/jobs/{id}/document-report | getRagDocumentBatchReport | 200 | null | ApiResponseRagDocumentBatchReportResponse | true
             GET | /api/v1/rag/sources | listRagSources | 200 | null | ApiResponseListRagSourceResponse | true
             GET | /api/v1/rag/sources/{id} | getRagSource | 200 | null | ApiResponseRagSourceResponse | true
             GET | /api/v1/reference/countries | listCountries | 200 | null | ApiResponseListCountryResponse | true
@@ -199,8 +200,10 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/personal/profiles/{id}/restore | restorePersonalProfile | 200 | null | ApiResponsePersonalProfileResponse | true
             POST | /api/v1/portability/exports | exportVaultArchive | 200 | null | binary | false
             POST | /api/v1/rag/jobs/admit | admitRagJob | 201 | AdmitJobRequest | ApiResponseRagJobAdmissionResponse | false
+            POST | /api/v1/rag/jobs/admit-batch | admitRagDocumentBatch | 201 | AdmitDocumentBatchRequest | ApiResponseRagJobAdmissionResponse | false
             POST | /api/v1/rag/jobs/{id}/cancel | cancelRagJob | 200 | null | ApiResponseVoid | true
             POST | /api/v1/rag/jobs/{id}/finalize | finalizeRagGeneration | 200 | FinalizeGenerationRequest | ApiResponseRagFinalizationResponse | true
+            POST | /api/v1/rag/jobs/{id}/finalize-batch | finalizeRagDocumentBatch | 200 | FinalizeDocumentBatchRequest | ApiResponseRagBatchFinalizationResponse | true
             POST | /api/v1/rag/sources/register-domain | registerDomainCandidate | 201 | RegisterDomainSourceRequest | ApiResponseRagSourceResponse | false
             POST | /api/v1/rag/sources/register-file | registerFileCandidate | 201 | RegisterFileSourceRequest | ApiResponseRagSourceResponse | false
             POST | /api/v1/rag/sources/{id}/approve | approveRagSource | 200 | ApproveSourceRequest | ApiResponseRagSourceResponse | true
@@ -383,8 +386,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(224);
-        assertThat(uniqueIds).hasSize(224);
+        assertThat(operationIds).hasSize(227);
+        assertThat(uniqueIds).hasSize(227);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -480,7 +483,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 224 endpoints").hasSize(224);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 227 endpoints").hasSize(227);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -495,7 +498,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 224 manifest count").isEqualTo(224);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 227 manifest count").isEqualTo(227);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());

@@ -278,4 +278,43 @@ public class RagEngineClient {
             return false;
         }
     }
+
+    public String triggerBoundWorkerBatch(RagWorkerGrant grant, UUID session, UUID nonce, List<Map<String, Object>> rootTasks) {
+        try {
+            var body = new TreeMap<String, Object>();
+            body.put("contract_version", "3.0");
+            body.put("job_id", grant.jobId().toString());
+            body.put("attempt_id", grant.attemptId().toString());
+            body.put("lease_token", grant.token());
+            body.put("input_digest", grant.inputDigest());
+            body.put("scope_digest", grant.scopeDigest());
+            body.put("roots", rootTasks);
+
+            var response = sendBounded(transport(grant.jobId()), request("/v1/worker/execute-batch")
+                    .header("X-RAG-Job-Id", grant.jobId().toString())
+                    .header("X-RAG-Attempt-Id", grant.attemptId().toString())
+                    .header("X-RAG-Lease-Token", grant.token())
+                    .header("X-RAG-Session-Id", session.toString())
+                    .header("X-RAG-Endpoint-Nonce", nonce.toString())
+                    .POST(HttpRequest.BodyPublishers.ofString(json.writeValueAsString(body))).build(), 33554432);
+
+            byte[] bytes = response.body();
+            if (response.statusCode() != 200) {
+                throw new IllegalStateException("Worker batch execution unavailable or rejected, status=" + response.statusCode());
+            }
+            var root = json.readTree(bytes);
+            if (!"3.0".equals(root.path("contract_version").asText())
+                    || !grant.jobId().toString().equals(root.path("job_id").asText())
+                    || !grant.attemptId().toString().equals(root.path("attempt_id").asText())
+                    || !"STAGED".equals(root.path("status").asText())) {
+                throw new IllegalStateException("Invalid worker batch result provenance");
+            }
+            return json.writeValueAsString(root);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Worker execution interrupted", e);
+        } catch (java.io.IOException e) {
+            throw new IllegalStateException("Worker execution unavailable", e);
+        }
+    }
 }

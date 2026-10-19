@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import platform
+import re
 import sys
 import tomllib
 from importlib.metadata import distributions
@@ -52,7 +53,7 @@ for package in sorted(distributions(), key=lambda item: item.metadata.get("Name"
         {
             "name": name,
             "version": package.version,
-            "locked_version": locked_versions.get(name.lower().replace("_", "-")),
+            "locked_version": locked_versions.get(re.sub(r"[-_.]+", "-", name.lower())),
             "license": license_value,
             "license_files": license_files,
             "requires_dist": metadata.get_all("Requires-Dist", []),

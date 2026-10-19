@@ -44,4 +44,12 @@ public interface RagOperations {
     void executeSyntheticStage(UUID jobId, UUID attemptId, String stageType);
 
     RagFinalizationResult finalizeGeneration(UUID jobId, UUID attemptId, String dependencyDigest);
+
+    RagJobAdmissionResult admitDocumentBatch(RagDocumentBatchCommand command);
+
+    void executeDocumentBatch(UUID jobId, UUID attemptId, List<RagDocumentBatchTask> tasks);
+
+    RagDocumentBatchReport getDocumentBatchReport(UUID jobId);
+
+    RagBatchFinalizationResult finalizeDocumentBatch(UUID jobId, UUID attemptId, RagDocumentBatchFinalizeCommand command);
 }

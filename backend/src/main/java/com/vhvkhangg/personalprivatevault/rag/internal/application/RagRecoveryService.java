@@ -102,8 +102,18 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             String state=current.state(generation.getGenerationId());
             if (Set.of("OUTDATED","REVOKED").contains(state)) {
                 try {
-                    purge.invalidateJob(generation.getJobId(),state);
-                    purge.retryCleanup(generation.getJobId());
+                    // Batch identity survives deletion of a generation's sensitive manifest.
+                    Number rootCount = (Number) entityManager.createNativeQuery(
+                            "SELECT count(*) FROM rag.batch_roots WHERE job_id=:job")
+                            .setParameter("job", generation.getJobId())
+                            .getSingleResult();
+                    if (rootCount != null && rootCount.longValue() > 0) {
+                        purge.invalidateGeneration(generation.getGenerationId(), state);
+                        purge.eraseGeneration(generation.getGenerationId());
+                    } else {
+                        purge.invalidateJob(generation.getJobId(), state);
+                        purge.retryCleanup(generation.getJobId());
+                    }
                 } catch (RuntimeException unavailable) {
                     // Fresh authority denies access while erasure remains retryable.
                 }

@@ -11,6 +11,8 @@ from fastapi.responses import JSONResponse
 from ppv_rag import __version__
 from ppv_rag.config import settings
 from ppv_rag.contracts import (
+    DocumentBatchStageRequest,
+    DocumentBatchStageResponse,
     HealthResponse,
     MetricsResponse,
     WorkerCancelRequest,
@@ -20,7 +22,7 @@ from ppv_rag.contracts import (
 )
 from ppv_rag.security import verify_service_key
 from ppv_rag.transport import BoundedWorkerRequests
-from ppv_rag.worker import process_stage_request
+from ppv_rag.worker import process_document_batch_request, process_stage_request
 
 app = FastAPI(title="PPV RAG Foundation", version=__version__)
 app.add_middleware(BoundedWorkerRequests)
@@ -113,7 +115,47 @@ def execute_stage(request: WorkerStageRequest) -> WorkerStageResponse:
         return response
     finally:
         with _lock:
-            was_cancelled = _active.pop(identity)
+            was_cancelled = _active.pop(identity, False)
+            if was_cancelled:
+                _cleanup[request.job_id] = True
+                while len(_cleanup) > 256:
+                    _cleanup.popitem(last=False)
+
+
+@app.post(
+    "/v1/worker/execute-batch",
+    response_model=DocumentBatchStageResponse,
+    dependencies=[Depends(verify_service_key)],
+)
+def execute_document_batch(
+    request: DocumentBatchStageRequest,
+) -> DocumentBatchStageResponse:
+    global _stages_executed, _stages_cancelled
+    identity = (request.job_id, request.attempt_id)
+    with _lock:
+        if _active:
+            return DocumentBatchStageResponse(
+                status="BUSY",
+                job_id=request.job_id,
+                attempt_id=request.attempt_id,
+            )
+        _active[identity] = False
+        _stages_executed += 1
+        _cleanup.pop(request.job_id, None)
+    try:
+        response = process_document_batch_request(request)
+        with _lock:
+            if _active[identity]:
+                _stages_cancelled += 1
+                return DocumentBatchStageResponse(
+                    status="CANCELLED",
+                    job_id=request.job_id,
+                    attempt_id=request.attempt_id,
+                )
+        return response
+    finally:
+        with _lock:
+            was_cancelled = _active.pop(identity, False)
             if was_cancelled:
                 _cleanup[request.job_id] = True
                 while len(_cleanup) > 256:

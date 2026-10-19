@@ -73,42 +73,47 @@ public class RagWorkerSupervisor {
             if (session.stopping || session.dispatching || session.returned) throw new IllegalStateException("Job dispatch is single use");
             session.dispatching=true;
         }
+        boolean isBatchV3 = initial.getDependencyManifest() != null && initial.getDependencyManifest().contains("\"contract_version\":\"3.0\"");
         try {
-            var prepared=authority.prepareSource(initial.getSourceId(), Map.of());
+            var prepared = isBatchV3 ? null : authority.prepareSource(initial.getSourceId(), Map.of());
+            var preparedBatch = isBatchV3 ? authority.prepareBatch(job, attempt) : Map.<Long, RagSourceAuthority.Prepared>of();
             tx.executeWithoutResult(status -> {
-                var proof=authority.lockPreparedAttempt(job,attempt,prepared,false);
-                if (!"ADMITTED".equals(proof.lease().getStatus()) || proof.lease().getWorkerIdentity()!=null)
+                var proof = isBatchV3 ? authority.lockPreparedBatchAttempt(job, attempt, preparedBatch)
+                        : authority.lockPreparedAttempt(job, attempt, prepared, false);
+                if (!"ADMITTED".equals(proof.lease().getStatus()) || proof.lease().getWorkerIdentity() != null)
                     throw new IllegalStateException("Job cannot be launched again");
-                proof.lease().updateStatus("STARTING",authority.databaseTime());
+                proof.lease().updateStatus("STARTING", authority.databaseTime());
                 entities.flush();
             });
             checkRunning(session);
-            Path work=requiredPath(directory), binary=requiredPath(executable), venv=requiredPath(launcher);
-            var environment=new TreeMap<String,String>(String.CASE_INSENSITIVE_ORDER);
-            for (String name:List.of("SystemRoot","WINDIR","TEMP","TMP","LOCALAPPDATA","PATH")) {
-                String value=System.getenv(name); if(value!=null) environment.put(name,value);
+            Path work = requiredPath(directory), binary = requiredPath(executable), venv = requiredPath(launcher);
+            var environment = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+            for (String name : List.of("SystemRoot", "WINDIR", "TEMP", "TMP", "LOCALAPPDATA", "PATH")) {
+                String value = System.getenv(name); if (value != null) environment.put(name, value);
             }
-            environment.put("__PYVENV_LAUNCHER__",venv.toString());
-            environment.put("PYTHONPATH",work.resolve("src").toString());
-            environment.put("PYTHONNOUSERSITE","1"); environment.put("PYTHONDONTWRITEBYTECODE","1");
-            environment.put("PPV_RAG_SERVICE_KEY",client.serviceCredential());
-            environment.put("PPV_RAG_WORKER_DSN",dsn);
-            environment.put("PPV_RAG_HOST","127.0.0.1"); environment.put("PPV_RAG_PORT",Integer.toString(client.port()));
-            environment.put("PPV_RAG_TEST_SCOPED_EXECUTION","true");
-            environment.put("PPV_RAG_JOB_ID",job.toString()); environment.put("PPV_RAG_ATTEMPT_ID",attempt.toString());
-            environment.put("PPV_RAG_ENDPOINT_NONCE",session.nonce.toString());
-            NativeWorkerProcess process=NativeWorkerProcess.launchSuspended(job,binary,List.of("-m","uvicorn","ppv_rag.main:app",
-                    "--host","127.0.0.1","--port",Integer.toString(client.port()),"--no-access-log","--no-server-header","--log-level","critical"),
-                    environment,work,512L*1024*1024,1);
-            synchronized(session) { session.process=process; }
+            environment.put("__PYVENV_LAUNCHER__", venv.toString());
+            environment.put("PYTHONPATH", work.resolve("src").toString());
+            environment.put("PYTHONNOUSERSITE", "1"); environment.put("PYTHONDONTWRITEBYTECODE", "1");
+            environment.put("PPV_RAG_SERVICE_KEY", client.serviceCredential());
+            environment.put("PPV_RAG_WORKER_DSN", dsn);
+            environment.put("PPV_RAG_HOST", "127.0.0.1"); environment.put("PPV_RAG_PORT", Integer.toString(client.port()));
+            environment.put("PPV_RAG_TEST_SCOPED_EXECUTION", "true");
+            environment.put("PPV_RAG_JOB_ID", job.toString()); environment.put("PPV_RAG_ATTEMPT_ID", attempt.toString());
+            environment.put("PPV_RAG_ENDPOINT_NONCE", session.nonce.toString());
+            long memoryLimit = isBatchV3 ? 2048L * 1024 * 1024 : 512L * 1024 * 1024;
+            NativeWorkerProcess process = NativeWorkerProcess.launchSuspended(job, binary, List.of("-m", "uvicorn", "ppv_rag.main:app",
+                    "--host", "127.0.0.1", "--port", Integer.toString(client.port()), "--no-access-log", "--no-server-header", "--log-level", "critical"),
+                    environment, work, memoryLimit, 1);
+            synchronized(session) { session.process = process; }
             checkRunning(session);
             // The child remains suspended until this binding's physical COMMIT has returned successfully.
             tx.executeWithoutResult(status -> {
-                var proof=authority.lockPreparedAttempt(job,attempt,prepared,false);
-                proof.lease().bindWorker(Map.of("process_id",process.pid(),"started_at",process.creationTime().toString(),
-                        "creation_file_time",Long.toString(process.creationTimeFileTime()),"runtime_id",runtime.instance().toString(),
-                        "endpoint_nonce",session.nonce.toString()));
-                proof.lease().updateStatus("ACTIVE",authority.databaseTime()); entities.flush();
+                var proof = isBatchV3 ? authority.lockPreparedBatchAttempt(job, attempt, preparedBatch)
+                        : authority.lockPreparedAttempt(job, attempt, prepared, false);
+                proof.lease().bindWorker(Map.of("process_id", process.pid(), "started_at", process.creationTime().toString(),
+                        "creation_file_time", Long.toString(process.creationTimeFileTime()), "runtime_id", runtime.instance().toString(),
+                        "endpoint_nonce", session.nonce.toString()));
+                proof.lease().updateStatus("ACTIVE", authority.databaseTime()); entities.flush();
             });
             checkRunning(session); process.resume();
             long end=System.nanoTime()+TimeUnit.SECONDS.toNanos(10);

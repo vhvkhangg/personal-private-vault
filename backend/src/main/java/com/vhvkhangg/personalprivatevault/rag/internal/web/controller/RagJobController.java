@@ -65,4 +65,39 @@ public class RagJobController {
         RagFinalizationResult result = ragOperations.finalizeGeneration(id, request.attemptId(), request.dependencyDigest());
         return ApiResponses.ok(RagWebMapper.toResponse(result));
     }
+
+    @PostMapping("/admit-batch")
+    @Operation(summary = "Admit RAG document batch job with multi-root atomic reservation", operationId = "admitRagDocumentBatch")
+    public ResponseEntity<ApiResponse<RagJobAdmissionResponse>> admitBatch(@Valid @RequestBody com.vhvkhangg.personalprivatevault.rag.internal.web.dto.AdmitDocumentBatchRequest request) {
+        java.util.List<com.vhvkhangg.personalprivatevault.rag.api.RagDocumentRootItem> roots = request.roots().stream()
+                .map(r -> new com.vhvkhangg.personalprivatevault.rag.api.RagDocumentRootItem(
+                        r.rootKey(),
+                        r.sourceType(),
+                        r.sourceId(),
+                        r.expectedSourceVersion(),
+                        r.expectedAuthorizationEpoch(),
+                        r.expectedFieldPolicyVersion(),
+                        r.approvedFields()
+                )).toList();
+        com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchCommand cmd = new com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchCommand(roots, request.descriptionConfirmations());
+        RagJobAdmissionResult result = ragOperations.admitDocumentBatch(cmd);
+        return ApiResponses.created(RagWebMapper.toResponse(result));
+    }
+
+    @GetMapping("/{id}/document-report")
+    @Operation(summary = "Get structured document batch indexing report", operationId = "getRagDocumentBatchReport")
+    public ResponseEntity<ApiResponse<com.vhvkhangg.personalprivatevault.rag.internal.web.dto.RagDocumentBatchReportResponse>> getDocumentReport(@PathVariable UUID id) {
+        com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchReport report = ragOperations.getDocumentBatchReport(id);
+        return ApiResponses.ok(RagWebMapper.toResponse(report));
+    }
+
+    @PostMapping("/{id}/finalize-batch")
+    @Operation(summary = "Single physical COMMIT batch finalization publishing valid successes or none", operationId = "finalizeRagDocumentBatch")
+    public ResponseEntity<ApiResponse<com.vhvkhangg.personalprivatevault.rag.internal.web.dto.RagBatchFinalizationResponse>> finalizeBatch(
+            @PathVariable UUID id,
+            @Valid @RequestBody com.vhvkhangg.personalprivatevault.rag.internal.web.dto.FinalizeDocumentBatchRequest request) {
+        com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchFinalizeCommand cmd = new com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchFinalizeCommand(request.dependencyDigest());
+        com.vhvkhangg.personalprivatevault.rag.api.RagBatchFinalizationResult result = ragOperations.finalizeDocumentBatch(id, request.attemptId(), cmd);
+        return ApiResponses.ok(RagWebMapper.toResponse(result));
+    }
 }

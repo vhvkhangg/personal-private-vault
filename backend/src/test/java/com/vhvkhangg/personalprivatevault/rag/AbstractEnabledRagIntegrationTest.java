@@ -73,8 +73,12 @@ abstract class AbstractEnabledRagIntegrationTest extends AbstractRagIntegrationT
         assertThat(jdbcTemplate.queryForObject(
                 "SELECT count(*) FROM public.vault_rag_source_state WHERE reserved_by IS NOT NULL",
                 Integer.class)).as("unresolved reservations must not be administratively hidden").isZero();
+        assertThat(jdbcTemplate.queryForObject(
+                "SELECT count(*) FROM rag.external_file_sources WHERE reserved_by IS NOT NULL",
+                Integer.class)).as("unresolved external file reservations must not be administratively hidden").isZero();
         super.cleanUpDatabase();
     }
+
 
     protected static Path repository() {
         return Files.isDirectory(Path.of("rag-engine")) ? Path.of(".").toAbsolutePath().normalize()

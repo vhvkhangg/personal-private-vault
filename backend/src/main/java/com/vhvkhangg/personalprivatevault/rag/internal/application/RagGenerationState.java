@@ -18,13 +18,19 @@ public class RagGenerationState {
     private final RagJobLeaseRepository leases;
     private final RagSourceRepository sources;
     private final SourceIndexReservations reservations;
+    private final RagExternalFileAuthority externalFileAuthority;
+    private final RagGenerationRootRepository generationRoots;
+    private final RagBatchRootRepository batchRoots;
     private final EntityManager entityManager;
     private final TransactionTemplate transaction;
     public RagGenerationState(RagSourceAuthority authority,RagIndexGenerationRepository generations,
             RagJobLeaseRepository leases,RagSourceRepository sources,SourceIndexReservations reservations,
+            RagExternalFileAuthority externalFileAuthority,
+            RagGenerationRootRepository generationRoots, RagBatchRootRepository batchRoots,
             EntityManager entityManager,PlatformTransactionManager transactions) {
         this.authority=authority; this.generations=generations; this.leases=leases; this.sources=sources;
-        this.reservations=reservations; this.entityManager=entityManager;
+        this.reservations=reservations; this.externalFileAuthority=externalFileAuthority;
+        this.batchRoots=batchRoots; this.generationRoots=generationRoots; this.entityManager=entityManager;
         transaction=new TransactionTemplate(transactions); transaction.setTimeout(10);
     }
     public String stateForJob(UUID job) {
@@ -39,8 +45,16 @@ public class RagGenerationState {
             if (!initial.isActive()) return "REVOKED".equals(initial.getStatus())?"REVOKED":"OUTDATED";
             var lease=leases.findByJobId(initial.getJobId()).stream().findFirst().orElse(null);
             if (lease==null || !"COMPLETED".equals(lease.getStatus()) || !lease.isStagingClosed()) return "UNAVAILABLE";
-            var manifest=RagManifestScope.parse(lease.getDependencyManifest());
-            var owners=reservations.read(RagManifestScope.owners(lease.getDependencyManifest()));
+            String generationManifest = lease.getDependencyManifest();
+            boolean document = batchRoots.existsByJobId(lease.getJobId());
+            if (document) {
+                var root = generationRoots.findById(initial.getId()).orElse(null);
+                if (root == null || !(root.getExactDependencyManifest().get("manifest_text") instanceof String ownManifest))
+                    return "UNAVAILABLE";
+                generationManifest = ownManifest;
+            }
+            var manifest=RagManifestScope.parse(generationManifest);
+            var owners=reservations.read(RagManifestScope.owners(generationManifest));
             var selected=new TreeSet<Long>();
             manifest.path("nodes").forEach(node -> selected.add(node.path("source_id").asLong()));
             var policy=new HashMap<Long,com.vhvkhangg.personalprivatevault.rag.internal.domain.RagSource>();
@@ -64,7 +78,8 @@ public class RagGenerationState {
             if(outdated) return "OUTDATED";
             var prepared=authority.prepareSource(initial.getSourceId(),Map.of());
             String digest=RagSourceAuthority.digest(prepared.manifest());
-            if (!prepared.manifest().equals(lease.getDependencyManifest()) || !digest.equals(initial.getDependencyManifestDigest())) return "OUTDATED";
+            if (!prepared.manifest().equals(generationManifest) || !digest.equals(initial.getDependencyManifestDigest())) return "OUTDATED";
+            String expectedManifest = generationManifest;
             return transaction.execute(status -> {
                 authority.lockPreparedCurrent(prepared);
                 var locked=leases.findByJobIdAndAttemptIdForUpdate(lease.getJobId(),lease.getAttemptId()).orElseThrow();
@@ -72,7 +87,8 @@ public class RagGenerationState {
                 var generation=generations.findByGenerationId(generationId).orElseThrow();
                 entityManager.refresh(generation,jakarta.persistence.LockModeType.PESSIMISTIC_READ);
                 return "COMPLETED".equals(locked.getStatus()) && locked.isStagingClosed() && generation.isActive()
-                        && "PUBLISHED".equals(generation.getStatus()) && locked.getDependencyManifest().equals(prepared.manifest())
+                        && "PUBLISHED".equals(generation.getStatus())
+                        && (document || locked.getDependencyManifest().equals(expectedManifest))
                         && generation.getDependencyManifestDigest().equals(digest)?"CURRENT":"OUTDATED";
             });
         } catch (RuntimeException unproven) {

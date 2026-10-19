@@ -409,3 +409,21 @@ Vault supervisor/DRAIN/global fence/ticket engine or speculative events package.
 SQL backstops and additive fields are catalogued in the separate Phase 17 DBML;
 future migrations append after V13. Listed additions are contracts, not files
 created by synchronization. Current runtime remains contained and unaccepted.
+
+### Phase 18 additive candidate inventory — Codex takeover 2026-10-18
+
+The existing RAG application package owns `RagDocumentBatchService`,
+`RagDocumentInput` (canonical issued input), `RagDocumentFinalizationGate`,
+`RagDocumentReportService` and `RagExternalFileAuthority`. Existing authority,
+CURRENT, supervisor, recovery and purge components are reused. Batch/outcome,
+generation-root, chunk and staged-document entities/repositories remain internal.
+V18 adds RAG-owned document records; V19 requires pgvector and extends terminal
+scrubbing only for independently manifested v3 generations. Module-local web
+DTO/controller/mapper ownership and the dependency graph are unchanged.
+
+Python `parsers`, `chunking`, `embeddings`, `ocr` and `telemetry` packages hold the
+contained v3 pipeline. PDF geometry/native cells use pdfplumber 0.11.10; detected
+raster tables reject pending a verified cell pipeline. New synthetic PDF geometry
+tests and a hashed two-family OCR diagnostic fixture set live under worker tests.
+This is an inventory of partial implementation, not complete format/language,
+resource, external-file/R7 or P18-FINAL acceptance.

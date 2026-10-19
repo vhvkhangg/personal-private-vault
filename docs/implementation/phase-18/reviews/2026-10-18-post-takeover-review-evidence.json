@@ -1,0 +1,205 @@
+{
+  "review": "Independent post-takeover review, 2026-10-18",
+  "verdict": "CHANGES_REQUESTED / INCOMPLETE; P18-FINAL NOT_ACCEPTED",
+  "head": "435ffea979681f22d723f551dd8b0cd0b733c8cd",
+  "reviewer_changes": "Review/status documentation and ignored diagnostic artifacts only; no production or test changes, no finding closed, no commit/push",
+  "runtime": {
+    "python": "3.14.4",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "onnxruntime": "1.31.0",
+    "providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "reused_evidence": {
+    "path": "docs/implementation/phase-18/takeover-evidence-2026-10-18.json",
+    "sha256": "647736e9f712431d41a06d4aaa11bc6d29358fe043d4502b9ee57402b3d4e252",
+    "artifact_hashes_checked": 52,
+    "mismatches": 0,
+    "runtime_snapshot_entries": 126,
+    "runtime_snapshot_drift": [],
+    "full_java_actual_testcases": 1321,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "xml_suite_attributes_sum": 1308,
+    "note": "Archived full XML before focused rerun; suite attributes undercount nested cases by 13. Full suite not rerun. Canonical Maven/watchdog exit 0; historical outer PowerShell exit 1 retained."
+  },
+  "independent_checks": {
+    "java_tests": 13,
+    "java_failures": 0,
+    "java_errors": 0,
+    "java_skipped": 0,
+    "python_tests": 72,
+    "python_failures": 0,
+    "ocr_development_vi": "FAIL; selected engine returns material diacritic errors at confidence 0.9691; unchanged fixture, not published or held-out acceptance",
+    "ruff": "PASS",
+    "format": "PASS (41 files)",
+    "mypy": "PASS (21 source files)",
+    "git_diff_check": "PASS, CRLF normalization notices only",
+    "recursive_inventory_files": 175
+  },
+  "artifacts": [
+    {
+      "path": "logs/phase18-post-takeover-review/java-focused.json",
+      "sha256": "f61d925195e47e560dff3c8e13e611d401058730281272e10f006ddbfe36f07f",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 600.0,
+        "executable": "mvn.cmd",
+        "argv_sha256": "516b5ac0d164e7af6c490273624006067f4b8c195bfa48cb174ee4cf09ed1c3f",
+        "started_utc": "2026-10-18T05:45:18.314+00:00",
+        "pid": 18148,
+        "finished_utc": "2026-10-18T05:46:08.211+00:00",
+        "duration_seconds": 49.898,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/python.json",
+      "sha256": "7af5f6ac8426f2e1951f8930e6db2b0679c61c69f7ca5a6ed7c0878dac592ab2",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "37e7ab863f1b791a7c935da58004b668b15111dd8eb93a929ad6eda84f534b16",
+        "started_utc": "2026-10-18T05:45:18.318+00:00",
+        "pid": 28116,
+        "finished_utc": "2026-10-18T05:45:41.252+00:00",
+        "duration_seconds": 22.933,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/ruff.json",
+      "sha256": "11737f54c65366f9965f6a3fcf85f4ed2bf9f13076913c4f26726fc9d4ae8f59",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "python.exe",
+        "argv_sha256": "e6b453bf061a4fd22f13b26a089af936fc3a4beb66a362f775d8938620803324",
+        "started_utc": "2026-10-18T05:46:59.742+00:00",
+        "pid": 25980,
+        "finished_utc": "2026-10-18T05:46:59.923+00:00",
+        "duration_seconds": 0.18,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/format.json",
+      "sha256": "826674d0aa61b8671a506ad13426d56a38ba83c2ff919e68f4827f03dd123a70",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "python.exe",
+        "argv_sha256": "9d1b2ec175b3d98f771e70957ce6065b10a2cc047684ff696b4b5744c34f2a49",
+        "started_utc": "2026-10-18T05:46:59.743+00:00",
+        "pid": 27856,
+        "finished_utc": "2026-10-18T05:46:59.923+00:00",
+        "duration_seconds": 0.18,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/mypy.json",
+      "sha256": "208be927d9ce27609bf1c96bd21f379bc1c4d4f2fc4b47c57105c499fb94ee36",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "python.exe",
+        "argv_sha256": "e78d7df8085499f83b289019bbfce0afabfde6b470acb6b691691dd9ec3a4938",
+        "started_utc": "2026-10-18T05:46:59.732+00:00",
+        "pid": 29388,
+        "finished_utc": "2026-10-18T05:47:00.678+00:00",
+        "duration_seconds": 0.946,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/ocr-vi.json",
+      "sha256": "689a88de811d5bc775f01d4e923d26a93010f607af82837e2da92a08e004ac5e",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "81a829ffc3ecab6f35c1f290fae5ee75c88e8121661deb4afdee3dda518cf3c4",
+        "started_utc": "2026-10-18T05:46:55.152+00:00",
+        "pid": 29488,
+        "finished_utc": "2026-10-18T05:46:59.299+00:00",
+        "duration_seconds": 4.147,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/ocr-vi-result.json",
+      "sha256": "c246869714188132d8de8c1ca2f86eb521ed43f6e40ce7bcc2ca023af3b4532e"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/ocr_vi_probe.py",
+      "sha256": "41633a246f4b1a86c7706707f664f3c26a29fbaaa24efd0c035bd346f2461d68"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/vi-source.png",
+      "sha256": "0ad1451ae97e700cb70a61061dccfd36d8ff39713bb4beff074a8d3d3a200db8"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/baseline-audit.json",
+      "sha256": "91fb8f0ea1fd25c4b15cc2b43dfe85fab8870fed2a120d2a24ff5d1334782854"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/source-drift.json",
+      "sha256": "9412addea6142b5e43f625c481eb8193bb4f9c1117ce9e862b4213748b739997"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/java-focused-counts.json",
+      "sha256": "58ec3a41edc568b498a76b203e4142ab91fd0ac911a4feb6967d228c638d6b4d"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/recursive-inventory.json",
+      "sha256": "8f9fd453f2f512b0d56cfbcf93c9d0bea7eaf7aebd09d09a967e12d204f454ea"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/full-surefire-cases.json",
+      "sha256": "3b359dece1cde52ab01a60009c3888beac8c0e95fc742c62d5bc7a029228f0d0"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/full-surefire-before-focused.zip",
+      "sha256": "3369830c99945da4ba423a8761eb3717b01f80a7027e6b49a0c40fab221e6317"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/model-hashes.json",
+      "sha256": "627364fe1200f5c135832304a1ac78c4b0934762265f022ad4166c6f4f633356"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/java-focused-output.txt",
+      "sha256": "49362b9e99e464a58eb4c41a0de571e9ddc0d5854cd5efc9ce0f12c8ce18cb79"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/python-output.txt",
+      "sha256": "4762c9d1e680b4fec04927e343f5478ebdbf95f7c969641019d104b500cd106c"
+    },
+    {
+      "path": "logs/phase18-post-takeover-review/ocr-vi-output.txt",
+      "sha256": "d8616470075ae4a73ca6432c17e861c66d0ed77bb20756fa4928383d7c09b113"
+    }
+  ],
+  "limits": [
+    "No new full Maven verification; valid unchanged-source full evidence reused.",
+    "No accepted R7 through physical C, exact producer-result binding/races, fresh held-out quality, native CUDA inference, measured resource limits or final aggregate acceptance.",
+    "No IDE warning-free, vulnerability-free, complete offline-egress or private-document corpus claim.",
+    "All original finding IDs retain their recorded status; verified subrepairs are credited separately."
+  ]
+}

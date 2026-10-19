@@ -24,7 +24,7 @@ For future RAG Phases 18–22, the [owner-approved efficient delivery workflow](
 - [`phase-15/`](phase-15/README.md) — **COMPLETE / FROZEN** — closure audit `BACKEND_AUDIT_READY`, owner remediation committed/pushed
 - Phase 16 — **DEFERRED / OWNER-GATED** — Frontend not started (see [roadmap](../roadmap.md); no implementation directory yet)
 - [`phase-17/`](phase-17/README.md) — **COMPLETE / FROZEN** — single-job Local RAG Foundation; [closeout](phase-17/closeout.md) / [archived handoff](phase-17/handoff.md)
-- [`phase-18/`](phase-18/README.md) — **PREPARATION / READY FOR HANDOFF** — OCR, parsers, embedding, verified indexing; [decisions](phase-18/owner-decisions.md) / [acceptance](phase-18/acceptance-and-evidence.md)
+- [`phase-18/`](phase-18/README.md) — **CONTRACT SYNCHRONIZED / IMPLEMENTATION STOPPED** — P18-DOCUMENT-INDEXING; preparation owner published `435ffea`; [decisions](phase-18/owner-decisions.md) / [acceptance](phase-18/acceptance-and-evidence.md)
 
 Maintenance:
 
@@ -37,9 +37,9 @@ See [`../roadmap.md`](../roadmap.md).
 Phase 17 Foundation is **COMPLETE — FROZEN** after [Codex independent acceptance](phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
 and owner implementation commit [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).
 The [formal closeout](phase-17/closeout.md) archives its [handoff](phase-17/handoff.md),
-and [ACTIVE](handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF` after its owner-published closeout.
+and reset [ACTIVE](handoffs/ACTIVE.md) to `NO_ACTIVE_HANDOFF` at that closeout; the separate Phase 18 handoff is current below.
 `AUTH-CLOCK` remains OPEN separately; the accepted Foundation retains default containment.
-Phase 16 is deferred. Phase 18 **preparation re-review 2 is READY FOR HANDOFF; D18-A owner approval is recognized and P18-PH-01–04 are closed for preparation**. Owner preparation commit/push and a separate handoff are required. Implementation is not started and `ACTIVE.md` remains `NO_ACTIVE_HANDOFF`. Phase 19–22 are still not prepared or started.
+Phase 16 is deferred. Phase 18 preparation passed re-review 2 and was owner published as `435ffea`, closing P18-PH-01–04. [ACTIVE](handoffs/ACTIVE.md) holds **P18-DOCUMENT-INDEXING / CHANGES_REQUESTED** after the [independent post-takeover review](phase-18/reviews/2026-10-18-phase-18-independent-post-takeover-review.md): verified repairs credited, implementation INCOMPLETE, no findings closed. **2/2 Antigravity cycles remain exhausted**. Final owner contract [ADR-0022](../adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) is OWNER_APPROVED / CANONICALLY_SYNCHRONIZED. Implementation STOPPED / INCOMPLETE / NOT_VERIFIED; no code/experiments/ingestion authorized. Live DISABLED / DEFERRED, snapshots inactive; G1–G4 and FR18-1–11 OPEN. Next: independent documentation synchronization review. No P18-FINAL/runtime acceptance. Phases 19–22 remain gated.
 
 ### Historical preparation and Phase 15 timeline (superseded)
 

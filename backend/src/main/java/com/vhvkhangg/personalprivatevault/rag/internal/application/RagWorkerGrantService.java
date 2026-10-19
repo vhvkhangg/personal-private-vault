@@ -41,10 +41,14 @@ public class RagWorkerGrantService {
     public RagWorkerGrant issue(UUID jobId, UUID attemptId, String stageType) {
         if(supervisor==null) RagWorkerGrant.requireProvenConsumptionFence();
         supervisor.requireReady(jobId,attemptId);
-        if (!Set.of("SYNTHETIC_STAGE", "SYNTHETIC_TEST").contains(stageType)) {
+        if (!Set.of("SYNTHETIC_STAGE", "SYNTHETIC_TEST", "DOCUMENT_V3").contains(stageType)) {
             throw new IllegalArgumentException("Unsupported foundation stage");
         }
         var initial=leases.findByJobIdAndAttemptId(jobId,attemptId).orElseThrow();
+        if ("DOCUMENT_V3".equals(stageType)) {
+            String manifest = initial.getDependencyManifest() != null ? initial.getDependencyManifest() : "{}";
+            return issueDocumentBatchGrant(jobId, attemptId, manifest);
+        }
         var prepared=authority.prepareSource(initial.getSourceId(),Map.of());
         String input = RagSourceAuthority.digest(prepared.payload());
         String scope = RagSourceAuthority.digest(prepared.manifest());
@@ -64,6 +68,42 @@ public class RagWorkerGrantService {
         requireIssued(grant);
         proof.lease().updateStatus("ACTIVE", authority.databaseTime());
         return grant;
+        });
+    }
+
+    @Transactional(propagation = org.springframework.transaction.annotation.Propagation.NEVER)
+    public RagWorkerGrant issueDocumentBatchGrant(UUID jobId, UUID attemptId, String actualInputPayload) {
+        if (supervisor == null) RagWorkerGrant.requireProvenConsumptionFence();
+        supervisor.requireReady(jobId, attemptId);
+        Objects.requireNonNull(actualInputPayload, "actualInputPayload must not be null");
+
+        String input = RagSourceAuthority.digest(actualInputPayload);
+        var preparedBatch = authority.prepareBatch(jobId, attemptId);
+        String expectedInput = RagDocumentInput.encode(authority.documentInput(jobId, attemptId, preparedBatch));
+        if (!expectedInput.equals(actualInputPayload)) throw new IllegalArgumentException("Unprepared document input");
+        var initial = leases.findByJobIdAndAttemptId(jobId, attemptId).orElseThrow();
+        String expectedManifest = initial.getDependencyManifest();
+        String scope = RagSourceAuthority.digest(expectedManifest);
+        String output = RagSourceAuthority.digest("DOCUMENT_V3:" + input);
+        return transactions.execute(status -> {
+            if (supervisor != null) supervisor.requireReady(jobId, attemptId);
+            var proof = authority.lockPreparedBatchAttempt(jobId, attemptId, preparedBatch);
+            if (!"ACTIVE".equals(proof.lease().getStatus())) throw new IllegalStateException("Worker dispatch is inactive");
+            if (!expectedManifest.equals(proof.lease().getDependencyManifest()))
+                throw new IllegalStateException("Document input scope changed");
+
+            UUID session = UUID.randomUUID();
+            entityManager.createNativeQuery("""
+                    INSERT INTO rag.worker_grants(job_id, attempt_id, session_id, session_until, input_digest, scope_digest, output_digest, stage_type)
+                    VALUES (:job, :attempt, :session, :until, :input, :scope, :output, 'DOCUMENT_V3')
+                    """).setParameter("job", jobId).setParameter("attempt", attemptId)
+                    .setParameter("session", session).setParameter("until", proof.lease().getLeasedUntil())
+                    .setParameter("input", input).setParameter("scope", scope).setParameter("output", output)
+                    .executeUpdate();
+            RagWorkerGrant grant = new RagWorkerGrant(jobId, attemptId, proof.lease().getLeaseToken(), "DOCUMENT_V3", actualInputPayload, input, scope, output);
+            requireIssued(grant);
+            proof.lease().updateStatus("ACTIVE", authority.databaseTime());
+            return grant;
         });
     }
 

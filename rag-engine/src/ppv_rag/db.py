@@ -80,3 +80,37 @@ def stage_receipt(request: WorkerStageRequest, receipt: WorkerReceipt) -> int:
         staged_id = row[0]
     # Exiting the connection context performs physical COMMIT before success escapes.
     return staged_id
+
+
+def stage_document_result(
+    job_id: str,
+    attempt_id: str,
+    lease_token: str,
+    root_key: str,
+    success: bool,
+    reason_code: str,
+    warning_codes: list[str],
+    chunks_payload: list[dict[str, object]],
+    resource_report: dict[str, object],
+) -> int:
+    import json
+
+    with connection() as conn:
+        row = conn.execute(
+            "SELECT rag.stage_document_result(%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            (
+                job_id,
+                attempt_id,
+                lease_token,
+                root_key,
+                success,
+                reason_code,
+                json.dumps(warning_codes),
+                json.dumps(chunks_payload),
+                json.dumps(resource_report),
+            ),
+        ).fetchone()
+        if row is None or not isinstance(row[0], int) or row[0] <= 0:
+            raise AuthorityUnavailable("Document stage denied")
+        staged_id = row[0]
+    return staged_id

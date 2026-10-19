@@ -26,14 +26,16 @@ public class RagPurgeService {
     private final RagDependencyGraph graph;
     private final RagJobLeaseRepository leases;
     private final SourceIndexReservations reservations;
+    private final RagExternalFileAuthority externalFileAuthority;
     private final RagWorkerSupervisor supervisor;
     private final TransactionTemplate transaction;
     private long cleanupCursor;
 
     public RagPurgeService(EntityManager entityManager,RagDependencyGraph graph,RagJobLeaseRepository leases,
-            SourceIndexReservations reservations,RagWorkerSupervisor supervisor,PlatformTransactionManager transactions) {
+            SourceIndexReservations reservations,RagExternalFileAuthority externalFileAuthority,
+            RagWorkerSupervisor supervisor,PlatformTransactionManager transactions) {
         this.entityManager=entityManager; this.graph=graph; this.leases=leases;
-        this.reservations=reservations; this.supervisor=supervisor;
+        this.reservations=reservations; this.externalFileAuthority=externalFileAuthority; this.supervisor=supervisor;
         transaction=new TransactionTemplate(transactions); transaction.setTimeout(10);
     }
 
@@ -63,8 +65,8 @@ public class RagPurgeService {
             if (supervisor.proveStopped(job)) supervisor.forget(job);
             return !"COMPLETED".equals(initial.getStatus());
         }
-        final SortedSet<Long> owners;
-        try { owners=RagManifestScope.owners(initial.getDependencyManifest()); }
+        final RagManifestScope.Scope scope;
+        try { scope=RagManifestScope.scope(initial.getDependencyManifest()); }
         catch (RuntimeException unknownScope) { requireRecovery(job); return false; }
         try {
             Boolean finished=transaction.execute(status -> {
@@ -76,7 +78,12 @@ public class RagPurgeService {
                     }
                     return !"COMPLETED".equals(current.getStatus());
                 }
-                reservations.lockReserved(owners,initial.getReservationToken());
+                if (!scope.vaultOwners().isEmpty()) {
+                    reservations.lockReserved(scope.vaultOwners(),initial.getReservationToken());
+                }
+                if (!scope.externalFiles().isEmpty()) {
+                    externalFileAuthority.lockReserved(scope.externalFiles(),initial.getReservationToken());
+                }
                 var lease=leases.findByJobIdAndAttemptIdForUpdate(job,initial.getAttemptId()).orElseThrow();
                 entityManager.refresh(lease);
                 if (TERMINAL.contains(lease.getStatus())) return !"COMPLETED".equals(lease.getStatus());
@@ -89,7 +96,12 @@ public class RagPurgeService {
                         .setParameter("outcome",cancelled?"CANCELLED":"ABORTED").setParameter("job",job).executeUpdate();
                 denyArtifacts(job);
                 eraseWithSavepoint(job);
-                reservations.release(owners,lease.getReservationToken());
+                if (!scope.vaultOwners().isEmpty()) {
+                    reservations.release(scope.vaultOwners(),lease.getReservationToken());
+                }
+                if (!scope.externalFiles().isEmpty()) {
+                    externalFileAuthority.release(scope.externalFiles(),lease.getReservationToken());
+                }
                 entityManager.flush();
                 return true;
             });
@@ -166,6 +178,57 @@ public class RagPurgeService {
         denyArtifacts(job,reason);
     }
 
+    @Transactional
+    public void invalidateGeneration(UUID generationId, String reason) {
+        if (!Set.of("OUTDATED","REVOKED").contains(reason)) throw new IllegalArgumentException("Invalid index state");
+        graph.lockAndRead();
+        entityManager.createNativeQuery("UPDATE rag.index_generations SET is_active=false,status=:reason,revoked_at=clock_timestamp() WHERE generation_id=:genId")
+                .setParameter("genId", generationId).setParameter("reason", reason).executeUpdate();
+    }
+
+    public boolean eraseGeneration(UUID generationId) {
+        requireOutside();
+        return Boolean.TRUE.equals(transaction.execute(status -> {
+            graph.lockAndRead();
+            var generation = entityManager.createQuery(
+                    "SELECT g FROM RagIndexGeneration g WHERE g.generationId=:gid",
+                    com.vhvkhangg.personalprivatevault.rag.internal.domain.RagIndexGeneration.class)
+                    .setParameter("gid", generationId).getResultStream().findFirst().orElse(null);
+            if (generation == null) return false;
+            var lease = leases.findByJobIdForUpdate(generation.getJobId()).getFirst();
+            entityManager.refresh(lease);
+            if (!TERMINAL.contains(lease.getStatus()) || !lease.isStagingClosed()) return false;
+            Number genIdNum = (Number) entityManager.createNativeQuery(
+                    "SELECT id FROM rag.index_generations WHERE generation_id = :gid AND NOT is_active")
+                    .setParameter("gid", generationId)
+                    .getResultStream().findFirst().orElse(null);
+            if (genIdNum == null) return false;
+            long gid = genIdNum.longValue();
+            // Staging is sensitive too, even while an unrelated sibling remains CURRENT.
+            // Use durable batch identity so retries still know the root after manifest erasure.
+            entityManager.createNativeQuery("""
+                    DELETE FROM rag.staged_document_outputs s
+                    USING rag.batch_roots b, rag.index_generations g
+                    WHERE g.id=:gid AND b.job_id=g.job_id AND b.source_id=g.source_id
+                      AND s.job_id=b.job_id AND s.root_key=b.root_key
+                    """).setParameter("gid", gid).executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM rag.document_chunks WHERE generation_id = :gid")
+                    .setParameter("gid", gid).executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM rag.generation_roots WHERE generation_id = :gid")
+                    .setParameter("gid", gid).executeUpdate();
+            entityManager.createNativeQuery("UPDATE rag.index_generations SET source_revision_hash='', dependency_manifest_digest='' WHERE id = :gid")
+                    .setParameter("gid", gid).executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM rag.worker_grants WHERE job_id=:job")
+                    .setParameter("job", generation.getJobId()).executeUpdate();
+            entityManager.createNativeQuery("""
+                    UPDATE rag.job_leases SET lease_token='SCRUBBED',approved_fields_text='',
+                        content_revision_hash='',description_revision_hash='',dependency_manifest='SCRUBBED'
+                    WHERE job_id=:job AND staging_closed AND status IN ('COMPLETED','CANCELLED','ABORTED','PURGED')
+                    """).setParameter("job", generation.getJobId()).executeUpdate();
+            return true;
+        }));
+    }
+
     private void denyArtifacts(UUID job,String reason) {
         entityManager.flush();
         entityManager.createNativeQuery("UPDATE rag.index_generations SET is_active=false,status=:reason,revoked_at=clock_timestamp() WHERE job_id=:job")
@@ -192,7 +255,10 @@ public class RagPurgeService {
 
     private static void eraseRows(Connection connection,UUID job) throws SQLException {
         for (String sql:List.of(
+                "DELETE FROM rag.document_chunks WHERE generation_id IN (SELECT g.id FROM rag.index_generations g WHERE g.job_id=? AND NOT g.is_active)",
+                "DELETE FROM rag.generation_roots WHERE generation_id IN (SELECT g.id FROM rag.index_generations g WHERE g.job_id=? AND NOT g.is_active)",
                 "DELETE FROM rag.staged_outputs WHERE job_id=?",
+                "DELETE FROM rag.staged_document_outputs WHERE job_id=?",
                 "DELETE FROM rag.worker_grants WHERE job_id=?",
                 "UPDATE rag.index_generations SET source_revision_hash='',dependency_manifest_digest='' WHERE job_id=? AND NOT is_active",
                 "UPDATE rag.job_leases SET lease_token='SCRUBBED',approved_fields_text='',content_revision_hash='',description_revision_hash='',dependency_manifest='SCRUBBED' WHERE job_id=? AND staging_closed AND status IN ('COMPLETED','CANCELLED','ABORTED','PURGED')")) {
@@ -200,7 +266,10 @@ public class RagPurgeService {
         }
         try(var statement=connection.prepareStatement("""
                 SELECT (SELECT count(*) FROM rag.staged_outputs WHERE job_id=?)
+                  +(SELECT count(*) FROM rag.staged_document_outputs WHERE job_id=?)
                   +(SELECT count(*) FROM rag.worker_grants WHERE job_id=?)
+                  +(SELECT count(*) FROM rag.document_chunks dc JOIN rag.index_generations g ON g.id=dc.generation_id WHERE g.job_id=? AND NOT g.is_active)
+                  +(SELECT count(*) FROM rag.generation_roots gr JOIN rag.index_generations g ON g.id=gr.generation_id WHERE g.job_id=? AND NOT g.is_active)
                   +(SELECT count(*) FROM rag.index_generations WHERE job_id=? AND
                       (is_active OR source_revision_hash<>'' OR dependency_manifest_digest<>''))
                   +(SELECT count(*) FROM rag.job_leases WHERE job_id=? AND
@@ -208,7 +277,7 @@ public class RagPurgeService {
                           OR dependency_manifest<>'SCRUBBED' OR lease_token<>'SCRUBBED'
                           OR approved_fields_text<>'' OR content_revision_hash<>'' OR description_revision_hash<>''))
                 """)) {
-            for(int parameter=1;parameter<=4;parameter++) statement.setObject(parameter,job);
+            for(int parameter=1;parameter<=7;parameter++) statement.setObject(parameter,job);
             try(var result=statement.executeQuery()) {
                 if(!result.next() || result.getLong(1)!=0) throw new SQLException("Cleanup verification incomplete");
             }

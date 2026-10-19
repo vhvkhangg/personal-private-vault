@@ -1,65 +1,28 @@
-# Phase 18 — Document Ingestion, OCR, Embedding and Verified Indexing
+# Phase 18 — Document ingestion, OCR, embedding and verified indexing
 
-**Preparation status:** `READY FOR HANDOFF` after [independent Codex re-review 2](reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md) (2026-10-17): P18-PH-01–04 closed for preparation. **Implementation:** `NOT_STARTED`; **active handoff:** `NO_ACTIVE_HANDOFF`. Owner approved [P18-01–P18-10 design decisions](owner-decisions.md) and D18-A. This is preparation acceptance, **not implementation authorization or runtime certification**.
+**Current owner contract (2026-10-19):** [ADR-0023](../../adr/0023-phase-18-application-level-snapshot-worker-trust.md) amends [ADR-0022](../../adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md). **Decision D12 accepted:** G1/G3 application-level snapshot/sha/recovery; no Windows Restricted Token/sandbox/native adversarial NTFS proof. The complete functional requirements **are unchanged**. **Implementation:** `CHANGES_REQUESTED / INCOMPLETE / NOT VERIFIED`; source code was **not** supplied in this docs ZIP. Snapshot ingestion `INACTIVE`; original-live indexing `DISABLED / DEFERRED`; Phase 17 frozen. Prior independent reviews remain historical; no FR18-1–11 or current G1–G4 closure is asserted. [ACTIVE](../handoffs/ACTIVE.md) records documentation rebaseline, not permission to launch code changes.
 
-**Source baseline:** owner-pushed GitHub HEAD `86b08a1a44d7672b111af1977098ef6c4c3e800a`; Phase 17 Alternative B/E1 is [COMPLETE — FROZEN](../phase-17/closeout.md). Phase 16 Frontend is deferred. Live external-file ingestion remains disabled pending the narrowly bounded, tested R7/NTFS proof and an approved Phase 18 handoff.
+## Deliverable and boundaries
 
-## Goal and delivered behavior
+An explicit single-user import/update/reindex batch produces verified PostgreSQL/pgvector generations G for approved document snapshots R and reports success/failure **per file**. Java `rag` retains source/consent/revision/authorization, selected R, guards, worker lifecycle and **one final atomic publication transaction**. Python is the local parser/OCR/chunker/embed producer, under the same ordinary Windows user; it does not decide source authority or publish G. No RAG chat, retrieval, judge or recommendation scope here (Phases 19–22).
 
-Create complete, trustworthy, current **document indexes** for individually owner-approved sources using the existing Java `rag` orchestrator, restricted job-scoped Python worker, PostgreSQL/pgvector, immutable staging, current eligibility/fencing and Java-only final publication. No new backend job engine.
+**Formats/semantics:** TXT; Markdown/Obsidian frontmatter/headings/tags/wikilinks/aliases/anchors/block links/callouts and individually approved transclusions; DOCX paragraphs, tables, supported hidden/comments/properties; PDF native/scanned/mixed with native-text-first selective OCR, reading order, tables and valid page/bounding boxes; XLSX/XLS sheets, rows, columns, merged/hidden cells, supported comments/metadata. Languages: vi, en, zh-Hans, zh-Hant. One structure-aware chunker, typed original locators including narrow non-page structural locator, one multilingual model, true finite pgvector embedding. No invented coordinates, silent exclusion of approved materially relevant content, document-code execution, remote fetch or source write-back.
 
-**Required supported input:** Markdown/Obsidian (`.md`), plain text (`.txt`), Word (`.docx`), PDF native text, PDF scanned/mixed/layout/table OCR, Excel (`.xlsx`, `.xls`). Handle Vietnamese, English, Simplified/Traditional Chinese. Obsidian must preserve approved frontmatter/heading/tags/wikilinks/aliases/anchors/block refs/callouts and separately approved embed dependency/child provenance. Office tables, PDF page/bounding boxes and Excel workbook/sheet/A1 cell-range locators are required where technically recoverable; if a mandatory locator cannot be established, fail safely rather than invent it.
+**Workflow:** one explicit whole-file approval per external file; each independently opened child requires another. Original O, source S, exact-byte revision R and index generation G are distinct. Java makes finite copy, SHA-256/length, no-overwrite sealed R plus manifest, checks integrity on R use; application-level immutable, **not** same-user OS anti-tamper. Changed approved Update creates new R; qualified `NO_CHANGE` changes no R/sourceVersion/G/consent and skips worker; explicit same-R Reindex uses R. `SNAPSHOT_CURRENT` requires authorized selected R/G plus actual verified dependencies/integrity, `originalFreshness=UNVERIFIED`; original changes never trigger background imports. Revoke/integrity failure disables affected reads/updates and triggers bounded cleanup/reconciliation.
 
-**Manual selection only:** explicit file/directory selection yields a candidate manifest, never automatic whole-folder approval; every file/version and indexed body/metadata field needs its own current owner grant and authoritative classification. Do not index private/NSFW, unknown, trashed/revoked, credentials, comments/hidden spreadsheet sheets/unapproved YAML properties or remotely referenced materials. The system never writes back to external files.
+**Operation:** reuse Phase 17's one job/worker, exact source union, ordered source-first SQL guards, one-use grants, cancel, stop/drain/seal and unknown-commit recovery. Python results require **actual** text/chunk/locator/model/vector validation by trusted Java (`FR18-3` open), not just copied-file checksum. Independent file errors do not publish that file; good files publish as **one** C_P or none. Do not introduce a new state-machine/incident engine. Preserve real revocation race guards, atomic release and existing API compatibility.
 
-## Single pipeline; no new infrastructure
+**Runtime/quality:** local and offline (no required AI API/model fetch), controlled GPU and same-model CPU fallback, finite measured 16 GB system RAM / 8 GB GPU VRAM, CPU, wall time, temporary disk, file/page/row/chunk/expanded-content and cancellation/restart bounds. Benchmark with representative source-grouped fixtures for all formats/scripts, OCR/table reading and locators. Fail materially incomplete extraction; report truthful per-file outcomes, warnings, NO_CHANGE, retained/new generations, fallback, resource measurements and unresolved cleanup.
 
-```text
-Java verified approval + whole source/dependency reservation and job admission
-      -> existing supervised one-use Python worker / scoped input
-      -> format-specific extraction and safe dependency checks
-      -> page/region OCR only when native text is insufficient (<=1 justified targeted retry)
-      -> normalized structured elements with exact source locators
-      -> ONE structure-first chunker with minimal format-specific grouping
-      -> ONE measured multilingual embedding model (GPU, optionally one same-model CPU fallback)
-      -> staged file-level success/failure receipts, sealed committed candidate data
-      -> ONE trusted Java finalization transaction after the job finishes
-         (validated successful files published together OR no publication)
-      -> final job summary + per-file report; independent effective CURRENT checks
-```
+## Implementation units (not four new engines)
 
-- **Failure policy:** material extraction/OCR/table/provenance failure aborts **that file**. A file with nonmaterial warnings may succeed with reported uncertainty. Failed file's old generation may be served only if it still passes fresh `CURRENT` proof; ordinary file edits make it `OUTDATED` and unavailable as current evidence.
-- **Job policy:** partial *file* success is permitted. One job/one worker/whole-closure reservations remain. If worker identity, cancellation, source-set fencing, staging integrity or finalization are compromised, **abort the whole publication**. Successful-file publication is all-or-nothing in one final Java physical COMMIT with terminal state and reservation release; no early per-file publish. Obsidian transclusions must be attributed to approved child sources; failed child invalidates dependent candidates unless the exact valid dependency proof is established.
-- **D18-A contract gate:** the owner **explicitly approved** Codex’s full eight-part proposal as Phase 18 **design/preparation**. [ADR-0021](../../adr/0021-phase-18-bounded-multi-file-verified-indexing.md) specifies the bounded additive extension, [Phase 18 logical DBML](../../database/phase-18-document-indexing.dbml) and [API/worker delta](../../architecture/rag-phase-18-api-extension.md) document it. [ADR-0020](../../adr/0020-phase-17-single-job-reservations-e1.md) still governs frozen production; only independent Codex acceptance and a later separate handoff can authorize implementing the extension.
+1. **Import & Snapshot (A+B+C):** reuse source/consent/reservations; ordinary safe capture, exact copy SHA-256, temp/no-overwrite R, selection and revision tracking. No native ABA/OS sandbox build.
+2. **Parsing & Embedding (G+H):** TXT/MD/native PDF → Office/XLS/XLSX → scanned/mixed PDF OCR/layout → structure-first chunks, typed locators, multilingual vectors. Keep parser tests independent of DB where possible.
+3. **Verified Indexing (D+F):** use existing worker/process/SQL roles/staging, verify *real* produced output, only trusted Java final C_P, mixed-file outcomes and exact revision closures. Preserve rollbacks, source lock order and unknown-commit recovery.
+4. **Lifecycle & Final Tests (E+H):** qualified NO_CHANGE/reindex, revoke/delete, temp/orphan/restart/cleanup, resource caps and reporting, source-grouped held-out suite, one complete P18-FINAL.
 
-## Small, sequential internal implementation slices — one numbered phase
+## Status, next decision and canonical links
 
-1. **Text/Obsidian:** safe selected-file path admission; TXT, Markdown/Obsidian syntax, independent embed grants/dependency manifests, normalized blocks and locators.
-2. **Office:** DOCX paragraphs/headings/tables, XLSX and legacy XLS sheet/cell/range fidelity without execution of macros/formulas/external fetches.
-3. **PDF/OCR:** native-text-first layout extraction, targeted OCR for scan/mixed page/region, tables/reading order/coordinates, viable auto language detection plus explicit language selection and bounded retry.
-4. **Verified indexing:** unified structure-first chunking, chosen offline multilingual embedding model, version-aware dedup/reindex, safe file-level staged results, one job finalization, cancellation/restart and accurate report.
+Historical A+B handbacks and CP18-AB-2 isolation reviews in [reviews](reviews/README.md) **remain unchanged**; the latest independent policy comparison found no credible in-scope isolation policy *under the old contract*, not a defect under D12. A passing local receipt is not current Phase 18 acceptance. Before implementation, inspect **actual code/tests/SQL** for reusable Phase 17 and Phase 18 contributions and map open findings to the amended acceptance: do not regenerate or delete working code mechanically. Any implementation needs separate owner approval.
 
-Slices are **engineering order only**: do not create four separate phases, independent pre-handoff cycles or four monolithic final suites. One separately accepted Phase 18 handoff and exactly one named [**P18-FINAL**](final-verification-gate.md) after focused convergence.
-
-## Technology selection — avoid premature freezes
-
-- Reuse the accepted Phase 17 Java/Spring, PostgreSQL/pgvector and Python/FastAPI worker. For candidates: Python stdlib TXT; a maintained Markdown AST parser with small Obsidian extension; `python-docx`, `openpyxl` and `xlrd` where compatible; PDF extractor/Docling-like layout option; benchmark a Tesseract-based option against a PaddleOCR-based option only as needed to satisfy Vietnamese/English/Han/table requirements.
-- Benchmark at most a **small justified shortlist** of multilingual embedding candidates (for example E5-small vs BGE-M3), with representative Vietnamese/English/Chinese samples and semantic sanity cases. Select **one** model, fixed vector dimension, tokenizer version, artifact hash, licensing and Windows CPU/GPU ABI compatibility. Do not make a particular candidate mandatory before measurements. Never silently download models at runtime or change the frozen Phase 17 lockfile as a side effect.
-- One normalized element representation and one structure-first chunker; no speculative plugin framework, orchestration queue, model registry, hot swap, multi-OCR production fallback, distributed worker or persistent retrieval/QA components. The smallest necessary parser-specific handling is allowed.
-- Latest **stable mutually compatible** versions per [ADR-0013](../../adr/0013-stable-compatible-version-policy.md), with Windows/Python 3.14 ABI/native wheel, memory, offline/license and exact regression evidence. Do not force the numerically newest major or an implicit baseline upgrade.
-
-## Resources and runtime boundaries
-
-Hardware target: Windows 11, Intel i5-9600K, **16 GB system RAM** and RTX 2070 **8 GB dedicated VRAM**. Measure **peak RAM** (worker and owned subprocess working set/peak RSS and host free-memory impact where practical) separately from **peak VRAM**; also record elapsed time, limited temp-disk use, CPU/GPU fallback and cancellation responsiveness. Bound source bytes, inflated archive size, pages/sheets/rows, chunk count, batch, CPU time, RAM, VRAM, disk and per-file/job time. Process incrementally where the actual library supports it; otherwise enforce admission limits/reject safely. Choose finite values after small representative local measurements, **not arbitrary thresholds or infinite input sizes**. Agent CLI command timeouts (20 min normal/35 min full-suite) do not set end-user indexing timeouts.
-
-## Not in Phase 18
-
-No retrieval endpoint, hybrid/reranker/HNSW tuning, LLM answers, chat, local judge, catalog recommendations, generic future-domain connectors, auto-crawling/watchers that index, frontend UI, dashboard, production telemetry service, external model/cloud dependency, distributed system or Ideaverse-specific integration. Retrieval and user-facing citation/highlight rendering belong to Phase 19, while Phase 18 must preserve sufficient **source locators** for that phase.
-
-## Acceptance, risk and review gate
-
-See [acceptance-and-evidence.md](acceptance-and-evidence.md) for **AC-01–AC-08**, the independent [P17-N1 held-out/mandatory-locator oracle](held-out-quality-and-locators.md) and the executable [P18-FINAL gate](final-verification-gate.md). Critical new risks: Windows/NTFS R7 source identity and version proof; per-file successes in one final P17-compatible physical COMMIT; dependency closure isolation; RAM peaks on a 16 GB host; OCR/table/locator correctness across four OCR language packs; deterministic model/version identity; offline source restrictions and native worker quiescence.
-
-Use [preparation-review.md](preparation-review.md) as the review entrypoint, [owner decisions](owner-decisions.md) as design authority, and [RAG delivery guardrails](../../workflow/rag-phase-delivery-guardrails.md) for proportional KEEP/SIMPLIFY/DEFER review, two Antigravity remediation rounds and bounded verification. All independent Codex reports will live in [`reviews/`](reviews/README.md).
-
-**Next gate:** Owner commits/pushes the accepted preparation, then invokes `$codex-create-handoff` separately. All four preparation findings are closed, but **no Phase 18 implementation** is authorized until that new handoff exists. Live-file R7 and all runtime evidence remain mandatory future gates.
+[Owner decisions](owner-decisions.md) · [Simplified implementation plan](simplified-implementation-handoff.md) · [Acceptance](acceptance-and-evidence.md) · [P18-FINAL](final-verification-gate.md) · [Current API/target](../../architecture/rag-phase-18-api-extension.md) · [Phase 18 logical DBML](../../database/phase-18-document-indexing.dbml). No new migration/schema claim or runtime PASS follows from docs alone.

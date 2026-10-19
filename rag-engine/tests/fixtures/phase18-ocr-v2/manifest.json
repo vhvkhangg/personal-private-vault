@@ -1,0 +1,186 @@
+{
+  "dataset": "phase18-ocr-v2",
+  "synthetic": true,
+  "frozen_before_probe": true,
+  "human_adjudication": "PENDING; deterministic source strings/ink boxes, no human review claimed",
+  "cross_split_group_intersection": [],
+  "pipeline_selection": "Existing RapidOCR defaults; no tuning on this dataset",
+  "items": [
+    {
+      "file": "development-shelf-en.pdf",
+      "sha256": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+      "source_group": "development-shelf",
+      "split": "development",
+      "language": "en",
+      "format": "pdf-scan",
+      "reference_text": "Shelf contains 45 books.",
+      "reference_page": 1,
+      "reference_ink_bbox": [
+        50,
+        58,
+        483,
+        87
+      ],
+      "page_size": [
+        1400,
+        200
+      ],
+      "approved_field": "content",
+      "source_version": 3
+    },
+    {
+      "file": "development-shelf-vi.pdf",
+      "sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "source_group": "development-shelf",
+      "split": "development",
+      "language": "vi",
+      "format": "pdf-scan",
+      "reference_text": "Kệ sách có 45 quyển.",
+      "reference_page": 1,
+      "reference_ink_bbox": [
+        50,
+        50,
+        432,
+        95
+      ],
+      "page_size": [
+        1400,
+        200
+      ],
+      "approved_field": "content",
+      "source_version": 3
+    },
+    {
+      "file": "development-shelf-zh-Hans.pdf",
+      "sha256": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d",
+      "source_group": "development-shelf",
+      "split": "development",
+      "language": "zh-Hans",
+      "format": "pdf-scan",
+      "reference_text": "书架上有45本书。",
+      "reference_page": 1,
+      "reference_ink_bbox": [
+        50,
+        59,
+        376,
+        99
+      ],
+      "page_size": [
+        1400,
+        200
+      ],
+      "approved_field": "content",
+      "source_version": 3
+    },
+    {
+      "file": "development-shelf-zh-Hant.pdf",
+      "sha256": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e",
+      "source_group": "development-shelf",
+      "split": "development",
+      "language": "zh-Hant",
+      "format": "pdf-scan",
+      "reference_text": "書架上有45本書。",
+      "reference_page": 1,
+      "reference_ink_bbox": [
+        50,
+        59,
+        376,
+        99
+      ],
+      "page_size": [
+        1400,
+        200
+      ],
+      "approved_field": "content",
+      "source_version": 3
+    },
+    {
+      "file": "held-out-invoice-en.pdf",
+      "sha256": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+      "source_group": "held-out-invoice",
+      "split": "held_out",
+      "language": "en",
+      "format": "pdf-scan",
+      "reference_text": "Invoice total 123 dollars. Date 18 October.",
+      "reference_page": 1,
+      "reference_ink_bbox": [
+        50,
+        58,
+        791,
+        87
+      ],
+      "page_size": [
+        1400,
+        200
+      ],
+      "approved_field": "content",
+      "source_version": 3
+    },
+    {
+      "file": "held-out-invoice-vi.pdf",
+      "sha256": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+      "source_group": "held-out-invoice",
+      "split": "held_out",
+      "language": "vi",
+      "format": "pdf-scan",
+      "reference_text": "Số tiền 123 đồng. Ngày 18 tháng 10.",
+      "reference_page": 1,
+      "reference_ink_bbox": [
+        50,
+        51,
+        696,
+        95
+      ],
+      "page_size": [
+        1400,
+        200
+      ],
+      "approved_field": "content",
+      "source_version": 3
+    },
+    {
+      "file": "held-out-invoice-zh-Hans.pdf",
+      "sha256": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a",
+      "source_group": "held-out-invoice",
+      "split": "held_out",
+      "language": "zh-Hans",
+      "format": "pdf-scan",
+      "reference_text": "发票金额123元。日期10月18日。",
+      "reference_page": 1,
+      "reference_ink_bbox": [
+        50,
+        59,
+        651,
+        99
+      ],
+      "page_size": [
+        1400,
+        200
+      ],
+      "approved_field": "content",
+      "source_version": 3
+    },
+    {
+      "file": "held-out-invoice-zh-Hant.pdf",
+      "sha256": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440",
+      "source_group": "held-out-invoice",
+      "split": "held_out",
+      "language": "zh-Hant",
+      "format": "pdf-scan",
+      "reference_text": "發票金額123元。日期10月18日。",
+      "reference_page": 1,
+      "reference_ink_bbox": [
+        50,
+        60,
+        651,
+        99
+      ],
+      "page_size": [
+        1400,
+        200
+      ],
+      "approved_field": "content",
+      "source_version": 3
+    }
+  ]
+}

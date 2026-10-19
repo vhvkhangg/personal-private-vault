@@ -21,15 +21,26 @@ public class RagService implements RagOperations {
     private final RagJobService jobService;
     private final RagFinalizationGate finalizationGate;
     private final RagRuntimeSecurity runtimeSecurity;
+    private final RagDocumentBatchService documentBatchService;
+    private final RagDocumentReportService documentReportService;
+    private final RagDocumentFinalizationGate documentFinalizationGate;
 
     public RagService(
+
         RagSourceService sourceService,
         RagJobService jobService,
-        RagFinalizationGate finalizationGate, RagRuntimeSecurity runtimeSecurity) {
+        RagFinalizationGate finalizationGate,
+        RagRuntimeSecurity runtimeSecurity,
+        RagDocumentBatchService documentBatchService,
+        RagDocumentReportService documentReportService,
+        RagDocumentFinalizationGate documentFinalizationGate) {
         this.sourceService = Objects.requireNonNull(sourceService, "sourceService must not be null");
         this.jobService = Objects.requireNonNull(jobService, "jobService must not be null");
         this.finalizationGate = Objects.requireNonNull(finalizationGate, "finalizationGate must not be null");
         this.runtimeSecurity = runtimeSecurity;
+        this.documentBatchService = Objects.requireNonNull(documentBatchService, "documentBatchService must not be null");
+        this.documentReportService = Objects.requireNonNull(documentReportService, "documentReportService must not be null");
+        this.documentFinalizationGate = Objects.requireNonNull(documentFinalizationGate, "documentFinalizationGate must not be null");
     }
 
     @Override
@@ -123,5 +134,30 @@ public class RagService implements RagOperations {
     public RagFinalizationResult finalizeGeneration(UUID jobId, UUID attemptId, String dependencyDigest) {
         runtimeSecurity.requireIsolatedRuntime();
         return finalizationGate.finalizeGeneration(jobId, attemptId, dependencyDigest);
+    }
+
+    @Override
+    public RagJobAdmissionResult admitDocumentBatch(com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchCommand command) {
+        runtimeSecurity.requireIsolatedRuntime();
+        return documentBatchService.admitDocumentBatch(command);
+    }
+
+    @Override
+    public void executeDocumentBatch(UUID jobId, UUID attemptId, List<com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchTask> tasks) {
+        runtimeSecurity.requireIsolatedRuntime();
+        documentBatchService.executeDocumentBatch(jobId, attemptId, tasks);
+    }
+
+    @Override
+    public com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchReport getDocumentBatchReport(UUID jobId) {
+        runtimeSecurity.requireIsolatedRuntime();
+        return documentReportService.getReport(jobId);
+    }
+
+    @Override
+    public com.vhvkhangg.personalprivatevault.rag.api.RagBatchFinalizationResult finalizeDocumentBatch(
+            UUID jobId, UUID attemptId, com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchFinalizeCommand command) {
+        runtimeSecurity.requireIsolatedRuntime();
+        return documentFinalizationGate.finalizeDocumentBatch(jobId, attemptId, command);
     }
 }

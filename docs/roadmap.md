@@ -2,7 +2,7 @@
 
 ## Structure
 
-The roadmap retains historical identifiers **0–16** and allocates **six RAG implementation phases 17–22** (23 identifiers 0–22 in total). Phase 17 Alternative B Foundation is **COMPLETE — FROZEN** following independent re-review 3 and owner implementation commit `829d294`, with formal documentation-only closeout recorded in [Phase 17 closeout](implementation/phase-17/closeout.md). Phase 18 preparation is **D18-A owner-approved / Codex re-review 2 READY FOR HANDOFF**, awaiting owner preparation commit/push (no implementation handoff); Phases 19–22 are not started and require their own preparation/handoff gates; the [RAG multi-phase plan](implementation/rag-phase-plan.md) defines their boundaries.
+The roadmap retains historical identifiers **0–16** and allocates **six RAG implementation phases 17–22** (23 identifiers 0–22 in total). Phase 17 Foundation is **COMPLETE — FROZEN** at owner implementation commit `829d294`, with [formal closeout](implementation/phase-17/closeout.md). Phase 18 preparation passed Codex review and was owner published as `435ffea`; [P18-DOCUMENT-INDEXING](implementation/handoffs/ACTIVE.md) is **CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED**. [ADR-0022](adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) is the approved synchronized external snapshot/whole-file/NO_CHANGE target, not implementation authority; the 2026-10-19 [ADR-0023 amendment](adr/0023-phase-18-application-level-snapshot-worker-trust.md) reduces G1/G3 to app-level, preserves all functions and awaits separate implementation authorization. Live ingestion DISABLED / DEFERRED; snapshot ingestion inactive. Phases 19–22 are not started and require separate gates; the [RAG plan](implementation/rag-phase-plan.md) defines their boundaries.
 
 For normal implementation phases from Phase 3 onward there is a mandatory **Pre-Handoff Preparation Gate (P-N)**
 before each implementation handoff. ChatGPT prepares docs/tooling, Codex reviews them with
@@ -20,7 +20,7 @@ SBA-001–007 and FR-SBA-1–4, independently verified **1,152 passing tests**, 
 committed/pushed implementation as `d195b6260274`. The [maintenance closeout](implementation/maintenance/supplemental-backend-audit-2026-10-13/closeout.md)
 archives its handoff and resets `ACTIVE.md` to `NO_ACTIVE_HANDOFF` in a documentation-only patch.
 The closeout was owner committed/pushed as `24e6268`, and the separate Phase 17 foundation handoff was created.
-Its implementation passed the 2026-10-17 independent final re-review 3, was committed/pushed by the owner as `829d294`, and is **COMPLETE — FROZEN** after formal closeout. All findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope; live external files remain disabled and default containment is active. AUTH-CLOCK remains open under its approved narrow exception. The Phase 17 handoff is archived; ACTIVE is `NO_ACTIVE_HANDOFF` in the closeout-docs patch pending owner commit/push.
+Its implementation passed the 2026-10-17 independent final re-review 3, was committed/pushed by the owner as `829d294`, and is **COMPLETE — FROZEN** after owner-published closeout `d02ed14`. All findings FR17-1 through FR17-11 and AB-1 through AB-6 are closed for bounded Foundation scope; live external files remain disabled and default containment is active. AUTH-CLOCK remains open separately. The Phase 17 handoff is archived; ACTIVE now contains the separately authorized `P18-DOCUMENT-INDEXING` handoff.
 
 Phase 0 is excluded from the three-phase milestone cadence. Historical extra milestone reviews occurred after Phases
 **3, 6, 9, and 12**. The former post-Phase-15 milestone is superseded by the stronger repository-wide Phase 15
@@ -46,7 +46,7 @@ Comprehensive Backend Audit & Remediation Gate.
 | 15    | Comprehensive Backend Audit & Remediation Gate over Phases 0–14 | P-15 `READY FOR AUDIT`; closure `BACKEND_AUDIT_READY` | **COMPLETE — FROZEN** (owner commit `0b1ab11`) | Replaces former post-15 milestone |
 | 16    | Next.js/TypeScript/shadcn frontend + E2E product workflows | P-16 deferred/owner-gated; reconsider only after Phase 22 closeout | Not started | — |
 | 17    | Local RAG foundation, authorities, source commit fencing, storage/jobs and offline runtime | **P-17 preparation accepted; design contracts closed** | **COMPLETE — FROZEN** — owner commit `829d294`; FR17-1–11 & AB-1–6 closed for bounded scope | RAG foundation gate |
-| 18    | Document/Obsidian/OCR/Excel ingestion, embedding and verified indexing | [P-18 preparation accepted](implementation/phase-18/preparation-review.md); `READY FOR HANDOFF`; owner prep commit/push pending; P17 frozen | **Implementation NOT_STARTED** | — |
+| 18    | Document/Obsidian/OCR/Excel ingestion, embedding and verified indexing | Preparation accepted / owner published `435ffea`; [P18-DOCUMENT-INDEXING](implementation/handoffs/ACTIVE.md) | **CHANGES_REQUESTED / INCOMPLETE** — [independent post-takeover review](implementation/phase-18/reviews/2026-10-18-phase-18-independent-post-takeover-review.md); no findings closed; 2/2 Antigravity cycles exhausted; ADR-0022 amended by ADR-0023 on 2026-10-19 (no native OS G1/G3 adversarial proof or Python sandbox); implementation not accepted; G1–G4 NOT_VERIFIED, FR18-1–11 unresolved; new design-only simplified handoff, no active code authorization | — |
 | 19    | Grounded local QA, hybrid retrieval, citations/highlight | P-19 not prepared; requires Phase 18 frozen | Not started | — |
 | 20    | Fiction/Film catalog recommendation for all statuses | P-20 not prepared; requires Phase 19 frozen | Not started | — |
 | 21    | Reviewed module-source expansion and exact structured lookups | P-21 not prepared; requires Phase 20 frozen | Not started | — |
@@ -270,7 +270,7 @@ is `MILESTONE_READY`. Phase 7 pre-handoff re-review accepted the remediated prep
 - shared REST exposure is delayed until domain/module contracts stabilize.
 - Phase 15 performs a comprehensive quality/audit gate over the complete non-RAG backend before new product-surface work.
 - frontend Phase 16 remains deferred and owner-gated; it will be reconsidered **after RAG Phases 17–22**, not automatically started.
-- RAG retains the identifier **Phase 17**; its preparation gate and handoff creation are complete. The `P17-RAG-FOUNDATION` handoff is archived after owner implementation commit; no Phase 18–22 or Frontend implementation is authorized.
+- RAG retains original numbering. `P17-RAG-FOUNDATION` is archived/frozen; Phase 18 has an approved ADR-0022 target contract; `P18-DOCUMENT-INDEXING` is STOPPED with documentation synchronization only, no current implementation authorization. Phases 19–22 and Frontend remain unauthorized.
 
 ## Status vocabulary
 

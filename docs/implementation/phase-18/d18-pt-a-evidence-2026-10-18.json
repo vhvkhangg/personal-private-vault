@@ -1,0 +1,631 @@
+{
+  "checkpoint": "D18-PT-A / owner-authorized 2026-10-18 / STOPPED",
+  "head": "435ffea979681f22d723f551dd8b0cd0b733c8cd",
+  "branch": "main",
+  "verdicts": {
+    "R7": "FAIL: existing candidate accepts unproved hard-link case; complete authority/publication path NOT_VERIFIED",
+    "OCR": "FAIL: material Vietnamese errors in development and held-out; candidate not integrated",
+    "resources": "NOT_VERIFIED: actual CPU tree measurements retained; exact peak, attributable VRAM and full lifecycle missing"
+  },
+  "production_changes": [],
+  "live_external_files": "DISABLED",
+  "commit_push": false,
+  "scope_reduction": false,
+  "findings_closed": [],
+  "preserved_runtime_snapshot": {
+    "snapshot_sha256": "57e703dc1c177ae0e734f937587a91c78d6e178cba4429f024341e42046e5bdc",
+    "entries": 126,
+    "drift": []
+  },
+  "environment": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.14.4",
+    "packages": {
+      "onnxruntime": "1.31.0",
+      "numpy": "2.5.4",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "pdfplumber": "0.11.10",
+      "rapidocr-onnxruntime": "1.4.4"
+    },
+    "onnx_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "native_prerequisite_result": {
+    "candidate": "existing WindowsNativeFileGuard retained around physical JDBC commit; prerequisite diagnostic only",
+    "full_authority_worker_publication": "NOT_VERIFIED; never bypass live-source denial or forge staging",
+    "ordinary_physical_commit_prerequisite": {
+      "writer_denied_after": true,
+      "content_hash": "c74385455aaa4a41d2931ad3264250271eb464f89e3ac972296b79a989509a91",
+      "identity": "-664142627:1638400:344159",
+      "writer_denied_before": true,
+      "separate_connection_visible_rows": 1
+    },
+    "handle_release_after_commit": true,
+    "hardlink_denied": false,
+    "ancestor_rename_denied": true,
+    "preexisting_mapping": "DENIED: File is already locked or open by a concurrent writer: mapping.txt",
+    "remaining_full_R7_cases": "NOT_VERIFIED: authority/worker/index physical C, rollback/unknown-C, revoke orders, child scope; stop on failed namespace/link prerequisites",
+    "owned_fixture_cleanup": true,
+    "verdict": "FAIL"
+  },
+  "quality": {
+    "development": {
+      "documents": 2,
+      "pages": 2,
+      "passing_documents": 1,
+      "material_failed_documents": 1,
+      "tables": 1,
+      "cells": 7,
+      "exact_cells": 7,
+      "ocr_blocks": 8,
+      "exact_ocr_blocks": 7,
+      "character_edits": 1,
+      "reference_characters": 52,
+      "CER": 0.019230769230769232,
+      "matched_region_or_cell_boxes": 8,
+      "missing_results": 0,
+      "skipped": 0,
+      "differences": [
+        {
+          "expected": "Kệ sách có 45 quyển.",
+          "observed": "Kệ sách có 45 quyền.",
+          "edits": 1
+        }
+      ],
+      "source_pdf_bytes": 114675,
+      "largest_render_rgb_bytes": 5760000,
+      "largest_region_rgb_bytes": 1749600,
+      "note": "Literal/codepoint CER; deterministic synthetic labels. Human/independent adjudication pending. Same table template limits structural generalization."
+    },
+    "held_out": {
+      "documents": 2,
+      "pages": 2,
+      "passing_documents": 1,
+      "material_failed_documents": 1,
+      "tables": 1,
+      "cells": 7,
+      "exact_cells": 5,
+      "ocr_blocks": 8,
+      "exact_ocr_blocks": 6,
+      "character_edits": 2,
+      "reference_characters": 79,
+      "CER": 0.02531645569620253,
+      "matched_region_or_cell_boxes": 8,
+      "missing_results": 0,
+      "skipped": 0,
+      "differences": [
+        {
+          "expected": "Chuyến sáng",
+          "observed": "Chuyển sáng",
+          "edits": 1
+        },
+        {
+          "expected": "Chuyến tối",
+          "observed": "Chuyến tồi",
+          "edits": 1
+        }
+      ],
+      "source_pdf_bytes": 126533,
+      "largest_render_rgb_bytes": 5760000,
+      "largest_region_rgb_bytes": 1749600,
+      "note": "Literal/codepoint CER; deterministic synthetic labels. Human/independent adjudication pending. Same table template limits structural generalization."
+    }
+  },
+  "resource_runs": {
+    "development": {
+      "lane": "development",
+      "child_exit": 1,
+      "wall_seconds": 1.1431029999948805,
+      "sampled_tree_peak_working_set_bytes": 117870592,
+      "sum_per_process_lifetime_peak_working_sets_upper_bound_bytes": 123441152,
+      "sampled_tree_peak_private_bytes": 258887680,
+      "host_total_physical_bytes": 17112092672,
+      "host_min_available_physical_bytes": 2734170112,
+      "tree_cpu_seconds": 0.875,
+      "average_cpu_percent_one_core": 76.54603303498624,
+      "logical_cpu_count": 6,
+      "peak_sampled_tree_handle_count": 410,
+      "owned_pids": [
+        16332,
+        27688
+      ],
+      "processes_sampled": 2,
+      "unreadable_pids": [],
+      "samples": 39,
+      "sample_interval_target_ms": 20,
+      "sampled_peak_owned_temp_disk_bytes": 0,
+      "remaining_temp_files": [],
+      "owned_survivor_pids": [],
+      "attributable_gpu_peak_bytes": null,
+      "gpu_measurement": "UNAVAILABLE/NOT_VERIFIED; selected Tesseract path CPU-only. No device-wide usage attributed to worker.",
+      "limits": "Small diagnostics only; 150s inner deadline, existing production thresholds unchanged",
+      "limitations": "Sampled tree working-set lower bound; summed per-process OS peaks are an upper bound, not simultaneous tree peak. Snapshot may miss sub-20ms children/temp files. Tree CPU uses retained process handles; no process-wide cap approval. OS releases exited-process handles; native allocation cancellation/restart NOT_VERIFIED."
+    },
+    "held_out": {
+      "lane": "held_out",
+      "child_exit": 1,
+      "wall_seconds": 1.0747284999961266,
+      "sampled_tree_peak_working_set_bytes": 117891072,
+      "sum_per_process_lifetime_peak_working_sets_upper_bound_bytes": 127098880,
+      "sampled_tree_peak_private_bytes": 259649536,
+      "host_total_physical_bytes": 17112092672,
+      "host_min_available_physical_bytes": 2682531840,
+      "tree_cpu_seconds": 0.828125,
+      "average_cpu_percent_one_core": 77.05434442307845,
+      "logical_cpu_count": 6,
+      "peak_sampled_tree_handle_count": 410,
+      "owned_pids": [
+        7940,
+        27108
+      ],
+      "processes_sampled": 2,
+      "unreadable_pids": [],
+      "samples": 37,
+      "sample_interval_target_ms": 20,
+      "sampled_peak_owned_temp_disk_bytes": 0,
+      "remaining_temp_files": [],
+      "owned_survivor_pids": [],
+      "attributable_gpu_peak_bytes": null,
+      "gpu_measurement": "UNAVAILABLE/NOT_VERIFIED; selected Tesseract path CPU-only. No device-wide usage attributed to worker.",
+      "limits": "Small diagnostics only; 150s inner deadline, existing production thresholds unchanged",
+      "limitations": "Sampled tree working-set lower bound; summed per-process OS peaks are an upper bound, not simultaneous tree peak. Snapshot may miss sub-20ms children/temp files. Tree CPU uses retained process handles; no process-wide cap approval. OS releases exited-process handles; native allocation cancellation/restart NOT_VERIFIED."
+    }
+  },
+  "ocr_artifacts": {
+    "artifacts": [
+      {
+        "file": "tesseract.5.2.0.nupkg",
+        "origin": "https://api.nuget.org/v3-flatcontainer/tesseract/5.2.0/tesseract.5.2.0.nupkg",
+        "sha256": "202d82fc7c7d8384df7da57206d5e1f456ccdabd648c46e67cdfaa3a911d4795",
+        "bytes": 5697774
+      },
+      {
+        "file": "vie.traineddata",
+        "origin": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/e12c65a915945e4c28e237a9b52bc4a8f39a0cec/vie.traineddata",
+        "sha256": "b6b49293d95d0b6dbd8780174627e82c75be957b6f4ed9862155540d6b00bb45",
+        "bytes": 12435550
+      },
+      {
+        "file": "tessdata-LICENSE",
+        "origin": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/e12c65a915945e4c28e237a9b52bc4a8f39a0cec/LICENSE",
+        "sha256": "a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9",
+        "bytes": 10173
+      },
+      {
+        "file": "leptonica-1.82.0.dll",
+        "origin": "NuGet Tesseract 5.2.0:x64/leptonica-1.82.0.dll",
+        "sha256": "dfcb3e6ed0b16bc55bfdbcf53543cfe42a354b87c3e35bd3a95eebf005d73e76",
+        "bytes": 4168192
+      },
+      {
+        "file": "tesseract50.dll",
+        "origin": "NuGet Tesseract 5.2.0:x64/tesseract50.dll",
+        "sha256": "de4d04ec75095374d98f5dd7a60d14d7e2e0f76589db693eccf7ae658be8cb2b",
+        "bytes": 2788352
+      }
+    ],
+    "tessdata_commit": "e12c65a915945e4c28e237a9b52bc4a8f39a0cec",
+    "license": "Tesseract/traineddata Apache-2.0; Leptonica BSD-2-Clause; wrapper Apache-2.0 (review upstream notices before redistribution)",
+    "provisioning_only_network": true
+  },
+  "held_out_limits": "Synthetic source groups reserved before provisioning/inference; no tuning; common table template and pending independent human adjudication limit independence. All now exposed. Not acceptance.",
+  "tests": {
+    "java": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "receipt": "containment-java.json"
+    },
+    "python": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "receipt": "python-geometry.json"
+    },
+    "candidate_diagnostics": "Native R7 and both OCR runs intentionally retain actual nonzero exits; not added to passing test counts",
+    "full_suite_rerun": false
+  },
+  "receipts": [
+    {
+      "path": "logs/phase18-d18-pt-a/containment-java.json",
+      "sha256": "f0424ad1c73ec7a3319ea83713fe3668ad936a77eecea223c203b295ec1c323c",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "mvn.cmd",
+        "argv_sha256": "f595c8a2246bedba74493d8b5ad77d148fa3cc4576ddcaa34ba2ddb846a28ad7",
+        "started_utc": "2026-10-18T06:18:02.761+00:00",
+        "pid": 20352,
+        "finished_utc": "2026-10-18T06:18:44.617+00:00",
+        "duration_seconds": 41.857,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/format-check-final.json",
+      "sha256": "ac103bea8f68f81fd498d2226ed8993f2e2720a01e80de681f729c1033df576c",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "dbcfff6e519a4d402e78234c1e029e25fd95227ef74aa7c04e305be08ee9f7e4",
+        "started_utc": "2026-10-18T06:18:32.105+00:00",
+        "pid": 21256,
+        "finished_utc": "2026-10-18T06:18:32.243+00:00",
+        "duration_seconds": 0.138,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/format-final-2.json",
+      "sha256": "e9e3cfb23bb1faca363614f83bfa9a25fa39e0007b280a471311cbbf4679c32a",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "f7e57da3177d781b75441e38a9f7193710d67171dbf510d2cc8011152b1c111c",
+        "started_utc": "2026-10-18T06:18:31.479+00:00",
+        "pid": 27724,
+        "finished_utc": "2026-10-18T06:18:31.631+00:00",
+        "duration_seconds": 0.153,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/format-final.json",
+      "sha256": "581eb00afd84b94bc2a6584f75411acb544c6229a335ec7146049b83baf3fca4",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "f7e57da3177d781b75441e38a9f7193710d67171dbf510d2cc8011152b1c111c",
+        "started_utc": "2026-10-18T06:17:33.286+00:00",
+        "pid": 28424,
+        "finished_utc": "2026-10-18T06:17:33.397+00:00",
+        "duration_seconds": 0.111,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/format-measure.json",
+      "sha256": "65e343edda835459a029ab7592c19b47759ce65ab4706efda6fd98ee21d569b8",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "4683afe339135d88c1dcb498439f3824eabdc61a60fdfa16014d3181c6fa2989",
+        "started_utc": "2026-10-18T06:16:41.994+00:00",
+        "pid": 15612,
+        "finished_utc": "2026-10-18T06:16:42.141+00:00",
+        "duration_seconds": 0.147,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/format-new-scripts.json",
+      "sha256": "6a45b42dc1cda9e305e964c2bfffe0ab8108b8fe7f83e36a10fa037e8657820d",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "d1f78d466611889e24d088fa52e5f6d135e4493937cdf8a158b76b333be45092",
+        "started_utc": "2026-10-18T06:15:46.262+00:00",
+        "pid": 11492,
+        "finished_utc": "2026-10-18T06:15:46.405+00:00",
+        "duration_seconds": 0.143,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/freeze.json",
+      "sha256": "7cd812b4dd69eab1bb10219f8aa9c026a6e3678d4ecb4970df7c06bbfb628939",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "618cb1ac613480e8a7107e50b700c289e2d076c21231501e4fe42c2bdf8ba425",
+        "started_utc": "2026-10-18T06:15:32.970+00:00",
+        "pid": 28340,
+        "finished_utc": "2026-10-18T06:15:33.394+00:00",
+        "duration_seconds": 0.424,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/gpu-inventory.json",
+      "sha256": "57945bc8c87ef1560c5fd2532bb22f74dab4c2470c8c42f93e49ee5d2230ddae",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "nvidia-smi",
+        "argv_sha256": "d5e3aa6b6dca0f5f9db32bf1d20334926d5d50b5640e237ec83afb06b24a9586",
+        "started_utc": "2026-10-18T06:15:46.539+00:00",
+        "pid": 13020,
+        "finished_utc": "2026-10-18T06:15:46.621+00:00",
+        "duration_seconds": 0.082,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/gpu-recorded.json",
+      "sha256": "f5b3c3018b36e1858928dcdf1e8ad3028d5454c41d207d0439ae70a02baacf97",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "nvidia-smi",
+        "argv_sha256": "d5e3aa6b6dca0f5f9db32bf1d20334926d5d50b5640e237ec83afb06b24a9586",
+        "started_utc": "2026-10-18T06:19:52.985+00:00",
+        "pid": 17576,
+        "finished_utc": "2026-10-18T06:19:53.069+00:00",
+        "duration_seconds": 0.084,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/graph-query.json",
+      "sha256": "87430e4084a8bfbd1d2f5d57b8dfc02386090f11991e74f43b8d00c572ebd935",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 45.0,
+        "executable": "python.exe",
+        "argv_sha256": "990d9a1b468e926d7a782d762b1f0ed72911b183967a69596c4a4532cc784689",
+        "started_utc": "2026-10-18T06:11:33.535+00:00",
+        "pid": 5088,
+        "finished_utc": "2026-10-18T06:11:33.812+00:00",
+        "duration_seconds": 0.278,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/hardware-command.json",
+      "sha256": "eb5d80544f820a89d2725534426f9d6bd11da0bbf170d55e24833b00161bd070",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "powershell.exe",
+        "argv_sha256": "68e68ea3aeb0a74d7d0b673854cae2e1753c6174327183847daffd2ca3497bee",
+        "started_utc": "2026-10-18T06:19:21.630+00:00",
+        "pid": 11852,
+        "finished_utc": "2026-10-18T06:19:24.161+00:00",
+        "duration_seconds": 2.532,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/ocr-development-command.json",
+      "sha256": "5cf3f7c4ad489317c506d0761999824c4777f97fec34de7a31c53564f27f3eb0",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "c747ad91240cae86c0523930ac01ee279ff466cb283b5f867b7129e960796660",
+        "started_utc": "2026-10-18T06:16:42.279+00:00",
+        "pid": 18480,
+        "finished_utc": "2026-10-18T06:16:43.621+00:00",
+        "duration_seconds": 1.343,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/ocr-held-out-command.json",
+      "sha256": "165617a549d4c706e99a7a8289793493b7f97979de25d61dc31b2be751c2e8f0",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "6273cbe72750ed7bdcd898976ab5a548c16bca9a080362f9c7a263cc0cfd6552",
+        "started_utc": "2026-10-18T06:17:08.914+00:00",
+        "pid": 23852,
+        "finished_utc": "2026-10-18T06:17:10.211+00:00",
+        "duration_seconds": 1.297,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/provision.json",
+      "sha256": "9fc3921c85e57116b10466a33c57e3b9031fcf1198764a944347aa2dd156fde3",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "b202426f43510f9cfd0c59b43ff574dc6a60593ca2c8b503c80f644a1f587010",
+        "started_utc": "2026-10-18T06:15:33.608+00:00",
+        "pid": 2812,
+        "finished_utc": "2026-10-18T06:15:37.750+00:00",
+        "duration_seconds": 4.142,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/python-geometry.json",
+      "sha256": "88c75f3ba0c8a070c3f228e42f0f08b15727bd185c1243acc88e8fcbe5c663cf",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 45.0,
+        "executable": "python.exe",
+        "argv_sha256": "c0ab96df91982444e7309200bd90cda0571d72e6ac33ea3e56ccf9c96177debd",
+        "started_utc": "2026-10-18T06:18:32.667+00:00",
+        "pid": 28100,
+        "finished_utc": "2026-10-18T06:18:38.443+00:00",
+        "duration_seconds": 5.777,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/r7-command.json",
+      "sha256": "c25867dfa6c5328e9d130fe30667c105cc516cb9473e696cdbefded578a3da51",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 300.0,
+        "executable": "python.exe",
+        "argv_sha256": "a7581180a27f7446b0b0f80daded1512f711aa5e4477dafb0364f3e5423d697a",
+        "started_utc": "2026-10-18T06:13:46.424+00:00",
+        "pid": 29100,
+        "finished_utc": "2026-10-18T06:13:54.290+00:00",
+        "duration_seconds": 7.867,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/ruff-final.json",
+      "sha256": "6ba99b11cd617ce724f288c5c44bf29f0aed4935573b607b5b5beaed6930ad2d",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "93bd034b0eb625f72abb1acdc36925462e0c684d699ba3925ed5e5d453df1bd3",
+        "started_utc": "2026-10-18T06:18:31.794+00:00",
+        "pid": 27880,
+        "finished_utc": "2026-10-18T06:18:31.939+00:00",
+        "duration_seconds": 0.145,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/ruff-fix.json",
+      "sha256": "3e5a6621183c1a2d92a2c91b23c480b6c091e4935d4278df8108c311d8a5901a",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "a32f27bbb10bfef807c19dfa4f5fd4d1ec2c5e3fc0ca2e6ad776ee03165a8901",
+        "started_utc": "2026-10-18T06:17:53.035+00:00",
+        "pid": 26384,
+        "finished_utc": "2026-10-18T06:17:53.166+00:00",
+        "duration_seconds": 0.131,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/ruff-new-scripts.json",
+      "sha256": "b2987bc7f6c2663192295645d1977bdab7e827c635c0905eadcccbf74b9de658",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "93bd034b0eb625f72abb1acdc36925462e0c684d699ba3925ed5e5d453df1bd3",
+        "started_utc": "2026-10-18T06:17:33.533+00:00",
+        "pid": 25992,
+        "finished_utc": "2026-10-18T06:17:33.674+00:00",
+        "duration_seconds": 0.14,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    {
+      "path": "logs/phase18-d18-pt-a/summary-command.json",
+      "sha256": "ec57343c6362ba8d90ec455305b43c3f2ba34fa3da985ab24e6cd49b687cd3b2",
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "979880a6aa58f914132fdbc52cbf5dbea5347c13510a996b66d9bd8d8bba4695",
+        "started_utc": "2026-10-18T06:19:21.002+00:00",
+        "pid": 26552,
+        "finished_utc": "2026-10-18T06:19:21.482+00:00",
+        "duration_seconds": 0.48,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    }
+  ],
+  "source_and_report_hashes": [
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagR7FeasibilityCheckpoint.java",
+      "sha256": "f87a15ea4d7c792af99e59a66f28ce1d0be365f6593b11577fbedae614db9563"
+    },
+    {
+      "path": "rag-engine/scripts/run_d18_pt_a_native.py",
+      "sha256": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8"
+    },
+    {
+      "path": "rag-engine/scripts/d18_pt_a_ocr_checkpoint.py",
+      "sha256": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5"
+    },
+    {
+      "path": "rag-engine/scripts/measure_d18_pt_a.py",
+      "sha256": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/manifest.json",
+      "sha256": "9c1d7b16e0c5d9d4b4f18db95e37680c556b8b6bb466ab3e0f02e8ff50897801"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/manifest.sha256",
+      "sha256": "b141264c2f022d23d00c85f413348a8a4c698589d74c47d02245f8c6c1283fea"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf",
+      "sha256": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf",
+      "sha256": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf",
+      "sha256": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf",
+      "sha256": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764"
+    },
+    {
+      "path": "docs/implementation/handoffs/ACTIVE.md",
+      "sha256": "d4afe22250ea8c15206cba56bf6e78f29c0b568ddedd27655292040baccf9026"
+    },
+    {
+      "path": "docs/implementation/phase-18/d18-pt-a-feasibility-checkpoint-2026-10-18.md",
+      "sha256": "5e219001a8617f08bac60c90954df6cb061a4c720b34fecd93779997785547f9"
+    }
+  ],
+  "raw_artifact_manifest": {
+    "path": "logs/phase18-d18-pt-a/artifact-manifest.json",
+    "sha256": "ebe5e0a9af4ca5ded62cd3fa98ed0cc1bf6abaae820ffdfc977170f26a72a523",
+    "entries": 43
+  },
+  "next": "Separate independent review and finite new owner authorization required; no further candidate selected/executed."
+}

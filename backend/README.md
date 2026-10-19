@@ -142,3 +142,14 @@ Preserve historical reviews/evidence. Owner commit/push is now permitted with
 `fix(backend): remediate phase 15 audit findings`, followed by the latest package to ChatGPT for Phase 15 closeout only.
 Phase 15 is not complete/frozen until publication and closeout.
 The preserved 920-test evidence is the pre-remediation baseline; frontend/RAG remain deferred as Phases 16/17.
+
+## Phase 18 candidate persistence setup
+
+The unaccepted Phase 18 takeover appends V19 to V18 without changing V1–V18.
+Its document entity uses the Spring Boot BOM-aligned `hibernate-vector` mapping
+(`float[]`, `SqlTypes.VECTOR`, 384 dimensions). Application integration tests now
+use `ppv-rag-postgres:18.6-pgvector0.8.6` with schema validation enabled. V19 refuses
+an absent extension or an existing BYTEA document installation; it does not delete
+or silently convert data. Its terminal scrub amendment applies only to v3 jobs
+whose active generations retain independent manifests; legacy v2 rules remain.
+This setup statement is not Phase 18, live-file/R7 or deployment acceptance.

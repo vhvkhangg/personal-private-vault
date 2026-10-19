@@ -1,3 +1,5 @@
+> **2026-10-19 updated authority:** [ADR-0023](../adr/0023-phase-18-application-level-snapshot-worker-trust.md) applies **only** to individually whole-file-approved external Phase 18 RAG snapshots. For that class, internally marked Private/NSFW/hidden content is within owner approval; the old global private/non-private exclusion below continues for frozen Phase 17 Vault sources. Same-Windows-user Python is permitted; OS-level sandbox/native ABA/DACL G1/G3 proof is not mandatory. Preserve source consent/child grants, tested document-content isolation by application behavior, PostgreSQL role/actual-result checks, and native process lifecycle. Phase 18 implementation still requires separate owner approval.
+
 # RAG Phases 18–22 — proportional delivery and escalation policy
 
 **Owner decisions: 2026-10-17 (1A / 2A / 3A).** Workflow/tooling guidance only, **not Phase 18 implementation authorization**, a new handoff, or an amendment to frozen Phase 17 contracts. `ACTIVE.md` remains `NO_ACTIVE_HANDOFF` until a separate approved gate.

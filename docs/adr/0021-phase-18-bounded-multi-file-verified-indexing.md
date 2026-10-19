@@ -1,4 +1,8 @@
+> **2026-10-19 Phase 18 scope amendment:** For external immutable-snapshot sources, [ADR-0023](0023-phase-18-application-level-snapshot-worker-trust.md) replaces OS-level G1/G3 threat-model and worker-isolation proof. This ADR’s atomic PostgreSQL publication, root/closure union, lock ordering and file-level correctness remain binding. Historical implementation prerequisites are not new approval gates.
+
 # ADR-0021 — Phase 18 bounded multi-root document indexing and atomic subset publication
+
+> **Status: accepted / prospectively partially superseded, 2026-10-18.** [ADR-0022](0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) is the consolidated authority for external RAG-owned Immutable Snapshot sources, with whole-file consent, ORIGINAL_BYTES SHA-256/length and guarded NO_CHANGE/C_N. Its exact applicability table replaces only named portions of D18-A.1–8; source-first guards, producer/one-C_P/independent-generation/quality/resource/compatibility guarantees remain. Live-original indexing is DISABLED / DEFERRED; snapshot ingestion inactive. Historical design/entry-gate text below records its time, not current launch authority. Implementation STOPPED; no finding closure or runtime acceptance.
 
 - **Status:** Owner-approved **Phase 18 design contract**, 2026-10-17; **NOT IMPLEMENTED / NOT A HANDOFF**.
 - **Owner approval:** Explicit approval of all eight clauses of **D18-A** in [independent pre-handoff review §2](../implementation/phase-18/reviews/2026-10-17-phase-18-pre-handoff-codex-review.md#2-finite-proposed-owner-decision--d18-a-not-approved) in the owner's subsequent discussion. That report predates approval and must remain immutable.

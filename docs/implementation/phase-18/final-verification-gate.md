@@ -1,10 +1,10 @@
-# P18-FINAL — One executable final integration gate (future Phase 18 implementation)
+# P18-FINAL — One integration gate for current Phase 18 contract
 
-**Status:** Named **future acceptance gate**, not executed/accepted by Phase 18 preparation. One gate **after** focused internal slices converge; no separate full suite per parser slice. See [AC-01–AC-08](acceptance-and-evidence.md), [held-out protocol](held-out-quality-and-locators.md) and [D18-A](../../adr/0021-phase-18-bounded-multi-file-verified-indexing.md).
+**Status:** Future execution **NOT RUN / NOT ACCEPTED**. Contract: [ADR-0023](../../adr/0023-phase-18-application-level-snapshot-worker-trust.md) + [acceptance](acceptance-and-evidence.md), effective 2026-10-19. The old native-ABA/Restricted Token/DACL/worker-denying ACL acceptance has been **removed** for external snapshots; this does **not** close functional, output-verification or lifecycle defects. Snapshot ingestion inactive. Historical strict-gate reviews are preserved unchanged.
 
-## Pinned Windows runner and exact commands
+## Exact existing Windows runner and five final commands (retained)
 
-From **repository root** in PowerShell, with the existing pinned `rag-engine/.venv/Scripts/python.exe` (CPython 3.14.4, locked environment) and Maven/Java/PG environment needed for real Testcontainers integration. Use actual native `mvn.cmd` as on the reviewed Windows host. The runner is `scripts/run-bounded-command.py`. `logs/phase18/` contains bounded JSON command receipts (exit/result/duration/command digest, not raw args). Errors must halt and remain visible, not be treated as PASS.
+Run from repository root using **actual verified installed pinned** `rag-engine/.venv/Scripts/python.exe`, `scripts/run-bounded-command.py`, Maven/Java and appropriate PostgreSQL/Testcontainers. Verify current code/environment before use. Missing interpreter/runner/test, nonzero exit, timeout or skipped required coverage is **FAIL**, not automatic PASS. The CLI watchdog is not a user indexing-time limit.
 
 ```powershell
 $Root = (Get-Location).Path # must be the repository root
@@ -33,22 +33,21 @@ try {
 if ($LASTEXITCODE -ne 0) { throw 'P18-FINAL: full Java clean verify failed' }
 ```
 
-Normal commands are capped at **1,200 seconds each**. Genuine full Maven `clean verify` may use `full-suite` **2,100 seconds**, only if host execution permits. A genuinely complete `pytest` suite may use the extended profile **only if necessary**, using the runner's `is_full_suite` check; the default above is normal. **These are agent command limits, not user-indexing lease/resource limits.** An absent pinned interpreter/Maven/PG, timeout, skip of a required test, nonzero exit or missing receipt is a gate failure, not an invented PASS.
+The existing normal command cap is 1,200 s; genuine Maven full-suite may use 2,100 s when supported. Extended pytest profile only if permitted by current runner's full-suite checks; do not silently alter this preserved executable list. Commands require a separately authorized implementation/acceptance run.
 
-## Mandatory linked focused receipts (produce earlier; do not repeat just to aggregate)
+## Linked **minimal focused evidence** (develop earlier; no duplicated final suites)
 
-| Evidence | Exact minimum |
+| Receipt | Concrete required result |
 | --- | --- |
-| `P18-QUALITY` | Frozen sanitized dev/held-out **source-grouped** manifest/sha, zero cross-split leakage, human text/table/locator labels, each introduced format/vi-en-zh-Hans-zh-Hant denominator, errors/failures/skips/pending, material-failure threshold decision, original-file unchanged. See [oracle](held-out-quality-and-locators.md). |
-| `P18-R7-WINDOWS` | Native NTFS handle/identity/root/reparse/hard-link/pre-existing writer-mapping proof across actual Java physical COMMIT; unsupported path denied; rollback and unknown C; disabled-path smoke **not accepted**. |
-| `P18-PUBLISH-PG` | Real PostgreSQL changed-boundary tests: multi-root union reservation, independent A/B vs child dependency, 8-success/2-fail and all-fail/cancel, one P commit/rollback, lost finish ACK, attempt-writer seal both orders, released entire set exactly on terminal C, restricted `rag_worker` negative grants, new content/vector purge. |
-| `P18-OFFLINE-MODEL` | Actual pinned CPython 3.14 Windows + selected OCR/model artifacts/license hashes/ABI and native CPU/GPU proof; no required runtime egress/download; vector finite/dimension/dedup/model identity, one same-model CPU fallback and bounded failure. |
-| `P18-RESOURCES` | Native Windows 11 i5-9600K **16 GB system RAM** peak worker + owned subprocess RAM working set/host free RAM vs RTX 2070 **8 GB VRAM** measured separately; CPU time, temp disk, bounded per-file/job size/pages/rows/chunks/time, cancellation/unknown process; finite empirically chosen limits and outcomes. |
-| `P18-REPORT` | Job state is existing `COMPLETED` (>=1 published), `ABORTED` (0 published), `CANCELLED` or nonterminal `RECOVERY_REQUIRED` (unknown); report-only `PARTIAL_SUCCESS`; sanitized file results and **independently recomputed CURRENT/OUTDATED**. |
+| `P18-QUALITY` | Representative sanitized source-grouped dev/held-out TXT/MD/Obsidian/DOCX/PDF native+scan+mixed/XLSX/XLS; vi/en/zh-Hans/zh-Hant, OCR reading/table/merged/hidden material, exact mandatory locators. Counts for all failures/skips/pending and original unchanged. |
+| `P18-SNAPSHOT-APP` | Explicit whole-file grant, practical regular-path/reparse/size validation, exact copy SHA-256+length and before/after detectable-change checks; no-clobber R/manifest, check on reuse, same/different-byte/NO_CHANGE, revoke/tamper/missing/disk-full/cancel/restart/orphan/cleanup. **No Restricted Token, per-attempt DACL, NTFS ABA/hard-link/mapping/writer attack proof or forensic durability certificate.** |
+| `P18-PUBLISH-PG` | Real Python-produced/staged text/chunks/locators/model/vector and trusted Java verification of actual result (FR18-3); PostgreSQL `rag_worker` SQL grant negatives, source-first guards, full union and own-G closure, mixed 8-success/2-fail, all-fail/cancel, changed/unchanged, child changes, rollback, genuine unknown-C and exactly one final physical publication transaction or none. |
+| `P18-OFFLINE-MODEL` | Installed model/OCR artifacts pinned, no required runtime API/network pull, actual finite pgvector rows, native GPU and **same model** bounded CPU fallback, failed-resource cases. |
+| `P18-RESOURCES` | Actual representative 16 GB system RAM usage and 8 GB VRAM **measured separately**, CPU/wall/temp disk, upper limits for file/page/row/chunks/expanded data, cancellation and safe work cleanup. No fabricated limits. |
+| `P18-REPORT` | Individual file failures/successes and warnings, selected/pending R, NO_CHANGE/retained vs new G, qualified SNAPSHOT_CURRENT and original UNVERIFIED, measured GPU fallback, controlled purge/unknown backups and truthful recovery status. |
 
-## Aggregation policy
+## Aggregation
 
-- Require all **five listed commands** to return real exit code `0`, truthful counts/skips and bounded JSON receipts, plus each linked focused receipt accepted by independent Codex. No live Phase 18 behavior may pass on docs alone. No unconditional rerun of 420 unchanged Phase 17 benchmark jobs.
-- Preserve existing architecture/Modulith, effective Flyway roles and source/version restrictions as part of full integration; separately link focused native R7 and PG tests even if those cannot run within Maven on every environment. Run tests for changed native/SQL boundaries on the owner Windows host before acceptance.
-- `AUTH-CLOCK` remains OPEN in unrelated Authentication; **there is no automatic Phase 18 exception**. If `clean verify` exits nonzero for any reason, mark the Java component **FAIL**, record the cause and require an explicit new owner gate decision rather than calling the suite PASS.
-- Emit one `P18-FINAL` aggregation note with each command's exact exit/duration, Python/Java test pass/fail/error/skip counts, fixture dataset/config/engine hashes, focused evidence links, resource measured max, unresolved findings, and overall `PASS` **only when all conditions pass**. Preparation has **no** runtime pass assertion.
+Require five commands' genuine exit `0`, accurate counts and receipts, and independent review of **the focused cases above**. Record OS/hardware, model/fixture/version hashes, measured RAM/VRAM, unresolved issues and retest disposition. No private source contents/paths/credentials in reports. No extra C_D/C_N forensic-proof matrix; maintain actual race/SQL/unknown-outcome correctness and working Phase 17 fences. Do not claim universal power-loss durability from ordinary filesystem APIs.
+
+A full-suite failure including `AUTH-CLOCK`, missing model/library or unrun focused case is not PASS; record cause for an explicit later owner decision. G1–G4 and FR18-1–11 are not closed here. No automatic code execution, commit/push or capability activation is authorized by editing these docs.

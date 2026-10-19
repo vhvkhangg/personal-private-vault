@@ -24,6 +24,7 @@ venv/
 .mypy_cache/
 .ruff_cache/
 *.egg-info/
+rag-engine/models/
 
 # IDEs
 .idea/

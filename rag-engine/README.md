@@ -9,17 +9,13 @@ HTTP 503 / owning-domain race containment** narrative in historical
 [test evidence](../docs/implementation/phase-17/test-evidence.md) is a **historical interim candidate**, not
 the current accepted worker capability. Current Foundation deliberately still denies **live
 external-file indexing** pending independently proven native Windows/NTFS R7 and an approved active
-Phase 18 implementation handoff. `ACTIVE.md` is `NO_ACTIVE_HANDOFF` during Phase 18 preparation.
+Phase 18 implementation handoff. Owner published accepted preparation as `435ffea`; [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) now holds **P18-DOCUMENT-INDEXING / CHANGES_REQUESTED**. The current handoff is STOPPED; no runtime tests/experiments or live/snapshot ingestion are authorized by the documentation synchronization.
 
-The owner approved **only Phase 18 preparation/design D18-A**, documented by
-[ADR-0021](../docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md), not a new worker
-protocol, live file input, parser/OCR, chunk/vector storage or Phase 19 QA implementation. Current
+The owner-approved D18-A design in [ADR-0021](../docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md) was accepted and published before the separate handoff authorized bounded Phase 18 implementation. It did not itself implement a new worker protocol, live input, parser/OCR, chunk/vector storage or Phase 19 QA. At handoff creation, the
 worker processes authorized **synthetic digest receipts only** under Java source authority, one-use
 grant, native supervision, SQL staging and Java-only publication; Python cannot authorize, grant,
 read business/Vault SQL, release reservations or publish. No document parser, OCR, model,
-embedding, answer, recommendation or Ideaverse capability is enabled. Phase 18 changes require
-independent pre-handoff acceptance, owner preparation commit/push and a **separate active Codex
-implementation handoff**. Preserve existing Foundation setup/commands below.
+embedding, answer, recommendation or Ideaverse capability is enabled at handoff creation. The owner subsequently approved [ADR-0022](../docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) and one documentation-only synchronization: whole-file exact ORIGINAL_BYTES snapshots and guarded SHA-256/length NO_CHANGE are binding **unimplemented targets**. Execution is STOPPED / INCOMPLETE / NOT_VERIFIED, G1–G4/FR18-1–11 OPEN. Live originals DISABLED / DEFERRED; snapshots inactive. Next: independent documentation synchronization review. No code/experiment/worker/ingestion authorization; no runtime success is asserted. Preserve existing Foundation setup/commands below.
 
 ## Locked setup and checks
 
@@ -58,3 +54,25 @@ docker run --rm --network none --read-only --tmpfs /tmp:size=16m --cap-drop ALL 
 The verification image pins the Python base digest and installs the frozen runtime lock at build time. Its real checks deny IPv4, IPv6, external DNS and proxy egress, run the service on allowed loopback, and prove unavailable DB authority rejects work. It has no persistent model/cache or content scratch capability. This is a Linux Docker namespace proof; it does not configure or certify a Windows host firewall. Real Java→native Python→restricted PostgreSQL execution is independently tested by `RagWorkerBoundaryIntegrationTest`. A combined native Windows firewall/deployment guarantee remains outside these receipts.
 
 `scripts/dependency_inventory.py` records installed license/version metadata. A bounded pip-audit 2.9.0 scan of all 32 installed distributions returned zero known advisories on 2026-10-14. This does not assert unknown vulnerabilities or every bundled OS/DLL component is absent. Preserve LGPL Psycopg notices; private local use is the current scope, not a redistribution approval. See [historical Phase 17 evidence](../docs/implementation/phase-17/test-evidence.md) and [final acceptance](../docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md) for actual scope, results and limits.
+
+## Phase 18 takeover candidate — not accepted
+
+The Phase 17 distribution counts and dependency/audit statements above are historical.
+The current locked candidate additionally uses pdfplumber 0.11.10 (with PDFMiner and
+PDFium) for original-page native geometry, native table cells and rendered image
+regions. Scanned table cell structure and Vietnamese OCR remain unverified; detected
+raster grids fail the file. The selected embedding artifact and CPython pin are unchanged.
+Model metadata records the actual tokenizer/parser/chunker/OCR pipeline identity;
+the worker refuses oversized tokenizer input instead of truncating it. Chunk overlap
+is zero. Host/device snapshots are not process-tree/GPU peak acceptance evidence.
+
+From repository root, `scripts/probe_phase18_ocr.py` beneath `rag-engine/` replays
+the hashed synthetic PDF diagnostic and writes a unique ignored report. Dataset v2
+has already been exposed during diagnosis and cannot establish fresh independent
+held-out acceptance. The explicit Latin OCR provisioning script is a failed-candidate
+experiment only; neither tested alternative replaced the selected runtime OCR.
+All normal live-file registration and ingestion remain disabled.
+
+See [takeover evidence](../docs/implementation/phase-18/test-evidence.md) and
+[ACTIVE](../docs/implementation/handoffs/ACTIVE.md) for unresolved source/producer,
+R7, quality and resource requirements. A separate independent review is required.

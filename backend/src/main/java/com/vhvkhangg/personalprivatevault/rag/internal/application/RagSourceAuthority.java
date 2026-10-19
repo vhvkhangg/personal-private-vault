@@ -30,16 +30,20 @@ public class RagSourceAuthority {
     private final RagRuntimeIdentity runtimeIdentity;
     private final RagLimits limits;
     private final RagRuntimeSecurity runtimeSecurity;
+    private final RagBatchRootRepository batchRoots;
+    private final RagExternalFileAuthority externalFileAuthority;
     private final ObjectMapper json = new ObjectMapper().findAndRegisterModules()
             .enable(com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
 
     public RagSourceAuthority(RagDependencyGraph graph, RagSourceRepository sources, RagJobLeaseRepository leases,
             VaultEntryOperations vault, SourceIndexReservations reservations, FictionSourceOperations fiction,
             FilmSourceOperations film, EntityManager entityManager, RagRuntimeIdentity runtimeIdentity,
-            RagLimits limits, RagRuntimeSecurity runtimeSecurity) {
+            RagLimits limits, RagRuntimeSecurity runtimeSecurity,
+            RagBatchRootRepository batchRoots, RagExternalFileAuthority externalFileAuthority) {
         this.graph = graph; this.sources = sources; this.leases = leases; this.vault = vault;
         this.reservations = reservations; this.fiction = fiction; this.film = film; this.entityManager = entityManager;
         this.runtimeIdentity = runtimeIdentity; this.limits = limits; this.runtimeSecurity = runtimeSecurity;
+        this.batchRoots = batchRoots; this.externalFileAuthority = externalFileAuthority;
     }
 
     public record Snapshot(RagSource root, String manifest, String payload) {
@@ -145,25 +149,52 @@ public class RagSourceAuthority {
     }
 
     private Snapshot lockPrepared(Prepared prepared, UUID reservation, boolean admission, boolean currentRead) {
+        return guardPrepared(List.of(prepared), reservation, admission, currentRead).get(prepared.rootId());
+    }
+
+    public Map<Long, Snapshot> lockPreparedBatch(Collection<Prepared> prepared, UUID reservation, boolean admission) {
+        return guardPrepared(prepared, reservation, admission, false);
+    }
+
+    private Map<Long, Snapshot> guardPrepared(Collection<Prepared> prepared, UUID reservation,
+            boolean admission, boolean currentRead) {
         runtimeSecurity.requireIsolatedRuntime();
         var topology = graph.lockAndRead();
-        var ids = new TreeSet<>(topology.descendants(prepared.rootId())); ids.add(prepared.rootId());
-        if (!ids.equals(prepared.proofs().keySet())) throw new RagSourceChangedException();
-        var ownerIds = new TreeSet<Long>(); prepared.proofs().values().forEach(p -> ownerIds.add(p.ownerId()));
+        var proofs = new TreeMap<Long, SourceProof>();
+        for (var root : prepared) {
+            var closure = new TreeSet<>(topology.descendants(root.rootId())); closure.add(root.rootId());
+            if (!closure.equals(root.proofs().keySet())) throw new RagSourceChangedException();
+            var edges = new ArrayList<List<Long>>();
+            for (Long id : closure) topology.forward().getOrDefault(id, Set.of()).stream().sorted()
+                    .forEach(child -> edges.add(List.of(id, child)));
+            try {
+                if (!json.readTree(root.manifest()).path("edges").toString().equals(encode(edges)))
+                    throw new RagSourceChangedException();
+            } catch (com.fasterxml.jackson.core.JsonProcessingException failure) {
+                throw new IllegalStateException("Invalid dependency proof", failure);
+            }
+            root.proofs().forEach((id, proof) -> {
+                var previous = proofs.putIfAbsent(id, proof);
+                if (previous != null && !previous.equals(proof)) throw new RagSourceChangedException();
+            });
+        }
+        if (proofs.isEmpty() || proofs.size() > limits.selectedSources())
+            throw new IllegalStateException("Source selection budget exceeded");
+        var ownerIds = new TreeSet<Long>(); proofs.values().forEach(p -> ownerIds.add(p.ownerId()));
         SourceVersions versions;
         if (currentRead) versions = reservations.lockForRead(ownerIds);
         else if (reservation == null) { vault.acquireSourceGuards(ownerIds); versions = reservations.read(ownerIds); }
         else versions = reservations.lockReserved(ownerIds, reservation);
-        var locked = sources.findAllByIdInForUpdate(ids);
-        if (locked.size() != ids.size()) throw new IllegalStateException("Source authority is unavailable");
-        RagSource root = null;
+        var locked = sources.findAllByIdInForUpdate(new TreeSet<>(proofs.keySet()));
+        if (locked.size() != proofs.size()) throw new IllegalStateException("Source authority is unavailable");
+        Map<Long, RagSource> byId = new HashMap<>();
         for (var source : locked) {
             entityManager.refresh(source);
-            var expected = prepared.proofs().get(source.getId());
+            var expected = proofs.get(source.getId());
             var owner = versions.require(expected.ownerId());
             if (owner.deleted() || !owner.sourceType().equals(expected.type()) || owner.sourceVersion() != expected.version()
                     || owner.consentResetVersion() != expected.reset() || !source.getSourceId().equals(Long.toString(expected.ownerId()))
-                    || source.getSourceType().name().equals(expected.type()) == false
+                    || !source.getSourceType().name().equals(expected.type())
                     || source.getClassification() != RagClassification.NON_PRIVATE || source.getAccessState() != RagAccessState.APPROVED
                     || !Objects.equals(source.getApprovedOwnerResetVersion(), expected.reset())
                     || source.getAuthorizationEpoch() != expected.epoch() || source.getFieldPolicyVersion() != expected.policy()
@@ -175,15 +206,13 @@ public class RagSourceAuthority {
                     || (expected.fields().contains("description") && !source.getDescriptionRevisionHash().equals(expected.descriptionHash()))) {
                 throw new RagSourceChangedException();
             }
-            if (source.getId().equals(prepared.rootId())) root = source;
+            byId.put(source.getId(), source);
         }
-        var edges = new ArrayList<List<Long>>();
-        for (Long id : ids) topology.forward().getOrDefault(id, Set.of()).stream().sorted().forEach(child -> edges.add(List.of(id, child)));
-        try {
-            if (!json.readTree(prepared.manifest()).path("edges").toString().equals(encode(edges))) throw new RagSourceChangedException();
-        } catch (com.fasterxml.jackson.core.JsonProcessingException failure) { throw new IllegalStateException("Invalid dependency proof", failure); }
-        if (admission) entityManager.flush(); // Confirmation/bookkeeping must precede durable reservation, in this same TX.
-        return new Snapshot(Objects.requireNonNull(root), prepared.manifest(), prepared.payload());
+        if (admission) entityManager.flush();
+        var result = new HashMap<Long, Snapshot>();
+        for (var root : prepared) result.put(root.rootId(), new Snapshot(
+                Objects.requireNonNull(byId.get(root.rootId())), root.manifest(), root.payload()));
+        return Map.copyOf(result);
     }
 
     public Snapshot lockSource(Long rootId) {
@@ -217,6 +246,66 @@ public class RagSourceAuthority {
                 || !Objects.equals(lease.getContentRevisionHash(), snapshot.root().getSourceRevisionHash())
                 || !Objects.equals(lease.getDependencyManifest(), snapshot.manifest())) throw new RagSourceChangedException();
         return new Attempt(lease, snapshot);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Long, Prepared> prepareBatch(UUID jobId, UUID attemptId) {
+        var lease = leases.findByJobIdAndAttemptId(jobId, attemptId).orElseThrow();
+        var manifest = RagManifestScope.parse(lease.getDependencyManifest());
+        if (!"3.0".equals(manifest.path("contract_version").asText()))
+            throw new IllegalStateException("Document contract required");
+        var result = new TreeMap<Long, Prepared>();
+        for (var root : manifest.path("roots")) {
+            long id = root.path("rag_source_id").asLong();
+            var prepared = prepareSource(id, Map.of());
+            try {
+                if (!json.readTree(prepared.manifest()).equals(root.path("manifest")))
+                    throw new RagSourceChangedException();
+            } catch (com.fasterxml.jackson.core.JsonProcessingException failure) {
+                throw new IllegalStateException("Invalid document source scope", failure);
+            }
+            if (result.putIfAbsent(id, prepared) != null) throw new RagSourceChangedException();
+        }
+        return Map.copyOf(result);
+    }
+
+    public Attempt lockPreparedBatchAttempt(UUID jobId, UUID attemptId, Map<Long, Prepared> prepared) {
+        runtimeSecurity.requireIsolatedRuntime();
+        var initial = leases.findByJobIdAndAttemptId(jobId, attemptId).orElseThrow();
+        var snapshots = lockPreparedBatch(prepared.values(), initial.getReservationToken(), false);
+        var lease = leases.findByJobIdAndAttemptIdForUpdate(jobId, attemptId).orElseThrow();
+        entityManager.refresh(lease);
+        if (!Set.of("ADMITTED", "STARTING", "ACTIVE").contains(lease.getStatus())
+                || lease.isExpired(databaseTime()) || lease.isStagingClosed())
+            throw new IllegalStateException("Job lease is inactive or expired");
+        var manifest = RagManifestScope.parse(lease.getDependencyManifest());
+        if (!"3.0".equals(manifest.path("contract_version").asText())
+                || manifest.path("roots").size() != prepared.size()) throw new RagSourceChangedException();
+        for (var root : manifest.path("roots")) {
+            var proof = prepared.get(root.path("rag_source_id").asLong());
+            try {
+                if (proof == null || !root.path("manifest").equals(json.readTree(proof.manifest())))
+                    throw new RagSourceChangedException();
+            } catch (com.fasterxml.jackson.core.JsonProcessingException failure) {
+                throw new IllegalStateException("Invalid document source scope", failure);
+            }
+        }
+        return new Attempt(lease, Objects.requireNonNull(snapshots.get(lease.getSourceId())));
+    }
+
+    public List<Map<String, Object>> documentInput(UUID jobId, UUID attemptId, Map<Long, Prepared> prepared) {
+        var lease = leases.findByJobIdAndAttemptId(jobId, attemptId).orElseThrow();
+        var manifest = RagManifestScope.parse(lease.getDependencyManifest());
+        if (!"3.0".equals(manifest.path("contract_version").asText()))
+            throw new IllegalStateException("Document contract required");
+        var input = new ArrayList<Map<String, Object>>();
+        for (var root : manifest.path("roots")) {
+            var proof = Objects.requireNonNull(prepared.get(root.path("rag_source_id").asLong()));
+            input.add(RagDocumentInput.approvedRoot(root.path("root_key").asText(), proof));
+        }
+        if (RagDocumentInput.encode(input).getBytes(StandardCharsets.UTF_8).length > limits.inputBytes())
+            throw new IllegalStateException("Worker input byte budget exceeded");
+        return List.copyOf(input);
     }
 
     private String encode(Object value) {

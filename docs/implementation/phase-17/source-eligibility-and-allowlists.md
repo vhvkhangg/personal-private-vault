@@ -1,5 +1,7 @@
 # P17-2 — Source eligibility, authoritative classification and field allowlists
 
+> **Prospective applicability pointer, 2026-10-18:** [ADR-0022](../../adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) alone controls the explicitly named external-only exceptions for new Phase 18 RAG-owned whole-file snapshots: content scope, protected capture then immutable-store lifetime, SNAPSHOT_CURRENT/original UNVERIFIED, guarded NO_CHANGE/C_N and snapshot-only deny incident C_D. This is not a retrospective rewrite of accepted Phase 17 or a change to Vault/domain privacy, field, description, reset or unaffected reservation/process/SQL/E1 guarantees. The original contract/evidence below is preserved; broad external/live/field clauses apply to S only as replaced in ADR-0022. Live capability stays DISABLED / DEFERRED; snapshots inactive; implementation STOPPED.
+
 **Status:** Owner-approved contract, amended 2026-10-15 under
 [ADR-0020](../../adr/0020-phase-17-single-job-reservations-e1.md). This is required
 behavior, not implemented proof. Containment remains; no execution or production

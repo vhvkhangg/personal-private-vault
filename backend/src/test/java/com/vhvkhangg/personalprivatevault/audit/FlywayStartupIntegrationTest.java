@@ -32,7 +32,8 @@ class FlywayStartupIntegrationTest {
 
     @Container
     static final PostgreSQLContainer<?> CLEAN_POSTGRES =
-            new PostgreSQLContainer<>(DockerImageName.parse("postgres:18.6-alpine"))
+            new PostgreSQLContainer<>(DockerImageName.parse("ppv-rag-postgres:18.6-pgvector0.8.6")
+                    .asCompatibleSubstituteFor("postgres"))
                     .withDatabaseName("ppv_clean_startup")
                     .withUsername("ppv_clean")
                     .withPassword("ppv_clean_pass");
@@ -100,7 +101,7 @@ class FlywayStartupIntegrationTest {
             var info = restartedFlyway.info();
             assertThat(info.pending()).isEmpty();
             assertThat(info.applied()).hasSizeGreaterThanOrEqualTo(2);
-            assertThat(info.current().getVersion().getVersion()).isEqualTo("17");
+            assertThat(info.current().getVersion().getVersion()).isEqualTo("19");
         }
     }
 }

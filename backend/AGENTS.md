@@ -16,22 +16,16 @@ Codex remains planning/review-only for production implementation unless the owne
 Phase 17 Alternative B/E1 **Foundation is COMPLETE — FROZEN** after independent final re-review 3,
 owner implementation commit/push `829d294aca7d916851348ff21004c631915d572e` and
 [formal closeout](../docs/implementation/phase-17/closeout.md). Its `P17-RAG-FOUNDATION` handoff
-is archived; current [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF`.
+is archived; [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) was reset at that closeout and now contains the separate Phase 18 `P18-DOCUMENT-INDEXING` handoff.
 FR17-1–11 and AB-1–6 are closed for bounded Foundation scope. `AUTH-CLOCK` remains separately OPEN
 in Authentication; no blanket test waiver. Default containment and **disabled live external-file
 indexing** remain until independent Windows/NTFS R7 proof and an accepted new handoff.
 
-## Current RAG authorization — 2026-10-17
+## Current RAG authorization — 2026-10-18
 
-Owner approved Phase 18 **design/preparation**, including bounded D18-A in
-[ADR-0021](../docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md); Codex pre-handoff
-is **READY FOR HANDOFF** after [re-review 2](../docs/implementation/phase-18/reviews/2026-10-17-phase-18-pre-handoff-codex-re-review-2.md), with all four preparation findings closed. This is not a production handoff. Maintain
-frozen [ADR-0020](../docs/adr/0020-phase-17-single-job-reservations-e1.md) semantics until a
-separately accepted/owner-committed Phase 18 preparation and new Codex-created active handoff
-specifically authorize implementation. No production work under a closed Phase 17 handoff, no
-automatic live-file enablement, and no unapproved commit/push. After two actual Antigravity
-implementation remediation + Codex re-review rounds, a separate Codex takeover/reviewer workflow
-may apply **only per the existing authorized workflow**, not during preparation.
+[ADR-0022](../docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) is the **OWNER_APPROVED / CANONICALLY_SYNCHRONIZED** external snapshot target: whole-file consent, exact ORIGINAL_BYTES, guarded SHA-256/length NO_CHANGE and C_N. Its exact external-only applicability replaces listed ADR-0021/P17 clauses; frozen Vault behavior and unaffected Phase 17 guarantees remain.
+
+[ACTIVE](../docs/implementation/handoffs/ACTIVE.md) is **P18-DOCUMENT-INDEXING / CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED**. Present authorization is documentation-only synchronization, not implementation, tests, migrations, experiments, worker launch or ingestion activation. Live originals remain DISABLED / DEFERRED pending separate future authorization/R7 acceptance; snapshot ingestion inactive. G1–G4 and FR18-1–11 remain OPEN; preserve credited repairs and mandatory producer/quality/resource/P18-FINAL obligations. **2/2 Antigravity rounds exhausted; no third round/automatic takeover loop. Next gate: independent documentation synchronization review.** Owner-only commits/pushes; later implementation requires separate finite authorization/handoff.
 
 ## Package structure
 

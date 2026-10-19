@@ -13,7 +13,8 @@ public abstract class AbstractPostgresIntegrationTest {
     public static final PostgreSQLContainer<?> POSTGRES;
 
     static {
-        POSTGRES = new PostgreSQLContainer<>(DockerImageName.parse("postgres:18.6-alpine"))
+        POSTGRES = new PostgreSQLContainer<>(DockerImageName.parse("ppv-rag-postgres:18.6-pgvector0.8.6")
+                .asCompatibleSubstituteFor("postgres"))
                 .withDatabaseName("personal_private_vault")
                 .withUsername("ppv_test")
                 .withPassword("ppv_test_password");

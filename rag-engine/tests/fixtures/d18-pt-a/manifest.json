@@ -1,0 +1,300 @@
+{
+  "dataset": "D18-PT-A-2026-10-18",
+  "frozen_utc": "2026-10-18T06:15:33Z",
+  "config": {
+    "candidate": "Tesseract 5.2.0 C API + tessdata_best vie; OpenCV ruled-cell geometry",
+    "oem": 1,
+    "psm": 7,
+    "language": "vie",
+    "render_dpi": 144,
+    "retry": 0,
+    "grid_kernel_fraction": 0.08,
+    "material_error": "Any exact text/cell/span/order error fails this diagnostic file",
+    "geometry_tolerance_points": 2.0,
+    "production_integration": false
+  },
+  "config_sha256": "c153d3e83d84e1713e603ddfd479fd3a1ae308e924d4ab22e50ffd5e328cfbda",
+  "items": [
+    {
+      "file": "shelf-regression.pdf",
+      "sha256": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894",
+      "source_group": "shelf-regression",
+      "split": "development",
+      "language": "vi",
+      "format": "pdf-scan",
+      "source_key": "synthetic:shelf-regression",
+      "source_version": 1,
+      "approved_field": "content",
+      "page": 1,
+      "labels": [
+        {
+          "text": "Kệ sách có 45 quyển.",
+          "bbox": [
+            30,
+            160,
+            570,
+            430
+          ],
+          "kind": "text"
+        }
+      ],
+      "native_text": ""
+    },
+    {
+      "file": "office-stock.pdf",
+      "sha256": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6",
+      "source_group": "office-stock",
+      "split": "development",
+      "language": "vi",
+      "format": "pdf-scan",
+      "source_key": "synthetic:office-stock",
+      "source_version": 1,
+      "approved_field": "content",
+      "page": 1,
+      "labels": [
+        {
+          "text": "Vật tư",
+          "bbox": [
+            60.0,
+            197.5,
+            540.0,
+            238.75
+          ],
+          "kind": "cell",
+          "row": 0,
+          "column": 0,
+          "row_span": 1,
+          "column_span": 2
+        },
+        {
+          "text": "Tên",
+          "bbox": [
+            60.0,
+            238.75,
+            300.0,
+            280.0
+          ],
+          "kind": "cell",
+          "row": 1,
+          "column": 0,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "Số lượng",
+          "bbox": [
+            300.0,
+            238.75,
+            540.0,
+            280.0
+          ],
+          "kind": "cell",
+          "row": 1,
+          "column": 1,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "Bút mực",
+          "bbox": [
+            60.0,
+            280.0,
+            300.0,
+            321.25
+          ],
+          "kind": "cell",
+          "row": 2,
+          "column": 0,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "24",
+          "bbox": [
+            300.0,
+            280.0,
+            540.0,
+            321.25
+          ],
+          "kind": "cell",
+          "row": 2,
+          "column": 1,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "Giấy",
+          "bbox": [
+            60.0,
+            321.25,
+            300.0,
+            362.5
+          ],
+          "kind": "cell",
+          "row": 3,
+          "column": 0,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "80",
+          "bbox": [
+            300.0,
+            321.25,
+            540.0,
+            362.5
+          ],
+          "kind": "cell",
+          "row": 3,
+          "column": 1,
+          "row_span": 1,
+          "column_span": 1
+        }
+      ],
+      "native_text": ""
+    },
+    {
+      "file": "medical-appointment.pdf",
+      "sha256": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e",
+      "source_group": "medical-appointment",
+      "split": "held_out",
+      "language": "vi",
+      "format": "pdf-scan",
+      "source_key": "synthetic:medical-appointment",
+      "source_version": 1,
+      "approved_field": "content",
+      "page": 1,
+      "labels": [
+        {
+          "text": "Bác sĩ hẹn khám vào thứ Sáu.",
+          "bbox": [
+            30,
+            160,
+            570,
+            430
+          ],
+          "kind": "text"
+        }
+      ],
+      "native_text": ""
+    },
+    {
+      "file": "transport-timetable.pdf",
+      "sha256": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764",
+      "source_group": "transport-timetable",
+      "split": "held_out",
+      "language": "vi",
+      "format": "pdf-mixed",
+      "source_key": "synthetic:transport-timetable",
+      "source_version": 1,
+      "approved_field": "content",
+      "page": 1,
+      "labels": [
+        {
+          "text": "Lịch xe buýt",
+          "bbox": [
+            60.0,
+            197.5,
+            540.0,
+            238.75
+          ],
+          "kind": "cell",
+          "row": 0,
+          "column": 0,
+          "row_span": 1,
+          "column_span": 2
+        },
+        {
+          "text": "Tuyến",
+          "bbox": [
+            60.0,
+            238.75,
+            300.0,
+            280.0
+          ],
+          "kind": "cell",
+          "row": 1,
+          "column": 0,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "Giờ",
+          "bbox": [
+            300.0,
+            238.75,
+            540.0,
+            280.0
+          ],
+          "kind": "cell",
+          "row": 1,
+          "column": 1,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "Chuyến sáng",
+          "bbox": [
+            60.0,
+            280.0,
+            300.0,
+            321.25
+          ],
+          "kind": "cell",
+          "row": 2,
+          "column": 0,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "07:30",
+          "bbox": [
+            300.0,
+            280.0,
+            540.0,
+            321.25
+          ],
+          "kind": "cell",
+          "row": 2,
+          "column": 1,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "Chuyến tối",
+          "bbox": [
+            60.0,
+            321.25,
+            300.0,
+            362.5
+          ],
+          "kind": "cell",
+          "row": 3,
+          "column": 0,
+          "row_span": 1,
+          "column_span": 1
+        },
+        {
+          "text": "19:15",
+          "bbox": [
+            300.0,
+            321.25,
+            540.0,
+            362.5
+          ],
+          "kind": "cell",
+          "row": 3,
+          "column": 1,
+          "row_span": 1,
+          "column_span": 1
+        }
+      ],
+      "native_text": "Transit schedule"
+    }
+  ],
+  "synthetic": true,
+  "human_adjudication": "PENDING; deterministic render labels only. No independent human acceptance claimed.",
+  "dependency_edges": [],
+  "cross_split_source_groups": [],
+  "held_out_policy": "No inference/tuning until configuration freeze; run once, retain failures. Independent source groups, not independent human adjudication."
+}

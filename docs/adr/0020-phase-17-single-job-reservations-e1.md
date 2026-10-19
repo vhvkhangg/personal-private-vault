@@ -1,5 +1,7 @@
 # ADR-0020 — Phase 17 single-job source reservations and E1 execution expiry
 
+> **Prospective scoped applicability, 2026-10-18:** [ADR-0022](0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) supersedes only the explicitly listed external-source content-consent, live freshness/lifetime and reserved deny-incident applicability for new Phase 18 RAG-owned whole-file snapshots, adding guarded nonpublication C_N. This ADR remains accepted/frozen for Vault and all unaffected guarantees; historical rationale/status/evidence below is unchanged. No implementation or live capability activation follows.
+
 - **Status:** Accepted by the owner, 2026-10-15; CONTRACT APPROVAL ONLY.
 - **Decision owner:** Repository owner, explicit Alternative B approval (seven decisions).
 - **Amends:** ADR-0019 clauses 2–5 for the bounded Phase 17 foundation. Does not reopen unrelated frozen phases.

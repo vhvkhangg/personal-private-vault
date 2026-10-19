@@ -15,7 +15,7 @@
     `$codex-pre-handoff-review` returned `READY FOR AUDIT`, the owner committed preparation, then `$codex-backend-audit` ran.
     It supersedes the former post-15 milestone.
 
-**Current gate (2026-10-17):** Phase 17 RAG Foundation is **COMPLETE — FROZEN** (owner closeout commit `d02ed14844a2fcc775145fa032d3bee7fc2f370c`); `ACTIVE.md` is `NO_ACTIVE_HANDOFF`. Phase 18 **preparation** is Codex **READY FOR HANDOFF** with P18-PH-01–04 closed; owner commits/pushes preparation before separately invoking `$codex-create-handoff`. Phase 18 implementation and Phases 19–22 remain gated, and Phase 16 is deferred. See [Phase 18 preparation](../docs/implementation/phase-18/README.md). Use [RAG efficiency and two-round escalation policy](../docs/workflow/rag-phase-delivery-guardrails.md) for delivery.
+**Current gate (2026-10-18):** [ADR-0022](../docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) is OWNER_APPROVED / CANONICALLY_SYNCHRONIZED for external snapshots/whole-file/NO_CHANGE. [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) remains CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED, documentation-only. Live ingestion DISABLED / DEFERRED; snapshot ingestion inactive. G1–G4 and FR18-1–11 OPEN; 2/2 Antigravity rounds exhausted, no automatic implementation loop. Next: independent documentation synchronization review. Frozen Phase 17 and unrelated skill/workflow rules remain unchanged.
 
 See `docs/workflow/owner-phase-workflow.md`.
 

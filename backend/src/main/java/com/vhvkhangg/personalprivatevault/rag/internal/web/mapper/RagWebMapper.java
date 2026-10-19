@@ -84,4 +84,49 @@ public final class RagWebMapper {
                 result.publishedAt()
         );
     }
+
+    public static com.vhvkhangg.personalprivatevault.rag.internal.web.dto.FileOutcomeDto toResponse(com.vhvkhangg.personalprivatevault.rag.api.RagFileOutcomeView view) {
+        if (view == null) return null;
+        return new com.vhvkhangg.personalprivatevault.rag.internal.web.dto.FileOutcomeDto(
+                view.rootKey(),
+                view.result(),
+                view.candidateGenerationId(),
+                view.warningCodes(),
+                view.chunkCount(),
+                view.pageCount(),
+                view.errorCode(),
+                view.errorMessage(),
+                view.currentIndexState()
+        );
+    }
+
+    public static com.vhvkhangg.personalprivatevault.rag.internal.web.dto.RagDocumentBatchReportResponse toResponse(com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchReport report) {
+        if (report == null) return null;
+        java.util.List<com.vhvkhangg.personalprivatevault.rag.internal.web.dto.FileOutcomeDto> outcomeDtos = report.outcomes() != null
+                ? report.outcomes().stream().map(RagWebMapper::toResponse).toList()
+                : java.util.List.of();
+        return new com.vhvkhangg.personalprivatevault.rag.internal.web.dto.RagDocumentBatchReportResponse(
+                report.jobId(),
+                report.status(),
+                report.summaryOutcome(),
+                outcomeDtos,
+                report.modelArtifactHash(),
+                report.modelVersion(),
+                report.peakSystemRamBytes(),
+                report.peakGpuVramBytes(),
+                report.createdAt(),
+                report.finishedAt()
+        );
+    }
+
+    public static com.vhvkhangg.personalprivatevault.rag.internal.web.dto.RagBatchFinalizationResponse toResponse(com.vhvkhangg.personalprivatevault.rag.api.RagBatchFinalizationResult result) {
+        if (result == null) return null;
+        return new com.vhvkhangg.personalprivatevault.rag.internal.web.dto.RagBatchFinalizationResponse(
+                result.jobId(),
+                result.jobStatus(),
+                result.publishedCount(),
+                result.failedCount(),
+                result.publishedGenerations()
+        );
+    }
 }

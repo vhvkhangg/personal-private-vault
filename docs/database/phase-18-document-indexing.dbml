@@ -1,76 +1,139 @@
-// Phase 18 D18-A owner-approved PROPOSED logical extension (ADR-0021).
-// NOT deployed DDL; neither alters frozen Schema v1 nor the Phase 17 additive DBML.
-// Append actual migrations AFTER V17 (V18+); exact physical keys/names/indexes must
-// be reconciled with V3-V17 effective schema and audited role/fence SQL before writing migrations.
+// 2026-10-19 OWNER AMENDMENT: ADR-0023 supersedes old OS-native G1/G3
+// requirements (Restricted Token/LPAC/DACL/ABA/forensic proofs). Java-owned
+// application snapshot: selected regular file, streamed SHA-256+length,
+// no-overwrite R, integrity before use and bounded crash/orphan recovery.
+// Keep SQL source guards, result checks, one trusted C_P and whole-file consent.
+// This is logical mapping, NOT a new migration or runtime PASS.
+// Phase 18 candidate physical schema representation (V18 plus append-only V19).
+// Partial implementation; no runtime/R7 or Phase 18 acceptance claim.
+// Effective external TARGET: ADR-0022 Immutable Snapshot + WHOLE_FILE + NO_CHANGE,
+// OWNER_APPROVED / CANONICALLY_SYNCHRONIZED (2026-10-18); implementation STOPPED.
+// The tables below describe inherited V18/V19 CURRENT candidate structures only.
+// They do NOT implement immutable ORIGINAL_BYTES revisions, whole-file grants,
+// guarded NO_CHANGE C_N, snapshot selection/currentness or deny-only incidents.
+// No runnable DDL/migration or new physical layout is authorized by this document.
+// Appends to frozen Schema v1 and Phase 17 additive DBML without modifying frozen baselines.
 // Mixed-source lock order (ADR-0021 clause 2): optional graph barrier -> sorted Vault
 // source-state guards -> sorted RAG external-file source guards -> Vault lifecycle
 // -> owner projection/assignment -> sorted RAG policy -> job/attempt ->
-// generation/staging/run. Preserve the preexisting relative Phase 17 order.
-// Owner commands take applicable subset; worker uses attempt -> staging only;
-// attempt-only stop-request TX ends before source/process action. NOWAIT trigger
-// backstop must not wait backwards. These are logical ordering requirements,
-// NOT grants, added global coordinator or production lock implementation.
+// generation/staging/run. Preserves preexisting Phase 17 order.
 Project phase18_rag_document_index {
   database_type: 'PostgreSQL'
-  Note: 'RAG-owned additions only. Logical keys below, not literal new production tables or worker grants. Existing rag.sources/job_leases/index_generations/grants/staging are reused.'
+  Note: 'RAG-owned additions implemented in V18 migration. Extends rag schema with multi-root batch admission, per-file reporting, generation roots, document chunks with vector(384), and stage fences.'
 }
 
-Table rag.external_file_sources_phase18 {
-  file_source_id uuid [pk, note: 'Proposed stable RAG-owned external file identity; NEVER cast to Vault ID']
+// ADR-0022 additive logical responsibility map (TARGET / NOT_IMPLEMENTED):
+// O = private original provenance/root/object/ancestors and capture interval;
+// S = distinct RAG-owned logical snapshot identity, never Vault/hash identity;
+// R = immutable ORIGINAL_BYTES UUID/ordinal, SHA-256 + length, durable protected
+// app-level no-overwrite file-side seal outside PG, exact child-vector/manifest and approval;
+// G = exact verified generation for its own S/R/closure, not the batch union.
+// Separate sourceVersion, source reset/authorization, revision grant/consent-mode
+// policy and monotonic incident fence/disposition; selected R versus pending R.
+// WHOLE_FILE replaces external internal-field privacy permission; structural roles
+// remain attribution. Every independently opened child retains its own S/R/grant.
+// Valid NO_CHANGE changes no R/ordinal/sourceVersion/G/consent/selection/closure;
+// no new job enum. Full mixed roster/union survives to known final atomic finish.
+// C_N = guarded NO_CHANGE nonpublication disposition; implement C_D-like deny
+// via minimal durable source-integrity state using existing Phase 17 guards;
+// C_R = actual cancel-first revoke/reset; C_P = one trusted Java new-G publication.
+// Source-first same-transaction guards and exact release remain mandatory; unknown
+// outcomes retain exclusion/reservations. No hash-only authority or producer proof.
+// Snapshot CURRENT target = SNAPSHOT_CURRENT, originalFreshness=UNVERIFIED;
+// source/consent/selected child/integrity/incident/retention predicates all required.
+// Locator JSON target adds typed original container-part/property-key/object/comment
+// IDs for genuinely non-page/cell-located material, with S/R/digest/applicable anchor;
+// actual page/box/cell/paragraph/merged-cell geometry remains mandatory.
+// Purge targets complete managed snapshots/temp/orphans and actual SQL derivatives;
+// preserve safe reset/incident/anti-replay history. Managed file backup exclusions
+// do not erase PG backups/WAL/owner copies. Missing files/uncertain restore denies.
+// Minimal physical reconciliation/append-only migrations require separate approved
+// implementation and review after actual tip V19; do not rewrite V1-V19/Schema v1.
+// See docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md,
+// docs/architecture/rag-phase-18-api-extension.md and Phase 18 AC/FCNC evidence.
+
+Table rag.external_file_sources {
+  id bigserial [pk]
+  file_source_id uuid [unique, not null, note: 'Stable RAG-owned external file identity; NEVER cast to Vault ID']
   canonical_identity_digest varchar(128) [not null, note: 'No raw private path in operational report']
-  source_version bigint [not null]
-  consent_reset_version bigint [not null]
-  authorization_epoch bigint [not null]
-  field_policy_version int [not null]
-  eligible boolean [not null]
+  source_version bigint [not null, default: 1]
+  consent_reset_version bigint [not null, default: 1]
+  authorization_epoch bigint [not null, default: 1]
+  field_policy_version int [not null, default: 1]
+  eligible boolean [not null, default: true]
   reserved_by uuid [note: 'Durable exact job reservation, no TTL/unverified release']
-  Note: 'Logical RAG-owned source/version/consent/guard; preserve classified field grants and retained revocation history. Physical identity/NTFS handle validation and policy rows require audited implementation.'
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  updated_at timestamptz [not null, default: `clock_timestamp()`]
+  Note: 'Guarded by trg_external_file_sources_guard trigger against mutation while reserved.'
 }
 
-Table rag.batch_roots_phase18 {
+Table rag.batch_roots {
   job_id uuid [not null]
-  root_key varchar(255) [not null, note: 'Tagged source identity: Vault-backed or RAG external; not a path nor coerced Vault ID']
+  root_key varchar(255) [not null, note: 'Tagged source identity: Vault-backed or RAG external; not a raw path']
+  source_id bigint [not null, ref: > rag.sources.id, note: 'FK to rag.sources']
   expected_source_version bigint [not null]
   expected_authorization_epoch bigint [not null]
-  Note: 'Immutable explicit manual root set; each root independently approved. Reservation manifest separately binds union of all actual dependency closures.'
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  Note: 'Immutable explicit batch root admission set; each root independently approved.'
   indexes { (job_id, root_key) [pk] }
 }
 
-Table rag.file_outcomes_phase18 {
+Table rag.file_outcomes {
   job_id uuid [not null]
   root_key varchar(255) [not null]
-  result varchar(32) [not null, note: 'Typed per-file success/failure and sanitized reason; NOT a new job enum']
-  candidate_generation_id bigint [note: 'Only for fully validated per-file candidate']
-  warning_codes jsonb [note: 'Safe non-content reasons only; no raw OCR text or file paths']
-  Note: 'One outcome per selected root. Only trusted Java marks final published outcome after staging verification.'
+  result varchar(32) [not null, note: 'Per-file outcome: SUCCESS or FAILED']
+  candidate_generation_id uuid [note: 'Generation UUID when published']
+  warning_codes jsonb [not null, default: `'[]'`, note: 'Safe non-content reason codes']
+  chunk_count int [not null, default: 0]
+  page_count int [not null, default: 0]
+  error_code varchar(64) [note: 'Sanitized failure code']
+  error_message text [note: 'Sanitized error detail']
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  Note: 'Durable per-file outcome. Computed live validity (CURRENT/REVOKED/OUTDATED) evaluated dynamically at query time.'
   indexes { (job_id, root_key) [pk] }
 }
 
-Table rag.generation_roots_phase18 {
-  generation_id bigint [not null, note: 'Reuse index_generations identity; one independent successful root']
+Table rag.generation_roots {
+  generation_id bigint [pk, ref: > rag.index_generations.id, note: 'One-to-one with index_generations for published root']
   root_key varchar(255) [not null]
-  exact_dependency_manifest jsonb [not null, note: 'Only actual root/child/edge/field/version/consent/reset proofs, NOT job-wide union']
+  exact_dependency_manifest jsonb [not null, note: 'manifest_text contains this generation own exact domain root/child/edge/field/version/reset proof, independent of the job union; external authority incomplete']
   model_artifact_hash varchar(128) [not null]
   model_version varchar(128) [not null]
   tokenizer_version varchar(128) [not null]
   parser_version varchar(128) [not null]
   chunker_version varchar(128) [not null]
   ocr_pipeline_version varchar(128) [not null]
-  vector_dimensions int [not null]
-  Note: 'Logical per-generation CURRENT/OUTDATED/revoke/purge closure; no cached permission boolean; do not mutate unrelated generation.'
-  indexes { (generation_id) [pk] }
+  vector_dimensions int [not null, note: 'Enforced 384 dimensions']
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  Note: 'Per-generation metadata for independent CURRENT/OUTDATED/revocation/purge lifetime.'
 }
 
-Table rag.document_chunks_phase18 {
-  chunk_id bigint [pk]
-  generation_id bigint [not null, ref: > rag.generation_roots_phase18.generation_id]
-  source_identity varchar(255) [not null, note: 'Exact approved attributed original source including embed child']
-  content text [not null, note: 'Sensitive derived content: never operational logs; purge with source/descendants']
-  locator jsonb [not null, note: 'Typed mandatory provenance fields validated per source format']
-  structure_metadata jsonb [note: 'Allowlisted headings/tables/header context only']
-  embedding vector [note: 'Proposed pgvector with dimension enforced per selected model in executable migration; NOT generic unbounded type']
-  Note: 'Atomic staged candidate and published content lifecycle fenced by actual worker and trusted Java transaction.'
+Table rag.document_chunks {
+  chunk_id bigserial [pk]
+  generation_id bigint [not null, ref: > rag.generation_roots.generation_id]
+  source_identity varchar(255) [not null, note: 'Exact approved attributed original source']
+  content text [not null, note: 'Sensitive derived content; purged on revocation']
+  locator jsonb [not null, note: 'Format-specific typed provenance (PDF page/bbox, Excel worksheet/a1_range, DOCX para/table, MD line_start)']
+  structure_metadata jsonb [not null, default: `'{}'`, note: 'Allowlisted structural elements']
+  embedding vector(384) [note: 'Hibernate float[] / SqlTypes.VECTOR with BOM-aligned hibernate-vector; V19 rejects absent extension or BYTEA installation without deleting data']
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  Note: 'Atomic published content lifecycle fenced by worker deadline trigger and trusted Java transaction.'
 }
-// Existing rag.job_leases, rag.index_generations, rag.worker_grants and audited staging functions
-// remain authority. Real physical schema may consolidate these proposed logical records.
-// No new business module/reverse FK/global slot/worker direct DML/publication privilege.
+
+Table rag.staged_document_outputs {
+  id bigserial [pk]
+  job_id uuid [not null]
+  attempt_id uuid [not null]
+  root_key varchar(255) [not null]
+  success boolean [not null]
+  reason_code varchar(64) [not null]
+  warning_codes jsonb [not null, default: `'[]'`]
+  chunks_payload jsonb [not null, default: `'[]'`]
+  resource_report jsonb [not null, default: `'{}'`]
+  worker_receipt boolean [not null, default: true]
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  Note: 'Restricted worker staging table protected by trg_staged_document_outputs_lease_fence commit stage deadline constraint trigger.'
+  indexes {
+    (job_id, attempt_id, root_key) [unique]
+  }
+}

@@ -1,41 +1,54 @@
-"""Byte, time and concurrency bounds before FastAPI deserializes an execution request."""
+"""Offline ASGI transport enforcing service authentication, ingress byte budget, and input claim."""
+
+from __future__ import annotations
 
 import asyncio
 import hmac
 import json
-import threading
+from threading import Semaphore
+from typing import Any
 from uuid import UUID
 
-from starlette.types import ASGIApp, Message, Receive, Scope, Send
+from starlette.types import ASGIApp, Receive, Scope, Send
 
 from ppv_rag.config import settings
 from ppv_rag.db import claim_input
 
 
-def unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
-    result: dict[str, object] = {}
+def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    obj: dict[str, Any] = {}
     for key, value in pairs:
-        if key in result:
-            raise ValueError("Duplicate JSON property")
-        result[key] = value
-    return result
+        if key in obj:
+            raise ValueError(f"Duplicate JSON property: {key}")
+        obj[key] = value
+    return obj
 
 
-class BoundedWorkerRequests:
+class BoundWorkerTransport:
+    """Offline ASGI middleware.
+
+    Enforces loopback binding, service key authentication, and an audited
+    single-use database input claim for execution requests before reading request bodies.
+    """
+
     def __init__(self, app: ASGIApp) -> None:
         self.app = app
-        self.slot = threading.BoundedSemaphore(1)
+        self.slot = Semaphore(1)
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] != "http" or scope.get("method") != "POST":
             await self.app(scope, receive, send)
             return
-        execution = scope.get("path") == "/v1/worker/execute"
+
+        path = scope.get("path", "")
+        execution = path in ("/v1/worker/execute", "/v1/worker/execute-batch")
+
         if execution and not settings.bound_execution_enabled():
             # The owner permits isolated test-scoped enablement only. An existing
             # daemon, incomplete binding or ordinary startup remains contained.
             await self.error(send, 503, "Worker content execution is disabled")
             return
+
         headers: dict[bytes, bytes] = {}
         for name, value in scope.get("headers", []):
             name = name.lower()
@@ -43,18 +56,20 @@ class BoundedWorkerRequests:
                 await self.error(send, 401, "Service authentication denied")
                 return
             headers[name] = value
+
         if len(settings.service_key) < 32 or not hmac.compare_digest(
             headers.get(b"x-rag-service-key", b""), settings.service_key.encode()
         ):
             await self.error(send, 401, "Service authentication denied")
             return
+
         acquired = not execution or self.slot.acquire(blocking=False)
         if not acquired:
             await self.error(send, 429, "Worker busy")
             return
-        limit = 2105344 if execution else 2048
+
+        limit = 33554432 if path == "/v1/worker/execute-batch" else (2105344 if execution else 2048)
         try:
-            identity: tuple[str, str, str, str] | None = None
             if execution:
                 try:
                     identity = self.execution_identity(headers)
@@ -65,8 +80,9 @@ class BoundedWorkerRequests:
                 except Exception:
                     await self.error(send, 403, "Worker input authority denied")
                     return
+
             body = bytearray()
-            async with asyncio.timeout(5):
+            async with asyncio.timeout(10):
                 more = True
                 while more:
                     message = await receive()
@@ -77,28 +93,34 @@ class BoundedWorkerRequests:
                         await self.error(send, 413, "Request byte budget exceeded")
                         return
                     more = message.get("more_body", False)
+
             try:
-                parsed = json.loads(body, object_pairs_hook=unique_object)
-                if identity is not None and (
-                    not isinstance(parsed, dict)
-                    or parsed.get("job_id") != identity[0]
-                    or parsed.get("attempt_id") != identity[1]
-                    or parsed.get("lease_token") != identity[2]
+                payload = (
+                    json.loads(body.decode("utf-8"), object_pairs_hook=unique_object)
+                    if body
+                    else {}
+                )
+                if execution and (
+                    not isinstance(payload, dict)
+                    or payload.get("job_id") != identity[0]
+                    or payload.get("attempt_id") != identity[1]
+                    or payload.get("lease_token") != identity[2]
                 ):
                     raise ValueError("Input identity mismatch")
             except (ValueError, UnicodeError, RecursionError):
                 await self.error(send, 422, "Invalid worker contract")
                 return
-            delivered = False
 
-            async def replay() -> Message:
-                nonlocal delivered
-                if not delivered:
-                    delivered = True
+            consumed = False
+
+            async def cached_receive() -> dict[str, Any]:
+                nonlocal consumed
+                if not consumed:
+                    consumed = True
                     return {"type": "http.request", "body": bytes(body), "more_body": False}
-                return await receive()
+                return {"type": "http.disconnect"}
 
-            await self.app(scope, replay, send)
+            await self.app(scope, cached_receive, send)
         except TimeoutError:
             await self.error(send, 408, "Request deadline exceeded")
         finally:
@@ -107,6 +129,15 @@ class BoundedWorkerRequests:
 
     @staticmethod
     def execution_identity(headers: dict[bytes, bytes]) -> tuple[str, str, str, str]:
+        if (
+            b"x-rag-job-id" not in headers
+            or b"x-rag-attempt-id" not in headers
+            or b"x-rag-lease-token" not in headers
+            or b"x-rag-session-id" not in headers
+            or b"x-rag-endpoint-nonce" not in headers
+        ):
+            raise ValueError("Missing mandatory worker execution headers")
+
         job = headers[b"x-rag-job-id"].decode("ascii")
         attempt = headers[b"x-rag-attempt-id"].decode("ascii")
         token = headers[b"x-rag-lease-token"].decode("ascii")
@@ -135,3 +166,6 @@ class BoundedWorkerRequests:
             }
         )
         await send({"type": "http.response.body", "body": body})
+
+
+BoundedWorkerRequests = BoundWorkerTransport
