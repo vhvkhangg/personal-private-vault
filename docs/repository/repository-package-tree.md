@@ -427,3 +427,15 @@ raster tables reject pending a verified cell pipeline. New synthetic PDF geometr
 tests and a hashed two-family OCR diagnostic fixture set live under worker tests.
 This is an inventory of partial implementation, not complete format/language,
 resource, external-file/R7 or P18-FINAL acceptance.
+
+### Phase 18 Slice 1 additive correction inventory ? 2026-10-19
+
+The existing `rag/internal/application` package adds `RagSnapshotAcquisitionService`;
+`RagSourceService`, `RagRecoveryService` and the existing original-byte store own the
+pending capture/CAS, bounded reconciliation and retirement lifecycle. No extra module,
+job engine or scheduler is added. `rag/source/RagSnapshotExpectation` and
+`rag/api/RagSnapshotCaptureCommand` carry exact external owner intent; module-local
+`CaptureSnapshotRequest` and existing approval/source responses expose it over HTTP.
+V20 adds pending/selected metadata; append-only V21 adds pending consent association,
+selected hash/length and durable integrity denial. See the Phase 18 DBML/API inventory.
+This additive inventory does not change the frozen v1.1 tree or accept Slice 1/Phase 18.

@@ -18,4 +18,10 @@ public interface RagExternalFileSourceRepository extends JpaRepository<RagExtern
 
     @Query("SELECT s FROM RagExternalFileSource s WHERE s.fileSourceId IN :ids ORDER BY s.fileSourceId ASC")
     List<RagExternalFileSource> findAllByFileSourceIdInSorted(@Param("ids") Collection<UUID> ids);
+
+    @Query("SELECT s.selectedRevisionId FROM RagExternalFileSource s WHERE s.selectedRevisionId IS NOT NULL")
+    List<UUID> findAllSelectedRevisionIds();
+
+    @Query("SELECT s.pendingRevisionId FROM RagExternalFileSource s WHERE s.pendingRevisionId IS NOT NULL")
+    List<UUID> findAllPendingRevisionIds();
 }

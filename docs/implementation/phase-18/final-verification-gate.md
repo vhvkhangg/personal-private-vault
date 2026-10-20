@@ -2,6 +2,16 @@
 
 **Status:** Future execution **NOT RUN / NOT ACCEPTED**. Contract: [ADR-0023](../../adr/0023-phase-18-application-level-snapshot-worker-trust.md) + [acceptance](acceptance-and-evidence.md), effective 2026-10-19. The old native-ABA/Restricted Token/DACL/worker-denying ACL acceptance has been **removed** for external snapshots; this does **not** close functional, output-verification or lifecycle defects. Snapshot ingestion inactive. Historical strict-gate reviews are preserved unchanged.
 
+## Carried obligations from the 2026-10-20 Slice 1 owner exception
+
+[D14 / S1-RR-01](owner-decisions.md#2026-10-20--d14-p18-s1-verification-gate-exception-s1-rr-01) accepts the independently verified Slice 1 findings closure despite its failed aggregate clean gate; **it does not waive or pass P18-FINAL**. The [independent final acceptance](reviews/2026-10-20-slice-1-import-snapshot-independent-final-acceptance.md) verifies D14 and records `READY_FOR_OWNER_COMMIT` for Slice 1 only; S1-RR-01 is resolved by that exception. The retained gate remains **FAILED: 1,433 tests / 1 failure / 2 errors / 0 skips, exit 1**, with original evidence preserved in [test evidence](test-evidence.md) and the unchanged [independent re-review](reviews/2026-10-20-slice-1-import-snapshot-independent-re-review.md). No tests were rerun for the final acceptance.
+
+- **Before P18-FINAL:** require bounded aggregate PostgreSQL connection-resource investigation and repeat verification. Connection-slot exhaustion in the aggregate run remains unresolved; focused **25/25** worker-boundary success does not establish full-suite stability. Retain the investigation scope, exact commands/receipts, resource observations, repeated aggregate result and unresolved limits for independent review. No root cause is assumed and no investigation, rerun or code/test change is authorized by this documentation update.
+- **Future separately authorized Slice 3 / FR18-3:** verify the retained native document batch invalid-provenance failure against actual producer/publication requirements. The failure and **FR18-3 remain OPEN**, not resolved by this exception; preserve that evidence through final adjudication.
+- **ADR-0023 scope:** the native alias test is excluded from Slice 1 acceptance, with its failure retained. This is supersession of that obligation, not a new PASS or authorization to weaken tests/global skill policies.
+
+The five-command gate below and all retained quality/resource/producer obligations remain mandatory. No Slices 2–4 implementation, capability activation, FR18-3/P18-FINAL/Phase 18 closure or commit/push follows from this note.
+
 ## Exact existing Windows runner and five final commands (retained)
 
 Run from repository root using **actual verified installed pinned** `rag-engine/.venv/Scripts/python.exe`, `scripts/run-bounded-command.py`, Maven/Java and appropriate PostgreSQL/Testcontainers. Verify current code/environment before use. Missing interpreter/runner/test, nonzero exit, timeout or skipped required coverage is **FAIL**, not automatic PASS. The CLI watchdog is not a user indexing-time limit.

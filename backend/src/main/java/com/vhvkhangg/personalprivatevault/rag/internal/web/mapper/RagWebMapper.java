@@ -42,7 +42,8 @@ public final class RagWebMapper {
                 view.revokedAt(),
                 view.sourceVersion(),
                 view.consentResetVersion(),
-                view.currentDescriptionRevisionHash()
+                view.currentDescriptionRevisionHash(),
+                view.snapshot()
         );
     }
 

@@ -38,6 +38,11 @@ public class RagExceptionAdvice {
         return ApiResponses.of(HttpStatus.NOT_FOUND, "RAG_NOT_FOUND", "RAG resource unavailable");
     }
 
+    @ExceptionHandler(java.util.concurrent.CancellationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleCaptureCancelled(java.util.concurrent.CancellationException ex) {
+        return ApiResponses.of(HttpStatus.CONFLICT, "RAG_CAPTURE_CANCELLED", "Snapshot capture cancelled or deadline exceeded");
+    }
+
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ApiResponse<Void>> handleIllegalState(IllegalStateException ex) {
         return ApiResponses.of(HttpStatus.CONFLICT, "RAG_CONFLICT", "RAG operation denied");

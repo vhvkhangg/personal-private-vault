@@ -5,4 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 public record RegisterFileSourceRequest(
         @NotBlank(message = "filePath must not be blank")
         String filePath
-) {}
+) {
+    @Override public String toString() { return "RegisterFileSourceRequest[redacted]"; }
+}

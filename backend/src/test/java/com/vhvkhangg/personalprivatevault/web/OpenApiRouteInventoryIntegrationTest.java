@@ -207,6 +207,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/rag/sources/register-domain | registerDomainCandidate | 201 | RegisterDomainSourceRequest | ApiResponseRagSourceResponse | false
             POST | /api/v1/rag/sources/register-file | registerFileCandidate | 201 | RegisterFileSourceRequest | ApiResponseRagSourceResponse | false
             POST | /api/v1/rag/sources/{id}/approve | approveRagSource | 200 | ApproveSourceRequest | ApiResponseRagSourceResponse | true
+            POST | /api/v1/rag/sources/{id}/capture-revision | capturePendingFileRevision | 200 | CaptureSnapshotRequest | ApiResponseRagSourceResponse | true
             POST | /api/v1/rag/sources/{id}/revoke | revokeRagSource | 200 | null | ApiResponseRagSourceResponse | true
             POST | /api/v1/saved-resources/{id}/convert/information | convertSavedResourceToInformation | 201 | ConvertToInformationRequest | ApiResponseSavedResourceConversionResponse | true
             POST | /api/v1/saved-resources/{id}/convert/note | convertSavedResourceToNote | 201 | ConvertToNoteRequest | ApiResponseSavedResourceConversionResponse | true
@@ -386,8 +387,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(227);
-        assertThat(uniqueIds).hasSize(227);
+        assertThat(operationIds).hasSize(228);
+        assertThat(uniqueIds).hasSize(228);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -483,7 +484,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 227 endpoints").hasSize(227);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 228 endpoints").hasSize(228);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -498,7 +499,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 227 manifest count").isEqualTo(227);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 228 manifest count").isEqualTo(228);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());

@@ -23,8 +23,17 @@ public record RagSourceView(
         Instant revokedAt,
         long sourceVersion,
         long consentResetVersion,
-        String currentDescriptionRevisionHash
+        String currentDescriptionRevisionHash,
+        RagSnapshotExpectation snapshot
 ) {
+    public RagSourceView(Long id, RagSourceType sourceType, String sourceId, RagClassification classification,
+            long authorizationEpoch, int fieldPolicyVersion, Set<String> approvedFields, RagAccessState accessState,
+            String sourceRevisionHash, String descriptionRevisionHash, Instant createdAt, Instant updatedAt,
+            Instant revokedAt, long sourceVersion, long consentResetVersion, String currentDescriptionRevisionHash) {
+        this(id, sourceType, sourceId, classification, authorizationEpoch, fieldPolicyVersion, approvedFields,
+                accessState, sourceRevisionHash, descriptionRevisionHash, createdAt, updatedAt, revokedAt,
+                sourceVersion, consentResetVersion, currentDescriptionRevisionHash, null);
+    }
     public RagSourceView {
         Objects.requireNonNull(id, "id must not be null");
         Objects.requireNonNull(sourceType, "sourceType must not be null");

@@ -11,6 +11,11 @@ import java.util.UUID;
 @org.springframework.context.annotation.Import(AbstractRagIntegrationTest.RuntimeDatasource.class)
 @org.springframework.boot.test.context.SpringBootTest(classes=com.vhvkhangg.personalprivatevault.PersonalPrivateVaultApplication.class)
 abstract class AbstractRagIntegrationTest extends AbstractWebIntegrationTest {
+    static final java.nio.file.Path SNAPSHOT_TEST_ROOT;
+    static {
+        try { SNAPSHOT_TEST_ROOT=java.nio.file.Files.createTempDirectory("ppv-rag-integration-store-"); }
+        catch (java.io.IOException failure) { throw new ExceptionInInitializerError(failure); }
+    }
     static final String PASSWORD=UUID.randomUUID().toString().replace("-","");
     @org.springframework.beans.factory.annotation.Autowired
     private com.vhvkhangg.personalprivatevault.rag.internal.application.RagRuntimeIdentity fixtureRuntime;
@@ -49,6 +54,7 @@ abstract class AbstractRagIntegrationTest extends AbstractWebIntegrationTest {
             var statement=connection.createStatement()) {
             statement.execute("ALTER ROLE rag_runtime LOGIN PASSWORD '"+PASSWORD+"'");
         }catch(SQLException failure){throw new IllegalStateException(failure);}
+        registry.add("ppv.rag.storage.snapshot-root",SNAPSHOT_TEST_ROOT::toString);
         registry.add("spring.datasource.url",POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username",()->"rag_runtime");
         registry.add("spring.datasource.password",()->PASSWORD);

@@ -33,6 +33,7 @@ class RagRuntimeRoleIntegrationTest {
         org.flywaydb.core.Flyway.configure().dataSource(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword())
                 .locations("classpath:db/migration").load().migrate();
         runtimeUser();
+        properties.add("ppv.rag.storage.snapshot-root",AbstractRagIntegrationTest.SNAPSHOT_TEST_ROOT::toString);
         properties.add("spring.datasource.url",POSTGRES::getJdbcUrl);
         properties.add("spring.datasource.username",()->"rag_runtime");
         properties.add("spring.datasource.password",()->PASSWORD);

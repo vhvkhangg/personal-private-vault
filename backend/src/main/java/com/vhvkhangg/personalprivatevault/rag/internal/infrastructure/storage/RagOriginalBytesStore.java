@@ -84,6 +84,64 @@ public class RagOriginalBytesStore {
     private final long maxSourceBytes;
 
     private final MethodHandle moveFileExW;
+    private final Set<UUID> activeCaptures = java.util.concurrent.ConcurrentHashMap.newKeySet();
+    private final Set<UUID> activeRevisions = java.util.concurrent.ConcurrentHashMap.newKeySet();
+    private Stream<Path> recoveryScan;
+    private java.util.Iterator<Path> recoveryIterator;
+
+    public void beginCapture(UUID id) { activeCaptures.add(id); }
+    public void endCapture(UUID id) { activeCaptures.remove(id); }
+    public void beginRevision(UUID id) { activeRevisions.add(id); }
+    public void endRevision(UUID id) { activeRevisions.remove(id); }
+    public boolean active(StorageEntry entry) {
+        return entry.temporary() ? activeCaptures.contains(entry.artifactId()) : activeRevisions.contains(entry.artifactId());
+    }
+
+    public record StorageEntry(Path path, UUID sourceId, UUID artifactId, boolean temporary) {}
+
+    /** Lazy bounded traversal. Files left after failed deletion are the durable retry inventory. */
+    public synchronized List<StorageEntry> nextRecoveryBatch(int limit) {
+        if (limit < 1 || limit > 100) throw new IllegalArgumentException("Invalid recovery batch size");
+        List<StorageEntry> batch = new ArrayList<>();
+        try {
+            if (recoveryScan == null) {
+                verifyNoReparseInHierarchy(storageRoot, revisionsDir);
+                verifyNoReparseInHierarchy(storageRoot, tempDir);
+                recoveryScan = Files.walk(storageRoot, 3);
+                recoveryIterator = recoveryScan.iterator();
+            }
+            int visited = 0;
+            while (visited++ < limit && recoveryIterator.hasNext()) {
+                Path path = recoveryIterator.next();
+                if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) continue;
+                verifyContainment(path);
+                String name = path.getFileName().toString();
+                try {
+                    if (path.getParent().equals(tempDir) && name.endsWith(".tmp")) {
+                        batch.add(new StorageEntry(path, null, UUID.fromString(name.substring(0, name.length()-4)), true));
+                    } else if (path.getParent().getParent().equals(revisionsDir)) {
+                        String id = name.endsWith(".orig") ? name.substring(0, name.length()-5)
+                                : name.endsWith(".manifest.json") ? name.substring(0, name.length()-14) : null;
+                        if (id != null) batch.add(new StorageEntry(path, UUID.fromString(path.getParent().getFileName().toString()), UUID.fromString(id), false));
+                    }
+                } catch (IllegalArgumentException invalidName) {
+                    // Unknown names confer no authority. Retain for explicit operator disposition.
+                    log.warn("Unrecognized managed snapshot artifact; recovery required");
+                }
+            }
+            if (!recoveryIterator.hasNext()) resetRecoveryScan();
+            return List.copyOf(batch);
+        } catch (IOException | java.io.UncheckedIOException failure) {
+            resetRecoveryScan();
+            throw new SnapshotStorageException("Snapshot inventory unavailable");
+        }
+    }
+
+    public synchronized void resetRecoveryScan() {
+        if (recoveryScan != null) recoveryScan.close();
+        recoveryScan = null;
+        recoveryIterator = null;
+    }
 
     @Autowired
     public RagOriginalBytesStore(
@@ -93,6 +151,10 @@ public class RagOriginalBytesStore {
     }
 
     public RagOriginalBytesStore(Path storageRoot, long maxSourceBytes) {
+        this(storageRoot, maxSourceBytes, true);
+    }
+
+    public RagOriginalBytesStore(Path storageRoot, long maxSourceBytes, boolean nativeMoveAvailable) {
         this.storageRoot = Objects.requireNonNull(storageRoot, "storageRoot must not be null").toAbsolutePath().normalize();
         this.maxSourceBytes = maxSourceBytes > 0 ? maxSourceBytes : 52428800L;
         this.tempDir = this.storageRoot.resolve("temp");
@@ -105,7 +167,7 @@ public class RagOriginalBytesStore {
         }
 
         MethodHandle mfe = null;
-        if (IS_WINDOWS) {
+        if (IS_WINDOWS && nativeMoveAvailable) {
             try {
                 SymbolLookup kernel32 = SymbolLookup.libraryLookup("Kernel32.dll", Arena.global());
                 mfe = LINKER.downcallHandle(
@@ -236,7 +298,7 @@ public class RagOriginalBytesStore {
         }
         if (expectedSha256 != null && !actualSha256.equalsIgnoreCase(expectedSha256)) {
             cleanupTemp(captureId);
-            throw new IllegalStateException("Temp capture SHA-256 mismatch: expected " + expectedSha256 + " but computed " + actualSha256);
+            throw new IllegalStateException("Temp capture SHA-256 mismatch");
         }
 
         return new TempCapture(captureId, targetTemp, actualSha256, totalBytes, Instant.now());
@@ -276,8 +338,7 @@ public class RagOriginalBytesStore {
             }
             String tempSha = HexFormat.of().formatHex(verifyDigest.digest());
             if (!tempSha.equalsIgnoreCase(sha256)) {
-                throw new IllegalStateException("Temporary capture SHA-256 does not match expected seal digest: "
-                        + tempSha + " != " + sha256);
+                throw new IllegalStateException("Temporary capture SHA-256 does not match expected seal digest");
             }
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException("SHA-256 algorithm not available", e);
@@ -374,7 +435,14 @@ public class RagOriginalBytesStore {
             }
         }
 
-        throw new SnapshotStorageException("Native atomic move unavailable (requires Windows kernel MoveFileExW): " + target);
+        // A link publishes the already closed/verified file with CREATE_NEW semantics.
+        // Unlike ATOMIC_MOVE, createLink never replaces a colliding target. Unsupported => deny.
+        try {
+            Files.createLink(target, source);
+            Files.delete(source);
+        } catch (IOException | UnsupportedOperationException failure) {
+            throw new SnapshotStorageException("No-clobber seal unavailable or target already exists");
+        }
     }
 
     public record ManifestPayload(
@@ -413,7 +481,7 @@ public class RagOriginalBytesStore {
         try {
             payload = STRICT_MAPPER.readValue(manifestContent, ManifestPayload.class);
         } catch (JacksonException e) {
-            throw new SnapshotIntegrityException("Invalid manifest JSON format in " + manifestFile + ": " + e.getMessage(), e);
+            throw new SnapshotIntegrityException("Invalid manifest JSON format");
         }
 
         if (payload == null
@@ -428,7 +496,7 @@ public class RagOriginalBytesStore {
         }
 
         if (!SHA256_HEX_PATTERN.matcher(payload.sha256()).matches()) {
-            throw new SnapshotIntegrityException("Manifest sha256 is invalid: " + payload.sha256());
+            throw new SnapshotIntegrityException("Manifest sha256 is invalid");
         }
 
         if (payload.byteLength() < 0 || payload.byteLength() > maxSourceBytes) {
@@ -449,7 +517,7 @@ public class RagOriginalBytesStore {
             throw new SnapshotIntegrityException("Manifest captureId mismatch: expected " + expectedCaptureId + " but found " + payload.captureId());
         }
         if (expectedSha256 != null && !payload.sha256().equalsIgnoreCase(expectedSha256)) {
-            throw new SnapshotIntegrityException("Manifest SHA-256 does not match expected: " + payload.sha256() + " != " + expectedSha256);
+            throw new SnapshotIntegrityException("Manifest SHA-256 does not match expected");
         }
         if (expectedLength != null && payload.byteLength().longValue() != expectedLength.longValue()) {
             throw new SnapshotIntegrityException("Manifest byteLength does not match expected: " + payload.byteLength() + " != " + expectedLength);
@@ -532,8 +600,7 @@ public class RagOriginalBytesStore {
 
         String actualSha256 = HexFormat.of().formatHex(digest.digest());
         if (!actualSha256.equalsIgnoreCase(expectedSha256)) {
-            throw new SnapshotIntegrityException("Snapshot SHA-256 mismatch (tampered content): expected "
-                    + expectedSha256 + " but computed " + actualSha256);
+            throw new SnapshotIntegrityException("Snapshot SHA-256 mismatch (tampered content)");
         }
 
         return true;
@@ -607,8 +674,7 @@ public class RagOriginalBytesStore {
 
         String actualSha256 = HexFormat.of().formatHex(digest.digest());
         if (!actualSha256.equalsIgnoreCase(expectedSha256)) {
-            throw new SnapshotIntegrityException("Snapshot SHA-256 mismatch (tampered content): expected "
-                    + expectedSha256 + " but computed " + actualSha256);
+            throw new SnapshotIntegrityException("Snapshot SHA-256 mismatch (tampered content)");
         }
 
         return resultBytes;
@@ -658,9 +724,9 @@ public class RagOriginalBytesStore {
                         "Files remain present or absence could not be verified after delete attempt");
             }
         } catch (Throwable t) {
-            log.warn("Failed to delete revision {} for source {}: {}", revisionId, sourceId, t.getMessage());
+            log.warn("Snapshot revision {} deletion pending", revisionId);
             return new DeletionReport(sourceId, revisionId, DeletionStatus.PENDING_INACCESSIBLE,
-                    "Deletion failed (" + t.getClass().getSimpleName() + "): " + t.getMessage());
+                    "Deletion failed; retry pending");
         }
     }
 
@@ -685,8 +751,8 @@ public class RagOriginalBytesStore {
                 return new DeletionReport(null, captureId, DeletionStatus.PENDING_INACCESSIBLE, "Temp file remained after delete");
             }
         } catch (IOException e) {
-            log.warn("Failed to clean up temp file: {}", tempFile, e);
-            return new DeletionReport(null, captureId, DeletionStatus.PENDING_INACCESSIBLE, "Temp delete error: " + e.getMessage());
+            log.warn("Snapshot capture {} deletion pending", captureId);
+            return new DeletionReport(null, captureId, DeletionStatus.PENDING_INACCESSIBLE, "Temp deletion pending");
         }
     }
 

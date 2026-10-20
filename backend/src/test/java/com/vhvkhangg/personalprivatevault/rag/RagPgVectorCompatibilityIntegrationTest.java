@@ -28,7 +28,7 @@ class RagPgVectorCompatibilityIntegrationTest {
             }
             var migrated=Flyway.configure().dataSource(database.getJdbcUrl(),database.getUsername(),database.getPassword())
                     .locations("classpath:db/migration").load().migrate();
-            assertThat(migrated.migrationsExecuted).isEqualTo(13);
+            assertThat(migrated.migrationsExecuted).isEqualTo(15);
             try(var connection=DriverManager.getConnection(database.getJdbcUrl(),database.getUsername(),database.getPassword());
                 var statement=connection.createStatement()) {
                 try(var row=statement.executeQuery("SELECT rolsuper OR rolcreatedb OR rolcreaterole OR rolinherit OR rolbypassrls OR rolreplication OR rolcanlogin,rolpassword IS NULL FROM pg_authid WHERE rolname='rag_worker'")) {
@@ -52,7 +52,7 @@ class RagPgVectorCompatibilityIntegrationTest {
             var migrations=Flyway.configure().dataSource(database.getJdbcUrl(),database.getUsername(),database.getPassword())
                     .locations("classpath:db/migration").load().migrate();
             assertThat(migrations.success).isTrue();
-            assertThat(migrations.migrationsExecuted).isEqualTo(19);
+            assertThat(migrations.migrationsExecuted).isEqualTo(21);
             try(var connection=DriverManager.getConnection(database.getJdbcUrl(),database.getUsername(),database.getPassword());
                 var statement=connection.createStatement()) {
                 try(var result=statement.executeQuery("SELECT current_setting('server_version_num')::int,(SELECT extversion FROM pg_extension WHERE extname='vector'),'[1,2]'::vector <-> '[1,2]'::vector")) {

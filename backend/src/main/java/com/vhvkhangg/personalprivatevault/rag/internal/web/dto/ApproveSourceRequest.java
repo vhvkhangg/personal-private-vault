@@ -8,5 +8,6 @@ public record ApproveSourceRequest(
         @jakarta.validation.constraints.NotNull @jakarta.validation.constraints.Positive Long expectedConsentResetVersion,
         @jakarta.validation.constraints.NotNull @jakarta.validation.constraints.Positive Long expectedAuthorizationEpoch,
         @jakarta.validation.constraints.NotNull @jakarta.validation.constraints.Positive Integer expectedFieldPolicyVersion,
-        String confirmedDescriptionHash
+        String confirmedDescriptionHash,
+        @jakarta.validation.Valid com.vhvkhangg.personalprivatevault.rag.source.RagSnapshotExpectation expectedSnapshot
 ) {}

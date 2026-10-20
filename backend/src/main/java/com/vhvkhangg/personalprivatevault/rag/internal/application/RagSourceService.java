@@ -3,6 +3,7 @@ package com.vhvkhangg.personalprivatevault.rag.internal.application;
 import com.vhvkhangg.personalprivatevault.fiction.source.FictionSourceOperations;
 import com.vhvkhangg.personalprivatevault.film.source.FilmSourceOperations;
 import com.vhvkhangg.personalprivatevault.rag.api.RagConsentCommand;
+import com.vhvkhangg.personalprivatevault.rag.api.RagSnapshotCaptureCommand;
 import com.vhvkhangg.personalprivatevault.rag.api.RagSourceChangedException;
 import com.vhvkhangg.personalprivatevault.rag.internal.domain.*;
 import com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.persistence.*;
@@ -17,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.Clock;
+import java.nio.file.Path;
 import java.util.*;
+import com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore;
 
 /** Standing item consent and owner intent, independent of worker credentials. */
 @Service
@@ -38,23 +41,226 @@ public class RagSourceService {
     private final int maxDepth;
     private final RagLimits limits;
     private final TransactionTemplate transaction;
+    private final RagExternalFileAuthority externalFileAuthority;
+    private final RagSnapshotAcquisitionService acquisitionService;
+    private final RagOriginalBytesStore byteStore;
+    private final RagRecoveryService recovery;
+    private final RagRuntimeSecurity security;
+    private final Map<Long, Set<RagSnapshotAcquisitionService.CaptureContext>> captures = new java.util.concurrent.ConcurrentHashMap<>();
 
     public RagSourceService(RagSourceRepository sources, RagDependencyRepository dependencies, RagDependencyGraph graph,
             RagPurgeService purge, FictionSourceOperations fiction, FilmSourceOperations film, VaultEntryOperations vault,
             SourceIndexReservations reservations, SourceEditGuard edits, EntityManager entityManager,
             RagRuntimeIdentity runtime, Clock clock, RagLimits limits, PlatformTransactionManager transactions,
+            RagExternalFileAuthority externalFileAuthority, RagSnapshotAcquisitionService acquisitionService,
+            RagOriginalBytesStore byteStore, RagRecoveryService recovery, RagRuntimeSecurity security,
             @Value("${ppv.rag.limits.max-dependency-depth:5}") int maxDepth) {
         this.sources = sources; this.dependencies = dependencies; this.graph = graph; this.purge = purge;
         this.fiction = fiction; this.film = film; this.vault = vault; this.reservations = reservations;
         this.edits = edits; this.entityManager = entityManager; this.runtime = runtime; this.clock = clock;
+        this.externalFileAuthority = Objects.requireNonNull(externalFileAuthority, "externalFileAuthority must not be null");
+        this.acquisitionService = Objects.requireNonNull(acquisitionService, "acquisitionService must not be null");
+        this.byteStore = Objects.requireNonNull(byteStore, "byteStore must not be null");
+        this.recovery = recovery;
+        this.security = security;
         if (maxDepth < 1 || maxDepth > 8) throw new IllegalArgumentException("Invalid dependency depth budget");
         this.maxDepth = maxDepth; this.limits = limits;
         this.transaction = new TransactionTemplate(transactions);
         this.transaction.setTimeout(10);
     }
 
+    @Transactional(propagation = Propagation.NEVER)
     public RagSourceView registerFileCandidate(String path) {
-        throw new IllegalStateException("Live external-file capability is disabled until namespace and metadata authority are proven");
+        throw new IllegalStateException("Live external-file capability is disabled");
+    }
+
+    /** First import only. Re-registration never substitutes for an explicit S/update intent. */
+    @Transactional(propagation = Propagation.NEVER)
+    public RagSourceView registerSnapshotCandidate(String path) {
+        Path original = snapshotPath(path);
+        String digest = RagSourceAuthority.digest(original.toString());
+        transaction.executeWithoutResult(status -> {
+            graph.lockAndRead();
+            requireNewSnapshot(digest);
+        });
+        UUID fileId=UUID.randomUUID(), revision=UUID.randomUUID();
+        RagSnapshotAcquisitionService.AcquiredTempSnapshot acquired=null;
+        byteStore.beginRevision(revision);
+        try (var context=acquisitionService.newContext()) {
+            acquired=acquisitionService.acquireBounded(original, context);
+            context.check();
+            byteStore.sealRevision(fileId,revision,acquired.captureId(),acquired.sha256(),acquired.byteLength());
+            context.check();
+            var candidate=acquired;
+            return transaction.execute(status -> {
+                graph.lockAndRead();
+                requireNewSnapshot(candidate.canonicalDigest());
+                context.check();
+                if (sources.count()>=limits.catalogSources()) throw new IllegalStateException("Source catalog budget exceeded");
+                var ext=new RagExternalFileSource(fileId,candidate.canonicalDigest(),1,1,1,1,true,clock.instant());
+                ext.setPendingRevision(revision,candidate.sha256(),candidate.byteLength(),clock.instant(),null,1L,clock.instant());
+                ext.bindPendingConsent(1,1);
+                externalFileAuthority.save(ext);
+                var source=new RagSource(RagSourceType.EXTERNAL_FILE,fileId.toString(),RagClassification.NON_PRIVATE,
+                        1,1,Set.of(),RagAccessState.DENIED,candidate.sha256(),"UNCONFIRMED",clock.instant());
+                source.setFileIdentity(candidate.canonicalDigest());
+                source=sources.saveAndFlush(source);
+                checkBeforeCommit(context);
+                return toView(source,ext,"");
+            });
+        } finally { finishCapture(acquired,fileId,revision); }
+    }
+
+    private void requireNewSnapshot(String digest) {
+        security.requireIsolatedRuntime();
+        var existing=externalFileAuthority.findByCanonicalDigest(digest);
+        if (existing!=null) {
+            externalFileAuthority.requireEditable(Set.of(existing.getFileSourceId()));
+            throw new RagSourceChangedException();
+        }
+    }
+
+    /** Unversioned update calls cannot silently refresh owner intent. */
+    @Transactional(propagation = Propagation.NEVER)
+    public RagSourceView capturePendingRevision(Long sourceId, String path) {
+        throw new IllegalArgumentException("Exact snapshot expectation required");
+    }
+
+    @Transactional(propagation = Propagation.NEVER)
+    public RagSourceView capturePendingRevision(Long sourceId, RagSnapshotCaptureCommand command) {
+        Objects.requireNonNull(command);
+        Path original=snapshotPath(command.filePath());
+        var plan=transaction.execute(status -> snapshotPlan(sourceId,command.expectedSnapshot()));
+        if (!RagSourceAuthority.digest(original.toString()).equals(plan.canonicalDigest()))
+            throw new IllegalArgumentException("File intent does not match registered source");
+        UUID revision=UUID.randomUUID();
+        RagSnapshotAcquisitionService.AcquiredTempSnapshot acquired=null;
+        try (var context=acquisitionService.newContext()) {
+            captures.computeIfAbsent(sourceId,key -> java.util.concurrent.ConcurrentHashMap.newKeySet()).add(context);
+            try {
+                verifySnapshotPlan(sourceId,plan);
+                acquired=acquisitionService.acquireBounded(original,context);
+                context.check();
+                boolean equal=Objects.equals(plan.comparisonHash(),acquired.sha256())
+                        && Objects.equals(plan.comparisonLength(),acquired.byteLength());
+                if (!equal) {
+                    byteStore.beginRevision(revision);
+                    context.check();
+                    byteStore.sealRevision(plan.fileId(),revision,acquired.captureId(),acquired.sha256(),acquired.byteLength());
+                }
+                context.check();
+                var candidate=acquired;
+                return transaction.execute(status -> {
+                    var current=snapshotPlan(sourceId,command.expectedSnapshot());
+                    context.check();
+                    var source=sources.findById(sourceId).orElseThrow();
+                    var ext=externalFileAuthority.findByFileSourceId(current.fileId());
+                    if (!equal) {
+                        ext.setPendingRevision(revision,candidate.sha256(),candidate.byteLength(),clock.instant(),
+                                command.expectedSnapshot().selectedRevisionId(),command.expectedSnapshot().sourceVersion(),clock.instant());
+                        ext.bindPendingConsent(source.getAuthorizationEpoch(),source.getFieldPolicyVersion());
+                        externalFileAuthority.save(ext);
+                        entityManager.flush();
+                    }
+                    checkBeforeCommit(context);
+                    return toView(source,ext,"");
+                });
+            } finally {
+                // Keep empty per-source sets: removing them races with a second entering capture.
+                captures.get(sourceId).remove(context);
+            }
+        } finally {
+            finishCapture(acquired,plan.fileId(),revision);
+            recovery.reconcileRevision(plan.fileId(),plan.expected().pendingRevisionId());
+        }
+    }
+
+    private static UUID snapshotFileId(String value) {
+        try { return UUID.fromString(value); }
+        catch (IllegalArgumentException legacyLocator) {
+            // Restored live locators are only tombstoned, never reopened or disclosed.
+            return null;
+        }
+    }
+
+    private static Path snapshotPath(String value) {
+        if (value==null || value.isBlank()) throw new IllegalArgumentException("File intent required");
+        try {
+            Path path=Path.of(value);
+            if (!path.isAbsolute()) throw new IllegalArgumentException("Absolute server-local file required");
+            return path.normalize();
+        } catch (java.nio.file.InvalidPathException invalid) { throw new IllegalArgumentException("Invalid local file intent"); }
+    }
+
+    private void finishCapture(RagSnapshotAcquisitionService.AcquiredTempSnapshot acquired, UUID fileId, UUID revision) {
+        try {
+            if (acquired!=null) byteStore.cleanupTemp(acquired.captureId());
+        } finally {
+            if (acquired!=null) byteStore.endCapture(acquired.captureId());
+            byteStore.endRevision(revision);
+            // A separate fresh guarded DB read resolves known rollback / uncertain commit.
+            recovery.reconcileRevision(fileId,revision);
+            recovery.reconcileSnapshots();
+        }
+    }
+
+    private void checkBeforeCommit(RagSnapshotAcquisitionService.CaptureContext context) {
+        context.check();
+        org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(
+                new org.springframework.transaction.support.TransactionSynchronization() {
+                    @Override public void beforeCommit(boolean readOnly) { context.check(); }
+                });
+    }
+
+    private record SnapshotPlan(UUID fileId, String canonicalDigest, RagSnapshotExpectation expected,
+            String selectedHash, Long selectedLength) {
+        String comparisonHash() { return expected.selectedRevisionId()!=null ? selectedHash : expected.pendingSha256(); }
+        Long comparisonLength() { return expected.selectedRevisionId()!=null ? selectedLength : expected.pendingByteLength(); }
+    }
+
+    /** Every existing-S metadata mutation uses the same graph / owner / policy lock and CAS. */
+    private SnapshotPlan snapshotPlan(Long id, RagSnapshotExpectation expected) {
+        if (expected==null) throw new RagSourceChangedException();
+        var topology=graph.lockAndRead();
+        security.requireIsolatedRuntime();
+        var affected=affected(topology,id);
+        guardOwners(affected,new TreeSet<>());
+        var source=lockSources(affected).get(id);
+        if (source.getSourceType()!=RagSourceType.EXTERNAL_FILE || source.getSourceId().startsWith("disabled:"))
+            throw new RagSourceChangedException();
+        UUID fileId=UUID.fromString(source.getSourceId());
+        var ext=externalFileAuthority.findByFileSourceId(fileId);
+        if (ext==null) throw new RagSourceChangedException();
+        entityManager.refresh(ext);
+        if (!ext.isEligible() || ext.isSnapshotIntegrityFailed() || !expected.equals(snapshotExpectation(source,ext)))
+            throw new RagSourceChangedException();
+        return new SnapshotPlan(fileId,ext.getCanonicalIdentityDigest(),expected,ext.getSelectedRevisionHash(),ext.getSelectedByteLength());
+    }
+
+    private RagSnapshotExpectation snapshotExpectation(RagSource source, RagExternalFileSource ext) {
+        return new RagSnapshotExpectation(ext.getSourceVersion(),ext.getConsentResetVersion(),source.getAuthorizationEpoch(),
+                source.getFieldPolicyVersion(),ext.getAuthorizationEpoch(),ext.getFieldPolicyVersion(),ext.getSelectedRevisionId(),
+                ext.getPendingRevisionId(),ext.getPendingRevisionHash(),ext.getPendingByteLength());
+    }
+
+    private void verifySnapshotPlan(Long id, SnapshotPlan plan) {
+        try {
+            var expected=plan.expected();
+            if (expected.pendingRevisionId()!=null)
+                byteStore.verifyIntegrity(plan.fileId(),expected.pendingRevisionId(),expected.pendingSha256(),expected.pendingByteLength());
+            if (expected.selectedRevisionId()!=null) {
+                if (plan.selectedHash()==null || plan.selectedLength()==null) throw new IllegalStateException("Snapshot descriptor unavailable");
+                byteStore.verifyIntegrity(plan.fileId(),expected.selectedRevisionId(),plan.selectedHash(),plan.selectedLength());
+            }
+        } catch (RuntimeException integrityFailure) {
+            transaction.executeWithoutResult(status -> {
+                snapshotPlan(id,plan.expected());
+                var ext=externalFileAuthority.findByFileSourceId(plan.fileId());
+                ext.denySnapshotIntegrity(clock.instant());
+                externalFileAuthority.save(ext);
+            });
+            throw new IllegalStateException("Registered snapshot integrity unavailable; explicit recovery required");
+        }
     }
 
     @Transactional(propagation = Propagation.NEVER)
@@ -110,7 +316,38 @@ public class RagSourceService {
     public RagSourceView approveSource(Long sourceId, RagConsentCommand command) {
         Objects.requireNonNull(command);
         var initial = sources.findById(sourceId).orElseThrow();
-        if (initial.getSourceType() == RagSourceType.EXTERNAL_FILE) throw new IllegalStateException("Live external-file capability is disabled");
+        if (initial.getSourceType() == RagSourceType.EXTERNAL_FILE) {
+            RagFieldAllowlist.validateApprovedFields(initial.getSourceType(), command.approvedFields());
+            if (initial.getClassification() != RagClassification.NON_PRIVATE) {
+                throw new IllegalStateException("Private or unclassified source cannot be approved");
+            }
+            // Preserve the frozen restored live-path containment branch.
+            if (snapshotFileId(initial.getSourceId())==null)
+                throw new IllegalStateException("Live external-file capability is disabled");
+            var plan=transaction.execute(status -> snapshotPlan(sourceId,command.expectedSnapshot()));
+            if (command.expectedSourceVersion()!=plan.expected().sourceVersion()
+                    || command.expectedConsentResetVersion()!=plan.expected().consentResetVersion()
+                    || command.expectedAuthorizationEpoch()!=plan.expected().authorizationEpoch()
+                    || command.expectedFieldPolicyVersion()!=plan.expected().fieldPolicyVersion()
+                    || plan.expected().pendingRevisionId()==null) throw new RagSourceChangedException();
+            verifySnapshotPlan(sourceId,plan);
+            return transaction.execute(status -> {
+                snapshotPlan(sourceId,command.expectedSnapshot());
+                var source=sources.findById(sourceId).orElseThrow();
+                var ext=externalFileAuthority.findByFileSourceId(plan.fileId());
+                if (!ext.pendingConsentMatches(source.getAuthorizationEpoch(),source.getFieldPolicyVersion()))
+                    throw new RagSourceChangedException();
+                for (Long id:affected(graph.read(),sourceId)) purge.purgeSourceDerivatives(id);
+                source.approve(command.approvedFields(),plan.expected().pendingSha256(),source.getDescriptionRevisionHash(),clock.instant());
+                source.bindOwnerResetVersion(ext.getConsentResetVersion());
+                source.bindApprovalInstance(runtime.instance());
+                ext.approvePendingRevision(plan.expected().pendingRevisionId(),clock.instant());
+                externalFileAuthority.save(ext);
+                sources.saveAndFlush(source);
+                return toView(source,ext,"");
+            });
+        }
+
         RagFieldAllowlist.validateApprovedFields(initial.getSourceType(), command.approvedFields());
         if (initial.getClassification() != RagClassification.NON_PRIVATE) throw new IllegalStateException("Private or unclassified source cannot be approved");
         long ownerId = Long.parseLong(initial.getSourceId());
@@ -146,6 +383,37 @@ public class RagSourceService {
         var affected = affected(topology, sourceId);
         guardOwners(affected, new TreeSet<>());
         var source = lockSources(affected).get(sourceId);
+        if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
+            security.requireIsolatedRuntime();
+            RagExternalFileSource ext = null;
+            UUID retiredFileId=snapshotFileId(source.getSourceId());
+            var retired=new HashSet<UUID>();
+            if (retiredFileId!=null) {
+                ext=externalFileAuthority.findByFileSourceId(retiredFileId);
+                if (ext!=null) {
+                    entityManager.refresh(ext);
+                    if (ext.getPendingRevisionId()!=null) retired.add(ext.getPendingRevisionId());
+                    if (ext.getSelectedRevisionId()!=null) retired.add(ext.getSelectedRevisionId());
+                    ext.setEligible(false,clock.instant());
+                    // Reference removal commits BEFORE any physical erasure. Files retain
+                    // opaque source/R identity for durable retry even after the policy tombstone.
+                    ext.clearPendingRevision(clock.instant());
+                    externalFileAuthority.save(ext);
+                }
+            }
+            org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(
+                    new org.springframework.transaction.support.TransactionSynchronization() {
+                        @Override public void afterCommit() {
+                            captures.getOrDefault(sourceId,Set.of()).forEach(RagSnapshotAcquisitionService.CaptureContext::cancel);
+                            retired.forEach(revision -> recovery.reconcileRevision(retiredFileId,revision));
+                            recovery.reconcileSnapshots();
+                        }
+                    });
+            source.revoke(clock.instant());
+            sources.saveAndFlush(source);
+            for (Long id : affected) purge.purgeSourceDerivatives(id);
+            return toView(source, ext, "");
+        }
         source.revoke(clock.instant());
         sources.saveAndFlush(source);
         for (Long id : affected) purge.purgeSourceDerivatives(id);
@@ -178,11 +446,20 @@ public class RagSourceService {
 
     private void guardOwners(Collection<Long> ragIds, SortedSet<Long> additional) {
         var ids = new TreeSet<>(additional);
+        var extIds = new HashSet<UUID>();
         for (var source : sources.findAllById(ragIds)) {
-            if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) throw new IllegalStateException("Live external-file capability is disabled");
-            ids.add(Long.valueOf(source.getSourceId()));
+            if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
+                if (!source.getSourceId().startsWith("disabled:")) {
+                    try {
+                        extIds.add(UUID.fromString(source.getSourceId()));
+                    } catch (Exception ignored) {}
+                }
+            } else {
+                ids.add(Long.valueOf(source.getSourceId()));
+            }
         }
         if (!ids.isEmpty()) vault.acquireSourceGuards(ids);
+        if (!extIds.isEmpty()) externalFileAuthority.requireEditable(extIds);
     }
 
     private static SortedSet<Long> affected(RagDependencyGraph.Snapshot topology, Long source) {
@@ -253,9 +530,37 @@ public class RagSourceService {
     }
 
     private RagSourceView externalView(RagSource source) {
-        return new RagSourceView(source.getId(), source.getSourceType(), "EXTERNAL_DISABLED", source.getClassification(),
+        if (source.getSourceId().startsWith("disabled:")) {
+            return new RagSourceView(source.getId(), source.getSourceType(), source.getSourceId(), source.getClassification(),
+                    source.getAuthorizationEpoch(), source.getFieldPolicyVersion(), Set.of(), RagAccessState.REVOKED,
+                    "DISABLED", "DISABLED", source.getCreatedAt(), source.getUpdatedAt(), source.getRevokedAt(), 0, 0, "");
+        }
+        try {
+            UUID fileSourceId = UUID.fromString(source.getSourceId());
+            var ext = externalFileAuthority.findByFileSourceId(fileSourceId);
+            if (ext != null) {
+                return toView(source, ext, "");
+            }
+        } catch (Exception ignored) {}
+        return new RagSourceView(source.getId(), source.getSourceType(), source.getSourceId(), source.getClassification(),
                 source.getAuthorizationEpoch(), source.getFieldPolicyVersion(), Set.of(), RagAccessState.REVOKED,
                 "DISABLED", "DISABLED", source.getCreatedAt(), source.getUpdatedAt(), source.getRevokedAt(), 0, 0, "");
+    }
+
+    private RagSourceView toView(RagSource source, RagExternalFileSource ext, String currentDescription) {
+        if (ext == null) {
+            return externalView(source);
+        }
+        var access = !ext.isEligible() || ext.isSnapshotIntegrityFailed() || (source.getAccessState() == RagAccessState.APPROVED
+                && !Objects.equals(source.getApprovedOwnerResetVersion(), ext.getConsentResetVersion()))
+                ? RagAccessState.REVOKED : source.getAccessState();
+        if (access==RagAccessState.APPROVED && ext.getSelectedRevisionId()==null
+                && !Objects.equals(ext.getPendingRevisionId(),ext.getApprovedPendingRevisionId())) access=RagAccessState.DENIED;
+        return new RagSourceView(source.getId(), source.getSourceType(), source.getSourceId(), source.getClassification(),
+                source.getAuthorizationEpoch(), source.getFieldPolicyVersion(), source.getApprovedFields(), access,
+                source.getSourceRevisionHash(), source.getDescriptionRevisionHash(), source.getCreatedAt(),
+                source.getUpdatedAt(), source.getRevokedAt(), ext.getSourceVersion(), ext.getConsentResetVersion(),
+                currentDescription != null ? currentDescription : "", snapshotExpectation(source,ext));
     }
 
     private RagSourceView toView(RagSource source, SourceVersion owner, String currentDescription) {

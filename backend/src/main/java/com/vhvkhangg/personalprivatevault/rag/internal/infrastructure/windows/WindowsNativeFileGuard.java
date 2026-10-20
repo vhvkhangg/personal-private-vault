@@ -229,6 +229,12 @@ public class WindowsNativeFileGuard {
         }
     }
 
+    /** Ordinary locality policy only; does not acquire the live-file/R7 handle chain. */
+    public void verifyLocalSnapshotDrive(Path path) {
+        if (IS_WINDOWS && getDriveTypeW==null) throw new IllegalStateException("Local drive check unavailable");
+        verifyDriveType(path);
+    }
+
     public void verifyDriveType(Path path) {
         Path root = path.toAbsolutePath().getRoot();
         if (root != null && IS_WINDOWS && getDriveTypeW != null) {

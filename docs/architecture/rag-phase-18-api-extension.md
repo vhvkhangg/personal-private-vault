@@ -14,9 +14,40 @@
 | Locators | Exact original span/line, DOCX address, PDF page/orientation/box/table-cell geometry and spreadsheet sheet/A1/merge proof remain. Narrow original container-part/property-key/object/comment-ID locator for genuinely unlocated internal material, with applicable anchor/S/R/original-byte digest; no fictional page/cell. See [oracle](../implementation/phase-18/held-out-quality-and-locators.md). |
 | Reporting | Logical target concepts include `updateDisposition=NO_CHANGE`, `publishedNewGeneration=false`, selected/pending R, retained versus new G, revision ordinal, `freshnessBasis=RAG_SNAPSHOT`, `snapshotIndexState=SNAPSHOT_CURRENT` or effective denied/outdated/absent state and `originalFreshness=UNVERIFIED`. These are documentation concepts, **not existing fields**. Historical success never authorizes reads. |
 | Incident / revoke / cleanup | Minimal necessary durable integrity/authority-denial state using existing Phase 17 mechanisms where possible, actual revokeOutcome (NONE/PENDING/BUSY/FAILED/COMMITTED/UNKNOWN), controlled snapshot/temp purge, databaseHistoricalCopies/externalCopyKnowledge and safe owner actions. C_D denial is UNAVAILABLE, not committed REVOKED before C_R; unknown outcomes are not confirmed NO_CHANGE/publication/erasure. Controlled active-copy completion can coexist with explicitly unknown backups. No private paths/denied names/sensitive digests/content in public reports/logs. |
-| Runtime / compatibility | Existing shared ApiResponse/module-local advice, source-first order/NOWAIT, one-use process/writer fences, v2 and Foundation limits remain. G1–G4 and FR18-1–11 remain OPEN/NOT_VERIFIED under ADR-0023 practical acceptance; maintain actual guarded NO_CHANGE/revoke/publication/unknown-outcome recovery, not a new C_D/C_N transaction platform. No implementation/activation authorized. |
+| Runtime / compatibility | Existing shared ApiResponse/module-local advice, source-first order/NOWAIT, one-use process/writer fences, v2 and Foundation limits remain. G1–G4 and FR18-1–11 remain OPEN/NOT_VERIFIED under ADR-0023 practical acceptance; maintain actual guarded NO_CHANGE/revoke/publication/unknown-outcome recovery, not a new C_D/C_N transaction platform. Only the bounded Slice 1 corrective scope is authorized; no activation. |
 
 The following inventory records inherited implemented DOMAIN/v3 shapes. Its live CURRENT/field policies describe that current path, **not** the approved external snapshot target. In particular the existing finalizer has partial checks, not accepted exact producer verification; its input-derived expected output remains FR18-3. See the [confirmed mismatch ledger](../implementation/phase-18/canonical-synchronization-2026-10-18.md#confirmed-current-implementation-mismatches).
+
+## Exposed Slice 1 snapshot routes ? corrective implementation awaiting independent re-review
+
+These authenticated routes use the existing module-local controller, DTOs and `ApiResponse`.
+They expose pending custody/approval only; indexing remains inactive. The inventory below
+separates these implemented shapes from later target contracts above.
+
+| Route | Actual Slice 1 request and result |
+| --- | --- |
+| `POST /api/v1/rag/sources/register-file` | `filePath`: one absolute server-local regular document on a supported local filesystem. First import only; an existing locator denies instead of silently updating. Concurrent imports serialize their final first-import check with the existing graph barrier. Returns DENIED pending R and `snapshot` preview. No client-upload or implicit whole-directory grant. |
+| `GET /api/v1/rag/sources/{id}` / list | `snapshot` contains sourceVersion/reset, policy authorizationEpoch/fieldPolicyVersion, fileAuthorizationEpoch/filePolicyVersion, selectedRevisionId, pendingRevisionId, pendingSha256 and pendingByteLength. The exact authenticated preview is echoed by update/approval; no original locator is returned. |
+| `POST /api/v1/rag/sources/{id}/capture-revision` | `{filePath, expectedSnapshot}` (`RagSnapshotCaptureCommand` / `CaptureSnapshotRequest`). The entire preview must still match under graph/source/policy guards. No server-current substitution. Valid equal bytes reuse a verified existing R internally; changed bytes create pending R. No selected-R/sourceVersion/G advance and no final NO_CHANGE enum. Unversioned programmatic calls deny. |
+| `POST /api/v1/rag/sources/{id}/approve` | Existing consent-version fields and `approvedFields=["content"]`, plus required external `expectedSnapshot`. Pending identity/digest/length and captured consent context must match before and after integrity verification; approval records `approved_pending_revision_id`. Domain callers keep the existing six-argument command and need no snapshot tuple. |
+| `POST /api/v1/rag/sources/{id}/revoke` | Existing guarded synchronous authority denial/tombstone. Physical snapshot retirement starts after commit; failed deletion remains in managed inventory and is retried by existing startup/scheduled recovery. REVOKED is an authority result, not proof of erasure from backups or inaccessible storage. |
+
+The existing `sourceRevisionHash` is the registered/approved policy hash; `snapshot.pendingSha256` identifies the exact pending R awaiting approval. Capture does not promote that pending hash into selected/current state.
+
+Acquisition has a configured 60-second deadline (`ppv.rag.snapshot-capture-timeout-seconds`,
+allowed 1?120), checked during timed asynchronous local reads and before seal/metadata commit.
+Thread interruption cancels; committed revoke cancels active source captures. The existing ordinary local-drive check also rejects mapped/unverified drives; it does not invoke R7 acquisition. No capture job,
+worker, queue or independent scheduler is added. Temp/sealed candidates are excluded while
+active in this application. Recovery inspects at most 25 filesystem entries and 25 metadata
+rows per tick, rechecks exact authoritative references under the existing graph lock, and
+never adopts an orphan or rereads an original. Known retired revisions receive the same
+reference check immediately after commit. Snapshot metadata changes and recovery deletion/denial recheck the existing current-runtime authority under that same graph lock, so a replaced Java controller cannot finish or erase a new controller's in-flight candidates. SQL uncertainty defers deletion until a fresh
+ordered read succeeds. Missing/corrupt registered R persists an integrity denial.
+
+Errors and DEBUG logs use safe status/capture IDs, never original paths or stable sensitive
+digests. Candidate private digests are returned only in the authenticated exact-consent
+preview; they are not emitted in routine logs/errors/reports. Slices 2?4, FR18-3 and P18-FINAL
+remain open/deferred. This inventory is not independent acceptance.
 
 ## Existing interfaces preserved
 

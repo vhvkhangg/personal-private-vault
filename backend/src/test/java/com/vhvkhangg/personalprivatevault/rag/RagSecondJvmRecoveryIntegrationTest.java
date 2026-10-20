@@ -189,6 +189,7 @@ class RagSecondJvmRecoveryIntegrationTest extends AbstractEnabledRagIntegrationT
         Files.writeString(arguments,"--enable-native-access=ALL-UNNAMED\n--class-path\n"+argument(classPath)
             +"\n"+entry+"\n"+mode+"\n"+argument(receipt.toString())+"\n"+argument(identifier)+"\n",StandardCharsets.UTF_8);
         var properties=new LinkedHashMap<String,Object>();
+        properties.put("ppv.rag.storage.snapshot-root",environment.getRequiredProperty("ppv.rag.storage.snapshot-root"));
         properties.put("server.port","0");
         properties.put("server.address","127.0.0.1");
         properties.put("spring.datasource.url",POSTGRES.getJdbcUrl());

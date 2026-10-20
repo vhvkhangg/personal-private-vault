@@ -69,7 +69,7 @@ public class RagSourceAuthority {
         if (initial.size() != ids.size()) throw new IllegalStateException("Source authority is unavailable");
         var ownerIds = new TreeSet<Long>();
         for (var source : initial) {
-            if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) throw new IllegalStateException("Live external-file capability is disabled");
+            if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) throw new IllegalStateException("External file indexing capability is inactive in Slice 1 (disabled)");
             ownerIds.add(Long.valueOf(source.getSourceId()));
         }
         // Capture history BEFORE reading/hashing content. The final guard compares this exact version.

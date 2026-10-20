@@ -20,15 +20,22 @@ public class RagRecoveryService implements SmartInitializingSingleton {
     private final RagWorkerSupervisor supervisor;
     private final RagGenerationState current;
     private final TransactionTemplate transaction;
+    private final com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore;
+    private final TransactionTemplate snapshotTransaction;
+    private long snapshotCursor;
     private long generationCursor;
     private volatile boolean registeredOnce;
 
     public RagRecoveryService(EntityManager entityManager,RagRuntimeIdentity runtime,RagPurgeService purge,
             PlatformTransactionManager transactions,RagRuntimeSecurity security,
-            RagWorkerSupervisor supervisor,RagGenerationState current) {
+            RagWorkerSupervisor supervisor,RagGenerationState current,
+            com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore) {
         this.entityManager=entityManager; this.runtime=runtime; this.purge=purge; this.security=security;
         this.supervisor=supervisor; this.current=current;
         transaction=new TransactionTemplate(transactions); transaction.setTimeout(10);
+        this.byteStore=byteStore;
+        snapshotTransaction=new TransactionTemplate(transactions); snapshotTransaction.setTimeout(10);
+        snapshotTransaction.setPropagationBehavior(org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
 
     @Override
@@ -65,6 +72,8 @@ public class RagRecoveryService implements SmartInitializingSingleton {
         if (Boolean.TRUE.equals(registered)) {
             registeredOnce=true;
             for(var lease:outstanding) purge.abortJob(lease.getJobId(),false);
+            byteStore.resetRecoveryScan();
+            reconcileSnapshots();
         }
     }
 
@@ -75,6 +84,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             if (!registeredOnce) afterSingletonsInstantiated();
             return;
         }
+        reconcileSnapshots();
         for(var attempt:nonterminal()) recover(attempt);
         for(UUID job:supervisor.provenStoppedJobs()) {
             try {
@@ -118,6 +128,88 @@ public class RagRecoveryService implements SmartInitializingSingleton {
                     // Fresh authority denies access while erasure remains retryable.
                 }
             }
+        }
+    }
+
+    /** Targeted post-commit retirement; the remaining files are retried by bounded inventory scans. */
+    public void reconcileRevision(UUID source, UUID revision) {
+        if (source==null || revision==null) return;
+        try {
+            if (!security.isIsolatedRole() || !security.isCurrentRuntime()) return;
+            recoverSnapshotArtifact(new com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore.StorageEntry(
+                    null,source,revision,false));
+        } catch (RuntimeException unavailable) {
+            org.slf4j.LoggerFactory.getLogger(getClass()).warn("Snapshot retirement deferred; inventory retained for retry");
+        }
+    }
+
+    private void recoverSnapshotArtifact(com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore.StorageEntry entry) {
+            snapshotTransaction.executeWithoutResult(status -> {
+                    entityManager.createNativeQuery("SET LOCAL lock_timeout='2s'").executeUpdate();
+                    entityManager.createNativeQuery("SELECT pg_advisory_xact_lock(:key)")
+                            .setParameter("key", RagDependencyGraph.LOCK_ID).getSingleResult();
+                    // Startup changes runtime ownership under this same graph lock.
+                    if (!security.isCurrentRuntime()) return;
+                    if (byteStore.active(entry)) return;
+                    if (!entry.temporary()) {
+                        Number count=(Number)entityManager.createNativeQuery("""
+                                SELECT count(*) FROM rag.external_file_sources
+                                WHERE file_source_id=:source AND eligible
+                                AND (pending_revision_id=:revision OR selected_revision_id=:revision)
+                                """).setParameter("source",entry.sourceId()).setParameter("revision",entry.artifactId()).getSingleResult();
+                        if (count.longValue()!=0) return;
+                    }
+                    var report=entry.temporary() ? byteStore.cleanupTemp(entry.artifactId())
+                            : byteStore.deleteRevision(entry.sourceId(),entry.artifactId());
+                    if (report.status()!=com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore.DeletionStatus.COMPLETED)
+                        org.slf4j.LoggerFactory.getLogger(getClass()).warn("Snapshot cleanup pending; inventory retained for retry");
+                });
+    }
+
+    /** Existing startup/scheduled lifecycle, also requested after exposed snapshot mutations.
+     * Never adopts files. A failed/unknown SQL read cannot authorize deletion. Acquiring the
+     * same graph lock as registration/CAS resolves in-flight commit uncertainty before erasure.
+     */
+    public synchronized void reconcileSnapshots() {
+        try {
+            if (!security.isIsolatedRole() || !security.isCurrentRuntime()) return;
+            for (var entry : byteStore.nextRecoveryBatch(25)) {
+                recoverSnapshotArtifact(entry);
+            }
+            // Bounded metadata cursor also detects registered pairs whose BOTH files are missing.
+            var rows=snapshotTransaction.execute(status -> entityManager.createQuery(
+                    "SELECT s FROM com.vhvkhangg.personalprivatevault.rag.internal.domain.RagExternalFileSource s "
+                    + "WHERE s.id>:cursor AND s.eligible=true AND s.snapshotIntegrityFailed=false ORDER BY s.id",
+                    com.vhvkhangg.personalprivatevault.rag.internal.domain.RagExternalFileSource.class)
+                    .setParameter("cursor",snapshotCursor).setMaxResults(25).getResultList());
+            if (rows==null) return;
+            snapshotCursor=rows.size()<25?0:rows.getLast().getId();
+            for (var row:rows) {
+                try {
+                    if (row.getPendingRevisionId()!=null) byteStore.verifyIntegrity(row.getFileSourceId(),row.getPendingRevisionId(),row.getPendingRevisionHash(),row.getPendingByteLength());
+                    if (row.getSelectedRevisionId()!=null) {
+                        if (row.getSelectedRevisionHash()==null || row.getSelectedByteLength()==null) throw new IllegalStateException("Snapshot descriptor unavailable");
+                        byteStore.verifyIntegrity(row.getFileSourceId(),row.getSelectedRevisionId(),row.getSelectedRevisionHash(),row.getSelectedByteLength());
+                    }
+                } catch (RuntimeException integrityFailure) {
+                    snapshotTransaction.executeWithoutResult(status -> {
+                        entityManager.createNativeQuery("SELECT pg_advisory_xact_lock(:key)")
+                                .setParameter("key",RagDependencyGraph.LOCK_ID).getSingleResult();
+                        if (!security.isCurrentRuntime()) return;
+                        // No incident is applied to an intervening replacement or reserved source.
+                        entityManager.createNativeQuery("""
+                                UPDATE rag.external_file_sources SET snapshot_integrity_failed=true
+                                WHERE file_source_id=:source AND eligible AND reserved_by IS NULL
+                                AND pending_revision_id IS NOT DISTINCT FROM CAST(:pending AS uuid)
+                                AND selected_revision_id IS NOT DISTINCT FROM CAST(:selected AS uuid)
+                                """).setParameter("source",row.getFileSourceId()).setParameter("pending",row.getPendingRevisionId())
+                                .setParameter("selected",row.getSelectedRevisionId()).executeUpdate();
+                    });
+                }
+            }
+        } catch (RuntimeException unavailable) {
+            // Files/rows remain the durable retry inventory. No original is reopened.
+            org.slf4j.LoggerFactory.getLogger(getClass()).warn("Snapshot reconciliation deferred; authority or storage unavailable");
         }
     }
 

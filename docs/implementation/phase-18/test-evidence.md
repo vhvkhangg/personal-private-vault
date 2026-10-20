@@ -1,5 +1,21 @@
 # Phase 18 — Document Indexing Verification Evidence
 
+## 2026-10-20 — Slice 1 independent final acceptance under D14
+
+**Status:** `READY_FOR_OWNER_COMMIT` for Slice 1 only, after the [independent final acceptance](reviews/2026-10-20-slice-1-import-snapshot-independent-final-acceptance.md) checked the exact [D14 owner exception](owner-decisions.md#2026-10-20--d14-p18-s1-verification-gate-exception-s1-rr-01), original focused receipt/reports and complete source-file continuity. **S1-01–S1-07 remain independently CLOSED; S1-RR-01 is RESOLVED BY OWNER EXCEPTION D14.** All 35 reviewed implementation/test/migration files match their manifest. This final check ran no tests; the historical review, implementer evidence and original failed clean gate below remain unchanged. Readiness does not assert full-suite stability or Phase 18 acceptance.
+
+| Existing verification | Retained result / receipt |
+| --- | --- |
+| Independent focused re-review, 2026-10-20 | **210 tests / 0 failures / 0 errors / 0 skips**, exit 0; 351.235 seconds. `logs/phase18/s1-independent-re-review-2026-10-20-focused.json`. Includes 84 snapshot cases and 25 worker-boundary cases; full class inventory/command/environment in the independent review. |
+| Corrective takeover aggregate `mvn clean verify` | **FAILED: 1,433 tests / 1 failure / 2 errors / 0 skips**, exit 1; 847.672 seconds. `logs/phase18/s1-takeover-clean-verify.json` and `.log`; failure inventory in `logs/phase18/s1-takeover-clean-verify-summary.json`. Later package/verify stages were not reached. The separate XML container total is not substituted for the console aggregate. |
+| Corrective takeover focused / isolated compatibility | **150/0/0/0** and **25/0/0/0**, attributed to the unchanged [corrective handback](slice-1-import-snapshot-codex-corrective-handback-2026-10-20.md), which records commands, receipts and six final evidence digests. These do not establish full-suite stability. |
+
+**Failure dispositions:** native alias test excluded from Slice 1 acceptance under ADR-0023, with failed evidence preserved; native document batch **invalid worker batch provenance remains OPEN**, deferred to future separately authorized Slice 3 verification of **FR18-3**; aggregate PostgreSQL connection-slot exhaustion remains an **unresolved verification limitation**. The independent focused 25/25 worker-boundary pass does not identify its aggregate cause. **Bounded aggregate resource investigation and repeat verification are required before P18-FINAL**, as carried in the [final gate](final-verification-gate.md); no such work is run here.
+
+All original reviews, handbacks, receipts, raw logs, failing reports/excerpts and source manifests remain preserved. This exception is **not PASS for the original clean gate**, not FR18-3 closure and not acceptance of P18-FINAL or Phase 18. No baseline-only comparison proves the exact baseline failure population. Next gate: owner commit/push of the reviewed Slice 1 scope using the final acceptance's exact message; agents do not publish. External indexing remains INACTIVE, live originals DISABLED / DEFERRED, Phase 17 frozen, and no Slices 2–4 expansion is authorized.
+
+## Historical Phase 18 evidence (unchanged below)
+
 **Independent post-takeover result — 2026-10-18: CHANGES_REQUESTED / INCOMPLETE.**
 The [separate independent review](reviews/2026-10-18-phase-18-independent-post-takeover-review.md)
 validates the unchanged full-suite evidence and independently passes 13 focused Java,

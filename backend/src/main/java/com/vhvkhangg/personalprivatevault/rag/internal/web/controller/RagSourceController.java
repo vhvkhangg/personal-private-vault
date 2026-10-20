@@ -37,8 +37,18 @@ public class RagSourceController {
     @PostMapping("/register-file")
     @Operation(summary = "Register external file candidate", operationId = "registerFileCandidate")
     public ResponseEntity<ApiResponse<RagSourceResponse>> registerFile(@Valid @RequestBody RegisterFileSourceRequest request) {
-        RagSourceView view = ragOperations.registerFileCandidate(request.filePath());
+        RagSourceView view = ragOperations.registerSnapshotCandidate(request.filePath());
         return ApiResponses.created(RagWebMapper.toResponse(view));
+    }
+
+    @PostMapping("/{id}/capture-revision")
+    @Operation(summary = "Capture updated pending revision for external file", operationId = "capturePendingFileRevision")
+    public ResponseEntity<ApiResponse<RagSourceResponse>> captureRevision(
+            @PathVariable Long id,
+            @Valid @RequestBody com.vhvkhangg.personalprivatevault.rag.internal.web.dto.CaptureSnapshotRequest request) {
+        RagSourceView view = ragOperations.capturePendingRevision(id,
+                new com.vhvkhangg.personalprivatevault.rag.api.RagSnapshotCaptureCommand(request.filePath(),request.expectedSnapshot()));
+        return ApiResponses.ok(RagWebMapper.toResponse(view));
     }
 
     @PostMapping("/register-domain")
@@ -75,7 +85,7 @@ public class RagSourceController {
             @Valid @RequestBody ApproveSourceRequest request) {
         var command = new com.vhvkhangg.personalprivatevault.rag.api.RagConsentCommand(request.approvedFields(),
                 request.expectedSourceVersion(), request.expectedConsentResetVersion(), request.expectedAuthorizationEpoch(),
-                request.expectedFieldPolicyVersion(), request.confirmedDescriptionHash());
+                request.expectedFieldPolicyVersion(), request.confirmedDescriptionHash(), request.expectedSnapshot());
         RagSourceView view = ragOperations.approveSource(id, command);
         return ApiResponses.ok(RagWebMapper.toResponse(view));
     }

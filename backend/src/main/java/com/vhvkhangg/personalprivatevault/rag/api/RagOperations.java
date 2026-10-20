@@ -15,6 +15,12 @@ public interface RagOperations {
 
     RagSourceView registerFileCandidate(String absoluteFilePath);
 
+    RagSourceView registerSnapshotCandidate(String absoluteFilePath);
+
+    RagSourceView capturePendingRevision(Long sourceId, String absoluteFilePath);
+
+    RagSourceView capturePendingRevision(Long sourceId, RagSnapshotCaptureCommand command);
+
     RagSourceView registerDomainCandidate(RagSourceType type, String sourceId);
 
     RagSourceView registerDomainCandidate(RagSourceType type, String sourceId,

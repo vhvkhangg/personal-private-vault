@@ -608,4 +608,30 @@ class RagOriginalBytesStoreTest {
         assertThat(cleanup.get(0).message()).contains("retained for integrity recovery");
         assertThat(Files.exists(origOnly)).isTrue();
     }
+    @Test
+    void nativeUnavailableFallbackNeverClobbersOrigWithoutManifest(@TempDir Path dir) throws Exception {
+        var store=new RagOriginalBytesStore(dir.resolve("fallback"),1000,false);
+        UUID source=UUID.randomUUID(),revision=UUID.randomUUID(),capture=UUID.randomUUID();
+        Path sourceDir=Files.createDirectories(store.getRevisionsDir().resolve(source.toString()));
+        Path target=sourceDir.resolve(revision+".orig"); byte[] old="existing-partial".getBytes(StandardCharsets.UTF_8); Files.write(target,old);
+        byte[] candidate="new-candidate".getBytes(StandardCharsets.UTF_8);
+        var temp=store.writeTemp(capture,new ByteArrayInputStream(candidate),null,null);
+        assertThatThrownBy(()->store.sealRevision(source,revision,capture,temp.sha256(),temp.byteLength())).isInstanceOf(SnapshotStorageException.class);
+        assertThat(Files.readAllBytes(target)).isEqualTo(old);
+        assertThat(Files.readAllBytes(temp.tempPath())).isEqualTo(candidate);
+        assertThat(Files.exists(sourceDir.resolve(revision+".manifest.json"))).isFalse();
+    }
+
+    @Test
+    void nativeUnavailableFallbackSealsAndRejectsManifestCollision(@TempDir Path dir) throws Exception {
+        var store=new RagOriginalBytesStore(dir.resolve("fallback"),1000,false);
+        UUID source=UUID.randomUUID(),revision=UUID.randomUUID(),capture=UUID.randomUUID();
+        var temp=store.writeTemp(capture,new ByteArrayInputStream(new byte[]{1,2,3}),null,null);
+        store.sealRevision(source,revision,capture,temp.sha256(),temp.byteLength());
+        assertThat(store.verifyIntegrity(source,revision,temp.sha256(),temp.byteLength())).isTrue();
+        UUID next=UUID.randomUUID(); var nextTemp=store.writeTemp(next,new ByteArrayInputStream(new byte[]{4}),null,null);
+        assertThatThrownBy(()->store.sealRevision(source,revision,next,nextTemp.sha256(),nextTemp.byteLength())).isInstanceOf(SnapshotStorageException.class);
+        assertThat(store.verifyIntegrity(source,revision,temp.sha256(),temp.byteLength())).isTrue();
+    }
+
 }

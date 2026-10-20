@@ -50,6 +50,24 @@ public class RagService implements RagOperations {
     }
 
     @Override
+    public RagSourceView registerSnapshotCandidate(String absoluteFilePath) {
+        runtimeSecurity.requireIsolatedRuntime();
+        return sourceService.registerSnapshotCandidate(absoluteFilePath);
+    }
+
+    @Override
+    public RagSourceView capturePendingRevision(Long sourceId, String absoluteFilePath) {
+        runtimeSecurity.requireIsolatedRuntime();
+        return sourceService.capturePendingRevision(sourceId, absoluteFilePath);
+    }
+
+    @Override
+    public RagSourceView capturePendingRevision(Long sourceId, com.vhvkhangg.personalprivatevault.rag.api.RagSnapshotCaptureCommand command) {
+        runtimeSecurity.requireIsolatedRuntime();
+        return sourceService.capturePendingRevision(sourceId, command);
+    }
+
+    @Override
     public RagSourceView registerDomainCandidate(RagSourceType type, String sourceId) {
         runtimeSecurity.requireIsolatedRuntime();
         return sourceService.registerDomainCandidate(type, sourceId);

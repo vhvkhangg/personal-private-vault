@@ -74,4 +74,18 @@ public class RagExternalFileAuthority {
     public RagExternalFileSource findByFileSourceId(UUID fileSourceId) {
         return repository.findByFileSourceId(fileSourceId).orElse(null);
     }
+
+    public RagExternalFileSource findByCanonicalDigest(String canonicalDigest) {
+        return repository.findByCanonicalIdentityDigest(canonicalDigest).orElse(null);
+    }
+
+    public java.util.Set<UUID> findAllLegitimateRevisionIds() {
+        java.util.Set<UUID> revisions = new java.util.HashSet<>(repository.findAllSelectedRevisionIds());
+        revisions.addAll(repository.findAllPendingRevisionIds());
+        return java.util.Set.copyOf(revisions);
+    }
+
+    public RagExternalFileSource save(RagExternalFileSource source) {
+        return repository.save(source);
+    }
 }

@@ -4,14 +4,10 @@
 // no-overwrite R, integrity before use and bounded crash/orphan recovery.
 // Keep SQL source guards, result checks, one trusted C_P and whole-file consent.
 // This is logical mapping, NOT a new migration or runtime PASS.
-// Phase 18 candidate physical schema representation (V18 plus append-only V19).
-// Partial implementation; no runtime/R7 or Phase 18 acceptance claim.
-// Effective external TARGET: ADR-0022 Immutable Snapshot + WHOLE_FILE + NO_CHANGE,
-// OWNER_APPROVED / CANONICALLY_SYNCHRONIZED (2026-10-18); implementation STOPPED.
-// The tables below describe inherited V18/V19 CURRENT candidate structures only.
-// They do NOT implement immutable ORIGINAL_BYTES revisions, whole-file grants,
-// guarded NO_CHANGE C_N, snapshot selection/currentness or deny-only incidents.
-// No runnable DDL/migration or new physical layout is authorized by this document.
+// Phase 18 candidate physical schema: V18/V19 plus Slice 1 V20/V21.
+// Slice 1 corrections are Codex-authored and await separate independent re-review.
+// Pending snapshots/whole-file approval are exposed; external indexing INACTIVE.
+// No selected-R/sourceVersion/G promotion or finalized NO_CHANGE is implemented here.
 // Appends to frozen Schema v1 and Phase 17 additive DBML without modifying frozen baselines.
 // Mixed-source lock order (ADR-0021 clause 2): optional graph barrier -> sorted Vault
 // source-state guards -> sorted RAG external-file source guards -> Vault lifecycle
@@ -19,7 +15,7 @@
 // generation/staging/run. Preserves preexisting Phase 17 order.
 Project phase18_rag_document_index {
   database_type: 'PostgreSQL'
-  Note: 'RAG-owned additions implemented in V18 migration. Extends rag schema with multi-root batch admission, per-file reporting, generation roots, document chunks with vector(384), and stage fences.'
+  Note: 'RAG-owned candidate additions in V18-V21 migrations. Extends rag schema with multi-root batch admission, per-file reporting, generation roots, document chunks with vector(384), and stage fences.'
 }
 
 // ADR-0022 additive logical responsibility map (TARGET / NOT_IMPLEMENTED):
@@ -48,7 +44,7 @@ Project phase18_rag_document_index {
 // preserve safe reset/incident/anti-replay history. Managed file backup exclusions
 // do not erase PG backups/WAL/owner copies. Missing files/uncertain restore denies.
 // Minimal physical reconciliation/append-only migrations require separate approved
-// implementation and review after actual tip V19; do not rewrite V1-V19/Schema v1.
+// implementation and review after actual tip V21; do not rewrite V1-V19/Schema v1.
 // See docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md,
 // docs/architecture/rag-phase-18-api-extension.md and Phase 18 AC/FCNC evidence.
 
@@ -62,6 +58,20 @@ Table rag.external_file_sources {
   field_policy_version int [not null, default: 1]
   eligible boolean [not null, default: true]
   reserved_by uuid [note: 'Durable exact job reservation, no TTL/unverified release']
+  // V20 pending-only revision and expected selection metadata.
+  selected_revision_id uuid
+  pending_revision_id uuid
+  pending_revision_hash varchar(128)
+  pending_byte_length bigint
+  pending_sealed_at timestamptz
+  expected_selected_revision_id uuid
+  expected_source_version bigint
+  // V21 correction: independently trusted selected descriptor, exact pending consent, durable denial.
+  selected_revision_hash varchar(128)
+  selected_byte_length bigint
+  approved_pending_revision_id uuid [note: 'Exact whole-file-approved pending R; cleared on replacement']
+  pending_consent_context varchar(160) [note: 'Captured policy/reset/authorization tuple, no content or locator']
+  snapshot_integrity_failed boolean [not null, default: false, note: 'Deny until explicit owner recovery; never hash-repaired']
   created_at timestamptz [not null, default: `clock_timestamp()`]
   updated_at timestamptz [not null, default: `clock_timestamp()`]
   Note: 'Guarded by trg_external_file_sources_guard trigger against mutation while reserved.'

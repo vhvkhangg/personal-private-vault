@@ -23,5 +23,6 @@ public record RagSourceResponse(
         Instant revokedAt,
         long sourceVersion,
         long consentResetVersion,
-        String currentDescriptionRevisionHash
+        String currentDescriptionRevisionHash,
+        com.vhvkhangg.personalprivatevault.rag.source.RagSnapshotExpectation snapshot
 ) {}
