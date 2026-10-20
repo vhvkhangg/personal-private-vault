@@ -1,6 +1,6 @@
 # Agent Implementation Handoffs
 
-`ACTIVE.md` is the canonical implementation contract between Codex and Antigravity.
+`ACTIVE.md` is the canonical current handoff register. It is `NO_ACTIVE_HANDOFF` following the [owner-published Phase 18 Slice 1 implementation closeout](../phase-18/slice-1-closeout.md) (2026-10-20, under D14). Slices 2–4 are not authorized. The generic workflow and historical states below remain guidance, not a new launch instruction.
 
 ## State machine
 

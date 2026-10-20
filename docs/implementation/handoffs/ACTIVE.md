@@ -1,3 +1,19 @@
+# Active Implementation Handoff — NO_ACTIVE_HANDOFF
+
+**Controlling status (2026-10-20):** `NO_ACTIVE_HANDOFF`. **P18-S1-IMPORT-SNAPSHOT is COMPLETE / CLOSED / OWNER-PUBLISHED under D14**, limited to the accepted A+B+C pending-snapshot scope. Owner implementation commit [`7e1a4cd34fbe19f8162150945534e9509093b3f5`](https://github.com/vhvkhangg/personal-private-vault/commit/7e1a4cd34fbe19f8162150945534e9509093b3f5) is verified on GitHub `main`. See [Slice 1 formal closeout](../phase-18/slice-1-closeout.md), [archived handoff](../phase-18/slice-1-import-snapshot-handoff.md), [independent final acceptance](../phase-18/reviews/2026-10-20-slice-1-import-snapshot-independent-final-acceptance.md), and [D14](../phase-18/owner-decisions.md#2026-10-20--d14-p18-s1-verification-gate-exception-s1-rr-01).
+
+**Bounded acceptance:** S1-01–S1-07 independently CLOSED; S1-RR-01 resolved **only by owner exception D14**. Independently executed focused verification was **210 / 0 failures / 0 errors / 0 skips**. The required full clean gate is still **FAILED: 1,433 tests, 1 failure, 2 errors, 0 skips**. Native document-batch provenance / **FR18-3 OPEN** for future separately authorized Slice 3. Aggregate PostgreSQL connection-slot exhaustion **OPEN** and requires a bounded resource investigation plus repeat verification before **P18-FINAL**. The superseded historical native-alias requirement is excluded only from Slice 1 acceptance; original failure evidence is preserved.
+
+**Boundaries:** Phase 17 stays COMPLETE/FROZEN. Phase 18 remains INCOMPLETE/NOT ACCEPTED; external indexing INACTIVE, live original DISABLED/DEFERRED, pending-only R (no selected-R/sourceVersion/G promotion or full NO_CHANGE), original FR18-1–11 and G1–G4 not blanket-closed. **Slices 2–4 NOT AUTHORIZED**. Old Antigravity remediation 2/2 remains exhausted. This documentation-only closeout has not yet been owner-committed/pushed; no production code, test, migration or receipt is changed by this patch.
+
+**Next:** owner commits/pushes the separate closeout-docs patch; no agent implementation handoff is active and no future slice begins without a new explicit owner decision.
+
+---
+
+## Archived pre-closeout ACTIVE snapshot — historical, not controlling
+
+The record below is preserved from `main` at the confirmed Slice 1 implementation commit. Its former `READY_FOR_OWNER_COMMIT` instruction has already been fulfilled and must not be executed again.
+
 # Active Implementation Handoff ? P18-S1-IMPORT-SNAPSHOT
 
 **2026-10-20 controlling status:** `READY_FOR_OWNER_COMMIT` — **P18-S1-IMPORT-SNAPSHOT only**, after [independent final acceptance](../phase-18/reviews/2026-10-20-slice-1-import-snapshot-independent-final-acceptance.md) of the exact [D14 verification-gate exception](../phase-18/owner-decisions.md#2026-10-20--d14-p18-s1-verification-gate-exception-s1-rr-01). **S1-01–S1-07 remain independently CLOSED; S1-RR-01 is RESOLVED BY OWNER EXCEPTION D14.** Original independent evidence remains **210 tests / 0 failures / 0 errors / 0 skips**; all 35 reviewed production/test/migration files match their manifest, with no new non-documentation changes. This final check ran no tests and changes documentation only. The aggregate clean gate remains FAILED, not PASS. Corrective code authorship remains the separate Codex takeover session. Historical Antigravity rounds remain **2/2 exhausted**, with no reset or third round.

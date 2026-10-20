@@ -1,3 +1,9 @@
+# Archived implementation handoff — P18-S1-IMPORT-SNAPSHOT
+
+**Current status (2026-10-20):** `COMPLETE / CLOSED / OWNER-PUBLISHED` for **Slice 1 only**, under D14. Accepted implementation was owner committed/pushed as [`7e1a4cd`](https://github.com/vhvkhangg/personal-private-vault/commit/7e1a4cd34fbe19f8162150945534e9509093b3f5). [Formal Slice 1 closeout](slice-1-closeout.md) is authoritative; [ACTIVE](../handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF` following this docs-only closeout. **No Slice 2–4 implementation is authorized.** The old `READY_FOR_OWNER_COMMIT` and agent launch directions below are archived history, not operative instructions.
+
+---
+
 # P18-S1-IMPORT-SNAPSHOT — Antigravity implementation handoff
 
 **Status:** `READY_FOR_OWNER_COMMIT` — Slice 1 only, after [independent final acceptance](reviews/2026-10-20-slice-1-import-snapshot-independent-final-acceptance.md) (2026-10-20). The exact [D14 verification-gate exception](owner-decisions.md#2026-10-20--d14-p18-s1-verification-gate-exception-s1-rr-01) is independently verified: **S1-01–S1-07 remain CLOSED; S1-RR-01 is RESOLVED BY OWNER EXCEPTION D14**. Original independent evidence remains **210 tests / 0 failures / 0 errors / 0 skips**, including 84 snapshot and 25 worker-boundary cases; no tests were rerun for this final documentation/evidence check. All 35 reviewed implementation/test/migration files match their recorded hashes, with no new non-documentation changes. The aggregate clean gate remains **FAILED: 1,433 tests / 1 failure / 2 errors / 0 skips, exit 1**; readiness is strictly under the single Slice 1 exception, not PASS for that gate.

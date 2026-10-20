@@ -1,5 +1,7 @@
 # Phase 18 — Acceptance and evidence (amended by owner D12)
 
+**Current status 2026-10-20:** [Slice 1 A+B+C closeout](slice-1-closeout.md) records a **bounded** owner-published implementation under D14. This does **not** satisfy Phase 18-wide AC-01–08, accept P18-FINAL, close FR18-3 or authorize Slices 2–4. The failed full clean gate and pending resource investigation remain documented without being called PASS.
+
 **Current authority, 2026-10-19:** [ADR-0023](../../adr/0023-phase-18-application-level-snapshot-worker-trust.md) amends [ADR-0022](../../adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md). Requirements below **replace** contradictory historical G1/G3, FCNC/IS and native/Restricted Token evidence definitions for external snapshot indexing. **Docs-only; no source-code runtime proof, no current PASS, no automatic finding closure.** Keep [historical evidence](test-evidence.md) and [independent reviews](reviews/README.md) unchanged. Phase 17 frozen source guards and Vault privacy contracts remain valid.
 
 ## Acceptance conditions AC-01–08

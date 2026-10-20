@@ -4,6 +4,8 @@ This file defines repository-wide instructions for coding agents.
 
 ## Project state
 
+**Controlling update — 2026-10-20:** Phase 17 remains **COMPLETE/FROZEN**. Phase 18 **Slice 1 Import & Snapshot (A+B+C)** is **COMPLETE/CLOSED under owner exception D14**, owner commit [`7e1a4cd`](https://github.com/vhvkhangg/personal-private-vault/commit/7e1a4cd34fbe19f8162150945534e9509093b3f5). See [`docs/implementation/phase-18/slice-1-closeout.md`](docs/implementation/phase-18/slice-1-closeout.md). [`ACTIVE`](docs/implementation/handoffs/ACTIVE.md) is **`NO_ACTIVE_HANDOFF`** after this separate docs closeout. **No new implementation is authorized:** Phase 18 remains NOT ACCEPTED; Slices 2–4, FR18-3 remediation and P18-FINAL require future explicit gates. Required full clean verification remains FAILED under D14, not waived globally. Earlier dated Phase 18 status statements below are historical and not instructions to restart old handoffs.
+
 - Private, permanently single-user personal vault.
 - Backend-first modular monolith using Spring Boot and Spring Modulith.
 - PostgreSQL + Flyway; Maven build.

@@ -1,4 +1,6 @@
-# Phase 18 — Simplified four-slice implementation plan (planning reference)
+# Phase 18 — Simplified implementation handoff (planning only)
+
+**2026-10-20 scope notice:** Slice 1 A+B+C was separately authorized, reviewed and [closed](slice-1-closeout.md) under D14 at owner commit `7e1a4cd`. This four-slice table remains **planning only** for Slices 2–4, which are **NOT AUTHORIZED**. The original 2026-10-19 design-only note below is historical for the then-unimplemented Slice 1.
 
 **Status:** `SLICE_1_SEPARATELY_OWNER_AUTHORIZED / SLICES_2_TO_4_NOT_AUTHORIZED`, 2026-10-19. The owner approved [D13](owner-decisions.md) to begin **only** [P18-S1 Import & Snapshot](slice-1-import-snapshot-handoff.md) under [ADR-0023](../../adr/0023-phase-18-application-level-snapshot-worker-trust.md). This document remains **planning, not the executable active handoff**; use [ACTIVE](../handoffs/ACTIVE.md). Earlier ADR-0022 native/Restricted Token proof handoffs and independent reviews are historical; do not backdate PASS. Snapshot indexing remains inactive and P18-FINAL not accepted.
 

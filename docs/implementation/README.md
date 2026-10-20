@@ -1,5 +1,7 @@
 # Implementation Plans
 
+**Controlling closeout update (2026-10-20):** [Phase 18 Slice 1](phase-18/slice-1-closeout.md) is **CLOSED** under D14 following owner commit `7e1a4cd`; [ACTIVE](handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF`. Full Phase 18 remains unaccepted; Slices 2–4 are not authorized. Old implementation states in dated historical sections below are not current.
+
 Each phase owns its scope, archived handoff, test evidence, and formal reviews.
 
 For future RAG Phases 18–22, the [owner-approved efficient delivery workflow](../workflow/rag-phase-delivery-guardrails.md), [nonbinding overengineering/scope review](rag-scope-simplification-review.md), and [long agent prompt placeholder](agent-launcher-prompt.md) apply. Owner separately authorized **Phase 18 preparation** on 2026-10-17; that authorization does **not** create an implementation handoff or change frozen Phase 17.
@@ -24,7 +26,7 @@ For future RAG Phases 18–22, the [owner-approved efficient delivery workflow](
 - [`phase-15/`](phase-15/README.md) — **COMPLETE / FROZEN** — closure audit `BACKEND_AUDIT_READY`, owner remediation committed/pushed
 - Phase 16 — **DEFERRED / OWNER-GATED** — Frontend not started (see [roadmap](../roadmap.md); no implementation directory yet)
 - [`phase-17/`](phase-17/README.md) — **COMPLETE / FROZEN** — single-job Local RAG Foundation; [closeout](phase-17/closeout.md) / [archived handoff](phase-17/handoff.md)
-- [`phase-18/`](phase-18/README.md) — **CONTRACT SYNCHRONIZED / IMPLEMENTATION STOPPED** — P18-DOCUMENT-INDEXING; preparation owner published `435ffea`; [decisions](phase-18/owner-decisions.md) / [acceptance](phase-18/acceptance-and-evidence.md)
+- [`phase-18/`](phase-18/README.md) — **INCOMPLETE / NOT ACCEPTED** — **Slice 1 A+B+C COMPLETE/CLOSED** under D14, owner implementation commit [`7e1a4cd`](https://github.com/vhvkhangg/personal-private-vault/commit/7e1a4cd34fbe19f8162150945534e9509093b3f5); [Slice 1 closeout](phase-18/slice-1-closeout.md). Slices 2–4 not authorized, external indexing inactive; [decisions](phase-18/owner-decisions.md) / [acceptance](phase-18/acceptance-and-evidence.md)
 
 Maintenance:
 
@@ -32,7 +34,7 @@ Maintenance:
 
 See [`../roadmap.md`](../roadmap.md).
 
-## Current state — 2026-10-17
+## Historical state — 2026-10-17 (superseded for Phase 18)
 
 Phase 17 Foundation is **COMPLETE — FROZEN** after [Codex independent acceptance](phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md)
 and owner implementation commit [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).

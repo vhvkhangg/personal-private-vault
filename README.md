@@ -4,7 +4,9 @@ Private, single-user personal information vault built as a backend-first modular
 
 ## Current status
 
-**Current as of 2026-10-17:** Backend **Phases 0–15 and 17 are COMPLETE — FROZEN**.
+**2026-10-20 owner-published milestone:** [Phase 18 Slice 1 (Import & Snapshot) closeout](docs/implementation/phase-18/slice-1-closeout.md) is **COMPLETE/CLOSED under D14** following owner commit [`7e1a4cd`](https://github.com/vhvkhangg/personal-private-vault/commit/7e1a4cd34fbe19f8162150945534e9509093b3f5). [ACTIVE](docs/implementation/handoffs/ACTIVE.md) returns to `NO_ACTIVE_HANDOFF` through the separate docs-only closeout. Phase 17 stays frozen. Full Phase 18 is **INCOMPLETE/NOT ACCEPTED**; external indexing remains inactive, FR18-3 and the aggregate resource/full-clean issues remain open, and Slices 2–4 need separate owner approval.
+
+**Historical status as of 2026-10-17 (superseded for Slice 1):** Backend **Phases 0–15 and 17 are COMPLETE — FROZEN**.
 Phase 17 single-job Local RAG Foundation (Alternative B / ADR-0020) was independently accepted
 ([Codex final re-review 3](docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md))
 and committed/pushed by the owner as [`829d294`](https://github.com/vhvkhangg/personal-private-vault/commit/829d294aca7d916851348ff21004c631915d572e).

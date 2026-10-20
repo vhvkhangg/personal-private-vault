@@ -1,5 +1,7 @@
 # Documentation
 
+**Current 2026-10-20:** [Phase 18 Slice 1 closeout](implementation/phase-18/slice-1-closeout.md) is **COMPLETE/CLOSED under D14**, owner implementation commit [`7e1a4cd`](https://github.com/vhvkhangg/personal-private-vault/commit/7e1a4cd34fbe19f8162150945534e9509093b3f5). The previously authorized [Slice 1 handoff](implementation/phase-18/slice-1-import-snapshot-handoff.md) is archived and [ACTIVE](implementation/handoffs/ACTIVE.md) is `NO_ACTIVE_HANDOFF` in this separate closeout docs patch. **Phase 18 remains unaccepted; Slices 2–4 not authorized; FR18-3 and failed full verification obligations remain.** Dated status descriptions below are historical where contradictory.
+
 This directory is the canonical documentation baseline for **Personal Private Vault**.
 
 Backend Phases 0–15 and **Phase 17** are **COMPLETE — FROZEN**. Phase 17
