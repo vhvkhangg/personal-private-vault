@@ -1,3 +1,42 @@
+**D21 CURRENT — 2026-10-20: Slice 2 `.md` ONLY / `READY_FOR_INDEPENDENT_SLICE_2_CLOSEOUT_REVIEW`.** All twelve frozen D17 requirements remain mandatory and independently VERIFIED / accepted under D20. TXT, DOCX, PDF, XLS, XLSX and OCR are excluded from Slice 2 acceptance; historical code/tests/failures remain intact and reintroduction requires a future explicit Owner Decision. See [D21](../docs/implementation/phase-18/owner-decisions.md#2026-10-20--d21-slice-2-obsidian-markdown-only-scope-rebase), the [controlling scope/matrix](../docs/implementation/phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md) and [proposed closeout](../docs/implementation/phase-18/slice-2-markdown-only-d21-proposed-closeout-2026-10-20.md). **Slice 2 is not declared CLOSED and owner commit readiness is not granted here.** Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; historical Java full gate FAILED; Slices 3/4 unauthorized. No global Phase 18 acceptance or new implementation/activation.
+
+## Preserved prior scope/status and broader target records
+
+# D17 selected Markdown runtime — completion checkpoint 2026-10-20
+
+**BLOCKED / OWNER_DECISION_REQUIRED** for maximum-workload stability and remaining resource/quality
+evidence. See the [corrective handback](../docs/implementation/phase-18/slice-2-obsidian-markdown-d17-corrective-handback-2026-10-20.md).
+HTML and structural development tests pass; this does not accept the complete profile or Phase 18.
+The paragraphs below remain historical where their older dependency/status statements differ.
+
+Selected Windows CPython **3.14.4** environment: `.venv-d17`, 67 compatible locked distributions,
+base + existing dev dependencies, html5lib 1.1/webencodings 0.6.1. Existing locked versions preserved.
+From the repository root, install deliberately with:
+
+```powershell
+$env:UV_PROJECT_ENVIRONMENT = Join-Path (Get-Location).Path 'rag-engine/.venv-d17'
+uv sync --directory rag-engine --locked --extra dev --python 3.14.4
+uv pip check --python rag-engine/.venv-d17/Scripts/python.exe
+```
+
+This provisioning may use the network; runtime HTML/Markdown never fetches linked resources.
+RapidOCR 1.4.4 remains locked in the nondefault `deferred-ocr` group constrained to Python <3.13;
+requesting it on 3.14.4 intentionally fails. Old `.venv`, OCR code/artifacts and failed receipts
+are preserved; no OCR experiment or compatibility claim follows. Deferred PDF raster typing permits
+only missing `cv2` in the mypy project config. Use `--config-file rag-engine/pyproject.toml` when
+running mypy from the repository root. Do not run deferred OCR tests as proof of Markdown acceptance.
+The corrective evidence inventory records the exact selected tests and exclusions.
+
+## Preserved earlier runtime/setup history
+
+# PPV RAG Engine - Phase 17 frozen; Slice 2 corrective candidate blocked
+
+**Corrective takeover status - 2026-10-20:** `P18-S2-PARSER-OCR-EMBEDDING / BLOCKED / OWNER_DECISION_REQUIRED`. One separately owner-authorized Codex corrective scope addressed S2-01 through S2-08; it does not reset historical Antigravity 2/2. Deterministic repairs are tested, but four-script OCR/fresh human-adjudicated held-out quality (S2-06), complete native parsing interruption/resource proof (S2-07), and the Java pipeline-identity compatibility gate (S2-08) remain unresolved. See [corrective handback](../docs/implementation/phase-18/slice-2-parser-ocr-embedding-codex-corrective-handback-2026-10-20.md). Phase 17 remains FROZEN; Slice 1 COMPLETE/CLOSED under D14; FR18-3 OPEN; external indexing INACTIVE, live originals DISABLED/DEFERRED; Slices 3-4 unauthorized. No Slice 2 acceptance, automatic further implementation or agent publishing. Earlier dated statuses are historical where inconsistent.
+
+Current producer-local candidate adds whole-file external Markdown, exact revision/role chunk boundaries, DOCX hyperlinks/nested cell/comment addresses, inert XLSX formulas/merge/visibility metadata, selected PDF OCR and measured ruled-cell geometry. Legacy formulas/comments without verified representation fail the affected XLS file. RapidOCR vi/zh-Hant admission is blocked rather than warning away known material loss. Finite preflight/cancellation checks do not make native OCR calls cooperatively interruptible; existing Java process termination is unchanged. Public v2/v3 contracts, Java, SQL and dependencies are unchanged. The paragraphs below preserve earlier setup/history, not current implementation authorization.
+
+## Preserved setup and history
+
 # PPV RAG Engine — accepted Phase 17 Foundation (Phase 18 not implemented)
 
 **Current authority, 2026-10-17:** Phase 17 Alternative B/E1 Foundation is **COMPLETE — FROZEN**
@@ -56,6 +95,17 @@ The verification image pins the Python base digest and installs the frozen runti
 `scripts/dependency_inventory.py` records installed license/version metadata. A bounded pip-audit 2.9.0 scan of all 32 installed distributions returned zero known advisories on 2026-10-14. This does not assert unknown vulnerabilities or every bundled OS/DLL component is absent. Preserve LGPL Psycopg notices; private local use is the current scope, not a redistribution approval. See [historical Phase 17 evidence](../docs/implementation/phase-17/test-evidence.md) and [final acceptance](../docs/implementation/phase-17/reviews/2026-10-17-phase-17-alternative-b-independent-final-re-review-3.md) for actual scope, results and limits.
 
 ## Phase 18 takeover candidate — not accepted
+
+**D17 current checkpoint (2026-10-20): BLOCKED / OWNER_DECISION_REQUIRED.** The active scope is
+the [frozen Obsidian Markdown profile](../docs/implementation/phase-18/obsidian-markdown-d17-contract.md).
+The whole-file Markdown path uses pinned markdown-it-py 4.2.0, mdit-py-plugins 0.6.1 and mdurl 0.1.2;
+existing package versions, Python and model artifacts are unchanged. Structure/source spans and
+typed whole-document failures have new producer-local regression evidence. Mandatory HTML shapes
+remain unsupported, and `uv pip check` fails the inherited RapidOCR/Python metadata constraint.
+See the [D17 handback](../docs/implementation/phase-18/slice-2-obsidian-markdown-d17-handback-2026-10-20.md).
+OCR experiments are stopped; OCR/PDF/DOCX/XLS/XLSX acceptance is deferred. The preceding Phase 17 and
+following broader takeover/OCR text is historical where superseded; it does not authorize replaying
+OCR experiments. External indexing stays inactive; no broader Slice 2 or publication acceptance.
 
 The Phase 17 distribution counts and dependency/audit statements above are historical.
 The current locked candidate additionally uses pdfplumber 0.11.10 (with PDFMiner and

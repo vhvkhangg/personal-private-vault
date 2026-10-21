@@ -1,0 +1,51 @@
+{
+  "status": "AUTOMATED_STRUCTURE_ONLY; semantic family/near-duplicate and human label review PENDING",
+  "declared_family_ids": 7,
+  "connected_family_dependency_closures": {
+    "closure-1": [
+      "broken.docx",
+      "broken.pdf"
+    ],
+    "closure-2": [
+      "courier-en.pdf",
+      "courier-mixed.pdf",
+      "courier-vi.pdf",
+      "courier-zh-Hans.pdf",
+      "courier-zh-Hant.pdf",
+      "workshop-native.pdf"
+    ],
+    "closure-3": [
+      "inspection.xls",
+      "inspection.xlsx"
+    ],
+    "closure-4": [
+      "maintenance.docx",
+      "maintenance.md",
+      "maintenance.txt",
+      "tools.md"
+    ],
+    "closure-5": [
+      "missing-locator.json"
+    ]
+  },
+  "independent_connected_closure_count": 5,
+  "per_format_connected_closure_denominators": {
+    "docx": 2,
+    "locator-negative": 1,
+    "md/Obsidian": 1,
+    "pdf-mixed": 1,
+    "pdf-native": 1,
+    "pdf-scan": 2,
+    "txt": 1,
+    "xls": 1,
+    "xlsx": 1
+  },
+  "per_script_connected_closure_denominators": {
+    "en": 5,
+    "vi": 2,
+    "zh-Hans": 2,
+    "zh-Hant": 3
+  },
+  "counts_include_seeded_corrupt_locator_negative_cases": true,
+  "split_membership": "all components entirely held_out; no inference run"
+}

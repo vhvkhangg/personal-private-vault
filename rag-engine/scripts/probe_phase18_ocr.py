@@ -71,8 +71,8 @@ report = {
     "source_unchanged": True,
     "results": results,
 }
-Path(f"logs/phase18-takeover/ocr-quality-{time.time_ns()}.json").write_text(
-    json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
-)
+out_path = Path(f"logs/phase18-takeover/ocr-quality-{time.time_ns()}.json")
+out_path.parent.mkdir(parents=True, exist_ok=True)
+out_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 print(json.dumps({k: v for k, v in report.items() if k not in ("results",)}, ensure_ascii=True))
 raise SystemExit(1 if report["status"] == "FAIL" else 0)

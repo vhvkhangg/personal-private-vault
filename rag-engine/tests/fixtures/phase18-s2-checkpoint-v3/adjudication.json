@@ -1,0 +1,121 @@
+{
+  "status": "PENDING",
+  "reviewer": null,
+  "signed_at": null,
+  "dataset_sha256": "406e3aeedc78e943cd494e30452819d18e3ceba4e1bc2e4612845d5eea225e99",
+  "required_checks": [
+    "Read source files and gold side-by-side; correct labels only in a NEW dataset revision before evaluation",
+    "Check vi diacritics/digits and zh-Hans versus zh-Hant; assess English whitespace without silently normalizing facts",
+    "Check PDF ink/ruled/merged boxes, reading order; verify native Courier metrics",
+    "Check hidden/comment/formula/child original structure and closure IDs",
+    "Independently assess source-family/semantic near-duplicates and label denominators",
+    "Freeze accepted pipeline/config/artifact hashes, then independent held-out execution; adjudicate every discrepancy and second-check acceptance-critical ambiguities"
+  ],
+  "documents": [
+    {
+      "file": "courier-en.pdf",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "courier-vi.pdf",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "courier-zh-Hans.pdf",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "courier-zh-Hant.pdf",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "workshop-native.pdf",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "courier-mixed.pdf",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "maintenance.txt",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "tools.md",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "maintenance.md",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "maintenance.docx",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "inspection.xlsx",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "inspection.xls",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "broken.docx",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "broken.pdf",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "file": "missing-locator.json",
+      "label_status": "PENDING_HUMAN_REVIEW",
+      "material_error_decision": null,
+      "locator_decision": null,
+      "reviewer": null
+    }
+  ]
+}

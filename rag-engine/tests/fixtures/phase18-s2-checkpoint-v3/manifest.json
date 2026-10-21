@@ -1,0 +1,1406 @@
+{
+  "dataset": "phase18-s2-checkpoint-v3",
+  "synthetic": true,
+  "reference_origin": "authored source strings, original OOXML/BIFF/PDF objects, font-renderer ink boxes; NEVER OCR/parser output",
+  "human_adjudication": "PENDING",
+  "pipeline_selection": "NONE; candidate comparison incomplete; do not evaluate held-out yet",
+  "held_out_results": "NOT_RUN",
+  "fonts": {
+    "arial.ttf": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+    "msyh.ttc": "d79c55e68b1131eea0cc1c47be4f572d964f28c682e143db2ad09c1e4cb07a3f"
+  },
+  "documents": [
+    {
+      "file": "courier-en.pdf",
+      "sha256": "ba7ad9050e154be871ede586cba037c55de261519d1755604f92f8d85014b1e0",
+      "source_family": "new-courier-record",
+      "closure_id": "new-courier-record",
+      "split": "held_out",
+      "format": "pdf-scan",
+      "scripts": [
+        "en"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-courier-en.pdf",
+      "original_digest": "ba7ad9050e154be871ede586cba037c55de261519d1755604f92f8d85014b1e0",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 1,
+        "blocks": 8,
+        "tables": 1,
+        "cells": 5
+      },
+      "gold": [
+        {
+          "text": "Courier record 708",
+          "reading_order": 0,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            67,
+            380,
+            93
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Recipient: Helen Brooks.",
+          "reading_order": 1,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            142,
+            476,
+            175
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "27 parcels at 08:45.",
+          "reading_order": 2,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            217,
+            396,
+            250
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Dispatch",
+          "reading_order": 3,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 0,
+          "column": 0,
+          "column_span": 2,
+          "bbox": [
+            80,
+            350,
+            1440,
+            450
+          ],
+          "ink_bbox": [
+            104,
+            381,
+            244,
+            414
+          ]
+        },
+        {
+          "text": "Code",
+          "reading_order": 4,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            450,
+            760,
+            550
+          ],
+          "ink_bbox": [
+            104,
+            481,
+            190,
+            507
+          ]
+        },
+        {
+          "text": "Count",
+          "reading_order": 5,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            450,
+            1440,
+            550
+          ],
+          "ink_bbox": [
+            784,
+            481,
+            880,
+            507
+          ]
+        },
+        {
+          "text": "708",
+          "reading_order": 6,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            550,
+            760,
+            650
+          ],
+          "ink_bbox": [
+            104,
+            581,
+            164,
+            607
+          ]
+        },
+        {
+          "text": "27",
+          "reading_order": 7,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            550,
+            1440,
+            650
+          ],
+          "ink_bbox": [
+            784,
+            581,
+            824,
+            607
+          ]
+        }
+      ]
+    },
+    {
+      "file": "courier-vi.pdf",
+      "sha256": "46bd0f3ed33dfd59df5d4c8a8738fb613a8c5a1c6904aeafdd370b052007b71b",
+      "source_family": "new-courier-record",
+      "closure_id": "new-courier-record",
+      "split": "held_out",
+      "format": "pdf-scan",
+      "scripts": [
+        "vi"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-courier-vi.pdf",
+      "original_digest": "46bd0f3ed33dfd59df5d4c8a8738fb613a8c5a1c6904aeafdd370b052007b71b",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 1,
+        "blocks": 8,
+        "tables": 1,
+        "cells": 5
+      },
+      "gold": [
+        {
+          "text": "Phiếu chuyển hàng 708",
+          "reading_order": 0,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            59,
+            458,
+            100
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Người nhận: Đỗ Thị Hồng.",
+          "reading_order": 1,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            136,
+            504,
+            175
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Số kiện 27, giờ 08:45.",
+          "reading_order": 2,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            211,
+            432,
+            250
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Dispatch",
+          "reading_order": 3,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 0,
+          "column": 0,
+          "column_span": 2,
+          "bbox": [
+            80,
+            350,
+            1440,
+            450
+          ],
+          "ink_bbox": [
+            104,
+            381,
+            244,
+            414
+          ]
+        },
+        {
+          "text": "Code",
+          "reading_order": 4,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            450,
+            760,
+            550
+          ],
+          "ink_bbox": [
+            104,
+            481,
+            190,
+            507
+          ]
+        },
+        {
+          "text": "Count",
+          "reading_order": 5,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            450,
+            1440,
+            550
+          ],
+          "ink_bbox": [
+            784,
+            481,
+            880,
+            507
+          ]
+        },
+        {
+          "text": "708",
+          "reading_order": 6,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            550,
+            760,
+            650
+          ],
+          "ink_bbox": [
+            104,
+            581,
+            164,
+            607
+          ]
+        },
+        {
+          "text": "27",
+          "reading_order": 7,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            550,
+            1440,
+            650
+          ],
+          "ink_bbox": [
+            784,
+            581,
+            824,
+            607
+          ]
+        }
+      ]
+    },
+    {
+      "file": "courier-zh-Hans.pdf",
+      "sha256": "b6843b9c57e616bebc8ffea923f83a1ad9876031fd0f84ffe30cc1196207f941",
+      "source_family": "new-courier-record",
+      "closure_id": "new-courier-record",
+      "split": "held_out",
+      "format": "pdf-scan",
+      "scripts": [
+        "zh-Hans"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-courier-zh-Hans.pdf",
+      "original_digest": "b6843b9c57e616bebc8ffea923f83a1ad9876031fd0f84ffe30cc1196207f941",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 1,
+        "blocks": 8,
+        "tables": 1,
+        "cells": 5
+      },
+      "gold": [
+        {
+          "text": "配送记录708",
+          "reading_order": 0,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            69,
+            287,
+            104
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "收件人：陈晓东。",
+          "reading_order": 1,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            143,
+            368,
+            178
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "件数27，时间08:45。",
+          "reading_order": 2,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            219,
+            431,
+            255
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Dispatch",
+          "reading_order": 3,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 0,
+          "column": 0,
+          "column_span": 2,
+          "bbox": [
+            80,
+            350,
+            1440,
+            450
+          ],
+          "ink_bbox": [
+            104,
+            384,
+            254,
+            422
+          ]
+        },
+        {
+          "text": "Code",
+          "reading_order": 4,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            450,
+            760,
+            550
+          ],
+          "ink_bbox": [
+            104,
+            484,
+            194,
+            513
+          ]
+        },
+        {
+          "text": "Count",
+          "reading_order": 5,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            450,
+            1440,
+            550
+          ],
+          "ink_bbox": [
+            784,
+            485,
+            888,
+            513
+          ]
+        },
+        {
+          "text": "708",
+          "reading_order": 6,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            550,
+            760,
+            650
+          ],
+          "ink_bbox": [
+            104,
+            585,
+            167,
+            613
+          ]
+        },
+        {
+          "text": "27",
+          "reading_order": 7,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            550,
+            1440,
+            650
+          ],
+          "ink_bbox": [
+            784,
+            585,
+            826,
+            613
+          ]
+        }
+      ]
+    },
+    {
+      "file": "courier-zh-Hant.pdf",
+      "sha256": "9109f13399560153b7034d30e12bd814996bb3ad4ad778d262ccca3c11838a5e",
+      "source_family": "new-courier-record",
+      "closure_id": "new-courier-record",
+      "split": "held_out",
+      "format": "pdf-scan",
+      "scripts": [
+        "zh-Hant"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-courier-zh-Hant.pdf",
+      "original_digest": "9109f13399560153b7034d30e12bd814996bb3ad4ad778d262ccca3c11838a5e",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 1,
+        "blocks": 8,
+        "tables": 1,
+        "cells": 5
+      },
+      "gold": [
+        {
+          "text": "配送紀錄708",
+          "reading_order": 0,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            69,
+            287,
+            104
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "收件人：陳曉東。",
+          "reading_order": 1,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            143,
+            368,
+            178
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "件數27，時間08:45。",
+          "reading_order": 2,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            219,
+            431,
+            255
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Dispatch",
+          "reading_order": 3,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 0,
+          "column": 0,
+          "column_span": 2,
+          "bbox": [
+            80,
+            350,
+            1440,
+            450
+          ],
+          "ink_bbox": [
+            104,
+            384,
+            254,
+            422
+          ]
+        },
+        {
+          "text": "Code",
+          "reading_order": 4,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            450,
+            760,
+            550
+          ],
+          "ink_bbox": [
+            104,
+            484,
+            194,
+            513
+          ]
+        },
+        {
+          "text": "Count",
+          "reading_order": 5,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            450,
+            1440,
+            550
+          ],
+          "ink_bbox": [
+            784,
+            485,
+            888,
+            513
+          ]
+        },
+        {
+          "text": "708",
+          "reading_order": 6,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            550,
+            760,
+            650
+          ],
+          "ink_bbox": [
+            104,
+            585,
+            167,
+            613
+          ]
+        },
+        {
+          "text": "27",
+          "reading_order": 7,
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            550,
+            1440,
+            650
+          ],
+          "ink_bbox": [
+            784,
+            585,
+            826,
+            613
+          ]
+        }
+      ]
+    },
+    {
+      "file": "workshop-native.pdf",
+      "sha256": "96a87d7a6f300236314224ac701cf3b8eb3f2709bf085c5472f56a95362ae033",
+      "source_family": "new-workshop-notice",
+      "closure_id": "new-workshop-notice",
+      "split": "held_out",
+      "format": "pdf-native",
+      "scripts": [
+        "en"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-workshop-native.pdf",
+      "original_digest": "96a87d7a6f300236314224ac701cf3b8eb3f2709bf085c5472f56a95362ae033",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 1,
+        "blocks": 1,
+        "tables": 0,
+        "cells": 0
+      },
+      "gold": [
+        {
+          "text": "Workshop session begins at 16:20.",
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "bbox": [
+            72,
+            84.452,
+            309.6,
+            93.884
+          ],
+          "font": "Courier",
+          "font_size": 12,
+          "source_baseline": [
+            72,
+            700
+          ],
+          "provenance": "authored PDF content stream and Courier metrics; human review pending"
+        }
+      ]
+    },
+    {
+      "file": "courier-mixed.pdf",
+      "sha256": "4affedc4490dc583c8e51844d84c07172e5a47ccc1d1a2b1606421125bb3c631",
+      "source_family": "new-courier-workshop-closure",
+      "closure_id": "new-courier-workshop-closure",
+      "split": "held_out",
+      "format": "pdf-mixed",
+      "scripts": [
+        "en",
+        "vi"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-courier-mixed.pdf",
+      "original_digest": "4affedc4490dc583c8e51844d84c07172e5a47ccc1d1a2b1606421125bb3c631",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [
+        "workshop-native.pdf",
+        "courier-vi.pdf"
+      ],
+      "denominators": {
+        "documents": 1,
+        "pages": 2,
+        "blocks": 9,
+        "tables": 1,
+        "cells": 5
+      },
+      "gold": [
+        {
+          "text": "Workshop session begins at 16:20.",
+          "page": 1,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "bbox": [
+            72,
+            84.452,
+            309.6,
+            93.884
+          ],
+          "font": "Courier",
+          "font_size": 12,
+          "source_baseline": [
+            72,
+            700
+          ],
+          "provenance": "authored PDF content stream and Courier metrics; human review pending"
+        },
+        {
+          "text": "Phiếu chuyển hàng 708",
+          "reading_order": 0,
+          "page": 2,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            59,
+            458,
+            100
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Người nhận: Đỗ Thị Hồng.",
+          "reading_order": 1,
+          "page": 2,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            136,
+            504,
+            175
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Số kiện 27, giờ 08:45.",
+          "reading_order": 2,
+          "page": 2,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "ink_bbox": [
+            80,
+            211,
+            432,
+            250
+          ],
+          "provenance": "source font renderer ink box; human review pending"
+        },
+        {
+          "text": "Dispatch",
+          "reading_order": 3,
+          "page": 2,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 0,
+          "column": 0,
+          "column_span": 2,
+          "bbox": [
+            80,
+            350,
+            1440,
+            450
+          ],
+          "ink_bbox": [
+            104,
+            381,
+            244,
+            414
+          ]
+        },
+        {
+          "text": "Code",
+          "reading_order": 4,
+          "page": 2,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            450,
+            760,
+            550
+          ],
+          "ink_bbox": [
+            104,
+            481,
+            190,
+            507
+          ]
+        },
+        {
+          "text": "Count",
+          "reading_order": 5,
+          "page": 2,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 1,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            450,
+            1440,
+            550
+          ],
+          "ink_bbox": [
+            784,
+            481,
+            880,
+            507
+          ]
+        },
+        {
+          "text": "708",
+          "reading_order": 6,
+          "page": 2,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 0,
+          "column_span": 1,
+          "bbox": [
+            80,
+            550,
+            760,
+            650
+          ],
+          "ink_bbox": [
+            104,
+            581,
+            164,
+            607
+          ]
+        },
+        {
+          "text": "27",
+          "reading_order": 7,
+          "page": 2,
+          "coordinate_system": "PDF_TOP_LEFT",
+          "table": 0,
+          "row": 2,
+          "column": 1,
+          "column_span": 1,
+          "bbox": [
+            760,
+            550,
+            1440,
+            650
+          ],
+          "ink_bbox": [
+            784,
+            581,
+            824,
+            607
+          ]
+        }
+      ]
+    },
+    {
+      "file": "maintenance.txt",
+      "sha256": "9d9ec08e7bde4260b76682ec4648fa1cf4492a3971bcf90ea11abc6b010d7841",
+      "source_family": "new-maintenance-notebook",
+      "closure_id": "new-maintenance-notebook",
+      "split": "held_out",
+      "format": "txt",
+      "scripts": [
+        "vi"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-maintenance.txt",
+      "original_digest": "9d9ec08e7bde4260b76682ec4648fa1cf4492a3971bcf90ea11abc6b010d7841",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 1,
+        "tables": 0,
+        "cells": 0
+      },
+      "gold": [
+        {
+          "text": "Lịch sửa máy ngày 24: đổi dây curoa, kiểm tra 63 vít.\nGhi chú: Đặng Thu Hà.\n",
+          "char_start": 0,
+          "char_end": 76,
+          "line_start": 1,
+          "line_end": 2
+        }
+      ]
+    },
+    {
+      "file": "tools.md",
+      "sha256": "93ef31abe42d6484013b03110ec701dcc2b56a4835679851d1ac2d17b16962ed",
+      "source_family": "new-maintenance-notebook",
+      "closure_id": "new-maintenance-notebook",
+      "split": "held_out",
+      "format": "md/Obsidian",
+      "scripts": [
+        "zh-Hant"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-tools.md",
+      "original_digest": "93ef31abe42d6484013b03110ec701dcc2b56a4835679851d1ac2d17b16962ed",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 1,
+        "tables": 0,
+        "cells": 0
+      },
+      "gold": [
+        {
+          "text": "# 工具\n扳手編號92，保留隱藏備註。 ^tool92\n",
+          "original_line_range": [
+            1,
+            2
+          ],
+          "block_id": "tool92"
+        }
+      ]
+    },
+    {
+      "file": "maintenance.md",
+      "sha256": "958481955e10081fcef79176769ea20a5bf97d3321fe0f1efa80c01f465e104a",
+      "source_family": "new-maintenance-notebook",
+      "closure_id": "new-maintenance-notebook",
+      "split": "held_out",
+      "format": "md/Obsidian",
+      "scripts": [
+        "zh-Hant"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-maintenance.md",
+      "original_digest": "958481955e10081fcef79176769ea20a5bf97d3321fe0f1efa80c01f465e104a",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [
+        "tools.md"
+      ],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 2,
+        "tables": 0,
+        "cells": 0
+      },
+      "gold": [
+        {
+          "text": "---\nprivate: true\ncustom: 安全檢查\n---\n# 維修筆記\n%% 核對螺絲63枚 %%\n![[tools#^tool92]]\n",
+          "original_line_range": [
+            1,
+            7
+          ],
+          "includes_frontmatter": true,
+          "includes_comment": true
+        },
+        {
+          "text": "扳手編號92，保留隱藏備註。",
+          "child_file": "tools.md",
+          "child_source_key": "s2-new-tools.md",
+          "child_source_version": 1,
+          "child_original_digest": "93ef31abe42d6484013b03110ec701dcc2b56a4835679851d1ac2d17b16962ed",
+          "child_original_line": 2,
+          "block_id": "tool92"
+        }
+      ]
+    },
+    {
+      "file": "maintenance.docx",
+      "sha256": "7f603c969e5780e5e43dfa8261623381293b04c8a209817eb01c581264074686",
+      "source_family": "new-maintenance-notebook",
+      "closure_id": "new-maintenance-notebook",
+      "split": "held_out",
+      "format": "docx",
+      "scripts": [
+        "vi",
+        "en"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-maintenance.docx",
+      "original_digest": "7f603c969e5780e5e43dfa8261623381293b04c8a209817eb01c581264074686",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 5,
+        "tables": 1,
+        "cells": 2
+      },
+      "gold": [
+        {
+          "text": "Maintenance instruction 92",
+          "container_part": "core_properties",
+          "property_key": "title"
+        },
+        {
+          "text": "Kiểm tra nhiệt độ 37 độ. Chỉ dẫn ẩn: thay vít 63.",
+          "paragraph_index": 0,
+          "contains_hidden": true
+        },
+        {
+          "text": "Đã kiểm tra ngày 24.",
+          "comment_id": "0",
+          "anchored_paragraph": 0,
+          "anchor_char_range": [
+            0,
+            24
+          ]
+        },
+        {
+          "text": "Tool 92",
+          "table": 0,
+          "row": 0,
+          "column": 0
+        },
+        {
+          "text": "Count 63",
+          "table": 0,
+          "row": 0,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "file": "inspection.xlsx",
+      "sha256": "b890684a4dcc9145024da43b1db2233f686de47dadd496adf3f4cc073e02b94c",
+      "source_family": "new-inspection-register",
+      "closure_id": "new-inspection-register",
+      "split": "held_out",
+      "format": "xlsx",
+      "scripts": [
+        "en",
+        "zh-Hant"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-inspection.xlsx",
+      "original_digest": "b890684a4dcc9145024da43b1db2233f686de47dadd496adf3f4cc073e02b94c",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 5,
+        "tables": 1,
+        "cells": 5
+      },
+      "gold": [
+        {
+          "text": "Inspection 92",
+          "worksheet": "Inspection",
+          "a1_range": "A1:C1",
+          "merged_anchor": "A1"
+        },
+        {
+          "text": "螺絲",
+          "worksheet": "Inspection",
+          "a1_range": "A2"
+        },
+        {
+          "text": "63",
+          "worksheet": "Inspection",
+          "a1_range": "C2",
+          "hidden": true
+        },
+        {
+          "text": "核對數量63",
+          "worksheet": "Inspection",
+          "a1_range": "C2",
+          "comment": true
+        },
+        {
+          "text": "=SUM(1,2)",
+          "worksheet": "Inspection",
+          "a1_range": "A3",
+          "formula_state": "UNCACHED_INERT_TEXT"
+        }
+      ]
+    },
+    {
+      "file": "inspection.xls",
+      "sha256": "9886c9a0fca30ab5109baca294506301696bf359b1c65b0826d0b109a7a574ed",
+      "source_family": "new-inspection-register",
+      "closure_id": "new-inspection-register",
+      "split": "held_out",
+      "format": "xls",
+      "scripts": [
+        "zh-Hans"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-inspection.xls",
+      "original_digest": "9886c9a0fca30ab5109baca294506301696bf359b1c65b0826d0b109a7a574ed",
+      "expected": "EXACT_MATERIAL_AND_LOCATORS_OR_FAIL",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 3,
+        "tables": 1,
+        "cells": 3
+      },
+      "gold": [
+        {
+          "text": "零件登记",
+          "worksheet": "登记",
+          "a1_range": "A1:B1",
+          "merged_anchor": "A1"
+        },
+        {
+          "text": "扳手92",
+          "worksheet": "登记",
+          "a1_range": "A2"
+        },
+        {
+          "text": "63",
+          "worksheet": "登记",
+          "a1_range": "B2",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "file": "broken.docx",
+      "sha256": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+      "source_family": "new-corrupt-negative",
+      "closure_id": "new-corrupt-negative",
+      "split": "held_out",
+      "format": "docx",
+      "scripts": [
+        "en"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-broken.docx",
+      "original_digest": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+      "expected": "FILE_FAILURE_NO_OUTPUT",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 0,
+        "tables": 0,
+        "cells": 0
+      },
+      "gold": []
+    },
+    {
+      "file": "broken.pdf",
+      "sha256": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+      "source_family": "new-corrupt-negative",
+      "closure_id": "new-corrupt-negative",
+      "split": "held_out",
+      "format": "pdf-scan",
+      "scripts": [
+        "en"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-broken.pdf",
+      "original_digest": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+      "expected": "FILE_FAILURE_NO_OUTPUT",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 0,
+        "tables": 0,
+        "cells": 0
+      },
+      "gold": []
+    },
+    {
+      "file": "missing-locator.json",
+      "sha256": "45fa8b43c3e45c271ab36079f6cc966b28c78e9def2399f98b984790ba0de80e",
+      "source_family": "new-locator-negative",
+      "closure_id": "new-locator-negative",
+      "split": "held_out",
+      "format": "locator-negative",
+      "scripts": [
+        "en"
+      ],
+      "source_version": 1,
+      "whole_file_consent_fixture": true,
+      "source_key": "s2-new-missing-locator.json",
+      "original_digest": "45fa8b43c3e45c271ab36079f6cc966b28c78e9def2399f98b984790ba0de80e",
+      "expected": "MANDATORY_LOCATOR_REJECTION",
+      "dependencies": [],
+      "denominators": {
+        "documents": 1,
+        "pages": 0,
+        "blocks": 0,
+        "tables": 0,
+        "cells": 0
+      },
+      "gold": []
+    }
+  ],
+  "denominators": {
+    "documents": 15,
+    "pages": 7,
+    "blocks": 59,
+    "tables": 8,
+    "cells": 35
+  },
+  "by_format": {
+    "docx": {
+      "documents": 2,
+      "pages": 0,
+      "blocks": 5,
+      "tables": 1,
+      "cells": 2
+    },
+    "locator-negative": {
+      "documents": 1,
+      "pages": 0,
+      "blocks": 0,
+      "tables": 0,
+      "cells": 0
+    },
+    "md/Obsidian": {
+      "documents": 2,
+      "pages": 0,
+      "blocks": 3,
+      "tables": 0,
+      "cells": 0
+    },
+    "pdf-mixed": {
+      "documents": 1,
+      "pages": 2,
+      "blocks": 9,
+      "tables": 1,
+      "cells": 5
+    },
+    "pdf-native": {
+      "documents": 1,
+      "pages": 1,
+      "blocks": 1,
+      "tables": 0,
+      "cells": 0
+    },
+    "pdf-scan": {
+      "documents": 5,
+      "pages": 4,
+      "blocks": 32,
+      "tables": 4,
+      "cells": 20
+    },
+    "txt": {
+      "documents": 1,
+      "pages": 0,
+      "blocks": 1,
+      "tables": 0,
+      "cells": 0
+    },
+    "xls": {
+      "documents": 1,
+      "pages": 0,
+      "blocks": 3,
+      "tables": 1,
+      "cells": 3
+    },
+    "xlsx": {
+      "documents": 1,
+      "pages": 0,
+      "blocks": 5,
+      "tables": 1,
+      "cells": 5
+    }
+  },
+  "by_script": {
+    "en": {
+      "documents": 8,
+      "pages": 4,
+      "blocks": 28,
+      "tables": 4,
+      "cells": 17
+    },
+    "vi": {
+      "documents": 4,
+      "pages": 3,
+      "blocks": 23,
+      "tables": 3,
+      "cells": 12
+    },
+    "zh-Hans": {
+      "documents": 2,
+      "pages": 1,
+      "blocks": 11,
+      "tables": 2,
+      "cells": 8
+    },
+    "zh-Hant": {
+      "documents": 4,
+      "pages": 1,
+      "blocks": 16,
+      "tables": 2,
+      "cells": 10
+    }
+  },
+  "group_count": 7,
+  "cross_split_original_hash_intersection": [],
+  "family_assignment": "all new translations/scans/exports and complete child/mixed closures held_out; old shelf/invoice and public upstream samples development only",
+  "near_duplicate_review": "PENDING HUMAN REVIEW; no semantic independence proof from hashes alone"
+}

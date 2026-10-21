@@ -190,14 +190,21 @@ def test_xlsx_parser() -> None:
     wb.save(bio)
     bio.seek(0)
 
+    # Default include_hidden=True (ADR-0022 whole-file consent) extracts hidden sheet with metadata
     doc = parse_xlsx(bio.getvalue(), root_key="test-xlsx-1", source_version=1)
     assert doc.format_type == "XLSX"
-    # Visible sheet processed
     assert any("Product" in e.text and "Revenue" in e.text for e in doc.elements)
     assert any("Widget" in e.text and "100" in e.text for e in doc.elements)
-    # Hidden sheet excluded
-    assert not any("Secret" in e.text for e in doc.elements)
-    assert any("HiddenSheet" in w for w in doc.warnings)
+    assert any("Secret" in e.text for e in doc.elements)
+    assert any(e.metadata.get("sheet_hidden") is True for e in doc.elements)
+
+    # With include_hidden=False, hidden sheet is excluded
+    doc_no_hidden = parse_xlsx(
+        bio.getvalue(), root_key="test-xlsx-1", source_version=1, include_hidden=False
+    )
+    assert not any("Secret" in e.text for e in doc_no_hidden.elements)
+    assert any("HiddenSheet" in w for w in doc_no_hidden.warnings)
+
     # Mandatory locator check
     for elem in doc.elements:
         assert "worksheet" in elem.locator
@@ -245,3 +252,139 @@ def test_pdf_parser_native_text() -> None:
     doc = parse_pdf(bio.getvalue(), root_key="test-pdf-1", source_version=1)
     assert doc.format_type == "PDF"
     assert doc.page_count == 1
+
+
+def test_docx_hidden_runs_properties_and_comments() -> None:
+    doc_file = docx.Document()
+    doc_file.core_properties.title = "Secret Document"
+    doc_file.core_properties.author = "Inspector"
+    doc_file.core_properties.comments = "Internal review only"
+
+    p1 = doc_file.add_paragraph("Visible start, ")
+    run_hidden = p1.add_run("hidden run text, ")
+    run_hidden.font.hidden = True
+    p1.add_run("visible end.")
+
+    doc_file.part.comments.add_comment(text="Needs citation", author="Reviewer")
+
+    bio = io.BytesIO()
+    doc_file.save(bio)
+    bio.seek(0)
+
+    # Default include_hidden=True extracts hidden runs, properties, comments
+    doc = parse_docx(bio.getvalue(), root_key="test-docx-ext", source_version=1)
+    assert doc.format_type == "DOCX"
+
+    # Core properties present as METADATA
+    title_elem = next(
+        (e for e in doc.elements if e.kind == ElementKind.METADATA and "Secret Document" in e.text),
+        None,
+    )
+    assert title_elem is not None
+    assert title_elem.locator["container_part"] == "core_properties"
+    assert title_elem.locator["property_key"] == "title"
+
+    # Comments present as COMMENT
+    comm_elem = next(
+        (e for e in doc.elements if e.kind == ElementKind.COMMENT and "Needs citation" in e.text),
+        None,
+    )
+    assert comm_elem is not None
+    assert comm_elem.locator["container_part"] == "comments"
+    assert "comment_id" in comm_elem.locator
+
+    # Paragraph with hidden run
+    para_elem = next(
+        (e for e in doc.elements if e.kind == ElementKind.PARAGRAPH and "Visible start" in e.text),
+        None,
+    )
+    assert para_elem is not None
+    assert "hidden run text" in para_elem.text
+    assert para_elem.metadata.get("has_hidden_runs") is True
+
+    # With include_hidden=False, hidden run text is omitted
+    doc_no_hidden = parse_docx(
+        bio.getvalue(), root_key="test-docx-ext", source_version=1, include_hidden=False
+    )
+    para_no_hidden = next(
+        (
+            e
+            for e in doc_no_hidden.elements
+            if e.kind == ElementKind.PARAGRAPH and "Visible start" in e.text
+        ),
+        None,
+    )
+    assert para_no_hidden is not None
+    assert "hidden run text" not in para_no_hidden.text
+
+
+def test_xlsx_sparse_row_header_mapping() -> None:
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Inventory"
+    # Row 1: Headers in columns A, B, C, D
+    ws.cell(1, 1, "SKU")
+    ws.cell(1, 2, "Name")
+    ws.cell(1, 3, "Category")
+    ws.cell(1, 4, "Qty")
+
+    # Row 2: Sparse row with only Category and Qty (columns 3 and 4)
+    ws.cell(2, 3, "Electronics")
+    ws.cell(2, 4, 15)
+
+    bio = io.BytesIO()
+    wb.save(bio)
+    bio.seek(0)
+
+    doc = parse_xlsx(bio.getvalue(), root_key="test-sparse", source_version=1)
+    row2_elem = next((e for e in doc.elements if e.locator.get("row_start") == 2), None)
+    assert row2_elem is not None
+    # Category (col 3) must be paired with Category, NOT SKU!
+    assert "Category: Electronics" in row2_elem.text
+    assert "SKU: Electronics" not in row2_elem.text
+    assert "Qty: 15" in row2_elem.text
+
+
+def test_xlsx_hidden_rows_columns_and_comments() -> None:
+    from openpyxl.comments import Comment as ExcelComment
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Data"
+    ws.cell(1, 1, "ColA")
+    ws.cell(1, 2, "ColB")
+    ws.cell(2, 1, "ValA")
+    ws.cell(2, 2, "ValB")
+    ws.cell(3, 1, "HiddenRowVal")
+
+    # Hide column B
+    ws.column_dimensions["B"].hidden = True
+    # Hide row 3
+    ws.row_dimensions[3].hidden = True
+    # Add comment to cell A1
+    ws["A1"].comment = ExcelComment("Review cell A1", "Editor")
+
+    bio = io.BytesIO()
+    wb.save(bio)
+    bio.seek(0)
+
+    # include_hidden=True extracts hidden col, hidden row, and comment
+    doc = parse_xlsx(bio.getvalue(), root_key="test-hidden", source_version=1, include_hidden=True)
+    assert any("ColB" in e.text for e in doc.elements)
+    assert any("HiddenRowVal" in e.text for e in doc.elements)
+    assert any("Comment: Review cell A1" in e.text for e in doc.elements)
+
+    # include_hidden=False skips hidden col and hidden row
+    doc_no = parse_xlsx(
+        bio.getvalue(), root_key="test-hidden", source_version=1, include_hidden=False
+    )
+    assert not any("ColB" in e.text for e in doc_no.elements)
+    assert not any("HiddenRowVal" in e.text for e in doc_no.elements)
+
+
+def test_unverified_vietnamese_backend_rejects_instead_of_warning() -> None:
+    from ppv_rag.ocr.engine import AdaptiveOCREngine
+
+    engine = AdaptiveOCREngine(default_language="en")
+    with pytest.raises(ValueError, match="OCR_BACKEND_SCRIPT_UNVERIFIED"):
+        engine.recognize_region(b"unread image", language="vi")

@@ -2,6 +2,8 @@
 
 # Personal Private Vault — Agent Operating Contract
 
+**Corrective takeover status - 2026-10-20:** `P18-S2-PARSER-OCR-EMBEDDING / BLOCKED / OWNER_DECISION_REQUIRED`. One separately owner-authorized Codex corrective scope addressed S2-01 through S2-08; it does not reset historical Antigravity 2/2. Deterministic repairs are tested, but four-script OCR/fresh human-adjudicated held-out quality (S2-06), complete native parsing interruption/resource proof (S2-07), and the Java pipeline-identity compatibility gate (S2-08) remain unresolved. See [corrective handback](docs/implementation/phase-18/slice-2-parser-ocr-embedding-codex-corrective-handback-2026-10-20.md). Phase 17 remains FROZEN; Slice 1 COMPLETE/CLOSED under D14; FR18-3 OPEN; external indexing INACTIVE, live originals DISABLED/DEFERRED; Slices 3-4 unauthorized. No Slice 2 acceptance, automatic further implementation or agent publishing. Earlier dated statuses are historical where inconsistent.
+
 This file defines repository-wide instructions for coding agents.
 
 ## Project state

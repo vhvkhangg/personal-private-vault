@@ -1,0 +1,7 @@
+{
+  "text": "Seeded material",
+  "locator": {
+    "page": 1
+  },
+  "expected": "REJECT_MISSING_SOURCE_REVISION_AND_BBOX"
+}

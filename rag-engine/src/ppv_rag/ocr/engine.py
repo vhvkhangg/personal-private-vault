@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import io
+import math
 from dataclasses import dataclass, field
 from typing import Any
 
 from PIL import Image
+
+from ppv_rag.limits import MAX_RASTER_PIXELS, checkpoint, input_bytes
 
 
 @dataclass(frozen=True)
@@ -27,7 +30,11 @@ class OCRResult:
 
 
 class AdaptiveOCREngine:
-    """Adaptive OCR engine with language support: en, vi, zh-Hans, zh-Hant."""
+    """Pinned RapidOCR Chinese/English backend. vi/zh-Hant admission is blocked.
+
+    A language label cannot repair a recognizer alphabet or script conversion.
+    Four-script quality acceptance remains unresolved until a capable backend is approved.
+    """
 
     SUPPORTED_LANGUAGES = {"en", "vi", "zh-Hans", "zh-Hant"}
 
@@ -61,14 +68,18 @@ class AdaptiveOCREngine:
         lang = language or self.default_language
         if lang not in self.SUPPORTED_LANGUAGES:
             raise ValueError("Unsupported OCR language")
-        img = Image.open(io.BytesIO(image_bytes))
+        if lang in {"vi", "zh-Hant"}:
+            raise ValueError("OCR_BACKEND_SCRIPT_UNVERIFIED")
+        checkpoint()
+        img = Image.open(io.BytesIO(input_bytes(image_bytes)))
+        if img.width * img.height > MAX_RASTER_PIXELS:
+            raise BufferError("RESOURCE_LIMIT_EXCEEDED: OCR raster")
         width, height = img.size
 
         # Primary OCR pass
         blocks, conf = self._run_pass(img, lang, width, height, page_width, page_height)
         retried = False
         warnings: list[str] = []
-
         # If confidence is below threshold, attempt at most ONE targeted retry with contrast
         if conf < min_confidence_threshold and blocks:
             retried = True
@@ -87,6 +98,12 @@ class AdaptiveOCREngine:
             else:
                 warnings.append(f"Targeted OCR retry did not improve confidence: {retry_conf:.2f}")
 
+        checkpoint()
+        if blocks and (
+            conf < min_confidence_threshold
+            or any(b.confidence < min_confidence_threshold for b in blocks)
+        ):
+            raise ValueError("OCR_CONFIDENCE_REJECTED")
         return OCRResult(
             blocks=blocks,
             warnings=warnings,
@@ -110,7 +127,9 @@ class AdaptiveOCREngine:
 
         # RapidOCR accepts PIL.Image, numpy ndarray, or file path
         ocr_fn = self._engine  # type: ignore[operator]
+        checkpoint()
         result, _ = ocr_fn(img)
+        checkpoint()
         if not result:
             return [], 1.0
 
@@ -118,6 +137,16 @@ class AdaptiveOCREngine:
         total_conf = 0.0
         for item in result:
             dt_boxes, text, score = item[0], item[1], float(item[2])
+            if not math.isfinite(score) or not 0 <= score <= 1:
+                raise ValueError("Invalid OCR confidence")
+            if (
+                len(dt_boxes) != 4
+                or any(len(p) != 2 for p in dt_boxes)
+                or any(not math.isfinite(float(v)) for p in dt_boxes for v in p)
+            ):
+                raise ValueError("Invalid OCR geometry")
+            if any(p[0] < 0 or p[0] > w or p[1] < 0 or p[1] > h for p in dt_boxes):
+                raise ValueError("OCR geometry outside source image")
             stripped_text = text.strip()
             if not stripped_text:
                 continue
@@ -130,7 +159,8 @@ class AdaptiveOCREngine:
             y0 = max(0.0, float(min(ys)) * (page_h / max(h, 1)))
             y1 = min(page_h, float(max(ys)) * (page_h / max(h, 1)))
 
-            # Only add if valid bounding box
+            if x1 <= x0 or y1 <= y0:
+                raise ValueError("Invalid OCR geometry")
             if x1 > x0 and y1 > y0:
                 blocks.append(
                     OCRTextBlock(

@@ -1,0 +1,76 @@
+{
+  "title": "D23 bounded Markdown-only Slice 2 closeout — proposed Owner-adopted docs patch",
+  "date": "2026-10-21",
+  "source_docs_zip": "docs(20261021-021155).zip",
+  "source_docs_zip_sha256": "9d2f41b4fe76ef9fcc4106ceb83c9d176cf8577b8df77482c186f9663e60b83c",
+  "source_root_files": [
+    "AGENTS(20261021-021204).md",
+    "README(20261021-021208).md"
+  ],
+  "scope": "Documentation-only. Applying by Owner records bounded acceptance; commit/push not authorized. Source/support selection 34 changes remains separate and pending staged review.",
+  "changes": [
+    {
+      "path": "AGENTS.md",
+      "status": "modified",
+      "before_sha256": "cd8c958399a6a34dd8cb2f2faa0e40de65a8e4f14d6d9b3d46501e2bf07ec706",
+      "after_sha256": "8aac054f2543fa0d46ee4b88300d493d39f36be3bf6ec7ddc3ca15660323b3c4",
+      "after_bytes": 20183
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "before_sha256": "5a20ae4cb3f111001595f1d2b223bb1daabe7317edca934c1a2de001e3d5f217",
+      "after_sha256": "f93af8eb25ffef0e62cd1f5bd538f80ab245af437c783c383e2257ecf248490f",
+      "after_bytes": 14133
+    },
+    {
+      "path": "docs/implementation/handoffs/ACTIVE.md",
+      "status": "modified",
+      "before_sha256": "1c9abdcdc3b3d611c2d3da073fc83b0b8bf2742264dd677f3373061ad889adde",
+      "after_sha256": "e79fca9550cb341b79f796beee9d4a9c4e29ef41b0f4f0ba86bcbacf8b5f1295",
+      "after_bytes": 74662
+    },
+    {
+      "path": "docs/implementation/phase-18/README.md",
+      "status": "modified",
+      "before_sha256": "d52feea0d225898e15648eaaa31a95cbc41d85d45fd7e7855af4cc9d6f220d19",
+      "after_sha256": "f83f85ab55122848143b748eea89dfa2fd56dcf11cdaea14a6d170cee272e06b",
+      "after_bytes": 18365
+    },
+    {
+      "path": "docs/implementation/phase-18/owner-decisions.md",
+      "status": "modified",
+      "before_sha256": "2cc06a11ac67721476df56cc08e23a6cc13b6ee9db068e41682528ef6175de7f",
+      "after_sha256": "26bb17e7737c45b66afc3ee7d4a4bfb5a593df1255091e877aa87eeec77ace41",
+      "after_bytes": 55320
+    },
+    {
+      "path": "docs/implementation/phase-18/slice-2-markdown-only-d21-governance-traceability-2026-10-20.md",
+      "status": "modified",
+      "before_sha256": "67b2142815c0d0cde740e92461db061da903c213cb5baae116be130c1aecd1b0",
+      "after_sha256": "832a63326a9d64ca6dd323f572c189c66f8b25a396954d076cd3816434eb9dca",
+      "after_bytes": 9724
+    },
+    {
+      "path": "docs/implementation/phase-18/slice-2-markdown-only-d21-proposed-closeout-2026-10-20.md",
+      "status": "modified",
+      "before_sha256": "13bd18f13220f3c069f77c089f2e678564f6658b66d605066aa3b10f1e118b69",
+      "after_sha256": "d5a5c9c68d6b8d59008cfa839ebf5063f3e7ad64ab83c49dfb9965af85cda910",
+      "after_bytes": 8695
+    },
+    {
+      "path": "docs/implementation/phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md",
+      "status": "modified",
+      "before_sha256": "62c1f6f190939e8b2b1d390cf5f991fdb558ad5857b55a25b35af10d26ab4dd3",
+      "after_sha256": "951fd82394eee5a180c4efef68d920919ee76776c31631ecc3a132d6530a366f",
+      "after_bytes": 18419
+    },
+    {
+      "path": "docs/implementation/phase-18/slice-2-markdown-only-d23-closeout-2026-10-21.md",
+      "status": "new",
+      "before_sha256": null,
+      "after_sha256": "4584a42808b60deaebec28d2b0a9f8559c5f6e798c38866de2a5a95249194bac",
+      "after_bytes": 4883
+    }
+  ]
+}

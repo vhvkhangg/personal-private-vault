@@ -75,20 +75,40 @@ class DocumentElement:
                 raise ValueError("Markdown lines must be integers with 1 <= line_start <= line_end")
 
         elif fmt == "DOCX":
-            has_para = (
-                "paragraph_index" in self.locator
-                and isinstance(self.locator["paragraph_index"], int)
-                and self.locator["paragraph_index"] >= 0
-            )
-            has_table = (
-                "table_index" in self.locator
-                and isinstance(self.locator["table_index"], int)
-                and self.locator["table_index"] >= 0
-            )
-            if not has_para and not has_table:
-                raise ValueError(
-                    "DOCX mandatory locator missing non-negative paragraph_index or table_index"
-                )
+            if self.kind in {ElementKind.COMMENT, ElementKind.METADATA}:
+                key = "comment_id" if self.kind == ElementKind.COMMENT else "property_key"
+                identity = self.locator.get(key)
+                part = self.locator.get("container_part")
+                if not (
+                    isinstance(identity, str)
+                    and identity.strip()
+                    and isinstance(part, str)
+                    and part.strip()
+                ):
+                    raise ValueError("DOCX structural identity must be nonempty and typed")
+                anchor = self.locator.get("anchor")
+                if anchor is not None:
+                    if not isinstance(anchor, dict) or set(anchor) != {"start", "end"}:
+                        raise ValueError("DOCX comment anchor missing range")
+                    for point in anchor.values():
+                        if (
+                            not isinstance(point, dict)
+                            or not point.get("structural_path")
+                            or not isinstance(point.get("char_offset"), int)
+                            or point["char_offset"] < 0
+                        ):
+                            raise ValueError("DOCX comment anchor missing original address")
+            else:
+                paragraph = self.locator.get("paragraph_index")
+                if not isinstance(paragraph, int) or isinstance(paragraph, bool) or paragraph < 0:
+                    raise ValueError("DOCX mandatory locator missing non-negative paragraph_index")
+                if "table_index" in self.locator:
+                    for key in ("table_index", "row_index", "column_index"):
+                        value = self.locator.get(key)
+                        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+                            raise ValueError("DOCX table locator missing original cell address")
+                    if not self.locator.get("table_path"):
+                        raise ValueError("DOCX table locator missing original nesting path")
 
         elif fmt == "PDF":
             if "page" not in self.locator:
