@@ -1,0 +1,1 @@
+[[note|alias]] [[note#Heading#Child]] [[note#^id]] text ^anchor

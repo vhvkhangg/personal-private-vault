@@ -1,0 +1,719 @@
+{
+  "status": "IMPLEMENTER_AUTHORED_GOLD_PENDING_INDEPENDENT_REVIEW",
+  "human_reviewer": null,
+  "signed_at": null,
+  "basis": [
+    "https://help.obsidian.md/obsidian-flavored-markdown",
+    "https://spec.commonmark.org/0.31.2/#raw-html",
+    "https://github.github.com/gfm/"
+  ],
+  "interpretation": "CommonMark 0.31.2 base plus GFM extensions and explicit Obsidian source syntax. These records do not remove syntax; they state composition rules and mandatory all-or-nothing denial cases.",
+  "records": [
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 96,
+      "source_sha256": "2a2eddaaa2f04e244ebb42690a60a94f84abf9fb4fecaa1c66e41483c5159f3b",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_INVALID_PROPERTIES",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 98,
+      "source_sha256": "d487269d2de0655a9ed127c83b0d1006d724e600385b32f4f4b39893c1e0164b",
+      "kind": "OBSIDIAN_EMPTY_PROPERTIES",
+      "expected_html": "",
+      "required_properties": {},
+      "basis": "Leading YAML delimiters identify an empty properties mapping, not two thematic breaks."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 148,
+      "source_sha256": "e5af2976c8e9b60626407f27ee134169f328368cc0478a814816039f55747959",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<table><tr><td>\n<pre>\n**Hello**,\n\n_world_.\n</pre>\n</td></tr></table>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 152,
+      "source_sha256": "879ad85274a58f06ac99237a51efaea2e816e5ebabfddbc8234b1e6e49a07bbc",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<DIV CLASS=\"foo\">\n\n*Markdown*\n\n</DIV>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 167,
+      "source_sha256": "d4750c156d61af01865e0f8cd55a450735bf88f34886cbe979dd2cafb9f7209f",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<del>\n\n*foo*\n\n</del>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 168,
+      "source_sha256": "9ba931c9782e35a04fc366378e2ae22a1438ac85f5491a245f4fb29ef8a28cde",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<p><del>*foo*</del></p>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 170,
+      "source_sha256": "338042e5bb36e14116bb288cdfd8d326b0e13547d6cf20bbb463a9a4fe539288",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 171,
+      "source_sha256": "4768a7e1e1f63875238865a49dc3f414a839b7944637c2dc7c2eaf5a20241af0",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 172,
+      "source_sha256": "d01aa0aa4bc083f75d075b43c6b3df17674065d45c99caf3dba4192d8a3a18a4",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 173,
+      "source_sha256": "fb3c96334d399e618514f00259564dcb6f6af8c81c215412c0a0f747dcc7aa0c",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 176,
+      "source_sha256": "5f7af7116db2e1940e92664e6b24a66386a855f2667cc73a4bdd252b33a0e1c9",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 178,
+      "source_sha256": "76b70396a54f883f5fa37725f2ba9299aef1d9810ae2ab5631c638f2d9700e87",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 188,
+      "source_sha256": "b97241f1d1a0a195a9a9f8a3c41c12a926448b45ada2ffab7952f305707239fd",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<div>\n\n*Emphasized* text.\n\n</div>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 191,
+      "source_sha256": "3f62fb98fabdeb8f5cfaa979b6b12ed68aa9ca4295a83aa0175bd5c575dda1d6",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<table>\n\n  <tr>\n\n    <td>\n      Hi\n    </td>\n\n  </tr>\n\n</table>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 475,
+      "source_sha256": "8c3cbca219312552cefa8754d8db8bac2dc7753678329027de10124e9d127806",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 517,
+      "source_sha256": "550a1cf2e4b4542f2ae7b59a2fa5c70e1f36f6194a9412b1732830364dc1bc5b",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 520,
+      "source_sha256": "dfe415f5fc63bca4514f3adcfebff1d75f83a725bfda12ec2dfcb57c37f8d979",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_MALFORMED_EMBED",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 531,
+      "source_sha256": "f20304a8d3dfae094484ae08782d990d0bf51a812d77a2ee2f44536f1c6ea17d",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 559,
+      "source_sha256": "cf8cf30588f0320036b3a66e2469feb7e34593a121f55e76c559a6214414d4d4",
+      "kind": "OBSIDIAN_WIKILINK",
+      "expected_html": "<p>[[*foo* bar]]</p>\n",
+      "required_wikilink_target": "*foo* bar",
+      "basis": "Obsidian [[wikilink]] has lexical priority; core projection retains authored marker, metadata proves target."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 572,
+      "source_sha256": "c9a1410c7d06b786bb5bb1e5475646356c094062e682130673e9fd571f2ab1c4",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 573,
+      "source_sha256": "83bdc797b9fa0ac81ba1ac53a0f1bc28c75cf512966359f21e58655dded2e2fa",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 574,
+      "source_sha256": "d978774efaf9312af94c64804acbe21e6f8ddf113874d6236e4a848d9b186256",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 575,
+      "source_sha256": "11c4a19e91d7e6f86b9402c3854c29b53f6c7e1a77296b48e83108e33fb2dac5",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 576,
+      "source_sha256": "f6c7879969f7de525673e8305b528906b9a71bc8f2a944d5e7339db6e186f4dc",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 577,
+      "source_sha256": "78a917c977aad450a4cf00d7688e3173d70ef88f2504d6ee00b372642191018c",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 578,
+      "source_sha256": "5925a439317c207dae3da921359c60731c900e46862bab531603508766e21810",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 579,
+      "source_sha256": "ca4faada1e6b47632ae683d19379936ba0e4a85a84427b35cdfee353883033a0",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 580,
+      "source_sha256": "75cbcceb964700ffb20f6911afdf45d6e1c2e8343bec20e1a7a3a68b81b06c2c",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 581,
+      "source_sha256": "bea6f60d2c7aa5360b11f5d9d6ab310a635da7b88829feeb940af5748e639a6c",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 582,
+      "source_sha256": "04b32eaf7f965b73f45a16b737a87e3a96a8e52aac399da003e067bc2c283f42",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 583,
+      "source_sha256": "ee52ec17fdf2d83f97c1cfd7737385c77ce1eb03fb9f462e959e56d6cd64d02a",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 584,
+      "source_sha256": "f225668691bc31c9ed9e92d243d884d9312061f86b0c34ee004edc28f2c31cbc",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 585,
+      "source_sha256": "af4e97bf0c5f6919f30c75e0bd37721b2532e8f9a6e989867ff45844733d4990",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 586,
+      "source_sha256": "a7c62e2e9f7e2615967ffaa0ec057b04f9a52608cffa680d5353193456db2921",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 587,
+      "source_sha256": "140f53d64999512785c95da14892a86af456047307d8d594c5de394b559c08a9",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 588,
+      "source_sha256": "25ee2e6cfc87d183417557592d4392e466b802f5df63ea7f6358cea2024d2f3b",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 589,
+      "source_sha256": "98cc18486c3a74eb7ed2d5e493d84eb36db4a0a6ddae20eb850237fc23af11cd",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 590,
+      "source_sha256": "c531faa3b8d5a2409e561a001755292a1808440b0dbf2b4fdd8b7a420bbe13f7",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNAPPROVED_EMBED",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 591,
+      "source_sha256": "8ae81132503ba9cb0cc5940f2c87aed8aefb52de290b958b5dbda1bbfd5da1fe",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 608,
+      "source_sha256": "5dcee6924cf8e7b2f2ca13eb2d845e943b4603c0c8876c3a1ae429e37738a19c",
+      "kind": "GFM_AUTOLINK_EXTENSION",
+      "expected_html": "<p>&lt; <a href=\"https://foo.bar\">https://foo.bar</a> &gt;</p>\n",
+      "required_link_href": "https://foo.bar",
+      "basis": "D17 enables GFM bare autolinks globally, including examples in the older core section."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 611,
+      "source_sha256": "65cdccbca9388a68023519f997367783be69ed42864398cac568e56f65ce0e75",
+      "kind": "GFM_AUTOLINK_EXTENSION",
+      "expected_html": "<p><a href=\"https://example.com\">https://example.com</a></p>\n",
+      "required_link_href": "https://example.com",
+      "basis": "D17 enables GFM bare autolinks globally, including examples in the older core section."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 612,
+      "source_sha256": "28ae0ab2a94c5601acda4466f077d51af8d559d088624d249fe50a6680b4a205",
+      "kind": "GFM_AUTOLINK_EXTENSION",
+      "expected_html": "<p><a href=\"mailto:foo@bar.example.com\">foo@bar.example.com</a></p>\n",
+      "required_link_href": "mailto:foo@bar.example.com",
+      "basis": "D17 enables GFM bare autolinks globally, including examples in the older core section."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 66,
+      "source_sha256": "2a2eddaaa2f04e244ebb42690a60a94f84abf9fb4fecaa1c66e41483c5159f3b",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_INVALID_PROPERTIES",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 68,
+      "source_sha256": "d487269d2de0655a9ed127c83b0d1006d724e600385b32f4f4b39893c1e0164b",
+      "kind": "OBSIDIAN_EMPTY_PROPERTIES",
+      "expected_html": "",
+      "required_properties": {},
+      "basis": "Leading YAML delimiters identify an empty properties mapping, not two thematic breaks."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 118,
+      "source_sha256": "e5af2976c8e9b60626407f27ee134169f328368cc0478a814816039f55747959",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<table><tr><td>\n<pre>\n**Hello**,\n\n_world_.\n</pre>\n</td></tr></table>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 122,
+      "source_sha256": "879ad85274a58f06ac99237a51efaea2e816e5ebabfddbc8234b1e6e49a07bbc",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<DIV CLASS=\"foo\">\n\n*Markdown*\n\n</DIV>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 137,
+      "source_sha256": "d4750c156d61af01865e0f8cd55a450735bf88f34886cbe979dd2cafb9f7209f",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<del>\n\n*foo*\n\n</del>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 138,
+      "source_sha256": "9ba931c9782e35a04fc366378e2ae22a1438ac85f5491a245f4fb29ef8a28cde",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<p><del>*foo*</del></p>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 140,
+      "source_sha256": "338042e5bb36e14116bb288cdfd8d326b0e13547d6cf20bbb463a9a4fe539288",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 141,
+      "source_sha256": "d01aa0aa4bc083f75d075b43c6b3df17674065d45c99caf3dba4192d8a3a18a4",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 142,
+      "source_sha256": "fb3c96334d399e618514f00259564dcb6f6af8c81c215412c0a0f747dcc7aa0c",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 145,
+      "source_sha256": "5f7af7116db2e1940e92664e6b24a66386a855f2667cc73a4bdd252b33a0e1c9",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 147,
+      "source_sha256": "76b70396a54f883f5fa37725f2ba9299aef1d9810ae2ab5631c638f2d9700e87",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 157,
+      "source_sha256": "b97241f1d1a0a195a9a9f8a3c41c12a926448b45ada2ffab7952f305707239fd",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<div>\n\n*Emphasized* text.\n\n</div>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 160,
+      "source_sha256": "3f62fb98fabdeb8f5cfaa979b6b12ed68aa9ca4295a83aa0175bd5c575dda1d6",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<table>\n\n  <tr>\n\n    <td>\n      Hi\n    </td>\n\n  </tr>\n\n</table>\n",
+      "basis": "Frozen Obsidian Markdown inside HTML is not interpreted; preserve native HTML hierarchy/source."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 203,
+      "source_sha256": "7cacf210590df2c4dfb9e7530f0d6c70446323d4e3683f8b445962dc7009ba7b",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_MALFORMED_TABLE",
+      "basis": "D17 matrix MD17-02 requires malformed intended-table rejection instead of a successful paragraph fallback."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 484,
+      "source_sha256": "8c3cbca219312552cefa8754d8db8bac2dc7753678329027de10124e9d127806",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 526,
+      "source_sha256": "550a1cf2e4b4542f2ae7b59a2fa5c70e1f36f6194a9412b1732830364dc1bc5b",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 529,
+      "source_sha256": "dfe415f5fc63bca4514f3adcfebff1d75f83a725bfda12ec2dfcb57c37f8d979",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_MALFORMED_EMBED",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 540,
+      "source_sha256": "f20304a8d3dfae094484ae08782d990d0bf51a812d77a2ee2f44536f1c6ea17d",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 568,
+      "source_sha256": "cf8cf30588f0320036b3a66e2469feb7e34593a121f55e76c559a6214414d4d4",
+      "kind": "OBSIDIAN_WIKILINK",
+      "expected_html": "<p>[[*foo* bar]]</p>\n",
+      "required_wikilink_target": "*foo* bar",
+      "basis": "Obsidian [[wikilink]] has lexical priority; core projection retains authored marker, metadata proves target."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 581,
+      "source_sha256": "c9a1410c7d06b786bb5bb1e5475646356c094062e682130673e9fd571f2ab1c4",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 582,
+      "source_sha256": "83bdc797b9fa0ac81ba1ac53a0f1bc28c75cf512966359f21e58655dded2e2fa",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 583,
+      "source_sha256": "d978774efaf9312af94c64804acbe21e6f8ddf113874d6236e4a848d9b186256",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 584,
+      "source_sha256": "11c4a19e91d7e6f86b9402c3854c29b53f6c7e1a77296b48e83108e33fb2dac5",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 585,
+      "source_sha256": "f6c7879969f7de525673e8305b528906b9a71bc8f2a944d5e7339db6e186f4dc",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 586,
+      "source_sha256": "78a917c977aad450a4cf00d7688e3173d70ef88f2504d6ee00b372642191018c",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 587,
+      "source_sha256": "5925a439317c207dae3da921359c60731c900e46862bab531603508766e21810",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 588,
+      "source_sha256": "ca4faada1e6b47632ae683d19379936ba0e4a85a84427b35cdfee353883033a0",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 589,
+      "source_sha256": "75cbcceb964700ffb20f6911afdf45d6e1c2e8343bec20e1a7a3a68b81b06c2c",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 590,
+      "source_sha256": "bea6f60d2c7aa5360b11f5d9d6ab310a635da7b88829feeb940af5748e639a6c",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 591,
+      "source_sha256": "04b32eaf7f965b73f45a16b737a87e3a96a8e52aac399da003e067bc2c283f42",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 592,
+      "source_sha256": "ee52ec17fdf2d83f97c1cfd7737385c77ce1eb03fb9f462e959e56d6cd64d02a",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 593,
+      "source_sha256": "f225668691bc31c9ed9e92d243d884d9312061f86b0c34ee004edc28f2c31cbc",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 594,
+      "source_sha256": "af4e97bf0c5f6919f30c75e0bd37721b2532e8f9a6e989867ff45844733d4990",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 595,
+      "source_sha256": "a7c62e2e9f7e2615967ffaa0ec057b04f9a52608cffa680d5353193456db2921",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 596,
+      "source_sha256": "140f53d64999512785c95da14892a86af456047307d8d594c5de394b559c08a9",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 597,
+      "source_sha256": "25ee2e6cfc87d183417557592d4392e466b802f5df63ea7f6358cea2024d2f3b",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 598,
+      "source_sha256": "98cc18486c3a74eb7ed2d5e493d84eb36db4a0a6ddae20eb850237fc23af11cd",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 599,
+      "source_sha256": "c531faa3b8d5a2409e561a001755292a1808440b0dbf2b4fdd8b7a420bbe13f7",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNAPPROVED_EMBED",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 600,
+      "source_sha256": "8ae81132503ba9cb0cc5940f2c87aed8aefb52de290b958b5dbda1bbfd5da1fe",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "basis": "D17 rejects invalid properties and unsupported/unsafe/unapproved embeds instead of partial success."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 617,
+      "source_sha256": "b7659517713ef28e71cd7f499d80646dbc6f927174ad23ca45b671f6f39d70e4",
+      "kind": "GFM_AUTOLINK_EXTENSION",
+      "expected_html": "<p>&lt; <a href=\"http://foo.bar\">http://foo.bar</a> &gt;</p>\n",
+      "required_link_href": "http://foo.bar",
+      "basis": "D17 enables GFM bare autolinks globally, including examples in the older core section."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 620,
+      "source_sha256": "58176c111a79620a9c9bca82caa6ad70149a62f4c3aba9d64cd4094314f24757",
+      "kind": "GFM_AUTOLINK_EXTENSION",
+      "expected_html": "<p><a href=\"http://example.com\">http://example.com</a></p>\n",
+      "required_link_href": "http://example.com",
+      "basis": "D17 enables GFM bare autolinks globally, including examples in the older core section."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 621,
+      "source_sha256": "28ae0ab2a94c5601acda4466f077d51af8d559d088624d249fe50a6680b4a205",
+      "kind": "GFM_AUTOLINK_EXTENSION",
+      "expected_html": "<p><a href=\"mailto:foo@bar.example.com\">foo@bar.example.com</a></p>\n",
+      "required_link_href": "mailto:foo@bar.example.com",
+      "basis": "D17 enables GFM bare autolinks globally, including examples in the older core section."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 649,
+      "source_sha256": "d71253db1862b120b1d5dcb063fbb99ecea84f4a34e90c8d2e8ba3781d9c2fab",
+      "kind": "COMMONMARK_0312_COMMENT_GRAMMAR",
+      "expected_html": "<p>foo <!-- not a comment -- two hyphens --></p>\n",
+      "basis": "Frozen CommonMark 0.31.2 section 6.6 explicitly permits short comments and internal --; GFM snapshot embeds older core grammar."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 650,
+      "source_sha256": "8a6573bd3f6e2e722343f0033fe4bee8f635745369d58e9afdf530b85f4bc221",
+      "kind": "COMMONMARK_0312_COMMENT_GRAMMAR",
+      "expected_html": "<p>foo <!--> foo --&gt;</p>\n<p>foo <!-- foo---></p>\n",
+      "basis": "Frozen CommonMark 0.31.2 section 6.6 explicitly permits short comments and internal --; GFM snapshot embeds older core grammar."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 657,
+      "source_sha256": "a245889349ca138c2f8246a775ce175945a7cf1e0dbee93e6f09d12551c2657a",
+      "kind": "REQUIRED_WHOLE_DOCUMENT_FAILURE",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "basis": "Active/disallowed HTML is rejected in full, not merely escaped or omitted."
+    }
+  ]
+}

@@ -1,0 +1,2031 @@
+{
+  "status": "BLOCKED / OWNER_DECISION_REQUIRED",
+  "owner_decision": "D16",
+  "mandatory_ocr_languages": [
+    "vi",
+    "en"
+  ],
+  "selected_production_ocr_configuration": null,
+  "production_promoted": false,
+  "preservation": {
+    "head": "c3b46351507803053850e3c2711602ee9c9ec419",
+    "preexisting_files": 2192,
+    "changed_preexisting_files": [
+      "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md",
+      "docs/implementation/handoffs/ACTIVE.md",
+      "docs/implementation/phase-18/README.md",
+      "docs/implementation/phase-18/acceptance-and-evidence.md",
+      "docs/implementation/phase-18/final-verification-gate.md",
+      "docs/implementation/phase-18/held-out-quality-and-locators.md",
+      "docs/implementation/phase-18/owner-decisions.md",
+      "docs/implementation/phase-18/simplified-implementation-handoff.md",
+      "docs/implementation/phase-18/slice-2-parser-ocr-embedding-handoff.md"
+    ],
+    "unchanged_preexisting_files": 2183,
+    "preserved_prior_model_and_receipt_files": 133,
+    "changed_prior_model_and_receipt_files": [],
+    "historical_full_gate_hashes_verified": [
+      {
+        "path": "logs/phase18/s2-takeover-full-java-2026-10-20.json",
+        "sha256": "ed67df5d29c4358df78599fdbaaaecf59c414d8ecd57fb94d14d9cc5d4cf1923",
+        "unchanged_from_corrective_inventory": true
+      },
+      {
+        "path": "logs/phase18/s2-takeover-full-java-2026-10-20.log",
+        "sha256": "11db99ad9721587335508700ed5082c60de92ea2635f30af09134389b5e73e0e",
+        "unchanged_from_corrective_inventory": true
+      }
+    ],
+    "fresh_heldout_manifest_sha256": "406e3aeedc78e943cd494e30452819d18e3ceba4e1bc2e4612845d5eea225e99",
+    "production_code_tests_pins_and_old_models_unchanged": true
+  },
+  "commands": [
+    {
+      "name": "create-venv",
+      "argv": [
+        "uv",
+        "venv",
+        "--python",
+        "3.12.13",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/create-venv.json",
+      "receipt_sha256": "f9fed21dbf21d47df311ae4c115c5fa62c98053e894031562e5a9b51029c04a7",
+      "log_sha256": "f019b29b89a1df393569814ef45d851fbd1b900dbb5dfa34523a0c83dc625f39",
+      "timeout_seconds": 300.0,
+      "started_utc": "2026-10-20T05:48:25.521+00:00",
+      "finished_utc": "2026-10-20T05:48:30.782+00:00",
+      "duration_seconds": 5.266,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "install",
+      "argv": [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "paddleocr==3.7.0",
+        "paddlepaddle==3.3.1",
+        "pdfplumber==0.11.10",
+        "psutil==7.2.2"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/install.json",
+      "receipt_sha256": "dc8e55ff185ec9af8fcd438b8c96f0f1404c40628ec90ba84a368f78c5ff62ad",
+      "log_sha256": "b182edb91c43a108f8ff1e9d05422c24cdb09fcaeda0ac1f1ed289b7f38424fd",
+      "timeout_seconds": 900.0,
+      "started_utc": "2026-10-20T05:48:43.548+00:00",
+      "finished_utc": "2026-10-20T05:49:10.522+00:00",
+      "duration_seconds": 26.969,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "parser-deps",
+      "argv": [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "python-docx==1.2.0",
+        "openpyxl==3.1.5",
+        "xlrd==2.0.2"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/parser-deps.json",
+      "receipt_sha256": "9d8465d4cda5123095b4d324f524c4d3061b125d330f89dc66fae05b61779dfd",
+      "log_sha256": "e569908f9fbeba18a682304e219a83340e1e818e93f2ac3790f657ae30f35819",
+      "timeout_seconds": 180.0,
+      "started_utc": "2026-10-20T05:52:27.888+00:00",
+      "finished_utc": "2026-10-20T05:52:28.977+00:00",
+      "duration_seconds": 1.094,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "provision",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/provision.py"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/provision.json",
+      "receipt_sha256": "5fed327ebdd398a30b413a33f92c236b42498c83fa5b293d925f575909a533fc",
+      "log_sha256": "e59b4924e43142d827d11b75c65b5ed764fda2c11dc9cf9e859b0ec3f6ef1415",
+      "timeout_seconds": 600.0,
+      "started_utc": "2026-10-20T05:49:50.464+00:00",
+      "finished_utc": "2026-10-20T05:49:59.300+00:00",
+      "duration_seconds": 8.828,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "provision-latin3",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/provision-latin3.py"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/provision-latin3.json",
+      "receipt_sha256": "8ca36c84d5a95725f2576ac6afcbbf34a5fd76dbef5250a9372f191afec15560",
+      "log_sha256": "72ffb0ce68e3d2e7979b2e7815d5e0c4483576d5a4f680cb8c729912324d04fa",
+      "timeout_seconds": 180.0,
+      "started_utc": "2026-10-20T05:55:13.693+00:00",
+      "finished_utc": "2026-10-20T05:55:16.542+00:00",
+      "duration_seconds": 2.859,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "runtime-check",
+      "argv": [
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "-c",
+        "import paddle,sys,importlib.metadata; print(sys.version); print(paddle.__version__); print(importlib.metadata.version(paddleocr)); paddle.utils.run_check()"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/runtime-check.json",
+      "receipt_sha256": "b64681319026d2d62a77dffff7c8b19a9b83d5a79356db835558873b7af230d4",
+      "log_sha256": "a390eebf71c298fddcdbadc646cf65a9d59799f0e8452c10980a7f1e64c656a1",
+      "timeout_seconds": 120.0,
+      "started_utc": "2026-10-20T05:49:59.742+00:00",
+      "finished_utc": "2026-10-20T05:50:09.531+00:00",
+      "duration_seconds": 9.797,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "runtime-check-corrected",
+      "argv": [
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/runtime-check-corrected.py"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/runtime-check-corrected.json",
+      "receipt_sha256": "33972802c14a6c9d5d8a319a9307bec896b62939e9b994dd09832b970b64000b",
+      "log_sha256": "d6c7bc6fb776896e6f6e7c61093067f87a6594fda21b4e1ca92c33d2b16183eb",
+      "timeout_seconds": 120.0,
+      "started_utc": "2026-10-20T05:51:51.284+00:00",
+      "finished_utc": "2026-10-20T05:51:53.135+00:00",
+      "duration_seconds": 1.859,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "small",
+      "argv": [
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "rag-engine/scripts/slice2_paddleocr_checkpoint.py",
+        "--output",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20",
+        "--recognizer",
+        "small"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/small.json",
+      "receipt_sha256": "46e66efd52ad07560a791c118c7a9c39089728f95049ef3d3a050a814e568816",
+      "log_sha256": "84ec1d94cea7fc4e57be808c378e072327f0989d592dd6001c1127e75cb77acd",
+      "timeout_seconds": 300.0,
+      "started_utc": "2026-10-20T05:51:41.141+00:00",
+      "finished_utc": "2026-10-20T05:51:51.603+00:00",
+      "duration_seconds": 10.469,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "small2",
+      "argv": [
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "rag-engine/scripts/slice2_paddleocr_checkpoint.py",
+        "--output",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20",
+        "--recognizer",
+        "small",
+        "--run-id",
+        "small2"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/small2.json",
+      "receipt_sha256": "aae5c693b87a354b54a79b682916bb2c1cea58a8c29a93ee58528dd448003486",
+      "log_sha256": "3ca23663f1d48cff652a3a53b27bed6947ca1aaa54d8abdfdb6c40c678387f13",
+      "timeout_seconds": 300.0,
+      "started_utc": "2026-10-20T05:52:37.024+00:00",
+      "finished_utc": "2026-10-20T05:52:56.564+00:00",
+      "duration_seconds": 19.531,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "latin",
+      "argv": [
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "rag-engine/scripts/slice2_paddleocr_checkpoint.py",
+        "--output",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20",
+        "--recognizer",
+        "latin",
+        "--run-id",
+        "latin"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/latin.json",
+      "receipt_sha256": "0fccf3a94eb320cff6283149c45fed0381850a9de7450cc4b5dc877204b336fc",
+      "log_sha256": "8e6110630acd55c0bd3157d910285c1da12adb30157edfa43fba73cae4976e85",
+      "timeout_seconds": 300.0,
+      "started_utc": "2026-10-20T05:53:01.487+00:00",
+      "finished_utc": "2026-10-20T05:53:22.642+00:00",
+      "duration_seconds": 21.156,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "latin3",
+      "argv": [
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "rag-engine/scripts/slice2_paddleocr_checkpoint.py",
+        "--output",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20",
+        "--recognizer",
+        "latin3",
+        "--run-id",
+        "latin3"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/latin3.json",
+      "receipt_sha256": "ced74e5ff9d0a14e4c6c668c533d247f557f2d1775a815e9a412f47571aaa32b",
+      "log_sha256": "9ceaecfeaced1b070bbc318b898bcdfc28108bd933c6420172bc3ddefd5895f2",
+      "timeout_seconds": 300.0,
+      "started_utc": "2026-10-20T05:55:27.150+00:00",
+      "finished_utc": "2026-10-20T05:55:50.115+00:00",
+      "duration_seconds": 22.953,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "decoder",
+      "argv": [
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/.venv/Scripts/python.exe",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/inspect-decoder.py"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/decoder.json",
+      "receipt_sha256": "941f235a1a76276d9c3d7ec1cd04ed4af5852cb94ea32f3fafa3d8244bf58323",
+      "log_sha256": "46b4c09f2f16260a69bed756be7a2fab1a3d3930210e022bb654ff54d234674a",
+      "timeout_seconds": 120.0,
+      "started_utc": "2026-10-20T05:54:29.399+00:00",
+      "finished_utc": "2026-10-20T05:54:34.340+00:00",
+      "duration_seconds": 4.937,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "pytest-focused",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_slice2_checkpoint_package.py",
+        "rag-engine/tests/test_slice2_corrections.py",
+        "-k",
+        "pdf or scanned or overlapping or mixed or package",
+        "-q",
+        "--junitxml=logs/phase18/s2-d16-paddleocr-2026-10-20/pytest-focused.xml"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/pytest-focused.json",
+      "receipt_sha256": "3da8319d6a7df8b3c3b84f69f97f03310f5d1a5807fb0c1404da97e01aa61c41",
+      "log_sha256": "e3370eb63c68f7c4b4c3f3329b46067f5935cfc80fc6eb3de87403d40678c1bc",
+      "timeout_seconds": 180.0,
+      "started_utc": "2026-10-20T05:56:07.483+00:00",
+      "finished_utc": "2026-10-20T05:56:32.952+00:00",
+      "duration_seconds": 25.469,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "mypy",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "mypy",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "rag-engine/src"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/mypy.json",
+      "receipt_sha256": "90ce765b260b1534485574d4ad22853b0b47231544d564f1604ee61c4e09832f",
+      "log_sha256": "95213775cc2cb9f0b81ac9cb50492ccc489ecbb483f63079f1d569bd0e6fd269",
+      "timeout_seconds": 120.0,
+      "started_utc": "2026-10-20T05:56:17.777+00:00",
+      "finished_utc": "2026-10-20T05:56:33.734+00:00",
+      "duration_seconds": 15.953,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "ruff",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine/src",
+        "rag-engine/scripts",
+        "rag-engine/tests"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/ruff.json",
+      "receipt_sha256": "01d0cdbe266648fdb3b2e584fc76d678692ac1c09efc71694c1d9f25883f68ce",
+      "log_sha256": "ecd7b5b28ace7ce9bb78cf2b45bd79d21dde4507b2d6439112931941affa7609",
+      "timeout_seconds": 60.0,
+      "started_utc": "2026-10-20T05:58:29.766+00:00",
+      "finished_utc": "2026-10-20T05:58:29.895+00:00",
+      "duration_seconds": 0.125,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "format",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine/src",
+        "rag-engine/scripts",
+        "rag-engine/tests"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/format.json",
+      "receipt_sha256": "b8bfce40e99608796c12df4849a8896461baf9443c2bc4d760113edfdc9eab23",
+      "log_sha256": "fdd972199afad5db12c2c7296d95058e76d526ab72e2728ee237731771f87f58",
+      "timeout_seconds": 60.0,
+      "started_utc": "2026-10-20T05:58:30.343+00:00",
+      "finished_utc": "2026-10-20T05:58:30.470+00:00",
+      "duration_seconds": 0.125,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "locked-inventory",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/dependency_inventory.py",
+        "--output",
+        "logs/phase18/s2-d16-paddleocr-2026-10-20/locked-inventory-results.json"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/locked-inventory.json",
+      "receipt_sha256": "f43a03d1d78c335683bb75aabca071a58b4a33ac1dd425118d6a7c26d6f17cab",
+      "log_sha256": "6ff014254cedde4afd5a7484a84b307794ff6538f6ce34cb04ff2db859486501",
+      "timeout_seconds": 120.0,
+      "started_utc": "2026-10-20T05:58:27.693+00:00",
+      "finished_utc": "2026-10-20T05:58:29.340+00:00",
+      "duration_seconds": 1.656,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    {
+      "name": "git-diff-check",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "argv_sha256_matches": true,
+      "receipt": "logs/phase18/s2-d16-paddleocr-2026-10-20/git-diff-check.json",
+      "receipt_sha256": "9421b79feb83d60d2825a608d82f64d2f3d2ac2e0f17aed3c240354d7bd2ecf9",
+      "log_sha256": "07ea4c43035f0cfcd4c85dd8b91ab29a739562449cb12448d103671f306f2021",
+      "timeout_seconds": 60.0,
+      "started_utc": "2026-10-20T06:01:00.037+00:00",
+      "finished_utc": "2026-10-20T06:01:00.197+00:00",
+      "duration_seconds": 0.172,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    }
+  ],
+  "official_model_artifacts": [
+    {
+      "model": "PP-OCRv6_small_det",
+      "revision": "106c97591b235f607453300d9fc8c1cad1b25488",
+      "file": "README.md",
+      "bytes": 23234,
+      "sha256": "525eef5858b48c009772cd9df422e8a440e1cc3d0cd7e0b5d4fbe8400dc2ecd1",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det/resolve/106c97591b235f607453300d9fc8c1cad1b25488/README.md"
+    },
+    {
+      "model": "PP-OCRv6_small_det",
+      "revision": "106c97591b235f607453300d9fc8c1cad1b25488",
+      "file": "inference.json",
+      "bytes": 229307,
+      "sha256": "89240f689a4a77aad75ef55a8df0a15c8e1d4980a327d17e58f24bbadde5aeab",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det/resolve/106c97591b235f607453300d9fc8c1cad1b25488/inference.json"
+    },
+    {
+      "model": "PP-OCRv6_small_det",
+      "revision": "106c97591b235f607453300d9fc8c1cad1b25488",
+      "file": "inference.pdiparams",
+      "bytes": 9817888,
+      "sha256": "5043d4ccc8d63402ccea8feefcee4db57077431a873e78d2191836a178a492da",
+      "upstream_lfs_sha256": "5043d4ccc8d63402ccea8feefcee4db57077431a873e78d2191836a178a492da",
+      "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det/resolve/106c97591b235f607453300d9fc8c1cad1b25488/inference.pdiparams"
+    },
+    {
+      "model": "PP-OCRv6_small_det",
+      "revision": "106c97591b235f607453300d9fc8c1cad1b25488",
+      "file": "inference.yml",
+      "bytes": 885,
+      "sha256": "193f435274bf9f0b5f71a929bbfbcf148282df7e633b34e7c373e8f44741b516",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det/resolve/106c97591b235f607453300d9fc8c1cad1b25488/inference.yml"
+    },
+    {
+      "model": "PP-OCRv6_small_rec",
+      "revision": "bd619643acac4b9650c040234da8d944476ee3f1",
+      "file": "README.md",
+      "bytes": 23473,
+      "sha256": "832f68feddefeffd63ba133b961b7c44a9603d5cde20c14c87383c9440694f7a",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec/resolve/bd619643acac4b9650c040234da8d944476ee3f1/README.md"
+    },
+    {
+      "model": "PP-OCRv6_small_rec",
+      "revision": "bd619643acac4b9650c040234da8d944476ee3f1",
+      "file": "inference.json",
+      "bytes": 208004,
+      "sha256": "f0bf53c853937a917affdd74467472167727f8ab0f0f7bded01c4a16c27e46e6",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec/resolve/bd619643acac4b9650c040234da8d944476ee3f1/inference.json"
+    },
+    {
+      "model": "PP-OCRv6_small_rec",
+      "revision": "bd619643acac4b9650c040234da8d944476ee3f1",
+      "file": "inference.pdiparams",
+      "bytes": 21074618,
+      "sha256": "406e1e689c9a7fbb04178007a3fe10cf852afe7bf8bb3bc6dbb9d532b13bd907",
+      "upstream_lfs_sha256": "406e1e689c9a7fbb04178007a3fe10cf852afe7bf8bb3bc6dbb9d532b13bd907",
+      "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec/resolve/bd619643acac4b9650c040234da8d944476ee3f1/inference.pdiparams"
+    },
+    {
+      "model": "PP-OCRv6_small_rec",
+      "revision": "bd619643acac4b9650c040234da8d944476ee3f1",
+      "file": "inference.yml",
+      "bytes": 150579,
+      "sha256": "ab078671bb49f06228eadccd34f1bb501e157f7a047095ffb943ba81512c77d1",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec/resolve/bd619643acac4b9650c040234da8d944476ee3f1/inference.yml"
+    },
+    {
+      "model": "latin_PP-OCRv5_mobile_rec",
+      "revision": "ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57",
+      "file": "README.md",
+      "bytes": 7085,
+      "sha256": "897e932f55386124163c5d051ee42a7481fad52ea447c9e3b009d22e5424bada",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec/resolve/ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57/README.md"
+    },
+    {
+      "model": "latin_PP-OCRv5_mobile_rec",
+      "revision": "ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57",
+      "file": "inference.json",
+      "bytes": 217712,
+      "sha256": "820b2ee8e5072de5156c3d55124c2b03c82ef278d59f453f857c0789bacb4da1",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec/resolve/ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57/inference.json"
+    },
+    {
+      "model": "latin_PP-OCRv5_mobile_rec",
+      "revision": "ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57",
+      "file": "inference.pdiparams",
+      "bytes": 7965915,
+      "sha256": "53cdc8b481a7394bb108f96d0fb3432b0a8f392e22c7d18f06dbb2d42b8b25f9",
+      "upstream_lfs_sha256": "53cdc8b481a7394bb108f96d0fb3432b0a8f392e22c7d18f06dbb2d42b8b25f9",
+      "url": "https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec/resolve/ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57/inference.pdiparams"
+    },
+    {
+      "model": "latin_PP-OCRv5_mobile_rec",
+      "revision": "ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57",
+      "file": "inference.yml",
+      "bytes": 6817,
+      "sha256": "0bbe984570f597af3638e50bdf2e8276f3ab26a61966096538b3b0d1849f5c84",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec/resolve/ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57/inference.yml"
+    },
+    {
+      "model": "latin_PP-OCRv3_mobile_rec",
+      "revision": "d90a4c51cd2c2a4cf1237426c220330bbe698198",
+      "file": "README.md",
+      "bytes": 6751,
+      "sha256": "007528e844e94c03653c8d1d80e5f38b39de89bebed451b8d9af87da31a5160a",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/latin_PP-OCRv3_mobile_rec/resolve/d90a4c51cd2c2a4cf1237426c220330bbe698198/README.md"
+    },
+    {
+      "model": "latin_PP-OCRv3_mobile_rec",
+      "revision": "d90a4c51cd2c2a4cf1237426c220330bbe698198",
+      "file": "inference.json",
+      "bytes": 168414,
+      "sha256": "022b9fd837182ee83bb699d3d1cee7d05811997c887cae179a8c128ea29da3fa",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/latin_PP-OCRv3_mobile_rec/resolve/d90a4c51cd2c2a4cf1237426c220330bbe698198/inference.json"
+    },
+    {
+      "model": "latin_PP-OCRv3_mobile_rec",
+      "revision": "d90a4c51cd2c2a4cf1237426c220330bbe698198",
+      "file": "inference.pdiparams",
+      "bytes": 8940218,
+      "sha256": "fa6f22a8b2a669c7d5b4dfd2607491abd4cd2467adf7077c9cc70ce8c47b61d9",
+      "upstream_lfs_sha256": "fa6f22a8b2a669c7d5b4dfd2607491abd4cd2467adf7077c9cc70ce8c47b61d9",
+      "url": "https://huggingface.co/PaddlePaddle/latin_PP-OCRv3_mobile_rec/resolve/d90a4c51cd2c2a4cf1237426c220330bbe698198/inference.pdiparams"
+    },
+    {
+      "model": "latin_PP-OCRv3_mobile_rec",
+      "revision": "d90a4c51cd2c2a4cf1237426c220330bbe698198",
+      "file": "inference.yml",
+      "bytes": 1984,
+      "sha256": "f193ba660245a417090b757722f955930a2af750ac9258166cc006fe147e6794",
+      "upstream_lfs_sha256": null,
+      "url": "https://huggingface.co/PaddlePaddle/latin_PP-OCRv3_mobile_rec/resolve/d90a4c51cd2c2a4cf1237426c220330bbe698198/inference.yml"
+    }
+  ],
+  "official_runtime_development_metrics": [
+    {
+      "run": "small2",
+      "kind": "DEVELOPMENT_METRICS_NOT_HUMAN_ACCEPTANCE",
+      "script_denominators": {
+        "vi": {
+          "documents": 3,
+          "pages": 3,
+          "gold_blocks": 8,
+          "tables": 1,
+          "logical_cells": 5,
+          "raw_exact_documents": 0,
+          "parsed_exact_documents": 0,
+          "reference_characters": 123,
+          "raw_character_errors": 7,
+          "parsed_character_errors": 52
+        },
+        "en": {
+          "documents": 3,
+          "pages": 3,
+          "gold_blocks": 8,
+          "tables": 1,
+          "logical_cells": 5,
+          "raw_exact_documents": 3,
+          "parsed_exact_documents": 2,
+          "reference_characters": 139,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 51
+        }
+      },
+      "rows": [
+        {
+          "file": "development-shelf-en.pdf",
+          "script": "en",
+          "reference_characters": 24,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 0,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": true,
+          "raw_exact_gold_block_positions": [
+            0
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "development-shelf-vi.pdf",
+          "script": "vi",
+          "reference_characters": 20,
+          "raw_character_errors": 3,
+          "parsed_character_errors": 3,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "held-out-invoice-en.pdf",
+          "script": "en",
+          "reference_characters": 43,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 0,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": true,
+          "raw_exact_gold_block_positions": [
+            0
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "held-out-invoice-vi.pdf",
+          "script": "vi",
+          "reference_characters": 35,
+          "raw_character_errors": 2,
+          "parsed_character_errors": 2,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "warehouse-en.pdf",
+          "script": "en",
+          "reference_characters": 72,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 51,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": false,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": [
+            {
+              "row": 0,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                260,
+                1340,
+                400
+              ],
+              "actual_bbox": [
+                61.5,
+                261.5,
+                1339.5,
+                399.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 2,
+              "actual_column_span": 2
+            },
+            {
+              "row": 1,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                400,
+                700,
+                540
+              ],
+              "actual_bbox": [
+                61.5,
+                401.5,
+                699.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 1,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                400,
+                1340,
+                540
+              ],
+              "actual_bbox": [
+                701.5,
+                401.5,
+                1339.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                540,
+                700,
+                680
+              ],
+              "actual_bbox": [
+                61.5,
+                541.5,
+                699.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                540,
+                1340,
+                680
+              ],
+              "actual_bbox": [
+                701.5,
+                541.5,
+                1339.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            }
+          ]
+        },
+        {
+          "file": "warehouse-vi.pdf",
+          "script": "vi",
+          "reference_characters": 68,
+          "raw_character_errors": 2,
+          "parsed_character_errors": 47,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": false,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": [
+            {
+              "row": 0,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                260,
+                1340,
+                400
+              ],
+              "actual_bbox": [
+                61.5,
+                261.5,
+                1339.5,
+                399.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 2,
+              "actual_column_span": 2
+            },
+            {
+              "row": 1,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                400,
+                700,
+                540
+              ],
+              "actual_bbox": [
+                61.5,
+                401.5,
+                699.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 1,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                400,
+                1340,
+                540
+              ],
+              "actual_bbox": [
+                701.5,
+                401.5,
+                1339.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                540,
+                700,
+                680
+              ],
+              "actual_bbox": [
+                61.5,
+                541.5,
+                699.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                540,
+                1340,
+                680
+              ],
+              "actual_bbox": [
+                701.5,
+                541.5,
+                1339.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            }
+          ]
+        }
+      ],
+      "wall_seconds": 18.918796499987366,
+      "cpu_seconds": 30.0625,
+      "resources": {
+        "sample_interval_seconds": 0.02,
+        "peak_sampled_rss_bytes": 480690176,
+        "peak_sampled_scratch_bytes": 0,
+        "samples": 234,
+        "process_os_peak_working_set_bytes": 589897728,
+        "scratch_final_bytes": 0,
+        "surviving_children": []
+      },
+      "comparison_sha256": "25a7c811517ba1040cd9e911dbb9b5e4bd7ef38248a7cc0fbcf505c113a4a78b"
+    },
+    {
+      "run": "latin",
+      "kind": "DEVELOPMENT_METRICS_NOT_HUMAN_ACCEPTANCE",
+      "script_denominators": {
+        "vi": {
+          "documents": 3,
+          "pages": 3,
+          "gold_blocks": 8,
+          "tables": 1,
+          "logical_cells": 5,
+          "raw_exact_documents": 0,
+          "parsed_exact_documents": 0,
+          "reference_characters": 123,
+          "raw_character_errors": 8,
+          "parsed_character_errors": 53
+        },
+        "en": {
+          "documents": 3,
+          "pages": 3,
+          "gold_blocks": 8,
+          "tables": 1,
+          "logical_cells": 5,
+          "raw_exact_documents": 3,
+          "parsed_exact_documents": 2,
+          "reference_characters": 139,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 51
+        }
+      },
+      "rows": [
+        {
+          "file": "development-shelf-en.pdf",
+          "script": "en",
+          "reference_characters": 24,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 0,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": true,
+          "raw_exact_gold_block_positions": [
+            0
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "development-shelf-vi.pdf",
+          "script": "vi",
+          "reference_characters": 20,
+          "raw_character_errors": 3,
+          "parsed_character_errors": 3,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "held-out-invoice-en.pdf",
+          "script": "en",
+          "reference_characters": 43,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 0,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": true,
+          "raw_exact_gold_block_positions": [
+            0
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "held-out-invoice-vi.pdf",
+          "script": "vi",
+          "reference_characters": 35,
+          "raw_character_errors": 3,
+          "parsed_character_errors": 3,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "warehouse-en.pdf",
+          "script": "en",
+          "reference_characters": 72,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 51,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": false,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": [
+            {
+              "row": 0,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                260,
+                1340,
+                400
+              ],
+              "actual_bbox": [
+                61.5,
+                261.5,
+                1339.5,
+                399.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 2,
+              "actual_column_span": 2
+            },
+            {
+              "row": 1,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                400,
+                700,
+                540
+              ],
+              "actual_bbox": [
+                61.5,
+                401.5,
+                699.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 1,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                400,
+                1340,
+                540
+              ],
+              "actual_bbox": [
+                701.5,
+                401.5,
+                1339.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                540,
+                700,
+                680
+              ],
+              "actual_bbox": [
+                61.5,
+                541.5,
+                699.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                540,
+                1340,
+                680
+              ],
+              "actual_bbox": [
+                701.5,
+                541.5,
+                1339.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            }
+          ]
+        },
+        {
+          "file": "warehouse-vi.pdf",
+          "script": "vi",
+          "reference_characters": 68,
+          "raw_character_errors": 2,
+          "parsed_character_errors": 47,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": false,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": [
+            {
+              "row": 0,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                260,
+                1340,
+                400
+              ],
+              "actual_bbox": [
+                61.5,
+                261.5,
+                1339.5,
+                399.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 2,
+              "actual_column_span": 2
+            },
+            {
+              "row": 1,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                400,
+                700,
+                540
+              ],
+              "actual_bbox": [
+                61.5,
+                401.5,
+                699.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 1,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                400,
+                1340,
+                540
+              ],
+              "actual_bbox": [
+                701.5,
+                401.5,
+                1339.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                540,
+                700,
+                680
+              ],
+              "actual_bbox": [
+                61.5,
+                541.5,
+                699.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                540,
+                1340,
+                680
+              ],
+              "actual_bbox": [
+                701.5,
+                541.5,
+                1339.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            }
+          ]
+        }
+      ],
+      "wall_seconds": 20.511271499999566,
+      "cpu_seconds": 35.03125,
+      "resources": {
+        "sample_interval_seconds": 0.02,
+        "peak_sampled_rss_bytes": 460718080,
+        "peak_sampled_scratch_bytes": 0,
+        "samples": 179,
+        "process_os_peak_working_set_bytes": 560836608,
+        "scratch_final_bytes": 0,
+        "surviving_children": []
+      },
+      "comparison_sha256": "ca41dfe47f403bc1ce141ef1a66220716676a062f5cc8f739a3c7847f7b2b22f"
+    },
+    {
+      "run": "latin3",
+      "kind": "DEVELOPMENT_METRICS_NOT_HUMAN_ACCEPTANCE",
+      "script_denominators": {
+        "vi": {
+          "documents": 3,
+          "pages": 3,
+          "gold_blocks": 8,
+          "tables": 1,
+          "logical_cells": 5,
+          "raw_exact_documents": 0,
+          "parsed_exact_documents": 0,
+          "reference_characters": 123,
+          "raw_character_errors": 15,
+          "parsed_character_errors": 56
+        },
+        "en": {
+          "documents": 3,
+          "pages": 3,
+          "gold_blocks": 8,
+          "tables": 1,
+          "logical_cells": 5,
+          "raw_exact_documents": 3,
+          "parsed_exact_documents": 2,
+          "reference_characters": 139,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 51
+        }
+      },
+      "rows": [
+        {
+          "file": "development-shelf-en.pdf",
+          "script": "en",
+          "reference_characters": 24,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 0,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": true,
+          "raw_exact_gold_block_positions": [
+            0
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "development-shelf-vi.pdf",
+          "script": "vi",
+          "reference_characters": 20,
+          "raw_character_errors": 4,
+          "parsed_character_errors": 4,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "held-out-invoice-en.pdf",
+          "script": "en",
+          "reference_characters": 43,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 0,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": true,
+          "raw_exact_gold_block_positions": [
+            0
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "held-out-invoice-vi.pdf",
+          "script": "vi",
+          "reference_characters": 35,
+          "raw_character_errors": 5,
+          "parsed_character_errors": 5,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": true,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": []
+        },
+        {
+          "file": "warehouse-en.pdf",
+          "script": "en",
+          "reference_characters": 72,
+          "raw_character_errors": 0,
+          "parsed_character_errors": 51,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": false,
+          "raw_all_gold_exact": true,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "raw_full_gold_order_proven": true,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": [
+            {
+              "row": 0,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                260,
+                1340,
+                400
+              ],
+              "actual_bbox": [
+                61.5,
+                261.5,
+                1339.5,
+                399.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 2,
+              "actual_column_span": 2
+            },
+            {
+              "row": 1,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                400,
+                700,
+                540
+              ],
+              "actual_bbox": [
+                61.5,
+                401.5,
+                699.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 1,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                400,
+                1340,
+                540
+              ],
+              "actual_bbox": [
+                701.5,
+                401.5,
+                1339.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                540,
+                700,
+                680
+              ],
+              "actual_bbox": [
+                61.5,
+                541.5,
+                699.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                540,
+                1340,
+                680
+              ],
+              "actual_bbox": [
+                701.5,
+                541.5,
+                1339.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            }
+          ]
+        },
+        {
+          "file": "warehouse-vi.pdf",
+          "script": "vi",
+          "reference_characters": 68,
+          "raw_character_errors": 6,
+          "parsed_character_errors": 47,
+          "raw_digit_sequences_exact": true,
+          "parsed_digit_sequences_exact": false,
+          "raw_all_gold_exact": false,
+          "parsed_all_gold_exact": false,
+          "raw_exact_gold_block_positions": [
+            null,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "raw_full_gold_order_proven": false,
+          "raw_boxes_in_original_page_bounds": true,
+          "table_cells": [
+            {
+              "row": 0,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                260,
+                1340,
+                400
+              ],
+              "actual_bbox": [
+                61.5,
+                261.5,
+                1339.5,
+                399.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 2,
+              "actual_column_span": 2
+            },
+            {
+              "row": 1,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                400,
+                700,
+                540
+              ],
+              "actual_bbox": [
+                61.5,
+                401.5,
+                699.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 1,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                400,
+                1340,
+                540
+              ],
+              "actual_bbox": [
+                701.5,
+                401.5,
+                1339.5,
+                539.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 0,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                60,
+                540,
+                700,
+                680
+              ],
+              "actual_bbox": [
+                61.5,
+                541.5,
+                699.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            },
+            {
+              "row": 2,
+              "column": 1,
+              "matches": 1,
+              "text_exact": true,
+              "source_outline_bbox": [
+                700,
+                540,
+                1340,
+                680
+              ],
+              "actual_bbox": [
+                701.5,
+                541.5,
+                1339.5,
+                679.5
+              ],
+              "bbox_max_abs_delta": 1.5,
+              "expected_column_span": 1,
+              "actual_column_span": 1
+            }
+          ]
+        }
+      ],
+      "wall_seconds": 22.182497000001604,
+      "cpu_seconds": 35.734375,
+      "resources": {
+        "sample_interval_seconds": 0.02,
+        "peak_sampled_rss_bytes": 459239424,
+        "peak_sampled_scratch_bytes": 0,
+        "samples": 223,
+        "process_os_peak_working_set_bytes": 555851776,
+        "scratch_final_bytes": 0,
+        "surviving_children": []
+      },
+      "comparison_sha256": "4496e5ae58b2af7c4587e3e122b9e95ebb7ec8bb6ae547da2a9b9bc80b99a69b"
+    }
+  ],
+  "environment": {
+    "python": "3.12.13 (main, Apr 14 2026, 14:31:26) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d16-paddleocr-2026-10-20\\.venv\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "cpu_count": 6,
+    "physical_ram_bytes": 17112092672,
+    "licenses": [
+      {
+        "package": "paddleocr",
+        "version": "3.7.0",
+        "license": "Apache License 2.0",
+        "license_expression": null,
+        "license_files": [
+          {
+            "file": "paddleocr-3.7.0.dist-info/LICENSE",
+            "bytes": 11376,
+            "sha256": "3840c5c0c61c294264d2dd77b8777be6ddd90121ef4e0e64abcd22edea581d6e"
+          }
+        ]
+      },
+      {
+        "package": "paddlepaddle",
+        "version": "3.3.1",
+        "license": "Apache Software License",
+        "license_expression": null,
+        "license_files": [
+          {
+            "file": "paddlepaddle-3.3.1.dist-info/LICENSE",
+            "bytes": 11641,
+            "sha256": "60bb8ca6ee9ccc739508c518a1f03d923fa06d15c73bfb13c56032dc177d8bf3"
+          }
+        ]
+      },
+      {
+        "package": "paddlex",
+        "version": "3.7.2",
+        "license": "Apache-2.0",
+        "license_expression": null,
+        "license_files": [
+          {
+            "file": "paddlex-3.7.2.dist-info/licenses/LICENSE",
+            "bytes": 11325,
+            "sha256": "accc36c817ac5ede473d05732e14afc11cb6e55ef5919bc826b653f631165043"
+          }
+        ]
+      }
+    ],
+    "isolated_venv_logical_file_bytes": 784770915,
+    "downloaded_model_logical_file_bytes": 48850816,
+    "production_env_touched": false
+  },
+  "human_review": {
+    "status": "PENDING",
+    "reviewer": null,
+    "quality": "NOT_RUN",
+    "applicability_path": "docs/implementation/phase-18/slice-2-d16-adjudication-applicability-2026-10-20.json",
+    "applicability_sha256": "60527dd12bc8ec6271730943e04f287628765990042c5488ef2a9232a41c8a6e"
+  },
+  "s2_07": "Current-backend prior proof retained; selected Paddle configuration proof NOT_RUN because none selected",
+  "s2_08": "No Java alignment; conditional producer-freeze prerequisite unmet",
+  "full_java_gate": {
+    "status": "FAILED_RETAINED_NOT_RERUN",
+    "tests": 1433,
+    "failures": 1,
+    "errors": 2,
+    "skips": 0
+  },
+  "changed_or_new_artifact_hashes": {
+    "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md": "2eb35356411e239d0e1e4fd43921a315c53c1c5017ef65e7897d8e76fc8a3049",
+    "docs/implementation/handoffs/ACTIVE.md": "51d564506ebeca56e07785b826c487bc8a326c7453f723dc8840471b8f0b2e42",
+    "docs/implementation/phase-18/README.md": "5b656f14d4765cdee8f50b98767638c92c13232b9b375dbb243d9e06100fe929",
+    "docs/implementation/phase-18/acceptance-and-evidence.md": "be7b2d490882ee88e3a1ffb43aa28e513b3b1f8c9bb3d77c62bfed69e0a05524",
+    "docs/implementation/phase-18/final-verification-gate.md": "2ca92a54022201b92c553aa8218c14cc115929beb3370a8fb7e94a067e5bd2e4",
+    "docs/implementation/phase-18/held-out-quality-and-locators.md": "dd8037efefbe4bfe284ddf2cd6261294d6fdac5ee81e5cf7aa516c9a971a2a08",
+    "docs/implementation/phase-18/owner-decisions.md": "ff7a13a5c6944b726b16bdec760a4006cd376fea0a9c49241b307af5b6a02fd0",
+    "docs/implementation/phase-18/simplified-implementation-handoff.md": "bb5e7359027da5d76bf45d435b7bca9eb49c4c322b4210434526af016de4a0bb",
+    "docs/implementation/phase-18/slice-2-d16-adjudication-applicability-2026-10-20.json": "60527dd12bc8ec6271730943e04f287628765990042c5488ef2a9232a41c8a6e",
+    "docs/implementation/phase-18/slice-2-d16-paddleocr-checkpoint-2026-10-20.md": "08860d3c8f10b2f20ca70cf64a2610d742184e3620e9064c85ef0d414eb8c43d",
+    "docs/implementation/phase-18/slice-2-parser-ocr-embedding-handoff.md": "d33a2107c063f9c1c430096fd0a7b286eb8c664778dfdb4ae7bfead7905304c4",
+    "rag-engine/scripts/slice2_paddleocr_checkpoint.py": "8928d39a0cebf96a22935435c0f020c11161bb07c304e2cb6d14b6d2af4ba1b7"
+  },
+  "local_receipts_and_outputs": {
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/analyze.py": {
+      "bytes": 3312,
+      "sha256": "993fbea460d646437f0d30688b969f5928bcf4249dc73ee9bffc48f405b82751"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/build-evidence.py": {
+      "bytes": 6776,
+      "sha256": "1ce03d5c4a95db67da757ae827bed37f19ed1c60dd7da9ffb55000ed0bef753b"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/comparison-latin.json": {
+      "bytes": 38578,
+      "sha256": "ca41dfe47f403bc1ce141ef1a66220716676a062f5cc8f739a3c7847f7b2b22f"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/comparison-latin3.json": {
+      "bytes": 38613,
+      "sha256": "4496e5ae58b2af7c4587e3e122b9e95ebb7ec8bb6ae547da2a9b9bc80b99a69b"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/comparison-small.json": {
+      "bytes": 3181,
+      "sha256": "d91337833422818934e7a031d362339ba1c7d6ba4d6cec3baa3c45c50b879e60"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/comparison-small2.json": {
+      "bytes": 38559,
+      "sha256": "25a7c811517ba1040cd9e911dbb9b5e4bd7ef38248a7cc0fbcf505c113a4a78b"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/create-venv.json": {
+      "bytes": 385,
+      "sha256": "f9fed21dbf21d47df311ae4c115c5fa62c98053e894031562e5a9b51029c04a7"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/create-venv.log": {
+      "bytes": 1462,
+      "sha256": "f019b29b89a1df393569814ef45d851fbd1b900dbb5dfa34523a0c83dc625f39"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/decoder.json": {
+      "bytes": 393,
+      "sha256": "941f235a1a76276d9c3d7ec1cd04ed4af5852cb94ea32f3fafa3d8244bf58323"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/decoder.log": {
+      "bytes": 4964,
+      "sha256": "46b4c09f2f16260a69bed756be7a2fab1a3d3930210e022bb654ff54d234674a"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/development-shelf-vi.png": {
+      "bytes": 5924,
+      "sha256": "9db06833434edf723e50a103d965df955711dad197e6e5e126153eea4443fb1e"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/effective-decoders.json": {
+      "bytes": 1010,
+      "sha256": "6935a4c1941e8f06c5da08e61a277f67288e71f76757fb11b1a6b79371a459cd"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/effective-latin.yaml": {
+      "bytes": 1316,
+      "sha256": "e0ac1b5110df4a90b22bcf41e9a27b49761b8589c06d881fbf619f2d53fa7370"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/effective-latin3.yaml": {
+      "bytes": 1316,
+      "sha256": "0e3aeb67a3026b9e5b6281a4ed039000a1c9dc9f681797ca1dfe0c2a4806f1ce"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/effective-small2.yaml": {
+      "bytes": 1302,
+      "sha256": "c7342db074e8ca785cb652d3d94e47f4d73dbd97d1046264a6fda8f4ca2481f3"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/entry.json": {
+      "bytes": 392696,
+      "sha256": "77401f9275d76b2e9116facafed7bfed51749fa7a7c8cbadb64e792d2656f1d9"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/environment-and-disk.json": {
+      "bytes": 1634,
+      "sha256": "1b81fb919cfb58463e80a32e36ecb4ec9be8a91cef4b42486adb1ffafba7721e"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/experiment-script-initial.py": {
+      "bytes": 13049,
+      "sha256": "fc35fd0029ea0d76b750366fd95d5d8fe4c6a528726e4fb0a2aee7484006e8b6"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/experiment-script-small2-latin.py": {
+      "bytes": 13327,
+      "sha256": "186967edd4debec104f0c7ec61a6a75cf13c7d4dc2d8b627b412cebfd35be118"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/format.json": {
+      "bytes": 392,
+      "sha256": "b8bfce40e99608796c12df4849a8896461baf9443c2bc4d760113edfdc9eab23"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/format.log": {
+      "bytes": 278,
+      "sha256": "fdd972199afad5db12c2c7296d95058e76d526ab72e2728ee237731771f87f58"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/git-diff-check.json": {
+      "bytes": 384,
+      "sha256": "9421b79feb83d60d2825a608d82f64d2f3d2ac2e0f17aed3c240354d7bd2ecf9"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/git-diff-check.log": {
+      "bytes": 7012,
+      "sha256": "07ea4c43035f0cfcd4c85dd8b91ab29a739562449cb12448d103671f306f2021"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/inspect-decoder.py": {
+      "bytes": 1448,
+      "sha256": "9f3d7a6e37d8d96dff5e146642a850f694ca4f289a18dcd13f7db6dfd11e7381"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/install.json": {
+      "bytes": 386,
+      "sha256": "dc8e55ff185ec9af8fcd438b8c96f0f1404c40628ec90ba84a368f78c5ff62ad"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/install.log": {
+      "bytes": 5640,
+      "sha256": "b182edb91c43a108f8ff1e9d05422c24cdb09fcaeda0ac1f1ed289b7f38424fd"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/isolated-freeze.txt": {
+      "bytes": 3764,
+      "sha256": "dce3e430773a1fda9b985c8fa581dc7641f845fc0f0daf112249380b1dd88944"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/latin.json": {
+      "bytes": 404,
+      "sha256": "0fccf3a94eb320cff6283149c45fed0381850a9de7450cc4b5dc877204b336fc"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/latin.log": {
+      "bytes": 36180,
+      "sha256": "8e6110630acd55c0bd3157d910285c1da12adb30157edfa43fba73cae4976e85"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/latin3.json": {
+      "bytes": 404,
+      "sha256": "ced74e5ff9d0a14e4c6c668c533d247f557f2d1775a815e9a412f47571aaa32b"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/latin3.log": {
+      "bytes": 36254,
+      "sha256": "9ceaecfeaced1b070bbc318b898bcdfc28108bd933c6420172bc3ddefd5895f2"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/locked-inventory-results.json": {
+      "bytes": 57775,
+      "sha256": "163462ed4823b7581293203a34627bdfef4177ca78f51ca8b6c8da33cb6c961f"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/locked-inventory.json": {
+      "bytes": 392,
+      "sha256": "f43a03d1d78c335683bb75aabca071a58b4a33ac1dd425118d6a7c26d6f17cab"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/locked-inventory.log": {
+      "bytes": 500,
+      "sha256": "6ff014254cedde4afd5a7484a84b307794ff6538f6ce34cb04ff2db859486501"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/model-provision-latin3.json": {
+      "bytes": 1762,
+      "sha256": "eff0b72f00d7d74b7f01d84b726af41729b7cc3644f5b5080b5fb7934823336c"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/model-provision.json": {
+      "bytes": 5168,
+      "sha256": "d9e3b86296faa048735a26f3a75bc11236b6063b6f7522e24f8fa26193024336"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/mypy.json": {
+      "bytes": 394,
+      "sha256": "90ce765b260b1534485574d4ad22853b0b47231544d564f1604ee61c4e09832f"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/mypy.log": {
+      "bytes": 314,
+      "sha256": "95213775cc2cb9f0b81ac9cb50492ccc489ecbb483f63079f1d569bd0e6fd269"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/paddleocr-pypi.json": {
+      "bytes": 127722,
+      "sha256": "c7dc4eb5adb0df8960529b24ef7b9b10f80e3667cdf76e370fbaef1172fe97a3"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/paddlepaddle-pypi.json": {
+      "bytes": 334710,
+      "sha256": "4104972337e6b8831dbf6aa54b4fda2d7f615fc5af9538981e83921900764daa"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/parser-deps.json": {
+      "bytes": 384,
+      "sha256": "9d8465d4cda5123095b4d324f524c4d3061b125d330f89dc66fae05b61779dfd"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/parser-deps.log": {
+      "bytes": 1468,
+      "sha256": "e569908f9fbeba18a682304e219a83340e1e818e93f2ac3790f657ae30f35819"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/preservation.json": {
+      "bytes": 1466,
+      "sha256": "28c42623f482cbcd6602ead6bd94ef24ffb39832dd0a2c62c0d37790b20ff0b1"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/provision-latin3.json": {
+      "bytes": 393,
+      "sha256": "8ca36c84d5a95725f2576ac6afcbbf34a5fd76dbef5250a9372f191afec15560"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/provision-latin3.log": {
+      "bytes": 608,
+      "sha256": "72ffb0ce68e3d2e7979b2e7815d5e0c4483576d5a4f680cb8c729912324d04fa"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/provision-latin3.py": {
+      "bytes": 1390,
+      "sha256": "686cf421c770aa2ff322642b449b13b1d1c4a466261662b0e166c08bf487fb14"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/provision.json": {
+      "bytes": 393,
+      "sha256": "5fed327ebdd398a30b413a33f92c236b42498c83fa5b293d925f575909a533fc"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/provision.log": {
+      "bytes": 1272,
+      "sha256": "e59b4924e43142d827d11b75c65b5ed764fda2c11dc9cf9e859b0ec3f6ef1415"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/provision.py": {
+      "bytes": 1391,
+      "sha256": "995e144f89d3db70b8e3abfda0871ed8009224565b704e21d0b4c30e572a8662"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/pytest-focused.json": {
+      "bytes": 394,
+      "sha256": "3da8319d6a7df8b3c3b84f69f97f03310f5d1a5807fb0c1404da97e01aa61c41"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/pytest-focused.log": {
+      "bytes": 458,
+      "sha256": "e3370eb63c68f7c4b4c3f3329b46067f5935cfc80fc6eb3de87403d40678c1bc"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/pytest-focused.xml": {
+      "bytes": 1870,
+      "sha256": "1c7b6523f318bd67d715e0bdfa67cd3d822fbbf093124ad74641188792eece76"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/quality-metrics.json": {
+      "bytes": 28926,
+      "sha256": "723a0df0a81a4dc81a0e0fbfc9311e6cf2cad4bf8b2d0d5fe6731db295f2940b"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/ruff.json": {
+      "bytes": 392,
+      "sha256": "01d0cdbe266648fdb3b2e584fc76d678692ac1c09efc71694c1d9f25883f68ce"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/ruff.log": {
+      "bytes": 262,
+      "sha256": "ecd7b5b28ace7ce9bb78cf2b45bd79d21dde4507b2d6439112931941affa7609"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/runtime-check-corrected.json": {
+      "bytes": 393,
+      "sha256": "33972802c14a6c9d5d8a319a9307bec896b62939e9b994dd09832b970b64000b"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/runtime-check-corrected.log": {
+      "bytes": 3378,
+      "sha256": "d6c7bc6fb776896e6f6e7c61093067f87a6594fda21b4e1ca92c33d2b16183eb"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/runtime-check-corrected.py": {
+      "bytes": 178,
+      "sha256": "23731af2b379f5e5a5c6bb68d173c223b8feddc40c9c09d66333353fa79e30a0"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/runtime-check.json": {
+      "bytes": 403,
+      "sha256": "b64681319026d2d62a77dffff7c8b19a9b83d5a79356db835558873b7af230d4"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/runtime-check.log": {
+      "bytes": 2364,
+      "sha256": "a390eebf71c298fddcdbadc646cf65a9d59799f0e8452c10980a7f1e64c656a1"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/small.json": {
+      "bytes": 404,
+      "sha256": "46e66efd52ad07560a791c118c7a9c39089728f95049ef3d3a050a814e568816"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/small.log": {
+      "bytes": 4102,
+      "sha256": "84ec1d94cea7fc4e57be808c378e072327f0989d592dd6001c1127e75cb77acd"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/small2.json": {
+      "bytes": 404,
+      "sha256": "aae5c693b87a354b54a79b682916bb2c1cea58a8c29a93ee58528dd448003486"
+    },
+    "logs/phase18/s2-d16-paddleocr-2026-10-20/small2.log": {
+      "bytes": 36104,
+      "sha256": "3ca23663f1d48cff652a3a53b27bed6947ca1aaa54d8abdfdb6c40c678387f13"
+    }
+  },
+  "limits": [
+    "development synthetic PDFs only; no broad real-world corpus",
+    "Python outbound socket denial is not OS egress confinement",
+    "20ms requested scratch sampling can miss short-lived allocation and excludes other OS/native caches",
+    "OS working set is process-only; no representative worst-case proof",
+    "No genuine human review or independent held-out evaluation",
+    "Initial shell-encoded character probe invalid; corrected Unicode-safe artifact/live-decoder findings govern"
+  ]
+}

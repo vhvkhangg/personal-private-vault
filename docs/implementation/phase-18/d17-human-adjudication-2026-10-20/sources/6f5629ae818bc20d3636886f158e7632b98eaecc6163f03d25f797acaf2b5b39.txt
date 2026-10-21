@@ -1,0 +1,1 @@
+Before <span>**literal** &amp; <b>bold</b></span> after.

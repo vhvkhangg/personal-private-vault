@@ -18,6 +18,8 @@ class ElementKind(str, Enum):
     CALLOUT = "CALLOUT"
     TRANSCLUSION = "TRANSCLUSION"
     SPREADSHEET_ROW = "SPREADSHEET_ROW"
+    METADATA = "METADATA"
+    COMMENT = "COMMENT"
 
 
 @dataclass(frozen=True)
@@ -45,6 +47,13 @@ class DocumentElement:
         app_field = self.locator.get("approved_field")
         if not app_field or not isinstance(app_field, str):
             raise ValueError("Locator missing valid approved_field")
+
+        if (
+            src_key != self.source_identity
+            or src_ver != self.source_version
+            or app_field != self.approved_field
+        ):
+            raise ValueError("Locator provenance contradicts element")
 
         if fmt == "TXT":
             if "line_start" not in self.locator or "line_end" not in self.locator:

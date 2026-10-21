@@ -1,0 +1,3 @@
+<DIV data-note="a > b" />
+
+[[Ghost]] ![[Missing]]

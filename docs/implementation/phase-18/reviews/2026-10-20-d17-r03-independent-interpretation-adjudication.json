@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-20",
+  "role": "Independent Codex reviewer; not a human signature",
+  "original_gold_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+  "submitted_overlay_sha256": "1e15ef98cf95ce21e102c078e0481d93381ae34f851cef74d8ebc7b3b9b8476c",
+  "original_overlay_sha256": "777fe1231946ed0c61c70ac241f1b9d17bec43bae777b4c8a6867d9f4d77b615",
+  "records": [
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 171,
+      "source": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "source_sha256": "4768a7e1e1f63875238865a49dc3f414a839b7944637c2dc7c2eaf5a20241af0",
+      "official_expected_html": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "corrective_expected_html": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "independent_verdict": "SUPPORTED",
+      "rationale": "SUPPORTED: mandatory inert textarea RCDATA contains literal emphasis markers across blank lines; retain raw authored textarea LF separately from native initial-LF handling.",
+      "changed_from_prior_overlay": false
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 155,
+      "source": "<div>\n*foo*\n\n*bar*\n",
+      "source_sha256": "759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421",
+      "official_expected_html": "<div>\n*foo*\n<p><em>bar</em></p>\n",
+      "corrective_expected_html": "<div>\n*foo*\n\n*bar*\n",
+      "independent_verdict": "SUPPORTED",
+      "rationale": "SUPPORTED: open native HTML at document root retains literal Markdown through blank blocks and EOF under frozen Obsidian profile; no enclosing list boundary exists.",
+      "changed_from_prior_overlay": false
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 175,
+      "source": "- <div>\n- foo\n",
+      "source_sha256": "4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394",
+      "official_expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "corrective_expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "independent_verdict": "SUPPORTED",
+      "rationale": "SUPPORTED: the second unindented marker is a separate sibling list item. An open native element inside the first item cannot extend its owning Markdown list-item source. Official expected two-item structure is restored.",
+      "changed_from_prior_overlay": true
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 184,
+      "source": "  <div>\n\n    <div>\n",
+      "source_sha256": "1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f",
+      "official_expected_html": "  <div>\n<pre><code>&lt;div&gt;\n</code></pre>\n",
+      "corrective_expected_html": "  <div>\n\n    <div>\n",
+      "independent_verdict": "SUPPORTED",
+      "rationale": "SUPPORTED: root-level open native HTML retains indented native descendants through blank blocks and EOF; source is not an independent Markdown indented-code block.",
+      "changed_from_prior_overlay": false
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 125,
+      "source": "<div>\n*foo*\n\n*bar*\n",
+      "source_sha256": "759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421",
+      "official_expected_html": "<div>\n*foo*\n<p><em>bar</em></p>\n",
+      "corrective_expected_html": "<div>\n*foo*\n\n*bar*\n",
+      "independent_verdict": "SUPPORTED",
+      "rationale": "SUPPORTED: open native HTML at document root retains literal Markdown through blank blocks and EOF under frozen Obsidian profile; no enclosing list boundary exists.",
+      "changed_from_prior_overlay": false
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 144,
+      "source": "- <div>\n- foo\n",
+      "source_sha256": "4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394",
+      "official_expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "corrective_expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "independent_verdict": "SUPPORTED",
+      "rationale": "SUPPORTED: the second unindented marker is a separate sibling list item. An open native element inside the first item cannot extend its owning Markdown list-item source. Official expected two-item structure is restored.",
+      "changed_from_prior_overlay": true
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 153,
+      "source": "  <div>\n\n    <div>\n",
+      "source_sha256": "1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f",
+      "official_expected_html": "  <div>\n<pre><code>&lt;div&gt;\n</code></pre>\n",
+      "corrective_expected_html": "  <div>\n\n    <div>\n",
+      "independent_verdict": "SUPPORTED",
+      "rationale": "SUPPORTED: root-level open native HTML retains indented native descendants through blank blocks and EOF; source is not an independent Markdown indented-code block.",
+      "changed_from_prior_overlay": false
+    }
+  ],
+  "human_reviewer": null,
+  "signed_at": null,
+  "human_adjudication": "PENDING; not fabricated"
+}

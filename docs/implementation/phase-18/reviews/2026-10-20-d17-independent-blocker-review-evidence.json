@@ -1,0 +1,2607 @@
+{
+  "date": "2026-10-20",
+  "recorded_utc": "2026-10-20T08:39:50.189952+00:00",
+  "scope": "Independent D17 Markdown blocker review only",
+  "decision": "CHANGES_REQUESTED",
+  "head": "c3b46351507803053850e3c2711602ee9c9ec419",
+  "source_manifest": {
+    "rag-engine/src/ppv_rag/__init__.py": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5",
+    "rag-engine/src/ppv_rag/worker.py": "458ad5bd80952d5d95d4f4e70e454f9ac5d4bd099a1a7c8a132e266a3a3f6bd2",
+    "rag-engine/src/ppv_rag/transport.py": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54",
+    "rag-engine/src/ppv_rag/telemetry.py": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9",
+    "rag-engine/src/ppv_rag/security.py": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44",
+    "rag-engine/src/ppv_rag/parsers/__init__.py": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60",
+    "rag-engine/src/ppv_rag/parsers/text.py": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+    "rag-engine/src/ppv_rag/parsers/pdf.py": "ac61c950bdaa85b2ceb46cc7d07cf27a222ac9f5f70dcc837b2c04e814c2e44e",
+    "rag-engine/src/ppv_rag/parsers/obsidian_html.py": "f3d7856c6758e0e320e530863009aaa045a895cf29d1fc2ad963bb45b36e4a2a",
+    "rag-engine/src/ppv_rag/parsers/obsidian.py": "e483186d9561e1e051a5ddab1cad62358ee48b3e1c44d7b7c469a20a68b2cba2",
+    "rag-engine/src/ppv_rag/parsers/models.py": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+    "rag-engine/src/ppv_rag/parsers/markdown.py": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+    "rag-engine/src/ppv_rag/parsers/excel.py": "3b863ad2d60e8e34899ac8d9aa2338335534863fac157f61e099ab173e3749ee",
+    "rag-engine/src/ppv_rag/parsers/docx.py": "f613bcdeca8a06093d0d024717bff284882880d26737ebc38e66b0810bc69f65",
+    "rag-engine/src/ppv_rag/ocr/engine.py": "ab890ec272a160ca1edeb7864bb0cebda60c459ef60af1330665545b154dca0c",
+    "rag-engine/src/ppv_rag/main.py": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+    "rag-engine/src/ppv_rag/limits.py": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194",
+    "rag-engine/src/ppv_rag/embeddings/__init__.py": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a",
+    "rag-engine/src/ppv_rag/embeddings/model.py": "b55b089c4abdd9b8b7f14b7ad7e2d2d7139eb90b208602614365c81d5f6a03e8",
+    "rag-engine/src/ppv_rag/db.py": "421dc9e3823a349b3b6a935f59eb17ac89368458aaf0e346d792b6075b963177",
+    "rag-engine/src/ppv_rag/contracts.py": "28db2741bfdee641b6958dd3b017462338588a93c39e25d480bb4a3a3146441b",
+    "rag-engine/src/ppv_rag/config.py": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a",
+    "rag-engine/src/ppv_rag/chunking/__init__.py": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d",
+    "rag-engine/src/ppv_rag/chunking/chunker.py": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+    "rag-engine/tests/test_worker_v3.py": "cce9785521523b1a63af38d1dead25da9ef966d34ea27d6298965f2f8d198877",
+    "rag-engine/tests/test_worker.py": "35e195f5dc832ea6b6a2bc543270afdc374caf53f1939dd33f5237c984121ac3",
+    "rag-engine/tests/test_transport.py": "5b9e11f0b65ec0d0bd98369737883f7dda716b977563e0c4de249bb7523952fb",
+    "rag-engine/tests/test_telemetry.py": "d0823c24f4b30ea8d199f13da637241a6a5cc550ef2333b18bed98c6748f5077",
+    "rag-engine/tests/test_slice2_corrections.py": "3c416eb9c08cae5c4c1796b7373765a33af104bf01abad76585bf0ffe4bcae56",
+    "rag-engine/tests/test_slice2_checkpoint_package.py": "f5b6a70ba9110fb287b89f7d56d88d7e733c2aac178a505db455405652de507e",
+    "rag-engine/tests/test_pdf_scanned_surrounding_text.py": "607efe9807e686e95f0f9feeeda17b4f66698504113adcfa4e8b2d84c3e265ba",
+    "rag-engine/tests/test_pdf_geometry.py": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723",
+    "rag-engine/tests/test_parsers.py": "9c21c8da68f00f113209116f08ce11a57a6ff73d533e404d4a0eb52cfcdd62fe",
+    "rag-engine/tests/test_obsidian_d17.py": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+    "rag-engine/tests/test_health.py": "767dbc538065bcfc42bed41c2271775aff5049c7dd07a16e87749b0fa184f4ed",
+    "rag-engine/tests/test_embeddings.py": "fb06cb72b6a3f3109b8b038f30561b361ebf261f653002f24d6433ca00a82a85",
+    "rag-engine/tests/test_d17_completion.py": "f080e630b16e424e2da8dfadf0f8f80eec9a74f3ee27a1400e1e45695d41a60b",
+    "rag-engine/tests/test_contracts.py": "eb7a6c8d985ad8ae18f1c1a7c74eccc7ec0d99a604a74cf90dbf0214939d02f9",
+    "rag-engine/tests/test_consumption_containment.py": "ea23a6d8993e242b867f2b305188561d42f3c920f89de924dfb3a61d0599b79b",
+    "rag-engine/tests/test_chunker.py": "5392473816e09e651e0e19f4e83653e44dfffa00fa6ea5225fae9278b2e5cad2",
+    "rag-engine/tests/test_bound_ingress.py": "6822be0fb5c15ac3bfd3d01f9770cd2a9e6699d24c0af8b0f93f5f4d2928729f",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/workshop-native.pdf": "96a87d7a6f300236314224ac701cf3b8eb3f2709bf085c5472f56a95362ae033",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/tools.md": "93ef31abe42d6484013b03110ec701dcc2b56a4835679851d1ac2d17b16962ed",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/REVIEW.md": "09cd74eb82788174c27928b9d599cee8daebb9e65852838decf05c38edee77f5",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/missing-locator.json": "45fa8b43c3e45c271ab36079f6cc966b28c78e9def2399f98b984790ba0de80e",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.sha256": "854327b388d2a82663b634c87c012d8c6e78ed218fcdcf82fbd8249715b44679",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.json": "406e3aeedc78e943cd494e30452819d18e3ceba4e1bc2e4612845d5eea225e99",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.txt": "9d9ec08e7bde4260b76682ec4648fa1cf4492a3971bcf90ea11abc6b010d7841",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.md": "958481955e10081fcef79176769ea20a5bf97d3321fe0f1efa80c01f465e104a",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.docx": "7f603c969e5780e5e43dfa8261623381293b04c8a209817eb01c581264074686",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/inspection.xlsx": "b890684a4dcc9145024da43b1db2233f686de47dadd496adf3f4cc073e02b94c",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/inspection.xls": "9886c9a0fca30ab5109baca294506301696bf359b1c65b0826d0b109a7a574ed",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-zh-Hant.pdf": "9109f13399560153b7034d30e12bd814996bb3ad4ad778d262ccca3c11838a5e",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-zh-Hans.pdf": "b6843b9c57e616bebc8ffea923f83a1ad9876031fd0f84ffe30cc1196207f941",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-vi.pdf": "46bd0f3ed33dfd59df5d4c8a8738fb613a8c5a1c6904aeafdd370b052007b71b",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-mixed.pdf": "4affedc4490dc583c8e51844d84c07172e5a47ccc1d1a2b1606421125bb3c631",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-en.pdf": "ba7ad9050e154be871ede586cba037c55de261519d1755604f92f8d85014b1e0",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/closure-audit.json": "ef2547cb4dc4584c7a46755e0935a9555ac63125668bcabe668937fd2a574336",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/broken.pdf": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/broken.docx": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/adjudication.json": "cd95b0d2f16b49701563ebf404f8ae64b84befcf05e7b0d80de79b358319031a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.sha256": "ac980ad84345db8ac21c4f6dff8bdde9e1a2dba2eeb68e5fc269c7de61ebe5ea",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.json": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hant.pdf": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hans.pdf": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-vi.pdf": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-en.pdf": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hant.pdf": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hans.pdf": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-vi.pdf": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-en.pdf": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+    "rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+    "rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+    "rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+    "rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.sha256": "b141264c2f022d23d00c85f413348a8a4c698589d74c47d02245f8c6c1283fea",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.json": "9c1d7b16e0c5d9d4b4f18db95e37680c556b8b6bb466ab3e0f02e8ff50897801",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+    "rag-engine/tests/conftest.py": "b5c31d9da460929f125919176a9a919cc445c8ad2b6a84c67e7df7bea2b3d39f",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+    "rag-engine/pyproject.toml": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+    "rag-engine/uv.lock": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+    "rag-engine/.python-version": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f",
+    "rag-engine/scripts/d17_structural_conformance.py": "8fe82dd530f81e45d501b71b7dae71cfd0b08a6f5a019886b91c23c7360de4f9",
+    "rag-engine/scripts/d17_completion_resources.py": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+    "rag-engine/scripts/d17_markdown_evidence.py": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+    "rag-engine/scripts/dependency_inventory.py": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+    "docs/implementation/phase-18/obsidian-markdown-d17-contract.md": "4195e991856a12d6cea970007b841c14089bc6fcf58db969df099b99cbcc959f"
+  },
+  "preservation": {
+    "s2-d17-markdown-2026-10-20": {
+      "preserved_artifacts": 331,
+      "mismatches": [],
+      "backend_phase17_slice1_files": 1660,
+      "frozen_mismatches": []
+    },
+    "s2-d17-completion-2026-10-20": {
+      "preserved_artifacts": 122,
+      "mismatches": [],
+      "backend_phase17_slice1_files": 1660,
+      "frozen_mismatches": []
+    }
+  },
+  "original_watchdog_receipts_hash_verified": 96,
+  "official_snapshots_hash_verified": 10,
+  "independent_tests": {
+    "d17_and_worker_compatibility": "128 passed in 20.90s",
+    "additional_legacy_domain_selection": "25 passed, 30 deselected in 11.94s",
+    "corpus_replay": "1266 supported + 63 required rejections under implementer labels; does not override independent disagreement",
+    "ruff": "PASS",
+    "format": "69 files already formatted",
+    "mypy": "24 source files clean",
+    "pip_check": "67 packages, Python 3.14.4 PASS",
+    "offline_lock": "73 resolved packages PASS"
+  },
+  "limits": [
+    "Million-character workload not rerun; original failed gates remain FAILED",
+    "No production/test/fixture/model fix, OCR development, Java gate, commit or push",
+    "Pipe control proves counters are not temporary-file attribution; actual 260-byte destination remains unknown",
+    "Human package signatures remain unset; independent Codex label review is separately recorded"
+  ],
+  "artifacts": {
+    "logs/phase18/d17-independent-boundaries-2026-10-20.json": {
+      "sha256": "2b29f2d009886fa95c6199fe2abcd3305cc8fde2e4b4e6b213766d8ca722f0bc",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 90.0,
+        "executable": "python.exe",
+        "argv_sha256": "968857311bcf81df076d668f35aa235426c19fba00a81dcb8af415bae3ce71a2",
+        "started_utc": "2026-10-20T08:34:55.889+00:00",
+        "pid": 28956,
+        "finished_utc": "2026-10-20T08:34:59.120+00:00",
+        "duration_seconds": 3.235,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-boundaries-final-2026-10-20.json": {
+      "sha256": "c1cf773136a6ef2bfb8ea6a1a9295dd4f7aa346ad622b2ea31e170c4fa02e67c",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "python.exe",
+        "argv_sha256": "968857311bcf81df076d668f35aa235426c19fba00a81dcb8af415bae3ce71a2",
+        "started_utc": "2026-10-20T08:36:00.740+00:00",
+        "pid": 26284,
+        "finished_utc": "2026-10-20T08:36:05.335+00:00",
+        "duration_seconds": 4.594,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-boundary-results-2026-10-20.json": {
+      "sha256": "cdbba03a53535c45398bf2b5caa1f0f526e04be3e19fdacfdc14296e05fc790e",
+      "content": {
+        "pipe_control_io_delta": {
+          "read_ops": 0,
+          "write_ops": 1,
+          "other_ops": 0,
+          "read_bytes": 0,
+          "write_bytes": 260,
+          "other_bytes": 0
+        },
+        "response": {
+          "contract_version": "3.0",
+          "status": "STAGED",
+          "job_id": "11111111-1111-1111-1111-111111111111",
+          "attempt_id": "22222222-2222-2222-2222-222222222222",
+          "staged_count": 2,
+          "published_count": 0,
+          "failed_count": 4,
+          "peak_system_ram_bytes": 619212800,
+          "peak_gpu_vram_bytes": 2440507392,
+          "receipt": {
+            "contract_version": "3.0",
+            "job_id": "11111111-1111-1111-1111-111111111111",
+            "attempt_id": "22222222-2222-2222-2222-222222222222",
+            "status": "STAGED",
+            "output_digest": "e60075aafe3e9eaaeacd9d953e528a44c76350d62c25d32a1f1b9a9aa9fb7e51"
+          }
+        },
+        "outputs": {
+          "inert_textarea": {
+            "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "chunks": 0,
+            "success": false,
+            "bad_intersection_count": 0,
+            "first_bad_intersections": []
+          },
+          "inert_title": {
+            "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "chunks": 0,
+            "success": false,
+            "bad_intersection_count": 0,
+            "first_bad_intersections": []
+          },
+          "split_table": {
+            "reason": "SUCCESS",
+            "chunks": 4,
+            "success": true,
+            "bad_intersection_count": 1014,
+            "first_bad_intersections": [
+              {
+                "char_start": 371,
+                "char_end": 370
+              },
+              {
+                "char_start": 371,
+                "char_end": 370
+              },
+              {
+                "char_start": 371,
+                "char_end": 370
+              }
+            ]
+          },
+          "valid_prefix_then_denied": {
+            "reason": "MD_UNAPPROVED_EMBED",
+            "chunks": 0,
+            "success": false,
+            "bad_intersection_count": 0,
+            "first_bad_intersections": []
+          },
+          "active_html": {
+            "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "chunks": 0,
+            "success": false,
+            "bad_intersection_count": 0,
+            "first_bad_intersections": []
+          },
+          "valid_html": {
+            "reason": "SUCCESS",
+            "chunks": 1,
+            "success": true,
+            "bad_intersection_count": 0,
+            "first_bad_intersections": []
+          }
+        },
+        "deadline_at_scope_exit": {
+          "method": "Injected expired deadline before actual parsing_scope exit checkpoint; actual worker counters/stage handling unchanged",
+          "response": {
+            "contract_version": "3.0",
+            "status": "STAGED",
+            "job_id": "11111111-1111-1111-1111-111111111111",
+            "attempt_id": "22222222-2222-2222-2222-222222222222",
+            "staged_count": 1,
+            "published_count": 0,
+            "failed_count": 1,
+            "peak_system_ram_bytes": 628736000,
+            "peak_gpu_vram_bytes": 2440507392,
+            "receipt": {
+              "contract_version": "3.0",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "status": "STAGED",
+              "output_digest": "6188964873bd4903345d5bb8bcaca072b68546c0dda28950fef9d64272b74d13"
+            }
+          },
+          "stages": [
+            {
+              "success": false,
+              "reason": "RESOURCE_LIMIT_EXCEEDED",
+              "chunks": 0
+            }
+          ]
+        }
+      }
+    },
+    "logs/phase18/d17-independent-compatibility-2026-10-20.json": {
+      "sha256": "ab65f827d37a208453a54f137fb21e52c85493019ccc68a3b0f5ca75f3314bb1",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 90.0,
+        "executable": "python.exe",
+        "argv_sha256": "287e5cb4aa2738826e05fecf3be8890b7db7bc9d77056856675f1be40bafebe7",
+        "started_utc": "2026-10-20T08:37:21.654+00:00",
+        "pid": 12876,
+        "finished_utc": "2026-10-20T08:37:36.425+00:00",
+        "duration_seconds": 14.765,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-corpus-2026-10-20.json": {
+      "sha256": "c6b8c8decb6482f9f7a41b574bfa80af569523bea5c7f8f6ea5914db98634906",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 90.0,
+        "executable": "python.exe",
+        "argv_sha256": "a1015bfb34eaf08113cad3f3f60f0e54cfbba0cee98853d2abc9e6f11d40221a",
+        "started_utc": "2026-10-20T08:34:17.829+00:00",
+        "pid": 10612,
+        "finished_utc": "2026-10-20T08:34:20.680+00:00",
+        "duration_seconds": 2.859,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-corpus-results-2026-10-20.json": {
+      "sha256": "2abef25e47fc39bba6c915a50349c9556e0bd6cd0525f346ce08c2a684bec620",
+      "content": {
+        "purpose": "Actual extracted AST reconstructed for structural comparison against official expected HTML, not source equality alone.",
+        "counts": {
+          "PASS": 1266,
+          "PASS_REQUIRED_REJECTION": 63
+        },
+        "mode": "PARSER_CHUNKER_AST",
+        "profile_gold_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+        "independent_human_review": "PENDING; no signature or adjudication claimed"
+      }
+    },
+    "logs/phase18/d17-independent-diagnostic-results-2026-10-20.json": {
+      "sha256": "57bde919ed3991512a6ee163591c7cb819d63d2833afbd3869404bfcbecb1509",
+      "content": {
+        "syntax": {
+          "table_backslash_even": {
+            "status": "SUCCESS",
+            "rendered": "<table>\n<thead>\n<tr>\n<th>A</th>\n<th>B</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>x| y</td>\n<td></td>\n</tr>\n</tbody>\n</table>\n",
+            "tables": 1,
+            "cells": [
+              {
+                "id": "root:3:0:31:0:cell:0:0",
+                "parent_id": "root:3:0:31:0",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 1,
+                  "char_end": 4,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:31:0",
+                  "row_index": 0,
+                  "column_index": 0
+                },
+                "raw_text": " A ",
+                "source_presence": "ORIGINAL",
+                "is_header": true,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:31:0:cell:0:1",
+                "parent_id": "root:3:0:31:0",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 5,
+                  "char_end": 8,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:31:0",
+                  "row_index": 0,
+                  "column_index": 1
+                },
+                "raw_text": " B ",
+                "source_presence": "ORIGINAL",
+                "is_header": true,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:31:0:cell:1:0",
+                "parent_id": "root:3:0:31:0",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 21,
+                  "char_end": 29,
+                  "line_start": 3,
+                  "line_end": 3,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:31:0",
+                  "row_index": 1,
+                  "column_index": 0
+                },
+                "raw_text": " x\\\\| y ",
+                "source_presence": "ORIGINAL",
+                "is_header": false,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:31:0:cell:1:1",
+                "parent_id": "root:3:0:31:0",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 20,
+                  "char_end": 31,
+                  "line_start": 3,
+                  "line_end": 3,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "IMPLICIT_EMPTY_NO_AUTHORED_CELL",
+                  "location_kind": "ROW_OF_IMPLICIT_GFM_EMPTY_CELL",
+                  "table_id": "root:3:0:31:0",
+                  "row_index": 1,
+                  "column_index": 1
+                },
+                "raw_text": "",
+                "source_presence": "IMPLICIT_GFM_EMPTY",
+                "is_header": false,
+                "alignment": null,
+                "overflow": false
+              }
+            ],
+            "bad_chunk_intersections": [],
+            "sources": [
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "| A | B |\n| - | - |\n| x\\\\| y |\n"
+            }
+          },
+          "nested_ordered_table": {
+            "status": "SUCCESS",
+            "rendered": "<ol>\n<li>\n<table>\n<thead>\n<tr>\n<th>A</th>\n<th>B</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>one</strong></td>\n<td><a href=\"note.md\">two</a></td>\n</tr>\n</tbody>\n</table>\n</li>\n</ol>\n",
+            "tables": 1,
+            "cells": [
+              {
+                "id": "root:3:0:58:2:cell:0:0",
+                "parent_id": "root:3:0:58:2",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 4,
+                  "char_end": 7,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:58:2",
+                  "row_index": 0,
+                  "column_index": 0
+                },
+                "raw_text": " A ",
+                "source_presence": "ORIGINAL",
+                "is_header": true,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:58:2:cell:0:1",
+                "parent_id": "root:3:0:58:2",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 11,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:58:2",
+                  "row_index": 0,
+                  "column_index": 1
+                },
+                "raw_text": " B ",
+                "source_presence": "ORIGINAL",
+                "is_header": true,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:58:2:cell:1:0",
+                "parent_id": "root:3:0:58:2",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 30,
+                  "char_end": 39,
+                  "line_start": 3,
+                  "line_end": 3,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:58:2",
+                  "row_index": 1,
+                  "column_index": 0
+                },
+                "raw_text": " **one** ",
+                "source_presence": "ORIGINAL",
+                "is_header": false,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:58:2:cell:1:1",
+                "parent_id": "root:3:0:58:2",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 40,
+                  "char_end": 56,
+                  "line_start": 3,
+                  "line_end": 3,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:58:2",
+                  "row_index": 1,
+                  "column_index": 1
+                },
+                "raw_text": " [two](note.md) ",
+                "source_presence": "ORIGINAL",
+                "is_header": false,
+                "alignment": null,
+                "overflow": false
+              }
+            ],
+            "bad_chunk_intersections": [
+              {
+                "char_start": 40,
+                "char_end": 31
+              },
+              {
+                "char_start": 40,
+                "char_end": 31
+              },
+              {
+                "char_start": 40,
+                "char_end": 31
+              },
+              {
+                "char_start": 40,
+                "char_end": 31
+              }
+            ],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "1. | A | B |\n   | - | - |\n   | **one** | [two](note.md) |\n"
+            }
+          },
+          "quote_list_table": {
+            "status": "SUCCESS",
+            "rendered": "<blockquote>\n<ul>\n<li>\n<table>\n<thead>\n<tr>\n<th>A</th>\n<th>B</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>x</td>\n<td>y</td>\n</tr>\n</tbody>\n</table>\n</li>\n</ul>\n</blockquote>\n",
+            "tables": 1,
+            "cells": [
+              {
+                "id": "root:3:0:42:3:cell:0:0",
+                "parent_id": "root:3:0:42:3",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 5,
+                  "char_end": 8,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:42:3",
+                  "row_index": 0,
+                  "column_index": 0
+                },
+                "raw_text": " A ",
+                "source_presence": "ORIGINAL",
+                "is_header": true,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:42:3:cell:0:1",
+                "parent_id": "root:3:0:42:3",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 9,
+                  "char_end": 12,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:42:3",
+                  "row_index": 0,
+                  "column_index": 1
+                },
+                "raw_text": " B ",
+                "source_presence": "ORIGINAL",
+                "is_header": true,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:42:3:cell:1:0",
+                "parent_id": "root:3:0:42:3",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 33,
+                  "char_end": 36,
+                  "line_start": 3,
+                  "line_end": 3,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:42:3",
+                  "row_index": 1,
+                  "column_index": 0
+                },
+                "raw_text": " x ",
+                "source_presence": "ORIGINAL",
+                "is_header": false,
+                "alignment": null,
+                "overflow": false
+              },
+              {
+                "id": "root:3:0:42:3:cell:1:1",
+                "parent_id": "root:3:0:42:3",
+                "locator": {
+                  "source_key": "root",
+                  "source_version": 3,
+                  "approved_field": "content",
+                  "char_start": 37,
+                  "char_end": 40,
+                  "line_start": 3,
+                  "line_end": 3,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "table_id": "root:3:0:42:3",
+                  "row_index": 1,
+                  "column_index": 1
+                },
+                "raw_text": " y ",
+                "source_presence": "ORIGINAL",
+                "is_header": false,
+                "alignment": null,
+                "overflow": false
+              }
+            ],
+            "bad_chunk_intersections": [
+              {
+                "char_start": 33,
+                "char_end": 31
+              },
+              {
+                "char_start": 33,
+                "char_end": 31
+              },
+              {
+                "char_start": 33,
+                "char_end": 31
+              },
+              {
+                "char_start": 37,
+                "char_end": 31
+              },
+              {
+                "char_start": 37,
+                "char_end": 31
+              }
+            ],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "> - | A | B |\n>   | - | - |\n>   | x | y |\n"
+            }
+          },
+          "nested_link_embed": {
+            "status": "SUCCESS",
+            "rendered": "<blockquote>\n<p>[!note]- Folded\n< /></p>\n</blockquote>\n<h1>H</h1>\n<p>Body.</p>\n<h1>Outside</h1>\n",
+            "tables": 0,
+            "cells": [],
+            "bad_chunk_intersections": [],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ],
+              [
+                "child",
+                7
+              ],
+              [
+                "child",
+                7
+              ],
+              [
+                "child",
+                7
+              ]
+            ],
+            "text_by_source": {
+              "root": "> [!note]- Folded\n> ![[Child#H|Display]]\n",
+              "child": "# H\n\nBody.\n\n"
+            }
+          },
+          "highlight_structure": {
+            "status": "SUCCESS",
+            "rendered": "<p><mark /></p>\n",
+            "tables": 0,
+            "cells": [],
+            "bad_chunk_intersections": [],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "==**bold** and [link](note.md)==\n"
+            }
+          },
+          "inline_footnote": {
+            "status": "SUCCESS",
+            "rendered": "<p>Text < /> and < />.</p>\n<><p>foot <strong>note</strong></p>\n</>",
+            "tables": 0,
+            "cells": [],
+            "bad_chunk_intersections": [],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "Text ^[inline *note*] and [^ref].\n\n[^ref]: foot **note**\n"
+            }
+          },
+          "math_inert": {
+            "status": "SUCCESS",
+            "rendered": "<p><math /></p>\n<math />\n",
+            "tables": 0,
+            "cells": [],
+            "bad_chunk_intersections": [],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "$a+b$\n\n$$\nx=1\n$$\n"
+            }
+          },
+          "html_optional": {
+            "status": "SUCCESS",
+            "rendered": "<p>one\n<p>two\n<ul><li>a<li>b</ul>\n",
+            "tables": 0,
+            "cells": [],
+            "bad_chunk_intersections": [],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "<p>one\n<p>two\n<ul><li>a<li>b</ul>\n"
+            }
+          },
+          "html_foster_parent": {
+            "status": "SUCCESS",
+            "rendered": "<table>outside<tr><td>inside</table>\n",
+            "tables": 0,
+            "cells": [],
+            "bad_chunk_intersections": [],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "<table>outside<tr><td>inside</table>\n"
+            }
+          },
+          "html_entities": {
+            "status": "SUCCESS",
+            "rendered": "<p>Before <span data-x=\"&amp;\">a &amp; b</span> after.</p>\n",
+            "tables": 0,
+            "cells": [],
+            "bad_chunk_intersections": [],
+            "sources": [
+              [
+                "root",
+                3
+              ],
+              [
+                "root",
+                3
+              ]
+            ],
+            "text_by_source": {
+              "root": "Before <span data-x=\"&amp;\">a &amp; b</span> after.\r\n"
+            }
+          }
+        },
+        "stages": [
+          {
+            "kind": "prose",
+            "input_chars": 50000,
+            "chunks": 35,
+            "parse_seconds": 0.18273990001762286,
+            "chunk_seconds": 0.029483299993444234,
+            "embed_seconds": 2.8829914000234567,
+            "serialize_seconds": 0.0206445999792777,
+            "output_bytes": 1433874,
+            "profile": "         418817 function calls (394588 primitive calls) in 0.180 seconds\n\n   Ordered by: cumulative time\n   List reduced from 179 to 18 due to restriction <18>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.183    0.183 obsidian.py:959(parse_obsidian)\n        1    0.001    0.001    0.182    0.182 obsidian.py:493(_note)\n        2    0.000    0.000    0.163    0.081 main.py:252(parse)\n        2    0.000    0.000    0.163    0.081 parser_core.py:43(process)\n25770/4574    0.036    0.000    0.148    0.000 obsidian.py:321(checked)\n        2    0.000    0.000    0.127    0.063 block.py:5(block)\n        2    0.000    0.000    0.127    0.063 parser_block.py:105(parse)\n        2    0.000    0.000    0.117    0.059 parser_block.py:60(tokenize)\n        1    0.000    0.000    0.075    0.075 obsidian.py:405(_comments)\n        2    0.005    0.003    0.059    0.030 lheading.py:9(lheading)\n        2    0.005    0.002    0.058    0.029 paragraph.py:10(paragraph)\n        2    0.000    0.000    0.033    0.017 inline.py:4(inline)\n        2    0.000    0.000    0.033    0.017 parser_inline.py:206(parse)\n        2    0.002    0.001    0.032    0.016 parser_inline.py:174(tokenize)\n    28814    0.020    0.000    0.032    0.000 limits.py:34(checkpoint)\n     1514    0.002    0.000    0.012    0.000 newline.py:7(newline)\n        1    0.000    0.000    0.011    0.011 obsidian.py:664(_unit)\n   1517/2    0.008    0.000    0.011    0.005 obsidian.py:684(visit)\n\n\n"
+          },
+          {
+            "kind": "prose",
+            "input_chars": 150000,
+            "chunks": 104,
+            "parse_seconds": 0.5816959000076167,
+            "chunk_seconds": 0.08372769999550655,
+            "embed_seconds": 10.08973090001382,
+            "serialize_seconds": 0.06697630003327504,
+            "output_bytes": 4310900,
+            "profile": "         1252067 function calls (1179358 primitive calls) in 0.575 seconds\n\n   Ordered by: cumulative time\n   List reduced from 179 to 18 due to restriction <18>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.001    0.001    0.582    0.582 obsidian.py:959(parse_obsidian)\n        1    0.002    0.002    0.581    0.581 obsidian.py:493(_note)\n        2    0.000    0.000    0.514    0.257 main.py:252(parse)\n        2    0.000    0.000    0.514    0.257 parser_core.py:43(process)\n77280/13664    0.116    0.000    0.468    0.000 obsidian.py:321(checked)\n        2    0.000    0.000    0.404    0.202 block.py:5(block)\n        2    0.000    0.000    0.404    0.202 parser_block.py:105(parse)\n        2    0.000    0.000    0.373    0.187 parser_block.py:60(tokenize)\n        1    0.001    0.001    0.241    0.241 obsidian.py:405(_comments)\n        2    0.017    0.009    0.191    0.095 lheading.py:9(lheading)\n        2    0.014    0.007    0.182    0.091 paragraph.py:10(paragraph)\n        2    0.000    0.000    0.101    0.051 inline.py:4(inline)\n        2    0.000    0.000    0.101    0.051 parser_inline.py:206(parse)\n    86384    0.064    0.000    0.100    0.000 limits.py:34(checkpoint)\n        2    0.006    0.003    0.099    0.049 parser_inline.py:174(tokenize)\n     4544    0.008    0.000    0.034    0.000 newline.py:7(newline)\n     9090    0.013    0.000    0.033    0.000 list.py:101(list_block)\n        2    0.027    0.013    0.031    0.016 state_block.py:15(__init__)\n\n\n"
+          },
+          {
+            "kind": "table",
+            "rows": 100,
+            "input_chars": 3436,
+            "chunks": 5,
+            "parse_seconds": 0.030385199992451817,
+            "chunk_seconds": 0.007299299992155284,
+            "serialize_seconds": 0.06656050001038238,
+            "output_bytes": 2587693,
+            "metadata_sizes": {
+              "nodes": 1757274,
+              "cells": 421019,
+              "source_cells": 399995,
+              "tables": 1475,
+              "reference_definitions": 10
+            },
+            "node_field_sizes": {
+              "id": 59562,
+              "parent_id": 59378,
+              "locator": 831106,
+              "text": 9872,
+              "token_meta": 5056,
+              "token_attributes": 5056,
+              "attributes": 5056,
+              "chunk_intersection": 92618
+            },
+            "structure_definitions": 1,
+            "node_count": 2528,
+            "cell_count": 808,
+            "bad_chunk_intersections": 1974
+          },
+          {
+            "kind": "table",
+            "rows": 600,
+            "input_chars": 20436,
+            "chunks": 28,
+            "parse_seconds": 0.16810660000192001,
+            "chunk_seconds": 0.05118539999239147,
+            "serialize_seconds": 0.37235570000484586,
+            "output_bytes": 15605951,
+            "metadata_sizes": {
+              "nodes": 10588172,
+              "cells": 2544354,
+              "source_cells": 2419330,
+              "tables": 8316,
+              "reference_definitions": 56
+            },
+            "node_field_sizes": {
+              "id": 379618,
+              "parent_id": 378231,
+              "locator": 5019378,
+              "text": 58872,
+              "token_meta": 30056,
+              "token_attributes": 30056,
+              "attributes": 30056,
+              "chunk_intersection": 562789
+            },
+            "structure_definitions": 1,
+            "node_count": 15028,
+            "cell_count": 4808,
+            "bad_chunk_intersections": 14474
+          }
+        ]
+      }
+    },
+    "logs/phase18/d17-independent-diagnostics-2026-10-20.json": {
+      "sha256": "2e4aa82af1696abb9bb237adf61ee90b69a6fd7aaaae434b93adc0171a6b08c2",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "c2b53ac75a4d8a02a1f98ed7d9533fedc7d0d5de7de007ea5b43289b94e6688c",
+        "started_utc": "2026-10-20T08:31:15.617+00:00",
+        "pid": 33680,
+        "finished_utc": "2026-10-20T08:31:33.270+00:00",
+        "duration_seconds": 17.64,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-format-2026-10-20.json": {
+      "sha256": "7a2c0fe9171fa89a5fd1156c043d0020b3fd712d394c7559b138b63afe12d0fc",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "0e75d0beae3978e462b62b9cf5121f19e22c24fe24cef173c6ee53c8b21ab92c",
+        "started_utc": "2026-10-20T08:33:31.674+00:00",
+        "pid": 33608,
+        "finished_utc": "2026-10-20T08:33:31.880+00:00",
+        "duration_seconds": 0.204,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-html-eof-results-2026-10-20.json": {
+      "sha256": "7a7a3a5f2689a05e170b807f61cadf979b19516595f3085cfbb362bfa8c590d1",
+      "content": [
+        {
+          "source": "<div>\n\n**literal**\n",
+          "units": [
+            [
+              "root",
+              "<div>\n"
+            ],
+            [
+              "root",
+              "\n**literal**\n"
+            ]
+          ],
+          "types": [
+            [
+              "html_block",
+              "<div>\n"
+            ],
+            [
+              "paragraph_open",
+              ""
+            ],
+            [
+              "inline",
+              "**literal**"
+            ],
+            [
+              "text",
+              ""
+            ],
+            [
+              "strong_open",
+              ""
+            ],
+            [
+              "text",
+              "literal"
+            ],
+            [
+              "text",
+              ""
+            ]
+          ]
+        },
+        {
+          "source": "<div>\n\n![[Child]]\n",
+          "units": [
+            [
+              "root",
+              "<div>\n"
+            ],
+            [
+              "root",
+              "\n![[Child]]\n"
+            ],
+            [
+              "child",
+              "CHILD_MATERIAL"
+            ]
+          ],
+          "types": [
+            [
+              "html_block",
+              "<div>\n"
+            ],
+            [
+              "paragraph_open",
+              ""
+            ],
+            [
+              "inline",
+              "![[Child]]"
+            ],
+            [
+              "obsidian_embed",
+              "![[Child]]"
+            ],
+            [
+              "paragraph_open",
+              ""
+            ],
+            [
+              "inline",
+              "CHILD_MATERIAL"
+            ],
+            [
+              "text",
+              "CHILD_MATERIAL"
+            ]
+          ]
+        },
+        {
+          "source": "<div>\n\n*literal*\n\n# still native\n",
+          "units": [
+            [
+              "root",
+              "<div>\n"
+            ],
+            [
+              "root",
+              "\n*literal*\n"
+            ],
+            [
+              "root",
+              "\n# still native\n"
+            ]
+          ],
+          "types": [
+            [
+              "html_block",
+              "<div>\n"
+            ],
+            [
+              "paragraph_open",
+              ""
+            ],
+            [
+              "inline",
+              "*literal*"
+            ],
+            [
+              "em_open",
+              ""
+            ],
+            [
+              "text",
+              "literal"
+            ],
+            [
+              "heading_open",
+              ""
+            ],
+            [
+              "inline",
+              "still native"
+            ],
+            [
+              "text",
+              "still native"
+            ]
+          ]
+        }
+      ]
+    },
+    "logs/phase18/d17-independent-lock-2026-10-20.json": {
+      "sha256": "e6c35e1c29fb28af5a21d8093825c7e85db3cca80298af04ed1aae272b76bbe8",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "uv",
+        "argv_sha256": "c8699a98f099cdf9bc602ad760395767f001cc10177c430329a2a0e001933e82",
+        "started_utc": "2026-10-20T08:33:31.674+00:00",
+        "pid": 26268,
+        "finished_utc": "2026-10-20T08:33:31.837+00:00",
+        "duration_seconds": 0.172,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-mypy-2026-10-20.json": {
+      "sha256": "b3d379cf98c7469de682a2410570010c87ce815456abb2dc5dbb68f3ccc6b109",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "b6d3171b7e542f3ebf922850a23ecf1e8bcf49d859245aa2b1bb2bb688c3730e",
+        "started_utc": "2026-10-20T08:33:31.673+00:00",
+        "pid": 27132,
+        "finished_utc": "2026-10-20T08:33:32.687+00:00",
+        "duration_seconds": 1.016,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-pip-2026-10-20.json": {
+      "sha256": "90776e9144de338ba5724a6221c53b6166eac5e3ae519b5d3332b0ee960043a0",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "uv",
+        "argv_sha256": "052d990838bd2d54cc37952803535b822190e7e8d6af7a4ffa75e79e3ccacac2",
+        "started_utc": "2026-10-20T08:33:31.674+00:00",
+        "pid": 18784,
+        "finished_utc": "2026-10-20T08:33:31.873+00:00",
+        "duration_seconds": 0.204,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-pytest-2026-10-20.json": {
+      "sha256": "a769372bd240665476c41165b236e0a2d1716e3fe6e15572761f90ef22fd93e4",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "fe3c695b0df7608a674ee4298cbc2dace67c836f21cbebcf51017d8dd83db5c2",
+        "started_utc": "2026-10-20T08:29:49.635+00:00",
+        "pid": 12632,
+        "finished_utc": "2026-10-20T08:30:12.665+00:00",
+        "duration_seconds": 23.031,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-independent-ruff-2026-10-20.json": {
+      "sha256": "4126929d0276c9415bf8da1ea406c60b4b5ee01f9de35e96ce61f4da155f9d4c",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "af72dc1e7e22e700104a875b5c1dda63f931ceb39d0f5fb122d68657901ad808",
+        "started_utc": "2026-10-20T08:33:31.674+00:00",
+        "pid": 29304,
+        "finished_utc": "2026-10-20T08:33:31.896+00:00",
+        "duration_seconds": 0.219,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-evidence-2026-10-20.json": {
+      "sha256": "7b70b206dd1f20c21eb7174d10123aeb741a904b323f4955fa4de049039fc46d"
+    },
+    "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-corrective-evidence-2026-10-20.json": {
+      "sha256": "f357f4b6af4b54a6f1cf8e0429ba58de5181107eae5e9adb3c4685eeebd36ea2"
+    },
+    "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-handback-2026-10-20.md": {
+      "sha256": "09fa43019c8c55fbbeacfe772d76078215185e77b22e9221a823757fe3bae64b"
+    },
+    "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-corrective-handback-2026-10-20.md": {
+      "sha256": "f8b43c5c2efa197cf4240c605f10b2d57fbbc996b8f8629ce4674a0e90df07aa"
+    },
+    "docs/implementation/phase-18/obsidian-markdown-d17-official-sources-2026-10-20.json": {
+      "sha256": "2b1bcdf4f6d911b9eee79a18590b84c7b36dded17a2143638202880b95550053"
+    },
+    "logs/phase18/s2-d17-completion-2026-10-20/resource-results-r1.json": {
+      "sha256": "ef0294352005d04534c4c0bc6386e0c334f25e4aa7ffc4ce0d0a909c9adb5ccd",
+      "content": {
+        "scope": "Actual selected CPU model/worker. Grant verification and DB stage captured, not Java/publication or independent review.",
+        "network": "connect/connect_ex/getaddrinfo denied for this isolated process",
+        "disk": {
+          "calibration_peak_bytes": 4194304,
+          "sampled_transient_peak_bytes": 0,
+          "observed_file_count": 0,
+          "samples": 3807,
+          "nominal_interval_seconds": 0.002,
+          "maximum_observed_interval_seconds": 2.427874699991662,
+          "retained_bytes": 0
+        },
+        "workloads": [
+          {
+            "name": "maximum-source-1000000",
+            "input_chars": 1000000,
+            "expected": "SUCCESS",
+            "wall_seconds": 58.73539299995173,
+            "cpu_seconds": 283.828125,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 629706752,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 86,
+              "write_ops": 24,
+              "other_ops": 28229,
+              "read_bytes": 255277152,
+              "write_bytes": 260,
+              "other_bytes": 1094686
+            },
+            "cancellation_checks": 608852,
+            "reason": "SUCCESS",
+            "chunks": 689,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 629706752,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 57016,
+              "worker_cpu_ms": 281843,
+              "host_available_ram_bytes": 1574014976,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+                "chunker_version": "structure-first-v18.3-source-tree-spans",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 28846195,
+            "passed": true,
+            "retained_temporary_bytes": 0
+          },
+          {
+            "name": "near-node-cap-table",
+            "input_chars": 61236,
+            "expected": "SUCCESS",
+            "wall_seconds": 12.573918400041293,
+            "cpu_seconds": 42.453125,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 737701888,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 3947,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 153368
+            },
+            "cancellation_checks": 310233,
+            "reason": "SUCCESS",
+            "chunks": 82,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 737701888,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 11027,
+              "worker_cpu_ms": 40640,
+              "host_available_ram_bytes": 1402621952,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+                "chunker_version": "structure-first-v18.3-source-tree-spans",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 47701900,
+            "passed": true,
+            "retained_temporary_bytes": 0
+          },
+          {
+            "name": "near-node-cap-html",
+            "input_chars": 126016,
+            "expected": "SUCCESS",
+            "wall_seconds": 12.251929599966388,
+            "cpu_seconds": 55.6875,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 751792128,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 40,
+              "write_ops": 0,
+              "other_ops": 4419,
+              "read_bytes": 255110178,
+              "write_bytes": 0,
+              "other_bytes": 171760
+            },
+            "cancellation_checks": 126726,
+            "reason": "SUCCESS",
+            "chunks": 168,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 751792128,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 10751,
+              "worker_cpu_ms": 53859,
+              "host_available_ram_bytes": 1398943744,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+                "chunker_version": "structure-first-v18.3-source-tree-spans",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 8592142,
+            "passed": true,
+            "retained_temporary_bytes": 0
+          },
+          {
+            "name": "table-expansion-rejection",
+            "input_chars": 61004,
+            "expected": "RESOURCE_LIMIT_EXCEEDED",
+            "wall_seconds": 1.6690507999737747,
+            "cpu_seconds": 1.90625,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 751792128,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 571,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 22418
+            },
+            "cancellation_checks": 5901,
+            "reason": "RESOURCE_LIMIT_EXCEEDED",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 751792128,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 84,
+              "worker_cpu_ms": 78,
+              "host_available_ram_bytes": 1732591616,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+                "chunker_version": "structure-first-v18.3-source-tree-spans",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0
+          },
+          {
+            "name": "unsafe-html-cleanup",
+            "input_chars": 55,
+            "expected": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "wall_seconds": 1.7226205000188202,
+            "cpu_seconds": 1.984375,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 751792128,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 596,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 23388
+            },
+            "cancellation_checks": 90,
+            "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 751792128,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 1,
+              "worker_cpu_ms": 15,
+              "host_available_ram_bytes": 2685714432,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+                "chunker_version": "structure-first-v18.3-source-tree-spans",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0
+          },
+          {
+            "name": "actual-parser-cancellation",
+            "input_chars": 1000000,
+            "expected": "CANCELLED",
+            "wall_seconds": 1.6040314999991097,
+            "cpu_seconds": 1.859375,
+            "response": {
+              "contract_version": "3.0",
+              "status": "REJECTED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 0,
+              "peak_gpu_vram_bytes": null,
+              "receipt": {}
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 574,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 22612
+            },
+            "cancellation_checks": 1000,
+            "reason": "CANCELLED_NO_STAGE",
+            "chunks": 0,
+            "passed": true,
+            "retained_temporary_bytes": 0
+          },
+          {
+            "name": "actual-parser-deadline",
+            "input_chars": 1000000,
+            "expected": "RESOURCE_LIMIT_EXCEEDED",
+            "wall_seconds": 1.5630838999641128,
+            "cpu_seconds": 1.84375,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 751792128,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 536,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 21060
+            },
+            "cancellation_checks": 6,
+            "reason": "RESOURCE_LIMIT_EXCEEDED",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 751792128,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 107,
+              "worker_cpu_ms": 109,
+              "host_available_ram_bytes": 2938908672,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+                "chunker_version": "structure-first-v18.3-source-tree-spans",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0
+          }
+        ],
+        "passed": true
+      }
+    },
+    "logs/phase18/s2-d17-completion-2026-10-20/resource-results-final.json": {
+      "sha256": "b69fcd60e86f8c877c78fcf5b89065c60091a9f1f21fd52153d13e411b929d39",
+      "content": {
+        "scope": "Actual selected CPU model/worker. Grant verification and DB stage captured, not Java/publication or independent review.",
+        "network": "connect/connect_ex/getaddrinfo denied for this isolated process",
+        "disk": {
+          "calibration_peak_bytes": 4194304,
+          "sampled_transient_peak_bytes": 0,
+          "observed_file_count": 0,
+          "samples": 3947,
+          "nominal_interval_seconds": 0.002,
+          "maximum_observed_interval_seconds": 0.607899599999655,
+          "retained_bytes": 0
+        },
+        "workloads": [
+          {
+            "name": "maximum-source-1000000",
+            "input_chars": 1000000,
+            "expected": "SUCCESS",
+            "wall_seconds": 61.78617080004187,
+            "cpu_seconds": 300.859375,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 639270912,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 86,
+              "write_ops": 24,
+              "other_ops": 27569,
+              "read_bytes": 255277152,
+              "write_bytes": 260,
+              "other_bytes": 1069174
+            },
+            "cancellation_checks": 608830,
+            "reason": "RESOURCE_LIMIT_EXCEEDED",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 639270912,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 60040,
+              "worker_cpu_ms": 298890,
+              "host_available_ram_bytes": 1013796864,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": false,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "near-node-cap-table",
+            "input_chars": 61236,
+            "expected": "SUCCESS",
+            "wall_seconds": 11.479596899996977,
+            "cpu_seconds": 48.765625,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 703434752,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 4377,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 170148
+            },
+            "cancellation_checks": 310233,
+            "reason": "SUCCESS",
+            "chunks": 82,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 703434752,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 9950,
+              "worker_cpu_ms": 46937,
+              "host_available_ram_bytes": 940793856,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 47701900,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "near-node-cap-html",
+            "input_chars": 126016,
+            "expected": "SUCCESS",
+            "wall_seconds": 13.448247199994512,
+            "cpu_seconds": 60.90625,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 745070592,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 40,
+              "write_ops": 0,
+              "other_ops": 6108,
+              "read_bytes": 255110178,
+              "write_bytes": 0,
+              "other_bytes": 237332
+            },
+            "cancellation_checks": 126726,
+            "reason": "SUCCESS",
+            "chunks": 168,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 745070592,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 11915,
+              "worker_cpu_ms": 59171,
+              "host_available_ram_bytes": 935194624,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 8592142,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "table-expansion-rejection",
+            "input_chars": 61004,
+            "expected": "RESOURCE_LIMIT_EXCEEDED",
+            "wall_seconds": 1.5986841000267304,
+            "cpu_seconds": 1.90625,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 754077696,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 551,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 21642
+            },
+            "cancellation_checks": 5901,
+            "reason": "RESOURCE_LIMIT_EXCEEDED",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 754077696,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 20,
+              "worker_cpu_ms": 15,
+              "host_available_ram_bytes": 870498304,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "unsafe-html-cleanup",
+            "input_chars": 55,
+            "expected": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "wall_seconds": 1.4948593999724835,
+            "cpu_seconds": 1.78125,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 754077696,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 527,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 20672
+            },
+            "cancellation_checks": 90,
+            "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 754077696,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 1,
+              "worker_cpu_ms": 0,
+              "host_available_ram_bytes": 929050624,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "actual-parser-cancellation",
+            "input_chars": 1000000,
+            "expected": "CANCELLED",
+            "wall_seconds": 1.6319152999785729,
+            "cpu_seconds": 1.875,
+            "response": {
+              "contract_version": "3.0",
+              "status": "REJECTED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 0,
+              "peak_gpu_vram_bytes": null,
+              "receipt": {}
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 584,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 23000
+            },
+            "cancellation_checks": 1000,
+            "reason": "CANCELLED_NO_STAGE",
+            "chunks": 0,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "actual-parser-deadline",
+            "input_chars": 1000000,
+            "expected": "RESOURCE_LIMIT_EXCEEDED",
+            "wall_seconds": 1.56796439999016,
+            "cpu_seconds": 1.84375,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 754077696,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 557,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 21932
+            },
+            "cancellation_checks": 6,
+            "reason": "RESOURCE_LIMIT_EXCEEDED",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 754077696,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 106,
+              "worker_cpu_ms": 109,
+              "host_available_ram_bytes": 936300544,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          }
+        ],
+        "passed": false
+      }
+    },
+    "logs/phase18/s2-d17-completion-2026-10-20/resource-results-optimized.json": {
+      "sha256": "392ddfd4b3c1a1bb358569941dbb30a92a399fb0168d34015372ac5508ec83c0",
+      "content": {
+        "scope": "Actual selected CPU model/worker. Grant verification and DB stage captured, not Java/publication or independent review.",
+        "network": "connect/connect_ex/getaddrinfo denied for this isolated process",
+        "disk": {
+          "calibration_peak_bytes": 4194304,
+          "sampled_transient_peak_bytes": 0,
+          "observed_file_count": 0,
+          "samples": 3597,
+          "nominal_interval_seconds": 0.002,
+          "maximum_observed_interval_seconds": 1.5555028999806382,
+          "retained_bytes": 0
+        },
+        "workloads": [
+          {
+            "name": "maximum-source-1000000",
+            "input_chars": 1000000,
+            "expected": "SUCCESS",
+            "wall_seconds": 64.49360290000914,
+            "cpu_seconds": 301.359375,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 638611456,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 95,
+              "write_ops": 24,
+              "other_ops": 29958,
+              "read_bytes": 255277152,
+              "write_bytes": 260,
+              "other_bytes": 1161810
+            },
+            "cancellation_checks": 608822,
+            "reason": "RESOURCE_LIMIT_EXCEEDED",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 638611456,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 60019,
+              "worker_cpu_ms": 299140,
+              "host_available_ram_bytes": 948662272,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": false,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "near-node-cap-html",
+            "input_chars": 126016,
+            "expected": "SUCCESS",
+            "wall_seconds": 13.602194099978078,
+            "cpu_seconds": 61.203125,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 682536960,
+              "peak_gpu_vram_bytes": 2442211328,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 40,
+              "write_ops": 0,
+              "other_ops": 6619,
+              "read_bytes": 255110178,
+              "write_bytes": 0,
+              "other_bytes": 257120
+            },
+            "cancellation_checks": 126726,
+            "reason": "SUCCESS",
+            "chunks": 168,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 682536960,
+              "peak_gpu_vram_bytes": 2442211328,
+              "duration_ms": 11812,
+              "worker_cpu_ms": 59156,
+              "host_available_ram_bytes": 689573888,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 8592142,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          }
+        ],
+        "passed": false
+      }
+    },
+    "logs/phase18/s2-d17-completion-2026-10-20/resource-results-targeted-final.json": {
+      "sha256": "be5f051cdab2c933039e5df6ea961875926cfcf511e1a11c102bf5e49fd5239c",
+      "content": {
+        "scope": "Actual selected CPU model/worker. Grant verification and DB stage captured; no Java/publication or independent review.",
+        "network": "connect/connect_ex/getaddrinfo denied for this isolated process",
+        "disk": {
+          "calibration_peak_bytes": 4194304,
+          "sampled_transient_peak_bytes": 0,
+          "observed_file_count": 0,
+          "samples": 1105,
+          "nominal_interval_seconds": 0.002,
+          "maximum_observed_interval_seconds": 0.557001399982255,
+          "retained_bytes": 0
+        },
+        "workloads": [
+          {
+            "name": "near-node-cap-table",
+            "input_chars": 61236,
+            "expected": "SUCCESS",
+            "wall_seconds": 9.79367360001197,
+            "cpu_seconds": 40.296875,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 696004608,
+              "peak_gpu_vram_bytes": 2441588736,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 86,
+              "write_ops": 24,
+              "other_ops": 4400,
+              "read_bytes": 255277152,
+              "write_bytes": 260,
+              "other_bytes": 170276
+            },
+            "cancellation_checks": 310233,
+            "reason": "SUCCESS",
+            "chunks": 82,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 696004608,
+              "peak_gpu_vram_bytes": 2441588736,
+              "duration_ms": 8213,
+              "worker_cpu_ms": 38500,
+              "host_available_ram_bytes": 2113794048,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 47701900,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "near-node-cap-html",
+            "input_chars": 126016,
+            "expected": "SUCCESS",
+            "wall_seconds": 12.723470499971882,
+            "cpu_seconds": 57.09375,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 745488384,
+              "peak_gpu_vram_bytes": 2441588736,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 40,
+              "write_ops": 0,
+              "other_ops": 5299,
+              "read_bytes": 255110178,
+              "write_bytes": 0,
+              "other_bytes": 205904
+            },
+            "cancellation_checks": 126726,
+            "reason": "SUCCESS",
+            "chunks": 168,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 745488384,
+              "peak_gpu_vram_bytes": 2441588736,
+              "duration_ms": 11256,
+              "worker_cpu_ms": 55359,
+              "host_available_ram_bytes": 2080014336,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 8592142,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "table-expansion-rejection",
+            "input_chars": 61004,
+            "expected": "RESOURCE_LIMIT_EXCEEDED",
+            "wall_seconds": 1.4619025999563746,
+            "cpu_seconds": 1.796875,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 753123328,
+              "peak_gpu_vram_bytes": 2441588736,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 530,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 20866
+            },
+            "cancellation_checks": 5901,
+            "reason": "RESOURCE_LIMIT_EXCEEDED",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 753123328,
+              "peak_gpu_vram_bytes": 2441588736,
+              "duration_ms": 19,
+              "worker_cpu_ms": 31,
+              "host_available_ram_bytes": 2140418048,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "unsafe-html-cleanup",
+            "input_chars": 55,
+            "expected": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "wall_seconds": 1.4067388999974355,
+            "cpu_seconds": 1.671875,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 753123328,
+              "peak_gpu_vram_bytes": 2441588736,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 517,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 20380
+            },
+            "cancellation_checks": 90,
+            "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 753123328,
+              "peak_gpu_vram_bytes": 2441588736,
+              "duration_ms": 1,
+              "worker_cpu_ms": 15,
+              "host_available_ram_bytes": 2136571904,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "actual-parser-cancellation",
+            "input_chars": 1000000,
+            "expected": "CANCELLED",
+            "wall_seconds": 1.5430490999715403,
+            "cpu_seconds": 1.828125,
+            "response": {
+              "contract_version": "3.0",
+              "status": "REJECTED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 0,
+              "peak_gpu_vram_bytes": null,
+              "receipt": {}
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 537,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 21060
+            },
+            "cancellation_checks": 1000,
+            "reason": "CANCELLED_NO_STAGE",
+            "chunks": 0,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          },
+          {
+            "name": "actual-parser-deadline",
+            "input_chars": 1000000,
+            "expected": "RESOURCE_LIMIT_EXCEEDED",
+            "wall_seconds": 1.4732707000221126,
+            "cpu_seconds": 1.796875,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 0,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 753414144,
+              "peak_gpu_vram_bytes": 2441588736,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6887096e734a9b7cbce2b71ad019b8f2ca52fbaaffeda3d7b41cd5115eb756c0"
+              }
+            },
+            "io_delta": {
+              "read_ops": 36,
+              "write_ops": 0,
+              "other_ops": 528,
+              "read_bytes": 255070776,
+              "write_bytes": 0,
+              "other_bytes": 20768
+            },
+            "cancellation_checks": 5,
+            "reason": "RESOURCE_LIMIT_EXCEEDED",
+            "chunks": 0,
+            "exact_source": false,
+            "resource_report": {
+              "peak_system_ram_bytes": 753414144,
+              "peak_gpu_vram_bytes": 2441588736,
+              "duration_ms": 3,
+              "worker_cpu_ms": 0,
+              "host_available_ram_bytes": 2119897088,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.4-d17-html5-structural",
+                "chunker_version": "structure-first-v18.4-source-tree-definition",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 2,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          }
+        ],
+        "passed": true
+      }
+    },
+    "logs/phase18/d17-independent-diagnostics.py": {
+      "sha256": "6f9c2b97e3da3f4a3e5d94207c2173b49a4c2dedeecc4fa0da0b8645ebb26e94"
+    },
+    "logs/phase18/d17-independent-boundary-probes.py": {
+      "sha256": "c0c581f8fbe51d5310e6e96b3d6865f504b2d82cca81a040fbdc804087aae017"
+    },
+    "logs/phase18/s2-takeover-full-java-2026-10-20.json": {
+      "sha256": "ed67df5d29c4358df78599fdbaaaecf59c414d8ecd57fb94d14d9cc5d4cf1923"
+    },
+    "logs/phase18/s2-takeover-full-java-2026-10-20.log": {
+      "sha256": "11db99ad9721587335508700ed5082c60de92ea2635f30af09134389b5e73e0e"
+    },
+    "docs/implementation/phase-18/reviews/2026-10-20-d17-independent-profile-label-audit.json": {
+      "sha256": "e55ec71cd7c02a3f3f82b2da582519822273234fd30640ac21a0cde45019f33e"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-20",
+  "author": "Codex corrective implementer; pending separate independent adjudication",
+  "basis": "Frozen MD17-10 requires inert native HTML. HTML5 textarea/title are RCDATA: markup-like text is literal until their matching end tag. Static text has no execution, handler or external-resource authority. The original rejection confused tag membership with active behavior. Active tags outside RCDATA and active attributes remain denied.",
+  "original_gold_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+  "original_gold_unchanged": true,
+  "independent_review": "PENDING",
+  "human_reviewer": null,
+  "signed_at": null,
+  "records": [
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 171,
+      "source_sha256": "4768a7e1e1f63875238865a49dc3f414a839b7944637c2dc7c2eaf5a20241af0",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "basis": "Corrective interpretation under unchanged frozen inert-HTML contract; replaces this single rejected label explicitly, excludes no source."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 155,
+      "source_sha256": "759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<div>\n*foo*\n\n*bar*\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 175,
+      "source_sha256": "4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<ul>\n<li>\n<div>\n- foo\n</li>\n</ul>\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 184,
+      "source_sha256": "1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "  <div>\n\n    <div>\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 125,
+      "source_sha256": "759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<div>\n*foo*\n\n*bar*\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 144,
+      "source_sha256": "4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<ul>\n<li>\n<div>\n- foo\n</li>\n</ul>\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 153,
+      "source_sha256": "1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "  <div>\n\n    <div>\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    }
+  ],
+  "additional_resolution": "Six exact-source-hashed official examples expose the same previously unlabelled EOF/container HTML rule (CM155/175/184 and GFM125/144/153). These are implementer interpretations requiring separate review, not new independent labels."
+}

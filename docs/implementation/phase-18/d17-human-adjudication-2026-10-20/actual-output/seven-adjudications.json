@@ -1,0 +1,3958 @@
+[
+  {
+    "case_id": "ADJ-001",
+    "group": "seven-adjudications",
+    "title": "CommonMark-0.31.2 171 — current independently supported interpretation",
+    "requirements": [
+      "MD17-01",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+    "source_sha256": "4768a7e1e1f63875238865a49dc3f414a839b7944637c2dc7c2eaf5a20241af0",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/4768a7e1e1f63875238865a49dc3f414a839b7944637c2dc7c2eaf5a20241af0.txt",
+    "source_reference": "docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json",
+    "source_identity": "official",
+    "source_revision": 1,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "SUCCESS",
+      "expected_html": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "official_expected_html": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "independent_rationale": "SUPPORTED: mandatory inert textarea RCDATA contains literal emphasis markers across blank lines; retain raw authored textarea LF separately from native initial-LF handling.",
+      "previous_overlay_changed": false
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "chunk_target_chars": 73,
+      "status": "SUCCESS",
+      "elements": [
+        {
+          "kind": "PARAGRAPH",
+          "text": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "approved_field": "content",
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 38,
+            "line_start": 1,
+            "line_end": 7,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "heading_path": [],
+          "metadata": {
+            "obsidian_profile": "ppv-obsidian-source-v1",
+            "block_id": "official:1:0:38",
+            "nodes": [
+              {
+                "id": "official:1:0:38:0",
+                "parent_id": null,
+                "type": "html_block",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 38,
+                  "line_start": 1,
+                  "line_end": 7,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                },
+                "html_source_tree": [
+                  {
+                    "id": 0,
+                    "parent_id": null,
+                    "type": "html_source_context",
+                    "source_tokens": [
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 0,
+                        "relative_end": 10,
+                        "raw_text": "<textarea>",
+                        "tag": "textarea",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 10,
+                        "relative_end": 26,
+                        "raw_text": "\n\n*foo*\n\n_bar_\n\n"
+                      },
+                      {
+                        "type": "html_end_tag",
+                        "relative_start": 26,
+                        "relative_end": 37,
+                        "raw_text": "</textarea>",
+                        "tag": "textarea"
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 37,
+                        "relative_end": 38,
+                        "raw_text": "\n"
+                      }
+                    ],
+                    "relative_start": 0,
+                    "relative_end": 38,
+                    "representation": "VERBATIM_SOURCE_CONTEXT"
+                  },
+                  {
+                    "id": 1,
+                    "parent_id": 0,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 38,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "textarea",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 2,
+                    "parent_id": 1,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 38,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n*foo*\n\n_bar_\n\n"
+                  },
+                  {
+                    "id": 3,
+                    "parent_id": 0,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 38,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n"
+                  }
+                ],
+                "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+              }
+            ],
+            "cells": [],
+            "tables": [],
+            "callouts": [],
+            "embeds": [],
+            "comments": [],
+            "reference_definitions": {},
+            "duplicate_reference_definitions": []
+          }
+        }
+      ],
+      "chunks": [
+        {
+          "chunk_index": 0,
+          "content": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 38,
+            "line_start": 1,
+            "line_end": 7,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "structure_metadata": {
+            "heading_path": [],
+            "element_kinds": [
+              "PARAGRAPH"
+            ],
+            "element_count": 1,
+            "constituent_locators": [
+              {
+                "source_key": "official",
+                "source_version": 1,
+                "approved_field": "content",
+                "char_start": 0,
+                "char_end": 38,
+                "line_start": 1,
+                "line_end": 7,
+                "profile": "ppv-obsidian-source-v1",
+                "text_representation": "VERBATIM_SOURCE",
+                "dependency_edges": []
+              }
+            ],
+            "constituent_metadata": [
+              {
+                "obsidian_profile": "ppv-obsidian-source-v1",
+                "block_id": "official:1:0:38",
+                "nodes": [
+                  {
+                    "id": "official:1:0:38:0",
+                    "parent_id": null,
+                    "type": "html_block",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 38,
+                      "line_start": 1,
+                      "line_end": 7,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    },
+                    "html_source_tree": [
+                      {
+                        "id": 0,
+                        "parent_id": null,
+                        "type": "html_source_context",
+                        "source_tokens": [
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 0,
+                            "relative_end": 10,
+                            "raw_text": "<textarea>",
+                            "tag": "textarea",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 10,
+                            "relative_end": 26,
+                            "raw_text": "\n\n*foo*\n\n_bar_\n\n"
+                          },
+                          {
+                            "type": "html_end_tag",
+                            "relative_start": 26,
+                            "relative_end": 37,
+                            "raw_text": "</textarea>",
+                            "tag": "textarea"
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 37,
+                            "relative_end": 38,
+                            "raw_text": "\n"
+                          }
+                        ],
+                        "relative_start": 0,
+                        "relative_end": 38,
+                        "representation": "VERBATIM_SOURCE_CONTEXT"
+                      },
+                      {
+                        "id": 1,
+                        "parent_id": 0,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 38,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "textarea",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 2,
+                        "parent_id": 1,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 38,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n*foo*\n\n_bar_\n\n"
+                      },
+                      {
+                        "id": 3,
+                        "parent_id": 0,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 38,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n"
+                      }
+                    ],
+                    "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+                  }
+                ],
+                "cells": [],
+                "tables": [],
+                "callouts": [],
+                "embeds": [],
+                "comments": [],
+                "reference_definitions": {},
+                "duplicate_reference_definitions": []
+              }
+            ]
+          }
+        }
+      ],
+      "root_source_exact": true
+    },
+    "differences": {
+      "expected_outcome": "SUCCESS",
+      "actual_outcome": "SUCCESS",
+      "outcome_equal": true,
+      "root_source_exact": true,
+      "human_assessment": null,
+      "expected_projection": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "actual_projection": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "projection_normalized_equal": true,
+      "projection_text_diff": ""
+    },
+    "ambiguities": "Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": [
+      {
+        "obsidian_profile": "ppv-obsidian-source-v1",
+        "block_id": "official:1:0:38",
+        "nodes": [
+          {
+            "id": "official:1:0:38:0",
+            "parent_id": null,
+            "type": "html_block",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 38,
+              "line_start": 1,
+              "line_end": 7,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            },
+            "html_source_tree": [
+              {
+                "id": 0,
+                "parent_id": null,
+                "type": "html_source_context",
+                "source_tokens": [
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 0,
+                    "relative_end": 10,
+                    "raw_text": "<textarea>",
+                    "tag": "textarea",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 10,
+                    "relative_end": 26,
+                    "raw_text": "\n\n*foo*\n\n_bar_\n\n"
+                  },
+                  {
+                    "type": "html_end_tag",
+                    "relative_start": 26,
+                    "relative_end": 37,
+                    "raw_text": "</textarea>",
+                    "tag": "textarea"
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 37,
+                    "relative_end": 38,
+                    "raw_text": "\n"
+                  }
+                ],
+                "relative_start": 0,
+                "relative_end": 38,
+                "representation": "VERBATIM_SOURCE_CONTEXT"
+              },
+              {
+                "id": 1,
+                "parent_id": 0,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 38,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "textarea",
+                "attributes": {}
+              },
+              {
+                "id": 2,
+                "parent_id": 1,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 38,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n*foo*\n\n_bar_\n\n"
+              },
+              {
+                "id": 3,
+                "parent_id": 0,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 38,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n"
+              }
+            ],
+            "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+          }
+        ],
+        "cells": [],
+        "tables": [],
+        "callouts": [],
+        "embeds": [],
+        "comments": [],
+        "reference_definitions": {},
+        "duplicate_reference_definitions": []
+      }
+    ]
+  },
+  {
+    "case_id": "ADJ-002",
+    "group": "seven-adjudications",
+    "title": "CommonMark-0.31.2 155 — current independently supported interpretation",
+    "requirements": [
+      "MD17-01",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "<div>\n*foo*\n\n*bar*\n",
+    "source_sha256": "759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421.txt",
+    "source_reference": "docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json",
+    "source_identity": "official",
+    "source_revision": 1,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "SUCCESS",
+      "expected_html": "<div>\n*foo*\n\n*bar*\n",
+      "official_expected_html": "<div>\n*foo*\n<p><em>bar</em></p>\n",
+      "independent_rationale": "SUPPORTED: open native HTML at document root retains literal Markdown through blank blocks and EOF under frozen Obsidian profile; no enclosing list boundary exists.",
+      "previous_overlay_changed": false
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "chunk_target_chars": 73,
+      "status": "SUCCESS",
+      "elements": [
+        {
+          "kind": "PARAGRAPH",
+          "text": "<div>\n*foo*\n\n*bar*\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "approved_field": "content",
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 19,
+            "line_start": 1,
+            "line_end": 4,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "heading_path": [],
+          "metadata": {
+            "obsidian_profile": "ppv-obsidian-source-v1",
+            "block_id": "official:1:0:19",
+            "nodes": [
+              {
+                "id": "official:1:0:19:0",
+                "parent_id": null,
+                "type": "html_block",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "<div>\n*foo*\n\n*bar*\n",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 19,
+                  "line_start": 1,
+                  "line_end": 4,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                },
+                "html_source_tree": [
+                  {
+                    "id": 0,
+                    "parent_id": null,
+                    "type": "html_source_context",
+                    "source_tokens": [
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 0,
+                        "relative_end": 5,
+                        "raw_text": "<div>",
+                        "tag": "div",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 5,
+                        "relative_end": 19,
+                        "raw_text": "\n*foo*\n\n*bar*\n"
+                      }
+                    ],
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "representation": "VERBATIM_SOURCE_CONTEXT"
+                  },
+                  {
+                    "id": 1,
+                    "parent_id": 0,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "div",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 2,
+                    "parent_id": 1,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n*foo*\n\n*bar*\n"
+                  }
+                ],
+                "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+              }
+            ],
+            "cells": [],
+            "tables": [],
+            "callouts": [],
+            "embeds": [],
+            "comments": [],
+            "reference_definitions": {},
+            "duplicate_reference_definitions": []
+          }
+        }
+      ],
+      "chunks": [
+        {
+          "chunk_index": 0,
+          "content": "<div>\n*foo*\n\n*bar*\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 19,
+            "line_start": 1,
+            "line_end": 4,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "structure_metadata": {
+            "heading_path": [],
+            "element_kinds": [
+              "PARAGRAPH"
+            ],
+            "element_count": 1,
+            "constituent_locators": [
+              {
+                "source_key": "official",
+                "source_version": 1,
+                "approved_field": "content",
+                "char_start": 0,
+                "char_end": 19,
+                "line_start": 1,
+                "line_end": 4,
+                "profile": "ppv-obsidian-source-v1",
+                "text_representation": "VERBATIM_SOURCE",
+                "dependency_edges": []
+              }
+            ],
+            "constituent_metadata": [
+              {
+                "obsidian_profile": "ppv-obsidian-source-v1",
+                "block_id": "official:1:0:19",
+                "nodes": [
+                  {
+                    "id": "official:1:0:19:0",
+                    "parent_id": null,
+                    "type": "html_block",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "<div>\n*foo*\n\n*bar*\n",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 19,
+                      "line_start": 1,
+                      "line_end": 4,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    },
+                    "html_source_tree": [
+                      {
+                        "id": 0,
+                        "parent_id": null,
+                        "type": "html_source_context",
+                        "source_tokens": [
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 0,
+                            "relative_end": 5,
+                            "raw_text": "<div>",
+                            "tag": "div",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 5,
+                            "relative_end": 19,
+                            "raw_text": "\n*foo*\n\n*bar*\n"
+                          }
+                        ],
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "representation": "VERBATIM_SOURCE_CONTEXT"
+                      },
+                      {
+                        "id": 1,
+                        "parent_id": 0,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "div",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 2,
+                        "parent_id": 1,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n*foo*\n\n*bar*\n"
+                      }
+                    ],
+                    "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+                  }
+                ],
+                "cells": [],
+                "tables": [],
+                "callouts": [],
+                "embeds": [],
+                "comments": [],
+                "reference_definitions": {},
+                "duplicate_reference_definitions": []
+              }
+            ]
+          }
+        }
+      ],
+      "root_source_exact": true
+    },
+    "differences": {
+      "expected_outcome": "SUCCESS",
+      "actual_outcome": "SUCCESS",
+      "outcome_equal": true,
+      "root_source_exact": true,
+      "human_assessment": null,
+      "expected_projection": "<div>\n*foo*\n\n*bar*\n",
+      "actual_projection": "<div>\n*foo*\n\n*bar*\n",
+      "projection_normalized_equal": true,
+      "projection_text_diff": ""
+    },
+    "ambiguities": "Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": [
+      {
+        "obsidian_profile": "ppv-obsidian-source-v1",
+        "block_id": "official:1:0:19",
+        "nodes": [
+          {
+            "id": "official:1:0:19:0",
+            "parent_id": null,
+            "type": "html_block",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "<div>\n*foo*\n\n*bar*\n",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 19,
+              "line_start": 1,
+              "line_end": 4,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            },
+            "html_source_tree": [
+              {
+                "id": 0,
+                "parent_id": null,
+                "type": "html_source_context",
+                "source_tokens": [
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 0,
+                    "relative_end": 5,
+                    "raw_text": "<div>",
+                    "tag": "div",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 5,
+                    "relative_end": 19,
+                    "raw_text": "\n*foo*\n\n*bar*\n"
+                  }
+                ],
+                "relative_start": 0,
+                "relative_end": 19,
+                "representation": "VERBATIM_SOURCE_CONTEXT"
+              },
+              {
+                "id": 1,
+                "parent_id": 0,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "div",
+                "attributes": {}
+              },
+              {
+                "id": 2,
+                "parent_id": 1,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n*foo*\n\n*bar*\n"
+              }
+            ],
+            "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+          }
+        ],
+        "cells": [],
+        "tables": [],
+        "callouts": [],
+        "embeds": [],
+        "comments": [],
+        "reference_definitions": {},
+        "duplicate_reference_definitions": []
+      }
+    ]
+  },
+  {
+    "case_id": "ADJ-003",
+    "group": "seven-adjudications",
+    "title": "CommonMark-0.31.2 175 — current independently supported interpretation",
+    "requirements": [
+      "MD17-01",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "- <div>\n- foo\n",
+    "source_sha256": "4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394.txt",
+    "source_reference": "docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json",
+    "source_identity": "official",
+    "source_revision": 1,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "SUCCESS",
+      "expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "official_expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "independent_rationale": "SUPPORTED: the second unindented marker is a separate sibling list item. An open native element inside the first item cannot extend its owning Markdown list-item source. Official expected two-item structure is restored.",
+      "previous_overlay_changed": true
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "chunk_target_chars": 73,
+      "status": "SUCCESS",
+      "elements": [
+        {
+          "kind": "LIST_ITEM",
+          "text": "- <div>\n- foo\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "approved_field": "content",
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 14,
+            "line_start": 1,
+            "line_end": 2,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "heading_path": [],
+          "metadata": {
+            "obsidian_profile": "ppv-obsidian-source-v1",
+            "block_id": "official:1:0:14",
+            "nodes": [
+              {
+                "id": "official:1:0:14:0",
+                "parent_id": null,
+                "type": "bullet_list_open",
+                "tag": "ul",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 1,
+                "text": "",
+                "markup": "-",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 14,
+                  "line_start": 1,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:1",
+                "parent_id": "official:1:0:14:0",
+                "type": "list_item_open",
+                "tag": "li",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 1,
+                "text": "",
+                "markup": "-",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 8,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:2",
+                "parent_id": "official:1:0:14:1",
+                "type": "html_block",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "<div>\n",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 8,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                },
+                "html_source_tree": [
+                  {
+                    "id": 0,
+                    "parent_id": null,
+                    "type": "html_source_context",
+                    "source_tokens": [
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 0,
+                        "relative_end": 5,
+                        "raw_text": "<div>",
+                        "tag": "div",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 5,
+                        "relative_end": 6,
+                        "raw_text": "\n"
+                      }
+                    ],
+                    "relative_start": 0,
+                    "relative_end": 6,
+                    "representation": "VERBATIM_SOURCE_CONTEXT"
+                  },
+                  {
+                    "id": 1,
+                    "parent_id": 0,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 6,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "div",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 2,
+                    "parent_id": 1,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 6,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n"
+                  }
+                ],
+                "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+              },
+              {
+                "id": "official:1:0:14:3",
+                "parent_id": "official:1:0:14:0",
+                "type": "list_item_open",
+                "tag": "li",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 1,
+                "text": "",
+                "markup": "-",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 14,
+                  "line_start": 2,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:4",
+                "parent_id": "official:1:0:14:3",
+                "type": "paragraph_open",
+                "tag": "p",
+                "hidden": true,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 1,
+                "text": "",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 14,
+                  "line_start": 2,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:5",
+                "parent_id": "official:1:0:14:4",
+                "type": "inline",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "foo",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 14,
+                  "line_start": 2,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:6",
+                "parent_id": "official:1:0:14:5",
+                "type": "text",
+                "tag": "",
+                "hidden": false,
+                "block": false,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "foo",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 14,
+                  "line_start": 2,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "location_kind": "CONTAINING_BLOCK"
+                }
+              }
+            ],
+            "cells": [],
+            "tables": [],
+            "callouts": [],
+            "embeds": [],
+            "comments": [],
+            "reference_definitions": {},
+            "duplicate_reference_definitions": []
+          }
+        }
+      ],
+      "chunks": [
+        {
+          "chunk_index": 0,
+          "content": "- <div>\n- foo\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 14,
+            "line_start": 1,
+            "line_end": 2,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "structure_metadata": {
+            "heading_path": [],
+            "element_kinds": [
+              "LIST_ITEM"
+            ],
+            "element_count": 1,
+            "constituent_locators": [
+              {
+                "source_key": "official",
+                "source_version": 1,
+                "approved_field": "content",
+                "char_start": 0,
+                "char_end": 14,
+                "line_start": 1,
+                "line_end": 2,
+                "profile": "ppv-obsidian-source-v1",
+                "text_representation": "VERBATIM_SOURCE",
+                "dependency_edges": []
+              }
+            ],
+            "constituent_metadata": [
+              {
+                "obsidian_profile": "ppv-obsidian-source-v1",
+                "block_id": "official:1:0:14",
+                "nodes": [
+                  {
+                    "id": "official:1:0:14:0",
+                    "parent_id": null,
+                    "type": "bullet_list_open",
+                    "tag": "ul",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 1,
+                    "text": "",
+                    "markup": "-",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 14,
+                      "line_start": 1,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:1",
+                    "parent_id": "official:1:0:14:0",
+                    "type": "list_item_open",
+                    "tag": "li",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 1,
+                    "text": "",
+                    "markup": "-",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 8,
+                      "line_start": 1,
+                      "line_end": 1,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:2",
+                    "parent_id": "official:1:0:14:1",
+                    "type": "html_block",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "<div>\n",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 8,
+                      "line_start": 1,
+                      "line_end": 1,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    },
+                    "html_source_tree": [
+                      {
+                        "id": 0,
+                        "parent_id": null,
+                        "type": "html_source_context",
+                        "source_tokens": [
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 0,
+                            "relative_end": 5,
+                            "raw_text": "<div>",
+                            "tag": "div",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 5,
+                            "relative_end": 6,
+                            "raw_text": "\n"
+                          }
+                        ],
+                        "relative_start": 0,
+                        "relative_end": 6,
+                        "representation": "VERBATIM_SOURCE_CONTEXT"
+                      },
+                      {
+                        "id": 1,
+                        "parent_id": 0,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 6,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "div",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 2,
+                        "parent_id": 1,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 6,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n"
+                      }
+                    ],
+                    "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+                  },
+                  {
+                    "id": "official:1:0:14:3",
+                    "parent_id": "official:1:0:14:0",
+                    "type": "list_item_open",
+                    "tag": "li",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 1,
+                    "text": "",
+                    "markup": "-",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 8,
+                      "char_end": 14,
+                      "line_start": 2,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:4",
+                    "parent_id": "official:1:0:14:3",
+                    "type": "paragraph_open",
+                    "tag": "p",
+                    "hidden": true,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 1,
+                    "text": "",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 8,
+                      "char_end": 14,
+                      "line_start": 2,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:5",
+                    "parent_id": "official:1:0:14:4",
+                    "type": "inline",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "foo",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 8,
+                      "char_end": 14,
+                      "line_start": 2,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:6",
+                    "parent_id": "official:1:0:14:5",
+                    "type": "text",
+                    "tag": "",
+                    "hidden": false,
+                    "block": false,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "foo",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 8,
+                      "char_end": 14,
+                      "line_start": 2,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE",
+                      "location_kind": "CONTAINING_BLOCK"
+                    }
+                  }
+                ],
+                "cells": [],
+                "tables": [],
+                "callouts": [],
+                "embeds": [],
+                "comments": [],
+                "reference_definitions": {},
+                "duplicate_reference_definitions": []
+              }
+            ]
+          }
+        }
+      ],
+      "root_source_exact": true
+    },
+    "differences": {
+      "expected_outcome": "SUCCESS",
+      "actual_outcome": "SUCCESS",
+      "outcome_equal": true,
+      "root_source_exact": true,
+      "human_assessment": null,
+      "expected_projection": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "actual_projection": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "projection_normalized_equal": true,
+      "projection_text_diff": ""
+    },
+    "ambiguities": "Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": [
+      {
+        "obsidian_profile": "ppv-obsidian-source-v1",
+        "block_id": "official:1:0:14",
+        "nodes": [
+          {
+            "id": "official:1:0:14:0",
+            "parent_id": null,
+            "type": "bullet_list_open",
+            "tag": "ul",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 1,
+            "text": "",
+            "markup": "-",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 14,
+              "line_start": 1,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:1",
+            "parent_id": "official:1:0:14:0",
+            "type": "list_item_open",
+            "tag": "li",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 1,
+            "text": "",
+            "markup": "-",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 8,
+              "line_start": 1,
+              "line_end": 1,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:2",
+            "parent_id": "official:1:0:14:1",
+            "type": "html_block",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "<div>\n",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 8,
+              "line_start": 1,
+              "line_end": 1,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            },
+            "html_source_tree": [
+              {
+                "id": 0,
+                "parent_id": null,
+                "type": "html_source_context",
+                "source_tokens": [
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 0,
+                    "relative_end": 5,
+                    "raw_text": "<div>",
+                    "tag": "div",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 5,
+                    "relative_end": 6,
+                    "raw_text": "\n"
+                  }
+                ],
+                "relative_start": 0,
+                "relative_end": 6,
+                "representation": "VERBATIM_SOURCE_CONTEXT"
+              },
+              {
+                "id": 1,
+                "parent_id": 0,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 6,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "div",
+                "attributes": {}
+              },
+              {
+                "id": 2,
+                "parent_id": 1,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 6,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n"
+              }
+            ],
+            "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+          },
+          {
+            "id": "official:1:0:14:3",
+            "parent_id": "official:1:0:14:0",
+            "type": "list_item_open",
+            "tag": "li",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 1,
+            "text": "",
+            "markup": "-",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 8,
+              "char_end": 14,
+              "line_start": 2,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:4",
+            "parent_id": "official:1:0:14:3",
+            "type": "paragraph_open",
+            "tag": "p",
+            "hidden": true,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 1,
+            "text": "",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 8,
+              "char_end": 14,
+              "line_start": 2,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:5",
+            "parent_id": "official:1:0:14:4",
+            "type": "inline",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "foo",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 8,
+              "char_end": 14,
+              "line_start": 2,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:6",
+            "parent_id": "official:1:0:14:5",
+            "type": "text",
+            "tag": "",
+            "hidden": false,
+            "block": false,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "foo",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 8,
+              "char_end": 14,
+              "line_start": 2,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE",
+              "location_kind": "CONTAINING_BLOCK"
+            }
+          }
+        ],
+        "cells": [],
+        "tables": [],
+        "callouts": [],
+        "embeds": [],
+        "comments": [],
+        "reference_definitions": {},
+        "duplicate_reference_definitions": []
+      }
+    ]
+  },
+  {
+    "case_id": "ADJ-004",
+    "group": "seven-adjudications",
+    "title": "CommonMark-0.31.2 184 — current independently supported interpretation",
+    "requirements": [
+      "MD17-01",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "  <div>\n\n    <div>\n",
+    "source_sha256": "1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f.txt",
+    "source_reference": "docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json",
+    "source_identity": "official",
+    "source_revision": 1,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "SUCCESS",
+      "expected_html": "  <div>\n\n    <div>\n",
+      "official_expected_html": "  <div>\n<pre><code>&lt;div&gt;\n</code></pre>\n",
+      "independent_rationale": "SUPPORTED: root-level open native HTML retains indented native descendants through blank blocks and EOF; source is not an independent Markdown indented-code block.",
+      "previous_overlay_changed": false
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "chunk_target_chars": 73,
+      "status": "SUCCESS",
+      "elements": [
+        {
+          "kind": "PARAGRAPH",
+          "text": "  <div>\n\n    <div>\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "approved_field": "content",
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 19,
+            "line_start": 1,
+            "line_end": 3,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "heading_path": [],
+          "metadata": {
+            "obsidian_profile": "ppv-obsidian-source-v1",
+            "block_id": "official:1:0:19",
+            "nodes": [
+              {
+                "id": "official:1:0:19:0",
+                "parent_id": null,
+                "type": "html_block",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "  <div>\n\n    <div>\n",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 19,
+                  "line_start": 1,
+                  "line_end": 3,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                },
+                "html_source_tree": [
+                  {
+                    "id": 0,
+                    "parent_id": null,
+                    "type": "html_source_context",
+                    "source_tokens": [
+                      {
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 2,
+                        "raw_text": "  "
+                      },
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 2,
+                        "relative_end": 7,
+                        "raw_text": "<div>",
+                        "tag": "div",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 7,
+                        "relative_end": 13,
+                        "raw_text": "\n\n    "
+                      },
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 13,
+                        "relative_end": 18,
+                        "raw_text": "<div>",
+                        "tag": "div",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 18,
+                        "relative_end": 19,
+                        "raw_text": "\n"
+                      }
+                    ],
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "representation": "VERBATIM_SOURCE_CONTEXT"
+                  },
+                  {
+                    "id": 1,
+                    "parent_id": 0,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "  "
+                  },
+                  {
+                    "id": 2,
+                    "parent_id": 0,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "div",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 3,
+                    "parent_id": 2,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n\n    "
+                  },
+                  {
+                    "id": 4,
+                    "parent_id": 2,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "div",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 5,
+                    "parent_id": 4,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n"
+                  }
+                ],
+                "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+              }
+            ],
+            "cells": [],
+            "tables": [],
+            "callouts": [],
+            "embeds": [],
+            "comments": [],
+            "reference_definitions": {},
+            "duplicate_reference_definitions": []
+          }
+        }
+      ],
+      "chunks": [
+        {
+          "chunk_index": 0,
+          "content": "  <div>\n\n    <div>\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 19,
+            "line_start": 1,
+            "line_end": 3,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "structure_metadata": {
+            "heading_path": [],
+            "element_kinds": [
+              "PARAGRAPH"
+            ],
+            "element_count": 1,
+            "constituent_locators": [
+              {
+                "source_key": "official",
+                "source_version": 1,
+                "approved_field": "content",
+                "char_start": 0,
+                "char_end": 19,
+                "line_start": 1,
+                "line_end": 3,
+                "profile": "ppv-obsidian-source-v1",
+                "text_representation": "VERBATIM_SOURCE",
+                "dependency_edges": []
+              }
+            ],
+            "constituent_metadata": [
+              {
+                "obsidian_profile": "ppv-obsidian-source-v1",
+                "block_id": "official:1:0:19",
+                "nodes": [
+                  {
+                    "id": "official:1:0:19:0",
+                    "parent_id": null,
+                    "type": "html_block",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "  <div>\n\n    <div>\n",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 19,
+                      "line_start": 1,
+                      "line_end": 3,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    },
+                    "html_source_tree": [
+                      {
+                        "id": 0,
+                        "parent_id": null,
+                        "type": "html_source_context",
+                        "source_tokens": [
+                          {
+                            "type": "html_text",
+                            "relative_start": 0,
+                            "relative_end": 2,
+                            "raw_text": "  "
+                          },
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 2,
+                            "relative_end": 7,
+                            "raw_text": "<div>",
+                            "tag": "div",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 7,
+                            "relative_end": 13,
+                            "raw_text": "\n\n    "
+                          },
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 13,
+                            "relative_end": 18,
+                            "raw_text": "<div>",
+                            "tag": "div",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 18,
+                            "relative_end": 19,
+                            "raw_text": "\n"
+                          }
+                        ],
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "representation": "VERBATIM_SOURCE_CONTEXT"
+                      },
+                      {
+                        "id": 1,
+                        "parent_id": 0,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "  "
+                      },
+                      {
+                        "id": 2,
+                        "parent_id": 0,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "div",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 3,
+                        "parent_id": 2,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n\n    "
+                      },
+                      {
+                        "id": 4,
+                        "parent_id": 2,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "div",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 5,
+                        "parent_id": 4,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n"
+                      }
+                    ],
+                    "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+                  }
+                ],
+                "cells": [],
+                "tables": [],
+                "callouts": [],
+                "embeds": [],
+                "comments": [],
+                "reference_definitions": {},
+                "duplicate_reference_definitions": []
+              }
+            ]
+          }
+        }
+      ],
+      "root_source_exact": true
+    },
+    "differences": {
+      "expected_outcome": "SUCCESS",
+      "actual_outcome": "SUCCESS",
+      "outcome_equal": true,
+      "root_source_exact": true,
+      "human_assessment": null,
+      "expected_projection": "  <div>\n\n    <div>\n",
+      "actual_projection": "  <div>\n\n    <div>\n",
+      "projection_normalized_equal": true,
+      "projection_text_diff": ""
+    },
+    "ambiguities": "Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": [
+      {
+        "obsidian_profile": "ppv-obsidian-source-v1",
+        "block_id": "official:1:0:19",
+        "nodes": [
+          {
+            "id": "official:1:0:19:0",
+            "parent_id": null,
+            "type": "html_block",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "  <div>\n\n    <div>\n",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 19,
+              "line_start": 1,
+              "line_end": 3,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            },
+            "html_source_tree": [
+              {
+                "id": 0,
+                "parent_id": null,
+                "type": "html_source_context",
+                "source_tokens": [
+                  {
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 2,
+                    "raw_text": "  "
+                  },
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 2,
+                    "relative_end": 7,
+                    "raw_text": "<div>",
+                    "tag": "div",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 7,
+                    "relative_end": 13,
+                    "raw_text": "\n\n    "
+                  },
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 13,
+                    "relative_end": 18,
+                    "raw_text": "<div>",
+                    "tag": "div",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 18,
+                    "relative_end": 19,
+                    "raw_text": "\n"
+                  }
+                ],
+                "relative_start": 0,
+                "relative_end": 19,
+                "representation": "VERBATIM_SOURCE_CONTEXT"
+              },
+              {
+                "id": 1,
+                "parent_id": 0,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "  "
+              },
+              {
+                "id": 2,
+                "parent_id": 0,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "div",
+                "attributes": {}
+              },
+              {
+                "id": 3,
+                "parent_id": 2,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n\n    "
+              },
+              {
+                "id": 4,
+                "parent_id": 2,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "div",
+                "attributes": {}
+              },
+              {
+                "id": 5,
+                "parent_id": 4,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n"
+              }
+            ],
+            "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+          }
+        ],
+        "cells": [],
+        "tables": [],
+        "callouts": [],
+        "embeds": [],
+        "comments": [],
+        "reference_definitions": {},
+        "duplicate_reference_definitions": []
+      }
+    ]
+  },
+  {
+    "case_id": "ADJ-005",
+    "group": "seven-adjudications",
+    "title": "GFM-0.29 125 — current independently supported interpretation",
+    "requirements": [
+      "MD17-01",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "<div>\n*foo*\n\n*bar*\n",
+    "source_sha256": "759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421.txt",
+    "source_reference": "docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json",
+    "source_identity": "official",
+    "source_revision": 1,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "SUCCESS",
+      "expected_html": "<div>\n*foo*\n\n*bar*\n",
+      "official_expected_html": "<div>\n*foo*\n<p><em>bar</em></p>\n",
+      "independent_rationale": "SUPPORTED: open native HTML at document root retains literal Markdown through blank blocks and EOF under frozen Obsidian profile; no enclosing list boundary exists.",
+      "previous_overlay_changed": false
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "chunk_target_chars": 73,
+      "status": "SUCCESS",
+      "elements": [
+        {
+          "kind": "PARAGRAPH",
+          "text": "<div>\n*foo*\n\n*bar*\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "approved_field": "content",
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 19,
+            "line_start": 1,
+            "line_end": 4,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "heading_path": [],
+          "metadata": {
+            "obsidian_profile": "ppv-obsidian-source-v1",
+            "block_id": "official:1:0:19",
+            "nodes": [
+              {
+                "id": "official:1:0:19:0",
+                "parent_id": null,
+                "type": "html_block",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "<div>\n*foo*\n\n*bar*\n",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 19,
+                  "line_start": 1,
+                  "line_end": 4,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                },
+                "html_source_tree": [
+                  {
+                    "id": 0,
+                    "parent_id": null,
+                    "type": "html_source_context",
+                    "source_tokens": [
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 0,
+                        "relative_end": 5,
+                        "raw_text": "<div>",
+                        "tag": "div",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 5,
+                        "relative_end": 19,
+                        "raw_text": "\n*foo*\n\n*bar*\n"
+                      }
+                    ],
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "representation": "VERBATIM_SOURCE_CONTEXT"
+                  },
+                  {
+                    "id": 1,
+                    "parent_id": 0,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "div",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 2,
+                    "parent_id": 1,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n*foo*\n\n*bar*\n"
+                  }
+                ],
+                "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+              }
+            ],
+            "cells": [],
+            "tables": [],
+            "callouts": [],
+            "embeds": [],
+            "comments": [],
+            "reference_definitions": {},
+            "duplicate_reference_definitions": []
+          }
+        }
+      ],
+      "chunks": [
+        {
+          "chunk_index": 0,
+          "content": "<div>\n*foo*\n\n*bar*\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 19,
+            "line_start": 1,
+            "line_end": 4,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "structure_metadata": {
+            "heading_path": [],
+            "element_kinds": [
+              "PARAGRAPH"
+            ],
+            "element_count": 1,
+            "constituent_locators": [
+              {
+                "source_key": "official",
+                "source_version": 1,
+                "approved_field": "content",
+                "char_start": 0,
+                "char_end": 19,
+                "line_start": 1,
+                "line_end": 4,
+                "profile": "ppv-obsidian-source-v1",
+                "text_representation": "VERBATIM_SOURCE",
+                "dependency_edges": []
+              }
+            ],
+            "constituent_metadata": [
+              {
+                "obsidian_profile": "ppv-obsidian-source-v1",
+                "block_id": "official:1:0:19",
+                "nodes": [
+                  {
+                    "id": "official:1:0:19:0",
+                    "parent_id": null,
+                    "type": "html_block",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "<div>\n*foo*\n\n*bar*\n",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 19,
+                      "line_start": 1,
+                      "line_end": 4,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    },
+                    "html_source_tree": [
+                      {
+                        "id": 0,
+                        "parent_id": null,
+                        "type": "html_source_context",
+                        "source_tokens": [
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 0,
+                            "relative_end": 5,
+                            "raw_text": "<div>",
+                            "tag": "div",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 5,
+                            "relative_end": 19,
+                            "raw_text": "\n*foo*\n\n*bar*\n"
+                          }
+                        ],
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "representation": "VERBATIM_SOURCE_CONTEXT"
+                      },
+                      {
+                        "id": 1,
+                        "parent_id": 0,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "div",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 2,
+                        "parent_id": 1,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n*foo*\n\n*bar*\n"
+                      }
+                    ],
+                    "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+                  }
+                ],
+                "cells": [],
+                "tables": [],
+                "callouts": [],
+                "embeds": [],
+                "comments": [],
+                "reference_definitions": {},
+                "duplicate_reference_definitions": []
+              }
+            ]
+          }
+        }
+      ],
+      "root_source_exact": true
+    },
+    "differences": {
+      "expected_outcome": "SUCCESS",
+      "actual_outcome": "SUCCESS",
+      "outcome_equal": true,
+      "root_source_exact": true,
+      "human_assessment": null,
+      "expected_projection": "<div>\n*foo*\n\n*bar*\n",
+      "actual_projection": "<div>\n*foo*\n\n*bar*\n",
+      "projection_normalized_equal": true,
+      "projection_text_diff": ""
+    },
+    "ambiguities": "Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": [
+      {
+        "obsidian_profile": "ppv-obsidian-source-v1",
+        "block_id": "official:1:0:19",
+        "nodes": [
+          {
+            "id": "official:1:0:19:0",
+            "parent_id": null,
+            "type": "html_block",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "<div>\n*foo*\n\n*bar*\n",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 19,
+              "line_start": 1,
+              "line_end": 4,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            },
+            "html_source_tree": [
+              {
+                "id": 0,
+                "parent_id": null,
+                "type": "html_source_context",
+                "source_tokens": [
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 0,
+                    "relative_end": 5,
+                    "raw_text": "<div>",
+                    "tag": "div",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 5,
+                    "relative_end": 19,
+                    "raw_text": "\n*foo*\n\n*bar*\n"
+                  }
+                ],
+                "relative_start": 0,
+                "relative_end": 19,
+                "representation": "VERBATIM_SOURCE_CONTEXT"
+              },
+              {
+                "id": 1,
+                "parent_id": 0,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "div",
+                "attributes": {}
+              },
+              {
+                "id": 2,
+                "parent_id": 1,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n*foo*\n\n*bar*\n"
+              }
+            ],
+            "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+          }
+        ],
+        "cells": [],
+        "tables": [],
+        "callouts": [],
+        "embeds": [],
+        "comments": [],
+        "reference_definitions": {},
+        "duplicate_reference_definitions": []
+      }
+    ]
+  },
+  {
+    "case_id": "ADJ-006",
+    "group": "seven-adjudications",
+    "title": "GFM-0.29 144 — current independently supported interpretation",
+    "requirements": [
+      "MD17-01",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "- <div>\n- foo\n",
+    "source_sha256": "4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394.txt",
+    "source_reference": "docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json",
+    "source_identity": "official",
+    "source_revision": 1,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "SUCCESS",
+      "expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "official_expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "independent_rationale": "SUPPORTED: the second unindented marker is a separate sibling list item. An open native element inside the first item cannot extend its owning Markdown list-item source. Official expected two-item structure is restored.",
+      "previous_overlay_changed": true
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "chunk_target_chars": 73,
+      "status": "SUCCESS",
+      "elements": [
+        {
+          "kind": "LIST_ITEM",
+          "text": "- <div>\n- foo\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "approved_field": "content",
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 14,
+            "line_start": 1,
+            "line_end": 2,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "heading_path": [],
+          "metadata": {
+            "obsidian_profile": "ppv-obsidian-source-v1",
+            "block_id": "official:1:0:14",
+            "nodes": [
+              {
+                "id": "official:1:0:14:0",
+                "parent_id": null,
+                "type": "bullet_list_open",
+                "tag": "ul",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 1,
+                "text": "",
+                "markup": "-",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 14,
+                  "line_start": 1,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:1",
+                "parent_id": "official:1:0:14:0",
+                "type": "list_item_open",
+                "tag": "li",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 1,
+                "text": "",
+                "markup": "-",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 8,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:2",
+                "parent_id": "official:1:0:14:1",
+                "type": "html_block",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "<div>\n",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 8,
+                  "line_start": 1,
+                  "line_end": 1,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                },
+                "html_source_tree": [
+                  {
+                    "id": 0,
+                    "parent_id": null,
+                    "type": "html_source_context",
+                    "source_tokens": [
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 0,
+                        "relative_end": 5,
+                        "raw_text": "<div>",
+                        "tag": "div",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 5,
+                        "relative_end": 6,
+                        "raw_text": "\n"
+                      }
+                    ],
+                    "relative_start": 0,
+                    "relative_end": 6,
+                    "representation": "VERBATIM_SOURCE_CONTEXT"
+                  },
+                  {
+                    "id": 1,
+                    "parent_id": 0,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 6,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "div",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 2,
+                    "parent_id": 1,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 6,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n"
+                  }
+                ],
+                "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+              },
+              {
+                "id": "official:1:0:14:3",
+                "parent_id": "official:1:0:14:0",
+                "type": "list_item_open",
+                "tag": "li",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 1,
+                "text": "",
+                "markup": "-",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 14,
+                  "line_start": 2,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:4",
+                "parent_id": "official:1:0:14:3",
+                "type": "paragraph_open",
+                "tag": "p",
+                "hidden": true,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 1,
+                "text": "",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 14,
+                  "line_start": 2,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:5",
+                "parent_id": "official:1:0:14:4",
+                "type": "inline",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "foo",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 14,
+                  "line_start": 2,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                }
+              },
+              {
+                "id": "official:1:0:14:6",
+                "parent_id": "official:1:0:14:5",
+                "type": "text",
+                "tag": "",
+                "hidden": false,
+                "block": false,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "foo",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 8,
+                  "char_end": 14,
+                  "line_start": 2,
+                  "line_end": 2,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE",
+                  "location_kind": "CONTAINING_BLOCK"
+                }
+              }
+            ],
+            "cells": [],
+            "tables": [],
+            "callouts": [],
+            "embeds": [],
+            "comments": [],
+            "reference_definitions": {},
+            "duplicate_reference_definitions": []
+          }
+        }
+      ],
+      "chunks": [
+        {
+          "chunk_index": 0,
+          "content": "- <div>\n- foo\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 14,
+            "line_start": 1,
+            "line_end": 2,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "structure_metadata": {
+            "heading_path": [],
+            "element_kinds": [
+              "LIST_ITEM"
+            ],
+            "element_count": 1,
+            "constituent_locators": [
+              {
+                "source_key": "official",
+                "source_version": 1,
+                "approved_field": "content",
+                "char_start": 0,
+                "char_end": 14,
+                "line_start": 1,
+                "line_end": 2,
+                "profile": "ppv-obsidian-source-v1",
+                "text_representation": "VERBATIM_SOURCE",
+                "dependency_edges": []
+              }
+            ],
+            "constituent_metadata": [
+              {
+                "obsidian_profile": "ppv-obsidian-source-v1",
+                "block_id": "official:1:0:14",
+                "nodes": [
+                  {
+                    "id": "official:1:0:14:0",
+                    "parent_id": null,
+                    "type": "bullet_list_open",
+                    "tag": "ul",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 1,
+                    "text": "",
+                    "markup": "-",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 14,
+                      "line_start": 1,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:1",
+                    "parent_id": "official:1:0:14:0",
+                    "type": "list_item_open",
+                    "tag": "li",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 1,
+                    "text": "",
+                    "markup": "-",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 8,
+                      "line_start": 1,
+                      "line_end": 1,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:2",
+                    "parent_id": "official:1:0:14:1",
+                    "type": "html_block",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "<div>\n",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 8,
+                      "line_start": 1,
+                      "line_end": 1,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    },
+                    "html_source_tree": [
+                      {
+                        "id": 0,
+                        "parent_id": null,
+                        "type": "html_source_context",
+                        "source_tokens": [
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 0,
+                            "relative_end": 5,
+                            "raw_text": "<div>",
+                            "tag": "div",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 5,
+                            "relative_end": 6,
+                            "raw_text": "\n"
+                          }
+                        ],
+                        "relative_start": 0,
+                        "relative_end": 6,
+                        "representation": "VERBATIM_SOURCE_CONTEXT"
+                      },
+                      {
+                        "id": 1,
+                        "parent_id": 0,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 6,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "div",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 2,
+                        "parent_id": 1,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 6,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n"
+                      }
+                    ],
+                    "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+                  },
+                  {
+                    "id": "official:1:0:14:3",
+                    "parent_id": "official:1:0:14:0",
+                    "type": "list_item_open",
+                    "tag": "li",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 1,
+                    "text": "",
+                    "markup": "-",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 8,
+                      "char_end": 14,
+                      "line_start": 2,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:4",
+                    "parent_id": "official:1:0:14:3",
+                    "type": "paragraph_open",
+                    "tag": "p",
+                    "hidden": true,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 1,
+                    "text": "",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 8,
+                      "char_end": 14,
+                      "line_start": 2,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:5",
+                    "parent_id": "official:1:0:14:4",
+                    "type": "inline",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "foo",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 8,
+                      "char_end": 14,
+                      "line_start": 2,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    }
+                  },
+                  {
+                    "id": "official:1:0:14:6",
+                    "parent_id": "official:1:0:14:5",
+                    "type": "text",
+                    "tag": "",
+                    "hidden": false,
+                    "block": false,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "foo",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 8,
+                      "char_end": 14,
+                      "line_start": 2,
+                      "line_end": 2,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE",
+                      "location_kind": "CONTAINING_BLOCK"
+                    }
+                  }
+                ],
+                "cells": [],
+                "tables": [],
+                "callouts": [],
+                "embeds": [],
+                "comments": [],
+                "reference_definitions": {},
+                "duplicate_reference_definitions": []
+              }
+            ]
+          }
+        }
+      ],
+      "root_source_exact": true
+    },
+    "differences": {
+      "expected_outcome": "SUCCESS",
+      "actual_outcome": "SUCCESS",
+      "outcome_equal": true,
+      "root_source_exact": true,
+      "human_assessment": null,
+      "expected_projection": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "actual_projection": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "projection_normalized_equal": true,
+      "projection_text_diff": ""
+    },
+    "ambiguities": "Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": [
+      {
+        "obsidian_profile": "ppv-obsidian-source-v1",
+        "block_id": "official:1:0:14",
+        "nodes": [
+          {
+            "id": "official:1:0:14:0",
+            "parent_id": null,
+            "type": "bullet_list_open",
+            "tag": "ul",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 1,
+            "text": "",
+            "markup": "-",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 14,
+              "line_start": 1,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:1",
+            "parent_id": "official:1:0:14:0",
+            "type": "list_item_open",
+            "tag": "li",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 1,
+            "text": "",
+            "markup": "-",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 8,
+              "line_start": 1,
+              "line_end": 1,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:2",
+            "parent_id": "official:1:0:14:1",
+            "type": "html_block",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "<div>\n",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 8,
+              "line_start": 1,
+              "line_end": 1,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            },
+            "html_source_tree": [
+              {
+                "id": 0,
+                "parent_id": null,
+                "type": "html_source_context",
+                "source_tokens": [
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 0,
+                    "relative_end": 5,
+                    "raw_text": "<div>",
+                    "tag": "div",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 5,
+                    "relative_end": 6,
+                    "raw_text": "\n"
+                  }
+                ],
+                "relative_start": 0,
+                "relative_end": 6,
+                "representation": "VERBATIM_SOURCE_CONTEXT"
+              },
+              {
+                "id": 1,
+                "parent_id": 0,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 6,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "div",
+                "attributes": {}
+              },
+              {
+                "id": 2,
+                "parent_id": 1,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 6,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n"
+              }
+            ],
+            "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+          },
+          {
+            "id": "official:1:0:14:3",
+            "parent_id": "official:1:0:14:0",
+            "type": "list_item_open",
+            "tag": "li",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 1,
+            "text": "",
+            "markup": "-",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 8,
+              "char_end": 14,
+              "line_start": 2,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:4",
+            "parent_id": "official:1:0:14:3",
+            "type": "paragraph_open",
+            "tag": "p",
+            "hidden": true,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 1,
+            "text": "",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 8,
+              "char_end": 14,
+              "line_start": 2,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:5",
+            "parent_id": "official:1:0:14:4",
+            "type": "inline",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "foo",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 8,
+              "char_end": 14,
+              "line_start": 2,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            }
+          },
+          {
+            "id": "official:1:0:14:6",
+            "parent_id": "official:1:0:14:5",
+            "type": "text",
+            "tag": "",
+            "hidden": false,
+            "block": false,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "foo",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 8,
+              "char_end": 14,
+              "line_start": 2,
+              "line_end": 2,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE",
+              "location_kind": "CONTAINING_BLOCK"
+            }
+          }
+        ],
+        "cells": [],
+        "tables": [],
+        "callouts": [],
+        "embeds": [],
+        "comments": [],
+        "reference_definitions": {},
+        "duplicate_reference_definitions": []
+      }
+    ]
+  },
+  {
+    "case_id": "ADJ-007",
+    "group": "seven-adjudications",
+    "title": "GFM-0.29 153 — current independently supported interpretation",
+    "requirements": [
+      "MD17-01",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "  <div>\n\n    <div>\n",
+    "source_sha256": "1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f.txt",
+    "source_reference": "docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json",
+    "source_identity": "official",
+    "source_revision": 1,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "SUCCESS",
+      "expected_html": "  <div>\n\n    <div>\n",
+      "official_expected_html": "  <div>\n<pre><code>&lt;div&gt;\n</code></pre>\n",
+      "independent_rationale": "SUPPORTED: root-level open native HTML retains indented native descendants through blank blocks and EOF; source is not an independent Markdown indented-code block.",
+      "previous_overlay_changed": false
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "chunk_target_chars": 73,
+      "status": "SUCCESS",
+      "elements": [
+        {
+          "kind": "PARAGRAPH",
+          "text": "  <div>\n\n    <div>\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "approved_field": "content",
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 19,
+            "line_start": 1,
+            "line_end": 3,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "heading_path": [],
+          "metadata": {
+            "obsidian_profile": "ppv-obsidian-source-v1",
+            "block_id": "official:1:0:19",
+            "nodes": [
+              {
+                "id": "official:1:0:19:0",
+                "parent_id": null,
+                "type": "html_block",
+                "tag": "",
+                "hidden": false,
+                "block": true,
+                "info": "",
+                "token_meta": {},
+                "token_attributes": {},
+                "nesting": 0,
+                "text": "  <div>\n\n    <div>\n",
+                "markup": "",
+                "attributes": {},
+                "locator": {
+                  "source_key": "official",
+                  "source_version": 1,
+                  "approved_field": "content",
+                  "char_start": 0,
+                  "char_end": 19,
+                  "line_start": 1,
+                  "line_end": 3,
+                  "profile": "ppv-obsidian-source-v1",
+                  "text_representation": "VERBATIM_SOURCE"
+                },
+                "html_source_tree": [
+                  {
+                    "id": 0,
+                    "parent_id": null,
+                    "type": "html_source_context",
+                    "source_tokens": [
+                      {
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 2,
+                        "raw_text": "  "
+                      },
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 2,
+                        "relative_end": 7,
+                        "raw_text": "<div>",
+                        "tag": "div",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 7,
+                        "relative_end": 13,
+                        "raw_text": "\n\n    "
+                      },
+                      {
+                        "type": "html_start_tag",
+                        "relative_start": 13,
+                        "relative_end": 18,
+                        "raw_text": "<div>",
+                        "tag": "div",
+                        "attributes": []
+                      },
+                      {
+                        "type": "html_text",
+                        "relative_start": 18,
+                        "relative_end": 19,
+                        "raw_text": "\n"
+                      }
+                    ],
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "representation": "VERBATIM_SOURCE_CONTEXT"
+                  },
+                  {
+                    "id": 1,
+                    "parent_id": 0,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "  "
+                  },
+                  {
+                    "id": 2,
+                    "parent_id": 0,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "div",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 3,
+                    "parent_id": 2,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n\n    "
+                  },
+                  {
+                    "id": 4,
+                    "parent_id": 2,
+                    "type": "html_element",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "tag": "div",
+                    "attributes": {}
+                  },
+                  {
+                    "id": 5,
+                    "parent_id": 4,
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 19,
+                    "location_kind": "CONTAINING_HTML_SOURCE",
+                    "representation": "DERIVED_HTML5_STRUCTURE",
+                    "text": "\n"
+                  }
+                ],
+                "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+              }
+            ],
+            "cells": [],
+            "tables": [],
+            "callouts": [],
+            "embeds": [],
+            "comments": [],
+            "reference_definitions": {},
+            "duplicate_reference_definitions": []
+          }
+        }
+      ],
+      "chunks": [
+        {
+          "chunk_index": 0,
+          "content": "  <div>\n\n    <div>\n",
+          "source_identity": "official",
+          "source_version": 1,
+          "locator": {
+            "source_key": "official",
+            "source_version": 1,
+            "approved_field": "content",
+            "char_start": 0,
+            "char_end": 19,
+            "line_start": 1,
+            "line_end": 3,
+            "profile": "ppv-obsidian-source-v1",
+            "text_representation": "VERBATIM_SOURCE",
+            "dependency_edges": []
+          },
+          "structure_metadata": {
+            "heading_path": [],
+            "element_kinds": [
+              "PARAGRAPH"
+            ],
+            "element_count": 1,
+            "constituent_locators": [
+              {
+                "source_key": "official",
+                "source_version": 1,
+                "approved_field": "content",
+                "char_start": 0,
+                "char_end": 19,
+                "line_start": 1,
+                "line_end": 3,
+                "profile": "ppv-obsidian-source-v1",
+                "text_representation": "VERBATIM_SOURCE",
+                "dependency_edges": []
+              }
+            ],
+            "constituent_metadata": [
+              {
+                "obsidian_profile": "ppv-obsidian-source-v1",
+                "block_id": "official:1:0:19",
+                "nodes": [
+                  {
+                    "id": "official:1:0:19:0",
+                    "parent_id": null,
+                    "type": "html_block",
+                    "tag": "",
+                    "hidden": false,
+                    "block": true,
+                    "info": "",
+                    "token_meta": {},
+                    "token_attributes": {},
+                    "nesting": 0,
+                    "text": "  <div>\n\n    <div>\n",
+                    "markup": "",
+                    "attributes": {},
+                    "locator": {
+                      "source_key": "official",
+                      "source_version": 1,
+                      "approved_field": "content",
+                      "char_start": 0,
+                      "char_end": 19,
+                      "line_start": 1,
+                      "line_end": 3,
+                      "profile": "ppv-obsidian-source-v1",
+                      "text_representation": "VERBATIM_SOURCE"
+                    },
+                    "html_source_tree": [
+                      {
+                        "id": 0,
+                        "parent_id": null,
+                        "type": "html_source_context",
+                        "source_tokens": [
+                          {
+                            "type": "html_text",
+                            "relative_start": 0,
+                            "relative_end": 2,
+                            "raw_text": "  "
+                          },
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 2,
+                            "relative_end": 7,
+                            "raw_text": "<div>",
+                            "tag": "div",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 7,
+                            "relative_end": 13,
+                            "raw_text": "\n\n    "
+                          },
+                          {
+                            "type": "html_start_tag",
+                            "relative_start": 13,
+                            "relative_end": 18,
+                            "raw_text": "<div>",
+                            "tag": "div",
+                            "attributes": []
+                          },
+                          {
+                            "type": "html_text",
+                            "relative_start": 18,
+                            "relative_end": 19,
+                            "raw_text": "\n"
+                          }
+                        ],
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "representation": "VERBATIM_SOURCE_CONTEXT"
+                      },
+                      {
+                        "id": 1,
+                        "parent_id": 0,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "  "
+                      },
+                      {
+                        "id": 2,
+                        "parent_id": 0,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "div",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 3,
+                        "parent_id": 2,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n\n    "
+                      },
+                      {
+                        "id": 4,
+                        "parent_id": 2,
+                        "type": "html_element",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "tag": "div",
+                        "attributes": {}
+                      },
+                      {
+                        "id": 5,
+                        "parent_id": 4,
+                        "type": "html_text",
+                        "relative_start": 0,
+                        "relative_end": 19,
+                        "location_kind": "CONTAINING_HTML_SOURCE",
+                        "representation": "DERIVED_HTML5_STRUCTURE",
+                        "text": "\n"
+                      }
+                    ],
+                    "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+                  }
+                ],
+                "cells": [],
+                "tables": [],
+                "callouts": [],
+                "embeds": [],
+                "comments": [],
+                "reference_definitions": {},
+                "duplicate_reference_definitions": []
+              }
+            ]
+          }
+        }
+      ],
+      "root_source_exact": true
+    },
+    "differences": {
+      "expected_outcome": "SUCCESS",
+      "actual_outcome": "SUCCESS",
+      "outcome_equal": true,
+      "root_source_exact": true,
+      "human_assessment": null,
+      "expected_projection": "  <div>\n\n    <div>\n",
+      "actual_projection": "  <div>\n\n    <div>\n",
+      "projection_normalized_equal": true,
+      "projection_text_diff": ""
+    },
+    "ambiguities": "Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": [
+      {
+        "obsidian_profile": "ppv-obsidian-source-v1",
+        "block_id": "official:1:0:19",
+        "nodes": [
+          {
+            "id": "official:1:0:19:0",
+            "parent_id": null,
+            "type": "html_block",
+            "tag": "",
+            "hidden": false,
+            "block": true,
+            "info": "",
+            "token_meta": {},
+            "token_attributes": {},
+            "nesting": 0,
+            "text": "  <div>\n\n    <div>\n",
+            "markup": "",
+            "attributes": {},
+            "locator": {
+              "source_key": "official",
+              "source_version": 1,
+              "approved_field": "content",
+              "char_start": 0,
+              "char_end": 19,
+              "line_start": 1,
+              "line_end": 3,
+              "profile": "ppv-obsidian-source-v1",
+              "text_representation": "VERBATIM_SOURCE"
+            },
+            "html_source_tree": [
+              {
+                "id": 0,
+                "parent_id": null,
+                "type": "html_source_context",
+                "source_tokens": [
+                  {
+                    "type": "html_text",
+                    "relative_start": 0,
+                    "relative_end": 2,
+                    "raw_text": "  "
+                  },
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 2,
+                    "relative_end": 7,
+                    "raw_text": "<div>",
+                    "tag": "div",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 7,
+                    "relative_end": 13,
+                    "raw_text": "\n\n    "
+                  },
+                  {
+                    "type": "html_start_tag",
+                    "relative_start": 13,
+                    "relative_end": 18,
+                    "raw_text": "<div>",
+                    "tag": "div",
+                    "attributes": []
+                  },
+                  {
+                    "type": "html_text",
+                    "relative_start": 18,
+                    "relative_end": 19,
+                    "raw_text": "\n"
+                  }
+                ],
+                "relative_start": 0,
+                "relative_end": 19,
+                "representation": "VERBATIM_SOURCE_CONTEXT"
+              },
+              {
+                "id": 1,
+                "parent_id": 0,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "  "
+              },
+              {
+                "id": 2,
+                "parent_id": 0,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "div",
+                "attributes": {}
+              },
+              {
+                "id": 3,
+                "parent_id": 2,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n\n    "
+              },
+              {
+                "id": 4,
+                "parent_id": 2,
+                "type": "html_element",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "tag": "div",
+                "attributes": {}
+              },
+              {
+                "id": 5,
+                "parent_id": 4,
+                "type": "html_text",
+                "relative_start": 0,
+                "relative_end": 19,
+                "location_kind": "CONTAINING_HTML_SOURCE",
+                "representation": "DERIVED_HTML5_STRUCTURE",
+                "text": "\n"
+              }
+            ],
+            "html_tree_coordinates": "RELATIVE_TO_TOKEN_CONTENT"
+          }
+        ],
+        "cells": [],
+        "tables": [],
+        "callouts": [],
+        "embeds": [],
+        "comments": [],
+        "reference_definitions": {},
+        "duplicate_reference_definitions": []
+      }
+    ]
+  }
+]

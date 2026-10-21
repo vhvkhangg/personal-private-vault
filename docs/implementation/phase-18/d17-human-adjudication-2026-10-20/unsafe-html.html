@@ -1,0 +1,79 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; script-src 'none'"><title>Unsafe Html</title><style>body{font:16px/1.5 system-ui,sans-serif;max-width:1200px;margin:2rem auto;padding:0 1rem;color:#182433}a{color:#075a9e}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5f7;padding:1rem;border-left:3px solid #718399}table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.9rem}td,th{border:1px solid #ccd3da;padding:.45rem;text-align:left;vertical-align:top;white-space:pre-wrap;overflow-wrap:anywhere}article{border-top:4px solid #718399;margin:3rem 0;padding-top:1rem}small{overflow-wrap:anywhere}.pending{background:#fff5d6;padding:1rem}details{margin:1rem 0}@media print{article{break-before:page}details>summary{display:none}details>*{display:block}}</style></head><body><h1>Unsafe Html</h1><p class="pending">HUMAN_REVIEW_PENDING. Blank decision fields are not approval. No scripts, network content or executable Markdown are embedded.</p><p><a href="index.html">Package index</a> · <a href="decisions.csv">Decision return sheet</a></p><p>Original source is shown literally. Line numbers are in a separate panel. Character ranges are zero-based and end-exclusive; lines are one-based. Native implied HTML nodes may use containing-source context rather than invented spans. No human comparison is prefilled.</p><article id="UNSAFE-001"><h2>UNSAFE-001 — Frozen UNSAFE example 1</h2><small>Source SHA-256: b2ea54d3482536740a3ebd232323a0a6d9a9e5fb7f47c224370ec093bebf891e<br>Source/revision: root / 4; field: content<br>Original reference: rag-engine/tests/test_d17_completion.py</small><h3>Original Markdown (exact text)</h3><pre>&lt;div&gt;
+
+&lt;script&gt;throw 1&lt;/script&gt;
+
+&lt;/div&gt;</pre><details><summary>Line-numbered source guide</summary><pre>   1 | &lt;div&gt;
+   2 | 
+   3 | &lt;script&gt;throw 1&lt;/script&gt;
+   4 | 
+   5 | &lt;/div&gt;</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_UNSUPPORTED_ACTIVE_HTML&quot;,
+  &quot;interpretation&quot;: &quot;Whole-root zero-chunk active-content denial.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_UNSUPPORTED_ACTIVE_HTML</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/unsafe-html.json">unsafe-html.json</a>; exact source: <a href="sources/b2ea54d3482536740a3ebd232323a0a6d9a9e5fb7f47c224370ec093bebf891e.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="UNSAFE-002"><h2>UNSAFE-002 — Frozen UNSAFE example 2</h2><small>Source SHA-256: 957f9e8eca1a58d22001b0b62eed5d78e216abf4e0082aa367e11c294a8c548e<br>Source/revision: root / 4; field: content<br>Original reference: rag-engine/tests/test_d17_completion.py</small><h3>Original Markdown (exact text)</h3><pre>&lt;span onload=&quot;execute()&quot;&gt;source&lt;/span&gt;</pre><details><summary>Line-numbered source guide</summary><pre>   1 | &lt;span onload=&quot;execute()&quot;&gt;source&lt;/span&gt;</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_UNSUPPORTED_ACTIVE_HTML&quot;,
+  &quot;interpretation&quot;: &quot;Whole-root zero-chunk active-content denial.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_UNSUPPORTED_ACTIVE_HTML</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/unsafe-html.json">unsafe-html.json</a>; exact source: <a href="sources/957f9e8eca1a58d22001b0b62eed5d78e216abf4e0082aa367e11c294a8c548e.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="UNSAFE-003"><h2>UNSAFE-003 — Frozen UNSAFE example 3</h2><small>Source SHA-256: e0bb54a996d08e51b43bcacff29acc06e0cabc817247348f695c5940375be621<br>Source/revision: root / 4; field: content<br>Original reference: rag-engine/tests/test_d17_completion.py</small><h3>Original Markdown (exact text)</h3><pre>&lt;a href=&quot;java&amp;#x09;script:execute()&quot;&gt;source&lt;/a&gt;</pre><details><summary>Line-numbered source guide</summary><pre>   1 | &lt;a href=&quot;java&amp;#x09;script:execute()&quot;&gt;source&lt;/a&gt;</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_UNSUPPORTED_ACTIVE_HTML&quot;,
+  &quot;interpretation&quot;: &quot;Whole-root zero-chunk active-content denial.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_UNSUPPORTED_ACTIVE_HTML</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/unsafe-html.json">unsafe-html.json</a>; exact source: <a href="sources/e0bb54a996d08e51b43bcacff29acc06e0cabc817247348f695c5940375be621.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="UNSAFE-004"><h2>UNSAFE-004 — Frozen UNSAFE example 4</h2><small>Source SHA-256: 38e1e6d8c9567194a70f71d789ac91c28b57a9a905edddba71b671051f189015<br>Source/revision: root / 4; field: content<br>Original reference: rag-engine/tests/test_d17_completion.py</small><h3>Original Markdown (exact text)</h3><pre>&lt;span style=&quot;background:url(https://example.invalid)&quot;&gt;source&lt;/span&gt;</pre><details><summary>Line-numbered source guide</summary><pre>   1 | &lt;span style=&quot;background:url(https://example.invalid)&quot;&gt;source&lt;/span&gt;</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_UNSUPPORTED_ACTIVE_HTML&quot;,
+  &quot;interpretation&quot;: &quot;Whole-root zero-chunk active-content denial.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_UNSUPPORTED_ACTIVE_HTML</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/unsafe-html.json">unsafe-html.json</a>; exact source: <a href="sources/38e1e6d8c9567194a70f71d789ac91c28b57a9a905edddba71b671051f189015.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="UNSAFE-005"><h2>UNSAFE-005 — Frozen UNSAFE example 5</h2><small>Source SHA-256: c62edeb022c1c91c092c0a7a4ca1ac51ed90c5012c5a5ac213d29634f5d35f04<br>Source/revision: root / 4; field: content<br>Original reference: rag-engine/tests/test_d17_completion.py</small><h3>Original Markdown (exact text)</h3><pre>&lt;iframe src=&quot;https://example.invalid&quot;&gt;&lt;/iframe&gt;</pre><details><summary>Line-numbered source guide</summary><pre>   1 | &lt;iframe src=&quot;https://example.invalid&quot;&gt;&lt;/iframe&gt;</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_UNSUPPORTED_ACTIVE_HTML&quot;,
+  &quot;interpretation&quot;: &quot;Whole-root zero-chunk active-content denial.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_UNSUPPORTED_ACTIVE_HTML</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/unsafe-html.json">unsafe-html.json</a>; exact source: <a href="sources/c62edeb022c1c91c092c0a7a4ca1ac51ed90c5012c5a5ac213d29634f5d35f04.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article></body></html>

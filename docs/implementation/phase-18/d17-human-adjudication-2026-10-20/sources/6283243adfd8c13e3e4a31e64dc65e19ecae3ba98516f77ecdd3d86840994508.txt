@@ -1,0 +1,1 @@
+before <span onclick='x'>text</span>

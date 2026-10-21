@@ -1,0 +1,8 @@
+---
+Text: value
+list: [a, b]
+number: 007
+check: true
+date: 2026-10-20
+---
+body

@@ -1,0 +1,28 @@
+D17 EXPOSED DEVELOPMENT VAULT — INDEPENDENT REVIEW PENDING
+
+These three synthetic notes were authored for this checkpoint. They are not real private
+vault content, a hidden held-out set, or human-adjudicated quality evidence. Source hashes,
+revision labels and expected behaviors are independently reproducible. No human signature exists.
+
+Research.md revision 3 approves Child#Section, alias "Approved section".
+Child.md revision 7 selects the original ## Section through before ## Outside, including Detail.
+Its callout approves Grand#^answer. Grand.md revision 11 selects the original answer paragraph.
+Neither Excluded heading nor Outside nor Grand's trailing paragraph may appear as child content.
+Unapproved embeds in comments, HTML, ordinary code and the unselected Outside section must not resolve.
+
+Research.md: preserve all original source characters. Its table has 3 columns, 5 rows
+(header + 4 body rows), 16 represented cells, one implicit empty cell, one explicit overflow cell.
+Header alignments are left/center/right. Raw source cells retain spaces and escaped pipes.
+Tasks have markers space/x/!; the latter two are checked. Callout folds are collapsed/expanded.
+Properties, diacritics, literal digits 007/0123456789 and all comments/code/math are retained.
+Inline nodes use containing source blocks/cells; do not infer narrower character addresses.
+
+Review test_obsidian_d17.py, the frozen D17 contract/matrix and the dated handback together.
+Check complete text, AST ancestry, source/revision boundaries, real coordinates and typed failure
+through producer-local output. The new direct producer tests isolate grant and DB staging;
+they do not verify Java publication or close FR18-3. The independent reviewer must also assess
+the failed mandatory HTML cases and the known Python/RapidOCR dependency incompatibility.
+
+Reviewer: UNASSIGNED
+Signed at: NOT SIGNED
+Decision: PENDING — never infer approval from this package or passing development tests.

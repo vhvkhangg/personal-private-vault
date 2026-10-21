@@ -1,0 +1,1 @@
+<details><summary>Title</summary><p>Retained **literal**.</p></details>

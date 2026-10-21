@@ -1,0 +1,1280 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; script-src 'none'"><title>Seven Adjudications</title><style>body{font:16px/1.5 system-ui,sans-serif;max-width:1200px;margin:2rem auto;padding:0 1rem;color:#182433}a{color:#075a9e}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5f7;padding:1rem;border-left:3px solid #718399}table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.9rem}td,th{border:1px solid #ccd3da;padding:.45rem;text-align:left;vertical-align:top;white-space:pre-wrap;overflow-wrap:anywhere}article{border-top:4px solid #718399;margin:3rem 0;padding-top:1rem}small{overflow-wrap:anywhere}.pending{background:#fff5d6;padding:1rem}details{margin:1rem 0}@media print{article{break-before:page}details>summary{display:none}details>*{display:block}}</style></head><body><h1>Seven Adjudications</h1><p class="pending">HUMAN_REVIEW_PENDING. Blank decision fields are not approval. No scripts, network content or executable Markdown are embedded.</p><p><a href="index.html">Package index</a> · <a href="decisions.csv">Decision return sheet</a></p><p>Original source is shown literally. Line numbers are in a separate panel. Character ranges are zero-based and end-exclusive; lines are one-based. Native implied HTML nodes may use containing-source context rather than invented spans. No human comparison is prefilled.</p><article id="ADJ-001"><h2>ADJ-001 — CommonMark-0.31.2 171 — current independently supported interpretation</h2><small>Source SHA-256: 4768a7e1e1f63875238865a49dc3f414a839b7944637c2dc7c2eaf5a20241af0<br>Source/revision: official / 1; field: content<br>Original reference: docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json</small><h3>Original Markdown (exact text)</h3><pre>&lt;textarea&gt;
+
+*foo*
+
+_bar_
+
+&lt;/textarea&gt;
+</pre><details><summary>Line-numbered source guide</summary><pre>   1 | &lt;textarea&gt;
+   2 | 
+   3 | *foo*
+   4 | 
+   5 | _bar_
+   6 | 
+   7 | &lt;/textarea&gt;</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;expected_html&quot;: &quot;&lt;textarea&gt;\n\n*foo*\n\n_bar_\n\n&lt;/textarea&gt;\n&quot;,
+  &quot;official_expected_html&quot;: &quot;&lt;textarea&gt;\n\n*foo*\n\n_bar_\n\n&lt;/textarea&gt;\n&quot;,
+  &quot;independent_rationale&quot;: &quot;SUPPORTED: mandatory inert textarea RCDATA contains literal emphasis markers across blank lines; retain raw authored textarea LF separately from native initial-LF handling.&quot;,
+  &quot;previous_overlay_changed&quot;: false
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>official / 1</td><td>[0, 38)</td><td>1–7</td><td>&lt;textarea&gt;
+
+*foo*
+
+_bar_
+
+&lt;/textarea&gt;
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>official:1:0:38:0</td><td>None</td><td>html_block </td><td>&lt;textarea&gt;
+
+*foo*
+
+_bar_
+
+&lt;/textarea&gt;
+</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 38, &quot;line_start&quot;: 1, &quot;line_end&quot;: 7, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;official:1:0:38&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;official:1:0:38:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;html_block&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;&lt;textarea&gt;\n\n*foo*\n\n_bar_\n\n&lt;/textarea&gt;\n&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 38,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 7,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        },
+        &quot;html_source_tree&quot;: [
+          {
+            &quot;id&quot;: 0,
+            &quot;parent_id&quot;: null,
+            &quot;type&quot;: &quot;html_source_context&quot;,
+            &quot;source_tokens&quot;: [
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 0,
+                &quot;relative_end&quot;: 10,
+                &quot;raw_text&quot;: &quot;&lt;textarea&gt;&quot;,
+                &quot;tag&quot;: &quot;textarea&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 10,
+                &quot;relative_end&quot;: 26,
+                &quot;raw_text&quot;: &quot;\n\n*foo*\n\n_bar_\n\n&quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_end_tag&quot;,
+                &quot;relative_start&quot;: 26,
+                &quot;relative_end&quot;: 37,
+                &quot;raw_text&quot;: &quot;&lt;/textarea&gt;&quot;,
+                &quot;tag&quot;: &quot;textarea&quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 37,
+                &quot;relative_end&quot;: 38,
+                &quot;raw_text&quot;: &quot;\n&quot;
+              }
+            ],
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 38,
+            &quot;representation&quot;: &quot;VERBATIM_SOURCE_CONTEXT&quot;
+          },
+          {
+            &quot;id&quot;: 1,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 38,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;textarea&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 2,
+            &quot;parent_id&quot;: 1,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 38,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n*foo*\n\n_bar_\n\n&quot;
+          },
+          {
+            &quot;id&quot;: 3,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 38,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n&quot;
+          }
+        ],
+        &quot;html_tree_coordinates&quot;: &quot;RELATIVE_TO_TOKEN_CONTENT&quot;
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null,
+  &quot;expected_projection&quot;: &quot;&lt;textarea&gt;\n\n*foo*\n\n_bar_\n\n&lt;/textarea&gt;\n&quot;,
+  &quot;actual_projection&quot;: &quot;&lt;textarea&gt;\n\n*foo*\n\n_bar_\n\n&lt;/textarea&gt;\n&quot;,
+  &quot;projection_normalized_equal&quot;: true,
+  &quot;projection_text_diff&quot;: &quot;&quot;
+}</pre><p>Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.</p><p>Full snapshot: <a href="actual-output/seven-adjudications.json">seven-adjudications.json</a>; exact source: <a href="sources/4768a7e1e1f63875238865a49dc3f414a839b7944637c2dc7c2eaf5a20241af0.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="ADJ-002"><h2>ADJ-002 — CommonMark-0.31.2 155 — current independently supported interpretation</h2><small>Source SHA-256: 759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421<br>Source/revision: official / 1; field: content<br>Original reference: docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json</small><h3>Original Markdown (exact text)</h3><pre>&lt;div&gt;
+*foo*
+
+*bar*
+</pre><details><summary>Line-numbered source guide</summary><pre>   1 | &lt;div&gt;
+   2 | *foo*
+   3 | 
+   4 | *bar*</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;expected_html&quot;: &quot;&lt;div&gt;\n*foo*\n\n*bar*\n&quot;,
+  &quot;official_expected_html&quot;: &quot;&lt;div&gt;\n*foo*\n&lt;p&gt;&lt;em&gt;bar&lt;/em&gt;&lt;/p&gt;\n&quot;,
+  &quot;independent_rationale&quot;: &quot;SUPPORTED: open native HTML at document root retains literal Markdown through blank blocks and EOF under frozen Obsidian profile; no enclosing list boundary exists.&quot;,
+  &quot;previous_overlay_changed&quot;: false
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>official / 1</td><td>[0, 19)</td><td>1–4</td><td>&lt;div&gt;
+*foo*
+
+*bar*
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>official:1:0:19:0</td><td>None</td><td>html_block </td><td>&lt;div&gt;
+*foo*
+
+*bar*
+</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 19, &quot;line_start&quot;: 1, &quot;line_end&quot;: 4, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;official:1:0:19&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;official:1:0:19:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;html_block&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;&lt;div&gt;\n*foo*\n\n*bar*\n&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 19,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 4,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        },
+        &quot;html_source_tree&quot;: [
+          {
+            &quot;id&quot;: 0,
+            &quot;parent_id&quot;: null,
+            &quot;type&quot;: &quot;html_source_context&quot;,
+            &quot;source_tokens&quot;: [
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 0,
+                &quot;relative_end&quot;: 5,
+                &quot;raw_text&quot;: &quot;&lt;div&gt;&quot;,
+                &quot;tag&quot;: &quot;div&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 5,
+                &quot;relative_end&quot;: 19,
+                &quot;raw_text&quot;: &quot;\n*foo*\n\n*bar*\n&quot;
+              }
+            ],
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;representation&quot;: &quot;VERBATIM_SOURCE_CONTEXT&quot;
+          },
+          {
+            &quot;id&quot;: 1,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;div&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 2,
+            &quot;parent_id&quot;: 1,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n*foo*\n\n*bar*\n&quot;
+          }
+        ],
+        &quot;html_tree_coordinates&quot;: &quot;RELATIVE_TO_TOKEN_CONTENT&quot;
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null,
+  &quot;expected_projection&quot;: &quot;&lt;div&gt;\n*foo*\n\n*bar*\n&quot;,
+  &quot;actual_projection&quot;: &quot;&lt;div&gt;\n*foo*\n\n*bar*\n&quot;,
+  &quot;projection_normalized_equal&quot;: true,
+  &quot;projection_text_diff&quot;: &quot;&quot;
+}</pre><p>Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.</p><p>Full snapshot: <a href="actual-output/seven-adjudications.json">seven-adjudications.json</a>; exact source: <a href="sources/759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="ADJ-003"><h2>ADJ-003 — CommonMark-0.31.2 175 — current independently supported interpretation</h2><small>Source SHA-256: 4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394<br>Source/revision: official / 1; field: content<br>Original reference: docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json</small><h3>Original Markdown (exact text)</h3><pre>- &lt;div&gt;
+- foo
+</pre><details><summary>Line-numbered source guide</summary><pre>   1 | - &lt;div&gt;
+   2 | - foo</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;expected_html&quot;: &quot;&lt;ul&gt;\n&lt;li&gt;\n&lt;div&gt;\n&lt;/li&gt;\n&lt;li&gt;foo&lt;/li&gt;\n&lt;/ul&gt;\n&quot;,
+  &quot;official_expected_html&quot;: &quot;&lt;ul&gt;\n&lt;li&gt;\n&lt;div&gt;\n&lt;/li&gt;\n&lt;li&gt;foo&lt;/li&gt;\n&lt;/ul&gt;\n&quot;,
+  &quot;independent_rationale&quot;: &quot;SUPPORTED: the second unindented marker is a separate sibling list item. An open native element inside the first item cannot extend its owning Markdown list-item source. Official expected two-item structure is restored.&quot;,
+  &quot;previous_overlay_changed&quot;: true
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>official / 1</td><td>[0, 14)</td><td>1–2</td><td>- &lt;div&gt;
+- foo
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>official:1:0:14:0</td><td>None</td><td>bullet_list_open ul</td><td></td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 14, &quot;line_start&quot;: 1, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:1</td><td>official:1:0:14:0</td><td>list_item_open li</td><td></td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 8, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:2</td><td>official:1:0:14:1</td><td>html_block </td><td>&lt;div&gt;
+</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 8, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:3</td><td>official:1:0:14:0</td><td>list_item_open li</td><td></td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 8, &quot;char_end&quot;: 14, &quot;line_start&quot;: 2, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:4</td><td>official:1:0:14:3</td><td>paragraph_open p</td><td></td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 8, &quot;char_end&quot;: 14, &quot;line_start&quot;: 2, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:5</td><td>official:1:0:14:4</td><td>inline </td><td>foo</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 8, &quot;char_end&quot;: 14, &quot;line_start&quot;: 2, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:6</td><td>official:1:0:14:5</td><td>text </td><td>foo</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 8, &quot;char_end&quot;: 14, &quot;line_start&quot;: 2, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;official:1:0:14&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;official:1:0:14:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;bullet_list_open&quot;,
+        &quot;tag&quot;: &quot;ul&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;-&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:1&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:0&quot;,
+        &quot;type&quot;: &quot;list_item_open&quot;,
+        &quot;tag&quot;: &quot;li&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;-&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 8,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:2&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:1&quot;,
+        &quot;type&quot;: &quot;html_block&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;&lt;div&gt;\n&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 8,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        },
+        &quot;html_source_tree&quot;: [
+          {
+            &quot;id&quot;: 0,
+            &quot;parent_id&quot;: null,
+            &quot;type&quot;: &quot;html_source_context&quot;,
+            &quot;source_tokens&quot;: [
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 0,
+                &quot;relative_end&quot;: 5,
+                &quot;raw_text&quot;: &quot;&lt;div&gt;&quot;,
+                &quot;tag&quot;: &quot;div&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 5,
+                &quot;relative_end&quot;: 6,
+                &quot;raw_text&quot;: &quot;\n&quot;
+              }
+            ],
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 6,
+            &quot;representation&quot;: &quot;VERBATIM_SOURCE_CONTEXT&quot;
+          },
+          {
+            &quot;id&quot;: 1,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 6,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;div&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 2,
+            &quot;parent_id&quot;: 1,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 6,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n&quot;
+          }
+        ],
+        &quot;html_tree_coordinates&quot;: &quot;RELATIVE_TO_TOKEN_CONTENT&quot;
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:3&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:0&quot;,
+        &quot;type&quot;: &quot;list_item_open&quot;,
+        &quot;tag&quot;: &quot;li&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;-&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 8,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 2,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:4&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:3&quot;,
+        &quot;type&quot;: &quot;paragraph_open&quot;,
+        &quot;tag&quot;: &quot;p&quot;,
+        &quot;hidden&quot;: true,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 8,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 2,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:5&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:4&quot;,
+        &quot;type&quot;: &quot;inline&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;foo&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 8,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 2,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:6&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:5&quot;,
+        &quot;type&quot;: &quot;text&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;foo&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 8,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 2,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        }
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null,
+  &quot;expected_projection&quot;: &quot;&lt;ul&gt;\n&lt;li&gt;\n&lt;div&gt;\n&lt;/li&gt;\n&lt;li&gt;foo&lt;/li&gt;\n&lt;/ul&gt;\n&quot;,
+  &quot;actual_projection&quot;: &quot;&lt;ul&gt;\n&lt;li&gt;\n&lt;div&gt;\n&lt;/li&gt;\n&lt;li&gt;foo&lt;/li&gt;\n&lt;/ul&gt;\n&quot;,
+  &quot;projection_normalized_equal&quot;: true,
+  &quot;projection_text_diff&quot;: &quot;&quot;
+}</pre><p>Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.</p><p>Full snapshot: <a href="actual-output/seven-adjudications.json">seven-adjudications.json</a>; exact source: <a href="sources/4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="ADJ-004"><h2>ADJ-004 — CommonMark-0.31.2 184 — current independently supported interpretation</h2><small>Source SHA-256: 1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f<br>Source/revision: official / 1; field: content<br>Original reference: docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json</small><h3>Original Markdown (exact text)</h3><pre>  &lt;div&gt;
+
+    &lt;div&gt;
+</pre><details><summary>Line-numbered source guide</summary><pre>   1 |   &lt;div&gt;
+   2 | 
+   3 |     &lt;div&gt;</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;expected_html&quot;: &quot;  &lt;div&gt;\n\n    &lt;div&gt;\n&quot;,
+  &quot;official_expected_html&quot;: &quot;  &lt;div&gt;\n&lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;\n&lt;/code&gt;&lt;/pre&gt;\n&quot;,
+  &quot;independent_rationale&quot;: &quot;SUPPORTED: root-level open native HTML retains indented native descendants through blank blocks and EOF; source is not an independent Markdown indented-code block.&quot;,
+  &quot;previous_overlay_changed&quot;: false
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>official / 1</td><td>[0, 19)</td><td>1–3</td><td>  &lt;div&gt;
+
+    &lt;div&gt;
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>official:1:0:19:0</td><td>None</td><td>html_block </td><td>  &lt;div&gt;
+
+    &lt;div&gt;
+</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 19, &quot;line_start&quot;: 1, &quot;line_end&quot;: 3, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;official:1:0:19&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;official:1:0:19:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;html_block&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;  &lt;div&gt;\n\n    &lt;div&gt;\n&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 19,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 3,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        },
+        &quot;html_source_tree&quot;: [
+          {
+            &quot;id&quot;: 0,
+            &quot;parent_id&quot;: null,
+            &quot;type&quot;: &quot;html_source_context&quot;,
+            &quot;source_tokens&quot;: [
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 0,
+                &quot;relative_end&quot;: 2,
+                &quot;raw_text&quot;: &quot;  &quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 2,
+                &quot;relative_end&quot;: 7,
+                &quot;raw_text&quot;: &quot;&lt;div&gt;&quot;,
+                &quot;tag&quot;: &quot;div&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 7,
+                &quot;relative_end&quot;: 13,
+                &quot;raw_text&quot;: &quot;\n\n    &quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 13,
+                &quot;relative_end&quot;: 18,
+                &quot;raw_text&quot;: &quot;&lt;div&gt;&quot;,
+                &quot;tag&quot;: &quot;div&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 18,
+                &quot;relative_end&quot;: 19,
+                &quot;raw_text&quot;: &quot;\n&quot;
+              }
+            ],
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;representation&quot;: &quot;VERBATIM_SOURCE_CONTEXT&quot;
+          },
+          {
+            &quot;id&quot;: 1,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;  &quot;
+          },
+          {
+            &quot;id&quot;: 2,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;div&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 3,
+            &quot;parent_id&quot;: 2,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n\n    &quot;
+          },
+          {
+            &quot;id&quot;: 4,
+            &quot;parent_id&quot;: 2,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;div&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 5,
+            &quot;parent_id&quot;: 4,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n&quot;
+          }
+        ],
+        &quot;html_tree_coordinates&quot;: &quot;RELATIVE_TO_TOKEN_CONTENT&quot;
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null,
+  &quot;expected_projection&quot;: &quot;  &lt;div&gt;\n\n    &lt;div&gt;\n&quot;,
+  &quot;actual_projection&quot;: &quot;  &lt;div&gt;\n\n    &lt;div&gt;\n&quot;,
+  &quot;projection_normalized_equal&quot;: true,
+  &quot;projection_text_diff&quot;: &quot;&quot;
+}</pre><p>Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.</p><p>Full snapshot: <a href="actual-output/seven-adjudications.json">seven-adjudications.json</a>; exact source: <a href="sources/1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="ADJ-005"><h2>ADJ-005 — GFM-0.29 125 — current independently supported interpretation</h2><small>Source SHA-256: 759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421<br>Source/revision: official / 1; field: content<br>Original reference: docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json</small><h3>Original Markdown (exact text)</h3><pre>&lt;div&gt;
+*foo*
+
+*bar*
+</pre><details><summary>Line-numbered source guide</summary><pre>   1 | &lt;div&gt;
+   2 | *foo*
+   3 | 
+   4 | *bar*</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;expected_html&quot;: &quot;&lt;div&gt;\n*foo*\n\n*bar*\n&quot;,
+  &quot;official_expected_html&quot;: &quot;&lt;div&gt;\n*foo*\n&lt;p&gt;&lt;em&gt;bar&lt;/em&gt;&lt;/p&gt;\n&quot;,
+  &quot;independent_rationale&quot;: &quot;SUPPORTED: open native HTML at document root retains literal Markdown through blank blocks and EOF under frozen Obsidian profile; no enclosing list boundary exists.&quot;,
+  &quot;previous_overlay_changed&quot;: false
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>official / 1</td><td>[0, 19)</td><td>1–4</td><td>&lt;div&gt;
+*foo*
+
+*bar*
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>official:1:0:19:0</td><td>None</td><td>html_block </td><td>&lt;div&gt;
+*foo*
+
+*bar*
+</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 19, &quot;line_start&quot;: 1, &quot;line_end&quot;: 4, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;official:1:0:19&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;official:1:0:19:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;html_block&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;&lt;div&gt;\n*foo*\n\n*bar*\n&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 19,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 4,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        },
+        &quot;html_source_tree&quot;: [
+          {
+            &quot;id&quot;: 0,
+            &quot;parent_id&quot;: null,
+            &quot;type&quot;: &quot;html_source_context&quot;,
+            &quot;source_tokens&quot;: [
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 0,
+                &quot;relative_end&quot;: 5,
+                &quot;raw_text&quot;: &quot;&lt;div&gt;&quot;,
+                &quot;tag&quot;: &quot;div&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 5,
+                &quot;relative_end&quot;: 19,
+                &quot;raw_text&quot;: &quot;\n*foo*\n\n*bar*\n&quot;
+              }
+            ],
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;representation&quot;: &quot;VERBATIM_SOURCE_CONTEXT&quot;
+          },
+          {
+            &quot;id&quot;: 1,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;div&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 2,
+            &quot;parent_id&quot;: 1,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n*foo*\n\n*bar*\n&quot;
+          }
+        ],
+        &quot;html_tree_coordinates&quot;: &quot;RELATIVE_TO_TOKEN_CONTENT&quot;
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null,
+  &quot;expected_projection&quot;: &quot;&lt;div&gt;\n*foo*\n\n*bar*\n&quot;,
+  &quot;actual_projection&quot;: &quot;&lt;div&gt;\n*foo*\n\n*bar*\n&quot;,
+  &quot;projection_normalized_equal&quot;: true,
+  &quot;projection_text_diff&quot;: &quot;&quot;
+}</pre><p>Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.</p><p>Full snapshot: <a href="actual-output/seven-adjudications.json">seven-adjudications.json</a>; exact source: <a href="sources/759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="ADJ-006"><h2>ADJ-006 — GFM-0.29 144 — current independently supported interpretation</h2><small>Source SHA-256: 4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394<br>Source/revision: official / 1; field: content<br>Original reference: docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json</small><h3>Original Markdown (exact text)</h3><pre>- &lt;div&gt;
+- foo
+</pre><details><summary>Line-numbered source guide</summary><pre>   1 | - &lt;div&gt;
+   2 | - foo</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;expected_html&quot;: &quot;&lt;ul&gt;\n&lt;li&gt;\n&lt;div&gt;\n&lt;/li&gt;\n&lt;li&gt;foo&lt;/li&gt;\n&lt;/ul&gt;\n&quot;,
+  &quot;official_expected_html&quot;: &quot;&lt;ul&gt;\n&lt;li&gt;\n&lt;div&gt;\n&lt;/li&gt;\n&lt;li&gt;foo&lt;/li&gt;\n&lt;/ul&gt;\n&quot;,
+  &quot;independent_rationale&quot;: &quot;SUPPORTED: the second unindented marker is a separate sibling list item. An open native element inside the first item cannot extend its owning Markdown list-item source. Official expected two-item structure is restored.&quot;,
+  &quot;previous_overlay_changed&quot;: true
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>official / 1</td><td>[0, 14)</td><td>1–2</td><td>- &lt;div&gt;
+- foo
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>official:1:0:14:0</td><td>None</td><td>bullet_list_open ul</td><td></td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 14, &quot;line_start&quot;: 1, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:1</td><td>official:1:0:14:0</td><td>list_item_open li</td><td></td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 8, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:2</td><td>official:1:0:14:1</td><td>html_block </td><td>&lt;div&gt;
+</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 8, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:3</td><td>official:1:0:14:0</td><td>list_item_open li</td><td></td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 8, &quot;char_end&quot;: 14, &quot;line_start&quot;: 2, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:4</td><td>official:1:0:14:3</td><td>paragraph_open p</td><td></td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 8, &quot;char_end&quot;: 14, &quot;line_start&quot;: 2, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:5</td><td>official:1:0:14:4</td><td>inline </td><td>foo</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 8, &quot;char_end&quot;: 14, &quot;line_start&quot;: 2, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>official:1:0:14:6</td><td>official:1:0:14:5</td><td>text </td><td>foo</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 8, &quot;char_end&quot;: 14, &quot;line_start&quot;: 2, &quot;line_end&quot;: 2, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;official:1:0:14&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;official:1:0:14:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;bullet_list_open&quot;,
+        &quot;tag&quot;: &quot;ul&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;-&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:1&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:0&quot;,
+        &quot;type&quot;: &quot;list_item_open&quot;,
+        &quot;tag&quot;: &quot;li&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;-&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 8,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:2&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:1&quot;,
+        &quot;type&quot;: &quot;html_block&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;&lt;div&gt;\n&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 8,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        },
+        &quot;html_source_tree&quot;: [
+          {
+            &quot;id&quot;: 0,
+            &quot;parent_id&quot;: null,
+            &quot;type&quot;: &quot;html_source_context&quot;,
+            &quot;source_tokens&quot;: [
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 0,
+                &quot;relative_end&quot;: 5,
+                &quot;raw_text&quot;: &quot;&lt;div&gt;&quot;,
+                &quot;tag&quot;: &quot;div&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 5,
+                &quot;relative_end&quot;: 6,
+                &quot;raw_text&quot;: &quot;\n&quot;
+              }
+            ],
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 6,
+            &quot;representation&quot;: &quot;VERBATIM_SOURCE_CONTEXT&quot;
+          },
+          {
+            &quot;id&quot;: 1,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 6,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;div&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 2,
+            &quot;parent_id&quot;: 1,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 6,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n&quot;
+          }
+        ],
+        &quot;html_tree_coordinates&quot;: &quot;RELATIVE_TO_TOKEN_CONTENT&quot;
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:3&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:0&quot;,
+        &quot;type&quot;: &quot;list_item_open&quot;,
+        &quot;tag&quot;: &quot;li&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;-&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 8,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 2,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:4&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:3&quot;,
+        &quot;type&quot;: &quot;paragraph_open&quot;,
+        &quot;tag&quot;: &quot;p&quot;,
+        &quot;hidden&quot;: true,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 8,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 2,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:5&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:4&quot;,
+        &quot;type&quot;: &quot;inline&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;foo&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 8,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 2,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;official:1:0:14:6&quot;,
+        &quot;parent_id&quot;: &quot;official:1:0:14:5&quot;,
+        &quot;type&quot;: &quot;text&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;foo&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 8,
+          &quot;char_end&quot;: 14,
+          &quot;line_start&quot;: 2,
+          &quot;line_end&quot;: 2,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        }
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null,
+  &quot;expected_projection&quot;: &quot;&lt;ul&gt;\n&lt;li&gt;\n&lt;div&gt;\n&lt;/li&gt;\n&lt;li&gt;foo&lt;/li&gt;\n&lt;/ul&gt;\n&quot;,
+  &quot;actual_projection&quot;: &quot;&lt;ul&gt;\n&lt;li&gt;\n&lt;div&gt;\n&lt;/li&gt;\n&lt;li&gt;foo&lt;/li&gt;\n&lt;/ul&gt;\n&quot;,
+  &quot;projection_normalized_equal&quot;: true,
+  &quot;projection_text_diff&quot;: &quot;&quot;
+}</pre><p>Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.</p><p>Full snapshot: <a href="actual-output/seven-adjudications.json">seven-adjudications.json</a>; exact source: <a href="sources/4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="ADJ-007"><h2>ADJ-007 — GFM-0.29 153 — current independently supported interpretation</h2><small>Source SHA-256: 1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f<br>Source/revision: official / 1; field: content<br>Original reference: docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json</small><h3>Original Markdown (exact text)</h3><pre>  &lt;div&gt;
+
+    &lt;div&gt;
+</pre><details><summary>Line-numbered source guide</summary><pre>   1 |   &lt;div&gt;
+   2 | 
+   3 |     &lt;div&gt;</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;expected_html&quot;: &quot;  &lt;div&gt;\n\n    &lt;div&gt;\n&quot;,
+  &quot;official_expected_html&quot;: &quot;  &lt;div&gt;\n&lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;\n&lt;/code&gt;&lt;/pre&gt;\n&quot;,
+  &quot;independent_rationale&quot;: &quot;SUPPORTED: root-level open native HTML retains indented native descendants through blank blocks and EOF; source is not an independent Markdown indented-code block.&quot;,
+  &quot;previous_overlay_changed&quot;: false
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>official / 1</td><td>[0, 19)</td><td>1–3</td><td>  &lt;div&gt;
+
+    &lt;div&gt;
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>official:1:0:19:0</td><td>None</td><td>html_block </td><td>  &lt;div&gt;
+
+    &lt;div&gt;
+</td><td>{&quot;source_key&quot;: &quot;official&quot;, &quot;source_version&quot;: 1, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 19, &quot;line_start&quot;: 1, &quot;line_end&quot;: 3, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;official:1:0:19&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;official:1:0:19:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;html_block&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;  &lt;div&gt;\n\n    &lt;div&gt;\n&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;official&quot;,
+          &quot;source_version&quot;: 1,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 19,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 3,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        },
+        &quot;html_source_tree&quot;: [
+          {
+            &quot;id&quot;: 0,
+            &quot;parent_id&quot;: null,
+            &quot;type&quot;: &quot;html_source_context&quot;,
+            &quot;source_tokens&quot;: [
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 0,
+                &quot;relative_end&quot;: 2,
+                &quot;raw_text&quot;: &quot;  &quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 2,
+                &quot;relative_end&quot;: 7,
+                &quot;raw_text&quot;: &quot;&lt;div&gt;&quot;,
+                &quot;tag&quot;: &quot;div&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 7,
+                &quot;relative_end&quot;: 13,
+                &quot;raw_text&quot;: &quot;\n\n    &quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 13,
+                &quot;relative_end&quot;: 18,
+                &quot;raw_text&quot;: &quot;&lt;div&gt;&quot;,
+                &quot;tag&quot;: &quot;div&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 18,
+                &quot;relative_end&quot;: 19,
+                &quot;raw_text&quot;: &quot;\n&quot;
+              }
+            ],
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;representation&quot;: &quot;VERBATIM_SOURCE_CONTEXT&quot;
+          },
+          {
+            &quot;id&quot;: 1,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;  &quot;
+          },
+          {
+            &quot;id&quot;: 2,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;div&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 3,
+            &quot;parent_id&quot;: 2,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n\n    &quot;
+          },
+          {
+            &quot;id&quot;: 4,
+            &quot;parent_id&quot;: 2,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;div&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 5,
+            &quot;parent_id&quot;: 4,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 19,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;\n&quot;
+          }
+        ],
+        &quot;html_tree_coordinates&quot;: &quot;RELATIVE_TO_TOKEN_CONTENT&quot;
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null,
+  &quot;expected_projection&quot;: &quot;  &lt;div&gt;\n\n    &lt;div&gt;\n&quot;,
+  &quot;actual_projection&quot;: &quot;  &lt;div&gt;\n\n    &lt;div&gt;\n&quot;,
+  &quot;projection_normalized_equal&quot;: true,
+  &quot;projection_text_diff&quot;: &quot;&quot;
+}</pre><p>Seven records remain seven decision obligations, including equal CM/GFM source strings. CM175/GFM144 restore two sibling items; EOF native HTML cases intentionally differ from older official rendering.</p><p>Full snapshot: <a href="actual-output/seven-adjudications.json">seven-adjudications.json</a>; exact source: <a href="sources/1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article></body></html>

@@ -1,0 +1,26 @@
+{
+  "profile": "ppv-obsidian-source-v1",
+  "purpose": "exposed synthetic development vault, not independent held-out or human-adjudicated",
+  "label_author": "Codex; review pending",
+  "human_adjudicator": null,
+  "documents": [
+    {
+      "file": "Child.md",
+      "sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+      "revision": 7,
+      "lines": 19
+    },
+    {
+      "file": "Grand.md",
+      "sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+      "revision": 11,
+      "lines": 5
+    },
+    {
+      "file": "Research.md",
+      "sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+      "revision": 3,
+      "lines": 75
+    }
+  ]
+}

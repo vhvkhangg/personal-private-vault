@@ -1,0 +1,237 @@
+[
+  {
+    "case_id": "UNSAFE-001",
+    "group": "unsafe-html",
+    "title": "Frozen UNSAFE example 1",
+    "requirements": [
+      "MD17-04",
+      "MD17-06",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "<div>\n\n<script>throw 1</script>\n\n</div>",
+    "source_sha256": "b2ea54d3482536740a3ebd232323a0a6d9a9e5fb7f47c224370ec093bebf891e",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/b2ea54d3482536740a3ebd232323a0a6d9a9e5fb7f47c224370ec093bebf891e.txt",
+    "source_reference": "rag-engine/tests/test_d17_completion.py",
+    "source_identity": "root",
+    "source_revision": 4,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "interpretation": "Whole-root zero-chunk active-content denial."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "UNSAFE-002",
+    "group": "unsafe-html",
+    "title": "Frozen UNSAFE example 2",
+    "requirements": [
+      "MD17-04",
+      "MD17-06",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "<span onload=\"execute()\">source</span>",
+    "source_sha256": "957f9e8eca1a58d22001b0b62eed5d78e216abf4e0082aa367e11c294a8c548e",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/957f9e8eca1a58d22001b0b62eed5d78e216abf4e0082aa367e11c294a8c548e.txt",
+    "source_reference": "rag-engine/tests/test_d17_completion.py",
+    "source_identity": "root",
+    "source_revision": 4,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "interpretation": "Whole-root zero-chunk active-content denial."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "UNSAFE-003",
+    "group": "unsafe-html",
+    "title": "Frozen UNSAFE example 3",
+    "requirements": [
+      "MD17-04",
+      "MD17-06",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "<a href=\"java&#x09;script:execute()\">source</a>",
+    "source_sha256": "e0bb54a996d08e51b43bcacff29acc06e0cabc817247348f695c5940375be621",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/e0bb54a996d08e51b43bcacff29acc06e0cabc817247348f695c5940375be621.txt",
+    "source_reference": "rag-engine/tests/test_d17_completion.py",
+    "source_identity": "root",
+    "source_revision": 4,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "interpretation": "Whole-root zero-chunk active-content denial."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "UNSAFE-004",
+    "group": "unsafe-html",
+    "title": "Frozen UNSAFE example 4",
+    "requirements": [
+      "MD17-04",
+      "MD17-06",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "<span style=\"background:url(https://example.invalid)\">source</span>",
+    "source_sha256": "38e1e6d8c9567194a70f71d789ac91c28b57a9a905edddba71b671051f189015",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/38e1e6d8c9567194a70f71d789ac91c28b57a9a905edddba71b671051f189015.txt",
+    "source_reference": "rag-engine/tests/test_d17_completion.py",
+    "source_identity": "root",
+    "source_revision": 4,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "interpretation": "Whole-root zero-chunk active-content denial."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "UNSAFE-005",
+    "group": "unsafe-html",
+    "title": "Frozen UNSAFE example 5",
+    "requirements": [
+      "MD17-04",
+      "MD17-06",
+      "MD17-10",
+      "MD17-11",
+      "MD17-12"
+    ],
+    "source": "<iframe src=\"https://example.invalid\"></iframe>",
+    "source_sha256": "c62edeb022c1c91c092c0a7a4ca1ac51ed90c5012c5a5ac213d29634f5d35f04",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/c62edeb022c1c91c092c0a7a4ca1ac51ed90c5012c5a5ac213d29634f5d35f04.txt",
+    "source_reference": "rag-engine/tests/test_d17_completion.py",
+    "source_identity": "root",
+    "source_revision": 4,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "interpretation": "Whole-root zero-chunk active-content denial."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  }
+]

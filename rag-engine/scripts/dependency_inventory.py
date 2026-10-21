@@ -21,7 +21,8 @@ parser.add_argument(
     ),
 )
 arguments = parser.parse_args()
-locked = tomllib.loads(Path("uv.lock").read_text(encoding="utf-8"))
+lock_path = Path("uv.lock") if Path("uv.lock").exists() else Path("rag-engine/uv.lock")
+locked = tomllib.loads(lock_path.read_text(encoding="utf-8"))
 locked_versions = {package["name"]: package["version"] for package in locked["package"]}
 
 records = []
@@ -70,7 +71,7 @@ destination.write_text(
             "python": sys.version.split()[0],
             "platform": platform.platform(),
             "libpq_version": psycopg.pq.version(),
-            "uv_lock_sha256": hashlib.sha256(Path("uv.lock").read_bytes()).hexdigest(),
+            "uv_lock_sha256": hashlib.sha256(lock_path.read_bytes()).hexdigest(),
             "installed_packages": records,
             "external_requests_performed": False,
             "os_egress_enforcement": "NOT_VERIFIED_BY_THIS_INVENTORY",

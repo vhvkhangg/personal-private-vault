@@ -1,0 +1,1630 @@
+{
+  "review_date": "2026-10-20",
+  "recorded_utc": "2026-10-20T03:23:39.598028+00:00",
+  "scope": "P18-S2-PARSER-OCR-EMBEDDING only",
+  "decision": "CHANGES_REQUESTED",
+  "head": "c3b46351507803053850e3c2711602ee9c9ec419",
+  "branch": "main",
+  "independent_pytest": "76 passed in 19.85s; zero failures/errors/skips; bounded receipt duration includes interpreter/watchdog overhead",
+  "static_checks": {
+    "ruff": "PASS",
+    "ruff_format": "45 files already formatted",
+    "mypy": "21 source files clean"
+  },
+  "notes": [
+    "Reviewer diagnostic exit 0 means observations completed, not parser acceptance",
+    "OCR exit 1 is retained as FAILED diagnostic, not a fresh held-out acceptance run",
+    "GPU CUDA unavailable; real CPU inference and synthetic fallback test distinguished",
+    "No Maven/full clean gate rerun; no external indexing activation; no source/test/migration fixes"
+  ],
+  "source_inventory_sha256": {
+    "rag-engine/.python-version": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f",
+    "rag-engine/pyproject.toml": "07ce82d54737a0f70b7ab80f986c93eaad16e12112ed47d066d61042a46e49cb",
+    "rag-engine/scripts/d18_pt_a_ocr_checkpoint.py": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5",
+    "rag-engine/scripts/dependency_inventory.py": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+    "rag-engine/scripts/freeze_phase18_ocr_fixtures.py": "939e78c06c06b3dc4e4963379bc78654d86c6984fee20ef538eb5a938435839b",
+    "rag-engine/scripts/measure_d18_pt_a.py": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3",
+    "rag-engine/scripts/offline_check.py": "520ab0ffb52eb616160f351a5ffd92c4bd1b4f57449b5adcb4dfa8bccfc36cea",
+    "rag-engine/scripts/probe_phase18_ocr.py": "8e04a757d852568a2153980e0e547d01d449a10e58228fa0a7c14fc0fb3ce5a1",
+    "rag-engine/scripts/provision_embedding_model.py": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+    "rag-engine/scripts/provision_phase18_latin_ocr.py": "4dbaf78f73d8f0ce66027f6aba43e687cdd957958d2ced92d9e14d2450508662",
+    "rag-engine/scripts/run_d18_pt_a_native.py": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8",
+    "rag-engine/scripts/worker_boundary_check.py": "a360838a9be31fcaa139a7f22bd74404d6a365fffc301ad430972f23e27a161d",
+    "rag-engine/src/ppv_rag/__init__.py": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5",
+    "rag-engine/src/ppv_rag/chunking/__init__.py": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d",
+    "rag-engine/src/ppv_rag/chunking/chunker.py": "fd5b5eb1811d3e12d30cb7b18ecd1935dd35fd3ab89cea55fe424cb19f62df74",
+    "rag-engine/src/ppv_rag/config.py": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a",
+    "rag-engine/src/ppv_rag/contracts.py": "28db2741bfdee641b6958dd3b017462338588a93c39e25d480bb4a3a3146441b",
+    "rag-engine/src/ppv_rag/db.py": "421dc9e3823a349b3b6a935f59eb17ac89368458aaf0e346d792b6075b963177",
+    "rag-engine/src/ppv_rag/embeddings/__init__.py": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a",
+    "rag-engine/src/ppv_rag/embeddings/model.py": "d3abbe3e2eba52c18425d66b0d432bac5d0ef9450b2cf937e7c78bf9a7167d9b",
+    "rag-engine/src/ppv_rag/main.py": "f7b6cee4ba1665c5eddd86e53cd498492da8993eef834a2d3abfa4ce882c1173",
+    "rag-engine/src/ppv_rag/ocr/engine.py": "1497c252ecd1dd2984ed6ffa76e4fa2ca3379a29ae23ae040f3077585de9f7a1",
+    "rag-engine/src/ppv_rag/parsers/__init__.py": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60",
+    "rag-engine/src/ppv_rag/parsers/docx.py": "b936060ce66763834cc244af4b6c95bf6dbe4d85d69850b74131d93b118a3520",
+    "rag-engine/src/ppv_rag/parsers/excel.py": "a2f87307983b56f2a63b7f62b996a84ec04dd4ae5727d103432343a0ecb5cd91",
+    "rag-engine/src/ppv_rag/parsers/markdown.py": "97d939cb3e7d8b33116b8c5fa1f9a27a40ca89785e861d30ea9115b325066473",
+    "rag-engine/src/ppv_rag/parsers/models.py": "e1ee755303c3d074195552b18c1815f0f5197adbd9601fd3ab461ca98468e007",
+    "rag-engine/src/ppv_rag/parsers/pdf.py": "515d5f269b519580b207c7192c74db19d9e1e7e465281f3ab467e7bcb0344307",
+    "rag-engine/src/ppv_rag/parsers/text.py": "3e134bed92861ba248b069ab88c24a6c2f029c0dc7cb00c645aefb62ee4c680b",
+    "rag-engine/src/ppv_rag/security.py": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44",
+    "rag-engine/src/ppv_rag/telemetry.py": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9",
+    "rag-engine/src/ppv_rag/transport.py": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54",
+    "rag-engine/src/ppv_rag/worker.py": "a7b68b14519afef468798acb8b0a4fc8f6d98ef7224eee7ca8b4ce1edd5d4e75",
+    "rag-engine/tests/conftest.py": "b5c31d9da460929f125919176a9a919cc445c8ad2b6a84c67e7df7bea2b3d39f",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.json": "9c1d7b16e0c5d9d4b4f18db95e37680c556b8b6bb466ab3e0f02e8ff50897801",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.sha256": "b141264c2f022d23d00c85f413348a8a4c698589d74c47d02245f8c6c1283fea",
+    "rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e",
+    "rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6",
+    "rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894",
+    "rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-en.pdf": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-vi.pdf": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hans.pdf": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hant.pdf": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-en.pdf": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-vi.pdf": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hans.pdf": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hant.pdf": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.json": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.sha256": "ac980ad84345db8ac21c4f6dff8bdde9e1a2dba2eeb68e5fc269c7de61ebe5ea",
+    "rag-engine/tests/test_bound_ingress.py": "6822be0fb5c15ac3bfd3d01f9770cd2a9e6699d24c0af8b0f93f5f4d2928729f",
+    "rag-engine/tests/test_chunker.py": "5392473816e09e651e0e19f4e83653e44dfffa00fa6ea5225fae9278b2e5cad2",
+    "rag-engine/tests/test_consumption_containment.py": "ea23a6d8993e242b867f2b305188561d42f3c920f89de924dfb3a61d0599b79b",
+    "rag-engine/tests/test_contracts.py": "eb7a6c8d985ad8ae18f1c1a7c74eccc7ec0d99a604a74cf90dbf0214939d02f9",
+    "rag-engine/tests/test_embeddings.py": "fb06cb72b6a3f3109b8b038f30561b361ebf261f653002f24d6433ca00a82a85",
+    "rag-engine/tests/test_health.py": "767dbc538065bcfc42bed41c2271775aff5049c7dd07a16e87749b0fa184f4ed",
+    "rag-engine/tests/test_parsers.py": "6f998fff9543f0e8e8428e44809bfaf7756ad29f6f9b1d374bfed25c35cba127",
+    "rag-engine/tests/test_pdf_geometry.py": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723",
+    "rag-engine/tests/test_telemetry.py": "d0823c24f4b30ea8d199f13da637241a6a5cc550ef2333b18bed98c6748f5077",
+    "rag-engine/tests/test_transport.py": "5b9e11f0b65ec0d0bd98369737883f7dda716b977563e0c4de249bb7523952fb",
+    "rag-engine/tests/test_worker.py": "35e195f5dc832ea6b6a2bc543270afdc374caf53f1939dd33f5237c984121ac3",
+    "rag-engine/tests/test_worker_v3.py": "cce9785521523b1a63af38d1dead25da9ef966d34ea27d6298965f2f8d198877",
+    "rag-engine/uv.lock": "03fbb416d31ff5bb23d64e6ce3b97d052a5ece9c599a1426a0845159aee0e0c3"
+  },
+  "evidence": {
+    "logs/phase18/s2-independent-bounds-2026-10-20.json": {
+      "sha256": "837a02ad7d193569699e42994d414388da78fa77d35f82a2d460466e2b5fa8ff",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "python.exe",
+        "argv_sha256": "00607db9213b7397ddcb0ffc63a3d59c4e118b2889449e87453a65d217e221c0",
+        "started_utc": "2026-10-20T03:22:10.847+00:00",
+        "pid": 22108,
+        "finished_utc": "2026-10-20T03:22:11.814+00:00",
+        "duration_seconds": 0.969,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-bounds-results-2026-10-20.json": {
+      "sha256": "3944bfc8ce30974a4f9b1a83a60c2a516137c8adef6cbc6d1937f065b90646c8",
+      "content": {
+        "compressed_workbook_bytes": 4851,
+        "admitted_iteration": {
+          "rows": 10000,
+          "columns": 16384,
+          "rectangular_cells": 163840000
+        },
+        "outcome": "Production reached full-sheet iteration; reviewer guard stopped allocation, not a production rejection",
+        "transclusion_expansion": {
+          "parent_characters": 384,
+          "unique_child_characters": 80000,
+          "expanded_characters": 2560000,
+          "elements": 32,
+          "outcome": "accepted"
+        }
+      }
+    },
+    "logs/phase18/s2-independent-dependencies-2026-10-20.json": {
+      "sha256": "d3d8dca15b5c4bd72f762d4a1ece85dbb83ddb7f931beced9fc0f147828ef862",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "3bbb79919b3847748991a9ecb82bf9b41c7fcf47de900fb4a172aa36d03f6c34",
+        "started_utc": "2026-10-20T03:21:46.248+00:00",
+        "pid": 13068,
+        "finished_utc": "2026-10-20T03:21:48.468+00:00",
+        "duration_seconds": 2.218,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-dependency-inventory-2026-10-20.json": {
+      "sha256": "163462ed4823b7581293203a34627bdfef4177ca78f51ca8b6c8da33cb6c961f",
+      "content": {
+        "python": "3.14.4",
+        "platform": "Windows-11-10.0.26300-SP0",
+        "libpq_version": 180004,
+        "uv_lock_sha256": "03fbb416d31ff5bb23d64e6ce3b97d052a5ece9c599a1426a0845159aee0e0c3",
+        "external_requests_performed": false,
+        "os_egress_enforcement": "NOT_VERIFIED_BY_THIS_INVENTORY",
+        "bundled_native_library_redistribution_approval": "NOT_ESTABLISHED_BY_METADATA",
+        "installed_package_count": 66
+      }
+    },
+    "logs/phase18/s2-independent-diagnostic-results-2026-10-20.json": {
+      "sha256": "f5b61a5e8f5897f447524618b925a39262af7149cb14495180025c33b0e572c5",
+      "content": {
+        "whole_file_private": "RestrictiveContentError",
+        "markdown_comments_properties_code": {
+          "text": [
+            "BODY",
+            ""
+          ],
+          "locators": [
+            {
+              "source_key": "md",
+              "source_version": 1,
+              "approved_field": "content",
+              "line_start": 5,
+              "line_end": 5,
+              "heading_path": []
+            },
+            {
+              "source_key": "md",
+              "source_version": 1,
+              "approved_field": "content",
+              "line_start": 9,
+              "line_end": 11,
+              "heading_path": []
+            }
+          ],
+          "metadata": [
+            {},
+            {}
+          ],
+          "warnings": [
+            "Excluded unapproved frontmatter field: title",
+            "Excluded unapproved frontmatter field: custom"
+          ]
+        },
+        "callout_child": {
+          "text": [
+            "![[Child]]"
+          ],
+          "locators": [
+            {
+              "source_key": "parent",
+              "source_version": 1,
+              "approved_field": "content",
+              "line_start": 1,
+              "line_end": 2,
+              "heading_path": [],
+              "callout_type": "NOTE"
+            }
+          ],
+          "metadata": [
+            {
+              "callout_type": "NOTE"
+            }
+          ],
+          "warnings": []
+        },
+        "alias_child": "ValueError: Missing transclusion anchor or empty child",
+        "child_revision_blend": [
+          {
+            "text": "OLD_REVISION\n\nNEW_REVISION",
+            "source_version": 1,
+            "locator": {
+              "source_key": "same-child",
+              "source_version": 1,
+              "approved_field": "content",
+              "line_start": 1,
+              "line_end": 1,
+              "heading_path": [],
+              "parent_source_key": "parent",
+              "parent_line_start": 1,
+              "parent_line_end": 1,
+              "transclusion_target": "Old"
+            },
+            "constituent_locators": [
+              {
+                "source_key": "same-child",
+                "source_version": 1,
+                "approved_field": "content",
+                "line_start": 1,
+                "line_end": 1,
+                "heading_path": [],
+                "parent_source_key": "parent",
+                "parent_line_start": 1,
+                "parent_line_end": 1,
+                "transclusion_target": "Old"
+              },
+              {
+                "source_key": "same-child",
+                "source_version": 2,
+                "approved_field": "content",
+                "line_start": 1,
+                "line_end": 1,
+                "heading_path": [],
+                "parent_source_key": "parent",
+                "parent_line_start": 3,
+                "parent_line_end": 3,
+                "transclusion_target": "New"
+              }
+            ]
+          }
+        ],
+        "docx_hyperlink_nested_comment": {
+          "text": [
+            "Document Property [author]: python-docx",
+            "Document Property [comments]: generated by python-docx",
+            "Comment [0] by Synthetic Reviewer: ANCHORED_COMMENT",
+            "BEFORE  AFTER",
+            "ANCHOR_TEXT",
+            "Table Header: OUTER_CELL"
+          ],
+          "locators": [
+            {
+              "source_key": "docx",
+              "source_version": 1,
+              "approved_field": "content",
+              "container_part": "core_properties",
+              "property_key": "author"
+            },
+            {
+              "source_key": "docx",
+              "source_version": 1,
+              "approved_field": "content",
+              "container_part": "core_properties",
+              "property_key": "comments"
+            },
+            {
+              "source_key": "docx",
+              "source_version": 1,
+              "approved_field": "content",
+              "container_part": "comments",
+              "comment_id": "0"
+            },
+            {
+              "source_key": "docx",
+              "source_version": 1,
+              "approved_field": "content",
+              "paragraph_index": 0,
+              "style": "Normal",
+              "heading_path": []
+            },
+            {
+              "source_key": "docx",
+              "source_version": 1,
+              "approved_field": "content",
+              "paragraph_index": 1,
+              "style": "Normal",
+              "heading_path": []
+            },
+            {
+              "source_key": "docx",
+              "source_version": 1,
+              "approved_field": "content",
+              "table_index": 0,
+              "row_index": 0,
+              "row_count": 1,
+              "col_count": 1,
+              "heading_path": []
+            }
+          ],
+          "metadata": [
+            {
+              "container_part": "core_properties",
+              "property_key": "author"
+            },
+            {
+              "container_part": "core_properties",
+              "property_key": "comments"
+            },
+            {
+              "container_part": "comments",
+              "comment_id": "0",
+              "author": "Synthetic Reviewer"
+            },
+            {
+              "style": "Normal"
+            },
+            {
+              "style": "Normal"
+            },
+            {
+              "is_header": true,
+              "table_index": 0
+            }
+          ],
+          "warnings": []
+        },
+        "xlsx_uncached_formula": {
+          "text": [
+            "Worksheet [Sheet] Header: Total"
+          ],
+          "locators": [
+            {
+              "source_key": "workbook",
+              "source_version": 1,
+              "approved_field": "content",
+              "worksheet": "Sheet",
+              "a1_range": "Sheet!A1:A1",
+              "row_start": 1,
+              "row_end": 1,
+              "col_start": 1,
+              "col_end": 1,
+              "is_header": true
+            }
+          ],
+          "metadata": [
+            {
+              "worksheet": "Sheet",
+              "row": 1,
+              "is_header": true
+            }
+          ],
+          "warnings": []
+        },
+        "xlsx_merge": {
+          "text": [
+            "Worksheet [Sheet] Header: MERGED_HEADER",
+            "[Sheet row 2] MERGED_HEADER: VALUE"
+          ],
+          "locators": [
+            {
+              "source_key": "workbook",
+              "source_version": 1,
+              "approved_field": "content",
+              "worksheet": "Sheet",
+              "a1_range": "Sheet!A1:A1",
+              "row_start": 1,
+              "row_end": 1,
+              "col_start": 1,
+              "col_end": 1,
+              "is_header": true
+            },
+            {
+              "source_key": "workbook",
+              "source_version": 1,
+              "approved_field": "content",
+              "worksheet": "Sheet",
+              "a1_range": "Sheet!A2:A2",
+              "row_start": 2,
+              "row_end": 2,
+              "col_start": 1,
+              "col_end": 1,
+              "is_header": false
+            }
+          ],
+          "metadata": [
+            {
+              "worksheet": "Sheet",
+              "row": 1,
+              "is_header": true
+            },
+            {
+              "worksheet": "Sheet",
+              "row": 2,
+              "is_header": false
+            }
+          ],
+          "warnings": []
+        },
+        "xlsx_hidden_group": {
+          "text": [
+            "Worksheet [Sheet] Header: HIDDEN_C"
+          ],
+          "locators": [
+            {
+              "source_key": "workbook",
+              "source_version": 1,
+              "approved_field": "content",
+              "worksheet": "Sheet",
+              "a1_range": "Sheet!C1:C1",
+              "row_start": 1,
+              "row_end": 1,
+              "col_start": 3,
+              "col_end": 3,
+              "is_header": true
+            }
+          ],
+          "metadata": [
+            {
+              "worksheet": "Sheet",
+              "row": 1,
+              "is_header": true
+            }
+          ],
+          "warnings": []
+        },
+        "pdf_native_ocr_duplicate": {
+          "text": [
+            "DUPLICATE_TEXT",
+            "DUPLICATE_TEXT"
+          ],
+          "locators": [
+            {
+              "source_key": "pdf",
+              "source_version": 1,
+              "approved_field": "content",
+              "format": "PDF",
+              "page": 1,
+              "bbox": [
+                72.0,
+                82.48400000000004,
+                176.688,
+                94.48400000000004
+              ],
+              "coordinate_system": "PDF_TOP_LEFT",
+              "page_origin": [
+                0,
+                0
+              ],
+              "page_rotation": 0,
+              "orientation": 0.0,
+              "is_ocr": false
+            },
+            {
+              "source_key": "pdf",
+              "source_version": 1,
+              "approved_field": "content",
+              "format": "PDF",
+              "page": 1,
+              "bbox": [
+                72.0,
+                80.0,
+                220.0,
+                95.0
+              ],
+              "coordinate_system": "PDF_TOP_LEFT",
+              "page_origin": [
+                0,
+                0
+              ],
+              "page_rotation": 0,
+              "orientation": 0.0,
+              "is_ocr": true
+            }
+          ],
+          "metadata": [
+            {},
+            {
+              "confidence": 0.99
+            }
+          ],
+          "warnings": []
+        },
+        "pdf_reading_order": {
+          "text": [
+            "A",
+            "B",
+            "1",
+            "2",
+            "ABOVE_TABLE"
+          ],
+          "locators": [
+            {
+              "source_key": "table",
+              "source_version": 1,
+              "approved_field": "content",
+              "format": "PDF",
+              "page": 1,
+              "bbox": [
+                50.0,
+                92.0,
+                150.0,
+                142.0
+              ],
+              "coordinate_system": "PDF_TOP_LEFT",
+              "page_origin": [
+                0.0,
+                0.0
+              ],
+              "page_rotation": 0,
+              "orientation": 0.0,
+              "is_ocr": false,
+              "table_index": 0,
+              "row_index": 0,
+              "column_index": 0
+            },
+            {
+              "source_key": "table",
+              "source_version": 1,
+              "approved_field": "content",
+              "format": "PDF",
+              "page": 1,
+              "bbox": [
+                150.0,
+                92.0,
+                250.0,
+                142.0
+              ],
+              "coordinate_system": "PDF_TOP_LEFT",
+              "page_origin": [
+                0.0,
+                0.0
+              ],
+              "page_rotation": 0,
+              "orientation": 0.0,
+              "is_ocr": false,
+              "table_index": 0,
+              "row_index": 0,
+              "column_index": 1
+            },
+            {
+              "source_key": "table",
+              "source_version": 1,
+              "approved_field": "content",
+              "format": "PDF",
+              "page": 1,
+              "bbox": [
+                50.0,
+                142.0,
+                150.0,
+                192.0
+              ],
+              "coordinate_system": "PDF_TOP_LEFT",
+              "page_origin": [
+                0.0,
+                0.0
+              ],
+              "page_rotation": 0,
+              "orientation": 0.0,
+              "is_ocr": false,
+              "table_index": 0,
+              "row_index": 1,
+              "column_index": 0
+            },
+            {
+              "source_key": "table",
+              "source_version": 1,
+              "approved_field": "content",
+              "format": "PDF",
+              "page": 1,
+              "bbox": [
+                150.0,
+                142.0,
+                250.0,
+                192.0
+              ],
+              "coordinate_system": "PDF_TOP_LEFT",
+              "page_origin": [
+                0.0,
+                0.0
+              ],
+              "page_rotation": 0,
+              "orientation": 0.0,
+              "is_ocr": false,
+              "table_index": 0,
+              "row_index": 1,
+              "column_index": 1
+            },
+            {
+              "source_key": "table",
+              "source_version": 1,
+              "approved_field": "content",
+              "format": "PDF",
+              "page": 1,
+              "bbox": [
+                60.0,
+                32.48400000000004,
+                146.04,
+                44.48400000000004
+              ],
+              "coordinate_system": "PDF_TOP_LEFT",
+              "page_origin": [
+                0.0,
+                0.0
+              ],
+              "page_rotation": 0,
+              "orientation": 0.0,
+              "is_ocr": false
+            }
+          ],
+          "metadata": [
+            {
+              "table_index": 0,
+              "row_index": 0,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "table_bbox": [
+                50.0,
+                92.0,
+                250.0,
+                192.0
+              ],
+              "cell_grid": [
+                [
+                  50.0,
+                  92.0,
+                  150.0,
+                  142.0
+                ],
+                [
+                  150.0,
+                  92.0,
+                  250.0,
+                  142.0
+                ],
+                [
+                  50.0,
+                  142.0,
+                  150.0,
+                  192.0
+                ],
+                [
+                  150.0,
+                  142.0,
+                  250.0,
+                  192.0
+                ]
+              ]
+            },
+            {
+              "table_index": 0,
+              "row_index": 0,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "table_bbox": [
+                50.0,
+                92.0,
+                250.0,
+                192.0
+              ],
+              "cell_grid": [
+                [
+                  50.0,
+                  92.0,
+                  150.0,
+                  142.0
+                ],
+                [
+                  150.0,
+                  92.0,
+                  250.0,
+                  142.0
+                ],
+                [
+                  50.0,
+                  142.0,
+                  150.0,
+                  192.0
+                ],
+                [
+                  150.0,
+                  142.0,
+                  250.0,
+                  192.0
+                ]
+              ]
+            },
+            {
+              "table_index": 0,
+              "row_index": 1,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "table_bbox": [
+                50.0,
+                92.0,
+                250.0,
+                192.0
+              ],
+              "cell_grid": [
+                [
+                  50.0,
+                  92.0,
+                  150.0,
+                  142.0
+                ],
+                [
+                  150.0,
+                  92.0,
+                  250.0,
+                  142.0
+                ],
+                [
+                  50.0,
+                  142.0,
+                  150.0,
+                  192.0
+                ],
+                [
+                  150.0,
+                  142.0,
+                  250.0,
+                  192.0
+                ]
+              ]
+            },
+            {
+              "table_index": 0,
+              "row_index": 1,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "table_bbox": [
+                50.0,
+                92.0,
+                250.0,
+                192.0
+              ],
+              "cell_grid": [
+                [
+                  50.0,
+                  92.0,
+                  150.0,
+                  142.0
+                ],
+                [
+                  150.0,
+                  92.0,
+                  250.0,
+                  142.0
+                ],
+                [
+                  50.0,
+                  142.0,
+                  150.0,
+                  192.0
+                ],
+                [
+                  150.0,
+                  142.0,
+                  250.0,
+                  192.0
+                ]
+              ]
+            },
+            {}
+          ],
+          "warnings": []
+        },
+        "null_structural_identity": "ACCEPTED"
+      }
+    },
+    "logs/phase18/s2-independent-diagnostics-2026-10-20.json": {
+      "sha256": "0974e423cfe79e77ac871abd09c4e3d3debe10823079e7a9931311bc60e014b1",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "ab54bd56896ffe05854c7a7d40531b0b0dec49a1fe276168835f9bc827f536af",
+        "started_utc": "2026-10-20T03:20:54.473+00:00",
+        "pid": 2404,
+        "finished_utc": "2026-10-20T03:20:56.341+00:00",
+        "duration_seconds": 1.875,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-format-2026-10-20.json": {
+      "sha256": "70ecb929daabd94992eb372f856931e6c637bf749abb828d3f0c11fc7cab3fd7",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "712ffebcc90b190300f0799a8644f53fb3fcc9c12cab01591760a5d9c61db7bc",
+        "started_utc": "2026-10-20T03:17:10.525+00:00",
+        "pid": 18596,
+        "finished_utc": "2026-10-20T03:17:10.721+00:00",
+        "duration_seconds": 0.187,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-model-2026-10-20.json": {
+      "sha256": "2cdf05a886300d70fccd08e4c418983f6999bc80a906461412dc1f99f10b4e04",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "296e206b88bb0a40f8901544611b7cac8eb3358142953c94f49d0675de5ce679",
+        "started_utc": "2026-10-20T03:21:46.248+00:00",
+        "pid": 24936,
+        "finished_utc": "2026-10-20T03:21:49.475+00:00",
+        "duration_seconds": 3.218,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-model-results-2026-10-20.json": {
+      "sha256": "5c1cfe2404299c93c55fcc52a5371a66209ab83dc4113d59237be5f05f384394",
+      "content": {
+        "python": "3.14.4",
+        "available_providers": [
+          "AzureExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "session_providers": [
+          "CPUExecutionProvider"
+        ],
+        "selected_provider": "CPU",
+        "gpu_execution": "UNAVAILABLE",
+        "network_guard": "Python socket deny guard; not OS proof",
+        "network_attempts": 0,
+        "dimensions": [
+          384,
+          384,
+          384,
+          384
+        ],
+        "finite": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "norms": [
+          1.000000034759319,
+          0.999999968890024,
+          0.9999999847495787,
+          0.9999999814787994
+        ],
+        "wall_seconds": 1.9058230000082403,
+        "cpu_seconds": 2.0,
+        "hardware_snapshot": {
+          "system_ram_peak_bytes": 567005184,
+          "host_ram_headroom_bytes": 350420992,
+          "host_ram_total_bytes": 17112092672,
+          "gpu_vram_used_bytes": 2537566208
+        },
+        "gpu_measurement_available": true,
+        "artifact_sha256": {
+          "model.onnx": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+          "tokenizer.json": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8"
+        },
+        "disk_scope": "in-memory tiny embedding probe, not parser/batch peak temporary disk",
+        "model_file_bytes": {
+          "model.onnx": 118453870,
+          "tokenizer.json": 9081518
+        }
+      }
+    },
+    "logs/phase18/s2-independent-mypy-2026-10-20.json": {
+      "sha256": "11a11c0a0067244b58e5307dde5fa333e2e8652d3267c880ca2cdbc7f14f2e5e",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "5501afe154849397bf55f63a763be0f9ebf1556adb0a475862288a34298592cf",
+        "started_utc": "2026-10-20T03:17:10.528+00:00",
+        "pid": 28692,
+        "finished_utc": "2026-10-20T03:17:11.866+00:00",
+        "duration_seconds": 1.328,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-ocr-2026-10-20.json": {
+      "sha256": "7e6b8592264b488a1fd63eb59a88321a477c9e5b5201555962ef94c2701de578",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "1d96a5cbd787163dec78820f18932a29652dee606f565381dc9a12ecade26d12",
+        "started_utc": "2026-10-20T03:20:04.123+00:00",
+        "pid": 29932,
+        "finished_utc": "2026-10-20T03:20:32.144+00:00",
+        "duration_seconds": 28.015,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-pytest-2026-10-20.json": {
+      "sha256": "2abeed06632966ad6d41918d163e4e8be279ba1229d39d74920d44326c180fac",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 1200.0,
+        "executable": "python.exe",
+        "argv_sha256": "37e7ab863f1b791a7c935da58004b668b15111dd8eb93a929ad6eda84f534b16",
+        "started_utc": "2026-10-20T03:16:51.355+00:00",
+        "pid": 29840,
+        "finished_utc": "2026-10-20T03:17:13.781+00:00",
+        "duration_seconds": 22.422,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-ruff-2026-10-20.json": {
+      "sha256": "a141fa14b13acb40450c671f8957be5badef959a4bb237f274e590bf4531e989",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "3aab481d321f1a4c06b4742db1cdf3cdb709e5abe863166b4707e31d58f9bca4",
+        "started_utc": "2026-10-20T03:17:10.525+00:00",
+        "pid": 10888,
+        "finished_utc": "2026-10-20T03:17:10.717+00:00",
+        "duration_seconds": 0.187,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/s2-independent-diagnostics.py": {
+      "sha256": "a000ae327041067e51321b875415264a5ba7d05b69184abf42779d7b9bf41e66"
+    },
+    "logs/phase18/s2-independent-model-probe.py": {
+      "sha256": "8ce7287cee74ee4f0b98ec58320d7af6eb488dc308e449a04828a0db6ec7a825"
+    },
+    "logs/phase18/s2-independent-bounds-probe.py": {
+      "sha256": "759e160f27d7aad8d55aef177b1484b21ed64428e58bdb1db20aa93a87de969d"
+    },
+    "logs/phase18/pytest.json": {
+      "sha256": "fc5276191e8003acb17d2e60253f4c916ae7583f3b88629dae5208b8797ae9a0",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 1200.0,
+        "executable": "python.exe",
+        "argv_sha256": "f3a596505993f121ad33232d1d943282e9bb198c4a4e8c60d1659b0b027884d6",
+        "started_utc": "2026-10-18T03:59:33.164+00:00",
+        "pid": 19648,
+        "finished_utc": "2026-10-18T03:59:44.443+00:00",
+        "duration_seconds": 11.279,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/ruff-check.json": {
+      "sha256": "5e051e8b261ec6508d4e37160a5be725e5d3bb920115261f6d694cc7291e2f0a",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 1200.0,
+        "executable": "python.exe",
+        "argv_sha256": "c02e1643f304de810968f1ecdaa69fd5c44f29bc09cf8792d49a6a2c7765c431",
+        "started_utc": "2026-10-18T03:59:31.920+00:00",
+        "pid": 27620,
+        "finished_utc": "2026-10-18T03:59:32.043+00:00",
+        "duration_seconds": 0.124,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18-takeover/ocr-quality-1792463760517287700.json": {
+      "sha256": "7d52ea6acab855cee8d93f9c4b4bc22229ac4e368576cd50a40a3343dce52609",
+      "content": {
+        "status": "FAIL",
+        "not_acceptance": "Human adjudication and other formats/geometry/table/publication proofs are pending. No files published by this parser diagnostic.",
+        "dataset_sha256": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+        "documents": 8,
+        "exact_text_matches": 3,
+        "elapsed_seconds": 15.83190520000062,
+        "worker_cpu_seconds": 70.484375,
+        "hardware_snapshot": {
+          "system_ram_peak_bytes": 881651712,
+          "host_ram_headroom_bytes": 2684112896,
+          "host_ram_total_bytes": 17112092672,
+          "gpu_vram_used_bytes": 2556796928
+        },
+        "source_unchanged": true,
+        "results": [
+          {
+            "file": "development-shelf-en.pdf",
+            "split": "development",
+            "language": "en",
+            "reference": "Shelf contains 45 books.",
+            "actual": "Shelf contains 45 books.",
+            "text_exact": true,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "development-shelf-en.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  48.69,
+                  53.47,
+                  484.78,
+                  92.36
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "development-shelf-vi.pdf",
+            "split": "development",
+            "language": "vi",
+            "reference": "Kệ sách có 45 quyển.",
+            "actual": "Ké sach co 45 quyen.",
+            "text_exact": false,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "development-shelf-vi.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  43.04,
+                  47.22,
+                  436.79,
+                  104.17
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "development-shelf-zh-Hans.pdf",
+            "split": "development",
+            "language": "zh-Hans",
+            "reference": "书架上有45本书。",
+            "actual": "书架上有45本书。",
+            "text_exact": true,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "development-shelf-zh-Hans.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  45.87,
+                  53.47,
+                  354.23,
+                  104.86
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "development-shelf-zh-Hant.pdf",
+            "split": "development",
+            "language": "zh-Hant",
+            "reference": "書架上有45本書。",
+            "actual": "書架上有45本書。",
+            "text_exact": true,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "development-shelf-zh-Hant.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  47.28,
+                  53.47,
+                  351.41,
+                  105.56
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "held-out-invoice-en.pdf",
+            "split": "held_out",
+            "language": "en",
+            "reference": "Invoice total 123 dollars. Date 18 October.",
+            "actual": "Invoicetotal123dollars.Date18October.",
+            "text_exact": false,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "held-out-invoice-en.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  50.1,
+                  54.86,
+                  791.03,
+                  92.36
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "held-out-invoice-vi.pdf",
+            "split": "held_out",
+            "language": "vi",
+            "reference": "Số tiền 123 đồng. Ngày 18 tháng 10.",
+            "actual": "S6 tien 123 dong. Ngay 18 thang 10.",
+            "text_exact": false,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "held-out-invoice-vi.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  44.46,
+                  45.14,
+                  702.82,
+                  104.17
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "held-out-invoice-zh-Hans.pdf",
+            "split": "held_out",
+            "language": "zh-Hans",
+            "reference": "发票金额123元。日期10月18日。",
+            "actual": "发票金额123元。 日期10月18日。",
+            "text_exact": false,
+            "blocks": 2,
+            "locators": [
+              {
+                "source_key": "held-out-invoice-zh-Hans.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  45.87,
+                  54.86,
+                  351.41,
+                  104.86
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              },
+              {
+                "source_key": "held-out-invoice-zh-Hans.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  359.88,
+                  56.94,
+                  624.5,
+                  102.08
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "held-out-invoice-zh-Hant.pdf",
+            "split": "held_out",
+            "language": "zh-Hant",
+            "reference": "發票金額123元。日期10月18日。",
+            "actual": "發票金额123元。 日期10月18日。",
+            "text_exact": false,
+            "blocks": 2,
+            "locators": [
+              {
+                "source_key": "held-out-invoice-zh-Hant.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  45.87,
+                  54.86,
+                  351.41,
+                  104.17
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              },
+              {
+                "source_key": "held-out-invoice-zh-Hant.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  359.88,
+                  56.94,
+                  624.5,
+                  102.08
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "logs/phase18-takeover/ocr-quality-1792466431893837100.json": {
+      "sha256": "76ac1a283a1cdc4e286b600ae7e57301203d42d09f64906af040d7beb4b9a97c",
+      "content": {
+        "status": "FAIL",
+        "not_acceptance": "Human adjudication and other formats/geometry/table/publication proofs are pending. No files published by this parser diagnostic.",
+        "dataset_sha256": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+        "documents": 8,
+        "exact_text_matches": 3,
+        "elapsed_seconds": 25.974211199994897,
+        "worker_cpu_seconds": 81.640625,
+        "hardware_snapshot": {
+          "system_ram_peak_bytes": 881754112,
+          "host_ram_headroom_bytes": 1170075648,
+          "host_ram_total_bytes": 17112092672,
+          "gpu_vram_used_bytes": 2543890432
+        },
+        "source_unchanged": true,
+        "results": [
+          {
+            "file": "development-shelf-en.pdf",
+            "split": "development",
+            "language": "en",
+            "reference": "Shelf contains 45 books.",
+            "actual": "Shelf contains 45 books.",
+            "text_exact": true,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "development-shelf-en.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  48.69,
+                  53.47,
+                  484.78,
+                  92.36
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "development-shelf-vi.pdf",
+            "split": "development",
+            "language": "vi",
+            "reference": "Kệ sách có 45 quyển.",
+            "actual": "Ké sach co 45 quyen.",
+            "text_exact": false,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "development-shelf-vi.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  43.04,
+                  47.22,
+                  436.79,
+                  104.17
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "development-shelf-zh-Hans.pdf",
+            "split": "development",
+            "language": "zh-Hans",
+            "reference": "书架上有45本书。",
+            "actual": "书架上有45本书。",
+            "text_exact": true,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "development-shelf-zh-Hans.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  45.87,
+                  53.47,
+                  354.23,
+                  104.86
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "development-shelf-zh-Hant.pdf",
+            "split": "development",
+            "language": "zh-Hant",
+            "reference": "書架上有45本書。",
+            "actual": "書架上有45本書。",
+            "text_exact": true,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "development-shelf-zh-Hant.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  47.28,
+                  53.47,
+                  351.41,
+                  105.56
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "held-out-invoice-en.pdf",
+            "split": "held_out",
+            "language": "en",
+            "reference": "Invoice total 123 dollars. Date 18 October.",
+            "actual": "Invoicetotal123dollars.Date18October.",
+            "text_exact": false,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "held-out-invoice-en.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  50.1,
+                  54.86,
+                  791.03,
+                  92.36
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "held-out-invoice-vi.pdf",
+            "split": "held_out",
+            "language": "vi",
+            "reference": "Số tiền 123 đồng. Ngày 18 tháng 10.",
+            "actual": "S6 tien 123 dong. Ngay 18 thang 10.",
+            "text_exact": false,
+            "blocks": 1,
+            "locators": [
+              {
+                "source_key": "held-out-invoice-vi.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  44.46,
+                  45.14,
+                  702.82,
+                  104.17
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "held-out-invoice-zh-Hans.pdf",
+            "split": "held_out",
+            "language": "zh-Hans",
+            "reference": "发票金额123元。日期10月18日。",
+            "actual": "发票金额123元。 日期10月18日。",
+            "text_exact": false,
+            "blocks": 2,
+            "locators": [
+              {
+                "source_key": "held-out-invoice-zh-Hans.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  45.87,
+                  54.86,
+                  351.41,
+                  104.86
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              },
+              {
+                "source_key": "held-out-invoice-zh-Hans.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  359.88,
+                  56.94,
+                  624.5,
+                  102.08
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          },
+          {
+            "file": "held-out-invoice-zh-Hant.pdf",
+            "split": "held_out",
+            "language": "zh-Hant",
+            "reference": "發票金額123元。日期10月18日。",
+            "actual": "發票金额123元。 日期10月18日。",
+            "text_exact": false,
+            "blocks": 2,
+            "locators": [
+              {
+                "source_key": "held-out-invoice-zh-Hant.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  45.87,
+                  54.86,
+                  351.41,
+                  104.17
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              },
+              {
+                "source_key": "held-out-invoice-zh-Hant.pdf",
+                "source_version": 3,
+                "approved_field": "content",
+                "format": "PDF",
+                "page": 1,
+                "bbox": [
+                  359.88,
+                  56.94,
+                  624.5,
+                  102.08
+                ],
+                "coordinate_system": "PDF_TOP_LEFT",
+                "page_origin": [
+                  0,
+                  0.0
+                ],
+                "page_rotation": 0,
+                "orientation": 0.0,
+                "is_ocr": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+<section/><p style="background:URL(http://invalid)">x</p>

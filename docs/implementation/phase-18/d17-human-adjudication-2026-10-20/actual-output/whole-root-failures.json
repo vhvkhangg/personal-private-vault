@@ -1,0 +1,722 @@
+[
+  {
+    "case_id": "FAIL-001",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 1",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before\n\n![[missing]]\n",
+    "source_sha256": "5e10e07a1b2d396d372756000397a95d59ee75bd15862ae15b9b091cd144fe10",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/5e10e07a1b2d396d372756000397a95d59ee75bd15862ae15b9b091cd144fe10.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNAPPROVED_EMBED",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNAPPROVED_EMBED",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-002",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 2",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before\n\n![[image.png]]\n",
+    "source_sha256": "acc1620f10fbd88ef85693e7d98d18ac6ee5c9d5f0c9252f436887b2174f38e6",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/acc1620f10fbd88ef85693e7d98d18ac6ee5c9d5f0c9252f436887b2174f38e6.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-003",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 3",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before\n\n![alt](https://example.invalid/x.png)\n",
+    "source_sha256": "3288cd1ccb4b70f1dad07f0cecf84c03e74113fb1e0d2f7a6f491bbb59c6174f",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/3288cd1ccb4b70f1dad07f0cecf84c03e74113fb1e0d2f7a6f491bbb59c6174f.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_EMBED_TYPE",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-004",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 4",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before\n\n![[broken\n",
+    "source_sha256": "210a9199438653ea56e323502415fb8e0a0c3c55d9ad7601dd4937cfd113152b",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/210a9199438653ea56e323502415fb8e0a0c3c55d9ad7601dd4937cfd113152b.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_MALFORMED_EMBED",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_MALFORMED_EMBED",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-005",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 5",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "---\na: 1\na: 2\n---\nbody",
+    "source_sha256": "c76628279f580640f8ad360efb0760b9fe57f5e63bea63a03975193170327c7b",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/c76628279f580640f8ad360efb0760b9fe57f5e63bea63a03975193170327c7b.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_INVALID_PROPERTIES",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_INVALID_PROPERTIES",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-006",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 6",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "---\na: &x [1]\nb: *x\n---\n",
+    "source_sha256": "915aea3c8714580e5db494c2317a8f4da431c756c0846a4f061a897be6021015",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/915aea3c8714580e5db494c2317a8f4da431c756c0846a4f061a897be6021015.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_INVALID_PROPERTIES",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_INVALID_PROPERTIES",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-007",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 7",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "---\na: [broken\n---\n",
+    "source_sha256": "1077120aca9c0e6e70b983c66a7b90b40794477d37a89387aba8676fc5b98024",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/1077120aca9c0e6e70b983c66a7b90b40794477d37a89387aba8676fc5b98024.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_INVALID_PROPERTIES",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_INVALID_PROPERTIES",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-008",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 8",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "---\na: .nan\n---\n",
+    "source_sha256": "1ec1f48ef69f64c07161e00c9d54a564ae30fd0c2134e24c7ce86daf1392c87b",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/1ec1f48ef69f64c07161e00c9d54a564ae30fd0c2134e24c7ce86daf1392c87b.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_INVALID_PROPERTIES",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_INVALID_PROPERTIES",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-009",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 9",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before\n\n%% unclosed",
+    "source_sha256": "7df3063b805280b9d8858e0c6407ce1014de68f8ba721bc5dc29e5807a8ef4fa",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/7df3063b805280b9d8858e0c6407ce1014de68f8ba721bc5dc29e5807a8ef4fa.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNCLOSED_COMMENT",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNCLOSED_COMMENT",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-010",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 10",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before\n\n```dataview\nLIST\n```",
+    "source_sha256": "b40b752e351c88a5436081644421a35fb714d96d3f4872556f6cded6d34b6f07",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/b40b752e351c88a5436081644421a35fb714d96d3f4872556f6cded6d34b6f07.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_DYNAMIC_CONTENT",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_DYNAMIC_CONTENT",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-011",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 11",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before\n\n```query\ntag:#x\n```",
+    "source_sha256": "54a665e79e58dd956726ca49e7f3657670989d389c4f318a98908795adf9a547",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/54a665e79e58dd956726ca49e7f3657670989d389c4f318a98908795adf9a547.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_DYNAMIC_CONTENT",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_DYNAMIC_CONTENT",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-012",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 12",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before `=this.file.name`",
+    "source_sha256": "35367d59b3056b4c1faad2744484276b35b841b64020a854eb8cdcf625918548",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/35367d59b3056b4c1faad2744484276b35b841b64020a854eb8cdcf625918548.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_DYNAMIC_CONTENT",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_DYNAMIC_CONTENT",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-013",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 13",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before <% template %>",
+    "source_sha256": "5f9b8218cde2146285a26994d898941e7a857dd7a88cfd37f1d56c75998c017c",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/5f9b8218cde2146285a26994d898941e7a857dd7a88cfd37f1d56c75998c017c.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_DYNAMIC_CONTENT",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_DYNAMIC_CONTENT",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-014",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 14",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before <script>alert(1)</script>",
+    "source_sha256": "79d895507e3cfde85c4b7ab031b0415563d20cb7758cb7c4db88bfc4e4710217",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/79d895507e3cfde85c4b7ab031b0415563d20cb7758cb7c4db88bfc4e4710217.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  },
+  {
+    "case_id": "FAIL-015",
+    "group": "whole-root-failures",
+    "title": "Frozen whole-document denial 15",
+    "requirements": [
+      "MD17-03",
+      "MD17-06",
+      "MD17-08",
+      "MD17-09",
+      "MD17-10",
+      "MD17-12"
+    ],
+    "source": "before <span onclick='x'>text</span>",
+    "source_sha256": "6283243adfd8c13e3e4a31e64dc65e19ecae3ba98516f77ecdd3d86840994508",
+    "source_file": "docs/implementation/phase-18/d17-human-adjudication-2026-10-20/sources/6283243adfd8c13e3e4a31e64dc65e19ecae3ba98516f77ecdd3d86840994508.txt",
+    "source_reference": "rag-engine/tests/test_obsidian_d17.py",
+    "source_identity": "root",
+    "source_revision": 3,
+    "approved_field": "content",
+    "supplied_bindings": {},
+    "expected": {
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "interpretation": "Reject the entire root, including any valid prefix. Zero successful chunks. No execution/fetch or warning-only downgrade."
+    },
+    "actual": {
+      "capture_kind": "READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT",
+      "status": "REJECTED",
+      "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+      "elements": [],
+      "chunks": []
+    },
+    "differences": {
+      "expected_outcome": "REJECTED",
+      "actual_outcome": "REJECTED",
+      "outcome_equal": true,
+      "root_source_exact": null,
+      "human_assessment": null,
+      "typed_reason_equal": true
+    },
+    "ambiguities": "",
+    "human_decision": null,
+    "reviewer_identity": null,
+    "review_date": null,
+    "signature": null,
+    "human_notes": null,
+    "readable_metadata": []
+  }
+]

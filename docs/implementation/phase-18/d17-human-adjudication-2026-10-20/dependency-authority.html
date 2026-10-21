@@ -1,0 +1,866 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; script-src 'none'"><title>Dependency Authority</title><style>body{font:16px/1.5 system-ui,sans-serif;max-width:1200px;margin:2rem auto;padding:0 1rem;color:#182433}a{color:#075a9e}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5f7;padding:1rem;border-left:3px solid #718399}table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.9rem}td,th{border:1px solid #ccd3da;padding:.45rem;text-align:left;vertical-align:top;white-space:pre-wrap;overflow-wrap:anywhere}article{border-top:4px solid #718399;margin:3rem 0;padding-top:1rem}small{overflow-wrap:anywhere}.pending{background:#fff5d6;padding:1rem}details{margin:1rem 0}@media print{article{break-before:page}details>summary{display:none}details>*{display:block}}</style></head><body><h1>Dependency Authority</h1><p class="pending">HUMAN_REVIEW_PENDING. Blank decision fields are not approval. No scripts, network content or executable Markdown are embedded.</p><p><a href="index.html">Package index</a> · <a href="decisions.csv">Decision return sheet</a></p><p>Original source is shown literally. Line numbers are in a separate panel. Character ranges are zero-based and end-exclusive; lines are one-based. Native implied HTML nodes may use containing-source context rather than invented spans. No human comparison is prefilled.</p><article id="AUTH-001"><h2>AUTH-001 — conflict-1</h2><small>Source SHA-256: 42b05a973f4a470420b8e685a93cfae2705cfee7c81c23164e244ba06565afcc<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>![[a]]</pre><details><summary>Line-numbered source guide</summary><pre>   1 | ![[a]]</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_CONFLICTING_REVISION&quot;,
+  &quot;interpretation&quot;: &quot;Review every supplied binding/source/revision. Conflicting revision/payload, cycle, ambiguous/missing selector or excessive depth denies the entire root; never choose an arbitrary binding or index a prefix.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_CONFLICTING_REVISION</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {
+    &quot;a&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;one&quot;,
+      &quot;text_sha256&quot;: &quot;7692c3ad3540bb803c020b3aee66cd8887123234ea0c6e7143c0add73ff431ed&quot;
+    },
+    &quot;b&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 2,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;one&quot;,
+      &quot;text_sha256&quot;: &quot;7692c3ad3540bb803c020b3aee66cd8887123234ea0c6e7143c0add73ff431ed&quot;
+    }
+  },
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/42b05a973f4a470420b8e685a93cfae2705cfee7c81c23164e244ba06565afcc.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="AUTH-002"><h2>AUTH-002 — conflict-2</h2><small>Source SHA-256: 42b05a973f4a470420b8e685a93cfae2705cfee7c81c23164e244ba06565afcc<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>![[a]]</pre><details><summary>Line-numbered source guide</summary><pre>   1 | ![[a]]</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_CONFLICTING_REVISION&quot;,
+  &quot;interpretation&quot;: &quot;Review every supplied binding/source/revision. Conflicting revision/payload, cycle, ambiguous/missing selector or excessive depth denies the entire root; never choose an arbitrary binding or index a prefix.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_CONFLICTING_REVISION</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {
+    &quot;a&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;one&quot;,
+      &quot;text_sha256&quot;: &quot;7692c3ad3540bb803c020b3aee66cd8887123234ea0c6e7143c0add73ff431ed&quot;
+    },
+    &quot;b&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;two&quot;,
+      &quot;text_sha256&quot;: &quot;3fc4ccfe745870e2c0d99f71f30ff0656c8dedd41cc1d7d3d376b0dbe685e2f3&quot;
+    }
+  },
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/42b05a973f4a470420b8e685a93cfae2705cfee7c81c23164e244ba06565afcc.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="AUTH-003"><h2>AUTH-003 — cycle</h2><small>Source SHA-256: 42b05a973f4a470420b8e685a93cfae2705cfee7c81c23164e244ba06565afcc<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>![[a]]</pre><details><summary>Line-numbered source guide</summary><pre>   1 | ![[a]]</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_CYCLIC_TRANSCLUSION&quot;,
+  &quot;interpretation&quot;: &quot;Review every supplied binding/source/revision. Conflicting revision/payload, cycle, ambiguous/missing selector or excessive depth denies the entire root; never choose an arbitrary binding or index a prefix.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_CYCLIC_TRANSCLUSION</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {
+    &quot;a&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 2,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[a]]&quot;,
+      &quot;text_sha256&quot;: &quot;42b05a973f4a470420b8e685a93cfae2705cfee7c81c23164e244ba06565afcc&quot;
+    }
+  },
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/42b05a973f4a470420b8e685a93cfae2705cfee7c81c23164e244ba06565afcc.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="AUTH-004"><h2>AUTH-004 — anchor-1</h2><small>Source SHA-256: 2a53335969a0ff08b9b06d2dc76545190459774f4d75a675ebcba1793978424a<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>![[a#Missing]]</pre><details><summary>Line-numbered source guide</summary><pre>   1 | ![[a#Missing]]</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_MISSING_OR_AMBIGUOUS_ANCHOR&quot;,
+  &quot;interpretation&quot;: &quot;Review every supplied binding/source/revision. Conflicting revision/payload, cycle, ambiguous/missing selector or excessive depth denies the entire root; never choose an arbitrary binding or index a prefix.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_MISSING_OR_AMBIGUOUS_ANCHOR</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {
+    &quot;a&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 2,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;# Exists\n&quot;,
+      &quot;text_sha256&quot;: &quot;0f9975c2438573da771de06394b9da24b72004e1b3ea450e153a2d8c0772cd92&quot;
+    }
+  },
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/2a53335969a0ff08b9b06d2dc76545190459774f4d75a675ebcba1793978424a.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="AUTH-005"><h2>AUTH-005 — anchor-2</h2><small>Source SHA-256: a8eb186864900002289b2db90fdd68dcfc6755a724364c7a14bce0d61851587f<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>![[a#Same]]</pre><details><summary>Line-numbered source guide</summary><pre>   1 | ![[a#Same]]</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_MISSING_OR_AMBIGUOUS_ANCHOR&quot;,
+  &quot;interpretation&quot;: &quot;Review every supplied binding/source/revision. Conflicting revision/payload, cycle, ambiguous/missing selector or excessive depth denies the entire root; never choose an arbitrary binding or index a prefix.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_MISSING_OR_AMBIGUOUS_ANCHOR</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {
+    &quot;a&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 2,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;# Same\n\n# Same\n&quot;,
+      &quot;text_sha256&quot;: &quot;58e94b46b18dea3ff0b231710c44507a888d62e8471df2c1f5288962aa10340c&quot;
+    }
+  },
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/a8eb186864900002289b2db90fdd68dcfc6755a724364c7a14bce0d61851587f.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="AUTH-006"><h2>AUTH-006 — anchor-3</h2><small>Source SHA-256: 5123f3d545b90e6df78f424af2cc0bbedfa2fb6806ea1e372faf868baf33689c<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>![[a#^bad]]</pre><details><summary>Line-numbered source guide</summary><pre>   1 | ![[a#^bad]]</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_MISSING_OR_AMBIGUOUS_ANCHOR&quot;,
+  &quot;interpretation&quot;: &quot;Review every supplied binding/source/revision. Conflicting revision/payload, cycle, ambiguous/missing selector or excessive depth denies the entire root; never choose an arbitrary binding or index a prefix.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_MISSING_OR_AMBIGUOUS_ANCHOR</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {
+    &quot;a&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 2,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;text ^good\n&quot;,
+      &quot;text_sha256&quot;: &quot;8762d8d34e2433ea7e1e78e60e1a84ad8d1a70b5f5e2e4545e2f5d3d4a0da323&quot;
+    }
+  },
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/5123f3d545b90e6df78f424af2cc0bbedfa2fb6806ea1e372faf868baf33689c.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="AUTH-007"><h2>AUTH-007 — depth</h2><small>Source SHA-256: a68c01947ddd8ceb3bf63ec99e00d4fba0e002bcdc0f9429cdf1cd14bbd33f15<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>![[n0]]</pre><details><summary>Line-numbered source guide</summary><pre>   1 | ![[n0]]</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;REJECTED&quot;,
+  &quot;reason&quot;: &quot;MD_TRANSCLUSION_DEPTH&quot;,
+  &quot;interpretation&quot;: &quot;Review every supplied binding/source/revision. Conflicting revision/payload, cycle, ambiguous/missing selector or excessive depth denies the entire root; never choose an arbitrary binding or index a prefix.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; REJECTED; MD_TRANSCLUSION_DEPTH</p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {
+    &quot;n0&quot;: {
+      &quot;source_key&quot;: &quot;n0&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n1]]&quot;,
+      &quot;text_sha256&quot;: &quot;681bcab01e763e96b9f3a752df7ce8c2657fccd6a8ac10015b221601bbb60260&quot;
+    },
+    &quot;n1&quot;: {
+      &quot;source_key&quot;: &quot;n1&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n2]]&quot;,
+      &quot;text_sha256&quot;: &quot;11f1e71cd0f7dec9b873b0688e3fb12bb9b8e0d910ccccea36f2546cd226a19b&quot;
+    },
+    &quot;n2&quot;: {
+      &quot;source_key&quot;: &quot;n2&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n3]]&quot;,
+      &quot;text_sha256&quot;: &quot;4c5e5ce094dce4f88f60ce21634b7d13df500997fcdf4ba4dc58227fb23b2c37&quot;
+    },
+    &quot;n3&quot;: {
+      &quot;source_key&quot;: &quot;n3&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n4]]&quot;,
+      &quot;text_sha256&quot;: &quot;641df44058cbebfea079216b38bcac04b3ac07483314c8cb3527a080184e2eb1&quot;
+    },
+    &quot;n4&quot;: {
+      &quot;source_key&quot;: &quot;n4&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n5]]&quot;,
+      &quot;text_sha256&quot;: &quot;5f9473ceb601432da44dfec0f5aa8771a863e9c4f471a90e356ba6b7a9dc1c32&quot;
+    },
+    &quot;n5&quot;: {
+      &quot;source_key&quot;: &quot;n5&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n6]]&quot;,
+      &quot;text_sha256&quot;: &quot;8a3f0c10edafe00af775dd1429bc6f675588257ded409bd5fe96eea842cd6746&quot;
+    },
+    &quot;n6&quot;: {
+      &quot;source_key&quot;: &quot;n6&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n7]]&quot;,
+      &quot;text_sha256&quot;: &quot;6f1d8fe23dc08003ddec115a6e6071fe31e037318d3fc10b91baddcea174c288&quot;
+    },
+    &quot;n7&quot;: {
+      &quot;source_key&quot;: &quot;n7&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n8]]&quot;,
+      &quot;text_sha256&quot;: &quot;f95571f751c3a60f8f8f9340557b65b62a224346e0b7663600ad74d38dad0d11&quot;
+    },
+    &quot;n8&quot;: {
+      &quot;source_key&quot;: &quot;n8&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n9]]&quot;,
+      &quot;text_sha256&quot;: &quot;728143abbbe327debfa94a3f39f02a9ee2cc98375aa213f0fe1702680e4f86b4&quot;
+    },
+    &quot;n9&quot;: {
+      &quot;source_key&quot;: &quot;n9&quot;,
+      &quot;source_version&quot;: 1,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;![[n10]]&quot;,
+      &quot;text_sha256&quot;: &quot;04836c2ee05019f685f39055143d23e1018842ec995ef04705bba74db3eeb5b7&quot;
+    }
+  },
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;actual_outcome&quot;: &quot;REJECTED&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: null,
+  &quot;human_assessment&quot;: null,
+  &quot;typed_reason_equal&quot;: true
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/a68c01947ddd8ceb3bf63ec99e00d4fba0e002bcdc0f9429cdf1cd14bbd33f15.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="LINK-001"><h2>LINK-001 — Frozen inert HTML / note-link control 1</h2><small>Source SHA-256: dfcf8b08e767d32740c6c4b89a0a18d7446ecaebe98c07fc5a9db42edcd27993<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>Before &lt;span&gt;&lt;b&gt;**literal**&lt;/b&gt; and ![[inert]]&lt;/span&gt; after.
+</pre><details><summary>Line-numbered source guide</summary><pre>   1 | Before &lt;span&gt;&lt;b&gt;**literal**&lt;/b&gt; and ![[inert]]&lt;/span&gt; after.</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;interpretation&quot;: &quot;Native b is a child of span; **literal** is native HTML text, not Markdown strong. No embed resolution.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>root / 3</td><td>[0, 61)</td><td>1–1</td><td>Before &lt;span&gt;&lt;b&gt;**literal**&lt;/b&gt; and ![[inert]]&lt;/span&gt; after.
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>root:3:0:61:0</td><td>None</td><td>paragraph_open p</td><td></td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 61, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>root:3:0:61:1</td><td>root:3:0:61:0</td><td>inline </td><td>Before &lt;span&gt;&lt;b&gt;**literal**&lt;/b&gt; and ![[inert]]&lt;/span&gt; after.</td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 61, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>root:3:0:61:2</td><td>root:3:0:61:1</td><td>text </td><td>Before </td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 61, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{}</td></tr><tr><td>root:3:0:61:3</td><td>root:3:0:61:1</td><td>html_inline </td><td>&lt;span&gt;&lt;b&gt;**literal**&lt;/b&gt; and ![[inert]]&lt;/span&gt;</td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 61, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{}</td></tr><tr><td>root:3:0:61:4</td><td>root:3:0:61:1</td><td>text </td><td> after.</td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 61, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;root:3:0:61&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;root:3:0:61:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;paragraph_open&quot;,
+        &quot;tag&quot;: &quot;p&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 61,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;root:3:0:61:1&quot;,
+        &quot;parent_id&quot;: &quot;root:3:0:61:0&quot;,
+        &quot;type&quot;: &quot;inline&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;Before &lt;span&gt;&lt;b&gt;**literal**&lt;/b&gt; and ![[inert]]&lt;/span&gt; after.&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 61,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;root:3:0:61:2&quot;,
+        &quot;parent_id&quot;: &quot;root:3:0:61:1&quot;,
+        &quot;type&quot;: &quot;text&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;Before &quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 61,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;root:3:0:61:3&quot;,
+        &quot;parent_id&quot;: &quot;root:3:0:61:1&quot;,
+        &quot;type&quot;: &quot;html_inline&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;&lt;span&gt;&lt;b&gt;**literal**&lt;/b&gt; and ![[inert]]&lt;/span&gt;&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 61,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        },
+        &quot;html_source_tree&quot;: [
+          {
+            &quot;id&quot;: 0,
+            &quot;parent_id&quot;: null,
+            &quot;type&quot;: &quot;html_source_context&quot;,
+            &quot;source_tokens&quot;: [
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 0,
+                &quot;relative_end&quot;: 6,
+                &quot;raw_text&quot;: &quot;&lt;span&gt;&quot;,
+                &quot;tag&quot;: &quot;span&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_start_tag&quot;,
+                &quot;relative_start&quot;: 6,
+                &quot;relative_end&quot;: 9,
+                &quot;raw_text&quot;: &quot;&lt;b&gt;&quot;,
+                &quot;tag&quot;: &quot;b&quot;,
+                &quot;attributes&quot;: []
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 9,
+                &quot;relative_end&quot;: 20,
+                &quot;raw_text&quot;: &quot;**literal**&quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_end_tag&quot;,
+                &quot;relative_start&quot;: 20,
+                &quot;relative_end&quot;: 24,
+                &quot;raw_text&quot;: &quot;&lt;/b&gt;&quot;,
+                &quot;tag&quot;: &quot;b&quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_text&quot;,
+                &quot;relative_start&quot;: 24,
+                &quot;relative_end&quot;: 39,
+                &quot;raw_text&quot;: &quot; and ![[inert]]&quot;
+              },
+              {
+                &quot;type&quot;: &quot;html_end_tag&quot;,
+                &quot;relative_start&quot;: 39,
+                &quot;relative_end&quot;: 46,
+                &quot;raw_text&quot;: &quot;&lt;/span&gt;&quot;,
+                &quot;tag&quot;: &quot;span&quot;
+              }
+            ],
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 46,
+            &quot;representation&quot;: &quot;VERBATIM_SOURCE_CONTEXT&quot;
+          },
+          {
+            &quot;id&quot;: 1,
+            &quot;parent_id&quot;: 0,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 46,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;span&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 2,
+            &quot;parent_id&quot;: 1,
+            &quot;type&quot;: &quot;html_element&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 46,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;tag&quot;: &quot;b&quot;,
+            &quot;attributes&quot;: {}
+          },
+          {
+            &quot;id&quot;: 3,
+            &quot;parent_id&quot;: 2,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 46,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot;**literal**&quot;
+          },
+          {
+            &quot;id&quot;: 4,
+            &quot;parent_id&quot;: 1,
+            &quot;type&quot;: &quot;html_text&quot;,
+            &quot;relative_start&quot;: 0,
+            &quot;relative_end&quot;: 46,
+            &quot;location_kind&quot;: &quot;CONTAINING_HTML_SOURCE&quot;,
+            &quot;representation&quot;: &quot;DERIVED_HTML5_STRUCTURE&quot;,
+            &quot;text&quot;: &quot; and ![[inert]]&quot;
+          }
+        ],
+        &quot;html_tree_coordinates&quot;: &quot;RELATIVE_TO_TOKEN_CONTENT&quot;
+      },
+      {
+        &quot;id&quot;: &quot;root:3:0:61:4&quot;,
+        &quot;parent_id&quot;: &quot;root:3:0:61:1&quot;,
+        &quot;type&quot;: &quot;text&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot; after.&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 61,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        }
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {},
+  &quot;actual_dependency_edges&quot;: []
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/dfcf8b08e767d32740c6c4b89a0a18d7446ecaebe98c07fc5a9db42edcd27993.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article><article id="LINK-002"><h2>LINK-002 — Frozen inert HTML / note-link control 2</h2><small>Source SHA-256: f03f9305ca05558b1524ebe15a00b797015071b35caa92b36028269a510d733d<br>Source/revision: root / 3; field: content<br>Original reference: rag-engine/tests/test_obsidian_d17.py</small><h3>Original Markdown (exact text)</h3><pre>![Alias](Child%20Note.md#Section)</pre><details><summary>Line-numbered source guide</summary><pre>   1 | ![Alias](Child%20Note.md#Section)</pre></details><h3>Expected interpretation</h3><pre>{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;interpretation&quot;: &quot;Approved Markdown-note embed resolves URL-decoded supplied Child Note.md, revision 5, heading Section; alias and original marker retained. No disk/network lookup.&quot;
+}</pre><h3>Actual parser/chunker output</h3><p>READ_ONLY_PARSER_CHUNKER_DOCUMENTATION_SNAPSHOT; SUCCESS; </p><table><thead><tr><th>Chunk</th><th>Source / revision</th><th>Original character span</th><th>Original lines</th><th>Content</th></tr></thead><tbody><tr><td>0</td><td>root / 3</td><td>[0, 33)</td><td>1–1</td><td>![Alias](Child%20Note.md#Section)</td></tr><tr><td>1</td><td>child / 5</td><td>[0, 10)</td><td>1–1</td><td># Section
+</td></tr><tr><td>2</td><td>child / 5</td><td>[10, 17)</td><td>2–3</td><td>
+Body.
+</td></tr></tbody></table><details><summary>Full structural roles, parent IDs and original node locators</summary><table><thead><tr><th>Node</th><th>Parent</th><th>Role / native tag</th><th>Text</th><th>Locator</th><th>Attributes</th></tr></thead><tbody><tr><td>root:3:0:33:0</td><td>None</td><td>paragraph_open p</td><td></td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 33, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>root:3:0:33:1</td><td>root:3:0:33:0</td><td>inline </td><td>![Alias](Child%20Note.md#Section)</td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 33, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>root:3:0:33:2</td><td>root:3:0:33:1</td><td>image img</td><td>Alias</td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 33, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{&quot;src&quot;: &quot;Child%20Note.md#Section&quot;, &quot;alt&quot;: &quot;&quot;}</td></tr><tr><td>root:3:0:33:3</td><td>root:3:0:33:2</td><td>text </td><td>Alias</td><td>{&quot;source_key&quot;: &quot;root&quot;, &quot;source_version&quot;: 3, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 33, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{}</td></tr><tr><td>child:5:0:10:0</td><td>None</td><td>heading_open h1</td><td></td><td>{&quot;source_key&quot;: &quot;child&quot;, &quot;source_version&quot;: 5, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 10, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>child:5:0:10:1</td><td>child:5:0:10:0</td><td>inline </td><td>Section</td><td>{&quot;source_key&quot;: &quot;child&quot;, &quot;source_version&quot;: 5, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 10, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>child:5:0:10:2</td><td>child:5:0:10:1</td><td>text </td><td>Section</td><td>{&quot;source_key&quot;: &quot;child&quot;, &quot;source_version&quot;: 5, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 0, &quot;char_end&quot;: 10, &quot;line_start&quot;: 1, &quot;line_end&quot;: 1, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{}</td></tr><tr><td>child:5:10:17:0</td><td>None</td><td>paragraph_open p</td><td></td><td>{&quot;source_key&quot;: &quot;child&quot;, &quot;source_version&quot;: 5, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 11, &quot;char_end&quot;: 17, &quot;line_start&quot;: 3, &quot;line_end&quot;: 3, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>child:5:10:17:1</td><td>child:5:10:17:0</td><td>inline </td><td>Body.</td><td>{&quot;source_key&quot;: &quot;child&quot;, &quot;source_version&quot;: 5, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 11, &quot;char_end&quot;: 17, &quot;line_start&quot;: 3, &quot;line_end&quot;: 3, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;}</td><td>{}</td></tr><tr><td>child:5:10:17:2</td><td>child:5:10:17:1</td><td>text </td><td>Body.</td><td>{&quot;source_key&quot;: &quot;child&quot;, &quot;source_version&quot;: 5, &quot;approved_field&quot;: &quot;content&quot;, &quot;char_start&quot;: 11, &quot;char_end&quot;: 17, &quot;line_start&quot;: 3, &quot;line_end&quot;: 3, &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;, &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;, &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;}</td><td>{}</td></tr></tbody></table></details><details><summary>Full native HTML hierarchy, properties, callouts and expanded metadata</summary><pre>[
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;root:3:0:33&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;root:3:0:33:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;paragraph_open&quot;,
+        &quot;tag&quot;: &quot;p&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 33,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;root:3:0:33:1&quot;,
+        &quot;parent_id&quot;: &quot;root:3:0:33:0&quot;,
+        &quot;type&quot;: &quot;inline&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;![Alias](Child%20Note.md#Section)&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 33,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;root:3:0:33:2&quot;,
+        &quot;parent_id&quot;: &quot;root:3:0:33:1&quot;,
+        &quot;type&quot;: &quot;image&quot;,
+        &quot;tag&quot;: &quot;img&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {
+          &quot;src&quot;: &quot;Child%20Note.md#Section&quot;,
+          &quot;alt&quot;: &quot;&quot;
+        },
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;Alias&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {
+          &quot;src&quot;: &quot;Child%20Note.md#Section&quot;,
+          &quot;alt&quot;: &quot;&quot;
+        },
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 33,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;root:3:0:33:3&quot;,
+        &quot;parent_id&quot;: &quot;root:3:0:33:2&quot;,
+        &quot;type&quot;: &quot;text&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;Alias&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 33,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        }
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [
+      {
+        &quot;target&quot;: &quot;Child Note.md&quot;,
+        &quot;anchor&quot;: &quot;Section&quot;,
+        &quot;alias&quot;: &quot;Alias&quot;,
+        &quot;parent_node_id&quot;: &quot;root:3:0:33:2&quot;,
+        &quot;parent_locator&quot;: {
+          &quot;source_key&quot;: &quot;root&quot;,
+          &quot;source_version&quot;: 3,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 33,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        },
+        &quot;syntax&quot;: &quot;MARKDOWN_NOTE_EMBED&quot;
+      }
+    ],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  },
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;child:5:0:10&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;child:5:0:10:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;heading_open&quot;,
+        &quot;tag&quot;: &quot;h1&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;#&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;child&quot;,
+          &quot;source_version&quot;: 5,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 10,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;child:5:0:10:1&quot;,
+        &quot;parent_id&quot;: &quot;child:5:0:10:0&quot;,
+        &quot;type&quot;: &quot;inline&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;Section&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;child&quot;,
+          &quot;source_version&quot;: 5,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 10,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;child:5:0:10:2&quot;,
+        &quot;parent_id&quot;: &quot;child:5:0:10:1&quot;,
+        &quot;type&quot;: &quot;text&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;Section&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;child&quot;,
+          &quot;source_version&quot;: 5,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 0,
+          &quot;char_end&quot;: 10,
+          &quot;line_start&quot;: 1,
+          &quot;line_end&quot;: 1,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        }
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  },
+  {
+    &quot;obsidian_profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+    &quot;block_id&quot;: &quot;child:5:10:17&quot;,
+    &quot;nodes&quot;: [
+      {
+        &quot;id&quot;: &quot;child:5:10:17:0&quot;,
+        &quot;parent_id&quot;: null,
+        &quot;type&quot;: &quot;paragraph_open&quot;,
+        &quot;tag&quot;: &quot;p&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 1,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;child&quot;,
+          &quot;source_version&quot;: 5,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 11,
+          &quot;char_end&quot;: 17,
+          &quot;line_start&quot;: 3,
+          &quot;line_end&quot;: 3,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;child:5:10:17:1&quot;,
+        &quot;parent_id&quot;: &quot;child:5:10:17:0&quot;,
+        &quot;type&quot;: &quot;inline&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: true,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;Body.&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;child&quot;,
+          &quot;source_version&quot;: 5,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 11,
+          &quot;char_end&quot;: 17,
+          &quot;line_start&quot;: 3,
+          &quot;line_end&quot;: 3,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;
+        }
+      },
+      {
+        &quot;id&quot;: &quot;child:5:10:17:2&quot;,
+        &quot;parent_id&quot;: &quot;child:5:10:17:1&quot;,
+        &quot;type&quot;: &quot;text&quot;,
+        &quot;tag&quot;: &quot;&quot;,
+        &quot;hidden&quot;: false,
+        &quot;block&quot;: false,
+        &quot;info&quot;: &quot;&quot;,
+        &quot;token_meta&quot;: {},
+        &quot;token_attributes&quot;: {},
+        &quot;nesting&quot;: 0,
+        &quot;text&quot;: &quot;Body.&quot;,
+        &quot;markup&quot;: &quot;&quot;,
+        &quot;attributes&quot;: {},
+        &quot;locator&quot;: {
+          &quot;source_key&quot;: &quot;child&quot;,
+          &quot;source_version&quot;: 5,
+          &quot;approved_field&quot;: &quot;content&quot;,
+          &quot;char_start&quot;: 11,
+          &quot;char_end&quot;: 17,
+          &quot;line_start&quot;: 3,
+          &quot;line_end&quot;: 3,
+          &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+          &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+          &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+        }
+      }
+    ],
+    &quot;cells&quot;: [],
+    &quot;tables&quot;: [],
+    &quot;callouts&quot;: [],
+    &quot;embeds&quot;: [],
+    &quot;comments&quot;: [],
+    &quot;reference_definitions&quot;: {},
+    &quot;duplicate_reference_definitions&quot;: []
+  }
+]</pre></details><h3>Supplied authority and parent/child attribution</h3><pre>{
+  &quot;supplied_bindings&quot;: {
+    &quot;Child Note.md&quot;: {
+      &quot;source_key&quot;: &quot;child&quot;,
+      &quot;source_version&quot;: 5,
+      &quot;approved_field&quot;: &quot;content&quot;,
+      &quot;text&quot;: &quot;# Section\n\nBody.\n&quot;,
+      &quot;text_sha256&quot;: &quot;ff572bf830000aef5da51efc8d6fa71d9d6913a84a0b100e649386ea66c739cd&quot;
+    }
+  },
+  &quot;actual_dependency_edges&quot;: [
+    {
+      &quot;parent&quot;: &quot;root&quot;,
+      &quot;parent_version&quot;: 3,
+      &quot;child&quot;: &quot;child&quot;,
+      &quot;child_version&quot;: 5,
+      &quot;anchor&quot;: &quot;Section&quot;,
+      &quot;alias&quot;: &quot;Alias&quot;,
+      &quot;parent_node_id&quot;: &quot;root:3:0:33:2&quot;,
+      &quot;parent_locator&quot;: {
+        &quot;source_key&quot;: &quot;root&quot;,
+        &quot;source_version&quot;: 3,
+        &quot;approved_field&quot;: &quot;content&quot;,
+        &quot;char_start&quot;: 0,
+        &quot;char_end&quot;: 33,
+        &quot;line_start&quot;: 1,
+        &quot;line_end&quot;: 1,
+        &quot;profile&quot;: &quot;ppv-obsidian-source-v1&quot;,
+        &quot;text_representation&quot;: &quot;VERBATIM_SOURCE&quot;,
+        &quot;location_kind&quot;: &quot;CONTAINING_BLOCK&quot;
+      },
+      &quot;parent_callouts&quot;: []
+    }
+  ]
+}</pre><h3>Exact machine differences and human ambiguities</h3><pre>{
+  &quot;expected_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;actual_outcome&quot;: &quot;SUCCESS&quot;,
+  &quot;outcome_equal&quot;: true,
+  &quot;root_source_exact&quot;: true,
+  &quot;human_assessment&quot;: null
+}</pre><p></p><p>Full snapshot: <a href="actual-output/dependency-authority.json">dependency-authority.json</a>; exact source: <a href="sources/f03f9305ca05558b1524ebe15a00b797015071b35caa92b36028269a510d733d.txt">UTF-8 source</a>.</p><p class="pending">Human decision (choose one): ACCEPT / REJECT / UNCERTAIN: __________<br>Reviewer identity: __________<br>Review date (with timezone): __________<br>Signature: __________<br>Notes / disputed source lines: __________</p></article></body></html>

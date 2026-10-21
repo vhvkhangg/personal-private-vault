@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ppv_rag.limits import check_text, checkpoint
 from ppv_rag.parsers.models import DocumentElement, ElementKind, ParsedDocument
 
 
@@ -12,6 +13,7 @@ def parse_text(
     approved_field: str = "content",
 ) -> ParsedDocument:
     """Parse plain text into paragraphs with exact character and line spans."""
+    check_text(content)
     doc = ParsedDocument(root_key=root_key, format_type="TXT", source_version=source_version)
 
     lines = content.splitlines(keepends=True)
@@ -24,6 +26,7 @@ def parse_text(
     para_char_start = 0
 
     for i, line in enumerate(lines, start=1):
+        checkpoint()
         stripped = line.strip()
         if not stripped:
             if current_para_lines:

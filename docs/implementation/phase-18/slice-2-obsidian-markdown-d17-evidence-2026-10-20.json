@@ -1,0 +1,1928 @@
+{
+  "date": "2026-10-20",
+  "recorded_utc": "2026-10-20T07:29:34.419576+00:00",
+  "status": "BLOCKED / OWNER_DECISION_REQUIRED",
+  "scope": "D17 Markdown-only incomplete checkpoint; original broader Slice 2 not accepted",
+  "head": "c3b46351507803053850e3c2711602ee9c9ec419",
+  "entry_snapshot": {
+    "path": "logs/phase18/s2-d17-markdown-2026-10-20/entry.json",
+    "sha256": "45686306fe656bfda53c5fe7d762ebb8c8390285136eb2088284c98aa80b92ac",
+    "existing_files": 2201,
+    "prior_artifacts": 331
+  },
+  "changed_since_entry": [
+    {
+      "path": "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md",
+      "sha256": "8a1a155f8fc9d662878eed4f1d50c68e27ad8d82973d53658fdbe7144adfa92b"
+    },
+    {
+      "path": "docs/implementation/handoffs/ACTIVE.md",
+      "sha256": "0fb6806ae3367319e24e82a344a2fe2a5f4a12f3c4c5cfbcdf04665282f8be18"
+    },
+    {
+      "path": "docs/implementation/phase-18/README.md",
+      "sha256": "435e05235a28cdee6ed24fd9bf397bab0bebf9ab093148defecdc5374ac92978"
+    },
+    {
+      "path": "docs/implementation/phase-18/acceptance-and-evidence.md",
+      "sha256": "7aa702faa6c4e160e9f3452eefe82595cd8dfa6db91b9c45b368a1796c2cab1f"
+    },
+    {
+      "path": "docs/implementation/phase-18/final-verification-gate.md",
+      "sha256": "a04e10d278abae5b9eb7dd44dd7b3eba0c9559e590dbe723b271608010616d32"
+    },
+    {
+      "path": "docs/implementation/phase-18/held-out-quality-and-locators.md",
+      "sha256": "226286083520c41c6ea8c8b643327ded97a357dceeac15166ec0002cedf9753d"
+    },
+    {
+      "path": "docs/implementation/phase-18/obsidian-markdown-d17-contract.md",
+      "sha256": "e7127344f6ca4536ba63e0f6e2d5c7f48565fdc7613bf7b9869d554566c17a4a"
+    },
+    {
+      "path": "docs/implementation/phase-18/obsidian-markdown-d17-official-sources-2026-10-20.json",
+      "sha256": "2b1bcdf4f6d911b9eee79a18590b84c7b36dded17a2143638202880b95550053"
+    },
+    {
+      "path": "docs/implementation/phase-18/owner-decisions.md",
+      "sha256": "9f5e20a1c9832f38b10bb1d9f82668e9800d9a510eb2c3eb8e4bae0ed42dcd20"
+    },
+    {
+      "path": "docs/implementation/phase-18/simplified-implementation-handoff.md",
+      "sha256": "faa00db2fbd6207b105c0f980ba5c089a344f5d8bfbb77000dc38d1ab19d551d"
+    },
+    {
+      "path": "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-handback-2026-10-20.md",
+      "sha256": "09fa43019c8c55fbbeacfe772d76078215185e77b22e9221a823757fe3bae64b"
+    },
+    {
+      "path": "docs/implementation/phase-18/slice-2-parser-ocr-embedding-handoff.md",
+      "sha256": "2f3d2e84a2df1828a2a42debfc3d891c1de1007ea9c1a48076daaed0d6b8e4bc"
+    },
+    {
+      "path": "rag-engine/README.md",
+      "sha256": "b115446c5b72f82189ed557c6a2ec851d2e7673c368514cd228707c48d343cfa"
+    },
+    {
+      "path": "rag-engine/pyproject.toml",
+      "sha256": "b34870b0c4f4f9859b69262b99457b30e9296923ea9e7224069ce738e1cc57ce"
+    },
+    {
+      "path": "rag-engine/scripts/d17_markdown_evidence.py",
+      "sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/chunking/chunker.py",
+      "sha256": "9e58d338e2598fd707521ce17170e73e01d638a70b6bcf4e353be5f6f1c6969f"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/embeddings/model.py",
+      "sha256": "0044cba654894f85d2bb363e0aa8d8cfbc8700b3c7472868549181a2cf4018a9"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/markdown.py",
+      "sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/obsidian.py",
+      "sha256": "68b28c61e37bd8c6e5695a13cf2cd27399c8bcca53e962df8502dcd37633a254"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/obsidian_html.py",
+      "sha256": "4428132add876ee4202607528259565238e15368f9ee1ff1de78d2b2519f250f"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/worker.py",
+      "sha256": "458ad5bd80952d5d95d4f4e70e454f9ac5d4bd099a1a7c8a132e266a3a3f6bd2"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md",
+      "sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md",
+      "sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt",
+      "sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md",
+      "sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json",
+      "sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17"
+    },
+    {
+      "path": "rag-engine/tests/test_obsidian_d17.py",
+      "sha256": "292b83d3e9e6b06ffcd8cdcda4aca98d168d33910300a2005dbf9cc3c5285a73"
+    },
+    {
+      "path": "rag-engine/tests/test_slice2_corrections.py",
+      "sha256": "3c416eb9c08cae5c4c1796b7373765a33af104bf01abad76585bf0ffe4bcae56"
+    },
+    {
+      "path": "rag-engine/uv.lock",
+      "sha256": "f72002851ce174472c07bb3f2391d430bd8691f838b5d8941ca515c10798bc60"
+    }
+  ],
+  "self_hash": "Excluded: this evidence inventory cannot hash itself",
+  "changed_file_paths": [
+    "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md",
+    "docs/implementation/handoffs/ACTIVE.md",
+    "docs/implementation/phase-18/README.md",
+    "docs/implementation/phase-18/acceptance-and-evidence.md",
+    "docs/implementation/phase-18/final-verification-gate.md",
+    "docs/implementation/phase-18/held-out-quality-and-locators.md",
+    "docs/implementation/phase-18/obsidian-markdown-d17-contract.md",
+    "docs/implementation/phase-18/obsidian-markdown-d17-official-sources-2026-10-20.json",
+    "docs/implementation/phase-18/owner-decisions.md",
+    "docs/implementation/phase-18/simplified-implementation-handoff.md",
+    "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-evidence-2026-10-20.json",
+    "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-handback-2026-10-20.md",
+    "docs/implementation/phase-18/slice-2-parser-ocr-embedding-handoff.md",
+    "rag-engine/README.md",
+    "rag-engine/pyproject.toml",
+    "rag-engine/scripts/d17_markdown_evidence.py",
+    "rag-engine/src/ppv_rag/chunking/chunker.py",
+    "rag-engine/src/ppv_rag/embeddings/model.py",
+    "rag-engine/src/ppv_rag/parsers/markdown.py",
+    "rag-engine/src/ppv_rag/parsers/obsidian.py",
+    "rag-engine/src/ppv_rag/parsers/obsidian_html.py",
+    "rag-engine/src/ppv_rag/worker.py",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json",
+    "rag-engine/tests/test_obsidian_d17.py",
+    "rag-engine/tests/test_slice2_corrections.py",
+    "rag-engine/uv.lock"
+  ],
+  "preservation": {
+    "missing_files": [],
+    "prior_artifact_changes": {},
+    "protected_files_checked": 1700,
+    "protected_file_changes": [],
+    "changed_existing_test_functions": [
+      "test_whole_file_markdown_retains_original_frontmatter_comments_and_code",
+      "test_callout_alias_block_anchor_and_complete_nested_edges"
+    ],
+    "other_existing_test_functions_preserved": 27,
+    "frozen_ocr_heldout_manifest_sha256": "406e3aeedc78e943cd494e30452819d18e3ceba4e1bc2e4612845d5eea225e99",
+    "no_commit_push": true
+  },
+  "configuration": {
+    "profile": "ppv-obsidian-source-v1",
+    "parser": "ppv-parser-v18.3-obsidian-source-v1",
+    "chunker": "structure-first-v18.3-source-tree-spans",
+    "python": "3.14.4",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "uv_lock_sha256": "f72002851ce174472c07bb3f2391d430bd8691f838b5d8941ca515c10798bc60",
+    "added_packages": {
+      "markdown-it-py": "4.2.0",
+      "mdit-py-plugins": "0.6.1",
+      "mdurl": "0.1.2"
+    },
+    "previous_package_version_changes": {},
+    "installed_packages": 69,
+    "new_package_licenses": [
+      {
+        "name": "markdown-it-py",
+        "version": "4.2.0",
+        "locked_version": "4.2.0",
+        "license": "License :: OSI Approved :: MIT License",
+        "license_files": [
+          {
+            "file": "markdown_it_py-4.2.0.dist-info/licenses/LICENSE",
+            "sha256": "4a2260d6e2cd0f5a151a1e86dbfe7d3ed552b1e2beabf9941c1ba5c49cbce484"
+          },
+          {
+            "file": "markdown_it_py-4.2.0.dist-info/licenses/LICENSE.markdown-it",
+            "sha256": "792c48c5a849a15fdf9e37e8bcf9e6d1dd13b32b46c642a748a0a46a9919d473"
+          }
+        ],
+        "requires_dist": [
+          "mdurl~=0.1",
+          "psutil ; extra == \"benchmarking\"",
+          "pytest ; extra == \"benchmarking\"",
+          "pytest-benchmark ; extra == \"benchmarking\"",
+          "commonmark~=0.9 ; extra == \"compare\"",
+          "markdown~=3.4 ; extra == \"compare\"",
+          "mistletoe~=1.0 ; extra == \"compare\"",
+          "mistune~=3.0 ; extra == \"compare\"",
+          "panflute~=2.3 ; extra == \"compare\"",
+          "markdown-it-pyrs ; extra == \"compare\"",
+          "linkify-it-py>=1,<3 ; extra == \"linkify\"",
+          "mdit-py-plugins>=0.5.0 ; extra == \"plugins\"",
+          "gprof2dot ; extra == \"profiling\"",
+          "mdit-py-plugins>=0.5.0 ; extra == \"rtd\"",
+          "myst-parser ; extra == \"rtd\"",
+          "pyyaml ; extra == \"rtd\"",
+          "sphinx ; extra == \"rtd\"",
+          "sphinx-copybutton ; extra == \"rtd\"",
+          "sphinx-design ; extra == \"rtd\"",
+          "sphinx-book-theme~=1.0 ; extra == \"rtd\"",
+          "jupyter_sphinx ; extra == \"rtd\"",
+          "ipykernel ; extra == \"rtd\"",
+          "coverage ; extra == \"testing\"",
+          "pytest ; extra == \"testing\"",
+          "pytest-cov ; extra == \"testing\"",
+          "pytest-regressions ; extra == \"testing\"",
+          "pytest-timeout ; extra == \"testing\"",
+          "requests ; extra == \"testing\""
+        ]
+      },
+      {
+        "name": "mdit-py-plugins",
+        "version": "0.6.1",
+        "locked_version": "0.6.1",
+        "license": "License :: OSI Approved :: MIT License",
+        "license_files": [
+          {
+            "file": "mdit_py_plugins-0.6.1.dist-info/licenses/LICENSE",
+            "sha256": "4a2260d6e2cd0f5a151a1e86dbfe7d3ed552b1e2beabf9941c1ba5c49cbce484"
+          },
+          {
+            "file": "mdit_py_plugins/admon/LICENSE",
+            "sha256": "699355a44cb248631a4cde542029b593b7e6663823b0518338e85fd65360bac3"
+          },
+          {
+            "file": "mdit_py_plugins/container/LICENSE",
+            "sha256": "c91339910d300f163edcaddbfb3909f1cffae19a496b7fe3935a9a4073dc305a"
+          },
+          {
+            "file": "mdit_py_plugins/deflist/LICENSE",
+            "sha256": "81d61236a5f25294b2dad0c866d4ad6a40b865148b28df9a71f49ba771a6c54b"
+          },
+          {
+            "file": "mdit_py_plugins/footnote/LICENSE",
+            "sha256": "81d61236a5f25294b2dad0c866d4ad6a40b865148b28df9a71f49ba771a6c54b"
+          },
+          {
+            "file": "mdit_py_plugins/front_matter/LICENSE",
+            "sha256": "9e1bc1fafae020b5c33cc9cb745c707a5addf109cd814f0dac2d41424b83554a"
+          },
+          {
+            "file": "mdit_py_plugins/texmath/LICENSE",
+            "sha256": "012a56cf9e23a2917336178cca417ab4c88fc64ad7086d621d6a8b956593629f"
+          }
+        ],
+        "requires_dist": [
+          "markdown-it-py>=2.0.0,<5.0.0",
+          "pre-commit ; extra == \"code-style\"",
+          "myst-parser ; extra == \"rtd\"",
+          "sphinx-book-theme ; extra == \"rtd\"",
+          "coverage ; extra == \"testing\"",
+          "pytest ; extra == \"testing\"",
+          "pytest-cov ; extra == \"testing\"",
+          "pytest-regressions ; extra == \"testing\"",
+          "pytest-timeout ; extra == \"testing\""
+        ]
+      },
+      {
+        "name": "mdurl",
+        "version": "0.1.2",
+        "locked_version": "0.1.2",
+        "license": "License :: OSI Approved :: MIT License",
+        "license_files": [
+          {
+            "file": "mdurl-0.1.2.dist-info/LICENSE",
+            "sha256": "7c605df6e28667a9603118e98274f64a49ce3eed0d26fccce9534a345e0ef955"
+          }
+        ],
+        "requires_dist": []
+      }
+    ],
+    "models_sha256": {
+      "rag-engine/models/paraphrase-multilingual-MiniLM-L12-v2/model.onnx": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+      "rag-engine/models/paraphrase-multilingual-MiniLM-L12-v2/tokenizer.json": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8"
+    }
+  },
+  "final_verification": {
+    "pytest": {
+      "passed": 168,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_seconds": 71.2,
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-properties-final.json"
+    },
+    "ruff": "PASS",
+    "format": "PASS (63 files)",
+    "mypy": "PASS (24 source files)",
+    "lock_inventory": "PASS (69 installed, all match lock)",
+    "installed_compatibility": "FAILED: inherited RapidOCR requires Python <3.13, installed Python 3.14.4",
+    "mandatory_html_gate": "FAILED: two required inert HTML documents rejected, zero chunks",
+    "git_diff_check": {
+      "scope": "entire current tracked dirty tree",
+      "command": "git diff --check",
+      "exit_code": 0
+    },
+    "java_full_gate": "Historical FAILED: 1433 tests / 1 failure / 2 errors / 0 skips; not rerun or waived"
+  },
+  "resource_and_mandatory_html": {
+    "scope": "Actual offline CPU producer/model. Grant verification and DB staging are capture stubs, not Java/PG/FR18-3 verification.",
+    "wall_seconds": 10.712635499949101,
+    "cpu_seconds": 45.921875,
+    "retained_temporary_bytes": 0,
+    "temporary_peak": "NOT_MEASURED; retained bytes are not a peak disk claim",
+    "network": "socket.connect denied for this isolated process",
+    "response": {
+      "contract_version": "3.0",
+      "status": "STAGED",
+      "job_id": "11111111-1111-1111-1111-111111111111",
+      "attempt_id": "22222222-2222-2222-2222-222222222222",
+      "staged_count": 2,
+      "published_count": 0,
+      "failed_count": 2,
+      "peak_system_ram_bytes": 618057728,
+      "peak_gpu_vram_bytes": 2431135744,
+      "receipt": {
+        "contract_version": "3.0",
+        "job_id": "11111111-1111-1111-1111-111111111111",
+        "attempt_id": "22222222-2222-2222-2222-222222222222",
+        "status": "STAGED",
+        "output_digest": "9c16343f1255f374056e5a63a63a4d70132e4c4130befdf521ad0ae27fa62744"
+      }
+    },
+    "roots": [
+      {
+        "root_key": "Research",
+        "success": true,
+        "reason": "SUCCESS",
+        "source_chars": 1796,
+        "chunks": 23,
+        "serialized_payload_bytes": 328029,
+        "resource_report": {
+          "peak_system_ram_bytes": 618057728,
+          "peak_gpu_vram_bytes": 2430545920,
+          "duration_ms": 197,
+          "worker_cpu_ms": 1015,
+          "host_available_ram_bytes": 2372734976,
+          "host_total_ram_bytes": 17112092672,
+          "pipeline_identity": {
+            "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            "model_version": "2.0.0",
+            "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+            "dimensions": 384,
+            "tokenizer_version": "hf-tokenizers-0.23.3",
+            "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+            "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+            "chunker_version": "structure-first-v18.3-source-tree-spans",
+            "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+            "provider": "CPU"
+          },
+          "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+          "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+        },
+        "content_sha256": "4168546ebc33dd6f108ade1f25756f7b6bb677e231c00e0a9c69fcc85f244926"
+      },
+      {
+        "root_key": "large",
+        "success": true,
+        "reason": "SUCCESS",
+        "source_chars": 152001,
+        "chunks": 103,
+        "serialized_payload_bytes": 7066131,
+        "resource_report": {
+          "peak_system_ram_bytes": 618057728,
+          "peak_gpu_vram_bytes": 2431135744,
+          "duration_ms": 8693,
+          "worker_cpu_ms": 43062,
+          "host_available_ram_bytes": 2316320768,
+          "host_total_ram_bytes": 17112092672,
+          "pipeline_identity": {
+            "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            "model_version": "2.0.0",
+            "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+            "dimensions": 384,
+            "tokenizer_version": "hf-tokenizers-0.23.3",
+            "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+            "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+            "chunker_version": "structure-first-v18.3-source-tree-spans",
+            "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+            "provider": "CPU"
+          },
+          "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+          "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+        },
+        "content_sha256": "a6973e4680aeacbcca1639db8cfedb1bbf6322a013bd7fae675ed16269ad9e36"
+      },
+      {
+        "root_key": "required-html-0",
+        "success": false,
+        "reason": "MD_UNSUPPORTED_HTML_STRUCTURE",
+        "source_chars": 37,
+        "chunks": 0,
+        "serialized_payload_bytes": 2,
+        "resource_report": {
+          "peak_system_ram_bytes": 618057728,
+          "peak_gpu_vram_bytes": 2431135744,
+          "duration_ms": 1,
+          "worker_cpu_ms": 0,
+          "host_available_ram_bytes": 2316320768,
+          "host_total_ram_bytes": 17112092672,
+          "pipeline_identity": {
+            "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            "model_version": "2.0.0",
+            "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+            "dimensions": 384,
+            "tokenizer_version": "hf-tokenizers-0.23.3",
+            "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+            "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+            "chunker_version": "structure-first-v18.3-source-tree-spans",
+            "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+            "provider": "CPU"
+          },
+          "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+          "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+        },
+        "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "root_key": "required-html-1",
+        "success": false,
+        "reason": "MD_UNSUPPORTED_HTML_STRUCTURE",
+        "source_chars": 39,
+        "chunks": 0,
+        "serialized_payload_bytes": 2,
+        "resource_report": {
+          "peak_system_ram_bytes": 618057728,
+          "peak_gpu_vram_bytes": 2431135744,
+          "duration_ms": 0,
+          "worker_cpu_ms": 0,
+          "host_available_ram_bytes": 2316320768,
+          "host_total_ram_bytes": 17112092672,
+          "pipeline_identity": {
+            "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            "model_version": "2.0.0",
+            "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+            "dimensions": 384,
+            "tokenizer_version": "hf-tokenizers-0.23.3",
+            "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+            "parser_version": "ppv-parser-v18.3-obsidian-source-v1",
+            "chunker_version": "structure-first-v18.3-source-tree-spans",
+            "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+            "provider": "CPU"
+          },
+          "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+          "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+        },
+        "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "mandatory_html_gate": "FAILED"
+  },
+  "official_sources": {
+    "retrieved_utc": "2026-10-20T07:09:11.451970+00:00",
+    "obsidian_git_tree_sha": "cd6c9f3c7d5492bbbec94e8f403572b84eeb325b",
+    "sources": [
+      {
+        "title": "Obsidian Flavored Markdown",
+        "repository_path": "en/Editing and formatting/Obsidian Flavored Markdown.md",
+        "git_blob_sha": "6a5ce5eb5390ef713aac833abcc67afa6a254925",
+        "url": "https://api.github.com/repos/obsidianmd/obsidian-help/git/blobs/6a5ce5eb5390ef713aac833abcc67afa6a254925",
+        "snapshot": "Obsidian-Flavored-Markdown.md",
+        "sha256": "da08d3873a6b5a2334d57c1c943a9a1ca6d74991573638b466d3f6ecf9c9cda4",
+        "bytes": 2564
+      },
+      {
+        "title": "Basic formatting syntax",
+        "repository_path": "en/Editing and formatting/Basic formatting syntax.md",
+        "git_blob_sha": "1e89e1252e2b478c8e5d0b0ff49cb8a9cb55c18a",
+        "url": "https://api.github.com/repos/obsidianmd/obsidian-help/git/blobs/1e89e1252e2b478c8e5d0b0ff49cb8a9cb55c18a",
+        "snapshot": "Basic-formatting-syntax.md",
+        "sha256": "38db5d30f637adfcbe212fd8b5616412b93bd8c0387845e5ff5355f5195235bd",
+        "bytes": 16149
+      },
+      {
+        "title": "Advanced formatting syntax",
+        "repository_path": "en/Editing and formatting/Advanced formatting syntax.md",
+        "git_blob_sha": "56764443f995437aa2bad34ab4f3eaf01a4af6e1",
+        "url": "https://api.github.com/repos/obsidianmd/obsidian-help/git/blobs/56764443f995437aa2bad34ab4f3eaf01a4af6e1",
+        "snapshot": "Advanced-formatting-syntax.md",
+        "sha256": "15ed1c714c0e8a4dd48ac05ce53df787d1eda241c78d8b27a091f142cbe26307",
+        "bytes": 5545
+      },
+      {
+        "title": "Internal links",
+        "repository_path": "en/Linking notes and files/Internal links.md",
+        "git_blob_sha": "a6b7c4bbd0f5509aec731c9eb6c336b9f2c4cd99",
+        "url": "https://api.github.com/repos/obsidianmd/obsidian-help/git/blobs/a6b7c4bbd0f5509aec731c9eb6c336b9f2c4cd99",
+        "snapshot": "Internal-links.md",
+        "sha256": "4ebf7be1cce4bf31e104b60c8eb2a175f134a79a29e29a16822033cfb5088ce1",
+        "bytes": 8992
+      },
+      {
+        "title": "Embed files",
+        "repository_path": "en/Linking notes and files/Embed files.md",
+        "git_blob_sha": "4867b733985a09da56d68dc238f09cba3e4d0e47",
+        "url": "https://api.github.com/repos/obsidianmd/obsidian-help/git/blobs/4867b733985a09da56d68dc238f09cba3e4d0e47",
+        "snapshot": "Embed-files.md",
+        "sha256": "5757a6269949f507f3b5f1605ab9bfe81f247738d5b44c3bf096efc6215fbc54",
+        "bytes": 3125
+      },
+      {
+        "title": "Callouts",
+        "repository_path": "en/Editing and formatting/Callouts.md",
+        "git_blob_sha": "eb1f3aa0a24c8aa0c5d06c36d4dbdab748cf3627",
+        "url": "https://api.github.com/repos/obsidianmd/obsidian-help/git/blobs/eb1f3aa0a24c8aa0c5d06c36d4dbdab748cf3627",
+        "snapshot": "Callouts.md",
+        "sha256": "5d12e34b9fb68c6b7ad0ea39d80fb11267b0406cd204f61d4c00f2d5dea9bab6",
+        "bytes": 6176
+      },
+      {
+        "title": "Properties",
+        "repository_path": "en/Editing and formatting/Properties.md",
+        "git_blob_sha": "5d169618a57748b54bceccb551a97af6fdf598bd",
+        "url": "https://api.github.com/repos/obsidianmd/obsidian-help/git/blobs/5d169618a57748b54bceccb551a97af6fdf598bd",
+        "snapshot": "Properties.md",
+        "sha256": "75c85e422f5e2b17c9c8fe9125b6c9b4159fd6635cefbbef6b72c3272b623db6",
+        "bytes": 10453
+      },
+      {
+        "title": "Tags",
+        "repository_path": "en/Editing and formatting/Tags.md",
+        "git_blob_sha": "2523c31a2af842a71428b416abc2531bb68886ab",
+        "url": "https://api.github.com/repos/obsidianmd/obsidian-help/git/blobs/2523c31a2af842a71428b416abc2531bb68886ab",
+        "snapshot": "Tags.md",
+        "sha256": "20214764032cb166d6e13cc39605b654d691f5a17ad70437d6df81e28fc149dc",
+        "bytes": 2209
+      },
+      {
+        "title": "commonmark-0.31.2.json",
+        "url": "https://spec.commonmark.org/0.31.2/spec.json",
+        "snapshot": "commonmark-0.31.2.json",
+        "sha256": "d431b29d97b6f73e69d547109cf5081578fac931e72afe95639ebe766c1b2a20",
+        "bytes": 140487
+      },
+      {
+        "title": "gfm-0.29.html",
+        "url": "https://github.github.com/gfm/",
+        "snapshot": "gfm-0.29.html",
+        "sha256": "b153d814fdfc8624bb6da7449162c1cd707a637f7d1c1b636eb44b9cf63fa220",
+        "bytes": 508310
+      }
+    ]
+  },
+  "official_smoke": {
+    "official-example-results-v18.3.json": {
+      "purpose": "Dependency grammar rendering and production source coverage are distinct; neither is full Obsidian semantic conformance.",
+      "examples": 652,
+      "core_render_matches": 649,
+      "extraction_counts": {
+        "EXACT": 581,
+        "TYPED_REJECTION": 71
+      },
+      "rejection_counts": {
+        "MD_UNSUPPORTED_HTML_STRUCTURE": 39,
+        "MD_INVALID_PROPERTIES": 2,
+        "MD_UNSUPPORTED_ACTIVE_HTML": 7,
+        "MD_UNSUPPORTED_EMBED_TYPE": 21,
+        "MD_MALFORMED_EMBED": 1,
+        "MD_UNAPPROVED_EMBED": 1
+      }
+    },
+    "gfm-example-results-v18.3.json": {
+      "purpose": "Official GFM source-coverage smoke test; not rendered or structural conformance.",
+      "examples": 677,
+      "extraction_counts": {
+        "EXACT": 606,
+        "TYPED_REJECTION": 71
+      },
+      "rejection_counts": {
+        "MD_UNSUPPORTED_HTML_STRUCTURE": 40,
+        "MD_INVALID_PROPERTIES": 2,
+        "MD_UNSUPPORTED_ACTIVE_HTML": 6,
+        "MD_UNSUPPORTED_EMBED_TYPE": 21,
+        "MD_MALFORMED_EMBED": 1,
+        "MD_UNAPPROVED_EMBED": 1
+      }
+    }
+  },
+  "mandatory_matrix": "docs/implementation/phase-18/obsidian-markdown-d17-contract.md",
+  "independent_quality_review": "PENDING; implementer-authored exposed development labels, no human signature or held-out acceptance",
+  "blockers": [
+    "Required inert HTML crossing blank blocks or using optional closing tags unsupported",
+    "Full structural syntax/independent quality and representative resource acceptance not established",
+    "Existing RapidOCR/Python installed metadata incompatibility; no version waiver",
+    "Transient peak disk not measured",
+    "Historical Java aggregate failure/unknown producer identity retained; FR18-3 OPEN"
+  ],
+  "historical_java_gate_artifacts": {
+    "logs/phase18/s2-takeover-full-java-2026-10-20.json": "ed67df5d29c4358df78599fdbaaaecf59c414d8ecd57fb94d14d9cc5d4cf1923",
+    "logs/phase18/s2-takeover-full-java-2026-10-20.log": "11db99ad9721587335508700ed5082c60de92ea2635f30af09134389b5e73e0e"
+  },
+  "primary_command_ledger": [
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "uv",
+        "add",
+        "--directory",
+        "rag-engine",
+        "--no-sync",
+        "markdown-it-py==4.2.0",
+        "mdit-py-plugins==0.6.1"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/uv-add.json",
+        "--",
+        "uv",
+        "add",
+        "--directory",
+        "rag-engine",
+        "--no-sync",
+        "markdown-it-py==4.2.0",
+        "mdit-py-plugins==0.6.1"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/uv-add.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "uv",
+        "sync",
+        "--directory",
+        "rag-engine",
+        "--locked",
+        "--extra",
+        "dev"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/uv-sync.json",
+        "--",
+        "uv",
+        "sync",
+        "--directory",
+        "rag-engine",
+        "--locked",
+        "--extra",
+        "dev"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/uv-sync.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--tb=short"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "240",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-properties-final.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--tb=short"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-properties-final.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--tb=short"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "240",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-final.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--tb=short"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-final.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--tb=short"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "240",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-r1.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--tb=short"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-r1.json",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_slice2_corrections.py",
+        "-q",
+        "--tb=short"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/pytest-focused-r3.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_slice2_corrections.py",
+        "-q",
+        "--tb=short"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-focused-r3.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "-q",
+        "--tb=short"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/pytest-d17-initial.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "-q",
+        "--tb=short"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-d17-initial.json",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "-v",
+        "--tb=short"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/pytest-d17-r2.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "-v",
+        "--tb=short"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-d17-r2.json",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine/src",
+        "rag-engine/tests",
+        "rag-engine/scripts"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/ruff-closed.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine/src",
+        "rag-engine/tests",
+        "rag-engine/scripts"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/ruff-closed.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine/src",
+        "rag-engine/tests",
+        "rag-engine/scripts"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/format-closed.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine/src",
+        "rag-engine/tests",
+        "rag-engine/scripts"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/format-closed.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "mypy",
+        "rag-engine/src"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "90",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/mypy-closed.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "mypy",
+        "rag-engine/src"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/mypy-closed.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/uv-check.json",
+        "--",
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/uv-check.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "rag-engine/.venv/Scripts/python.exe"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/uv-pip-check.json",
+        "--",
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "rag-engine/.venv/Scripts/python.exe"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/uv-pip-check.json",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/dependency_inventory.py",
+        "--output",
+        "logs/phase18/s2-d17-markdown-2026-10-20/installed-dependencies.json"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "90",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/dependency-inventory.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/dependency_inventory.py",
+        "--output",
+        "logs/phase18/s2-d17-markdown-2026-10-20/installed-dependencies.json"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/dependency-inventory.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "freeze",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "240",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/source-freeze.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "freeze",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/source-freeze.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "conformance",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "90",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-r2.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "conformance",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-r2.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "conformance",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "90",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-final.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "conformance",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-final.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "gfm",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "90",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/gfm-examples-final.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "gfm",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/gfm-examples-final.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "gfm",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "90",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/gfm-examples.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "gfm",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/gfm-examples.json",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "resources",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/producer-resources.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "resources",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/producer-resources.json",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1
+    },
+    {
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "resources",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/resources-final"
+      ],
+      "watchdog_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-d17-markdown-2026-10-20/producer-resources-final.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/d17_markdown_evidence.py",
+        "resources",
+        "--directory",
+        "logs/phase18/s2-d17-markdown-2026-10-20/resources-final"
+      ],
+      "receipt": "logs/phase18/s2-d17-markdown-2026-10-20/producer-resources-final.json",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1
+    }
+  ],
+  "all_watchdog_receipts": {
+    "logs/phase18/s2-d17-markdown-2026-10-20/dependency-inventory.json": {
+      "sha256": "8e7831ce6d8dc6b63c364cad0f89ae624748a2eae489adb61475bdd44db387d5",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "a3cd4c9f26afdbb2077fb2fa8f4972ba5287341bd27b68f8b934760a13e3bae6",
+      "started_utc": "2026-10-20T07:16:59.127+00:00",
+      "pid": 32420,
+      "finished_utc": "2026-10-20T07:17:02.206+00:00",
+      "duration_seconds": 3.078,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/dependency-inventory.log",
+      "log_sha256": "f2567dd3e0964d62ec26bd3eb8a3e920a019291a19d8b51b2f1e805ed258b0c1"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/diagnose.json": {
+      "sha256": "8b88ecb34cc610d63a328c30c22b4fe9387e4662079a9137fe9b13f3a4102b2f",
+      "profile": "normal",
+      "timeout_seconds": 15.0,
+      "executable": "python.exe",
+      "argv_sha256": "7816943b564591d8f12f3530b1f488fdd41e1f33251dba68661fa6ec9607bc76",
+      "started_utc": "2026-10-20T07:03:58.769+00:00",
+      "pid": 33092,
+      "finished_utc": "2026-10-20T07:04:00.098+00:00",
+      "duration_seconds": 1.328,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/diagnose.log",
+      "log_sha256": "05812e8325c4804b43f12abfc890ef8048521780a98de03758fb5056108f7c85"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/format-closed.json": {
+      "sha256": "1d067019fc22358521cbae55b5f6025469a4c1fc7087bff9c8466427a95b871f",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "677ff78e743e3d7414cdf54cce07d3c8bd60347230a62c245037a5d48622da12",
+      "started_utc": "2026-10-20T07:22:15.743+00:00",
+      "pid": 30072,
+      "finished_utc": "2026-10-20T07:22:15.873+00:00",
+      "duration_seconds": 0.125,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/format-closed.log",
+      "log_sha256": "666e4d61b8be9acc4fe6279dedb11182de0df350f6a8d30435a7a8f113a263a1"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/format-final-r2.json": {
+      "sha256": "b1ca464ae88cd0b4eb6b8110acad5772cccd1c28f6d6f98a2c3f27e8a50281b4",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "677ff78e743e3d7414cdf54cce07d3c8bd60347230a62c245037a5d48622da12",
+      "started_utc": "2026-10-20T07:19:08.868+00:00",
+      "pid": 23860,
+      "finished_utc": "2026-10-20T07:19:08.984+00:00",
+      "duration_seconds": 0.109,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/format-final-r2.log",
+      "log_sha256": "666e4d61b8be9acc4fe6279dedb11182de0df350f6a8d30435a7a8f113a263a1"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/format-final.json": {
+      "sha256": "9b9237b47fb6b7cf4dd63d797013ef4732f25180fd1ab516541268e616c41b2c",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "677ff78e743e3d7414cdf54cce07d3c8bd60347230a62c245037a5d48622da12",
+      "started_utc": "2026-10-20T07:16:27.359+00:00",
+      "pid": 30880,
+      "finished_utc": "2026-10-20T07:16:27.497+00:00",
+      "duration_seconds": 0.141,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/format-final.log",
+      "log_sha256": "666e4d61b8be9acc4fe6279dedb11182de0df350f6a8d30435a7a8f113a263a1"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/format-properties.json": {
+      "sha256": "31f875d6ec9faa2c3b081d254e809bc5d7eb0ba94fe945b9acffcdc393c8981f",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "d2dab560cd64d0ef6ec17144cadb07f6cd3b9d212be99ea28f92dbe31b04485a",
+      "started_utc": "2026-10-20T07:21:07.356+00:00",
+      "pid": 29200,
+      "finished_utc": "2026-10-20T07:21:07.484+00:00",
+      "duration_seconds": 0.125,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/format-properties.log",
+      "log_sha256": "06a87a8e973ba689c597f8aad53bfbb9d42a146f3540b6f7a6176b5e6aa9eb52"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/format-r2.json": {
+      "sha256": "4201f2ef948ee97148ada5f69ad2d35bc806558220b271fb322897022deecfc9",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "8b712c1e0b76ef65923984505d9cf7d5600c2129c4033ccdee7a1f8c69b8567e",
+      "started_utc": "2026-10-20T07:12:28.323+00:00",
+      "pid": 1660,
+      "finished_utc": "2026-10-20T07:12:28.467+00:00",
+      "duration_seconds": 0.14,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/format-r2.log",
+      "log_sha256": "ede719cbef6ffbbdf606a105a682319e279308105c2cbaade9517861aea29000"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/format-r3.json": {
+      "sha256": "136e39fb7d0d181698e9b10557f3da24304810409789557be036e65e4b520581",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "d801d065dfef5677901ddf3a4b92426e2b730b104b80c27bb500a06fd70f62cf",
+      "started_utc": "2026-10-20T07:14:41.766+00:00",
+      "pid": 33528,
+      "finished_utc": "2026-10-20T07:14:41.894+00:00",
+      "duration_seconds": 0.125,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/format-r3.log",
+      "log_sha256": "c2e9208ca99e921f45f7a49d9978315959c3f718ff1834cee9a106559f15c6d5"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/format-script-final.json": {
+      "sha256": "5ae7cd9a54b49d5b59553629ed5c04e40fc6cc521c1f368f96532d290e2f2dc9",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "aa86088471dc947bddd3f34c48c8ac40afcf37f2946f33da635824d81c4ee4e5",
+      "started_utc": "2026-10-20T07:18:17.185+00:00",
+      "pid": 23408,
+      "finished_utc": "2026-10-20T07:18:17.337+00:00",
+      "duration_seconds": 0.156,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/format-script-final.log",
+      "log_sha256": "c1964a1e1b5afb9e7373f8265ba13d11e80da567d6f9dc2b80f95f0b63710cb8"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/get-tree-win.json": {
+      "sha256": "fc91051185c282b07eac8be27147fa45da2db3a35941f63a3bea820ee7c54e2e",
+      "profile": "normal",
+      "timeout_seconds": 40.0,
+      "executable": "python.exe",
+      "argv_sha256": "c630f31bbd6b20f1e734e600b23bf371b3ddb2d855c61b7ac28045c6fac97f1c",
+      "started_utc": "2026-10-20T07:07:12.023+00:00",
+      "pid": 24252,
+      "finished_utc": "2026-10-20T07:07:13.154+00:00",
+      "duration_seconds": 1.125,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/get-tree-win.log",
+      "log_sha256": "536c78a4d7cd2c0224399023a12825be1e2fe5c0191acf87ab1e659d6d6ebb58"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/get-tree.json": {
+      "sha256": "0c96027bf11a85a38a93ad7a40437c4e4c03aa62dba6e7341e98b4a69f37758c",
+      "profile": "normal",
+      "timeout_seconds": 40.0,
+      "executable": "python",
+      "argv_sha256": "1cb6514cce08fb3abb156fac6c58ad190a4a2c2e3a041f89ab8d3bdfd1d3068e",
+      "started_utc": "2026-10-20T07:06:17.629+00:00",
+      "pid": 18944,
+      "finished_utc": "2026-10-20T07:06:18.904+00:00",
+      "duration_seconds": 1.281,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/get-tree.log",
+      "log_sha256": "671a102ed2858f00e73ef73deb1391be16b5b1eb39cd47c1e212792a2f2b3794"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/gfm-examples-final.json": {
+      "sha256": "7f1061bd786ead8098649b0ef97c6d231dc24ac1923bea73ae977999a13058fa",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "e49bbcc9cfc27161a6b70290bee9bbe1723b2d3b77e7806364496f7d834872b8",
+      "started_utc": "2026-10-20T07:28:58.572+00:00",
+      "pid": 14608,
+      "finished_utc": "2026-10-20T07:28:59.915+00:00",
+      "duration_seconds": 1.343,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/gfm-examples-final.log",
+      "log_sha256": "405c2b1a97aec78a6622f0347fcaccb710d1e7d9f632c617b3fbf0079981fc5a"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/gfm-examples.json": {
+      "sha256": "bd043aa7de9cfafea4ef5e254e488fbc2110e7e11ea2a323c8368fb156c73628",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "e49bbcc9cfc27161a6b70290bee9bbe1723b2d3b77e7806364496f7d834872b8",
+      "started_utc": "2026-10-20T07:18:17.786+00:00",
+      "pid": 23436,
+      "finished_utc": "2026-10-20T07:18:19.396+00:00",
+      "duration_seconds": 1.609,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/gfm-examples.log",
+      "log_sha256": "405c2b1a97aec78a6622f0347fcaccb710d1e7d9f632c617b3fbf0079981fc5a"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/mypy-closed.json": {
+      "sha256": "c5c5b5ddae9485c159e82341a35d7204e8a86c5ed696e5dffce81c7be2b8ca74",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "014583a0269c8305f654de7aaef1e414bf95085d303e2b52ab636370e9412a4f",
+      "started_utc": "2026-10-20T07:22:15.738+00:00",
+      "pid": 20280,
+      "finished_utc": "2026-10-20T07:22:17.154+00:00",
+      "duration_seconds": 1.422,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/mypy-closed.log",
+      "log_sha256": "f5048231d7cacadd4f352939ac47071596c03d9c94203981f8675e10910a64ad"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/mypy-final.json": {
+      "sha256": "eaa66ba79e600d42ae4ff80808b867863aa6d773ddf4b78ae091513341e00cdd",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "014583a0269c8305f654de7aaef1e414bf95085d303e2b52ab636370e9412a4f",
+      "started_utc": "2026-10-20T07:16:27.346+00:00",
+      "pid": 17312,
+      "finished_utc": "2026-10-20T07:16:28.530+00:00",
+      "duration_seconds": 1.188,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/mypy-final.log",
+      "log_sha256": "f5048231d7cacadd4f352939ac47071596c03d9c94203981f8675e10910a64ad"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/mypy-r1.json": {
+      "sha256": "8b3f66586f0fd72a337951d25186267ddde9961ce5d2a1aebc9e58b463d43f41",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "014583a0269c8305f654de7aaef1e414bf95085d303e2b52ab636370e9412a4f",
+      "started_utc": "2026-10-20T07:07:13.915+00:00",
+      "pid": 33120,
+      "finished_utc": "2026-10-20T07:07:15.622+00:00",
+      "duration_seconds": 1.704,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/mypy-r1.log",
+      "log_sha256": "5280bb6a5f8d43716ec0e69d0605dac49ada6589d294c9f4a5a27994499fadae"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/mypy-r2.json": {
+      "sha256": "b0d400cd4d146012f099c63abbec1a46d44ed5caa2021753d3f3a5bf551e6448",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "014583a0269c8305f654de7aaef1e414bf95085d303e2b52ab636370e9412a4f",
+      "started_utc": "2026-10-20T07:12:45.048+00:00",
+      "pid": 28388,
+      "finished_utc": "2026-10-20T07:12:46.224+00:00",
+      "duration_seconds": 1.172,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/mypy-r2.log",
+      "log_sha256": "e00953fe172a36729a2b7ff91ae925cd80a2ee84b76261fc5cf3ff7458cc0319"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-final.json": {
+      "sha256": "ae01322f5ae9fac24c8a92b6349d589009e494e8f9bb26edb0a18f5141b9571b",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "a8d85f93986ec11ba8629687a23fca1ce8fa28b30f075059ec956c93dc684a71",
+      "started_utc": "2026-10-20T07:28:57.139+00:00",
+      "pid": 14600,
+      "finished_utc": "2026-10-20T07:28:58.453+00:00",
+      "duration_seconds": 1.313,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-final.log",
+      "log_sha256": "405c2b1a97aec78a6622f0347fcaccb710d1e7d9f632c617b3fbf0079981fc5a"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-r1.json": {
+      "sha256": "af9504031ab49f4ce3b5429c969b2d8ae9a92460750263151b622dfe01bd4985",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "a8d85f93986ec11ba8629687a23fca1ce8fa28b30f075059ec956c93dc684a71",
+      "started_utc": "2026-10-20T07:09:26.583+00:00",
+      "pid": 20980,
+      "finished_utc": "2026-10-20T07:09:27.940+00:00",
+      "duration_seconds": 1.359,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-r1.log",
+      "log_sha256": "405c2b1a97aec78a6622f0347fcaccb710d1e7d9f632c617b3fbf0079981fc5a"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-r2.json": {
+      "sha256": "27dfd07d9381b8e91ed9e33561172833f843c04c968062486a0da66b23a354ac",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "a8d85f93986ec11ba8629687a23fca1ce8fa28b30f075059ec956c93dc684a71",
+      "started_utc": "2026-10-20T07:15:09.178+00:00",
+      "pid": 20500,
+      "finished_utc": "2026-10-20T07:15:11.043+00:00",
+      "duration_seconds": 1.875,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/official-examples-r2.log",
+      "log_sha256": "405c2b1a97aec78a6622f0347fcaccb710d1e7d9f632c617b3fbf0079981fc5a"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/preservation-and-evidence.json": {
+      "sha256": "8a97670f48c39df3ceb1cb6cb6fa04635769bb12f1dd9029eeacee8296106d7b",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python",
+      "argv_sha256": "3ed012b98a7197ec8c51750beabc78453422acd398c496533de2205d4d5e148c",
+      "started_utc": "2026-10-20T07:28:06.273+00:00",
+      "pid": 26008,
+      "finished_utc": "2026-10-20T07:28:09.750+00:00",
+      "duration_seconds": 3.469,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/preservation-and-evidence.log",
+      "log_sha256": "8629b2fd715a5518f6addc862b55fb26c8c4fedc6653528ac6617e9060e0b91f"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/producer-resources-final.json": {
+      "sha256": "9b7dd65807c200cf9d1037a2acf6d608e769ca89e823e08b25a9c64c1c8d388f",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "619a7dfacdacbcb647da67d3b9e78231c825d81abadf9c6aac742d0166fea057",
+      "started_utc": "2026-10-20T07:24:07.314+00:00",
+      "pid": 30172,
+      "finished_utc": "2026-10-20T07:24:19.487+00:00",
+      "duration_seconds": 12.172,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/producer-resources-final.log",
+      "log_sha256": "be47832e923068dd7e8cdc9d17f716fca17533297689e75ef516d490077b78c7"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/producer-resources.json": {
+      "sha256": "bbf50197d801c182d88bc08b96b7a9df091ea8745b33562f816f32e780a684a1",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "8e0916341435d3b77287dddc2695927da5f09e73c17c3d717bcef6b605ab9b31",
+      "started_utc": "2026-10-20T07:14:58.675+00:00",
+      "pid": 31760,
+      "finished_utc": "2026-10-20T07:15:16.532+00:00",
+      "duration_seconds": 17.86,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/producer-resources.log",
+      "log_sha256": "be47832e923068dd7e8cdc9d17f716fca17533297689e75ef516d490077b78c7"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/pytest-d17-initial.json": {
+      "sha256": "602cd2be4315a42d6754cced386199de28715174f9ea4adef6e77b1a5c87d802",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "242339fcf099e53fb5880a460ae47b2d0f962ffafbe89fd8e40799207fec7353",
+      "started_utc": "2026-10-20T07:02:36.611+00:00",
+      "pid": 25044,
+      "finished_utc": "2026-10-20T07:05:06.643+00:00",
+      "duration_seconds": 150.031,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-d17-initial.log",
+      "log_sha256": "c610fc1c27abac58759dd525b3e0ba2975fb977b869c011c1c1265901e6c777a"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/pytest-d17-r2.json": {
+      "sha256": "e325f8de8d921777c44c57278406cdb12519b794e8731fb50ad6d487c7a7c98d",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "e5c9dfeed2dfbb47937a59096254d40ef16e89368eaaf9ba36bd5d44573607aa",
+      "started_utc": "2026-10-20T07:04:41.263+00:00",
+      "pid": 28388,
+      "finished_utc": "2026-10-20T07:04:51.443+00:00",
+      "duration_seconds": 10.172,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-d17-r2.log",
+      "log_sha256": "cd34c0922b38cabad8610d9dd5694b902a2616bb2afe4fe90e1d5bec5f6a4670"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/pytest-focused-r3.json": {
+      "sha256": "53b2f4c59da4f682e32e9921df7c3382f6badf2181a8c6872f46cc05a94dc09f",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "4b1f1c645f5e752cdb3a5045c185e73df3d451e20bd46e900454c610e6a7690f",
+      "started_utc": "2026-10-20T07:12:45.048+00:00",
+      "pid": 13608,
+      "finished_utc": "2026-10-20T07:13:38.384+00:00",
+      "duration_seconds": 53.344,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-focused-r3.log",
+      "log_sha256": "dad0925431221c9e5e8d97671a5f6f9b8b476e3742671c976c78ed1a6ea77fca"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-final.json": {
+      "sha256": "1689bda9811ab9aa81e174225c86e3953ae2653888d8bb5f344014c77fe47cc7",
+      "profile": "normal",
+      "timeout_seconds": 240.0,
+      "executable": "python.exe",
+      "argv_sha256": "1bac150c55f3dbd58146cdf42453e2c50d1018da5a5dc8151aa67eb19e1897fb",
+      "started_utc": "2026-10-20T07:16:27.317+00:00",
+      "pid": 26300,
+      "finished_utc": "2026-10-20T07:17:50.967+00:00",
+      "duration_seconds": 83.656,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-final.log",
+      "log_sha256": "42f4322afe49a4971c77ec01045e5dbc7057a66091654ffbb2036189de3f9c63"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-properties-final.json": {
+      "sha256": "4fbe992ff808146589e6804b4fe35098580306ad70f78e2ee5d832f7c9b16b19",
+      "profile": "normal",
+      "timeout_seconds": 240.0,
+      "executable": "python.exe",
+      "argv_sha256": "1bac150c55f3dbd58146cdf42453e2c50d1018da5a5dc8151aa67eb19e1897fb",
+      "started_utc": "2026-10-20T07:22:05.543+00:00",
+      "pid": 26332,
+      "finished_utc": "2026-10-20T07:23:20.654+00:00",
+      "duration_seconds": 75.11,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-properties-final.log",
+      "log_sha256": "9f4c0daa5261835ec9828b3e052b1f32a13317b9bc2f3f3a59b3a7c91c8e303f"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-r1.json": {
+      "sha256": "90d66d293e557772a3f1ecf218629246089640fdc79bfa33510c0d04dcc000f1",
+      "profile": "normal",
+      "timeout_seconds": 240.0,
+      "executable": "python.exe",
+      "argv_sha256": "1bac150c55f3dbd58146cdf42453e2c50d1018da5a5dc8151aa67eb19e1897fb",
+      "started_utc": "2026-10-20T07:05:46.494+00:00",
+      "pid": 29292,
+      "finished_utc": "2026-10-20T07:07:14.321+00:00",
+      "duration_seconds": 87.828,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/pytest-full-r1.log",
+      "log_sha256": "5361da51aa9cfcd92e83e96fa8b5d3bd2cd25ef9e91ce7089065bcf0af846d08"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/ruff-closed.json": {
+      "sha256": "770a2c820bac87761b62fb5d107310a8bf248b1d63170044769960fea67f6ac7",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "34d3400c6a684388860ec5f9f79831bac71eb51b97ea0c734be02023eacd34d4",
+      "started_utc": "2026-10-20T07:22:15.721+00:00",
+      "pid": 5776,
+      "finished_utc": "2026-10-20T07:22:15.870+00:00",
+      "duration_seconds": 0.157,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/ruff-closed.log",
+      "log_sha256": "ecd7b5b28ace7ce9bb78cf2b45bd79d21dde4507b2d6439112931941affa7609"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/ruff-final-r2.json": {
+      "sha256": "f0f5c6b8e68fdaeae84aa1b6475db25207c25ddb437f34cda3439ea2d732271c",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "34d3400c6a684388860ec5f9f79831bac71eb51b97ea0c734be02023eacd34d4",
+      "started_utc": "2026-10-20T07:19:08.568+00:00",
+      "pid": 32600,
+      "finished_utc": "2026-10-20T07:19:08.703+00:00",
+      "duration_seconds": 0.141,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/ruff-final-r2.log",
+      "log_sha256": "850a01a8680090e5a4b0d40af0b12884bcd824f77aa7eb9c92c52240b5851a5c"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/ruff-final.json": {
+      "sha256": "e24416bdbc77b31ccc3c7b5db1a141c3dfae3973af5c78ffe4db35034fb20dba",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "34d3400c6a684388860ec5f9f79831bac71eb51b97ea0c734be02023eacd34d4",
+      "started_utc": "2026-10-20T07:16:27.352+00:00",
+      "pid": 2444,
+      "finished_utc": "2026-10-20T07:16:27.497+00:00",
+      "duration_seconds": 0.141,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/ruff-final.log",
+      "log_sha256": "8c80d05837382e01553f1b6ad793c07672c7831df6993ba5fe76c694deceac6d"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/ruff-fix-r3.json": {
+      "sha256": "dd998637a4bc465873018f6df21df61ff05e694f9cc48aa6d3daf233a0e32b82",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "6ccfb80df8c58130dce866f58e700969bef9bda6e5a7ce560245391a6187b1f2",
+      "started_utc": "2026-10-20T07:14:41.480+00:00",
+      "pid": 9296,
+      "finished_utc": "2026-10-20T07:14:41.645+00:00",
+      "duration_seconds": 0.156,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/ruff-fix-r3.log",
+      "log_sha256": "82aa56a20b07e9247d1a0f24d38b98bea26599be39930642db230d950d8dd189"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/ruff-fix.json": {
+      "sha256": "8ef245af9f296fd5aceba4318c1cc843c76b7d70ab0e48dfb13fd9c97439d644",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "6133e105799ce09793291223909c4345a2dddd09090a7234ed95d4f08c3de0d0",
+      "started_utc": "2026-10-20T07:05:45.680+00:00",
+      "pid": 18788,
+      "finished_utc": "2026-10-20T07:05:45.839+00:00",
+      "duration_seconds": 0.156,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/ruff-fix.log",
+      "log_sha256": "67a55e1e891e8005f14e430770c5b5766731998694c2902b5695ae328c1a59c6"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/ruff-format.json": {
+      "sha256": "73f9163d97390888af2b47dc6f4023de26d0c7e565fcb5ef9848e4ab7492ba1c",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "63e7bfd94c1232fd54c745b4ba4bb94626ff655750e0ffcfbc1d63fc612e9ba8",
+      "started_utc": "2026-10-20T07:05:45.956+00:00",
+      "pid": 15540,
+      "finished_utc": "2026-10-20T07:05:46.078+00:00",
+      "duration_seconds": 0.125,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/ruff-format.log",
+      "log_sha256": "c1b5b7ed305d0af3d8a1569b0e84b0dd5440304a971f59217cf383af40e51199"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/ruff-r2.json": {
+      "sha256": "5bbc9e6db6544a272d95fb3810e88e8e29505e071a30f4f88d2f018025b95410",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "34d3400c6a684388860ec5f9f79831bac71eb51b97ea0c734be02023eacd34d4",
+      "started_utc": "2026-10-20T07:12:45.048+00:00",
+      "pid": 27972,
+      "finished_utc": "2026-10-20T07:12:45.219+00:00",
+      "duration_seconds": 0.172,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/ruff-r2.log",
+      "log_sha256": "24c28bf50ebc38386bb91283bd9af9792390b9efaa0fc955f8e30fed97f28d69"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/source-freeze.json": {
+      "sha256": "3f10acdb45560aca7e9248be978d5702aa84b72b056166e174abfbc62810ab5b",
+      "profile": "normal",
+      "timeout_seconds": 240.0,
+      "executable": "python.exe",
+      "argv_sha256": "5fbc2505a4126dd5463144b960b5b542fccb9ced2b26b96e64471dad0d4ae8d0",
+      "started_utc": "2026-10-20T07:09:05.321+00:00",
+      "pid": 18924,
+      "finished_utc": "2026-10-20T07:09:11.531+00:00",
+      "duration_seconds": 6.203,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/source-freeze.log",
+      "log_sha256": "bdcb86b7c1e386a9b3ce0a4d2f4ce18d4ffdf8beda9c8d764f7d16bae867ce0a"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/uv-add.json": {
+      "sha256": "8e5e0b621e81af271176ba5722f1c53915b09b69abcd374929c7656349028771",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "uv",
+      "argv_sha256": "4a4462b66aca63d0ff97b2d29654d55785e80bb7d2ac614e3d5387a2895b3124",
+      "started_utc": "2026-10-20T06:47:59.985+00:00",
+      "pid": 33212,
+      "finished_utc": "2026-10-20T06:48:00.926+00:00",
+      "duration_seconds": 0.937,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/uv-add.log",
+      "log_sha256": "08f01ecd756794cec927c62627b6b65f8e32c8613da4b91a749b9f6bfaa86d77"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/uv-check.json": {
+      "sha256": "6b40ff94f4a0c9e62c1eb341408040e56278f6f22804d8039a6d7133d96407f4",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "uv",
+      "argv_sha256": "c8699a98f099cdf9bc602ad760395767f001cc10177c430329a2a0e001933e82",
+      "started_utc": "2026-10-20T07:16:56.821+00:00",
+      "pid": 26812,
+      "finished_utc": "2026-10-20T07:16:57.452+00:00",
+      "duration_seconds": 0.625,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/uv-check.log",
+      "log_sha256": "23b51ab2943b4ba31483edd9d2f2279b78aa35ed931442b4a08fa2f12be1ce76"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/uv-pip-check.json": {
+      "sha256": "71d1211d92f96df225a73ad41fa5f172dcfd0cd0d2e6ff5bb5286da6fdedcd07",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "uv",
+      "argv_sha256": "b1a2053a8983b278583103be913eba9513a9c9bdea8c9445d7ac1faf6e300463",
+      "started_utc": "2026-10-20T07:16:58.491+00:00",
+      "pid": 7580,
+      "finished_utc": "2026-10-20T07:16:58.797+00:00",
+      "duration_seconds": 0.296,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/uv-pip-check.log",
+      "log_sha256": "649baa79400172105e654756ac396433b7b4548560ea6ae0fb2349fbc2b003c3"
+    },
+    "logs/phase18/s2-d17-markdown-2026-10-20/uv-sync.json": {
+      "sha256": "5a08a268e09389fb468a2e5bc4ad2b829c4967521ca44bbd0e377e3f6a60df12",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "uv",
+      "argv_sha256": "084d5f9a5c768882e81811a74e16a2fb834e697090b4b90ed1ef9d031ab1f422",
+      "started_utc": "2026-10-20T06:48:10.854+00:00",
+      "pid": 16480,
+      "finished_utc": "2026-10-20T06:48:11.286+00:00",
+      "duration_seconds": 0.422,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "log": "logs/phase18/s2-d17-markdown-2026-10-20/uv-sync.log",
+      "log_sha256": "775b3e62c0ff08f659b4258ba8fbec144753221f34332e4649f92bc2a4a72143"
+    }
+  },
+  "governance": {
+    "phase17": "FROZEN",
+    "slice1_D14": "CLOSED",
+    "FR18_3": "OPEN",
+    "external_indexing": "INACTIVE",
+    "slices3_4": "NOT AUTHORIZED",
+    "OCR_experiments": "STOPPED",
+    "OCR_PDF_DOCX_XLS_XLSX_acceptance": "DEFERRED, not closed",
+    "next": "STOP for independent review/owner disposition; no automatic continuation"
+  }
+}

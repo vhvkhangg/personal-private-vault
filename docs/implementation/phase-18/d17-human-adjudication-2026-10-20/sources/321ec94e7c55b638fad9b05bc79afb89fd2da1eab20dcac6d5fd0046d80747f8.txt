@@ -1,0 +1,3 @@
+[reference][id] and [inline](note.md#Heading) <a@example.invalid> www.example.invalid
+
+[id]: note.md 'title'

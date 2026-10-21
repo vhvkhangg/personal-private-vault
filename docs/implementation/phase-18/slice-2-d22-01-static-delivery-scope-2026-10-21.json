@@ -1,0 +1,663 @@
+{
+  "date": "2026-10-21",
+  "role": "Codex corrective implementer; independent closeout re-review pending",
+  "status": "READY_FOR_INDEPENDENT_CLOSEOUT_RE_REVIEW",
+  "scope": "S2-D22-01 only",
+  "prior_independent_scope": "docs/implementation/phase-18/reviews/2026-10-21-slice-2-d22-independent-delivery-scope.json",
+  "prior_independent_scope_sha256": "416f61e012b0a3d55b2ad31e02810e18c5ca4402c9e12ae6b05b87cbbedad45b",
+  "source_patch": "logs/phase18/s2-d22-01-static-correction-2026-10-21/corrected-markdown-only-final.patch",
+  "source_patch_sha256": "d063d6890b431f95a9e32e45364461f6d047586e9ad97224b9fe18c693642931",
+  "original_review_patch_is_unchanged_prefix": true,
+  "detailed_projection_manifest": "logs/phase18/s2-d22-01-static-correction-2026-10-21/delivery-projection-final.json",
+  "detailed_projection_manifest_sha256": "f91cefdf1ba8d0eb201dbf7d2774aaabc9fb5582da9cdf6080cc207a0e951f66",
+  "reproduction_script": "logs/phase18/s2-d22-01-static-correction-2026-10-21/rebuild_delivery_final.py",
+  "reproduction_script_sha256": "ddaeae2fe794d2ccd2ca2558cc9957e8f6a10ac24c9f175965e4645c8e3d9c14",
+  "selected_paths": {
+    "rag-engine/pyproject.toml": {
+      "prior_selection": {
+        "path": "rag-engine/pyproject.toml",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+        "projected_sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6"
+      },
+      "projected_sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+      "normalized_lf_sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6"
+    },
+    "rag-engine/scripts/d17_completion_resources.py": {
+      "prior_selection": {
+        "path": "rag-engine/scripts/d17_completion_resources.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+        "projected_sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e"
+      },
+      "projected_sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+      "normalized_lf_sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e"
+    },
+    "rag-engine/scripts/d17_final_onnx_probe.py": {
+      "prior_selection": {
+        "path": "rag-engine/scripts/d17_final_onnx_probe.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+        "projected_sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e"
+      },
+      "projected_sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+      "normalized_lf_sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e"
+    },
+    "rag-engine/scripts/d17_final_profile.py": {
+      "prior_selection": {
+        "path": "rag-engine/scripts/d17_final_profile.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+        "projected_sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e"
+      },
+      "projected_sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+      "normalized_lf_sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e"
+    },
+    "rag-engine/scripts/d17_markdown_evidence.py": {
+      "prior_selection": {
+        "path": "rag-engine/scripts/d17_markdown_evidence.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+        "projected_sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2"
+      },
+      "projected_sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+      "normalized_lf_sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2"
+    },
+    "rag-engine/scripts/d17_structural_conformance.py": {
+      "prior_selection": {
+        "path": "rag-engine/scripts/d17_structural_conformance.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+        "projected_sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c"
+      },
+      "projected_sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+      "normalized_lf_sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c"
+    },
+    "rag-engine/scripts/dependency_inventory.py": {
+      "prior_selection": {
+        "path": "rag-engine/scripts/dependency_inventory.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+        "projected_sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf"
+      },
+      "projected_sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+      "normalized_lf_sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf"
+    },
+    "rag-engine/scripts/provision_embedding_model.py": {
+      "prior_selection": {
+        "path": "rag-engine/scripts/provision_embedding_model.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+        "projected_sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1"
+      },
+      "projected_sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+      "normalized_lf_sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1"
+    },
+    "rag-engine/src/ppv_rag/chunking/chunker.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/chunking/chunker.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+        "projected_sha256": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45"
+      },
+      "projected_sha256": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+      "normalized_lf_sha256": "7c04026be3542932aa6dd5f9bb9d234591e5cfc6bd9597b15be84805fdfad0e2"
+    },
+    "rag-engine/src/ppv_rag/embeddings/model.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/embeddings/model.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+        "projected_sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a"
+      },
+      "projected_sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+      "normalized_lf_sha256": "5933dc09f757e37c65887225dc8702c8943570d8cd86b98cdd253c804077fd1b"
+    },
+    "rag-engine/src/ppv_rag/main.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/main.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+        "projected_sha256": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea"
+      },
+      "projected_sha256": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+      "normalized_lf_sha256": "d74c48ffb133247351709c8273f3123fda33484ea243ee1d4128d357efa54476"
+    },
+    "rag-engine/src/ppv_rag/parsers/markdown.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/parsers/markdown.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+        "projected_sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829"
+      },
+      "projected_sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+      "normalized_lf_sha256": "023afc42cac896337835e8fc4f5c642c3d0c38ebca89bc9b1ea46db9fdf00694"
+    },
+    "rag-engine/src/ppv_rag/parsers/obsidian.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/parsers/obsidian.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+        "projected_sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d"
+      },
+      "projected_sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+      "normalized_lf_sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d"
+    },
+    "rag-engine/src/ppv_rag/parsers/obsidian_html.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/parsers/obsidian_html.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+        "projected_sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172"
+      },
+      "projected_sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+      "normalized_lf_sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172"
+    },
+    "rag-engine/src/ppv_rag/parsers/text.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/parsers/text.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+        "projected_sha256": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623"
+      },
+      "projected_sha256": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+      "normalized_lf_sha256": "3e0100c64a4236717dd425c2aa5a0060cbbca697db9e0b99476ffd1041b9b493"
+    },
+    "rag-engine/src/ppv_rag/worker.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/worker.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+        "projected_sha256": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc"
+      },
+      "projected_sha256": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+      "normalized_lf_sha256": "efaed83b0c2867b7fea2dc3bfe561b42a31472aee387ad7a00039800c904941a"
+    },
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md": {
+      "prior_selection": {
+        "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+        "projected_sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c"
+      },
+      "projected_sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+      "normalized_lf_sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c"
+    },
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md": {
+      "prior_selection": {
+        "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+        "projected_sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b"
+      },
+      "projected_sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+      "normalized_lf_sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b"
+    },
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json": {
+      "prior_selection": {
+        "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+        "projected_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe"
+      },
+      "projected_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+      "normalized_lf_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe"
+    },
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md": {
+      "prior_selection": {
+        "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+        "projected_sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb"
+      },
+      "projected_sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+      "normalized_lf_sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb"
+    },
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md": {
+      "prior_selection": {
+        "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+        "projected_sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504"
+      },
+      "projected_sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+      "normalized_lf_sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504"
+    },
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt": {
+      "prior_selection": {
+        "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+        "projected_sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5"
+      },
+      "projected_sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+      "normalized_lf_sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5"
+    },
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md": {
+      "prior_selection": {
+        "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+        "projected_sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f"
+      },
+      "projected_sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+      "normalized_lf_sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f"
+    },
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json": {
+      "prior_selection": {
+        "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+        "projected_sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17"
+      },
+      "projected_sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+      "normalized_lf_sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17"
+    },
+    "rag-engine/tests/test_d17_completion.py": {
+      "prior_selection": {
+        "path": "rag-engine/tests/test_d17_completion.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+        "projected_sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e"
+      },
+      "projected_sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+      "normalized_lf_sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e"
+    },
+    "rag-engine/tests/test_d17_final_corrective.py": {
+      "prior_selection": {
+        "path": "rag-engine/tests/test_d17_final_corrective.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+        "projected_sha256": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301"
+      },
+      "projected_sha256": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+      "normalized_lf_sha256": "79ba4bbae3cbcdfe1692d129f8bf96cfb6d69d425716151621c31bb027c89221"
+    },
+    "rag-engine/tests/test_d17_r03_only.py": {
+      "prior_selection": {
+        "path": "rag-engine/tests/test_d17_r03_only.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb",
+        "projected_sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb"
+      },
+      "projected_sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb",
+      "normalized_lf_sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb"
+    },
+    "rag-engine/tests/test_obsidian_d17.py": {
+      "prior_selection": {
+        "path": "rag-engine/tests/test_obsidian_d17.py",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+        "projected_sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7"
+      },
+      "projected_sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+      "normalized_lf_sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7"
+    },
+    "rag-engine/uv.lock": {
+      "prior_selection": {
+        "path": "rag-engine/uv.lock",
+        "selection": "ALL existing reviewed changes / full new Markdown file",
+        "working_sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+        "projected_sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa"
+      },
+      "projected_sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+      "normalized_lf_sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa"
+    },
+    "rag-engine/src/ppv_rag/parsers/models.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/parsers/models.py",
+        "selection": "ONLY common enum and provenance equality hunks; leave DOCX hunk at HEAD",
+        "working_sha256": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+        "projected_sha256": "51c7638a8a0121608912672152251adfbd3006d98ed296a8dbeba49761aff152",
+        "hunks": [
+          {
+            "old_start": 21,
+            "old_end": 20,
+            "new_start": 21,
+            "new_end": 22,
+            "take": true,
+            "reason": "enum/source-equality common contract"
+          },
+          {
+            "old_start": 49,
+            "old_end": 48,
+            "new_start": 51,
+            "new_end": 57,
+            "take": true,
+            "reason": "enum/source-equality common contract"
+          },
+          {
+            "old_start": 69,
+            "old_end": 82,
+            "new_start": 78,
+            "new_end": 111,
+            "take": false,
+            "reason": "excluded DOCX semantic validation"
+          }
+        ]
+      },
+      "projected_sha256": "51c7638a8a0121608912672152251adfbd3006d98ed296a8dbeba49761aff152",
+      "normalized_lf_sha256": "51c7638a8a0121608912672152251adfbd3006d98ed296a8dbeba49761aff152"
+    },
+    "rag-engine/src/ppv_rag/limits.py": {
+      "prior_selection": {
+        "path": "rag-engine/src/ppv_rag/limits.py",
+        "selection": "EXISTING statements only: control/limits/check_text; omit archive/PDF/input_bytes helpers and their imports",
+        "working_sha256": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194",
+        "projected_sha256": "88889ca26d84ba6338d6ea4fd042bb062d826506fa9bb3a1a81979f1817baeac",
+        "retained_source_spans": [
+          [
+            0,
+            1,
+            "Expr"
+          ],
+          [
+            2,
+            3,
+            "ImportFrom"
+          ],
+          [
+            6,
+            7,
+            "Import"
+          ],
+          [
+            9,
+            10,
+            "ImportFrom"
+          ],
+          [
+            10,
+            11,
+            "ImportFrom"
+          ],
+          [
+            11,
+            12,
+            "ImportFrom"
+          ],
+          [
+            15,
+            16,
+            "Assign"
+          ],
+          [
+            16,
+            17,
+            "Assign"
+          ],
+          [
+            17,
+            18,
+            "Assign"
+          ],
+          [
+            18,
+            19,
+            "Assign"
+          ],
+          [
+            19,
+            20,
+            "Assign"
+          ],
+          [
+            20,
+            21,
+            "Assign"
+          ],
+          [
+            21,
+            22,
+            "Assign"
+          ],
+          [
+            22,
+            23,
+            "Assign"
+          ],
+          [
+            24,
+            27,
+            "AnnAssign"
+          ],
+          [
+            29,
+            31,
+            "ParsingCancelled"
+          ],
+          [
+            33,
+            41,
+            "checkpoint"
+          ],
+          [
+            43,
+            56,
+            "parsing_scope"
+          ],
+          [
+            66,
+            70,
+            "check_text"
+          ]
+        ],
+        "omitted_source_spans": [
+          [
+            4,
+            5,
+            "Import"
+          ],
+          [
+            5,
+            6,
+            "Import"
+          ],
+          [
+            7,
+            8,
+            "Import"
+          ],
+          [
+            8,
+            9,
+            "Import"
+          ],
+          [
+            12,
+            13,
+            "ImportFrom"
+          ],
+          [
+            13,
+            14,
+            "ImportFrom"
+          ],
+          [
+            58,
+            64,
+            "input_bytes"
+          ],
+          [
+            72,
+            134,
+            "checked_zip"
+          ],
+          [
+            136,
+            195,
+            "checked_pdf"
+          ]
+        ],
+        "function_AST_identity": true
+      },
+      "projected_sha256": "88889ca26d84ba6338d6ea4fd042bb062d826506fa9bb3a1a81979f1817baeac",
+      "normalized_lf_sha256": "88889ca26d84ba6338d6ea4fd042bb062d826506fa9bb3a1a81979f1817baeac"
+    },
+    ".gitignore": {
+      "prior_selection": {
+        "path": ".gitignore",
+        "selection": "ONLY existing .venv-d17/ ignore addition",
+        "working_sha256": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744",
+        "projected_sha256": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744"
+      },
+      "projected_sha256": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744",
+      "normalized_lf_sha256": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744"
+    },
+    "rag-engine/src/ppv_rag/ocr/engine.py": {
+      "additional_static_boundary_selection": {
+        "base": "HEAD",
+        "runtime_AST_unchanged": true,
+        "selected_change": "Optional import diagnostic annotation only",
+        "exact_zero_context_diff": "--- a/rag-engine/src/ppv_rag/ocr/engine.py\n+++ b/rag-engine/src/ppv_rag/ocr/engine.py\n@@ -43 +43,4 @@\n-            from rapidocr_onnxruntime import RapidOCR  # type: ignore[import-untyped]\n+            # Optional backend: absent from the selected Markdown runtime.\n+            from rapidocr_onnxruntime import (  # type: ignore[import-not-found, import-untyped]\n+                RapidOCR,\n+            )\n",
+        "patch_sha256": "ffbde7981624ea62801ffde7de5804ab26fff6ddd61bb90733fa9c9c6bceda04"
+      },
+      "projected_sha256": "7b637869af437a9824d1b28417931375d0c8a377d32e703c82b080be44b99f0e",
+      "normalized_lf_sha256": "7b637869af437a9824d1b28417931375d0c8a377d32e703c82b080be44b99f0e"
+    },
+    "rag-engine/tests/test_optional_ocr_dependency.py": {
+      "additional_static_boundary_selection": {
+        "base": "NEW",
+        "runtime_AST_unchanged": false,
+        "selected_change": "Dependency present/absent/constructor compatibility tests only",
+        "exact_zero_context_diff": "--- a/rag-engine/tests/test_optional_ocr_dependency.py\n+++ b/rag-engine/tests/test_optional_ocr_dependency.py\n@@ -0,0 +1,66 @@\n+\"\"\"Optional import compatibility only; no OCR model, inference or quality acceptance.\"\"\"\n+\n+import builtins\n+import inspect\n+import os\n+import sys\n+from pathlib import Path\n+from types import ModuleType\n+\n+import pytest\n+\n+from ppv_rag.ocr.engine import AdaptiveOCREngine\n+\n+\n+@pytest.fixture(autouse=True)\n+def assert_selected_tree():\n+    expected = os.environ.get(\"PPV_TEST_EXPECTED_SOURCE\")\n+    if expected:\n+        assert (\n+            Path(inspect.getfile(AdaptiveOCREngine)).resolve()\n+            == (Path(expected) / \"ppv_rag/ocr/engine.py\").resolve()\n+        )\n+\n+\n+def test_absent_optional_backend_preserves_unavailable_state(monkeypatch):\n+    original_import = builtins.__import__\n+    attempts = []\n+\n+    def import_without_backend(name, *args, **kwargs):\n+        if name == \"rapidocr_onnxruntime\":\n+            attempts.append(name)\n+            raise ModuleNotFoundError(\"Synthetic absent optional backend\", name=name)\n+        return original_import(name, *args, **kwargs)\n+\n+    monkeypatch.setattr(builtins, \"__import__\", import_without_backend)\n+    engine = AdaptiveOCREngine()\n+    assert attempts == [\"rapidocr_onnxruntime\"]\n+    assert engine._engine is None\n+    assert engine.default_language == \"en\"\n+\n+\n+def test_present_optional_backend_uses_original_constructor(monkeypatch):\n+    module = ModuleType(\"rapidocr_onnxruntime\")\n+    sentinel = object()\n+    calls = []\n+\n+    def constructor():\n+        calls.append(())\n+        return sentinel\n+\n+    module.RapidOCR = constructor\n+    monkeypatch.setitem(sys.modules, \"rapidocr_onnxruntime\", module)\n+    assert AdaptiveOCREngine()._engine is sentinel\n+    assert calls == [()]\n+\n+\n+@pytest.mark.parametrize(\"failure\", [ImportError, RuntimeError])\n+def test_backend_initialization_failure_preserves_unavailable_state(monkeypatch, failure):\n+    module = ModuleType(\"rapidocr_onnxruntime\")\n+\n+    def broken_constructor():\n+        raise failure(\"Synthetic backend initialization failure\")\n+\n+    module.RapidOCR = broken_constructor\n+    monkeypatch.setitem(sys.modules, \"rapidocr_onnxruntime\", module)\n+    assert AdaptiveOCREngine()._engine is None\n",
+        "patch_sha256": "bf7a6507b7bdb8c49a72d6f361a7e5bf274926a1808190c1a310a9b8a864d081"
+      },
+      "projected_sha256": "4b6d16129f075a02b7503f0e8c027cf4ba0c0676e7ebb632853fdab972652771",
+      "normalized_lf_sha256": "4b6d16129f075a02b7503f0e8c027cf4ba0c0676e7ebb632853fdab972652771"
+    }
+  },
+  "selected_source_support_paths": 34,
+  "original_selected_paths_unchanged": 32,
+  "added_hunks": {
+    "rag-engine/src/ppv_rag/ocr/engine.py": {
+      "base": "HEAD",
+      "runtime_AST_unchanged": true,
+      "selected_change": "Optional import diagnostic annotation only",
+      "exact_zero_context_diff": "--- a/rag-engine/src/ppv_rag/ocr/engine.py\n+++ b/rag-engine/src/ppv_rag/ocr/engine.py\n@@ -43 +43,4 @@\n-            from rapidocr_onnxruntime import RapidOCR  # type: ignore[import-untyped]\n+            # Optional backend: absent from the selected Markdown runtime.\n+            from rapidocr_onnxruntime import (  # type: ignore[import-not-found, import-untyped]\n+                RapidOCR,\n+            )\n",
+      "patch_sha256": "ffbde7981624ea62801ffde7de5804ab26fff6ddd61bb90733fa9c9c6bceda04"
+    },
+    "rag-engine/tests/test_optional_ocr_dependency.py": {
+      "base": "NEW",
+      "runtime_AST_unchanged": false,
+      "selected_change": "Dependency present/absent/constructor compatibility tests only",
+      "exact_zero_context_diff": "--- a/rag-engine/tests/test_optional_ocr_dependency.py\n+++ b/rag-engine/tests/test_optional_ocr_dependency.py\n@@ -0,0 +1,66 @@\n+\"\"\"Optional import compatibility only; no OCR model, inference or quality acceptance.\"\"\"\n+\n+import builtins\n+import inspect\n+import os\n+import sys\n+from pathlib import Path\n+from types import ModuleType\n+\n+import pytest\n+\n+from ppv_rag.ocr.engine import AdaptiveOCREngine\n+\n+\n+@pytest.fixture(autouse=True)\n+def assert_selected_tree():\n+    expected = os.environ.get(\"PPV_TEST_EXPECTED_SOURCE\")\n+    if expected:\n+        assert (\n+            Path(inspect.getfile(AdaptiveOCREngine)).resolve()\n+            == (Path(expected) / \"ppv_rag/ocr/engine.py\").resolve()\n+        )\n+\n+\n+def test_absent_optional_backend_preserves_unavailable_state(monkeypatch):\n+    original_import = builtins.__import__\n+    attempts = []\n+\n+    def import_without_backend(name, *args, **kwargs):\n+        if name == \"rapidocr_onnxruntime\":\n+            attempts.append(name)\n+            raise ModuleNotFoundError(\"Synthetic absent optional backend\", name=name)\n+        return original_import(name, *args, **kwargs)\n+\n+    monkeypatch.setattr(builtins, \"__import__\", import_without_backend)\n+    engine = AdaptiveOCREngine()\n+    assert attempts == [\"rapidocr_onnxruntime\"]\n+    assert engine._engine is None\n+    assert engine.default_language == \"en\"\n+\n+\n+def test_present_optional_backend_uses_original_constructor(monkeypatch):\n+    module = ModuleType(\"rapidocr_onnxruntime\")\n+    sentinel = object()\n+    calls = []\n+\n+    def constructor():\n+        calls.append(())\n+        return sentinel\n+\n+    module.RapidOCR = constructor\n+    monkeypatch.setitem(sys.modules, \"rapidocr_onnxruntime\", module)\n+    assert AdaptiveOCREngine()._engine is sentinel\n+    assert calls == [()]\n+\n+\n+@pytest.mark.parametrize(\"failure\", [ImportError, RuntimeError])\n+def test_backend_initialization_failure_preserves_unavailable_state(monkeypatch, failure):\n+    module = ModuleType(\"rapidocr_onnxruntime\")\n+\n+    def broken_constructor():\n+        raise failure(\"Synthetic backend initialization failure\")\n+\n+    module.RapidOCR = broken_constructor\n+    monkeypatch.setitem(sys.modules, \"rapidocr_onnxruntime\", module)\n+    assert AdaptiveOCREngine()._engine is None\n",
+      "patch_sha256": "bf7a6507b7bdb8c49a72d6f361a7e5bf274926a1808190c1a310a9b8a864d081"
+    }
+  },
+  "unchanged_prior_hunk_selection": "All original shared models/limits/worker/etc choices retained verbatim in original independent scope and detailed manifest.",
+  "excluded_implementation": "All previous 35 unaccepted implementation paths remain excluded; ocr/engine.py gets only the separate HEAD-based static annotation delta, no dirty OCR feature hunks.",
+  "AGENTS": "EXCLUDED / unchanged",
+  "configuration": "No current config change; existing reviewed pyproject/uv.lock and .gitignore hunk retained.",
+  "governance_prior_paths": "265 historical governance/documentation paths retain independent inventory; no endorsement of excluded implementations.",
+  "governance_this_checkpoint": [
+    "docs/implementation/handoffs/ACTIVE.md",
+    "docs/implementation/phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md",
+    "docs/implementation/phase-18/slice-2-d22-01-static-correction-handback-2026-10-21.md",
+    "docs/implementation/phase-18/slice-2-d22-01-static-correction-evidence-2026-10-21.json",
+    "docs/implementation/phase-18/slice-2-d22-01-static-delivery-scope-2026-10-21.json"
+  ],
+  "source_tree_hashes": {
+    ".gitignore": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744",
+    "rag-engine/.dockerignore": "60ae2cdd92cd9fb5423da92291c8badc95afdb33e2db25a8f8ec0a384ed9914a",
+    "rag-engine/.python-version": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f",
+    "rag-engine/Dockerfile.offline-check": "aa94fa10e50d2ce5bcf9eea10610fda23528dfad9821c64962939a6d8fd57e97",
+    "rag-engine/pyproject.toml": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+    "rag-engine/README.md": "2dc9e72817ba63c62a1c85eb377d88285214200eb6e03a010811429e24082c5d",
+    "rag-engine/uv.lock": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+    "rag-engine/scripts/d17_completion_resources.py": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+    "rag-engine/scripts/d17_final_onnx_probe.py": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+    "rag-engine/scripts/d17_final_profile.py": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+    "rag-engine/scripts/d17_markdown_evidence.py": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+    "rag-engine/scripts/d17_structural_conformance.py": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+    "rag-engine/scripts/d18_pt_a_ocr_checkpoint.py": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5",
+    "rag-engine/scripts/dependency_inventory.py": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+    "rag-engine/scripts/freeze_phase18_ocr_fixtures.py": "939e78c06c06b3dc4e4963379bc78654d86c6984fee20ef538eb5a938435839b",
+    "rag-engine/scripts/measure_d18_pt_a.py": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3",
+    "rag-engine/scripts/offline_check.py": "520ab0ffb52eb616160f351a5ffd92c4bd1b4f57449b5adcb4dfa8bccfc36cea",
+    "rag-engine/scripts/probe_phase18_ocr.py": "d90bb9f3c7b65dca14ea734d337645c4820b263257806ba38f885232ed39c96d",
+    "rag-engine/scripts/provision_embedding_model.py": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+    "rag-engine/scripts/provision_phase18_latin_ocr.py": "4dbaf78f73d8f0ce66027f6aba43e687cdd957958d2ced92d9e14d2450508662",
+    "rag-engine/scripts/run_d18_pt_a_native.py": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8",
+    "rag-engine/scripts/worker_boundary_check.py": "a360838a9be31fcaa139a7f22bd74404d6a365fffc301ad430972f23e27a161d",
+    "rag-engine/src/ppv_rag/config.py": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a",
+    "rag-engine/src/ppv_rag/contracts.py": "28db2741bfdee641b6958dd3b017462338588a93c39e25d480bb4a3a3146441b",
+    "rag-engine/src/ppv_rag/db.py": "421dc9e3823a349b3b6a935f59eb17ac89368458aaf0e346d792b6075b963177",
+    "rag-engine/src/ppv_rag/limits.py": "88889ca26d84ba6338d6ea4fd042bb062d826506fa9bb3a1a81979f1817baeac",
+    "rag-engine/src/ppv_rag/main.py": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+    "rag-engine/src/ppv_rag/security.py": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44",
+    "rag-engine/src/ppv_rag/telemetry.py": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9",
+    "rag-engine/src/ppv_rag/transport.py": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54",
+    "rag-engine/src/ppv_rag/worker.py": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+    "rag-engine/src/ppv_rag/__init__.py": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5",
+    "rag-engine/src/ppv_rag/chunking/chunker.py": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+    "rag-engine/src/ppv_rag/chunking/__init__.py": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d",
+    "rag-engine/src/ppv_rag/embeddings/model.py": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+    "rag-engine/src/ppv_rag/embeddings/__init__.py": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a",
+    "rag-engine/src/ppv_rag/ocr/engine.py": "7b637869af437a9824d1b28417931375d0c8a377d32e703c82b080be44b99f0e",
+    "rag-engine/src/ppv_rag/parsers/docx.py": "422d9f9c3712c21090c3a838e46803a26c7948bb5d58c239b3d5c56f10aea31c",
+    "rag-engine/src/ppv_rag/parsers/excel.py": "32144fa992e08706d205c5066465de2ea6702dd32a23842e9d3b2948b9e05e37",
+    "rag-engine/src/ppv_rag/parsers/markdown.py": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+    "rag-engine/src/ppv_rag/parsers/models.py": "51c7638a8a0121608912672152251adfbd3006d98ed296a8dbeba49761aff152",
+    "rag-engine/src/ppv_rag/parsers/obsidian.py": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+    "rag-engine/src/ppv_rag/parsers/obsidian_html.py": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+    "rag-engine/src/ppv_rag/parsers/pdf.py": "515d5f269b519580b207c7192c74db19d9e1e7e465281f3ab467e7bcb0344307",
+    "rag-engine/src/ppv_rag/parsers/text.py": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+    "rag-engine/src/ppv_rag/parsers/__init__.py": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60",
+    "rag-engine/tests/conftest.py": "b5c31d9da460929f125919176a9a919cc445c8ad2b6a84c67e7df7bea2b3d39f",
+    "rag-engine/tests/test_bound_ingress.py": "6822be0fb5c15ac3bfd3d01f9770cd2a9e6699d24c0af8b0f93f5f4d2928729f",
+    "rag-engine/tests/test_chunker.py": "5392473816e09e651e0e19f4e83653e44dfffa00fa6ea5225fae9278b2e5cad2",
+    "rag-engine/tests/test_consumption_containment.py": "ea23a6d8993e242b867f2b305188561d42f3c920f89de924dfb3a61d0599b79b",
+    "rag-engine/tests/test_contracts.py": "eb7a6c8d985ad8ae18f1c1a7c74eccc7ec0d99a604a74cf90dbf0214939d02f9",
+    "rag-engine/tests/test_d17_completion.py": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+    "rag-engine/tests/test_d17_final_corrective.py": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+    "rag-engine/tests/test_d17_r03_only.py": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb",
+    "rag-engine/tests/test_embeddings.py": "fb06cb72b6a3f3109b8b038f30561b361ebf261f653002f24d6433ca00a82a85",
+    "rag-engine/tests/test_health.py": "767dbc538065bcfc42bed41c2271775aff5049c7dd07a16e87749b0fa184f4ed",
+    "rag-engine/tests/test_obsidian_d17.py": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+    "rag-engine/tests/test_parsers.py": "47b6ff9d22ee2b6ad03bae3fba873a9a68ead5259b11d91103558abb09bd336e",
+    "rag-engine/tests/test_pdf_geometry.py": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723",
+    "rag-engine/tests/test_telemetry.py": "d0823c24f4b30ea8d199f13da637241a6a5cc550ef2333b18bed98c6748f5077",
+    "rag-engine/tests/test_transport.py": "5b9e11f0b65ec0d0bd98369737883f7dda716b977563e0c4de249bb7523952fb",
+    "rag-engine/tests/test_worker.py": "35e195f5dc832ea6b6a2bc543270afdc374caf53f1939dd33f5237c984121ac3",
+    "rag-engine/tests/test_worker_v3.py": "e703e4efb9e6971dc87ed1adac3f5838c983af204e40b8d26f566c602d0e59d4",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.json": "6ed5d2b97f828c652931226fa0196c189ebb248271f1cab4219753c7ee23bc4d",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.sha256": "0b42776798d1b769d7e857ff61ba03a07a0ae6e7dbc4074dbdfcc0fd4721e078",
+    "rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e",
+    "rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6",
+    "rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894",
+    "rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-en.pdf": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-vi.pdf": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hans.pdf": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hant.pdf": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-en.pdf": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-vi.pdf": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hans.pdf": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hant.pdf": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.json": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.sha256": "a31f8c4d7675c29ca8fc8865105879e5407c4f7cdb02ce8c3206e781da840a3c",
+    "rag-engine/tests/test_optional_ocr_dependency.py": "4b6d16129f075a02b7503f0e8c027cf4ba0c0676e7ebb632853fdab972652771"
+  },
+  "CRLF_restoration": [
+    "rag-engine/src/ppv_rag/chunking/chunker.py",
+    "rag-engine/src/ppv_rag/embeddings/model.py",
+    "rag-engine/src/ppv_rag/main.py",
+    "rag-engine/src/ppv_rag/parsers/markdown.py",
+    "rag-engine/src/ppv_rag/parsers/text.py",
+    "rag-engine/src/ppv_rag/worker.py",
+    "rag-engine/tests/test_d17_final_corrective.py"
+  ],
+  "static_gate": "Actual source: two fresh PASS; original/independently rebuilt/finally rebuilt delivery: three fresh PASS, 24 files each.",
+  "staging": false,
+  "commit_push_tag_PR": false,
+  "independent_acceptance": "PENDING; no owner-commit readiness"
+}

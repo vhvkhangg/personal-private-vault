@@ -1,0 +1,237 @@
+{
+  "status": "PENDING_HUMAN_REVIEW; NO_HUMAN_APPROVAL",
+  "reviewer": null,
+  "signature": null,
+  "scope": "Exposed development discrepancies only; not fresh held-out evaluation",
+  "frozen_heldout_unchanged": true,
+  "heldout_applicability": "slice-2-d16-adjudication-applicability-2026-10-20.json",
+  "heldout_quality_results": "13 NOT_RUN; 2 Chinese OCR files optional under D16",
+  "required_checks": [
+    "Inspect each original source beside authored reference and actual OCR; verify vi tones/digits and English whitespace/punctuation",
+    "Adjudicate actual factual/material effect and ambiguous ink/cell geometry; second-check acceptance-critical ambiguity",
+    "Never repair labels to match OCR; corrections require a NEW dataset revision",
+    "No held-out candidate tuning; verified capability/configuration freeze before separate independent quality run"
+  ],
+  "development_discrepancies": [
+    {
+      "run": "tesseract-psm6b",
+      "file": "development-shelf-vi.pdf",
+      "source_sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "reference": "Kệ sách có 45 quyển.",
+      "actual": "Kệ sách có 45 quyền.",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "tesseract-declared6",
+      "file": "development-shelf-vi.pdf",
+      "source_sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "reference": "Kệ sách có 45 quyển.",
+      "actual": "Kệ sách có 45 quyền.",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "tesseract-declared11",
+      "file": "development-shelf-vi.pdf",
+      "source_sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "reference": "Kệ sách có 45 quyển.",
+      "actual": "Kệ sách có 45 quyền.",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr2",
+      "file": "development-shelf-vi.pdf",
+      "source_sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "reference": "Kệ sách có 45 quyển.",
+      "actual": "Kệ sách có 45 quyển",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr2",
+      "file": "held-out-invoice-en.pdf",
+      "source_sha256": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+      "reference": "Invoice total 123 dollars. Date 18 October.",
+      "actual": "Invoice total 123 dollars. Date 18 October",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr2",
+      "file": "held-out-invoice-vi.pdf",
+      "source_sha256": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+      "reference": "Số tiền 123 đồng. Ngày 18 tháng 10.",
+      "actual": "Số tiên 123 đồng Ngày 18 tháng 10.",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr2",
+      "file": "warehouse-en.pdf",
+      "source_sha256": "72e67c35e9b635f07cd48cac15d671bf0938c5e541dbff4be701f87a97b43f3e",
+      "reference": "Warehouse stock 2046: red boxes 81, blue boxes 29. Stock A-17 81 B-42 29",
+      "actual": "Warehouse stock 2046: red boxes 81, blue boxes 29 Stock A 17 81 B-42 29",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr2",
+      "file": "warehouse-vi.pdf",
+      "source_sha256": "8ac19146df2aaf3d1e35ed7974a23acea406dc379c7795b10434769d4e87f498",
+      "reference": "Biên bản kho 2046: thùng đỏ 81, thùng xanh 29. Stock A-17 81 B-42 29",
+      "actual": "Biên bản kho 2046: thùng đỏ 81, thùng xanh 29 Stock A 17 81 B-42 29",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr-transformer",
+      "file": "development-shelf-en.pdf",
+      "source_sha256": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+      "reference": "Shelf contains 45 books.",
+      "actual": "Shelf contains 45 books",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr-transformer",
+      "file": "development-shelf-vi.pdf",
+      "source_sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "reference": "Kệ sách có 45 quyển.",
+      "actual": "Kệ sách có 45 quyển",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr-transformer",
+      "file": "held-out-invoice-en.pdf",
+      "source_sha256": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+      "reference": "Invoice total 123 dollars. Date 18 October.",
+      "actual": "Invoice total 123 dollars. Date 18 October",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr-transformer",
+      "file": "held-out-invoice-vi.pdf",
+      "source_sha256": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+      "reference": "Số tiền 123 đồng. Ngày 18 tháng 10.",
+      "actual": "Số tiên 123 đồng. ngày 18 tháng 10.",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr-transformer",
+      "file": "warehouse-en.pdf",
+      "source_sha256": "72e67c35e9b635f07cd48cac15d671bf0938c5e541dbff4be701f87a97b43f3e",
+      "reference": "Warehouse stock 2046: red boxes 81, blue boxes 29. Stock A-17 81 B-42 29",
+      "actual": "Warehouse stock 2046: red boxes 81, blue boxes 29 Stock A-17 81 B-42 29",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "vietocr-transformer",
+      "file": "warehouse-vi.pdf",
+      "source_sha256": "8ac19146df2aaf3d1e35ed7974a23acea406dc379c7795b10434769d4e87f498",
+      "reference": "Biên bản kho 2046: thùng đỏ 81, thùng xanh 29. Stock A-17 81 B-42 29",
+      "actual": "Biên bản kho 2046: thùng đỏ 81, thùng xanh 29 Stock A-17 81 B-42 29",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "rapid-baseline2",
+      "file": "development-shelf-vi.pdf",
+      "source_sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "reference": "Kệ sách có 45 quyển.",
+      "actual": "K sách có 45 quyn.",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "rapid-baseline2",
+      "file": "held-out-invoice-vi.pdf",
+      "source_sha256": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+      "reference": "Số tiền 123 đồng. Ngày 18 tháng 10.",
+      "actual": "S tin 123 đồng. Ngày 18 tháng 10.",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "rapid-baseline2",
+      "file": "warehouse-vi.pdf",
+      "source_sha256": "8ac19146df2aaf3d1e35ed7974a23acea406dc379c7795b10434769d4e87f498",
+      "reference": "Biên bản kho 2046: thùng đỏ 81, thùng xanh 29. Stock A-17 81 B-42 29",
+      "actual": "Biên bn kho 2046: thùng đ 81, thùng xanh 29. Stock A-17 81 B-42 29",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "paddle-baseline",
+      "file": "development-shelf-vi.pdf",
+      "source_sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "reference": "Kệ sách có 45 quyển.",
+      "actual": "K sách có 45 quyn",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "paddle-baseline",
+      "file": "held-out-invoice-vi.pdf",
+      "source_sha256": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+      "reference": "Số tiền 123 đồng. Ngày 18 tháng 10.",
+      "actual": "S tin 123 đồng. Ngày 18 tháng 10.",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    },
+    {
+      "run": "paddle-baseline",
+      "file": "warehouse-vi.pdf",
+      "source_sha256": "8ac19146df2aaf3d1e35ed7974a23acea406dc379c7795b10434769d4e87f498",
+      "reference": "Biên bản kho 2046: thùng đỏ 81, thùng xanh 29. Stock A-17 81 B-42 29",
+      "actual": "Biên bàn kho 2046: thùng đ 81, thùng xanh 29. Stock A-17 81 B-42 29",
+      "human_label_status": "PENDING",
+      "human_material_error_decision": null,
+      "human_locator_decision": null,
+      "reviewer": null
+    }
+  ]
+}

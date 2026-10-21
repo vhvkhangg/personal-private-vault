@@ -1,0 +1,1684 @@
+{
+  "date": "2026-10-21",
+  "recorded_utc": "2026-10-21T00:58:41.995590+00:00",
+  "scope": "P18-S2 D22 independent Markdown-only closeout re-review and delivery boundary",
+  "decision": "CHANGES_REQUESTED",
+  "dispositions": {
+    "S2-D21-E01": "RESOLVED FOR BOUNDED D21 CLOSEOUT BY D22 OWNER EXCEPTION; original preservation FAILED / NOT_RECOVERED",
+    "D21-OD-01": "RESOLVED by explicit D22 adoption of ADR-0024; no further approval of that scoped qualification required",
+    "D17-R01-R05": "Remain independently CLOSED; historical D20 acceptance preserved",
+    "MD17-01-11": "VERIFIED within recorded bounds; no demonstrated runtime regression",
+    "MD17-12": "Runtime/cancellation/compatibility verified; current required static gate BLOCKED by S2-D22-01"
+  },
+  "findings": [
+    {
+      "id": "S2-D22-01",
+      "severity": "Medium",
+      "blocking": true,
+      "file": "rag-engine/src/ppv_rag/ocr/engine.py",
+      "line": 50,
+      "description": "Fresh-cache mypy of actual current source fails import-not-found for absent rapidocr_onnxruntime in selected Markdown Python 3.14.4 environment. Existing import-untyped ignore does not cover this error. Same failure occurs in selective delivery projection.",
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/current-mypy-fresh.json",
+      "not_a_request_for_OCR_acceptance": true,
+      "root_cause_limit": "Missing optional backend/type-check boundary is observed. Reason older static runs were green is not established; cache/environment differences are hypotheses, not accepted proof."
+    }
+  ],
+  "integrity": {
+    "verification": "PASS with exactly the D22-accepted original-byte gap; original preservation remains FAILED/NOT_RECOVERED",
+    "head": "c3b46351507803053850e3c2711602ee9c9ec419",
+    "source_config_test_matches": 111,
+    "source_manifest": {
+      "rag-engine/src/ppv_rag/__init__.py": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5",
+      "rag-engine/src/ppv_rag/worker.py": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+      "rag-engine/src/ppv_rag/transport.py": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54",
+      "rag-engine/src/ppv_rag/telemetry.py": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9",
+      "rag-engine/src/ppv_rag/security.py": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44",
+      "rag-engine/src/ppv_rag/parsers/__init__.py": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60",
+      "rag-engine/src/ppv_rag/parsers/text.py": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+      "rag-engine/src/ppv_rag/parsers/pdf.py": "ac61c950bdaa85b2ceb46cc7d07cf27a222ac9f5f70dcc837b2c04e814c2e44e",
+      "rag-engine/src/ppv_rag/parsers/obsidian_html.py": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+      "rag-engine/src/ppv_rag/parsers/obsidian.py": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+      "rag-engine/src/ppv_rag/parsers/models.py": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+      "rag-engine/src/ppv_rag/parsers/markdown.py": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+      "rag-engine/src/ppv_rag/parsers/excel.py": "3b863ad2d60e8e34899ac8d9aa2338335534863fac157f61e099ab173e3749ee",
+      "rag-engine/src/ppv_rag/parsers/docx.py": "f613bcdeca8a06093d0d024717bff284882880d26737ebc38e66b0810bc69f65",
+      "rag-engine/src/ppv_rag/ocr/engine.py": "ab890ec272a160ca1edeb7864bb0cebda60c459ef60af1330665545b154dca0c",
+      "rag-engine/src/ppv_rag/main.py": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+      "rag-engine/src/ppv_rag/limits.py": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194",
+      "rag-engine/src/ppv_rag/embeddings/__init__.py": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a",
+      "rag-engine/src/ppv_rag/embeddings/model.py": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+      "rag-engine/src/ppv_rag/db.py": "421dc9e3823a349b3b6a935f59eb17ac89368458aaf0e346d792b6075b963177",
+      "rag-engine/src/ppv_rag/contracts.py": "28db2741bfdee641b6958dd3b017462338588a93c39e25d480bb4a3a3146441b",
+      "rag-engine/src/ppv_rag/config.py": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a",
+      "rag-engine/src/ppv_rag/chunking/__init__.py": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d",
+      "rag-engine/src/ppv_rag/chunking/chunker.py": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+      "rag-engine/tests/test_worker_v3.py": "cce9785521523b1a63af38d1dead25da9ef966d34ea27d6298965f2f8d198877",
+      "rag-engine/tests/test_worker.py": "35e195f5dc832ea6b6a2bc543270afdc374caf53f1939dd33f5237c984121ac3",
+      "rag-engine/tests/test_transport.py": "5b9e11f0b65ec0d0bd98369737883f7dda716b977563e0c4de249bb7523952fb",
+      "rag-engine/tests/test_telemetry.py": "d0823c24f4b30ea8d199f13da637241a6a5cc550ef2333b18bed98c6748f5077",
+      "rag-engine/tests/test_slice2_corrections.py": "3c416eb9c08cae5c4c1796b7373765a33af104bf01abad76585bf0ffe4bcae56",
+      "rag-engine/tests/test_slice2_checkpoint_package.py": "f5b6a70ba9110fb287b89f7d56d88d7e733c2aac178a505db455405652de507e",
+      "rag-engine/tests/test_pdf_scanned_surrounding_text.py": "607efe9807e686e95f0f9feeeda17b4f66698504113adcfa4e8b2d84c3e265ba",
+      "rag-engine/tests/test_pdf_geometry.py": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723",
+      "rag-engine/tests/test_parsers.py": "9c21c8da68f00f113209116f08ce11a57a6ff73d533e404d4a0eb52cfcdd62fe",
+      "rag-engine/tests/test_obsidian_d17.py": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+      "rag-engine/tests/test_health.py": "767dbc538065bcfc42bed41c2271775aff5049c7dd07a16e87749b0fa184f4ed",
+      "rag-engine/tests/test_embeddings.py": "fb06cb72b6a3f3109b8b038f30561b361ebf261f653002f24d6433ca00a82a85",
+      "rag-engine/tests/test_d17_final_corrective.py": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+      "rag-engine/tests/test_d17_completion.py": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+      "rag-engine/tests/test_contracts.py": "eb7a6c8d985ad8ae18f1c1a7c74eccc7ec0d99a604a74cf90dbf0214939d02f9",
+      "rag-engine/tests/test_consumption_containment.py": "ea23a6d8993e242b867f2b305188561d42f3c920f89de924dfb3a61d0599b79b",
+      "rag-engine/tests/test_chunker.py": "5392473816e09e651e0e19f4e83653e44dfffa00fa6ea5225fae9278b2e5cad2",
+      "rag-engine/tests/test_bound_ingress.py": "6822be0fb5c15ac3bfd3d01f9770cd2a9e6699d24c0af8b0f93f5f4d2928729f",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/workshop-native.pdf": "96a87d7a6f300236314224ac701cf3b8eb3f2709bf085c5472f56a95362ae033",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/tools.md": "93ef31abe42d6484013b03110ec701dcc2b56a4835679851d1ac2d17b16962ed",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/REVIEW.md": "09cd74eb82788174c27928b9d599cee8daebb9e65852838decf05c38edee77f5",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/missing-locator.json": "45fa8b43c3e45c271ab36079f6cc966b28c78e9def2399f98b984790ba0de80e",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.sha256": "854327b388d2a82663b634c87c012d8c6e78ed218fcdcf82fbd8249715b44679",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.json": "406e3aeedc78e943cd494e30452819d18e3ceba4e1bc2e4612845d5eea225e99",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.txt": "9d9ec08e7bde4260b76682ec4648fa1cf4492a3971bcf90ea11abc6b010d7841",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.md": "958481955e10081fcef79176769ea20a5bf97d3321fe0f1efa80c01f465e104a",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.docx": "7f603c969e5780e5e43dfa8261623381293b04c8a209817eb01c581264074686",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/inspection.xlsx": "b890684a4dcc9145024da43b1db2233f686de47dadd496adf3f4cc073e02b94c",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/inspection.xls": "9886c9a0fca30ab5109baca294506301696bf359b1c65b0826d0b109a7a574ed",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-zh-Hant.pdf": "9109f13399560153b7034d30e12bd814996bb3ad4ad778d262ccca3c11838a5e",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-zh-Hans.pdf": "b6843b9c57e616bebc8ffea923f83a1ad9876031fd0f84ffe30cc1196207f941",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-vi.pdf": "46bd0f3ed33dfd59df5d4c8a8738fb613a8c5a1c6904aeafdd370b052007b71b",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-mixed.pdf": "4affedc4490dc583c8e51844d84c07172e5a47ccc1d1a2b1606421125bb3c631",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-en.pdf": "ba7ad9050e154be871ede586cba037c55de261519d1755604f92f8d85014b1e0",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/closure-audit.json": "ef2547cb4dc4584c7a46755e0935a9555ac63125668bcabe668937fd2a574336",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/broken.pdf": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/broken.docx": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+      "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/adjudication.json": "cd95b0d2f16b49701563ebf404f8ae64b84befcf05e7b0d80de79b358319031a",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.sha256": "ac980ad84345db8ac21c4f6dff8bdde9e1a2dba2eeb68e5fc269c7de61ebe5ea",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.json": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hant.pdf": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hans.pdf": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-vi.pdf": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-en.pdf": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hant.pdf": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hans.pdf": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-vi.pdf": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+      "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-en.pdf": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+      "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+      "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+      "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+      "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+      "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+      "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+      "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+      "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+      "rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764",
+      "rag-engine/tests/fixtures/d18-pt-a/manifest.sha256": "b141264c2f022d23d00c85f413348a8a4c698589d74c47d02245f8c6c1283fea",
+      "rag-engine/tests/conftest.py": "b5c31d9da460929f125919176a9a919cc445c8ad2b6a84c67e7df7bea2b3d39f",
+      "rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894",
+      "rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6",
+      "rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e",
+      "rag-engine/tests/fixtures/d18-pt-a/manifest.json": "9c1d7b16e0c5d9d4b4f18db95e37680c556b8b6bb466ab3e0f02e8ff50897801",
+      "rag-engine/scripts/worker_boundary_check.py": "a360838a9be31fcaa139a7f22bd74404d6a365fffc301ad430972f23e27a161d",
+      "rag-engine/scripts/slice2_tesseract_vietocr_checkpoint.py": "d1e1b0397efcfbe034c092bfaf81b9389f4de9fd00a8792fc1ccb9b73efd6090",
+      "rag-engine/scripts/slice2_paddleocr_checkpoint.py": "8928d39a0cebf96a22935435c0f020c11161bb07c304e2cb6d14b6d2af4ba1b7",
+      "rag-engine/scripts/slice2_ocr_checkpoint.py": "3a61b568bfa6ad8e8e70bf7f77212197f585a29a3c76090980038cc6a2704286",
+      "rag-engine/scripts/slice2_corrective_resources.py": "ab39e1586df90b5c661f68c0a48003fee4527a851cba72f9ceb8c015fdcfccef",
+      "rag-engine/scripts/run_d18_pt_a_native.py": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8",
+      "rag-engine/scripts/provision_phase18_latin_ocr.py": "4dbaf78f73d8f0ce66027f6aba43e687cdd957958d2ced92d9e14d2450508662",
+      "rag-engine/scripts/provision_embedding_model.py": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+      "rag-engine/scripts/probe_phase18_ocr.py": "8e04a757d852568a2153980e0e547d01d449a10e58228fa0a7c14fc0fb3ce5a1",
+      "rag-engine/scripts/prepare_slice2_adjudication.py": "a37ba455c4013c24660fba69d6d58f96e863f899cd0936f1b76bd9f843cca24c",
+      "rag-engine/scripts/offline_check.py": "520ab0ffb52eb616160f351a5ffd92c4bd1b4f57449b5adcb4dfa8bccfc36cea",
+      "rag-engine/scripts/measure_d18_pt_a.py": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3",
+      "rag-engine/scripts/freeze_phase18_ocr_fixtures.py": "939e78c06c06b3dc4e4963379bc78654d86c6984fee20ef538eb5a938435839b",
+      "rag-engine/scripts/dependency_inventory.py": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+      "rag-engine/scripts/d18_pt_a_ocr_checkpoint.py": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5",
+      "rag-engine/scripts/d17_structural_conformance.py": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+      "rag-engine/scripts/d17_markdown_evidence.py": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+      "rag-engine/scripts/d17_final_profile.py": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+      "rag-engine/scripts/d17_final_onnx_probe.py": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+      "rag-engine/scripts/d17_completion_resources.py": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+      "rag-engine/pyproject.toml": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+      "rag-engine/uv.lock": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+      "rag-engine/.python-version": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f",
+      "rag-engine/tests/test_d17_r03_only.py": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb"
+    },
+    "D19_files_unchanged": 193,
+    "D19_cases_independently_matched": 52,
+    "original_raw_hashes": [
+      {
+        "path": "logs/phase18/d17-r03-independent-2026-10-20/fresh-producer-bound-True.json",
+        "original": "48b1383e46bbf508bd25faa1075db857d1daac018efc8ccd4bef708a16bcc0b0",
+        "current_rerun": "8bc1b6313d2f5c167476e5860b155710496f7eb918cb0d128af996c7f0293b8f",
+        "status": "NOT_RECOVERED"
+      },
+      {
+        "path": "logs/phase18/d17-r03-independent-2026-10-20/fresh-producer-bound-False.json",
+        "original": "2909e393b18648b3b4b4ad3bf77b35e6e2ca1d7693505aabf022af99c26f72e1",
+        "current_rerun": "a76c3035a022b4a156646a528b9816b0dd50ef0cd0a482b01694de03e8726c55",
+        "status": "NOT_RECOVERED"
+      },
+      {
+        "path": "logs/phase18/d17-r03-independent-2026-10-20/fresh-negatives.json",
+        "original": "3727b91410965e67df87074d0384e12a86e2f4e3d013cf056051845ae1ed91e4",
+        "current_rerun": "ca808a5e05e0697812e765b51c9e4f77b33014f737e1049de56d59fbe308d6d7",
+        "status": "NOT_RECOVERED"
+      }
+    ],
+    "R03_receipts_verified": 14,
+    "previous_closeout_receipts_verified": 7,
+    "older_log_artifact_hashes_verified": 165,
+    "nonignored_entry_files": 2450,
+    "protected_existing_log_artifacts": 239
+  },
+  "governance": {
+    "status": "PASS bounded D22/ADR authority; no original preservation PASS",
+    "higher_ADR_and_P18_FINAL_bodies": {
+      "docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md": {
+        "original_substantive_body_preserved": true,
+        "before_D21_sha256": "eafaaf46dab7bd088dd2e4249d15b0370110960e8ba0ee3c70fb0e372c2280fd"
+      },
+      "docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md": {
+        "original_substantive_body_preserved": true,
+        "before_D21_sha256": "44f1aba1aac717149218ce22225889559987d5d6ad2ff1627c6a122ba35a4824"
+      },
+      "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md": {
+        "original_substantive_body_preserved": true,
+        "before_D21_sha256": "8a1a155f8fc9d662878eed4f1d50c68e27ad8d82973d53658fdbe7144adfa92b"
+      },
+      "docs/implementation/phase-18/final-verification-gate.md": {
+        "original_substantive_body_preserved": true,
+        "before_D21_sha256": "9bd0f40e8346efc7d3147a9a8b8cdc3c38acef03326b5d6d904940ae6bb1bbe1"
+      }
+    },
+    "D21_and_older_Owner_decision_body_unchanged": true,
+    "official_snapshots_verified": {
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/Obsidian-Flavored-Markdown.md": "da08d3873a6b5a2334d57c1c943a9a1ca6d74991573638b466d3f6ecf9c9cda4",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/Basic-formatting-syntax.md": "38db5d30f637adfcbe212fd8b5616412b93bd8c0387845e5ff5355f5195235bd",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/Advanced-formatting-syntax.md": "15ed1c714c0e8a4dd48ac05ce53df787d1eda241c78d8b27a091f142cbe26307",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/Internal-links.md": "4ebf7be1cce4bf31e104b60c8eb2a175f134a79a29e29a16822033cfb5088ce1",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/Embed-files.md": "5757a6269949f507f3b5f1605ab9bfe81f247738d5b44c3bf096efc6215fbc54",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/Callouts.md": "5d12e34b9fb68c6b7ad0ea39d80fb11267b0406cd204f61d4c00f2d5dea9bab6",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/Properties.md": "75c85e422f5e2b17c9c8fe9125b6c9b4159fd6635cefbbef6b72c3272b623db6",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/Tags.md": "20214764032cb166d6e13cc39605b654d691f5a17ad70437d6df81e28fc149dc",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/commonmark-0.31.2.json": "d431b29d97b6f73e69d547109cf5081578fac931e72afe95639ebe766c1b2a20",
+      "logs/phase18/s2-d17-markdown-2026-10-20/official/gfm-0.29.html": "b153d814fdfc8624bb6da7449162c1cd707a637f7d1c1b636eb44b9cf63fa220"
+    },
+    "new_D22_local_links": [
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-evidence-disposition-2026-10-21.md",
+        "reviews/2026-10-21-slice-2-markdown-only-independent-closeout-review.md#s2-d21-e01---high---historical-evidence-overwritten-by-this-review"
+      ],
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-evidence-disposition-2026-10-21.md",
+        "owner-decisions.md#2026-10-21--d22-bounded-s2-d21-e01-evidence-disposition-and-adr-0024-adoption"
+      ],
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-evidence-disposition-2026-10-21.md",
+        "../../adr/0024-phase-18-slice-profile-acceptance-boundaries.md"
+      ],
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-closeout-rereview-handoff-2026-10-21.md",
+        "reviews/2026-10-21-slice-2-markdown-only-independent-closeout-review.md"
+      ],
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-closeout-rereview-handoff-2026-10-21.md",
+        "owner-decisions.md#2026-10-21--d22-bounded-s2-d21-e01-evidence-disposition-and-adr-0024-adoption"
+      ],
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-closeout-rereview-handoff-2026-10-21.md",
+        "slice-2-markdown-only-d22-evidence-disposition-2026-10-21.md"
+      ],
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-closeout-rereview-handoff-2026-10-21.md",
+        "../../adr/0024-phase-18-slice-profile-acceptance-boundaries.md"
+      ],
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-closeout-rereview-handoff-2026-10-21.md",
+        "slice-2-markdown-only-d21-scope-and-acceptance.md"
+      ],
+      [
+        "docs/implementation/phase-18/slice-2-markdown-only-d22-closeout-rereview-handoff-2026-10-21.md",
+        "reviews/2026-10-21-slice-2-markdown-only-independent-closeout-scope.json"
+      ],
+      [
+        "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md",
+        "../implementation/phase-18/owner-decisions.md#2026-10-21--d22-bounded-s2-d21-e01-evidence-disposition-and-adr-0024-adoption"
+      ],
+      [
+        "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md",
+        "../implementation/phase-18/owner-decisions.md#2026-10-20--d21-slice-2-obsidian-markdown-only-scope-rebase"
+      ],
+      [
+        "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md",
+        "../implementation/phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md"
+      ],
+      [
+        "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md",
+        "../implementation/phase-18/slice-2-markdown-only-d21-governance-traceability-2026-10-20.md"
+      ]
+    ],
+    "D22_authority": "Owner-approved evidence disposition limited to S2-D21-E01, three originals NOT_RECOVERED",
+    "ADR0024": "ACCEPTED by D22 for Slice 2 only",
+    "surviving_measurements": "Independent R01/R02/R04/R05 and other original receipts; missing per-case host telemetry not reconstructed"
+  },
+  "environment": {
+    "python": "3.14.4",
+    "python_executable": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+    "mypy": "2.4.0",
+    "rapidocr_distribution_version": null,
+    "rapidocr_import_spec_present": false,
+    "static_boundary": "Required mypy traverses ppv_rag.ocr.engine via existing worker/PDF imports; optional runtime import retains import-untyped ignore, not import-not-found handling."
+  },
+  "commands": {
+    "current-mypy-fresh": {
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "--cache-dir",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\mypy-current-fresh-cache",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "rag-engine/src"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/current-mypy-fresh.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "--cache-dir",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\mypy-current-fresh-cache",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "rag-engine/src"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/current-mypy-fresh.json",
+      "receipt_sha256": "1b7805cda60f181737359f418e0379276d5f8ab972ce58e79b8910a3b4f05dde",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/current-mypy-fresh.log",
+      "log_sha256": "a16751c1f861bd870b7f4bc82914156ac5613bf4e6aa1ebe49d275cdca4180a3",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "a17fea5842ad0f0e13c02395a4299e912868c87ae32658e6a7dda2eb6fe262e7",
+      "started_utc": "2026-10-21T00:51:46.489+00:00",
+      "pid": 29776,
+      "finished_utc": "2026-10-21T00:51:53.882+00:00",
+      "duration_seconds": 7.39,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed"
+    },
+    "delivery": {
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery.json",
+        "--",
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery.py"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery.json",
+      "receipt_sha256": "09a050e3658e9a80148edb3dad50d89aa7b37a350c68a128d441f2fb1c79db60",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery.log",
+      "log_sha256": "3556e641c739c568376845055704140da00bb8a09441ccc1454c21a38d4753c6",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python",
+      "argv_sha256": "0306618abacff653aed5fca7b53eb6a9455376cd94d689343c5f7070313fdb16",
+      "started_utc": "2026-10-21T00:56:06.139+00:00",
+      "pid": 13224,
+      "finished_utc": "2026-10-21T00:56:06.726+00:00",
+      "duration_seconds": 0.578,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "diff-check": {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/diff-check.json",
+        "--",
+        "git",
+        "diff",
+        "--check"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/diff-check.json",
+      "receipt_sha256": "f912ce02191271d235fe7098bef66d496a06263ab4c358dee6e36bd6c30296f6",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/diff-check.log",
+      "log_sha256": "cc565292009ca0d80de5e8c7646a700dde569a94b2f2cfe8f2f6be1e855b7fba",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "git",
+      "argv_sha256": "7c730eec3ea71bd24ffc5a9255bf7f542481bf601dba6c72bed6e00f6c2fab3c",
+      "started_utc": "2026-10-21T00:56:07.052+00:00",
+      "pid": 2996,
+      "finished_utc": "2026-10-21T00:56:07.151+00:00",
+      "duration_seconds": 0.11,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "environment": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/environment.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "30",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/environment.json",
+        "--",
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/environment.py"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/environment.json",
+      "receipt_sha256": "a5e87e25c07b2c983ad3dd2a15c38aca43062097e9b506fdf649cc7bdca575f1",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/environment.log",
+      "log_sha256": "8e487192eeda8b61f02751937703d717ad4b6aefe71efa826538a46ce0c35ddf",
+      "profile": "normal",
+      "timeout_seconds": 30.0,
+      "executable": "python.exe",
+      "argv_sha256": "5ff0c3c545ce7e1d13f765a2983cd21e360a0d51c60749b8c376c72f3094067c",
+      "started_utc": "2026-10-21T00:57:07.116+00:00",
+      "pid": 8960,
+      "finished_utc": "2026-10-21T00:57:07.245+00:00",
+      "duration_seconds": 0.14,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "governance": {
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance.json",
+        "--",
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance.py"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance.json",
+      "receipt_sha256": "f8605d1a6773ad82d6e68e20f85d494b0379bdd572273a0a1354452c64cf0aee",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance.log",
+      "log_sha256": "7bc7a1c8dcb286ce03251288cd05ef60837ffe4e79ea0e744dbdd4c9415e9a7f",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python",
+      "argv_sha256": "d210652357f5b9bbea89bd24d41eaea63a6f1473dd1ec167b5386bb4a77d2b81",
+      "started_utc": "2026-10-21T00:54:38.969+00:00",
+      "pid": 7684,
+      "finished_utc": "2026-10-21T00:54:39.082+00:00",
+      "duration_seconds": 0.109,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "pip": {
+      "argv": [
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/pip.json",
+        "--",
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/pip.json",
+      "receipt_sha256": "74a3956a8a4e30825bb89119d8f85e1de87ef07850f50c6c0e3fe4cf8514c964",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/pip.log",
+      "log_sha256": "0f1c62993d3a10ad083995f0923678f574b36b365644d5f9e4c544892d9b4516",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "uv",
+      "argv_sha256": "827ca9745a8b9a3def7bb43670084c2f28034c9974411dab7058153139a69f03",
+      "started_utc": "2026-10-21T00:50:48.746+00:00",
+      "pid": 5048,
+      "finished_utc": "2026-10-21T00:50:48.843+00:00",
+      "duration_seconds": 0.094,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "project": {
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/project.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/project.json",
+        "--",
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/project.py"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/project.json",
+      "receipt_sha256": "fbb3b7c893f41402b2bac30f1788ce3658b5cd0b6d24d149d6acb0ca6fbf2994",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/project.log",
+      "log_sha256": "e1e2c13ea782999751af5bd2b047d32657d19de1f803e35e79218f357ec2ec04",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python",
+      "argv_sha256": "23f5497638a97e6a7a61086e821705972b136ad907813d552a3e31462fe07dd1",
+      "started_utc": "2026-10-21T00:49:51.721+00:00",
+      "pid": 7752,
+      "finished_utc": "2026-10-21T00:49:54.873+00:00",
+      "duration_seconds": 3.156,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "projection-format": {
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-format.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-format.json",
+      "receipt_sha256": "689690cfabc936c8fc75dad063dec4aa2c77cffc4c12ac6bccc13adbdfe22c8a",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-format.log",
+      "log_sha256": "9e8acd1d6fe1e3d50f8059c999eebb6b92169532167d668fb00f2e24a7d7ab44",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "e2f6fe94baa763da37c7d1bcaf8eb709152c9bb958390bca740d2135a12c0420",
+      "started_utc": "2026-10-21T00:50:45.133+00:00",
+      "pid": 27732,
+      "finished_utc": "2026-10-21T00:50:45.383+00:00",
+      "duration_seconds": 0.25,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "projection-legacy": {
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_parsers.py",
+        "-q",
+        "-k",
+        "not docx and not xlsx and not xls and not pdf and not vietnamese",
+        "--rootdir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine",
+        "-o",
+        "pythonpath=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\src",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\legacy-pytest-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\legacy-pytest-temp"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-legacy.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_parsers.py",
+        "-q",
+        "-k",
+        "not docx and not xlsx and not xls and not pdf and not vietnamese",
+        "--rootdir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine",
+        "-o",
+        "pythonpath=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\src",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\legacy-pytest-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\legacy-pytest-temp"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-legacy.json",
+      "receipt_sha256": "4a0e3a0facc8f1c574aaf4633180f06c4a038d8881bf033bc07b098f9401c665",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-legacy.log",
+      "log_sha256": "93fdcaa7b01aa2fb95efd6a52408edbca32c2f6d41aa2a7bd0e5ec483cdd9f78",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "201279eccfcc099de72fd14568e52c0038850e302148341ab66ef7f5a331c11a",
+      "started_utc": "2026-10-21T00:54:36.494+00:00",
+      "pid": 26256,
+      "finished_utc": "2026-10-21T00:54:38.767+00:00",
+      "duration_seconds": 2.266,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "projection-lock": {
+      "argv": [
+        "uv",
+        "lock",
+        "--directory",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-lock.json",
+        "--",
+        "uv",
+        "lock",
+        "--directory",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-lock.json",
+      "receipt_sha256": "45cd27ee07c41cdda3988f8b157eece60ba569db8cd1cf8d33bef5c9dc35297d",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-lock.log",
+      "log_sha256": "02f70ecf905bae5b5b06d7ecc48823f76eaf26f116d930710fd4a034661183da",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "uv",
+      "argv_sha256": "f47d519ce3dded782780069eb1094cea9ab2ff2ddb0760e6d6432e6184a872bc",
+      "started_utc": "2026-10-21T00:50:48.168+00:00",
+      "pid": 6888,
+      "finished_utc": "2026-10-21T00:50:48.393+00:00",
+      "duration_seconds": 0.219,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "projection-mypy": {
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "--config-file",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\pyproject.toml",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\src"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-mypy.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "--config-file",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\pyproject.toml",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\src"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-mypy.json",
+      "receipt_sha256": "d597f54008b9a6d9a3676e60b9e7fd2a565691f774bb79719d2767989c2f509f",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-mypy.log",
+      "log_sha256": "ac1b30fec07b8ca8e702d66e4359852f0af21818d4ea902581a6a58b92912d78",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "f8e2c5f710428b85d0fa52394f550c40e780467b8a42993fc856a53de602287c",
+      "started_utc": "2026-10-21T00:50:45.724+00:00",
+      "pid": 23632,
+      "finished_utc": "2026-10-21T00:50:47.827+00:00",
+      "duration_seconds": 2.109,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed"
+    },
+    "projection-pytest": {
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_d17_r03_only.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_d17_final_corrective.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_d17_completion.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_obsidian_d17.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_worker.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_worker_v3.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_transport.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_telemetry.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_health.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_embeddings.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_contracts.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_consumption_containment.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_chunker.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_bound_ingress.py",
+        "-q",
+        "--rootdir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine",
+        "-o",
+        "pythonpath=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\src",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\pytest-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\pytest-temp"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-pytest.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_d17_r03_only.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_d17_final_corrective.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_d17_completion.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_obsidian_d17.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_worker.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_worker_v3.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_transport.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_telemetry.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_health.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_embeddings.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_contracts.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_consumption_containment.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_chunker.py",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\tests\\test_bound_ingress.py",
+        "-q",
+        "--rootdir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine",
+        "-o",
+        "pythonpath=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine\\src",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\pytest-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\pytest-temp"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-pytest.json",
+      "receipt_sha256": "95dd2531209cf066affd61faac5c01b76cd43b60a21eed57dab58df9e43101e0",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-pytest.log",
+      "log_sha256": "ebc966a396b3e24faedbc5fa16a084a3be9f37056657d22f89022ba289f2d2a9",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "ce9b28f8ec81dcd5c285ed8a93e3f529f9bcd9105a78e22a368cff4d4a79f054",
+      "started_utc": "2026-10-21T00:50:34.350+00:00",
+      "pid": 18628,
+      "finished_utc": "2026-10-21T00:51:18.981+00:00",
+      "duration_seconds": 44.641,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "projection-ruff": {
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-ruff.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "logs\\phase18\\s2-d22-independent-closeout-2026-10-21\\projection\\rag-engine"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-ruff.json",
+      "receipt_sha256": "b73df75e5b0470d89466ca19c2d674d073de758bcf802ad063f8cddf8602ee54",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-ruff.log",
+      "log_sha256": "893b86fa0d0443e902ce683d44afc5188112d73639fad3c7280bcae728c15d51",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "e2a9d5b55db2920bd561398809ec9c28313bd2b30f0e5d76aef1ecbb201d94d5",
+      "started_utc": "2026-10-21T00:50:44.512+00:00",
+      "pid": 16504,
+      "finished_utc": "2026-10-21T00:50:44.795+00:00",
+      "duration_seconds": 0.281,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "verify": {
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify.json",
+        "--",
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify.py"
+      ],
+      "receipt": "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify.json",
+      "receipt_sha256": "35436808e088b30fcc032ddb30be06f6e7f0d81d71d6cc75d687b27da122bdca",
+      "log": "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify.log",
+      "log_sha256": "ec50ae95994c0336ae5fc43ba78c57c994385fd0c721d4a63e888a423fc382a6",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python",
+      "argv_sha256": "f67c57dd484da190759f120b60600e098545e77a38ca0b78dd244c3bd2656e04",
+      "started_utc": "2026-10-21T00:48:25.237+00:00",
+      "pid": 9904,
+      "finished_utc": "2026-10-21T00:48:28.927+00:00",
+      "duration_seconds": 3.687,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    }
+  },
+  "delivery": {
+    "manifest": "docs/implementation/phase-18/reviews/2026-10-21-slice-2-d22-independent-delivery-scope.json",
+    "sha256": "416f61e012b0a3d55b2ad31e02810e18c5ca4402c9e12ae6b05b87cbbedad45b",
+    "projection": {
+      "purpose": "Read-only delivery projection; existing HEAD plus selected current lines/hunks; no index/worktree mutation or new function implementation",
+      "base": "c3b46351507803053850e3c2711602ee9c9ec419",
+      "projection": "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection",
+      "files": [
+        {
+          "path": "rag-engine/pyproject.toml",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+          "projected_sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6"
+        },
+        {
+          "path": "rag-engine/scripts/d17_completion_resources.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+          "projected_sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e"
+        },
+        {
+          "path": "rag-engine/scripts/d17_final_onnx_probe.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+          "projected_sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e"
+        },
+        {
+          "path": "rag-engine/scripts/d17_final_profile.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+          "projected_sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e"
+        },
+        {
+          "path": "rag-engine/scripts/d17_markdown_evidence.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+          "projected_sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2"
+        },
+        {
+          "path": "rag-engine/scripts/d17_structural_conformance.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+          "projected_sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c"
+        },
+        {
+          "path": "rag-engine/scripts/dependency_inventory.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+          "projected_sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf"
+        },
+        {
+          "path": "rag-engine/scripts/provision_embedding_model.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+          "projected_sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/chunking/chunker.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+          "projected_sha256": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/embeddings/model.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+          "projected_sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/main.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+          "projected_sha256": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/parsers/markdown.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+          "projected_sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/parsers/obsidian.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+          "projected_sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/parsers/obsidian_html.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+          "projected_sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/parsers/text.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+          "projected_sha256": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/worker.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+          "projected_sha256": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc"
+        },
+        {
+          "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+          "projected_sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c"
+        },
+        {
+          "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+          "projected_sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b"
+        },
+        {
+          "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+          "projected_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe"
+        },
+        {
+          "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+          "projected_sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb"
+        },
+        {
+          "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+          "projected_sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504"
+        },
+        {
+          "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+          "projected_sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5"
+        },
+        {
+          "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+          "projected_sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f"
+        },
+        {
+          "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+          "projected_sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17"
+        },
+        {
+          "path": "rag-engine/tests/test_d17_completion.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+          "projected_sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e"
+        },
+        {
+          "path": "rag-engine/tests/test_d17_final_corrective.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+          "projected_sha256": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301"
+        },
+        {
+          "path": "rag-engine/tests/test_d17_r03_only.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb",
+          "projected_sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb"
+        },
+        {
+          "path": "rag-engine/tests/test_obsidian_d17.py",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+          "projected_sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7"
+        },
+        {
+          "path": "rag-engine/uv.lock",
+          "selection": "ALL existing reviewed changes / full new Markdown file",
+          "working_sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+          "projected_sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa"
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/parsers/models.py",
+          "selection": "ONLY common enum and provenance equality hunks; leave DOCX hunk at HEAD",
+          "working_sha256": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+          "projected_sha256": "51c7638a8a0121608912672152251adfbd3006d98ed296a8dbeba49761aff152",
+          "hunks": [
+            {
+              "old_start": 21,
+              "old_end": 20,
+              "new_start": 21,
+              "new_end": 22,
+              "take": true,
+              "reason": "enum/source-equality common contract"
+            },
+            {
+              "old_start": 49,
+              "old_end": 48,
+              "new_start": 51,
+              "new_end": 57,
+              "take": true,
+              "reason": "enum/source-equality common contract"
+            },
+            {
+              "old_start": 69,
+              "old_end": 82,
+              "new_start": 78,
+              "new_end": 111,
+              "take": false,
+              "reason": "excluded DOCX semantic validation"
+            }
+          ]
+        },
+        {
+          "path": "rag-engine/src/ppv_rag/limits.py",
+          "selection": "EXISTING statements only: control/limits/check_text; omit archive/PDF/input_bytes helpers and their imports",
+          "working_sha256": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194",
+          "projected_sha256": "88889ca26d84ba6338d6ea4fd042bb062d826506fa9bb3a1a81979f1817baeac",
+          "retained_source_spans": [
+            [
+              0,
+              1,
+              "Expr"
+            ],
+            [
+              2,
+              3,
+              "ImportFrom"
+            ],
+            [
+              6,
+              7,
+              "Import"
+            ],
+            [
+              9,
+              10,
+              "ImportFrom"
+            ],
+            [
+              10,
+              11,
+              "ImportFrom"
+            ],
+            [
+              11,
+              12,
+              "ImportFrom"
+            ],
+            [
+              15,
+              16,
+              "Assign"
+            ],
+            [
+              16,
+              17,
+              "Assign"
+            ],
+            [
+              17,
+              18,
+              "Assign"
+            ],
+            [
+              18,
+              19,
+              "Assign"
+            ],
+            [
+              19,
+              20,
+              "Assign"
+            ],
+            [
+              20,
+              21,
+              "Assign"
+            ],
+            [
+              21,
+              22,
+              "Assign"
+            ],
+            [
+              22,
+              23,
+              "Assign"
+            ],
+            [
+              24,
+              27,
+              "AnnAssign"
+            ],
+            [
+              29,
+              31,
+              "ParsingCancelled"
+            ],
+            [
+              33,
+              41,
+              "checkpoint"
+            ],
+            [
+              43,
+              56,
+              "parsing_scope"
+            ],
+            [
+              66,
+              70,
+              "check_text"
+            ]
+          ],
+          "omitted_source_spans": [
+            [
+              4,
+              5,
+              "Import"
+            ],
+            [
+              5,
+              6,
+              "Import"
+            ],
+            [
+              7,
+              8,
+              "Import"
+            ],
+            [
+              8,
+              9,
+              "Import"
+            ],
+            [
+              12,
+              13,
+              "ImportFrom"
+            ],
+            [
+              13,
+              14,
+              "ImportFrom"
+            ],
+            [
+              58,
+              64,
+              "input_bytes"
+            ],
+            [
+              72,
+              134,
+              "checked_zip"
+            ],
+            [
+              136,
+              195,
+              "checked_pdf"
+            ]
+          ],
+          "function_AST_identity": true
+        },
+        {
+          "path": ".gitignore",
+          "selection": "ONLY existing .venv-d17/ ignore addition",
+          "working_sha256": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744",
+          "projected_sha256": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744"
+        }
+      ],
+      "excluded_changes_remain_HEAD": [
+        "rag-engine/src/ppv_rag/parsers/docx.py",
+        "rag-engine/src/ppv_rag/parsers/excel.py",
+        "rag-engine/src/ppv_rag/parsers/pdf.py",
+        "rag-engine/src/ppv_rag/ocr/engine.py",
+        "rag-engine/tests/test_parsers.py"
+      ],
+      "excluded_new_files": [
+        "rag-engine/tests/test_slice2_corrections.py",
+        "rag-engine/tests/test_slice2_checkpoint_package.py",
+        "rag-engine/tests/test_pdf_scanned_surrounding_text.py",
+        "backend native-OCR tests/fixtures",
+        "OCR/Office/PDF experiment and fixture additions"
+      ],
+      "patch_sha256": "fd8071e1dc05680cb821933b66e7f3538cec3004e3b7c9389dc26dbe8e60dda4",
+      "model_read_location": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+      "risks": [
+        "Whole shared files contain reviewed common parsing/cancellation/producer infrastructure, not accepted Office/PDF/OCR fidelity. No new excluded adapter code selected.",
+        "Fingerprint retains the reviewed inactive OCR component tag; this does not certify OCR. Future FR18-3 must admit and validate actual component/configuration before any publication.",
+        "Projected source hashes differ for two selected files. Commit readiness requires final Owner-approved staging verification; bounded projection tests do not certify P18-FINAL or all excluded format paths."
+      ],
+      "build_readiness": "BLOCKED: projected and actual current fresh-cache mypy fail optional OCR import; tests/static successes do not override."
+    },
+    "functional_test_result": "168 PASS / 39.42s; 7 legacy PASS / 5 excluded / 0.22s",
+    "static_result": "Ruff/format/offline lock PASS; projected/current fresh mypy FAIL",
+    "staging_or_implementation_mutation": false,
+    "clean_commit_eligible": false
+  },
+  "authority_hashes": {
+    "docs/implementation/phase-18/owner-decisions.md": "2cc06a11ac67721476df56cc08e23a6cc13b6ee9db068e41682528ef6175de7f",
+    "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md": "8eee9e0c3eb416fa003ffdb06bcb52c3737e32a220c9ebfdde39c90f6da93764",
+    "docs/implementation/phase-18/slice-2-markdown-only-d22-evidence-disposition-2026-10-21.md": "2f0a5ad31dc06a581b1ed724886803eb7e047270af1067ec7075ad2f749a92d6",
+    "docs/implementation/phase-18/slice-2-markdown-only-d22-closeout-rereview-handoff-2026-10-21.md": "c6937549b8e6328c2a3b04e02a324e0f71a8c687b096d527d578edaeeb62033a"
+  },
+  "historical_review_hashes": {
+    "docs/implementation/phase-18/reviews/2026-10-20-d17-obsidian-markdown-independent-blocker-review.md": "8426628ef8c7f043e9cb0ec76eaa97390ee8bdf85779fd39cab9811cc168fbc0",
+    "docs/implementation/phase-18/reviews/2026-10-20-d17-obsidian-markdown-independent-final-re-review.md": "177a382420a465c9c013993e581262ba7c4cc66751c636f5226661dd3dce7e98",
+    "docs/implementation/phase-18/reviews/2026-10-20-d17-r03-independent-final-re-review.md": "b60aaa4f1281f4c23997e9147a777a0f6973578447b1af00b4f9f659efe9df88",
+    "docs/implementation/phase-18/reviews/2026-10-20-slice-1-import-snapshot-independent-final-acceptance.md": "6edc0cf7719ca4c262961ada6ffc2b263fa888d830aa5ea8daab90908c025ecc",
+    "docs/implementation/phase-18/reviews/2026-10-20-slice-1-import-snapshot-independent-re-review.md": "8bd005dd9b6d2e217a0c9aea8bdbd545230586a83f5d9cd3093a48d4191b2f84",
+    "docs/implementation/phase-18/reviews/2026-10-20-slice-2-parser-ocr-embedding-independent-review.md": "6e923591cb994a8d61a980654c1eef1c6ad814cf0e9b2046bdfea300080a5345",
+    "docs/implementation/phase-18/reviews/2026-10-21-slice-2-markdown-only-independent-closeout-review.md": "ce9d8db2a1d0cb0dec96cdc9db132ebc0971e4fff3737ce9f391124593f932a0"
+  },
+  "artifacts": {
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/build-evidence.py": {
+      "sha256": "befd3cf6fb899e55684799dc180cfe75dc98c5611aff789d94f0adf7c70d0f75",
+      "bytes": 5995
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/check.py": {
+      "sha256": "2d1a788f5b50163a4c8ef806d2fafef3489cdbb3077babbb34ace519e8b1c9e2",
+      "bytes": 2231
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/current-mypy-fresh-argv.json": {
+      "sha256": "cc3c8b0fb7ac487a68250531b9ddbb8186d3e3aa9914260e677171b2cfa51c34",
+      "bytes": 413
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/current-mypy-fresh-run.py": {
+      "sha256": "d966957331bc788988a24c05490fa0998b590edb70120c29572825a2a06b65ec",
+      "bytes": 850
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/current-mypy-fresh.json": {
+      "sha256": "1b7805cda60f181737359f418e0379276d5f8ab972ce58e79b8910a3b4f05dde",
+      "bytes": 401
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/current-mypy-fresh.log": {
+      "sha256": "a16751c1f861bd870b7f4bc82914156ac5613bf4e6aa1ebe49d275cdca4180a3",
+      "bytes": 637
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery-argv.json": {
+      "sha256": "09c43b4530b82ddf1e4f912c03d95043ba57e16697c0a7a5cfdc09ba545edb84",
+      "bytes": 619
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery.json": {
+      "sha256": "09a050e3658e9a80148edb3dad50d89aa7b37a350c68a128d441f2fb1c79db60",
+      "bytes": 389
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery.log": {
+      "sha256": "3556e641c739c568376845055704140da00bb8a09441ccc1454c21a38d4753c6",
+      "bytes": 579
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/delivery.py": {
+      "sha256": "1a7b21245a5e8e4a301e57bd96df316a60ea413193d2c9621bb7ae7e49f30e48",
+      "bytes": 7264
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/diff-check-argv.json": {
+      "sha256": "81900e2215efcfccd8d385e6ba0430193ed05342bfd167f465e96c8bc8829f3f",
+      "bytes": 995
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/diff-check.json": {
+      "sha256": "f912ce02191271d235fe7098bef66d496a06263ab4c358dee6e36bd6c30296f6",
+      "bytes": 383
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/diff-check.log": {
+      "sha256": "cc565292009ca0d80de5e8c7646a700dde569a94b2f2cfe8f2f6be1e855b7fba",
+      "bytes": 1876
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/entry.json": {
+      "sha256": "6a7f8ebf0dde5d788267a84a2fe99c5386035b8dc89216ef1ff3290b27ffb4ff",
+      "bytes": 453224
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/environment.json": {
+      "sha256": "a5e87e25c07b2c983ad3dd2a15c38aca43062097e9b506fdf649cc7bdca575f1",
+      "bytes": 390
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/environment.log": {
+      "sha256": "8e487192eeda8b61f02751937703d717ad4b6aefe71efa826538a46ce0c35ddf",
+      "bytes": 1126
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/environment.py": {
+      "sha256": "153c6aad1383328c25e7dbf6b7fef9e230c4c32e383a286eb3d561a227252b8b",
+      "bytes": 798
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/git-diff.patch": {
+      "sha256": "7478545a2438c3811703edfe2d5649959558429303ed310f0daafa2e46e79423",
+      "bytes": 288279
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/git-status.txt": {
+      "sha256": "0dcd86317353d5bfe3aec9a8dcf27ded53dfb5399d2f979431fa1b5b56786061",
+      "bytes": 35347
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance-argv.json": {
+      "sha256": "3451629e372b0757738a1afe6d2d12e52000732f3413e45a09e9f6a115932b33",
+      "bytes": 625
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance-results.json": {
+      "sha256": "7a98476f513ef79d573556b99807cefbeae32c110003832c61b65fc27320c48c",
+      "bytes": 5562
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance.json": {
+      "sha256": "f8605d1a6773ad82d6e68e20f85d494b0379bdd572273a0a1354452c64cf0aee",
+      "bytes": 388
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance.log": {
+      "sha256": "7bc7a1c8dcb286ce03251288cd05ef60837ffe4e79ea0e744dbdd4c9415e9a7f",
+      "bytes": 195
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/governance.py": {
+      "sha256": "54a01cc49c36ae8a1bcffe2aa1715eb7a970a6a0aa5531a9fb012932f11b5b0c",
+      "bytes": 2900
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/integrity-results.json": {
+      "sha256": "efde5bb390e3811c7dc4ee05e739077360628f2b8bfb4d7e5d7dbc4f305617be",
+      "bytes": 15458
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/legacy-run.py": {
+      "sha256": "7b6fb06ddcd89035750ede6a84e10e33130681d60b96a4c0a1ff26121442c2d4",
+      "bytes": 1181
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/pip-argv.json": {
+      "sha256": "f16cd081b5d5319802ea7c2587acef29260083b46e9e2c5e0b8e4bff9490202e",
+      "bytes": 1234
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/pip.json": {
+      "sha256": "74a3956a8a4e30825bb89119d8f85e1de87ef07850f50c6c0e3fe4cf8514c964",
+      "bytes": 383
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/pip.log": {
+      "sha256": "0f1c62993d3a10ad083995f0923678f574b36b365644d5f9e4c544892d9b4516",
+      "bytes": 199
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/project-argv.json": {
+      "sha256": "ff5b3936ef85a174c185fab601879da4a764e2e8241ae1b600c3a8b216d10ab6",
+      "bytes": 616
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/project.json": {
+      "sha256": "fbb3b7c893f41402b2bac30f1788ce3658b5cd0b6d24d149d6acb0ca6fbf2994",
+      "bytes": 388
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/project.log": {
+      "sha256": "e1e2c13ea782999751af5bd2b047d32657d19de1f803e35e79218f357ec2ec04",
+      "bytes": 150
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/project.py": {
+      "sha256": "47a47f5eae3c16046f49478e773c96b8cdbaab0025ecaba3cf0790da469fa299",
+      "bytes": 6502
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-format-argv.json": {
+      "sha256": "5e5d2cba790e850970ac6e28597a50a4a4a702af6090c4322f5a50b0b08ce451",
+      "bytes": 1422
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-format.json": {
+      "sha256": "689690cfabc936c8fc75dad063dec4aa2c77cffc4c12ac6bccc13adbdfe22c8a",
+      "bytes": 391
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-format.log": {
+      "sha256": "9e8acd1d6fe1e3d50f8059c999eebb6b92169532167d668fb00f2e24a7d7ab44",
+      "bytes": 195
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-legacy-argv.json": {
+      "sha256": "632c657516accd345473b8f5dd51da057a083ff21c27fe9b295f4075d7f1c560",
+      "bytes": 1150
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-legacy.json": {
+      "sha256": "4a0e3a0facc8f1c574aaf4633180f06c4a038d8881bf033bc07b098f9401c665",
+      "bytes": 392
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-legacy.log": {
+      "sha256": "93fdcaa7b01aa2fb95efd6a52408edbca32c2f6d41aa2a7bd0e5ec483cdd9f78",
+      "bytes": 282
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-lock-argv.json": {
+      "sha256": "a3956c0f5148bc6a502ec3ea31a780ec5dd59b848c4482ef3ce6a95b7e08c1d1",
+      "bytes": 1246
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-lock.json": {
+      "sha256": "45cd27ee07c41cdda3988f8b157eece60ba569db8cd1cf8d33bef5c9dc35297d",
+      "bytes": 383
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-lock.log": {
+      "sha256": "02f70ecf905bae5b5b06d7ecc48823f76eaf26f116d930710fd4a034661183da",
+      "bytes": 127
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-mypy-argv.json": {
+      "sha256": "15de335b4ce707fb7558e37c48bd7bc068936ec2d60c8f19730c769b885188fa",
+      "bytes": 1616
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-mypy.json": {
+      "sha256": "d597f54008b9a6d9a3676e60b9e7fd2a565691f774bb79719d2767989c2f509f",
+      "bytes": 402
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-mypy.log": {
+      "sha256": "ac1b30fec07b8ca8e702d66e4359852f0af21818d4ea902581a6a58b92912d78",
+      "bytes": 826
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-plan.json": {
+      "sha256": "665ead063bb69470c341e3102fa8775cc99aa87d9e0240ac2feaf22ddd4dd0ef",
+      "bytes": 15786
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-pytest-argv.json": {
+      "sha256": "6895e5b931fcc586ad78bebffb7573c560d7947a18f58f8507ae7e25b44804f2",
+      "bytes": 7357
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-pytest.json": {
+      "sha256": "95dd2531209cf066affd61faac5c01b76cd43b60a21eed57dab58df9e43101e0",
+      "bytes": 394
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-pytest.log": {
+      "sha256": "ebc966a396b3e24faedbc5fa16a084a3be9f37056657d22f89022ba289f2d2a9",
+      "bytes": 434
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-ruff-argv.json": {
+      "sha256": "0f7e594dc70ed219086e8605b9ec53c86846edd1a00e548b6ff3fbee97f0b846",
+      "bytes": 1386
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-ruff.json": {
+      "sha256": "b73df75e5b0470d89466ca19c2d674d073de758bcf802ad063f8cddf8602ee54",
+      "bytes": 392
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection-ruff.log": {
+      "sha256": "893b86fa0d0443e902ce683d44afc5188112d73639fad3c7280bcae728c15d51",
+      "bytes": 187
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/proposed-markdown-only.patch": {
+      "sha256": "fd8071e1dc05680cb821933b66e7f3538cec3004e3b7c9389dc26dbe8e60dda4",
+      "bytes": 261947
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/run.py": {
+      "sha256": "fcc96204da9ed2c641ee0bf6ad2aaf9b8dcf3bc856122fc7489a59394ddbb386",
+      "bytes": 743
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/runtime-static-environment.json": {
+      "sha256": "547856d379000fed236c8d6a7031be3e78fb566bbc93087d9f374464765a5176",
+      "bytes": 448
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify-argv.json": {
+      "sha256": "f5e4bc644fa4dcde6e2d4603e5f401990640e6271426d55723f846eb48d6bbdb",
+      "bytes": 613
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify.json": {
+      "sha256": "35436808e088b30fcc032ddb30be06f6e7f0d81d71d6cc75d687b27da122bdca",
+      "bytes": 388
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify.log": {
+      "sha256": "ec50ae95994c0336ae5fc43ba78c57c994385fd0c721d4a63e888a423fc382a6",
+      "bytes": 549
+    },
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/verify.py": {
+      "sha256": "a0de7dced75c6e525401688dd3b142dcad003ce87928b1be042fc60edade1486",
+      "bytes": 5074
+    }
+  },
+  "projection_source_files": {
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.dockerignore": "60ae2cdd92cd9fb5423da92291c8badc95afdb33e2db25a8f8ec0a384ed9914a",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.python-version": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/Dockerfile.offline-check": "aa94fa10e50d2ce5bcf9eea10610fda23528dfad9821c64962939a6d8fd57e97",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/pyproject.toml": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/README.md": "2dc9e72817ba63c62a1c85eb377d88285214200eb6e03a010811429e24082c5d",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/uv.lock": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/.gitignore": "9e3a60f1e6ec4ae60215c11d54b171392745ec25e9dded433d5bd921363af316",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/CACHEDIR.TAG": "5953156d7e0c564a427251316eaf26f8870e6483ae2197f916b630e4f93e31ae",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/0.17.0/10508148461312386961": "e68b9f41a206cc9d2a8e274789fccba404bd58a1c389e6931244ab7d3189629a",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/0.17.0/12856137922097029111": "103fb36aab3f5e8fa6d266ad43f79b74cc6c39dd9f465160bee08a0a656b2e18",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/0.17.0/16228281003964417082": "8553d7dc74a445b548c9739e4496256d1bd80528d74335a3aabfeaab2ce0f487",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/0.17.0/17380268697723089841": "f04cf77082845ab3aea806eff9bb1614ecf034f576196d85ff646cb49abc2363",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/0.17.0/2674559469417266230": "1bd599068ec83cfcd4be38e9264a1778caa35427d2491357f524c544a8028704",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/0.17.0/8700183290143481336": "37cb83bb4236db875496d529f911b1a1fcc7247986555eeafac781c28856afb3",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/.ruff_cache/0.17.0/9994363757506948614": "2960b54b59dc3c518edc46a18b6bd7e023e6caa30113d94c8775c8b8cdfb63c2",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/d17_completion_resources.py": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/d17_final_onnx_probe.py": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/d17_final_profile.py": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/d17_markdown_evidence.py": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/d17_structural_conformance.py": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/d18_pt_a_ocr_checkpoint.py": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/dependency_inventory.py": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/freeze_phase18_ocr_fixtures.py": "939e78c06c06b3dc4e4963379bc78654d86c6984fee20ef538eb5a938435839b",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/measure_d18_pt_a.py": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/offline_check.py": "520ab0ffb52eb616160f351a5ffd92c4bd1b4f57449b5adcb4dfa8bccfc36cea",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/probe_phase18_ocr.py": "d90bb9f3c7b65dca14ea734d337645c4820b263257806ba38f885232ed39c96d",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/provision_embedding_model.py": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/provision_phase18_latin_ocr.py": "4dbaf78f73d8f0ce66027f6aba43e687cdd957958d2ced92d9e14d2450508662",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/run_d18_pt_a_native.py": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/scripts/worker_boundary_check.py": "a360838a9be31fcaa139a7f22bd74404d6a365fffc301ad430972f23e27a161d",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/config.py": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/contracts.py": "28db2741bfdee641b6958dd3b017462338588a93c39e25d480bb4a3a3146441b",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/db.py": "421dc9e3823a349b3b6a935f59eb17ac89368458aaf0e346d792b6075b963177",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/limits.py": "88889ca26d84ba6338d6ea4fd042bb062d826506fa9bb3a1a81979f1817baeac",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/main.py": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/security.py": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/telemetry.py": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/transport.py": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/worker.py": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/__init__.py": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/chunking/chunker.py": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/chunking/__init__.py": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/embeddings/model.py": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/embeddings/__init__.py": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/ocr/engine.py": "b02d3c11a79eb120d5c31dc14affba0542efc6ab7beb54a0c4dc3aa16d0ad78c",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/docx.py": "422d9f9c3712c21090c3a838e46803a26c7948bb5d58c239b3d5c56f10aea31c",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/excel.py": "32144fa992e08706d205c5066465de2ea6702dd32a23842e9d3b2948b9e05e37",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/markdown.py": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/models.py": "51c7638a8a0121608912672152251adfbd3006d98ed296a8dbeba49761aff152",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/obsidian.py": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/obsidian_html.py": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/pdf.py": "515d5f269b519580b207c7192c74db19d9e1e7e465281f3ab467e7bcb0344307",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/text.py": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/src/ppv_rag/parsers/__init__.py": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/conftest.py": "b5c31d9da460929f125919176a9a919cc445c8ad2b6a84c67e7df7bea2b3d39f",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_bound_ingress.py": "6822be0fb5c15ac3bfd3d01f9770cd2a9e6699d24c0af8b0f93f5f4d2928729f",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_chunker.py": "5392473816e09e651e0e19f4e83653e44dfffa00fa6ea5225fae9278b2e5cad2",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_consumption_containment.py": "ea23a6d8993e242b867f2b305188561d42f3c920f89de924dfb3a61d0599b79b",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_contracts.py": "eb7a6c8d985ad8ae18f1c1a7c74eccc7ec0d99a604a74cf90dbf0214939d02f9",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_d17_completion.py": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_d17_final_corrective.py": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_d17_r03_only.py": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_embeddings.py": "fb06cb72b6a3f3109b8b038f30561b361ebf261f653002f24d6433ca00a82a85",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_health.py": "767dbc538065bcfc42bed41c2271775aff5049c7dd07a16e87749b0fa184f4ed",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_obsidian_d17.py": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_parsers.py": "47b6ff9d22ee2b6ad03bae3fba873a9a68ead5259b11d91103558abb09bd336e",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_pdf_geometry.py": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_telemetry.py": "d0823c24f4b30ea8d199f13da637241a6a5cc550ef2333b18bed98c6748f5077",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_transport.py": "5b9e11f0b65ec0d0bd98369737883f7dda716b977563e0c4de249bb7523952fb",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_worker.py": "35e195f5dc832ea6b6a2bc543270afdc374caf53f1939dd33f5237c984121ac3",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/test_worker_v3.py": "e703e4efb9e6971dc87ed1adac3f5838c983af204e40b8d26f566c602d0e59d4",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/d18-pt-a/manifest.json": "6ed5d2b97f828c652931226fa0196c189ebb248271f1cab4219753c7ee23bc4d",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/d18-pt-a/manifest.sha256": "0b42776798d1b769d7e857ff61ba03a07a0ae6e7dbc4074dbdfcc0fd4721e078",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-en.pdf": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-vi.pdf": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hans.pdf": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hant.pdf": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-en.pdf": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-vi.pdf": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hans.pdf": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hant.pdf": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/manifest.json": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+    "logs/phase18/s2-d22-independent-closeout-2026-10-21/projection/rag-engine/tests/fixtures/phase18-ocr-v2/manifest.sha256": "a31f8c4d7675c29ca8fc8865105879e5407c4f7cdb02ce8c3206e781da840a3c"
+  },
+  "boundaries": {
+    "Phase17": "FROZEN",
+    "Slice1_D14": "CLOSED",
+    "D17_D20": "ACCEPTED history retained",
+    "D21": "MD_ONLY",
+    "D22": "BOUNDED EVIDENCE EXCEPTION VALID",
+    "ADR0024": "ACCEPTED FOR D21 SCOPE",
+    "FR18_3": "OPEN",
+    "external_indexing": "INACTIVE",
+    "live_originals": "DISABLED/DEFERRED",
+    "P18_FINAL": "NOT_ACCEPTED",
+    "Java_full_gate": "FAILED 1433 tests / 1 failure / 2 errors / 0 skips",
+    "Slice3_4": "NOT_AUTHORIZED",
+    "Antigravity": "2/2 EXHAUSTED"
+  },
+  "notes": [
+    "No historical test/writer script was executed. Test inputs were repository D17 tests copied into an isolated existing-line projection; all authoritative source/config/tests and 239 existing log/evidence artifacts stayed byte-identical.",
+    "The initial projected mypy used default incremental-cache settings; decisive actual current-source mypy used an explicit fresh cache under this review directory. No cache behavior is asserted as the cause of older PASS receipts.",
+    "D22 exception does not waive static validation; original three captures remain NOT_RECOVERED and raw preservation remains FAILED. Other source, 52-case D19 projections, receipts and separate resource proofs are independently verified.",
+    "No million-character benchmark, full Java suite, OCR execution/development, dependency upgrade/install, production fix, staging or publishing occurred.",
+    "Proposed patch is an isolated read-only selection of existing HEAD/current lines. It is not applied to the repository or a certified commit; new static blocker must be resolved under separately approved scope."
+  ]
+}

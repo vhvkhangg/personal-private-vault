@@ -40,7 +40,10 @@ class AdaptiveOCREngine:
 
     def _init_engine(self) -> None:
         try:
-            from rapidocr_onnxruntime import RapidOCR  # type: ignore[import-untyped]
+            # Optional backend: absent from the selected Markdown runtime.
+            from rapidocr_onnxruntime import (  # type: ignore[import-not-found, import-untyped]
+                RapidOCR,
+            )
 
             self._engine = RapidOCR()
         except Exception:

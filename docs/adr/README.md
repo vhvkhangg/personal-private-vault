@@ -1,3 +1,5 @@
+**D21 current scope:** [Slice 2 `.md`-only applicability](../implementation/phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md) is Owner-approved; [ADR-0024](0024-phase-18-slice-profile-acceptance-boundaries.md) is an **ACCEPTED (D22)** higher-contract slice-applicability qualification, **not** an approved overall Phase 18 scope change or implementation authority. Earlier execution/status lines below are historical where superseded.
+
 > **Current Phase 18 amendment:** [ADR-0023](0023-phase-18-application-level-snapshot-worker-trust.md) is accepted (2026-10-19) and takes precedence over ADR-0022 for same-Windows-user worker trust and G1/G3 OS-level requirements. ADR-0022 remains the underlying whole-file snapshot/NO_CHANGE contract.
 
 # Architecture Decision Records
@@ -41,5 +43,6 @@ When a frozen architectural decision changes materially, add a new ADR and mark 
 
 - [ADR-0021](0021-phase-18-bounded-multi-file-verified-indexing.md) – accepted design, **partially superseded for external snapshots** by ADR-0022; historical rationale and unaffected D18-A guarantees preserved.
 - [ADR-0022](0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) – **OWNER_APPROVED / CANONICALLY_SYNCHRONIZED**, 2026-10-18: consolidated Immutable Snapshot + Whole-File Consent + SHA-256 NO_CHANGE, exact external-only applicability and C_N/C_D/C_R/C_P. Independent documentation synchronization review pending.
+- [ADR-0024](0024-phase-18-slice-profile-acceptance-boundaries.md) – **ACCEPTED under D22 (2026-10-21)** for D21 applicability only; broad Phase 18 remains open.
 
 **Current execution handoff:** [P18-S1-IMPORT-SNAPSHOT](../implementation/phase-18/slice-1-import-snapshot-handoff.md) through [ACTIVE](../implementation/handoffs/ACTIVE.md), owner-approved D13 for **Slice 1 A+B+C only**, Antigravity implementation and Codex independent review. Prior `P18-DOCUMENT-INDEXING` reviews remain historical/CHANGES_REQUESTED. Original-live indexing DISABLED/DEFERRED; snapshot indexing inactive; G1–G4 and FR18-1–11 remain OPEN. Contract approval is not runtime acceptance.

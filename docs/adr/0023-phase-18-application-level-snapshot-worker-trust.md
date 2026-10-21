@@ -1,3 +1,5 @@
+> **D21 Slice 2 applicability, 2026-10-20:** The Owner-approved current Slice 2 acceptance scope is Obsidian Markdown `.md` only; TXT/DOCX/PDF/XLS/XLSX/OCR are excluded from that slice and require a future explicit Owner Decision for reintroduction. See the [scope/matrix](../implementation/phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md). The original broader Phase 18 clauses below remain unaccepted reference obligations; this notice does not silently delete or pass them. Precise conflicts and higher-level qualification are [ACCEPTED in ADR-0024 under Owner D22](0024-phase-18-slice-profile-acceptance-boundaries.md), strictly for D21 Slice 2 applicability, not as an overall Phase 18 rebase. Phase 17/Slice 1 and Java/FR18-3/P18-FINAL guarantees are unchanged.
+
 # ADR-0023 — Phase 18 proportionate application-level snapshot and worker trust
 
 - **Status:** ACCEPTED by owner, 2026-10-19 — **contract change only**; implementation not accepted.
@@ -34,6 +36,19 @@ The owner explicitly accepts running Java and the Python RAG worker under the **
 - **Freshness:** `SNAPSHOT_CURRENT` qualifies only G bound to selected R, verified store bytes, exact approved children and current authority. `originalFreshness=UNVERIFIED`: later changes/deletion of original do not automatically invalidate an already sealed snapshot. Manual update/reindex only.
 
 ## Mandatory user-visible feature set (not relaxed)
+
+**D17 delivery-scope amendment, 2026-10-20:** the active bounded Slice 2 implementation/acceptance
+checkpoint prioritizes Obsidian Markdown under its
+[frozen syntax profile](../implementation/phase-18/obsidian-markdown-d17-contract.md), with whole-document
+all-or-nothing extraction. OCR/PDF/DOCX/XLS/XLSX acceptance is deferred, with existing code/tests/failures
+preserved. This changes the current delivery/acceptance scope, not the frozen Phase 17 contract or
+an assertion that the original broader Slice 2/Phase 18 feature set below is accepted or complete.
+
+**Prospective D16 amendment, 2026-10-20:** mandatory **Slice 2 OCR** languages are **Vietnamese and
+English**; Chinese OCR is no longer required. Native Chinese parsing/embedding support and every
+other fidelity, locator, human-adjudication, offline/resource and publication gate remain unchanged.
+The four-language statement below records the original decision; historical failures are preserved,
+not relabeled PASS. See [D16](../implementation/phase-18/owner-decisions.md#2026-10-20--d16-slice-2-vietnameseenglish-ocr-and-official-runtime-feasibility).
 
 TXT, Markdown/Obsidian (frontmatter/headings/tags/wikilinks/aliases/block links/callouts/approved transclusions), DOCX, PDF native/scanned/mixed with OCR, XLSX and XLS; Vietnamese, English, Simplified and Traditional Chinese; hidden/approved metadata, text and tabular content; original reading order, merged cells and accurate structural/table/page/sheet/cell/bounding-box locators where applicable. Use one structure-aware chunker, one compatible multilingual embedding space stored in PostgreSQL/pgvector; offline artifacts, GPU and bounded **same-model CPU fallback**; manual batch import/update/reindex, partial per-file outcomes, cancellation, revoke/purge, reports and bounded RAM/VRAM/CPU/disk/time. Unsupported or materially inaccurate extraction/mandatory locator fails that file instead of silently publishing.
 

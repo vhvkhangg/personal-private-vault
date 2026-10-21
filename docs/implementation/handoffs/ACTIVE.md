@@ -1,3 +1,180 @@
+**D23 CONTROLLING STATUS — 2026-10-21: D21 Markdown-only Slice 2 producer-local scope CLOSED by Owner decision, delivery/commit PENDING.** The [final independent closeout re-review](../phase-18/reviews/2026-10-21-slice-2-d22-01-independent-final-closeout-re-review.md) returned `READY_FOR_OWNER_CLOSEOUT_DECISION`, independently closed S2-D22-01 and verified all MD17-01–12. [D23](../phase-18/owner-decisions.md#2026-10-21--d23-bounded-phase-18-slice-2-markdown-only-owner-closeout) and [closeout](../phase-18/slice-2-markdown-only-d23-closeout-2026-10-21.md) close ONLY the D21 producer-local `.md` scope. **Not owner-published / NOT READY_FOR_OWNER_COMMIT** until the exact 34-change selective Markdown candidate and separately scoped docs receive a staged-tree review. No full working-tree staging. D22's three original JSON captures remain NOT_RECOVERED / original preservation FAILED; D22 scoped evidence exception and ADR-0024 acceptance remain valid. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; indexing INACTIVE; Java publication NOT ACCEPTED; historical full Java gate FAILED; P18-FINAL NOT ACCEPTED; Slices 3/4 unauthorized. No new implementation handoff is authorized.
+
+**Final independent S2-D22-01 closeout re-review - 2026-10-21: `READY_FOR_OWNER_CLOSEOUT_DECISION`.** S2-D22-01 is independently CLOSED: actual current source and the exact reconstructed Markdown-only candidate pass fresh-cache mypy (24 source files each), runtime/static/dependency checks and deterministic byte-checked reconstruction. The [dated independent final review](../phase-18/reviews/2026-10-21-slice-2-d22-01-independent-final-closeout-re-review.md) records all twelve D17 requirements VERIFIED, D17-R01-R05 CLOSED and the exact selective delivery boundary. D22 original captures remain NOT_RECOVERED / original preservation FAILED; the bounded exception and accepted ADR-0024 remain valid. **Owner closeout decision pending; Slice 2 is not declared CLOSED and READY_FOR_OWNER_COMMIT is not granted.** Phase 17 FROZEN; Slice 1/D14 CLOSED; D17/D20 accepted; D21 Markdown-only; FR18-3 OPEN; Java identity/publication NOT ACCEPTED; indexing INACTIVE; live originals DISABLED/DEFERRED; historical Java full gate FAILED (1,433 / 1 failure / 2 errors); P18-FINAL NOT ACCEPTED; Slices 3/4 unauthorized; Antigravity 2/2 exhausted. No further correction cycle, staging or publishing. Next: Owner records the bounded closeout decision.
+
+## Preserved prior review and implementation history
+
+**S2-D22-01 finite static correction — 2026-10-21: `READY_FOR_INDEPENDENT_CLOSEOUT_RE_REVIEW`.**
+The Owner authorized exactly this optional-import/static-gate checkpoint. Codex is the corrective
+implementer, not the independent reviewer. Both actual source and the exact updated Markdown-only
+delivery projection pass fresh-cache mypy (24 files; repeated with independent empty caches and a
+final fresh reconstruction). Only the deferred RapidOCR import annotation/layout changes in
+production; runtime ASTs, accepted Markdown source, model/tokenizer, dependencies and configuration
+are unchanged. Four optional-backend tests pass in each tree; relevant Markdown groups pass
+172 tests each; legacy selections pass 25 current / 7 projected cases. Final Ruff/format, dependency,
+offline-lock and diff checks pass. See the [dated handback](../phase-18/slice-2-d22-01-static-correction-handback-2026-10-21.md),
+[evidence](../phase-18/slice-2-d22-01-static-correction-evidence-2026-10-21.json) and
+[updated selective scope](../phase-18/slice-2-d22-01-static-delivery-scope-2026-10-21.json).
+
+The prior 336-path/hunk inventory and original Markdown source patch are retained; the new proposal
+adds only a HEAD-based OCR import annotation and optional-dependency tests. Unaccepted OCR/Office/PDF
+feature hunks and AGENTS remain excluded. **Nothing is staged.** The three D22-disposed originals
+remain NOT_RECOVERED / original preservation FAILED; historical failures are unchanged. D17/D20
+ACCEPTED; D21 `.md` only; D22 valid; ADR-0024 ACCEPTED for Slice 2; Phase 17 FROZEN; Slice 1/D14 CLOSED;
+FR18-3 OPEN; indexing INACTIVE; Java full gate FAILED; P18-FINAL NOT ACCEPTED; Slices 3/4 unauthorized.
+
+**Next gate:** stop for separate independent closeout re-review. No self-closure of S2-D22-01 or Slice 2,
+owner-commit readiness, OCR research, Java publication, commit/push/tag/PR or automatic corrective
+cycle. Historical Antigravity 2/2 remains exhausted; this is the separately Owner-authorized finite
+static exception, with Codex implementation authorship disclosed.
+
+## Preserved independent D22 closeout re-review — historical
+
+**Independent D22 closeout re-review - 2026-10-21: `CHANGES_REQUESTED`.** The [dated independent review](../phase-18/reviews/2026-10-21-slice-2-d22-independent-closeout-re-review.md) accepts D22's bounded evidence-gap disposition and confirms ADR-0024 adoption: S2-D21-E01 is resolved for bounded closeout by Owner exception (original bytes still NOT_RECOVERED / preservation FAILED); D21-OD-01 is resolved. One new mandatory blocker remains: S2-D22-01, actual current selected-runtime fresh-cache mypy fails the absent optional RapidOCR import at ocr/engine.py:50. The isolated existing-line delivery projection passes 168 relevant + 7 legacy tests, Ruff/format/lock, but fails the same static gate. See [exact evidence](../phase-18/reviews/2026-10-21-slice-2-d22-independent-closeout-evidence.json) and [336-path/hunk delivery scope](../phase-18/reviews/2026-10-21-slice-2-d22-independent-delivery-scope.json).
+
+**Next gate:** Owner determines separately authorized bounded resolution of the selected Markdown static boundary and verification of the final selective tree. No implementation/remediation cycle, Slice 2 CLOSED or READY_FOR_OWNER_COMMIT is granted here. D17/D20 history and R01-R05 closures remain; Phase 17 FROZEN; Slice 1/D14 CLOSED; D21 Markdown-only; D22 valid; ADR-0024 ACCEPTED for Slice 2; FR18-3 OPEN; indexing INACTIVE; live originals DISABLED/DEFERRED; historical Java gate FAILED; P18-FINAL NOT ACCEPTED; Slices 3/4 NOT AUTHORIZED; Antigravity 2/2 exhausted.
+
+## Preserved D22 entry disposition and prior review history
+
+**D22 CONTROLLING UPDATE — 2026-10-21: `READY_FOR_INDEPENDENT_CLOSEOUT_RE_REVIEW` (not CLOSED).** The Owner approved (a) an **explicit bounded evidence-loss disposition** for reviewer-introduced S2-D21-E01: the three original JSON captures remain **NOT_RECOVERED / PRESERVATION_FAILED**, while independently verified D19 structural projections and other receipts can support only the D21 Markdown producer-local closeout review; (b) **ADR-0024 ACCEPTED** prospectively for D21 Slice 2 applicability, not an overall Phase 18 scope/release waiver. Full details: [D22 Owner Decision](../phase-18/owner-decisions.md#2026-10-21--d22-bounded-s2-d21-e01-evidence-disposition-and-adr-0024-adoption), [evidence-gap disposition](../phase-18/slice-2-markdown-only-d22-evidence-disposition-2026-10-21.md) and [separate re-review handoff](../phase-18/slice-2-markdown-only-d22-closeout-rereview-handoff-2026-10-21.md). The **2026-10-21 CHANGES_REQUESTED review is unchanged historical evidence**. No implementation fix, independent closeout, owner-commit readiness, staging, commit/push or later slice follows. Phase 17 FROZEN; Slice 1/D14 CLOSED; D17/D20 accepted; D21 `.md` only; FR18-3 OPEN; Java aggregate FAILED; P18-FINAL NOT ACCEPTED; indexing INACTIVE; Slices 3/4 unauthorized.
+
+# Active Implementation Handoff — P18-S2-PARSER-OCR-EMBEDDING
+
+**Independent D21 closeout review - 2026-10-21: `CHANGES_REQUESTED`.** D21 Markdown producer-local implementation requirements remain verified under D17/D20; no new implementation regression. This review introduced evidence-preservation failure S2-D21-E01: its runtime test reused a fixed output directory and overwrote three historical raw JSON captures. Original hashes/reviews/receipts and the D19 projection are preserved, but original capture bytes have not been recovered. The [dated independent review](../phase-18/reviews/2026-10-21-slice-2-markdown-only-independent-closeout-review.md) records exact affected files/hashes and reviewer responsibility. See [evidence](../phase-18/reviews/2026-10-21-slice-2-markdown-only-independent-closeout-evidence.json) and [dirty-path inventory](../phase-18/reviews/2026-10-21-slice-2-markdown-only-independent-closeout-scope.json).
+
+**Next gate:** restore exact originals from trusted backup or obtain explicit Owner evidence disposition; also resolve ADR-0024's proposed higher-contract qualification before formal closeout. No implementation correction cycle, Slice 2 CLOSED or READY_FOR_OWNER_COMMIT is authorized. Phase 17 FROZEN; Slice 1/D14 CLOSED; D17/D20 accepted; D21 Markdown-only; FR18-3 OPEN; indexing INACTIVE; live originals DISABLED/DEFERRED; historical Java full gate FAILED; P18-FINAL NOT ACCEPTED; Slices 3/4 NOT AUTHORIZED.
+
+## Preserved D21 closeout-preparation status
+
+**D21 CURRENT — 2026-10-20: Slice 2 `.md` ONLY / `READY_FOR_INDEPENDENT_SLICE_2_CLOSEOUT_REVIEW`.** All twelve frozen D17 requirements remain mandatory and independently VERIFIED / accepted under D20. TXT, DOCX, PDF, XLS, XLSX and OCR are excluded from Slice 2 acceptance; historical code/tests/failures remain intact and reintroduction requires a future explicit Owner Decision. See [D21](../phase-18/owner-decisions.md#2026-10-20--d21-slice-2-obsidian-markdown-only-scope-rebase), the [controlling scope/matrix](../phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md) and [proposed closeout](../phase-18/slice-2-markdown-only-d21-proposed-closeout-2026-10-20.md). **Slice 2 is not declared CLOSED and owner commit readiness is not granted here.** Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; historical Java full gate FAILED; Slices 3/4 unauthorized. No global Phase 18 acceptance or new implementation/activation.
+
+## Preserved D20 and earlier scope/acceptance records
+
+**D20 CURRENT — 2026-10-20: `D17_MARKDOWN_VERIFIED_ACCEPTED` (bounded, Codex-independent verification).** The Owner expressly replaces the previously required 213 case + 12 profile human-adjudication signoffs with the existing independent Codex final-review evidence **for D17 static Obsidian Markdown only**. All MD17-01–12 are `VERIFIED` within their reviewed producer-local and resource bounds; D17-R01–R05 and FR-01/02 remain independently `CLOSED`. This is an **explicit prospective Owner change of the quality acceptance gate**, not 225 fabricated human `ACCEPT` entries: the D19 human package remains untouched, unsigned and historically PENDING, and is **NOT_REQUIRED_UNDER_D20** for this bounded acceptance. See [D20](../phase-18/owner-decisions.md#2026-10-20--d20-d17-codex-independent-review-accepted-in-lieu-of-human-adjudication) and the [independent R03 review](../phase-18/reviews/2026-10-20-d17-r03-independent-final-re-review.md). **No original broader Slice 2, Java/FR18-3, P18-FINAL or Phase 18 acceptance; no external indexing or live-file activation, Slice 3/4 authorization, or automatic owner-commit readiness.** Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; OCR/Office/PDF deferred; historical aggregate Java clean gate **FAILED**.
+
+## Historical D19 and earlier handoff statuses (preserved)
+
+**D19 CURRENT — 2026-10-20: `HUMAN_REVIEW_PENDING`.** All MD17-01–12 executable machine gates are independently VERIFIED and D17-R01–R05 independently CLOSED under the R03 final re-review. Genuine human adjudication remains **required and unsigned**. D17 final acceptance and owner commit readiness are **NOT GRANTED**; original broader Slice 2 and Phase 18 remain unaccepted. See [D19](../phase-18/owner-decisions.md#2026-10-20--d19-d17-machine-disposition-and-human-adjudication-preparation), the [human package](../phase-18/d17-human-adjudication-2026-10-20/README.md) (213 cases + 12 profile confirmations, all pending), and [preparation evidence](../phase-18/d17-human-adjudication-preparation-evidence-2026-10-20.json). Next gate: actual human inspection and returned signed judgments, followed by reconciliation; no implementation or automatic acceptance. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; live originals DISABLED/DEFERRED; other formats deferred; Slices 3/4 unauthorized. Historical Java full gate FAILED and preserved. No commit/push/tag or publication.
+
+## Preserved R03 independent machine disposition
+
+**Independent D17 R03 final re-review - 2026-10-20: `READY_FOR_OWNER_DECISION`, machine scope only.** D17-FR-01/02 and R03 are independently CLOSED. R01/R02/R04/R05 remain independently CLOSED within their recorded bounds. All MD17-01-12 executable machine gates are verified; genuine human adjudication remains pending and signatures remain unset. Independent 170-test complete group, 25 legacy compatibility tests, 25 fresh reviewer tests, exact serialized source/ancestry/revision checks, 1,329 official producer examples and Python/static/dependency gates pass. No READY_FOR_OWNER_COMMIT, original broader Slice 2 acceptance or Phase 18 acceptance follows.
+
+**Next gate:** Owner records the bounded D17 decision and genuine human adjudication required by the frozen package. No additional corrective cycle is authorized. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; live originals DISABLED/DEFERRED; OCR/Office/PDF acceptance DEFERRED; Slices 3/4 NOT AUTHORIZED. Historical Java full gate remains FAILED (1,433 / 1 failure / 2 errors / 0 skips); no rerun or waiver. No implementation fixes or publishing by this review.
+
+See the [independent R03 final re-review](../phase-18/reviews/2026-10-20-d17-r03-independent-final-re-review.md), [hashed evidence](../phase-18/reviews/2026-10-20-d17-r03-independent-final-re-review-evidence.json) and [seven-record adjudication](../phase-18/reviews/2026-10-20-d17-r03-independent-interpretation-adjudication.json).
+
+## Preserved R03-only implementer handback status - historical
+
+**D17-R03-only corrective implementation — 2026-10-20: `READY_FOR_INDEPENDENT_RE_REVIEW`.**
+The owner expressly authorized exactly D17-FR-01/02, not a general remediation round. Codex is the
+corrective implementer, not the independent reviewer. Non-void solidus and owning Markdown-container
+continuation now have passing parser/chunker/real CPU producer-JSON evidence. See the
+[R03-only handback](../phase-18/slice-2-obsidian-markdown-d17-r03-only-handback-2026-10-20.md),
+[exact evidence inventory](../phase-18/slice-2-obsidian-markdown-d17-r03-only-evidence-2026-10-20.json)
+and [new interpretation record](../phase-18/d17-r03-html-interpretation-resolution-2026-10-20.md).
+Original gold, prior overlay, reviews and failures are preserved. CM175/GFM144 now restore official
+two-sibling-item expectations; the five independently supported interpretations are retained.
+
+D17-R01/R02/R04/R05 remain **independently CLOSED**; their accepted evidence is reused. The only
+embedding-module change is the parser fingerprint, with model/cache/thread/vector logic unchanged.
+Current complete D17 group: **170 passed**; additional legacy selection **25 passed / 30 deferred-format
+deselections**; all **1,329** official cases pass their applicable support/rejection expectations.
+Human adjudication remains unsigned. Both residuals await fresh independent adjudication; this is
+implementation readiness for review, not finding closure or full-profile acceptance.
+
+**Next gate:** stop for separate independent re-review. Historical Antigravity **2/2 exhausted** is
+unchanged. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; indexing INACTIVE; live originals
+DISABLED/DEFERRED; OCR/other formats deferred; Slices 3/4 unauthorized. Historical Java full gate
+remains **FAILED (1,433 / 1 failure / 2 errors / 0 skips)**, without rerun/waiver. No commit/push/tag/PR,
+owner-commit readiness, broader Slice 2 acceptance, independent self-review or automatic next scope.
+
+## Preserved independent final re-review disposition — historical
+
+**Independent D17 final re-review - 2026-10-20: `CHANGES_REQUESTED`, Markdown only.** See the [dated independent final re-review](../phase-18/reviews/2026-10-20-d17-obsidian-markdown-independent-final-re-review.md), [hashed independent evidence](../phase-18/reviews/2026-10-20-d17-independent-final-re-review-evidence.json) and [seven-interpretation adjudication](../phase-18/reviews/2026-10-20-d17-final-interpretation-adjudication.json). D17-R01/R02/R04/R05 are independently CLOSED for their bounded producer-local requirements. D17-R03 remains OPEN: D17-FR-01 non-void HTML trailing-solidus handling resolves literal embeds; D17-FR-02 HTML scanning crosses list sibling/outdent boundaries. Five corrective interpretations are supported; two list-boundary interpretations are disputed. Independent 144 + 25 tests and static checks pass. The unchanged repeated-text million-character fixture passes; an independent 725-distinct-chunk million-character workload takes 52.900 seconds under the unchanged 60-second deadline. This is bounded evidence, not universal throughput or full-profile acceptance. Human signatures remain unset.
+
+**Next gate:** owner disposition of the finite R03-only recommendation, then separately authorized correction and independent re-review if pursued. No automatic remediation authority follows. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; original broader Slice 2 NOT ACCEPTED; OCR/Office/PDF acceptance DEFERRED; Slices 3/4 unauthorized. Historical Java full gate remains FAILED (1,433 / 1 failure / 2 errors / 0 skips). No implementation fixes, commit/push/tag, owner-commit readiness or Phase 18 acceptance by this review.
+
+## Preserved final corrective implementer disposition - historical
+
+**D17 FINAL BOUNDED CORRECTIVE - 2026-10-20: `READY_FOR_INDEPENDENT_RE_REVIEW` (Codex implementation authorship).** Owner expressly authorized exactly D17-R01 through D17-R05 from the independent blocker review; historical Antigravity 2/2 is not reset. All five have passing implementation evidence: 144 D17/compatibility tests, 25 additional legacy passes (30 deferred-format cases deselected), all 1,329 official examples (1,267 supported/62 required rejections), real CPU producer output and 7/7 resource cases. The unchanged million-character/60-second workload passes in fresh-process repetitions. See the [new corrective handback](../phase-18/slice-2-obsidian-markdown-d17-final-corrective-handback-2026-10-20.md), [evidence inventory](../phase-18/slice-2-obsidian-markdown-d17-final-corrective-evidence-2026-10-20.json) and [D17 matrix](../phase-18/obsidian-markdown-d17-contract.md). Original gold/reviews/failed evidence are preserved; seven explicit corrective interpretations await independent adjudication. Human signatures remain unset.
+
+**Next gate:** separate independent re-review; Codex has implemented and cannot independently accept these corrections here. Stop after handback. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; indexing INACTIVE; live originals DISABLED/DEFERRED; OCR/other formats deferred; Slice 3/4 unauthorized. Historical Java full gate remains FAILED (1,433 / 1 failure / 2 errors / 0 skips), with no waiver or unchanged rerun. No commit/push/tag/PR or automatic new remediation round. This readiness is for reviewing the bounded implementation, not Slice 2 acceptance or owner-commit readiness.
+
+## Preserved independent blocker disposition - historical
+
+
+**Independent D17 blocker review — 2026-10-20: `CHANGES_REQUESTED`, Markdown only.** See the [dated independent review](../phase-18/reviews/2026-10-20-d17-obsidian-markdown-independent-blocker-review.md), [87-label adjudication](../phase-18/reviews/2026-10-20-d17-independent-profile-label-audit.json) and [hashed evidence](../phase-18/reviews/2026-10-20-d17-independent-blocker-review-evidence.json). MD17-02/06/10/11/12 retain the specified gaps: D17-R01 maximum-source deadline FAILED; R02 reversed split intersections; R03 HTML context/literal-child and inert-tag interpretation; R04 deadline-exit staged/failed accounting; R05 excessive linear serialized metadata. Independent 128 tests plus 25 compatibility tests pass; original corpus replay agrees with 1,266 supported cases/63 rejections, but one of 87 independently assessed labels is disputed. Human signatures remain unset. Unattributed 260-byte process I/O is an observation limit, not a standalone zero-global-write blocker. Frozen D17 criteria are unchanged.
+
+**Next gate:** owner explicitly authorizes the finite D17-only corrective scope in that review for a separate `$codex-implementation-takeover` session, then separate independent re-review. No automatic loop, OCR development, Java identity/publication work, owner-commit readiness or Slice 3/4 authorization. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; historical Java full gate remains FAILED (1,433 / 1 failure / 2 errors / 0 skips). No implementation fixes or publishing were performed by this independent review.
+
+## Preserved completion handback disposition — historical, before independent review
+
+**D17 COMPLETION CURRENT — 2026-10-20: `BLOCKED / OWNER_DECISION_REQUIRED`.** The finite completion checkpoint fixes inert HTML and separates the Python 3.14.4 Markdown runtime from deferred OCR. Final producer corpus: 1,266 structural/source passes plus 63 required whole-document rejections. D17/domain regressions: 128 passed; extra compatibility selection: 25 passed / 30 deferred-format cases deselected. **MD17-11 remains FAILED:** the 1,000,000-character workload exceeded the unchanged 60-second deadline twice; global temporary IO attribution is also unproven. Genuine human/independent quality review remains pending. See the [corrective handback](../phase-18/slice-2-obsidian-markdown-d17-corrective-handback-2026-10-20.md) and [current matrix](../phase-18/obsidian-markdown-d17-contract.md). No full-profile readiness or broader Slice 2 completion. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; OCR/PDF/DOCX/XLS/XLSX acceptance deferred; Slices 3/4 unauthorized. Stop for independent review/owner disposition. No commit/push or automatic cycle.
+
+## Preserved initial D17 checkpoint — historical
+
+**D17 CURRENT - 2026-10-20: `BLOCKED / OWNER_DECISION_REQUIRED`, Markdown only.** The [frozen profile/matrix](../phase-18/obsidian-markdown-d17-contract.md) remains mandatory. The [dated implementation handback](../phase-18/slice-2-obsidian-markdown-d17-handback-2026-10-20.md) records structural source extraction, regression/producer evidence and remaining failures: HTML spanning blank blocks or using optional closing tags is rejected; the mandatory HTML gate is FAILED. The installed RapidOCR/Python version check also FAILS. No full-profile readiness or broader Slice 2 completion. OCR experiments STOPPED; OCR/PDF/DOCX/XLS/XLSX acceptance DEFERRED with code/tests/evidence preserved. Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; Slices 3-4 unauthorized. Stop for independent review/owner disposition. No commit/push or automatic remediation round.
+
+## Preserved prior checkpoint status - historical
+
+**Latest D16 Tesseract/VietOCR checkpoint - 2026-10-20: `BLOCKED / OWNER_DECISION_REQUIRED`.** The owner authorized one new finite feasibility/heading-repair checkpoint, not another automatic remediation round. Tesseract 5.5.3 (three configurations) is 5/6 exact exposed development files with a Vietnamese tone substitution; both VietOCR architectures also fail. The PDF parser now OCRs the measured-cell-masked image remainder, retaining headings, side notes and footers; two real-PDF regressions and all 119 Python tests pass. No verified model promoted, production dependency changed, human approval claimed, selected-backend S2-07 proof or S2-08 Java alignment performed. See the [new handback](../phase-18/slice-2-tesseract-vietocr-checkpoint-2026-10-20.md). Phase 17 FROZEN; Slice 1/D14 preserved; FR18-3 OPEN; external indexing INACTIVE; Slices 3-4 unauthorized. The historical full Java gate remains FAILED. Stop for independent review/owner disposition; no commit/push or automatic continuation.
+
+## Preserved preceding D16 checkpoint - historical
+
+**Current D16 checkpoint - 2026-10-20: `BLOCKED / OWNER_DECISION_REQUIRED`.** Mandatory Slice 2 OCR is **vi/en**; Chinese OCR is no longer required. The owner authorized bounded official PaddleOCR/PaddlePaddle runtime evaluation in an isolated Windows venv, preserving production pins/artifacts and all historical four-script failures. Human adjudication and other quality/resource gates remain mandatory. Official PaddleOCR 3.7.0/PaddlePaddle CPU 3.3.1 completed three isolated vi/en comparisons: Vietnamese material loss and the existing PDF/table heading omission remain. No capable configuration selected. S2-07 recheck and conditional minimal S2-08 alignment follow only a selected, sufficiently verified configuration. See [D16](../phase-18/owner-decisions.md#2026-10-20--d16-slice-2-vietnameseenglish-ocr-and-official-runtime-feasibility) and the [D16 handback](../phase-18/slice-2-d16-paddleocr-checkpoint-2026-10-20.md). Phase 17 FROZEN; Slice 1 COMPLETE/CLOSED/D14; FR18-3 OPEN; external indexing INACTIVE; Slices 3-4 unauthorized. No commit/push or automatic next takeover.
+
+## Preserved preceding checkpoint - historical
+
+**Bounded technical checkpoint — 2026-10-20: `BLOCKED / OWNER_DECISION_REQUIRED`.** The owner's
+separate finite authorization covered **S2-06, S2-07 and S2-08 only**, including continuation after
+the usage quota reset, not another generic remediation round. See the [checkpoint handback](../phase-18/slice-2-blocker-resolution-checkpoint-2026-10-20.md)
+and [evidence inventory](../phase-18/slice-2-blocker-checkpoint-evidence-2026-10-20.json).
+
+**Current result:** offline PP-OCRv6 small/medium and targeted PP-OCRv5 Latin candidates were
+hash-verified and evaluated without changing production pins. Vietnamese material loss remains;
+the medium comparison timed out at 300 seconds. Four scanned-table development files also lost
+material headings. The fresh [held-out/adjudication package](../../../rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/REVIEW.md)
+is unsigned and unevaluated. **S2-06 remains blocked.** Actual native OCR cancellation and the
+existing HTTP request deadline now have passing integrated Java/Python/PG/process-death/resource
+evidence for the current pinned backend; representative limits for a future selected configuration
+and independent adjudication remain outstanding (**S2-07**). No sufficiently verified new producer
+configuration exists, so the owner's conditional Java identity alignment was **not performed**
+(**S2-08**); unknown identities are not admitted.
+
+**Verification:** 117 Python tests passed; 2 package-integrity checks passed again after canonical-LF
+revision, without rerunning held-out OCR. A combined native-process group passed **11/11**; the final
+same 2 native OCR integration cases also passed. Ruff/format/mypy and original 66-package lock inventory
+pass. The required aggregate Java gate remains **FAILED: 1,433 / 1 failure / 2 errors / 0 skips**;
+it is not rerun unchanged or waived by D14. These focused results do not prove aggregate stability.
+
+**Stop:** no automatic next takeover, finding closure, owner-commit readiness or Slice 2 acceptance.
+Phase 17 COMPLETE/FROZEN, Slice 1 COMPLETE/CLOSED under D14, FR18-3 OPEN, external indexing INACTIVE,
+live originals DISABLED/DEFERRED; Slices 3–4 NOT AUTHORIZED. Historical Antigravity **2/2 exhausted**
+is unchanged. No production source/migration/pin/global skill change or commit/push/tag/PR.
+
+## Preserved preceding corrective handback status — historical
+
+**Corrective takeover status - 2026-10-20:** `P18-S2-PARSER-OCR-EMBEDDING / BLOCKED / OWNER_DECISION_REQUIRED`. One separately owner-authorized Codex corrective scope addressed S2-01 through S2-08; it does not reset historical Antigravity 2/2. Deterministic repairs are tested, but four-script OCR/fresh human-adjudicated held-out quality (S2-06), complete native parsing interruption/resource proof (S2-07), and the Java pipeline-identity compatibility gate (S2-08) remain unresolved. See [corrective handback](../phase-18/slice-2-parser-ocr-embedding-codex-corrective-handback-2026-10-20.md). Phase 17 remains FROZEN; Slice 1 COMPLETE/CLOSED under D14; FR18-3 OPEN; external indexing INACTIVE, live originals DISABLED/DEFERRED; Slices 3-4 unauthorized. No Slice 2 acceptance, automatic further implementation or agent publishing. Earlier dated statuses are historical where inconsistent.
+
+**Current verification:** final Python **115 passed / 0 failed / 0 errors / 0 skipped**; post-PDF-bound focused **42 passed** (earlier broad focused 62 passed); Ruff/format/mypy and 66-package lock inventory PASS. Required full Java clean gate **FAILED: 1,433 tests / 1 failure / 2 errors / 0 skips**, exit 1. Current native batch error is **Unverified document pipeline identity** after the required version update, alongside unchanged native alias failure and aggregate PostgreSQL slot exhaustion. Exact commands, final source hashes, receipts, source-date limitations and owner-decision gaps are in the corrective handback. No Slice 2 acceptance or full-gate waiver.
+
+The required full clean gate is recorded in the corrective handback without any D14 waiver. Codex is the implementer here, not its independent reviewer. Stop after this bounded handback; an owner decision and separate independent review are required.
+
+## Preserved pre-takeover review status (historical; not an execution instruction)
+
+**2026-10-20 controlling status:** `CHANGES_REQUESTED` — **P18-S2-PARSER-OCR-EMBEDDING only**, after the [independent final review](../phase-18/reviews/2026-10-20-slice-2-parser-ocr-embedding-independent-review.md). **S2-01–08 remain OPEN**: whole-file Markdown/encoding, child/revision attribution, DOCX material/anchors, spreadsheet formula/merge/visibility fidelity, PDF selection/order, four-script OCR/held-out evaluation, expansion/resource bounds and truthful runtime/receipt evidence. Independent 76-test/static success does not establish these missing behaviors. [Executable Slice 2 handoff](../phase-18/slice-2-parser-ocr-embedding-handoff.md) remains bounded by D15; historical earlier ACTIVE records below are not executable. Owner commit is not ready.
+
+**Published checkpoint:** Phase 18 Slice 1 is `COMPLETE/CLOSED` under D14, owner implementation commit `7e1a4cd` and separate closeout commit [`c3b46351507803053850e3c2711602ee9c9ec419`](https://github.com/vhvkhangg/personal-private-vault/commit/c3b46351507803053850e3c2711602ee9c9ec419). Confirm actual local HEAD/working tree before implementing; do not discard dirty changes. Phase 17 remains COMPLETE/FROZEN. New slice is initial-only authorization and does not erase historical Antigravity **2/2 exhausted** remediation evidence.
+
+**Hard scope gate:** Python producer-local parsing/accuracy, approved child *payload parsing only*, four-script OCR, truthful mandatory locators/hidden/metadata coverage, offline pinned model and measured resource tests. External snapshot indexing remains `INACTIVE`; original-live indexing `DISABLED/DEFERRED`; no selected R/sourceVersion/G promotion, `NO_CHANGE`/reindex or production Java verified output publication. **Slice 3, Slice 4 and Phase 18 completion are NOT AUTHORIZED**. **FR18-3 and native batch provenance remain OPEN** for Slice 3; aggregate PostgreSQL connection-slot issue OPEN before P18-FINAL. The original **1,433 / 1 failure / 2 errors** full clean gate remains **FAILED**; D14 is strictly a Slice 1 exception. No full Phase 18 or G1–G4 acceptance.
+
+**Next step:** Owner explicitly authorizes a separate bounded `$codex-implementation-takeover` session for S2-01–08, followed by separate independent re-review. Historical Antigravity remediation 2/2 remains exhausted; D15's initial Slice 2 authorization does not start an automatic further loop. Preserve the [original handback](../phase-18/slice-2-parser-ocr-embedding-handback-2026-10-20.md), failed receipts and original reviews. This review authorizes no implementation expansion, Slice 3 or publishing; agents do not commit/push/tag/PR.
+
+---
+
+## Archived 2026-10-20 pre-Slice-2 `NO_ACTIVE_HANDOFF` (historical; not controlling)
+
 # Active Implementation Handoff — NO_ACTIVE_HANDOFF
 
 **Controlling status (2026-10-20):** `NO_ACTIVE_HANDOFF`. **P18-S1-IMPORT-SNAPSHOT is COMPLETE / CLOSED / OWNER-PUBLISHED under D14**, limited to the accepted A+B+C pending-snapshot scope. Owner implementation commit [`7e1a4cd34fbe19f8162150945534e9509093b3f5`](https://github.com/vhvkhangg/personal-private-vault/commit/7e1a4cd34fbe19f8162150945534e9509093b3f5) is verified on GitHub `main`. See [Slice 1 formal closeout](../phase-18/slice-1-closeout.md), [archived handoff](../phase-18/slice-1-import-snapshot-handoff.md), [independent final acceptance](../phase-18/reviews/2026-10-20-slice-1-import-snapshot-independent-final-acceptance.md), and [D14](../phase-18/owner-decisions.md#2026-10-20--d14-p18-s1-verification-gate-exception-s1-rr-01).

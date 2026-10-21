@@ -8,6 +8,7 @@ from typing import Any
 
 import yaml  # type: ignore[import-untyped]
 
+from ppv_rag.limits import MAX_TEXT_CHARS, check_text, checkpoint
 from ppv_rag.parsers.models import DocumentElement, ElementKind, ParsedDocument
 
 
@@ -103,6 +104,12 @@ def parse_frontmatter(
     return data, warnings
 
 
+def _heading_matches(anchor: str, path: list[str]) -> bool:
+    requested = [part.strip().casefold() for part in anchor.split("#")]
+    actual = [part.strip().casefold() for part in path]
+    return any(actual[i : i + len(requested)] == requested for i in range(len(actual)))
+
+
 def parse_markdown(
     content: str,
     root_key: str,
@@ -111,8 +118,20 @@ def parse_markdown(
     dependencies: dict[str, ApprovedDependency] | None = None,
     approved_metadata_fields: frozenset[str] = frozenset(),
     _ancestry: tuple[str, ...] = (),
+    *,
+    whole_file: bool = False,
+    _expansion: list[int] | None = None,
 ) -> ParsedDocument:
     """Parse Markdown/Obsidian document into structured elements with provenance."""
+    if whole_file:
+        from ppv_rag.parsers.obsidian import parse_obsidian
+
+        return parse_obsidian(content, root_key, source_version, approved_field, dependencies)
+    check_text(content)
+    expansion = _expansion if _expansion is not None else [0]
+    expansion[0] += len(content)
+    if expansion[0] > MAX_TEXT_CHARS:
+        raise BufferError("RESOURCE_LIMIT_EXCEEDED: transclusion expansion")
     if root_key in _ancestry:
         raise ValueError("Cyclic transclusion")
     if len(_ancestry) >= 8:
@@ -120,19 +139,45 @@ def parse_markdown(
     doc = ParsedDocument(root_key=root_key, format_type="MD", source_version=source_version)
     dep_map = dependencies or {}
 
+    if not _ancestry:
+        bindings: dict[tuple[str, int, str], str] = {}
+        for child in dep_map.values():
+            key = (child.source_key, child.source_version, child.approved_field)
+            if key in bindings and bindings[key] != child.text_content:
+                raise ValueError("Conflicting child revision payload")
+            bindings[key] = child.text_content
+
     raw_text = content
     # 1. Frontmatter
     fm_match = RE_FRONTMATTER.match(raw_text)
     line_offset = 1
+    if raw_text.startswith("---\n") or raw_text.startswith("---\r\n"):
+        if not fm_match:
+            raise ValueError("Malformed frontmatter")
     if fm_match:
         fm_raw = fm_match.group(1)
-        fm_data, fm_warnings = parse_frontmatter(fm_raw, approved_metadata_fields)
+        # Validate syntax/duplicates even when every in-file field is authorized.
+        if whole_file:
+            # Reject aliases before construction to bound YAML expansion.
+            if any(isinstance(event, yaml.AliasEvent) for event in yaml.parse(fm_raw)):
+                raise ValueError("Frontmatter aliases are unsupported")
+            fm_data = yaml.load(fm_raw, Loader=_FrontmatterLoader)
+            if not isinstance(fm_data, dict):
+                raise ValueError("Frontmatter must be a mapping")
+            fm_warnings: list[str] = []
+        else:
+            fm_data, fm_warnings = parse_frontmatter(fm_raw, approved_metadata_fields)
         doc.warnings.extend(fm_warnings)
-        for metadata_field, metadata_value in sorted(fm_data.items()):
+        entries = (
+            [(approved_field, fm_match.group(0).rstrip())]
+            if whole_file
+            else [(key, f"{key}: {value}") for key, value in sorted(fm_data.items())]
+        )
+        for metadata_field, metadata_value in entries:
             fm_lines = fm_match.group(0).count("\n")
             element = DocumentElement(
                 ElementKind.PARAGRAPH,
-                f"{metadata_field}: {metadata_value}",
+                str(metadata_value),
                 root_key,
                 source_version,
                 metadata_field,
@@ -154,8 +199,21 @@ def parse_markdown(
     else:
         body_text = raw_text
 
-    cleaned_body = strip_comments(body_text)
+    cleaned_body = body_text if whole_file else strip_comments(body_text)
     lines = cleaned_body.splitlines()
+
+    body_line_offsets = [0]
+    for original_line in body_text.splitlines(keepends=True):
+        body_line_offsets.append(body_line_offsets[-1] + len(original_line))
+    inert_ranges: list[tuple[int, int]] = (
+        [
+            m.span()
+            for pattern in (RE_OBSIDIAN_COMMENT, RE_HTML_COMMENT)
+            for m in pattern.finditer(body_text)
+        ]
+        if whole_file
+        else []
+    )
 
     heading_stack: list[tuple[int, str]] = []  # (level, text)
     current_para: list[str] = []
@@ -163,6 +221,7 @@ def parse_markdown(
     in_code_block = False
     code_block_lines: list[str] = []
     code_block_start = 0
+    code_fence = ""
 
     def current_heading_path() -> list[str]:
         return [h[1] for h in heading_stack]
@@ -171,7 +230,11 @@ def parse_markdown(
         nonlocal current_para, para_start_line
         if not current_para:
             return
-        para_text = " ".join(p_line.strip() for p_line in current_para if p_line.strip()).strip()
+        para_text = (
+            "\n".join(current_para)
+            if whole_file
+            else " ".join(p_line.strip() for p_line in current_para if p_line.strip())
+        ).strip()
         current_para = []
         if not para_text:
             return
@@ -184,7 +247,17 @@ def parse_markdown(
             para_text = para_text[: block_match.start()].strip()
 
         # Resolve every selected child recursively under its own field/version grant.
-        transclusions = list(RE_TRANSCLUSION.finditer(para_text))
+        transclusions = []
+        source_cursor = body_line_offsets[para_start_line - line_offset]
+        for match in RE_TRANSCLUSION.finditer(para_text):
+            if whole_file:
+                original_start = body_text.find(match.group(0), source_cursor)
+                if original_start < 0:
+                    raise ValueError("Embed does not map to original source")
+                source_cursor = original_start + len(match.group(0))
+                if any(a <= original_start < b for a, b in inert_ranges):
+                    continue
+            transclusions.append(match)
         if transclusions:
             cursor = 0
             for match in transclusions:
@@ -208,7 +281,8 @@ def parse_markdown(
                         )
                     )
                 target = match.group(1).strip()
-                base_target, _, anchor = target.partition("#")
+                binding, _, display_alias = target.partition("|")
+                base_target, _, anchor = binding.partition("#")
                 base_target = base_target.strip()
                 if base_target not in dep_map:
                     raise PermissionError("Unauthorized or unapproved transclusion dependency")
@@ -221,12 +295,23 @@ def parse_markdown(
                     dep_map,
                     child.approved_metadata_fields,
                     _ancestry + (root_key,),
+                    whole_file=whole_file,
+                    _expansion=expansion,
                 )
                 selected = child_doc.elements
                 if anchor.startswith("^"):
                     selected = [e for e in selected if e.locator.get("block_id") == anchor[1:]]
                 elif anchor:
-                    selected = [e for e in selected if anchor in e.heading_path]
+                    selected = [
+                        e
+                        for e in selected
+                        if _heading_matches(anchor, e.heading_path)
+                        or any(
+                            _heading_matches(anchor, edge.get("heading_path", []))
+                            for edge in e.locator.get("dependency_edges", [])
+                            if edge.get("parent") == child.source_key
+                        )
+                    ]
                 if not selected:
                     raise ValueError("Missing transclusion anchor or empty child")
                 for element in selected:
@@ -236,7 +321,24 @@ def parse_markdown(
                             "parent_source_key": root_key,
                             "parent_line_start": para_start_line,
                             "parent_line_end": end_line,
-                            "transclusion_target": target,
+                            "transclusion_target": binding,
+                            "display_alias": display_alias,
+                            "original_kind": element.locator.get(
+                                "original_kind", element.kind.value
+                            ),
+                            "dependency_edges": [
+                                {
+                                    "parent": root_key,
+                                    "parent_version": source_version,
+                                    "heading_path": current_heading_path(),
+                                    "child": child.source_key,
+                                    "child_version": child.source_version,
+                                    "line_start": para_start_line,
+                                    "line_end": end_line,
+                                    "target": binding,
+                                },
+                                *element.locator.get("dependency_edges", []),
+                            ],
                         }
                     )
                     doc.elements.append(
@@ -287,15 +389,25 @@ def parse_markdown(
 
     i = 0
     while i < len(lines):
+        checkpoint()
         actual_line_no = line_offset + i
         line = lines[i]
         stripped = line.strip()
 
         # Code block fence
-        if stripped.startswith("```"):
+        fence = re.match(r"^(`{3,}|~{3,})(.*)$", stripped)
+        if fence and (
+            not in_code_block
+            or (
+                fence.group(1)[0] == code_fence[0]
+                and len(fence.group(1)) >= len(code_fence)
+                and not fence.group(2).strip()
+            )
+        ):
             if not in_code_block:
                 flush_paragraph(actual_line_no - 1)
                 in_code_block = True
+                code_fence = fence.group(1)
                 code_block_lines = []
                 code_block_start = actual_line_no
             else:
@@ -374,6 +486,19 @@ def parse_markdown(
                 j += 1
             c_end = line_offset + j - 1
             callout_text = "\n".join(c_line for c_line in callout_lines if c_line)
+            if RE_TRANSCLUSION.search(callout_text):
+                current_para = [callout_text]
+                para_start_line = c_start
+                before = len(doc.elements)
+                flush_paragraph(c_end)
+                for index in range(before, len(doc.elements)):
+                    item = doc.elements[index]
+                    doc.elements[index] = replace(
+                        item, metadata={**item.metadata, "callout_type": callout_type}
+                    )
+                i = j
+                para_start_line = line_offset + i
+                continue
             elem = DocumentElement(
                 kind=ElementKind.CALLOUT,
                 text=callout_text,
@@ -411,5 +536,24 @@ def parse_markdown(
         current_para.append(line)
         i += 1
 
+    if in_code_block:
+        doc.elements.append(
+            DocumentElement(
+                ElementKind.CODE_BLOCK,
+                "\n".join(code_block_lines),
+                root_key,
+                source_version,
+                approved_field,
+                {
+                    "source_key": root_key,
+                    "source_version": source_version,
+                    "approved_field": approved_field,
+                    "line_start": code_block_start,
+                    "line_end": line_offset + len(lines) - 1,
+                },
+                current_heading_path(),
+            )
+        )
     flush_paragraph(line_offset + len(lines) - 1)
+    check_text("\n".join(e.text for e in doc.elements))
     return doc

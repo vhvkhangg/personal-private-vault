@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-20",
+  "author": "Codex R03-only corrective implementer; independent re-review pending",
+  "original_gold_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+  "supersedes_overlay_sha256": "777fe1231946ed0c61c70ac241f1b9d17bec43bae777b4c8a6867d9f4d77b615",
+  "basis": "R03/FR-02: literal native HTML is bounded by the owning Markdown container. Restore sibling list items for CM175/GFM144; five independently supported interpretations retained. No frozen syntax or historical expectation is deleted.",
+  "human_reviewer": null,
+  "signed_at": null,
+  "independent_review": "PENDING",
+  "records": [
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 171,
+      "source_sha256": "4768a7e1e1f63875238865a49dc3f414a839b7944637c2dc7c2eaf5a20241af0",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<textarea>\n\n*foo*\n\n_bar_\n\n</textarea>\n",
+      "basis": "Corrective interpretation under unchanged frozen inert-HTML contract; replaces this single rejected label explicitly, excludes no source."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 155,
+      "source_sha256": "759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<div>\n*foo*\n\n*bar*\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 175,
+      "source_sha256": "4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394",
+      "kind": "OFFICIAL_HTML_STRUCTURE",
+      "expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "basis": "Restores official two-sibling-list-item structure. The first open div is local to its list item; its absent closing tag does not own the second sibling marker. Frozen MD17-04/06/10 and independent FR-02 control. Corrective implementer interpretation; independent re-review pending."
+    },
+    {
+      "corpus": "CommonMark-0.31.2",
+      "id": 184,
+      "source_sha256": "1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "  <div>\n\n    <div>\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 125,
+      "source_sha256": "759db666ec7882a3b76e999ace3a7c000fbcd57c5f7b7c7a2aa5945985300421",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "<div>\n*foo*\n\n*bar*\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 144,
+      "source_sha256": "4a764245a6ed01b5df5a238d203cb7008733ce18e577ec45e32bedd7fe55d394",
+      "kind": "OFFICIAL_HTML_STRUCTURE",
+      "expected_html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>\n",
+      "basis": "Restores official two-sibling-list-item structure. The first open div is local to its list item; its absent closing tag does not own the second sibling marker. Frozen MD17-04/06/10 and independent FR-02 control. Corrective implementer interpretation; independent re-review pending."
+    },
+    {
+      "corpus": "GFM-0.29",
+      "id": 153,
+      "source_sha256": "1c68e2513c0642c1adf808d721fabc377ea1694f1ab7f03d204b743a21be1e1f",
+      "kind": "OBSIDIAN_LITERAL_HTML",
+      "expected_html": "  <div>\n\n    <div>\n",
+      "basis": "Explicit corrective EOF/container-boundary interpretation: open inert HTML retains literal Markdown through EOF or containing Markdown block end. Native HTML source verified separately; no syntax excluded. Original official expectation and gold remain unchanged."
+    }
+  ]
+}

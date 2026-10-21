@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+from bisect import bisect_left
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
+from ppv_rag.limits import checkpoint
 from ppv_rag.parsers.models import DocumentElement, ParsedDocument
 
 
@@ -48,6 +50,8 @@ class StructureFirstChunker:
         current_elements: list[DocumentElement] = []
         current_len = 0
         current_source = ""
+        current_revision = 0
+        current_role: tuple[Any, ...] = ()
         current_worksheet = ""
         current_page: int | None = None
         current_headings: list[str] = []
@@ -93,6 +97,7 @@ class StructureFirstChunker:
             current_len = 0
 
         for elem in parsed.elements:
+            checkpoint()
             elem_len = len(elem.text)
             elem_ws = elem.locator.get("worksheet", "")
             elem_page = elem.locator.get("page")
@@ -102,22 +107,42 @@ class StructureFirstChunker:
             # 2. Worksheet change (MUST NEVER group across sheets)
             # 3. Page change when current length is sufficient
             # 4. Heading path change when current length > 300
-            diff_src = bool(current_source and elem.source_identity != current_source)
+            kind = elem.locator.get("original_kind", elem.kind.value)
+            element_role = "TEXT" if kind in {"HEADING", "PARAGRAPH"} else kind
+            role = (
+                elem.approved_field,
+                element_role,
+                elem.locator.get("section"),
+                elem.metadata.get("is_hidden"),
+                elem.metadata.get("has_hidden_runs"),
+                elem.metadata.get("callout_type"),
+            )
+            diff_src = bool(
+                current_source
+                and (
+                    elem.source_identity != current_source
+                    or elem.source_version != current_revision
+                    or role != current_role
+                )
+            )
             diff_ws = bool(current_worksheet and elem_ws != current_worksheet)
             diff_page = bool(
                 current_page is not None and elem_page is not None and elem_page != current_page
             )
-            diff_h = bool(
-                current_headings and elem.heading_path != current_headings and current_len > 300
-            )
+            diff_h = bool(current_elements and elem.heading_path != current_headings)
 
             # Keep geometries, exact text spans and sparse sheet addresses separate.
             # A bounding rectangle/range can include unselected or hidden content.
-            exact_address = any(k in elem.locator for k in ("bbox", "worksheet", "char_start"))
+            exact_address = any(
+                k in elem.locator
+                for k in ("bbox", "worksheet", "char_start", "structural_path", "container_part")
+            )
             if diff_src or diff_ws or diff_page or diff_h or exact_address:
                 flush_chunk()
 
             current_source = elem.source_identity
+            current_revision = elem.source_version
+            current_role = role
             current_worksheet = elem_ws
             current_page = elem_page
             current_headings = elem.heading_path
@@ -126,6 +151,8 @@ class StructureFirstChunker:
             if not self._fits(elem.text):
                 flush_chunk()
                 sub_chunks = self._split_large_text(elem.text)
+                d17 = elem.locator.get("profile") == "ppv-obsidian-source-v1"
+                line_breaks = [i for i, c in enumerate(elem.text) if c == "\n"] if d17 else []
                 for start, end in sub_chunks:
                     sub_text = elem.text[start:end]
                     sub_loc = dict(elem.locator)
@@ -133,10 +160,28 @@ class StructureFirstChunker:
                         sub_loc["char_start"] = elem.locator["char_start"] + start
                         sub_loc["char_end"] = elem.locator["char_start"] + end
                         if "line_start" in elem.locator:
-                            sub_loc["line_start"] = elem.locator["line_start"] + elem.text[
-                                :start
-                            ].count("\n")
-                            sub_loc["line_end"] = sub_loc["line_start"] + sub_text.count("\n")
+                            if d17:
+                                sub_loc["line_start"] = elem.locator["line_start"] + bisect_left(
+                                    line_breaks, start
+                                )
+                                sub_loc["line_end"] = elem.locator["line_start"] + bisect_left(
+                                    line_breaks, max(start, end - 1)
+                                )
+                            else:
+                                sub_loc["line_start"] = elem.locator["line_start"] + elem.text[
+                                    :start
+                                ].count("\n")
+                                sub_loc["line_end"] = sub_loc["line_start"] + sub_text.count("\n")
+                    metadata = dict(elem.metadata)
+                    if elem.locator.get("profile") == "ppv-obsidian-source-v1":
+                        from ppv_rag.parsers.obsidian import slice_metadata
+
+                        metadata = slice_metadata(
+                            metadata,
+                            sub_loc["char_start"],
+                            sub_loc["char_end"],
+                            include_tree=start == 0,
+                        )
                     chunks.append(
                         DocumentChunk(
                             chunk_index=chunk_idx,
@@ -150,7 +195,7 @@ class StructureFirstChunker:
                                 "is_split": True,
                                 "element_text_start": start,
                                 "element_text_end": end,
-                                "constituent_metadata": [dict(elem.metadata)],
+                                "constituent_metadata": [metadata],
                             },
                         )
                     )
@@ -173,6 +218,7 @@ class StructureFirstChunker:
         start = 0
         text_len = len(text)
         while start < text_len:
+            checkpoint()
             end = min(start + self.target_chars, text_len)
             while end > start and not self._fits(text[start:end]):
                 end = start + (end - start) // 2

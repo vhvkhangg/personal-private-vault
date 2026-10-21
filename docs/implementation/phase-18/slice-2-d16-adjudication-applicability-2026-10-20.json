@@ -1,0 +1,171 @@
+{
+  "status": "PENDING_HUMAN_REVIEW; QUALITY_NOT_RUN",
+  "owner_decision": "D16",
+  "base_manifest": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.json",
+  "base_manifest_sha256": "406e3aeedc78e943cd494e30452819d18e3ceba4e1bc2e4612845d5eea225e99",
+  "base_fixture_bytes_unchanged": true,
+  "mandatory_ocr_languages": [
+    "vi",
+    "en"
+  ],
+  "optional_historical_chinese_ocr_documents": [
+    "courier-zh-Hans.pdf",
+    "courier-zh-Hant.pdf"
+  ],
+  "mandatory_documents": [
+    "courier-en.pdf",
+    "courier-vi.pdf",
+    "workshop-native.pdf",
+    "courier-mixed.pdf",
+    "maintenance.txt",
+    "tools.md",
+    "maintenance.md",
+    "maintenance.docx",
+    "inspection.xlsx",
+    "inspection.xls",
+    "broken.docx",
+    "broken.pdf",
+    "missing-locator.json"
+  ],
+  "totals": {
+    "documents": 13,
+    "connected_closures": 5,
+    "pages": 5,
+    "blocks": 43,
+    "tables": 6,
+    "cells": 25
+  },
+  "per_format": {
+    "docx": {
+      "documents": 2,
+      "connected_closures": 2,
+      "pages": 0,
+      "blocks": 5,
+      "tables": 1,
+      "cells": 2
+    },
+    "locator-negative": {
+      "documents": 1,
+      "connected_closures": 1,
+      "pages": 0,
+      "blocks": 0,
+      "tables": 0,
+      "cells": 0
+    },
+    "md/Obsidian": {
+      "documents": 2,
+      "connected_closures": 1,
+      "pages": 0,
+      "blocks": 3,
+      "tables": 0,
+      "cells": 0
+    },
+    "pdf-mixed": {
+      "documents": 1,
+      "connected_closures": 1,
+      "pages": 2,
+      "blocks": 9,
+      "tables": 1,
+      "cells": 5
+    },
+    "pdf-native": {
+      "documents": 1,
+      "connected_closures": 1,
+      "pages": 1,
+      "blocks": 1,
+      "tables": 0,
+      "cells": 0
+    },
+    "pdf-scan": {
+      "documents": 3,
+      "connected_closures": 2,
+      "pages": 2,
+      "blocks": 16,
+      "tables": 2,
+      "cells": 10
+    },
+    "txt": {
+      "documents": 1,
+      "connected_closures": 1,
+      "pages": 0,
+      "blocks": 1,
+      "tables": 0,
+      "cells": 0
+    },
+    "xls": {
+      "documents": 1,
+      "connected_closures": 1,
+      "pages": 0,
+      "blocks": 3,
+      "tables": 1,
+      "cells": 3
+    },
+    "xlsx": {
+      "documents": 1,
+      "connected_closures": 1,
+      "pages": 0,
+      "blocks": 5,
+      "tables": 1,
+      "cells": 5
+    }
+  },
+  "per_script_overlapping": {
+    "vi": {
+      "documents": 4,
+      "connected_closures": 2,
+      "pages": 3,
+      "blocks": 23,
+      "tables": 3,
+      "cells": 12
+    },
+    "en": {
+      "documents": 8,
+      "connected_closures": 5,
+      "pages": 4,
+      "blocks": 28,
+      "tables": 4,
+      "cells": 17
+    },
+    "zh-Hans": {
+      "documents": 1,
+      "connected_closures": 1,
+      "pages": 0,
+      "blocks": 3,
+      "tables": 1,
+      "cells": 3
+    },
+    "zh-Hant": {
+      "documents": 3,
+      "connected_closures": 2,
+      "pages": 0,
+      "blocks": 8,
+      "tables": 1,
+      "cells": 5
+    }
+  },
+  "human_reviewer": null,
+  "signature": null,
+  "quality_results": {
+    "courier-en.pdf": "NOT_RUN",
+    "courier-vi.pdf": "NOT_RUN",
+    "workshop-native.pdf": "NOT_RUN",
+    "courier-mixed.pdf": "NOT_RUN",
+    "maintenance.txt": "NOT_RUN",
+    "tools.md": "NOT_RUN",
+    "maintenance.md": "NOT_RUN",
+    "maintenance.docx": "NOT_RUN",
+    "inspection.xlsx": "NOT_RUN",
+    "inspection.xls": "NOT_RUN",
+    "broken.docx": "NOT_RUN",
+    "broken.pdf": "NOT_RUN",
+    "missing-locator.json": "NOT_RUN"
+  },
+  "selection_rule": "Exclude only the two pure Chinese OCR scans; retain every other format, negative and native-Chinese/dependency fixture. Do not add overlapping script rows.",
+  "required_human_checks": [
+    "Verify every mandatory original source and authored text/locator gold; Vietnamese accents/digits, English whitespace, reading order and all material blocks",
+    "Independently verify source-family/near-duplicate and complete dependency closure disjointness from all exposed development",
+    "Define ink versus text envelope versus ruled-cell outline geometry convention; second-check acceptance-critical ambiguity",
+    "Sign source labels against exact base manifest and this applicability record; changes require NEW revision",
+    "Freeze sufficiently verified OCR producer before independent held-out run; sign every material/locator discrepancy decision"
+  ]
+}

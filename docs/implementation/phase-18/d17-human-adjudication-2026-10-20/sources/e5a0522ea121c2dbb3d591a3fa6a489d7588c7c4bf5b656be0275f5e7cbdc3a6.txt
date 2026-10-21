@@ -1,0 +1,5 @@
+Valid prefix
+
+<div/>
+
+<a href="java&#x73;cript:alert(1)">x</a>

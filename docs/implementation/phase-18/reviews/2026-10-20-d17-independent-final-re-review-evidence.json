@@ -1,0 +1,1958 @@
+{
+  "date": "2026-10-20",
+  "recorded_utc": "2026-10-20T12:37:30.404406+00:00",
+  "scope": "P18-S2-D17 independent final re-review, no implementation authority",
+  "decision": "CHANGES_REQUESTED",
+  "head": "c3b46351507803053850e3c2711602ee9c9ec419",
+  "individual_dispositions": {
+    "D17-R01": "CLOSED for reviewed bounded CPU scope; no universal performance claim",
+    "D17-R02": "CLOSED",
+    "D17-R03": "OPEN: non-void solidus and Markdown container boundaries",
+    "D17-R04": "CLOSED",
+    "D17-R05": "CLOSED for producer-local representation; future Java/FR18-3 remains OPEN"
+  },
+  "hash_verification": {
+    "implementation_changed_files": 10,
+    "implementation_new_files": 5,
+    "final_and_command_hash_entries_checked": 247,
+    "protected_files_unchanged": 1687,
+    "historical_log_and_receipt_hashes": 98,
+    "official_snapshots": 10,
+    "original_implementer_commands": 43,
+    "mismatches": []
+  },
+  "source_manifest": {
+    "rag-engine/src/ppv_rag/__init__.py": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5",
+    "rag-engine/src/ppv_rag/worker.py": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+    "rag-engine/src/ppv_rag/transport.py": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54",
+    "rag-engine/src/ppv_rag/telemetry.py": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9",
+    "rag-engine/src/ppv_rag/security.py": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44",
+    "rag-engine/src/ppv_rag/parsers/__init__.py": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60",
+    "rag-engine/src/ppv_rag/parsers/text.py": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+    "rag-engine/src/ppv_rag/parsers/pdf.py": "ac61c950bdaa85b2ceb46cc7d07cf27a222ac9f5f70dcc837b2c04e814c2e44e",
+    "rag-engine/src/ppv_rag/parsers/obsidian_html.py": "c4676a1fcd5ea6b6147c765510da364569c5d4cf29712fc3f5dc431cc37e83c7",
+    "rag-engine/src/ppv_rag/parsers/obsidian.py": "c6f391f340fd0bbb0a6090b6e2632fc515a5c18d2e894a39ddc536e88cbfc518",
+    "rag-engine/src/ppv_rag/parsers/models.py": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+    "rag-engine/src/ppv_rag/parsers/markdown.py": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+    "rag-engine/src/ppv_rag/parsers/excel.py": "3b863ad2d60e8e34899ac8d9aa2338335534863fac157f61e099ab173e3749ee",
+    "rag-engine/src/ppv_rag/parsers/docx.py": "f613bcdeca8a06093d0d024717bff284882880d26737ebc38e66b0810bc69f65",
+    "rag-engine/src/ppv_rag/ocr/engine.py": "ab890ec272a160ca1edeb7864bb0cebda60c459ef60af1330665545b154dca0c",
+    "rag-engine/src/ppv_rag/main.py": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+    "rag-engine/src/ppv_rag/limits.py": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194",
+    "rag-engine/src/ppv_rag/embeddings/__init__.py": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a",
+    "rag-engine/src/ppv_rag/embeddings/model.py": "36e2e8c341d344bb7be9ddcc05c3e4e956a3ddc5ac3f748705800604d86379a1",
+    "rag-engine/src/ppv_rag/db.py": "421dc9e3823a349b3b6a935f59eb17ac89368458aaf0e346d792b6075b963177",
+    "rag-engine/src/ppv_rag/contracts.py": "28db2741bfdee641b6958dd3b017462338588a93c39e25d480bb4a3a3146441b",
+    "rag-engine/src/ppv_rag/config.py": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a",
+    "rag-engine/src/ppv_rag/chunking/__init__.py": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d",
+    "rag-engine/src/ppv_rag/chunking/chunker.py": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+    "rag-engine/tests/test_worker_v3.py": "cce9785521523b1a63af38d1dead25da9ef966d34ea27d6298965f2f8d198877",
+    "rag-engine/tests/test_worker.py": "35e195f5dc832ea6b6a2bc543270afdc374caf53f1939dd33f5237c984121ac3",
+    "rag-engine/tests/test_transport.py": "5b9e11f0b65ec0d0bd98369737883f7dda716b977563e0c4de249bb7523952fb",
+    "rag-engine/tests/test_telemetry.py": "d0823c24f4b30ea8d199f13da637241a6a5cc550ef2333b18bed98c6748f5077",
+    "rag-engine/tests/test_slice2_corrections.py": "3c416eb9c08cae5c4c1796b7373765a33af104bf01abad76585bf0ffe4bcae56",
+    "rag-engine/tests/test_slice2_checkpoint_package.py": "f5b6a70ba9110fb287b89f7d56d88d7e733c2aac178a505db455405652de507e",
+    "rag-engine/tests/test_pdf_scanned_surrounding_text.py": "607efe9807e686e95f0f9feeeda17b4f66698504113adcfa4e8b2d84c3e265ba",
+    "rag-engine/tests/test_pdf_geometry.py": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723",
+    "rag-engine/tests/test_parsers.py": "9c21c8da68f00f113209116f08ce11a57a6ff73d533e404d4a0eb52cfcdd62fe",
+    "rag-engine/tests/test_obsidian_d17.py": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+    "rag-engine/tests/test_health.py": "767dbc538065bcfc42bed41c2271775aff5049c7dd07a16e87749b0fa184f4ed",
+    "rag-engine/tests/test_embeddings.py": "fb06cb72b6a3f3109b8b038f30561b361ebf261f653002f24d6433ca00a82a85",
+    "rag-engine/tests/test_d17_final_corrective.py": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+    "rag-engine/tests/test_d17_completion.py": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+    "rag-engine/tests/test_contracts.py": "eb7a6c8d985ad8ae18f1c1a7c74eccc7ec0d99a604a74cf90dbf0214939d02f9",
+    "rag-engine/tests/test_consumption_containment.py": "ea23a6d8993e242b867f2b305188561d42f3c920f89de924dfb3a61d0599b79b",
+    "rag-engine/tests/test_chunker.py": "5392473816e09e651e0e19f4e83653e44dfffa00fa6ea5225fae9278b2e5cad2",
+    "rag-engine/tests/test_bound_ingress.py": "6822be0fb5c15ac3bfd3d01f9770cd2a9e6699d24c0af8b0f93f5f4d2928729f",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/workshop-native.pdf": "96a87d7a6f300236314224ac701cf3b8eb3f2709bf085c5472f56a95362ae033",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/tools.md": "93ef31abe42d6484013b03110ec701dcc2b56a4835679851d1ac2d17b16962ed",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/REVIEW.md": "09cd74eb82788174c27928b9d599cee8daebb9e65852838decf05c38edee77f5",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/missing-locator.json": "45fa8b43c3e45c271ab36079f6cc966b28c78e9def2399f98b984790ba0de80e",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.sha256": "854327b388d2a82663b634c87c012d8c6e78ed218fcdcf82fbd8249715b44679",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.json": "406e3aeedc78e943cd494e30452819d18e3ceba4e1bc2e4612845d5eea225e99",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.txt": "9d9ec08e7bde4260b76682ec4648fa1cf4492a3971bcf90ea11abc6b010d7841",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.md": "958481955e10081fcef79176769ea20a5bf97d3321fe0f1efa80c01f465e104a",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.docx": "7f603c969e5780e5e43dfa8261623381293b04c8a209817eb01c581264074686",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/inspection.xlsx": "b890684a4dcc9145024da43b1db2233f686de47dadd496adf3f4cc073e02b94c",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/inspection.xls": "9886c9a0fca30ab5109baca294506301696bf359b1c65b0826d0b109a7a574ed",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-zh-Hant.pdf": "9109f13399560153b7034d30e12bd814996bb3ad4ad778d262ccca3c11838a5e",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-zh-Hans.pdf": "b6843b9c57e616bebc8ffea923f83a1ad9876031fd0f84ffe30cc1196207f941",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-vi.pdf": "46bd0f3ed33dfd59df5d4c8a8738fb613a8c5a1c6904aeafdd370b052007b71b",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-mixed.pdf": "4affedc4490dc583c8e51844d84c07172e5a47ccc1d1a2b1606421125bb3c631",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-en.pdf": "ba7ad9050e154be871ede586cba037c55de261519d1755604f92f8d85014b1e0",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/closure-audit.json": "ef2547cb4dc4584c7a46755e0935a9555ac63125668bcabe668937fd2a574336",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/broken.pdf": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/broken.docx": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b",
+    "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/adjudication.json": "cd95b0d2f16b49701563ebf404f8ae64b84befcf05e7b0d80de79b358319031a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.sha256": "ac980ad84345db8ac21c4f6dff8bdde9e1a2dba2eeb68e5fc269c7de61ebe5ea",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.json": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hant.pdf": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hans.pdf": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-vi.pdf": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-en.pdf": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hant.pdf": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hans.pdf": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-vi.pdf": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-en.pdf": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+    "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+    "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+    "rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.sha256": "b141264c2f022d23d00c85f413348a8a4c698589d74c47d02245f8c6c1283fea",
+    "rag-engine/tests/conftest.py": "b5c31d9da460929f125919176a9a919cc445c8ad2b6a84c67e7df7bea2b3d39f",
+    "rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894",
+    "rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6",
+    "rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.json": "9c1d7b16e0c5d9d4b4f18db95e37680c556b8b6bb466ab3e0f02e8ff50897801",
+    "rag-engine/scripts/worker_boundary_check.py": "a360838a9be31fcaa139a7f22bd74404d6a365fffc301ad430972f23e27a161d",
+    "rag-engine/scripts/slice2_tesseract_vietocr_checkpoint.py": "d1e1b0397efcfbe034c092bfaf81b9389f4de9fd00a8792fc1ccb9b73efd6090",
+    "rag-engine/scripts/slice2_paddleocr_checkpoint.py": "8928d39a0cebf96a22935435c0f020c11161bb07c304e2cb6d14b6d2af4ba1b7",
+    "rag-engine/scripts/slice2_ocr_checkpoint.py": "3a61b568bfa6ad8e8e70bf7f77212197f585a29a3c76090980038cc6a2704286",
+    "rag-engine/scripts/slice2_corrective_resources.py": "ab39e1586df90b5c661f68c0a48003fee4527a851cba72f9ceb8c015fdcfccef",
+    "rag-engine/scripts/run_d18_pt_a_native.py": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8",
+    "rag-engine/scripts/provision_phase18_latin_ocr.py": "4dbaf78f73d8f0ce66027f6aba43e687cdd957958d2ced92d9e14d2450508662",
+    "rag-engine/scripts/provision_embedding_model.py": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+    "rag-engine/scripts/probe_phase18_ocr.py": "8e04a757d852568a2153980e0e547d01d449a10e58228fa0a7c14fc0fb3ce5a1",
+    "rag-engine/scripts/prepare_slice2_adjudication.py": "a37ba455c4013c24660fba69d6d58f96e863f899cd0936f1b76bd9f843cca24c",
+    "rag-engine/scripts/offline_check.py": "520ab0ffb52eb616160f351a5ffd92c4bd1b4f57449b5adcb4dfa8bccfc36cea",
+    "rag-engine/scripts/measure_d18_pt_a.py": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3",
+    "rag-engine/scripts/freeze_phase18_ocr_fixtures.py": "939e78c06c06b3dc4e4963379bc78654d86c6984fee20ef538eb5a938435839b",
+    "rag-engine/scripts/dependency_inventory.py": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+    "rag-engine/scripts/d18_pt_a_ocr_checkpoint.py": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5",
+    "rag-engine/scripts/d17_structural_conformance.py": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+    "rag-engine/scripts/d17_markdown_evidence.py": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+    "rag-engine/scripts/d17_final_profile.py": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+    "rag-engine/scripts/d17_final_onnx_probe.py": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+    "rag-engine/scripts/d17_completion_resources.py": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+    "rag-engine/pyproject.toml": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+    "rag-engine/uv.lock": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+    "rag-engine/.python-version": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f",
+    "docs/implementation/phase-18/obsidian-markdown-d17-contract.md": "7fe37b304e7fc5fc92238e56312aca74509298d20742e16d0985bb824c09c4e3"
+  },
+  "commands": {
+    "pytest": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_worker_v3.py",
+        "rag-engine/tests/test_transport.py",
+        "rag-engine/tests/test_telemetry.py",
+        "rag-engine/tests/test_health.py",
+        "rag-engine/tests/test_embeddings.py",
+        "rag-engine/tests/test_contracts.py",
+        "rag-engine/tests/test_consumption_containment.py",
+        "rag-engine/tests/test_chunker.py",
+        "rag-engine/tests/test_bound_ingress.py",
+        "rag-engine/tests/test_slice2_checkpoint_package.py",
+        "-q"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-pytest-2026-10-20.json",
+      "receipt_sha256": "8b8e5018c91972f1777343fae443c9129e3ea4b4a3c17a9fb2d4132db94fd925",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "cab3ceda7506ac50c3c8a2dfbf866953c603fa836b2a770e6a6e80deaf6df4f4",
+      "started_utc": "2026-10-20T12:22:36.180+00:00",
+      "pid": 23504,
+      "finished_utc": "2026-10-20T12:23:12.530+00:00",
+      "duration_seconds": 36.344,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "compatibility": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_parsers.py",
+        "rag-engine/tests/test_slice2_corrections.py",
+        "-k",
+        "not docx and not xlsx and not xls and not scanned and not pdf and not representative_real_files and not vietnamese and not archive_and_sparse and not package_entities and not legacy_comment and not overlapping_native_and_ocr",
+        "-q"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-compatibility-2026-10-20.json",
+      "receipt_sha256": "129633542466bbe9098e9883cbe35583aac6633bcee48b94d20e64a9f78c8347",
+      "profile": "normal",
+      "timeout_seconds": 90.0,
+      "executable": "python.exe",
+      "argv_sha256": "287e5cb4aa2738826e05fecf3be8890b7db7bc9d77056856675f1be40bafebe7",
+      "started_utc": "2026-10-20T12:31:20.510+00:00",
+      "pid": 12312,
+      "finished_utc": "2026-10-20T12:31:38.183+00:00",
+      "duration_seconds": 17.672,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "corpus": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "rag-engine/scripts/d17_structural_conformance.py",
+        "--producer",
+        "--official",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official",
+        "--profile-gold",
+        "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+        "--resolution",
+        "docs/implementation/phase-18/d17-commonmark-171-corrective-resolution-2026-10-20.json",
+        "--output",
+        "logs/phase18/d17-final-independent-corpus-results-2026-10-20.json"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-corpus-2026-10-20.json",
+      "receipt_sha256": "ae925c8090663c19439c7841c7892fce5fa283b669445ab2fc67bb98f1c7f6a1",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "e1068867ac58c50b8ecf3771d803f93f38e45f66570415cb405bc4257353d8ea",
+      "started_utc": "2026-10-20T12:31:10.286+00:00",
+      "pid": 32356,
+      "finished_utc": "2026-10-20T12:31:44.296+00:00",
+      "duration_seconds": 34.015,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "performance": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "logs/phase18/d17-final-independent-performance.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-performance-2026-10-20.json",
+      "receipt_sha256": "57a03d44e72cce5f5bbec17a51f0d4e2e4a0170261fdc2fac5f2eb086c615d23",
+      "profile": "normal",
+      "timeout_seconds": 210.0,
+      "executable": "python.exe",
+      "argv_sha256": "eb758837d83c4a513f8e7a58d7bdc13c5e5b012222a39838017d4a93482c75fc",
+      "started_utc": "2026-10-20T12:25:29.025+00:00",
+      "pid": 33420,
+      "finished_utc": "2026-10-20T12:26:50.927+00:00",
+      "duration_seconds": 81.89,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "structure-final": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "logs/phase18/d17-final-independent-structure.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-structure-final-2026-10-20.json",
+      "receipt_sha256": "3f7915e768bd0f4f55e4f81d5403dbb6db317a066a6b77661265908e0d86f8c8",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "b7b14b1bca3168ffb4f7fc3b47d5c466e16c0cd4cb9fc6b0744a143a3c765e2a",
+      "started_utc": "2026-10-20T12:30:39.140+00:00",
+      "pid": 8544,
+      "finished_utc": "2026-10-20T12:30:48.580+00:00",
+      "duration_seconds": 9.438,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "html": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "logs/phase18/d17-final-independent-html.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-html-2026-10-20.json",
+      "receipt_sha256": "80332d5314e89a32dc70ed749daeb579409ab2faf5a0905e14baded21cea7f7f",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "e0e738eb56f216f03ebf76e3d2e4ece9919a9e82366bcc1f5004195702d9dd1d",
+      "started_utc": "2026-10-20T12:34:37.364+00:00",
+      "pid": 13608,
+      "finished_utc": "2026-10-20T12:34:40.494+00:00",
+      "duration_seconds": 3.141,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "frozen-max": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "rag-engine/scripts/d17_completion_resources.py",
+        "--only",
+        "maximum-source-1000000",
+        "--output",
+        "logs/phase18/d17-final-independent-frozen-max-results-2026-10-20.json"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-frozen-max-2026-10-20.json",
+      "receipt_sha256": "084657ec3f84848d10859f2026602467c6d92edfeb7c7dbd17a2066cbe93d5c0",
+      "profile": "normal",
+      "timeout_seconds": 45.0,
+      "executable": "python.exe",
+      "argv_sha256": "4ac3c2978b93da5893220cd04c263b9a23d837aedd567db3959cc9f132ff07e2",
+      "started_utc": "2026-10-20T12:34:37.370+00:00",
+      "pid": 9960,
+      "finished_utc": "2026-10-20T12:34:43.168+00:00",
+      "duration_seconds": 5.796,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "ruff": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-ruff-2026-10-20.json",
+      "receipt_sha256": "059bd0d3d3ce72c16d070f930b685ba4a702d73490ff1ee4125fc6ad1c5da1ca",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "af72dc1e7e22e700104a875b5c1dda63f931ceb39d0f5fb122d68657901ad808",
+      "started_utc": "2026-10-20T12:30:49.186+00:00",
+      "pid": 22568,
+      "finished_utc": "2026-10-20T12:30:49.361+00:00",
+      "duration_seconds": 0.172,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "format": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-format-2026-10-20.json",
+      "receipt_sha256": "6f2fefdbec0bb2e30efc72a1c47d6d75f40269bb82ec76d93e2e6bc95434ffe8",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "0e75d0beae3978e462b62b9cf5121f19e22c24fe24cef173c6ee53c8b21ab92c",
+      "started_utc": "2026-10-20T12:30:49.253+00:00",
+      "pid": 32276,
+      "finished_utc": "2026-10-20T12:30:49.418+00:00",
+      "duration_seconds": 0.171,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "mypy": {
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-m",
+        "mypy",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "rag-engine/src"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-mypy-2026-10-20.json",
+      "receipt_sha256": "59f3b398b4fc42d26b3319c57b99b658f6a90d66995b6e39efc3c5c8aa0517de",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "b6d3171b7e542f3ebf922850a23ecf1e8bcf49d859245aa2b1bb2bb688c3730e",
+      "started_utc": "2026-10-20T12:30:49.183+00:00",
+      "pid": 26712,
+      "finished_utc": "2026-10-20T12:30:50.169+00:00",
+      "duration_seconds": 0.984,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "pip": {
+      "argv": [
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "rag-engine/.venv-d17/Scripts/python.exe"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-pip-2026-10-20.json",
+      "receipt_sha256": "037e7891f400c25fab5371b2077467f43deb72eb668a3714881768f1545970b9",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "uv",
+      "argv_sha256": "052d990838bd2d54cc37952803535b822190e7e8d6af7a4ffa75e79e3ccacac2",
+      "started_utc": "2026-10-20T12:30:49.194+00:00",
+      "pid": 27460,
+      "finished_utc": "2026-10-20T12:30:49.391+00:00",
+      "duration_seconds": 0.203,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "lock": {
+      "argv": [
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "receipt": "logs/phase18/d17-final-independent-lock-2026-10-20.json",
+      "receipt_sha256": "6614cd298b54288647bb4291e37122d7cd0a4d2f97888e4abaac672f9942a293",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "uv",
+      "argv_sha256": "c8699a98f099cdf9bc602ad760395767f001cc10177c430329a2a0e001933e82",
+      "started_utc": "2026-10-20T12:30:49.234+00:00",
+      "pid": 33040,
+      "finished_utc": "2026-10-20T12:30:49.413+00:00",
+      "duration_seconds": 0.187,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    }
+  },
+  "original_three_frozen_workload_receipts": [
+    {
+      "path": "logs/phase18/s2-d17-final-corrective-2026-10-20/final-max-1-results.json",
+      "sha256": "7843f20314649c1b412784a9e3471343471761c96c23cba19934971c982735a7",
+      "workload": {
+        "name": "maximum-source-1000000",
+        "input_chars": 1000000,
+        "expected": "SUCCESS",
+        "wall_seconds": 4.216054999968037,
+        "cpu_seconds": 4.765625,
+        "response": {
+          "contract_version": "3.0",
+          "status": "STAGED",
+          "job_id": "11111111-1111-1111-1111-111111111111",
+          "attempt_id": "22222222-2222-2222-2222-222222222222",
+          "staged_count": 1,
+          "published_count": 0,
+          "failed_count": 0,
+          "peak_system_ram_bytes": 622260224,
+          "peak_gpu_vram_bytes": 2352361472,
+          "receipt": {
+            "contract_version": "3.0",
+            "job_id": "11111111-1111-1111-1111-111111111111",
+            "attempt_id": "22222222-2222-2222-2222-222222222222",
+            "status": "STAGED",
+            "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+          }
+        },
+        "io_delta": {
+          "read_ops": 96,
+          "write_ops": 24,
+          "other_ops": 1522,
+          "read_bytes": 255277152,
+          "write_bytes": 260,
+          "other_bytes": 58532
+        },
+        "cancellation_checks": 639850,
+        "reason": "SUCCESS",
+        "chunks": 689,
+        "exact_source": true,
+        "resource_report": {
+          "peak_system_ram_bytes": 622260224,
+          "peak_gpu_vram_bytes": 2352361472,
+          "duration_ms": 2134,
+          "worker_cpu_ms": 2671,
+          "host_available_ram_bytes": 866160640,
+          "host_total_ram_bytes": 17112092672,
+          "pipeline_identity": {
+            "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            "model_version": "2.0.0",
+            "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+            "dimensions": 384,
+            "tokenizer_version": "hf-tokenizers-0.23.3",
+            "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+            "parser_version": "ppv-parser-v18.5-d17-html-context",
+            "chunker_version": "structure-first-v18.5-compact-source-context",
+            "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+            "provider": "CPU"
+          },
+          "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+          "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+        },
+        "output_bytes": 17355545,
+        "passed": true,
+        "retained_temporary_bytes": 0,
+        "native_temporary_change_detected": false
+      }
+    },
+    {
+      "path": "logs/phase18/s2-d17-final-corrective-2026-10-20/final-max-2-results.json",
+      "sha256": "d38855035e8f2808f3399420e1da754209a4a950414087e58e4213b37da4de31",
+      "workload": {
+        "name": "maximum-source-1000000",
+        "input_chars": 1000000,
+        "expected": "SUCCESS",
+        "wall_seconds": 3.7857802000362426,
+        "cpu_seconds": 4.484375,
+        "response": {
+          "contract_version": "3.0",
+          "status": "STAGED",
+          "job_id": "11111111-1111-1111-1111-111111111111",
+          "attempt_id": "22222222-2222-2222-2222-222222222222",
+          "staged_count": 1,
+          "published_count": 0,
+          "failed_count": 0,
+          "peak_system_ram_bytes": 622247936,
+          "peak_gpu_vram_bytes": 2352361472,
+          "receipt": {
+            "contract_version": "3.0",
+            "job_id": "11111111-1111-1111-1111-111111111111",
+            "attempt_id": "22222222-2222-2222-2222-222222222222",
+            "status": "STAGED",
+            "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+          }
+        },
+        "io_delta": {
+          "read_ops": 95,
+          "write_ops": 24,
+          "other_ops": 1424,
+          "read_bytes": 255277152,
+          "write_bytes": 260,
+          "other_bytes": 54846
+        },
+        "cancellation_checks": 639850,
+        "reason": "SUCCESS",
+        "chunks": 689,
+        "exact_source": true,
+        "resource_report": {
+          "peak_system_ram_bytes": 622247936,
+          "peak_gpu_vram_bytes": 2352361472,
+          "duration_ms": 2121,
+          "worker_cpu_ms": 2656,
+          "host_available_ram_bytes": 922832896,
+          "host_total_ram_bytes": 17112092672,
+          "pipeline_identity": {
+            "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            "model_version": "2.0.0",
+            "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+            "dimensions": 384,
+            "tokenizer_version": "hf-tokenizers-0.23.3",
+            "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+            "parser_version": "ppv-parser-v18.5-d17-html-context",
+            "chunker_version": "structure-first-v18.5-compact-source-context",
+            "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+            "provider": "CPU"
+          },
+          "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+          "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+        },
+        "output_bytes": 17355545,
+        "passed": true,
+        "retained_temporary_bytes": 0,
+        "native_temporary_change_detected": false
+      }
+    },
+    {
+      "path": "logs/phase18/s2-d17-final-corrective-2026-10-20/final-max-3-results.json",
+      "sha256": "c4123b1170ce0db451f6b892383942259e28999a32c585a23545cca6159b5892",
+      "workload": {
+        "name": "maximum-source-1000000",
+        "input_chars": 1000000,
+        "expected": "SUCCESS",
+        "wall_seconds": 3.692119500017725,
+        "cpu_seconds": 4.34375,
+        "response": {
+          "contract_version": "3.0",
+          "status": "STAGED",
+          "job_id": "11111111-1111-1111-1111-111111111111",
+          "attempt_id": "22222222-2222-2222-2222-222222222222",
+          "staged_count": 1,
+          "published_count": 0,
+          "failed_count": 0,
+          "peak_system_ram_bytes": 622858240,
+          "peak_gpu_vram_bytes": 2347905024,
+          "receipt": {
+            "contract_version": "3.0",
+            "job_id": "11111111-1111-1111-1111-111111111111",
+            "attempt_id": "22222222-2222-2222-2222-222222222222",
+            "status": "STAGED",
+            "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+          }
+        },
+        "io_delta": {
+          "read_ops": 96,
+          "write_ops": 24,
+          "other_ops": 1347,
+          "read_bytes": 255277152,
+          "write_bytes": 260,
+          "other_bytes": 51742
+        },
+        "cancellation_checks": 639850,
+        "reason": "SUCCESS",
+        "chunks": 689,
+        "exact_source": true,
+        "resource_report": {
+          "peak_system_ram_bytes": 622858240,
+          "peak_gpu_vram_bytes": 2347905024,
+          "duration_ms": 2096,
+          "worker_cpu_ms": 2609,
+          "host_available_ram_bytes": 917352448,
+          "host_total_ram_bytes": 17112092672,
+          "pipeline_identity": {
+            "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            "model_version": "2.0.0",
+            "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+            "dimensions": 384,
+            "tokenizer_version": "hf-tokenizers-0.23.3",
+            "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+            "parser_version": "ppv-parser-v18.5-d17-html-context",
+            "chunker_version": "structure-first-v18.5-compact-source-context",
+            "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+            "provider": "CPU"
+          },
+          "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+          "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+        },
+        "output_bytes": 17355545,
+        "passed": true,
+        "retained_temporary_bytes": 0,
+        "native_temporary_change_detected": false
+      }
+    }
+  ],
+  "artifacts": {
+    "logs/phase18/d17-final-independent-compatibility-2026-10-20.json": {
+      "sha256": "129633542466bbe9098e9883cbe35583aac6633bcee48b94d20e64a9f78c8347",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 90.0,
+        "executable": "python.exe",
+        "argv_sha256": "287e5cb4aa2738826e05fecf3be8890b7db7bc9d77056856675f1be40bafebe7",
+        "started_utc": "2026-10-20T12:31:20.510+00:00",
+        "pid": 12312,
+        "finished_utc": "2026-10-20T12:31:38.183+00:00",
+        "duration_seconds": 17.672,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-corpus-2026-10-20.json": {
+      "sha256": "ae925c8090663c19439c7841c7892fce5fa283b669445ab2fc67bb98f1c7f6a1",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "e1068867ac58c50b8ecf3771d803f93f38e45f66570415cb405bc4257353d8ea",
+        "started_utc": "2026-10-20T12:31:10.286+00:00",
+        "pid": 32356,
+        "finished_utc": "2026-10-20T12:31:44.296+00:00",
+        "duration_seconds": 34.015,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-corpus-results-2026-10-20.json": {
+      "sha256": "98bb86da791e357424c1467dbe55c39c291718ac2dd1591f91ab494a31d89c49",
+      "content": {
+        "purpose": "Actual extracted AST reconstructed for structural comparison against official expected HTML, not source equality alone.",
+        "counts": {
+          "PASS": 1267,
+          "PASS_REQUIRED_REJECTION": 62
+        },
+        "mode": "PRODUCER_LOCAL_REAL_CPU_CAPTURE",
+        "profile_gold_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+        "independent_human_review": "PENDING; no signature or adjudication claimed",
+        "resolution_sha256": "777fe1231946ed0c61c70ac241f1b9d17bec43bae777b4c8a6867d9f4d77b615"
+      }
+    },
+    "logs/phase18/d17-final-independent-format-2026-10-20.json": {
+      "sha256": "6f2fefdbec0bb2e30efc72a1c47d6d75f40269bb82ec76d93e2e6bc95434ffe8",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "0e75d0beae3978e462b62b9cf5121f19e22c24fe24cef173c6ee53c8b21ab92c",
+        "started_utc": "2026-10-20T12:30:49.253+00:00",
+        "pid": 32276,
+        "finished_utc": "2026-10-20T12:30:49.418+00:00",
+        "duration_seconds": 0.171,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-frozen-max-2026-10-20.json": {
+      "sha256": "084657ec3f84848d10859f2026602467c6d92edfeb7c7dbd17a2066cbe93d5c0",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 45.0,
+        "executable": "python.exe",
+        "argv_sha256": "4ac3c2978b93da5893220cd04c263b9a23d837aedd567db3959cc9f132ff07e2",
+        "started_utc": "2026-10-20T12:34:37.370+00:00",
+        "pid": 9960,
+        "finished_utc": "2026-10-20T12:34:43.168+00:00",
+        "duration_seconds": 5.796,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-frozen-max-results-2026-10-20.json": {
+      "sha256": "ae94b3a01939d24cad704aac138449f0267e004a86b75df89de354688de9e6cd",
+      "content": {
+        "scope": "Actual selected CPU model/worker. Grant verification and DB stage captured; no Java/publication or independent review.",
+        "network": "connect/connect_ex/getaddrinfo denied for this isolated process",
+        "disk": {
+          "calibration_peak_bytes": 4194304,
+          "sampled_transient_peak_bytes": 0,
+          "observed_file_count": 0,
+          "samples": 95,
+          "nominal_interval_seconds": 0.002,
+          "maximum_observed_interval_seconds": 0.6270452000317164,
+          "retained_bytes": 0
+        },
+        "workloads": [
+          {
+            "name": "maximum-source-1000000",
+            "input_chars": 1000000,
+            "expected": "SUCCESS",
+            "wall_seconds": 4.091316999983974,
+            "cpu_seconds": 4.609375,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 622026752,
+              "peak_gpu_vram_bytes": 2291613696,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "io_delta": {
+              "read_ops": 86,
+              "write_ops": 24,
+              "other_ops": 1499,
+              "read_bytes": 255277152,
+              "write_bytes": 260,
+              "other_bytes": 57756
+            },
+            "cancellation_checks": 639850,
+            "reason": "SUCCESS",
+            "chunks": 689,
+            "exact_source": true,
+            "resource_report": {
+              "peak_system_ram_bytes": 622026752,
+              "peak_gpu_vram_bytes": 2291613696,
+              "duration_ms": 2215,
+              "worker_cpu_ms": 2640,
+              "host_available_ram_bytes": 2068119552,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.5-d17-html-context",
+                "chunker_version": "structure-first-v18.5-compact-source-context",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "output_bytes": 17355545,
+            "passed": true,
+            "retained_temporary_bytes": 0,
+            "native_temporary_change_detected": false
+          }
+        ],
+        "passed": true
+      }
+    },
+    "logs/phase18/d17-final-independent-html-2026-10-20.json": {
+      "sha256": "80332d5314e89a32dc70ed749daeb579409ab2faf5a0905e14baded21cea7f7f",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "python.exe",
+        "argv_sha256": "e0e738eb56f216f03ebf76e3d2e4ece9919a9e82366bcc1f5004195702d9dd1d",
+        "started_utc": "2026-10-20T12:34:37.364+00:00",
+        "pid": 13608,
+        "finished_utc": "2026-10-20T12:34:40.494+00:00",
+        "duration_seconds": 3.141,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-html-boundaries-2026-10-20.json": {
+      "sha256": "0a87c3dc7344d0b8bd7f3738acf8db6a2a6bbeced0e24ebe6e0ce9d54e1ec902",
+      "content": [
+        {
+          "source": "- <div>\n- foo\n",
+          "units": [
+            [
+              "root",
+              "- <div>\n- foo\n"
+            ]
+          ],
+          "list_items": 1,
+          "headings": [],
+          "types": [
+            [
+              "bullet_list_open",
+              ""
+            ],
+            [
+              "list_item_open",
+              ""
+            ],
+            [
+              "html_block",
+              "<div>\n- foo\n"
+            ]
+          ]
+        },
+        {
+          "source": "- <div>\n  native\n\nOutside **Markdown**.\n",
+          "units": [
+            [
+              "root",
+              "- <div>\n  native\n\nOutside **Markdown**.\n"
+            ]
+          ],
+          "list_items": 1,
+          "headings": [],
+          "types": [
+            [
+              "bullet_list_open",
+              ""
+            ],
+            [
+              "list_item_open",
+              ""
+            ],
+            [
+              "html_block",
+              "<div>\nnative\n\nOutside **Markdown**.\n"
+            ]
+          ]
+        },
+        {
+          "source": "> <div>\n>\n> literal\n\nOutside **Markdown**.\n",
+          "units": [
+            [
+              "root",
+              "> <div>\n>\n> literal\n"
+            ],
+            [
+              "root",
+              "\nOutside **Markdown**.\n"
+            ]
+          ],
+          "list_items": 0,
+          "headings": [
+            "Outside **Markdown**."
+          ],
+          "types": [
+            [
+              "blockquote_open",
+              ""
+            ],
+            [
+              "html_block",
+              "<div>\n\nliteral\n"
+            ],
+            [
+              "paragraph_open",
+              ""
+            ],
+            [
+              "inline",
+              "Outside **Markdown**."
+            ],
+            [
+              "text",
+              "Outside "
+            ],
+            [
+              "strong_open",
+              ""
+            ],
+            [
+              "text",
+              "Markdown"
+            ],
+            [
+              "text",
+              "."
+            ]
+          ]
+        },
+        {
+          "source": "- <div>\n  native\n\n# Outside heading\n",
+          "units": [
+            [
+              "root",
+              "- <div>\n  native\n\n# Outside heading\n"
+            ]
+          ],
+          "list_items": 1,
+          "headings": [],
+          "types": [
+            [
+              "bullet_list_open",
+              ""
+            ],
+            [
+              "list_item_open",
+              ""
+            ],
+            [
+              "html_block",
+              "<div>\nnative\n\n# Outside heading\n"
+            ]
+          ]
+        },
+        {
+          "source": "- <div>\n- ![[Child]]\n",
+          "units": [
+            [
+              "root",
+              "- <div>\n- ![[Child]]\n"
+            ]
+          ],
+          "list_items": 1,
+          "headings": [],
+          "types": [
+            [
+              "bullet_list_open",
+              ""
+            ],
+            [
+              "list_item_open",
+              ""
+            ],
+            [
+              "html_block",
+              "<div>\n- ![[Child]]\n"
+            ]
+          ]
+        }
+      ]
+    },
+    "logs/phase18/d17-final-independent-html-final-results-2026-10-20.json": {
+      "sha256": "ba72483e324d209f7aa94a97c0d673c3b244bebb48affd5b6fb15d26335783c9",
+      "content": {
+        "scope": "Real CPU producer, JSON capture only; no Java/DB publication",
+        "response": {
+          "contract_version": "3.0",
+          "status": "STAGED",
+          "job_id": "11111111-1111-1111-1111-111111111111",
+          "attempt_id": "22222222-2222-2222-2222-222222222222",
+          "staged_count": 8,
+          "published_count": 0,
+          "failed_count": 0,
+          "peak_system_ram_bytes": 618373120,
+          "peak_gpu_vram_bytes": 2291613696,
+          "receipt": {
+            "contract_version": "3.0",
+            "job_id": "11111111-1111-1111-1111-111111111111",
+            "attempt_id": "22222222-2222-2222-2222-222222222222",
+            "status": "STAGED",
+            "output_digest": "e56953525ad58986c189b082a4f4479329ae0db95307dfa1820ae481e359858c"
+          }
+        },
+        "cases": [
+          {
+            "source": "<div/>\n\n![[Child]]\n",
+            "reason": "SUCCESS",
+            "chunks": 3,
+            "list_item_nodes": 0,
+            "heading_nodes": 0,
+            "strong_nodes": 0,
+            "child_material_emitted": true,
+            "root_source_exact": true,
+            "node_types": [
+              "html_block",
+              "paragraph_open",
+              "inline",
+              "obsidian_embed",
+              "paragraph_open",
+              "inline",
+              "text"
+            ]
+          },
+          {
+            "source": "Before <span/>**literal** ![[Child]] after.\n",
+            "reason": "SUCCESS",
+            "chunks": 2,
+            "list_item_nodes": 0,
+            "heading_nodes": 0,
+            "strong_nodes": 1,
+            "child_material_emitted": true,
+            "root_source_exact": true,
+            "node_types": [
+              "paragraph_open",
+              "inline",
+              "text",
+              "html_inline",
+              "text",
+              "strong_open",
+              "text",
+              "text",
+              "obsidian_embed",
+              "text",
+              "paragraph_open",
+              "inline",
+              "text"
+            ]
+          },
+          {
+            "source": "- <div>\n- foo\n",
+            "reason": "SUCCESS",
+            "chunks": 1,
+            "list_item_nodes": 1,
+            "heading_nodes": 0,
+            "strong_nodes": 0,
+            "child_material_emitted": false,
+            "root_source_exact": true,
+            "node_types": [
+              "bullet_list_open",
+              "list_item_open",
+              "html_block"
+            ]
+          },
+          {
+            "source": "- <div>\n  native\n\n# Outside heading\n",
+            "reason": "SUCCESS",
+            "chunks": 1,
+            "list_item_nodes": 1,
+            "heading_nodes": 0,
+            "strong_nodes": 0,
+            "child_material_emitted": false,
+            "root_source_exact": true,
+            "node_types": [
+              "bullet_list_open",
+              "list_item_open",
+              "html_block"
+            ]
+          },
+          {
+            "source": "- <div>\n- ![[Child]]\n",
+            "reason": "SUCCESS",
+            "chunks": 1,
+            "list_item_nodes": 1,
+            "heading_nodes": 0,
+            "strong_nodes": 0,
+            "child_material_emitted": false,
+            "root_source_exact": true,
+            "node_types": [
+              "bullet_list_open",
+              "list_item_open",
+              "html_block"
+            ]
+          },
+          {
+            "source": "> <div>\n>\n> literal\n\nOutside **Markdown**.\n",
+            "reason": "SUCCESS",
+            "chunks": 2,
+            "list_item_nodes": 0,
+            "heading_nodes": 0,
+            "strong_nodes": 1,
+            "child_material_emitted": false,
+            "root_source_exact": true,
+            "node_types": [
+              "blockquote_open",
+              "html_block",
+              "paragraph_open",
+              "inline",
+              "text",
+              "strong_open",
+              "text",
+              "text"
+            ]
+          },
+          {
+            "source": "<textarea>\n\n![[Child]] <script>literal</script></textarea>\n",
+            "reason": "SUCCESS",
+            "chunks": 1,
+            "list_item_nodes": 0,
+            "heading_nodes": 0,
+            "strong_nodes": 0,
+            "child_material_emitted": false,
+            "root_source_exact": true,
+            "node_types": [
+              "html_block"
+            ]
+          },
+          {
+            "source": "<div>\n\n![[Child]]\n",
+            "reason": "SUCCESS",
+            "chunks": 1,
+            "list_item_nodes": 0,
+            "heading_nodes": 0,
+            "strong_nodes": 0,
+            "child_material_emitted": false,
+            "root_source_exact": true,
+            "node_types": [
+              "html_block"
+            ]
+          }
+        ]
+      }
+    },
+    "logs/phase18/d17-final-independent-html-results-2026-10-20.json": {
+      "sha256": "1848d39213e857fb7d6d60d2152c52a59841088e011f97690c98f62fbc55f496",
+      "content": [
+        {
+          "source": "<div/>\n\n![[Child]]\n",
+          "units": [
+            [
+              "root",
+              "<div/>\n"
+            ],
+            [
+              "root",
+              "\n![[Child]]\n"
+            ],
+            [
+              "child",
+              "CHILD_MATERIAL"
+            ]
+          ],
+          "node_types": [
+            "html_block",
+            "paragraph_open",
+            "inline",
+            "obsidian_embed",
+            "paragraph_open",
+            "inline",
+            "text"
+          ]
+        },
+        {
+          "source": "Before <span/>**literal** ![[Child]] after.\n",
+          "units": [
+            [
+              "root",
+              "Before <span/>**literal** ![[Child]] after.\n"
+            ],
+            [
+              "child",
+              "CHILD_MATERIAL"
+            ]
+          ],
+          "node_types": [
+            "paragraph_open",
+            "inline",
+            "text",
+            "html_inline",
+            "text",
+            "strong_open",
+            "text",
+            "text",
+            "obsidian_embed",
+            "text",
+            "paragraph_open",
+            "inline",
+            "text"
+          ]
+        },
+        {
+          "source": "<textarea>literal</textarea x>\n\n**outside**\n",
+          "units": [
+            [
+              "root",
+              "<textarea>literal</textarea x>\n\n**outside**\n"
+            ]
+          ],
+          "node_types": [
+            "html_block"
+          ]
+        },
+        {
+          "source": "<title>literal</title>\n\n**outside**\n",
+          "units": [
+            [
+              "root",
+              "<title>literal</title>\n"
+            ],
+            [
+              "root",
+              "\n**outside**\n"
+            ]
+          ],
+          "node_types": [
+            "html_block",
+            "paragraph_open",
+            "inline",
+            "text",
+            "strong_open",
+            "text",
+            "text"
+          ]
+        },
+        {
+          "source": "<div>\n\n![[Child]]\n",
+          "units": [
+            [
+              "root",
+              "<div>\n\n![[Child]]\n"
+            ]
+          ],
+          "node_types": [
+            "html_block"
+          ]
+        },
+        {
+          "source": "<textarea/>\n\n![[Child]]\n",
+          "units": [
+            [
+              "root",
+              "<textarea/>\n\n![[Child]]\n"
+            ]
+          ],
+          "node_types": [
+            "html_block"
+          ]
+        }
+      ]
+    },
+    "logs/phase18/d17-final-independent-lock-2026-10-20.json": {
+      "sha256": "6614cd298b54288647bb4291e37122d7cd0a4d2f97888e4abaac672f9942a293",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "uv",
+        "argv_sha256": "c8699a98f099cdf9bc602ad760395767f001cc10177c430329a2a0e001933e82",
+        "started_utc": "2026-10-20T12:30:49.234+00:00",
+        "pid": 33040,
+        "finished_utc": "2026-10-20T12:30:49.413+00:00",
+        "duration_seconds": 0.187,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-mypy-2026-10-20.json": {
+      "sha256": "59f3b398b4fc42d26b3319c57b99b658f6a90d66995b6e39efc3c5c8aa0517de",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "b6d3171b7e542f3ebf922850a23ecf1e8bcf49d859245aa2b1bb2bb688c3730e",
+        "started_utc": "2026-10-20T12:30:49.183+00:00",
+        "pid": 26712,
+        "finished_utc": "2026-10-20T12:30:50.169+00:00",
+        "duration_seconds": 0.984,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-performance-2026-10-20.json": {
+      "sha256": "57a03d44e72cce5f5bbec17a51f0d4e2e4a0170261fdc2fac5f2eb086c615d23",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 210.0,
+        "executable": "python.exe",
+        "argv_sha256": "eb758837d83c4a513f8e7a58d7bdc13c5e5b012222a39838017d4a93482c75fc",
+        "started_utc": "2026-10-20T12:25:29.025+00:00",
+        "pid": 33420,
+        "finished_utc": "2026-10-20T12:26:50.927+00:00",
+        "duration_seconds": 81.89,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-performance-results-2026-10-20.json": {
+      "sha256": "976ac37371073d3b077295a44ebbc94bddd7848a781920a795581bc32796d6ec",
+      "content": {
+        "vector_equivalence": {
+          "normalized_distinct_texts": 6,
+          "singleton_inference_calls": 6,
+          "batch_rows": [
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              6
+            ]
+          ],
+          "reference": "Separate CPU ORT session, one thread; original singleton tensors and independently computed pooling/L2 norm",
+          "bitwise_equal": true,
+          "maximum_coordinate_delta": 0.0,
+          "distinct_list_ownership": true,
+          "mutation_isolated": true,
+          "fresh_call_inference_calls": 1,
+          "cache_hit_cancellation": true,
+          "cancellation_checks": 20,
+          "provider": [
+            "CPUExecutionProvider"
+          ]
+        },
+        "workloads": [
+          {
+            "input_chars": 100000,
+            "source_sha256": "52beae8fecfa9d67916c047c366b30572ed8af3cd6dff83a0330a2c17ad54f09",
+            "deadline_seconds": 60,
+            "init_seconds": 1.278940899996087,
+            "inference_calls": 74,
+            "session_id": 2091497233680,
+            "parse_seconds": 0.20366389997070655,
+            "chunk_seconds": 0.05779320001602173,
+            "input_chunks": 74,
+            "normalized_unique_chunks": 74,
+            "maximum_tokens": 320,
+            "embedding_seconds": 4.445748700003605,
+            "serialized_bytes": 1281863,
+            "serialization_seconds": 0.024166800023522228,
+            "reason": "SUCCESS",
+            "emitted_chunks": 74,
+            "resource_report": {
+              "peak_system_ram_bytes": 744693760,
+              "peak_gpu_vram_bytes": 2294693888,
+              "duration_ms": 4757,
+              "worker_cpu_ms": 16875,
+              "host_available_ram_bytes": 723099648,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.5-d17-html-context",
+                "chunker_version": "structure-first-v18.5-compact-source-context",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "exact_source": true,
+            "wall_seconds": 6.239771299995482,
+            "cpu_seconds": 18.5,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 744693760,
+              "peak_gpu_vram_bytes": 2294693888,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "unique_inferred_texts": 74
+          },
+          {
+            "input_chars": 350000,
+            "source_sha256": "f968c33e5dab2e68f24910d339b17d2cbe9c2f5756158ca4ef63a910742c729f",
+            "deadline_seconds": 60,
+            "init_seconds": 1.294114599993918,
+            "inference_calls": 255,
+            "session_id": 2091498326176,
+            "parse_seconds": 0.29543560004094616,
+            "chunk_seconds": 0.19360320002306253,
+            "input_chunks": 255,
+            "normalized_unique_chunks": 255,
+            "maximum_tokens": 329,
+            "embedding_seconds": 16.37304929998936,
+            "serialized_bytes": 4443371,
+            "serialization_seconds": 0.09270480001578107,
+            "reason": "SUCCESS",
+            "emitted_chunks": 255,
+            "resource_report": {
+              "peak_system_ram_bytes": 744693760,
+              "peak_gpu_vram_bytes": 2294562816,
+              "duration_ms": 17045,
+              "worker_cpu_ms": 62609,
+              "host_available_ram_bytes": 604983296,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.5-d17-html-context",
+                "chunker_version": "structure-first-v18.5-compact-source-context",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "exact_source": true,
+            "wall_seconds": 18.63705000001937,
+            "cpu_seconds": 64.328125,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 744693760,
+              "peak_gpu_vram_bytes": 2294562816,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "unique_inferred_texts": 255
+          },
+          {
+            "input_chars": 1000000,
+            "source_sha256": "462b60385609f9771a6fc04de991b5e664b0b5839412fbb9de3d03e16bcec26a",
+            "deadline_seconds": 60,
+            "init_seconds": 1.3616319000138901,
+            "inference_calls": 725,
+            "session_id": 2091498326176,
+            "parse_seconds": 1.8078497999813408,
+            "chunk_seconds": 0.5907836999977008,
+            "input_chunks": 725,
+            "normalized_unique_chunks": 725,
+            "maximum_tokens": 331,
+            "embedding_seconds": 48.16721460002009,
+            "serialized_bytes": 12676551,
+            "serialization_seconds": 0.23970330000156537,
+            "reason": "SUCCESS",
+            "emitted_chunks": 725,
+            "resource_report": {
+              "peak_system_ram_bytes": 744693760,
+              "peak_gpu_vram_bytes": 2294300672,
+              "duration_ms": 51098,
+              "worker_cpu_ms": 179578,
+              "host_available_ram_bytes": 576380928,
+              "host_total_ram_bytes": 17112092672,
+              "pipeline_identity": {
+                "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                "model_version": "2.0.0",
+                "artifact_hash": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+                "dimensions": 384,
+                "tokenizer_version": "hf-tokenizers-0.23.3",
+                "tokenizer_artifact_hash": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+                "parser_version": "ppv-parser-v18.5-d17-html-context",
+                "chunker_version": "structure-first-v18.5-compact-source-context",
+                "ocr_pipeline_version": "rapidocr-1.4.4-en-hans-script-admission-v18.2",
+                "provider": "CPU"
+              },
+              "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
+              "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES"
+            },
+            "exact_source": true,
+            "wall_seconds": 52.899667699995916,
+            "cpu_seconds": 181.515625,
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 0,
+              "peak_system_ram_bytes": 744693760,
+              "peak_gpu_vram_bytes": 2294300672,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "3e0c0cac0ad3cef7a1c220019c9c31d2395b87b13bd23b4aa5ab7574502721da"
+              }
+            },
+            "unique_inferred_texts": 725
+          }
+        ]
+      }
+    },
+    "logs/phase18/d17-final-independent-pip-2026-10-20.json": {
+      "sha256": "037e7891f400c25fab5371b2077467f43deb72eb668a3714881768f1545970b9",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "uv",
+        "argv_sha256": "052d990838bd2d54cc37952803535b822190e7e8d6af7a4ffa75e79e3ccacac2",
+        "started_utc": "2026-10-20T12:30:49.194+00:00",
+        "pid": 27460,
+        "finished_utc": "2026-10-20T12:30:49.391+00:00",
+        "duration_seconds": 0.203,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-pytest-2026-10-20.json": {
+      "sha256": "8b8e5018c91972f1777343fae443c9129e3ea4b4a3c17a9fb2d4132db94fd925",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "cab3ceda7506ac50c3c8a2dfbf866953c603fa836b2a770e6a6e80deaf6df4f4",
+        "started_utc": "2026-10-20T12:22:36.180+00:00",
+        "pid": 23504,
+        "finished_utc": "2026-10-20T12:23:12.530+00:00",
+        "duration_seconds": 36.344,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-roundtrip-diagnostic-2026-10-20.json": {
+      "sha256": "319aac3a6b2cfa5026cc12cd965689f8ee62ff9efbe42fd0423af5cf225a72b1",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "python.exe",
+        "argv_sha256": "b7b14b1bca3168ffb4f7fc3b47d5c466e16c0cd4cb9fc6b0744a143a3c765e2a",
+        "started_utc": "2026-10-20T12:30:15.119+00:00",
+        "pid": 26452,
+        "finished_utc": "2026-10-20T12:30:16.799+00:00",
+        "duration_seconds": 1.671,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-roundtrip-failure-2026-10-20.json": {
+      "sha256": "1928f24a501cfddcd797221c051f2e0da76634259e9aee2f053b38cde1a182de",
+      "content": {
+        "fixture": "vault",
+        "budget": 97,
+        "difference": {
+          "path": "/22/nodes/0/html_source_tree/0/source_tokens/0/attributes/0",
+          "decoded_type": "list",
+          "original_type": "tuple"
+        }
+      }
+    },
+    "logs/phase18/d17-final-independent-ruff-2026-10-20.json": {
+      "sha256": "059bd0d3d3ce72c16d070f930b685ba4a702d73490ff1ee4125fc6ad1c5da1ca",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "af72dc1e7e22e700104a875b5c1dda63f931ceb39d0f5fb122d68657901ad808",
+        "started_utc": "2026-10-20T12:30:49.186+00:00",
+        "pid": 22568,
+        "finished_utc": "2026-10-20T12:30:49.361+00:00",
+        "duration_seconds": 0.172,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-structure-2026-10-20.json": {
+      "sha256": "ce354bb2b5cebe8af746c453bda31648977bc7cc7698b1608b6e1595fde215c4",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "b7b14b1bca3168ffb4f7fc3b47d5c466e16c0cd4cb9fc6b0744a143a3c765e2a",
+        "started_utc": "2026-10-20T12:29:56.448+00:00",
+        "pid": 29576,
+        "finished_utc": "2026-10-20T12:29:58.189+00:00",
+        "duration_seconds": 1.734,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-structure-final-2026-10-20.json": {
+      "sha256": "3f7915e768bd0f4f55e4f81d5403dbb6db317a066a6b77661265908e0d86f8c8",
+      "content": {
+        "profile": "normal",
+        "timeout_seconds": 120.0,
+        "executable": "python.exe",
+        "argv_sha256": "b7b14b1bca3168ffb4f7fc3b47d5c466e16c0cd4cb9fc6b0744a143a3c765e2a",
+        "started_utc": "2026-10-20T12:30:39.140+00:00",
+        "pid": 8544,
+        "finished_utc": "2026-10-20T12:30:48.580+00:00",
+        "duration_seconds": 9.438,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      }
+    },
+    "logs/phase18/d17-final-independent-structure-results-2026-10-20.json": {
+      "sha256": "295d100a4fd0d15b599f91106eafac1297c5dbebda596660f169fe4e28c8c2fb",
+      "content": {
+        "roundtrips": [
+          {
+            "fixture": "table",
+            "budget": 97,
+            "chunks": 27,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 39,
+            "disjoint_nulls": 741
+          },
+          {
+            "fixture": "table",
+            "budget": 1500,
+            "chunks": 2,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 450,
+            "disjoint_nulls": 330
+          },
+          {
+            "fixture": "table",
+            "budget": 10000,
+            "chunks": 1,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 0,
+            "disjoint_nulls": 0
+          },
+          {
+            "fixture": "quote-list",
+            "budget": 97,
+            "chunks": 24,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 34,
+            "disjoint_nulls": 539
+          },
+          {
+            "fixture": "quote-list",
+            "budget": 1500,
+            "chunks": 2,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 384,
+            "disjoint_nulls": 189
+          },
+          {
+            "fixture": "quote-list",
+            "budget": 10000,
+            "chunks": 1,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 0,
+            "disjoint_nulls": 0
+          },
+          {
+            "fixture": "ragged",
+            "budget": 97,
+            "chunks": 2,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 44,
+            "disjoint_nulls": 0
+          },
+          {
+            "fixture": "ragged",
+            "budget": 1500,
+            "chunks": 1,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 0,
+            "disjoint_nulls": 0
+          },
+          {
+            "fixture": "ragged",
+            "budget": 10000,
+            "chunks": 1,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 0,
+            "disjoint_nulls": 0
+          },
+          {
+            "fixture": "vault",
+            "budget": 97,
+            "chunks": 33,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 102,
+            "disjoint_nulls": 56
+          },
+          {
+            "fixture": "vault",
+            "budget": 1500,
+            "chunks": 23,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 3,
+            "disjoint_nulls": 0
+          },
+          {
+            "fixture": "vault",
+            "budget": 10000,
+            "chunks": 23,
+            "exact_roundtrip": true,
+            "source_and_revision_invariants": true,
+            "nonempty_intersections": 3,
+            "disjoint_nulls": 0
+          }
+        ],
+        "serialization": [
+          {
+            "rows": 100,
+            "source_chars": 3436,
+            "chunks": 3,
+            "compact": false,
+            "output_bytes": 2538485,
+            "compaction_and_serialization_seconds_with_tracing": 0.19924240000545979,
+            "traced_peak_bytes": 5077892,
+            "post_release_traced_bytes": 32,
+            "process_cumulative_peak_working_set": 121208832,
+            "scope": "Metadata/content/locator only, no vectors; tracing starts after parse/chunk, no native-allocation attribution"
+          },
+          {
+            "rows": 100,
+            "source_chars": 3436,
+            "chunks": 3,
+            "compact": true,
+            "output_bytes": 1125620,
+            "compaction_and_serialization_seconds_with_tracing": 0.3299037999822758,
+            "traced_peak_bytes": 3868498,
+            "post_release_traced_bytes": 84,
+            "process_cumulative_peak_working_set": 121208832,
+            "scope": "Metadata/content/locator only, no vectors; tracing starts after parse/chunk, no native-allocation attribution"
+          },
+          {
+            "rows": 600,
+            "source_chars": 20436,
+            "chunks": 14,
+            "compact": false,
+            "output_bytes": 15121588,
+            "compaction_and_serialization_seconds_with_tracing": 1.1914282999932766,
+            "traced_peak_bytes": 30247386,
+            "post_release_traced_bytes": 56,
+            "process_cumulative_peak_working_set": 179548160,
+            "scope": "Metadata/content/locator only, no vectors; tracing starts after parse/chunk, no native-allocation attribution"
+          },
+          {
+            "rows": 600,
+            "source_chars": 20436,
+            "chunks": 14,
+            "compact": true,
+            "output_bytes": 6652173,
+            "compaction_and_serialization_seconds_with_tracing": 1.8972580000408925,
+            "traced_peak_bytes": 22946668,
+            "post_release_traced_bytes": 3348,
+            "process_cumulative_peak_working_set": 179548160,
+            "scope": "Metadata/content/locator only, no vectors; tracing starts after parse/chunk, no native-allocation attribution"
+          }
+        ],
+        "producer": {
+          "html": {
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 6,
+              "published_count": 0,
+              "failed_count": 2,
+              "peak_system_ram_bytes": 659480576,
+              "peak_gpu_vram_bytes": 2301050880,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "ea280bc8ffa11d5486290729af9e98b8b79f9df4c33009ce1fa2fabb1570aa38"
+              }
+            },
+            "cases": [
+              {
+                "source": "<div/>\n\n![[Child]]\n",
+                "success": true,
+                "reason": "SUCCESS",
+                "chunks": 3,
+                "child_material_emitted": true,
+                "source_units": [
+                  "root-0",
+                  "root-0",
+                  "child"
+                ]
+              },
+              {
+                "source": "Before <span/>**literal** ![[Child]] after.\n",
+                "success": true,
+                "reason": "SUCCESS",
+                "chunks": 2,
+                "child_material_emitted": true,
+                "source_units": [
+                  "root-1",
+                  "child"
+                ]
+              },
+              {
+                "source": "<div>\n\n![[Child]]\n",
+                "success": true,
+                "reason": "SUCCESS",
+                "chunks": 1,
+                "child_material_emitted": false,
+                "source_units": [
+                  "root-2"
+                ]
+              },
+              {
+                "source": "<textarea>![[Child]] <script>literal</script> &amp;</textarea>\n",
+                "success": true,
+                "reason": "SUCCESS",
+                "chunks": 1,
+                "child_material_emitted": false,
+                "source_units": [
+                  "root-3"
+                ]
+              },
+              {
+                "source": "<title>![[Child]] &amp; literal</title>\n",
+                "success": true,
+                "reason": "SUCCESS",
+                "chunks": 1,
+                "child_material_emitted": false,
+                "source_units": [
+                  "root-4"
+                ]
+              },
+              {
+                "source": "<ul><li>one<li>two</ul>\n",
+                "success": true,
+                "reason": "SUCCESS",
+                "chunks": 1,
+                "child_material_emitted": false,
+                "source_units": [
+                  "root-5"
+                ]
+              },
+              {
+                "source": "<div>safe</div>\n\n<script>active()</script>",
+                "success": false,
+                "reason": "MD_UNSUPPORTED_ACTIVE_HTML",
+                "chunks": 0,
+                "child_material_emitted": false,
+                "source_units": []
+              },
+              {
+                "source": "Good prefix.\n\n![[Missing]]",
+                "success": false,
+                "reason": "MD_UNAPPROVED_EMBED",
+                "chunks": 0,
+                "child_material_emitted": false,
+                "source_units": []
+              }
+            ]
+          },
+          "exit_deadline": {
+            "response": {
+              "contract_version": "3.0",
+              "status": "STAGED",
+              "job_id": "11111111-1111-1111-1111-111111111111",
+              "attempt_id": "22222222-2222-2222-2222-222222222222",
+              "staged_count": 1,
+              "published_count": 0,
+              "failed_count": 1,
+              "peak_system_ram_bytes": 664821760,
+              "peak_gpu_vram_bytes": 2301050880,
+              "receipt": {
+                "contract_version": "3.0",
+                "job_id": "11111111-1111-1111-1111-111111111111",
+                "attempt_id": "22222222-2222-2222-2222-222222222222",
+                "status": "STAGED",
+                "output_digest": "6188964873bd4903345d5bb8bcaca072b68546c0dda28950fef9d64272b74d13"
+              }
+            },
+            "failed_first_chunks": 0,
+            "second_root_success": true,
+            "digest_matches": true,
+            "method": "Expire actual parsing_scope deadline at exit, not sleep-based race"
+          }
+        }
+      }
+    },
+    "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-final-corrective-evidence-2026-10-20.json": {
+      "sha256": "9c2843c9ed2f274f344cfb1fcabfdcff5a000e26172d225d9024fde0e6849771"
+    },
+    "docs/implementation/phase-18/d17-commonmark-171-corrective-resolution-2026-10-20.json": {
+      "sha256": "777fe1231946ed0c61c70ac241f1b9d17bec43bae777b4c8a6867d9f4d77b615"
+    },
+    "docs/implementation/phase-18/slice-2-obsidian-markdown-d17-final-corrective-handback-2026-10-20.md": {
+      "sha256": "0fd63db63388507c13cb113112b179a2ffd7295ac2edeaf32945e7a32dd2f509"
+    },
+    "docs/implementation/phase-18/reviews/2026-10-20-d17-final-interpretation-adjudication.json": {
+      "sha256": "c896afd373935aaef4552841c85bf5dfafbfb490838ff17a5f91d48a87bf52f1"
+    },
+    "logs/phase18/d17-final-independent-performance.py": {
+      "sha256": "60fe3ec83035345e2b871812a96302fe53404a4af858afde99b5d2908ad303ba"
+    },
+    "logs/phase18/d17-final-independent-structure.py": {
+      "sha256": "29a889c245545e89302925a0b1d4e635b136be538dc337016ff51ff47dcae548"
+    },
+    "logs/phase18/d17-final-independent-html.py": {
+      "sha256": "bd81dfaa1a37d545e7a0731f1cb7e252b6bc98ed65f19722275c04565c66c80f"
+    }
+  },
+  "notes": [
+    "All old gold/reviews and failed Java full gate preserved",
+    "Seven interpretations independently assessed: five supported, two disputed; no human signature invented",
+    "Initial reviewer reconstruction probes compared tuple versus JSON array; corrected to JSON contract equality; those failed receipts preserved, not attributed as production defects",
+    "CPU unique-content measurements were sequential and under real 60-second per-root scope; cache equivalence checked against a separate ORT singleton session",
+    "No runtime downloads, OCR/Office/PDF development, production fix or publishing",
+    "Producer tests capture grant/DB boundary; no trusted Java/PG publication acceptance"
+  ]
+}

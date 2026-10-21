@@ -1,0 +1,10 @@
+```mermaid
+flowchart TD
+A --> B
+```
+
+$x+y$
+
+$$
+x=1
+$$

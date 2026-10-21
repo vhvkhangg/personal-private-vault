@@ -1,0 +1,49 @@
+{
+  "source_archive": "docs(20261020-140608).zip",
+  "date": "2026-10-20",
+  "policy": "D20 D17 Codex independent acceptance substitutes human gate prospectively; archived unsigned decisions untouched",
+  "changed_existing": 7,
+  "new": 1,
+  "files": [
+    {
+      "path": "implementation/handoffs/ACTIVE.md",
+      "old_sha256": "cadac00db26743ae0c0924ca69a0fea85aabc193edaeec7a9d61692c1c28b322",
+      "new_sha256": "22e5b93a6aad808c080079e7688e5197cdc3d201a18e2792f98414c5f333ac9f"
+    },
+    {
+      "path": "implementation/phase-18/README.md",
+      "old_sha256": "6260ed83d73ba00b1b448477651e6eabc7e0db735236a037b7a63786e725c856",
+      "new_sha256": "26a8046058d7f6356c05ca1d6b3faa4c9241af56ae438fab321d224ba603b39e"
+    },
+    {
+      "path": "implementation/phase-18/acceptance-and-evidence.md",
+      "old_sha256": "41ba6efa812c265dc270eec3b26b67e59ffb330eee0b10dd32995409ad0fe7fd",
+      "new_sha256": "38676efe8d8f45984efe20c9b2de92a46eb2ae119e1dc0a19c843f7da956dfb6"
+    },
+    {
+      "path": "implementation/phase-18/d17-owner-d20-codex-only-acceptance-2026-10-20.md",
+      "old_sha256": null,
+      "new_sha256": "562a145a49b5cd0c85237baa43dda460dd71b359edf7ebed19c4363dc05453f7"
+    },
+    {
+      "path": "implementation/phase-18/final-verification-gate.md",
+      "old_sha256": "a5edaa1702ada7cccd1427e298088d06837b0db2c47c55e857da2f4c9a539464",
+      "new_sha256": "9bd0f40e8346efc7d3147a9a8b8cdc3c38acef03326b5d6d904940ae6bb1bbe1"
+    },
+    {
+      "path": "implementation/phase-18/obsidian-markdown-d17-contract.md",
+      "old_sha256": "e687bd709a99fb3e1a6238a15b4a29e1759871cf337761c27409ef43dc09e441",
+      "new_sha256": "e1d9017f8f71bb230b7198c91a7f03483d20e2d586278fdbde905f3f27615978"
+    },
+    {
+      "path": "implementation/phase-18/owner-decisions.md",
+      "old_sha256": "bc418cc200be93f0e1c8f1f1fb380569944c97f8d26692cdbdcd1d3e99eeba66",
+      "new_sha256": "ba026cbb391fc0e6ae396c61ba209d70bfb053b475d926240fbe7dd4e4fd951e"
+    },
+    {
+      "path": "implementation/phase-18/reviews/README.md",
+      "old_sha256": "8afec88ba499d48d9ce5f7e103434008654e70c97d63fc2fd049625ec43b2e63",
+      "new_sha256": "6baa9ca7217c139fa744f1faf64162e523ec5a6a588503cf78436d0ec73d7549"
+    }
+  ]
+}

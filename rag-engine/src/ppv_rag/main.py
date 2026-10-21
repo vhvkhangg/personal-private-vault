@@ -143,7 +143,12 @@ def execute_document_batch(
         _stages_executed += 1
         _cleanup.pop(request.job_id, None)
     try:
-        response = process_document_batch_request(request)
+
+        def cancelled() -> bool:
+            with _lock:
+                return _active.get(identity, True)
+
+        response = process_document_batch_request(request, cancelled=cancelled)
         with _lock:
             if _active[identity]:
                 _stages_cancelled += 1

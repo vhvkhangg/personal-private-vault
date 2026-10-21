@@ -1,0 +1,4 @@
+Text[^id] and ^[inline *note*].
+
+[^id]: definition
+    continuation

@@ -1,0 +1,1224 @@
+{
+  "date": "2026-10-20",
+  "status": "BLOCKED / OWNER_DECISION_REQUIRED",
+  "author": "Codex implementation takeover; not independent acceptance",
+  "head": "c3b46351507803053850e3c2711602ee9c9ec419",
+  "entry_dirty_files": 26,
+  "unresolved_findings": {
+    "S2-06": "Four-script capable backend, fresh independent source-family/closure-disjoint human labels and adjudication absent",
+    "S2-07": "Integrated in-flight native cancellation/deadline and representative upper-bound resource evidence incomplete",
+    "S2-08": "Required pipeline version update is rejected by unchanged Java v18.1 identity allowlist; explicit Java escalation required; no native v3 compatibility PASS"
+  },
+  "python_final": {
+    "tests": 115,
+    "passed": 115,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "pytest_seconds": 50.44
+  },
+  "focused_final": {
+    "tests": 62,
+    "passed": 62,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "pytest_seconds": 37.28,
+    "scope": "Earlier broad focused run, before final PDF image preallocation-only change"
+  },
+  "source_test_fixture_config_sha256": {
+    "rag-engine/.python-version": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f",
+    "rag-engine/pyproject.toml": "07ce82d54737a0f70b7ab80f986c93eaad16e12112ed47d066d61042a46e49cb",
+    "rag-engine/scripts/d18_pt_a_ocr_checkpoint.py": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5",
+    "rag-engine/scripts/dependency_inventory.py": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+    "rag-engine/scripts/freeze_phase18_ocr_fixtures.py": "939e78c06c06b3dc4e4963379bc78654d86c6984fee20ef538eb5a938435839b",
+    "rag-engine/scripts/measure_d18_pt_a.py": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3",
+    "rag-engine/scripts/offline_check.py": "520ab0ffb52eb616160f351a5ffd92c4bd1b4f57449b5adcb4dfa8bccfc36cea",
+    "rag-engine/scripts/probe_phase18_ocr.py": "8e04a757d852568a2153980e0e547d01d449a10e58228fa0a7c14fc0fb3ce5a1",
+    "rag-engine/scripts/provision_embedding_model.py": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+    "rag-engine/scripts/provision_phase18_latin_ocr.py": "4dbaf78f73d8f0ce66027f6aba43e687cdd957958d2ced92d9e14d2450508662",
+    "rag-engine/scripts/run_d18_pt_a_native.py": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8",
+    "rag-engine/scripts/slice2_corrective_resources.py": "ab39e1586df90b5c661f68c0a48003fee4527a851cba72f9ceb8c015fdcfccef",
+    "rag-engine/scripts/worker_boundary_check.py": "a360838a9be31fcaa139a7f22bd74404d6a365fffc301ad430972f23e27a161d",
+    "rag-engine/src/ppv_rag/__init__.py": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5",
+    "rag-engine/src/ppv_rag/chunking/__init__.py": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d",
+    "rag-engine/src/ppv_rag/chunking/chunker.py": "64f58b2a70751e22c2ee259b7d821927650b1762031b9f818b850dea5d5dac56",
+    "rag-engine/src/ppv_rag/config.py": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a",
+    "rag-engine/src/ppv_rag/contracts.py": "28db2741bfdee641b6958dd3b017462338588a93c39e25d480bb4a3a3146441b",
+    "rag-engine/src/ppv_rag/db.py": "421dc9e3823a349b3b6a935f59eb17ac89368458aaf0e346d792b6075b963177",
+    "rag-engine/src/ppv_rag/embeddings/__init__.py": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a",
+    "rag-engine/src/ppv_rag/embeddings/model.py": "661abd9d4cf4d4d5a6596f059c53e439dca7b7b04cfa99abe825e43478325a08",
+    "rag-engine/src/ppv_rag/limits.py": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194",
+    "rag-engine/src/ppv_rag/main.py": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+    "rag-engine/src/ppv_rag/ocr/engine.py": "ab890ec272a160ca1edeb7864bb0cebda60c459ef60af1330665545b154dca0c",
+    "rag-engine/src/ppv_rag/parsers/__init__.py": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60",
+    "rag-engine/src/ppv_rag/parsers/docx.py": "f613bcdeca8a06093d0d024717bff284882880d26737ebc38e66b0810bc69f65",
+    "rag-engine/src/ppv_rag/parsers/excel.py": "3b863ad2d60e8e34899ac8d9aa2338335534863fac157f61e099ab173e3749ee",
+    "rag-engine/src/ppv_rag/parsers/markdown.py": "bb5d510528252ce30e459721c4e3e7984ebe088f01f4745924fe751e08e8cda3",
+    "rag-engine/src/ppv_rag/parsers/models.py": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+    "rag-engine/src/ppv_rag/parsers/pdf.py": "db9320a78d1eed1d967adbc56be3a5cba6e27a7b14b45779b60f768c4b1a98a7",
+    "rag-engine/src/ppv_rag/parsers/text.py": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+    "rag-engine/src/ppv_rag/security.py": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44",
+    "rag-engine/src/ppv_rag/telemetry.py": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9",
+    "rag-engine/src/ppv_rag/transport.py": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54",
+    "rag-engine/src/ppv_rag/worker.py": "56c513df0f91f1f8485535aaa95158753a9d6b7bf5268638a8c674fe79db0272",
+    "rag-engine/tests/conftest.py": "b5c31d9da460929f125919176a9a919cc445c8ad2b6a84c67e7df7bea2b3d39f",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.json": "9c1d7b16e0c5d9d4b4f18db95e37680c556b8b6bb466ab3e0f02e8ff50897801",
+    "rag-engine/tests/fixtures/d18-pt-a/manifest.sha256": "b141264c2f022d23d00c85f413348a8a4c698589d74c47d02245f8c6c1283fea",
+    "rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e",
+    "rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6",
+    "rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894",
+    "rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-en.pdf": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-vi.pdf": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hans.pdf": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hant.pdf": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-en.pdf": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-vi.pdf": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hans.pdf": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hant.pdf": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.json": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+    "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.sha256": "ac980ad84345db8ac21c4f6dff8bdde9e1a2dba2eeb68e5fc269c7de61ebe5ea",
+    "rag-engine/tests/test_bound_ingress.py": "6822be0fb5c15ac3bfd3d01f9770cd2a9e6699d24c0af8b0f93f5f4d2928729f",
+    "rag-engine/tests/test_chunker.py": "5392473816e09e651e0e19f4e83653e44dfffa00fa6ea5225fae9278b2e5cad2",
+    "rag-engine/tests/test_consumption_containment.py": "ea23a6d8993e242b867f2b305188561d42f3c920f89de924dfb3a61d0599b79b",
+    "rag-engine/tests/test_contracts.py": "eb7a6c8d985ad8ae18f1c1a7c74eccc7ec0d99a604a74cf90dbf0214939d02f9",
+    "rag-engine/tests/test_embeddings.py": "fb06cb72b6a3f3109b8b038f30561b361ebf261f653002f24d6433ca00a82a85",
+    "rag-engine/tests/test_health.py": "767dbc538065bcfc42bed41c2271775aff5049c7dd07a16e87749b0fa184f4ed",
+    "rag-engine/tests/test_parsers.py": "9c21c8da68f00f113209116f08ce11a57a6ff73d533e404d4a0eb52cfcdd62fe",
+    "rag-engine/tests/test_pdf_geometry.py": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723",
+    "rag-engine/tests/test_slice2_corrections.py": "8ffabcd6bd36becfd21f4b6cc45da576724684ac2cc22766defc743aa0b4e7f9",
+    "rag-engine/tests/test_telemetry.py": "d0823c24f4b30ea8d199f13da637241a6a5cc550ef2333b18bed98c6748f5077",
+    "rag-engine/tests/test_transport.py": "5b9e11f0b65ec0d0bd98369737883f7dda716b977563e0c4de249bb7523952fb",
+    "rag-engine/tests/test_worker.py": "35e195f5dc832ea6b6a2bc543270afdc374caf53f1939dd33f5237c984121ac3",
+    "rag-engine/tests/test_worker_v3.py": "cce9785521523b1a63af38d1dead25da9ef966d34ea27d6298965f2f8d198877",
+    "rag-engine/uv.lock": "03fbb416d31ff5bb23d64e6ce3b97d052a5ece9c599a1426a0845159aee0e0c3"
+  },
+  "source_freeze_mismatches": [],
+  "preserved_historical_files": {
+    "docs/implementation/phase-18/reviews/2026-10-20-slice-2-independent-review-evidence.json": {
+      "sha256": "5cd116f6cc99ad44ff371b1619e3faa9ee33591084b23bb2a13120a633377b2d",
+      "unchanged": true
+    },
+    "docs/implementation/phase-18/reviews/2026-10-20-slice-2-parser-ocr-embedding-independent-review.md": {
+      "sha256": "6e923591cb994a8d61a980654c1eef1c6ad814cf0e9b2046bdfea300080a5345",
+      "unchanged": true
+    },
+    "docs/implementation/phase-18/slice-2-parser-ocr-embedding-handback-2026-10-20.md": {
+      "sha256": "49fc62ec923e86289738497358aa5f9c637dcd6ec903b400319e709a37c76135",
+      "unchanged": true
+    }
+  },
+  "receipts_and_outputs": [
+    {
+      "path": "logs/phase18/s2-takeover-dependencies-2026-10-20.json",
+      "sha256": "5929cbcc2f36a0b03c48c789a99348a5acaeaaab2042a15d03371d06b01e8185",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 1.203,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "0d4e1df3413311b9b0346330f81d55ff063fe47a7bd8de4aea2597d39d26faae"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-dependencies-2026-10-20.log",
+      "sha256": "5bd6b3930f7d967157bed6594b619615672f6215a292169b8c5cda60bc101587"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-dependency-inventory-2026-10-20.json",
+      "sha256": "163462ed4823b7581293203a34627bdfef4177ca78f51ca8b6c8da33cb6c961f"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-diff-check-interim-2026-10-20.log",
+      "sha256": "ce37efa366b420f70887c5b79b34618f0e7306c031c7e5371af13b139470caf3"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-entry-2026-10-20.json",
+      "sha256": "e98aa0a1646880bd5221599e47a73cf8d037b64af2c1443af41daa2ae1679c5c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-1-2026-10-20.json",
+      "sha256": "8c7e0bfaa4017b002c1e0240fc03480c36fa5a6dbae72c6eb2a2955d98aa19c3",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 30.938,
+      "timeout_seconds": 600.0,
+      "argv_sha256": "43acadb719110e0f4556f0ccca8af18bd91bf63d0079d9596e10acb4382daff1"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-1-2026-10-20.log",
+      "sha256": "a478db5986a63bab6cd5bb9341af1559a9f40b5c77d90f5107fff0cb99ae7f87"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-2-2026-10-20.json",
+      "sha256": "e7b67287074689d55b358ad2ed0e87b7a7cbe1817f1f8bd8ff7e4a1a4627ec5c",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 16.781,
+      "timeout_seconds": 600.0,
+      "argv_sha256": "43acadb719110e0f4556f0ccca8af18bd91bf63d0079d9596e10acb4382daff1"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-2-2026-10-20.log",
+      "sha256": "dd44692ae800713ecb99a11df8bc6d7ad7c44121da3703c4dfe9becd38ce0839"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-3-2026-10-20.json",
+      "sha256": "09f63e115a101ad0aa32c31f6e15ef768936c6ec3b6f300cca097ba2d3b2c727",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 23.531,
+      "timeout_seconds": 600.0,
+      "argv_sha256": "43acadb719110e0f4556f0ccca8af18bd91bf63d0079d9596e10acb4382daff1"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-3-2026-10-20.log",
+      "sha256": "a241b7536df45a6c7741ace00bf599dfe4e8f498a62399985e2b1d97806b4d81"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-4-2026-10-20.json",
+      "sha256": "1a36fb8aed46c285b8bc858507e5289450073adcea6be038f6d6e30478a5384f",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 40.344,
+      "timeout_seconds": 600.0,
+      "argv_sha256": "43acadb719110e0f4556f0ccca8af18bd91bf63d0079d9596e10acb4382daff1"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-4-2026-10-20.log",
+      "sha256": "c6ded2c00d472f626c9247e21e6dc934031f1ff171c3c0a849f8d222e68fe347"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-final-2026-10-20.json",
+      "sha256": "3eee4242981e454bac36cef54e480057be4e26b0067f6542f586cfcccd720ee3",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 50.156,
+      "timeout_seconds": 600.0,
+      "argv_sha256": "cde6574d7681b29b8f202bace4dab7b6dc6bed4f9d4e70bdf724694a0d66639c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-final-2026-10-20.log",
+      "sha256": "fd88ca1f5cb3119b05224571a575f26a1906f4a48fb9c8797e7a731e281cf8ef"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-final-2026-10-20.xml",
+      "sha256": "274b81457acd551268d783c711fc27a25a2b9e25057c9a0d356933d3da8044fd"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-post-admission-2026-10-20.json",
+      "sha256": "1eb6a81b6a1ed889ef33292c967e384db3569f659f703ff0bb35cee9701cedf4",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 40.828,
+      "timeout_seconds": 600.0,
+      "argv_sha256": "43acadb719110e0f4556f0ccca8af18bd91bf63d0079d9596e10acb4382daff1"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-focused-post-admission-2026-10-20.log",
+      "sha256": "c8ed578ed859d0cacdad75f4441418371507f578703fc66587120119d0ecbcec"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-final-2-2026-10-20.json",
+      "sha256": "784db1ce5f7b80658b71b4908ce2a8eac4b357f576a32f39a66ba96a86f029b5",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.157,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "712ffebcc90b190300f0799a8644f53fb3fcc9c12cab01591760a5d9c61db7bc"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-final-2026-10-20.json",
+      "sha256": "a8bbca56579c04a7f013c809c721380b9a03bd99c60fc62fdda1f5bf16e87174",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.25,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "712ffebcc90b190300f0799a8644f53fb3fcc9c12cab01591760a5d9c61db7bc"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-fix-2-2026-10-20.json",
+      "sha256": "d433d254bda8aa0d0e891b3e2c25fe5be997b191530941c2e30681ef842c2909",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.156,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "6390255118dea1f6388e9936c30292ae9dfd0cd94e7f7a510eb0c5d090cfa077"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-fix-2026-10-20.json",
+      "sha256": "60d3a28d83da38c150aca5b3fbcae91c62f2ec4bd8dc563c4536bce0123d4bf4",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.14,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "6390255118dea1f6388e9936c30292ae9dfd0cd94e7f7a510eb0c5d090cfa077"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-fix-3-2026-10-20.json",
+      "sha256": "81c0188352d6dffab91402da1360ee7d262332258bc0c66b2dfa63bf0ef9da63",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.125,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "6390255118dea1f6388e9936c30292ae9dfd0cd94e7f7a510eb0c5d090cfa077"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-fix-5-2026-10-20.json",
+      "sha256": "aa27e18fe23242b3fea7e5d18eb36fe12bdc6fc028621d1c4d0b85e18a444833",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.14,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "6390255118dea1f6388e9936c30292ae9dfd0cd94e7f7a510eb0c5d090cfa077"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-fix-6-2026-10-20.json",
+      "sha256": "23d23ce66d2a02a52ffc969379982e6f4d17a1f4136c9dd0df2e4c1cc0b1942b",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.14,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "6390255118dea1f6388e9936c30292ae9dfd0cd94e7f7a510eb0c5d090cfa077"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-fix-7-2026-10-20.json",
+      "sha256": "3111b3c8e76f31e2502b8e8ab7e0acb58daa79c05b53a577702964f232139c34",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.156,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "6390255118dea1f6388e9936c30292ae9dfd0cd94e7f7a510eb0c5d090cfa077"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-fix-8-2026-10-20.json",
+      "sha256": "566132e83f09a7818d4e963515f06ca416616b335ef88e836fc58b7242b7793d",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.203,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "6390255118dea1f6388e9936c30292ae9dfd0cd94e7f7a510eb0c5d090cfa077"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-format-fix-final-2026-10-20.json",
+      "sha256": "9a0976eeced82b2552e89d43b547528b94a037329d923d109d2ab74ed3a11607",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.141,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "6390255118dea1f6388e9936c30292ae9dfd0cd94e7f7a510eb0c5d090cfa077"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-full-java-2026-10-20.json",
+      "sha256": "ed67df5d29c4358df78599fdbaaaecf59c414d8ecd57fb94d14d9cc5d4cf1923",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 885.297,
+      "timeout_seconds": 2100.0,
+      "argv_sha256": "2a033f8dd643becad8a69842abc7a09977b3f9000a254035df3ddd38b4ca8f9b"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-full-java-2026-10-20.log",
+      "sha256": "11db99ad9721587335508700ed5082c60de92ea2635f30af09134389b5e73e0e"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-import-fix-2026-10-20.json",
+      "sha256": "89149141e9bc70fe5698b8674270231cd667621416c4132d6039ccb3a748e510",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.125,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "ad9de98c390cda8095905028d8219f634eebfe87d6fd203d24d4edb27d66833c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-java-summary-2026-10-20.json",
+      "sha256": "20f4b90071dce334d0eaf0e397242638d38e4d448ed751e7b45ebdc4513cdad8"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-mypy-1-2026-10-20.json",
+      "sha256": "1a3f750a0a551f28f43943e2112ad2c14fd473249caadab8d9e339d2f26a9515",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 2.109,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "5501afe154849397bf55f63a763be0f9ebf1556adb0a475862288a34298592cf"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-mypy-2-2026-10-20.json",
+      "sha256": "2b453fcdf7ef483427faf96b031ac1eb85469f0cb0e8168a3d8f236fe55ef682",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 1.328,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "5501afe154849397bf55f63a763be0f9ebf1556adb0a475862288a34298592cf"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-mypy-3-2026-10-20.json",
+      "sha256": "cd57c3422a7fa6d813eb3e736a612fcb15b521aa9b60035fc9cc71fce1ce8398",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 1.125,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "5501afe154849397bf55f63a763be0f9ebf1556adb0a475862288a34298592cf"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-mypy-final-2-2026-10-20.json",
+      "sha256": "25a52c84a7ad63edb670012b8f44ae5f6eab7961a9c9af17fb7e0ff52255aa1a",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 1.516,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "5501afe154849397bf55f63a763be0f9ebf1556adb0a475862288a34298592cf"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-mypy-final-2026-10-20.json",
+      "sha256": "b63db2b0df09658078dc6a47e64e50f0443fd1daae2fe00f8192b206de30e554",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 1.547,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "5501afe154849397bf55f63a763be0f9ebf1556adb0a475862288a34298592cf"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-mypy-final-3-2026-10-20.json",
+      "sha256": "563e0f14d930d8cb866cc7cab8d0db865f1dfe00f7e8563923e39cf2408f86ec",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 1.797,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "5501afe154849397bf55f63a763be0f9ebf1556adb0a475862288a34298592cf"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-native-termination-2026-10-20.json",
+      "sha256": "5a23174836312df5fad490dd74c492b8209e0a1fce3efd5be760bade9bfbc24a",
+      "result": "TIMEOUT",
+      "exit_code": 124,
+      "duration_seconds": 15.281,
+      "timeout_seconds": 15.0,
+      "argv_sha256": "f751ee371faf06b12d59d05618e0fe5919663689c1d78f7f98db576b7a5529df"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-native-termination-2026-10-20.log",
+      "sha256": "fbe0796c1e567117f2b50d2872d9a07a6cfe2649b0488112cb71b1c150d8f021"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-native-termination-survivors-2026-10-20.json",
+      "sha256": "9bed59cbd8ea7fd3ab240dfc33c430102d520cc2b3de7faa60d60f949637ec2d"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ocr-2-2026-10-20.json",
+      "sha256": "39a88409fdaef200b25ded5442c1459b066e384b656a83ad5fbd5243cdbfe0ba",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 11.641,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "1d96a5cbd787163dec78820f18932a29652dee606f565381dc9a12ecade26d12"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ocr-2-2026-10-20.log",
+      "sha256": "d20c0f6b711d4fed87c06a01b9da5d0714539dbd8b67dc06225e21b07e7673b5"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ocr-2026-10-20.json",
+      "sha256": "a3b046ffea5081165477a3e29998d3fe5e116b78c45f0740d8a7678092d6e3dc",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 0.922,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "1d96a5cbd787163dec78820f18932a29652dee606f565381dc9a12ecade26d12"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ocr-2026-10-20.log",
+      "sha256": "af20268150ee020d942b847300c5f45e30c5c351c7d12eaa33df26d14f7f0cb6"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-pdf-bounds-final-2026-10-20.json",
+      "sha256": "ea6bb4be46e4d376b614599332b3b0af316153aaa7c00082f1293c908783499f",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 52.516,
+      "timeout_seconds": 600.0,
+      "argv_sha256": "05494d43fb56e5a954bd5cb1ae4f1c784739601831a765729f3e973c2b34d876"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-pdf-bounds-final-2026-10-20.log",
+      "sha256": "bd4223a99e739b154665aebbdcb7884a54d6c1b13e1e97a526525fd3e0ebfec2"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-1-2026-10-20.json",
+      "sha256": "c035891eaa60d91323cbd039a232dd8cf4f00d21a63f7a2fd1b8ca538ce2527a",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 47.578,
+      "timeout_seconds": 1200.0,
+      "argv_sha256": "b6233ffeef54576100badba3b5054deacedc3de7817c6c5589df3ffd0984b964"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-1-2026-10-20.log",
+      "sha256": "1897931baa61b31e9004345bb6eb260d20ceeb3a8d22e44995bd77e228904b50"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-1-2026-10-20.xml",
+      "sha256": "3cd7c828b8fc9cc2c886555da32909e56390ad74439862ead6c1bce7f5a6cde3"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-final-2026-10-20.json",
+      "sha256": "dc1f9b849342ee9526510e120715cf255c4e7594bde7e671f951de4247daba48",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 53.719,
+      "timeout_seconds": 1200.0,
+      "argv_sha256": "ea3e8dfd3d8d63399f10e2c5a9e60e8281598da4d2fe5d72dbe341fff0c5a7d3"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-final-2026-10-20.log",
+      "sha256": "42d653494a984b7bc521286192704d71043dfcb99d09b3e36ac6aa8d50ad08eb"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-final-2026-10-20.xml",
+      "sha256": "da3984b6345f926dfdfc27432b4d9471c43571a44f4ee5a907e290c9ef75799e"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-pdf-final-2026-10-20.json",
+      "sha256": "0f7e5f17f0897a57afeba5b7cfbc026094272633596059f7c28d5236b6e8abe5",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 53.641,
+      "timeout_seconds": 1200.0,
+      "argv_sha256": "a071821feb58dd698a7211468f67d7f592320c2e5b3e6c4a6e51b722ed33f96b"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-pdf-final-2026-10-20.log",
+      "sha256": "cdd514dc07868e9182972de64b7fec68271a1d3ef2efc5f70648d9c5fb89c852"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-python-module-pdf-final-2026-10-20.xml",
+      "sha256": "24d9b9ce00f8383fbb538832159dec564fe00f4a23dc8e72ecd0d8884d4ea9e4"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-resources-2-2026-10-20.json",
+      "sha256": "c9a0c51ea53e7d151d81a651a0ea1dd10869104e5ccfd4fe8b86a20f07a07257",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 14.265,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "b7dc3b65e8309c7eb05ea50381923f59c4df0dc6007047216581260eb6067864"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-resources-2-2026-10-20.log",
+      "sha256": "9aaeed516c8650d392c9d552a7c62745d0e2ef1eb41830831dcf0508b19a2584"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-resources-2026-10-20.json",
+      "sha256": "cab2939820e8bbf101098b9eba94e571ced8536cdc9e680de51e3fc5a188cf7a",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 15.89,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "b7dc3b65e8309c7eb05ea50381923f59c4df0dc6007047216581260eb6067864"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-resources-2026-10-20.log",
+      "sha256": "87fc9b5cd2be8b6d32d03341505533d45fb29b02eeb0c5fc545969df76b5d05a"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-5-2026-10-20.json",
+      "sha256": "ac8dd4c62b7e612937d7eb040e2ae82888d7b0f9013fdd18f0849b1c23d9d0ff",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.328,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "3aab481d321f1a4c06b4742db1cdf3cdb709e5abe863166b4707e31d58f9bca4"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-final-2-2026-10-20.json",
+      "sha256": "af9c3b445bb8c8ac961e356ddbb6446488af95019a2bb7a4d81e01416732d606",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.172,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "3aab481d321f1a4c06b4742db1cdf3cdb709e5abe863166b4707e31d58f9bca4"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-final-2026-10-20.json",
+      "sha256": "9510fda5d6bb76340b039f1f7e69fde1ee19644ffafc5c27fdb70efe72093e9d",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.14,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "3aab481d321f1a4c06b4742db1cdf3cdb709e5abe863166b4707e31d58f9bca4"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-fix-2-2026-10-20.json",
+      "sha256": "c4f721adcecf39cd7b46e2439bb3916251579c3d6b8e3bbeb7f2e5271b4a8f7e",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 0.141,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "ad9de98c390cda8095905028d8219f634eebfe87d6fd203d24d4edb27d66833c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-fix-3-2026-10-20.json",
+      "sha256": "58b8c0999f026d7c8cace2ba3375af13cd9bd948a986e5978aa17f39b765a331",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 0.14,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "ad9de98c390cda8095905028d8219f634eebfe87d6fd203d24d4edb27d66833c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-fix-4-2026-10-20.json",
+      "sha256": "26fa295dc047bb7f43b25b539cdf521e50db29e89e3609d78fb6645fcf640af1",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 0.125,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "ad9de98c390cda8095905028d8219f634eebfe87d6fd203d24d4edb27d66833c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-fix-6-2026-10-20.json",
+      "sha256": "cc0d4c456cd7baddce9b8a686d25107eeb28ddd1f7b74f748b63a9441393738c",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.156,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "ad9de98c390cda8095905028d8219f634eebfe87d6fd203d24d4edb27d66833c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-fix-7-2026-10-20.json",
+      "sha256": "3ad06c0c4ae3cee9b873d17b4135133da7abe1a2bad137aa579ddcf1fd0a93fd",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.14,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "ad9de98c390cda8095905028d8219f634eebfe87d6fd203d24d4edb27d66833c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-ruff-initial-2026-10-20.json",
+      "sha256": "e4ee63c0f0a8bad1e6fa314d09f4ab0b4e11a5185b51d5c1c6dcc1aa780ee972",
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "duration_seconds": 0.171,
+      "timeout_seconds": 180.0,
+      "argv_sha256": "3aab481d321f1a4c06b4742db1cdf3cdb709e5abe863166b4707e31d58f9bca4"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-source-freeze-2026-10-20.json",
+      "sha256": "2b993f064a9fb3882fe5ed6971019903bc3459aa3b0e4ce33c98e377d6b4c561"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-source-freeze-final-2026-10-20.json",
+      "sha256": "a454a0218e6ee4a1159d743753df1e917d156c4da7b66c14a387d20a3c404e0f"
+    },
+    {
+      "path": "logs/phase18-takeover/ocr-quality-1792468389091806400.json",
+      "sha256": "4d27f062bd140b716ba13887981d1e00e43b722ef6f8c4b9931eaa48cf14ba35"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-diff-check-handback-final-2026-10-20.json",
+      "sha256": "5d20a038b7fecf8ea80b3266ab500c1ff8495d65c926d4f8944ac2ec3a6be781",
+      "result": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 0.079,
+      "timeout_seconds": 60.0,
+      "argv_sha256": "7c730eec3ea71bd24ffc5a9255bf7f542481bf601dba6c72bed6e00f6c2fab3c"
+    },
+    {
+      "path": "logs/phase18/s2-takeover-diff-check-handback-final-2026-10-20.log",
+      "sha256": "d667a2fa6b3b78c6d75dfa4abaf65afb64e8892c9703486a92d46d3f34e9bf47"
+    }
+  ],
+  "full_java_gate": {
+    "tests": 1433,
+    "passed": 1430,
+    "failures": 1,
+    "errors": 2,
+    "skipped": 0,
+    "exit_code": 1,
+    "duration_seconds": 885.297,
+    "result": "FAILED",
+    "receipt": "logs/phase18/s2-takeover-full-java-2026-10-20.json",
+    "cases": [
+      {
+        "class": "com.vhvkhangg.personalprivatevault.ApplicationArchitectureTests",
+        "tests": 37,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "problems": []
+      },
+      {
+        "class": "com.vhvkhangg.personalprivatevault.rag.RagNativeDocumentBatchIntegrationTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 1,
+        "skipped": 0,
+        "problems": [
+          {
+            "test": "realNativeEightSuccessTwoFailurePublishesAtomicallyAndReconcilesLostAck",
+            "type": "java.lang.IllegalStateException",
+            "message": "Unverified document pipeline identity"
+          }
+        ]
+      },
+      {
+        "class": "com.vhvkhangg.personalprivatevault.rag.RagNativeWorkerProcessTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "problems": []
+      },
+      {
+        "class": "com.vhvkhangg.personalprivatevault.rag.RagPgVectorCompatibilityIntegrationTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "problems": []
+      },
+      {
+        "class": "com.vhvkhangg.personalprivatevault.rag.RagWindowsNativePrerequisiteTest",
+        "tests": 9,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "problems": [
+          {
+            "test": "attemptsAliasCreationAndRemovalDuringProtectedLifetime",
+            "type": "org.opentest4j.AssertionFailedError",
+            "message": "[Unsupported alias creation must be blocked throughout the held lifetime] \nExpecting value to be false but was true"
+          }
+        ]
+      },
+      {
+        "class": "com.vhvkhangg.personalprivatevault.rag.RagWorkerBoundaryIntegrationTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 1,
+        "skipped": 0,
+        "problems": [
+          {
+            "test": "actualSpringRuntimeRestartDeniesRestoredConsentAndStaleWorkerGrants",
+            "type": "org.postgresql.util.PSQLException",
+            "message": "FATAL: remaining connection slots are reserved for roles with the SUPERUSER attribute"
+          }
+        ]
+      },
+      {
+        "class": "com.vhvkhangg.personalprivatevault.web.OpenApiRouteInventoryIntegrationTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "problems": []
+      }
+    ],
+    "source_scope": "Began against first Python source freeze; only PDF preallocation admission guard/test changed during execution. Java/SQL/wire unchanged. Final Python suite verifies late guard. Not an exact-final-source clean PASS."
+  },
+  "quality": {
+    "manifest_sha256": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be",
+    "historical_exact": "3/8 FAIL unchanged",
+    "current_exact": "2/8 FAIL; vi/zh-Hant admission rejected",
+    "fresh_held_out_human_adjudication": "NOT_AVAILABLE",
+    "families": 2,
+    "documents": 8,
+    "pages": 8,
+    "emitted_blocks": 5,
+    "tables": 0,
+    "cells": 0,
+    "published_files": 0
+  },
+  "environment": {
+    "cpu": "Intel Core i5-9600K",
+    "host_ram_bytes": 17112092672,
+    "device": "RTX 2070",
+    "device_vram_mib": 8192,
+    "onnx_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "cuda": "UNAVAILABLE",
+    "python": "3.14.4",
+    "installed_packages": 66,
+    "lock_matches": true
+  },
+  "resource_workload": {
+    "documents": 4,
+    "elements": 707,
+    "chunks": 707,
+    "cpu_vectors": 707,
+    "wall_seconds": 12.64729960000841,
+    "process_cpu_seconds": 53.890625,
+    "process_peak_working_set_bytes": 673763328,
+    "host_headroom_at_finish_bytes": 2090831872,
+    "device_wide_vram_max_sample_bytes": 2534649856,
+    "scratch_sample_period_seconds": 0.02,
+    "samples": 379,
+    "scratch_max_including_fixture_generation_bytes": 70810,
+    "pipeline_scratch_max_sample_bytes": 0,
+    "scratch_final_bytes": 0,
+    "scratch_removed": true,
+    "source_scope": "Before last PDF preallocation-only guard; unchanged positive path retested. Development observation, not held-out acceptance."
+  },
+  "native_termination": {
+    "scope": "Existing command watchdog kills actual PDF/OCR workload; not Java integration acceptance",
+    "watchdog_timeout_seconds": 15,
+    "exit_code": 124,
+    "launcher_pid": 20520,
+    "actual_ocr_pid": 28736,
+    "survivors_observed": false
+  },
+  "boundaries": {
+    "java_sql_dependencies_wire_changes": false,
+    "phase17": "COMPLETE/FROZEN",
+    "slice1": "COMPLETE/CLOSED under D14",
+    "FR18-3": "OPEN",
+    "external_indexing": "INACTIVE",
+    "live_original": "DISABLED/DEFERRED",
+    "slices3_4": "NOT_AUTHORIZED",
+    "published": false,
+    "pipeline_identity_changed": true,
+    "native_v3_pipeline_compatibility": "BLOCKED by unchanged Java allowlist; public schema unchanged"
+  },
+  "verification_commands": [
+    {
+      "receipt": "logs/phase18/s2-takeover-focused-post-admission-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_slice2_corrections.py",
+        "rag-engine/tests/test_parsers.py",
+        "rag-engine/tests/test_pdf_geometry.py",
+        "rag-engine/tests/test_chunker.py",
+        "-q"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "600",
+        "--receipt",
+        "logs/phase18/s2-takeover-focused-post-admission-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_slice2_corrections.py",
+        "rag-engine/tests/test_parsers.py",
+        "rag-engine/tests/test_pdf_geometry.py",
+        "rag-engine/tests/test_chunker.py",
+        "-q"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-python-module-final-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--junitxml=logs/phase18/s2-takeover-python-module-final-2026-10-20.xml"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "1200",
+        "--receipt",
+        "logs/phase18/s2-takeover-python-module-final-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--junitxml=logs/phase18/s2-takeover-python-module-final-2026-10-20.xml"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-ruff-final-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-ruff-final-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-format-final-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-format-final-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-mypy-final-2-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "mypy",
+        "rag-engine/src/ppv_rag"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-mypy-final-2-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "mypy",
+        "rag-engine/src/ppv_rag"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-dependencies-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/dependency_inventory.py",
+        "--output",
+        "logs/phase18/s2-takeover-dependency-inventory-2026-10-20.json"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-dependencies-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/dependency_inventory.py",
+        "--output",
+        "logs/phase18/s2-takeover-dependency-inventory-2026-10-20.json"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-ocr-2-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/probe_phase18_ocr.py"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-ocr-2-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/probe_phase18_ocr.py"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-resources-2-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/slice2_corrective_resources.py"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-resources-2-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/slice2_corrective_resources.py"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-native-termination-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/slice2_corrective_resources.py",
+        "--termination-workload"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "15",
+        "--receipt",
+        "logs/phase18/s2-takeover-native-termination-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "rag-engine/scripts/slice2_corrective_resources.py",
+        "--termination-workload"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-full-java-2026-10-20.json",
+      "launched_argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "clean",
+        "verify"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "full-suite",
+        "--timeout-seconds",
+        "2100",
+        "--receipt",
+        "logs/phase18/s2-takeover-full-java-2026-10-20.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "clean",
+        "verify"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-pdf-bounds-final-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_slice2_corrections.py",
+        "rag-engine/tests/test_pdf_geometry.py",
+        "-q"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "600",
+        "--receipt",
+        "logs/phase18/s2-takeover-pdf-bounds-final-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_slice2_corrections.py",
+        "rag-engine/tests/test_pdf_geometry.py",
+        "-q"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-python-module-pdf-final-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--junitxml=logs/phase18/s2-takeover-python-module-pdf-final-2026-10-20.xml"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "1200",
+        "--receipt",
+        "logs/phase18/s2-takeover-python-module-pdf-final-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "rag-engine/tests",
+        "-q",
+        "--junitxml=logs/phase18/s2-takeover-python-module-pdf-final-2026-10-20.xml"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-ruff-final-2-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-ruff-final-2-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-format-final-2-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-format-final-2-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-mypy-final-3-2026-10-20.json",
+      "launched_argv": [
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "mypy",
+        "rag-engine/src/ppv_rag"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s2-takeover-mypy-final-3-2026-10-20.json",
+        "--",
+        "rag-engine/.venv/Scripts/python.exe",
+        "-m",
+        "mypy",
+        "rag-engine/src/ppv_rag"
+      ],
+      "argv_matches_receipt": true
+    },
+    {
+      "receipt": "logs/phase18/s2-takeover-diff-check-handback-final-2026-10-20.json",
+      "launched_argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "wrapper_argv": [
+        "python",
+        "scripts/run-bounded-command.py",
+        "--profile",
+        "normal",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "logs/phase18/s2-takeover-diff-check-handback-final-2026-10-20.json",
+        "--",
+        "git",
+        "diff",
+        "--check"
+      ],
+      "argv_matches_receipt": true
+    }
+  ],
+  "source_freeze_file": "logs/phase18/s2-takeover-source-freeze-final-2026-10-20.json",
+  "focused_post_pdf_guard": {
+    "tests": 42,
+    "passed": 42,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "pytest_seconds": 47.53
+  },
+  "diff_check": {
+    "exit_code": 0,
+    "receipt": "logs/phase18/s2-takeover-diff-check-handback-final-2026-10-20.json"
+  }
+}
