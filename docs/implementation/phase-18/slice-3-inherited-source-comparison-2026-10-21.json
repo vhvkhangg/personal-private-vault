@@ -1,0 +1,214 @@
+{
+  "baseline": "ef32d41b33dd00e5fa08cf63977e91b8936ef3d5",
+  "purpose": "Read-only comparison against historical selected candidate; not a staged-tree workflow or new acceptance",
+  "counts": {
+    "compared": 34,
+    "matching": 31
+  },
+  "files": [
+    {
+      "path": ".gitignore",
+      "reviewed_projected_sha256": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744",
+      "published_sha256": "5bec47114378c35a8f8b13dd6eed8341e37c4fb34869da8ade289bbe94a10744",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/pyproject.toml",
+      "reviewed_projected_sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+      "published_sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/scripts/dependency_inventory.py",
+      "reviewed_projected_sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+      "published_sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/chunking/chunker.py",
+      "reviewed_projected_sha256": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+      "published_sha256": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/embeddings/model.py",
+      "reviewed_projected_sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+      "published_sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/main.py",
+      "reviewed_projected_sha256": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+      "published_sha256": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/ocr/engine.py",
+      "reviewed_projected_sha256": "7b637869af437a9824d1b28417931375d0c8a377d32e703c82b080be44b99f0e",
+      "published_sha256": "3953b9e6299525e4e3f775875b5ac4c186f952a1ffc203109c649c8a13d4203a",
+      "matches": false
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/markdown.py",
+      "reviewed_projected_sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+      "published_sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/models.py",
+      "reviewed_projected_sha256": "51c7638a8a0121608912672152251adfbd3006d98ed296a8dbeba49761aff152",
+      "published_sha256": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+      "matches": false
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/text.py",
+      "reviewed_projected_sha256": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+      "published_sha256": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/worker.py",
+      "reviewed_projected_sha256": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+      "published_sha256": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/uv.lock",
+      "reviewed_projected_sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+      "published_sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/scripts/d17_completion_resources.py",
+      "reviewed_projected_sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+      "published_sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/scripts/d17_final_onnx_probe.py",
+      "reviewed_projected_sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+      "published_sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/scripts/d17_final_profile.py",
+      "reviewed_projected_sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+      "published_sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/scripts/d17_markdown_evidence.py",
+      "reviewed_projected_sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+      "published_sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/scripts/d17_structural_conformance.py",
+      "reviewed_projected_sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+      "published_sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/scripts/provision_embedding_model.py",
+      "reviewed_projected_sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+      "published_sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/limits.py",
+      "reviewed_projected_sha256": "88889ca26d84ba6338d6ea4fd042bb062d826506fa9bb3a1a81979f1817baeac",
+      "published_sha256": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194",
+      "matches": false
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/obsidian.py",
+      "reviewed_projected_sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+      "published_sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/obsidian_html.py",
+      "reviewed_projected_sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+      "published_sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md",
+      "reviewed_projected_sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+      "published_sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md",
+      "reviewed_projected_sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+      "published_sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+      "reviewed_projected_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+      "published_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md",
+      "reviewed_projected_sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+      "published_sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md",
+      "reviewed_projected_sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+      "published_sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt",
+      "reviewed_projected_sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+      "published_sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md",
+      "reviewed_projected_sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+      "published_sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json",
+      "reviewed_projected_sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+      "published_sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/test_d17_completion.py",
+      "reviewed_projected_sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+      "published_sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/test_d17_final_corrective.py",
+      "reviewed_projected_sha256": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+      "published_sha256": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/test_d17_r03_only.py",
+      "reviewed_projected_sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb",
+      "published_sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/test_obsidian_d17.py",
+      "reviewed_projected_sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+      "published_sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+      "matches": true
+    },
+    {
+      "path": "rag-engine/tests/test_optional_ocr_dependency.py",
+      "reviewed_projected_sha256": "4b6d16129f075a02b7503f0e8c027cf4ba0c0676e7ebb632853fdab972652771",
+      "published_sha256": "4b6d16129f075a02b7503f0e8c027cf4ba0c0676e7ebb632853fdab972652771",
+      "matches": true
+    }
+  ]
+}

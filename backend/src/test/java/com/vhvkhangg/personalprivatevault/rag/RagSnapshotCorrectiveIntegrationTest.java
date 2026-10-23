@@ -130,7 +130,7 @@ class RagSnapshotCorrectiveIntegrationTest extends AbstractRagIntegrationTest {
                 default -> jdbcTemplate.update("UPDATE rag.sources SET authorization_epoch=authorization_epoch+1 WHERE id=?",a.id());
             }
             return sealed;
-        }).when(store).sealRevision(any(),any(),any(),anyString(),anyLong());
+        }).when(store).sealRevision(any(),any(),any(),anyString(),anyLong(),anyString(),anyList());
         assertThatThrownBy(()->rag.capturePendingRevision(a.id(),update(path,a))).isInstanceOf(RagSourceChangedException.class);
         assertThat(row(a).getPendingRevisionId()).isEqualTo(a.snapshot().pendingRevisionId());
         assertThat(row(a).getSelectedRevisionId()).isEqualTo(change.equals("selection") ? selected : null);
@@ -141,7 +141,7 @@ class RagSnapshotCorrectiveIntegrationTest extends AbstractRagIntegrationTest {
     @Test void simultaneousFirstImportsHaveOneLogicalWinner() throws Exception {
         Path path=file("A"); var barrier=new CyclicBarrier(2);
         doAnswer(call->{ Object sealed=call.callRealMethod(); barrier.await(10,TimeUnit.SECONDS); return sealed; })
-                .when(store).sealRevision(any(),any(),any(),anyString(),anyLong());
+                .when(store).sealRevision(any(),any(),any(),anyString(),anyLong(),anyString(),anyList());
         try(var threads=Executors.newFixedThreadPool(2)) {
             var first=threads.submit(()->attempt(()->register(path)));
             var second=threads.submit(()->attempt(()->register(path)));
@@ -215,7 +215,7 @@ class RagSnapshotCorrectiveIntegrationTest extends AbstractRagIntegrationTest {
             Files.writeString(path,"B"); clearInvocations(store);
             assertThatThrownBy(()->register(path)).isInstanceOf(RuntimeException.class);
             assertThatThrownBy(()->rag.capturePendingRevision(a.id(),update(path,a))).isInstanceOf(RuntimeException.class);
-            verify(store,never()).sealRevision(any(),any(),any(),anyString(),anyLong());
+            verify(store,never()).sealRevision(any(),any(),any(),anyString(),anyLong(),anyString(),anyList());
             verify(store,never()).deleteRevision(any(),any()); valid(a);
         } finally { new TransactionTemplate(transactions).executeWithoutResult(tx->external.release(Set.of(UUID.fromString(a.sourceId())),token)); }
         invariant(a);
@@ -440,7 +440,7 @@ class RagSnapshotCorrectiveIntegrationTest extends AbstractRagIntegrationTest {
             Object sealed=call.callRealMethod();
             jdbcTemplate.update("UPDATE rag.runtime_state SET current_instance=? WHERE singleton",UUID.randomUUID());
             return sealed;
-        }).when(store).sealRevision(any(),any(),any(),anyString(),anyLong());
+        }).when(store).sealRevision(any(),any(),any(),anyString(),anyLong(),anyString(),anyList());
         try {
             assertThatThrownBy(()->{
                 if(operation.equals("register")) register(newFile);

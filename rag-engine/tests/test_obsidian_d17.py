@@ -216,6 +216,7 @@ def test_md17_http_cancel_while_actual_markdown_is_parsing(
         ),
     )
     monkeypatch.setattr(worker, "verify_document_grant", lambda request: None)
+    monkeypatch.setattr(worker, "seal_document_result", lambda *_: "f" * 64)
     staged = []
     monkeypatch.setattr(worker, "stage_document_result", lambda **kwargs: staged.append(kwargs))
     entered, release = threading.Event(), threading.Event()
@@ -333,6 +334,7 @@ def test_md17_actual_producer_matrix_and_failures(monkeypatch):
         ),
     )
     monkeypatch.setattr(worker, "verify_document_grant", lambda request: None)
+    monkeypatch.setattr(worker, "seal_document_result", lambda *_: "f" * 64)
     staged = []
     monkeypatch.setattr(worker, "stage_document_result", lambda **kwargs: staged.append(kwargs))
 
@@ -429,6 +431,7 @@ def test_md17_producer_interrupt_never_stages_partial_root(monkeypatch, mode):
         ),
     )
     monkeypatch.setattr(worker, "verify_document_grant", lambda request: None)
+    monkeypatch.setattr(worker, "seal_document_result", lambda *_: "f" * 64)
     staged = []
     monkeypatch.setattr(worker, "stage_document_result", lambda **kwargs: staged.append(kwargs))
     roots = [

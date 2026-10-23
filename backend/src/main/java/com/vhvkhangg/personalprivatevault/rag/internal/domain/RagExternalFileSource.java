@@ -77,6 +77,12 @@ public class RagExternalFileSource {
         this.updatedAt=Objects.requireNonNull(now);
     }
 
+    public void approvePendingRevision(UUID revisionId, long epoch, int policy, Instant now) {
+        approvePendingRevision(revisionId, now);
+        this.authorizationEpoch = epoch;
+        this.fieldPolicyVersion = policy;
+    }
+
     @Column(name = "pending_consent_context", length = 160)
     private String pendingConsentContext;
 

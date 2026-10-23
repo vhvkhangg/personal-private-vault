@@ -50,6 +50,16 @@ public class RagPurgeService {
             var lease=found.getFirst(); entityManager.refresh(lease);
             if ("COMPLETED".equals(lease.getStatus())) return "COMPLETED";
             if (TERMINAL.contains(lease.getStatus())) return "TERMINAL";
+            if (cancelled) {
+                // Same lease lock as terminalization: commit intent before process waits.
+                // Reuse the existing run's operational JSON, not a new lifecycle/status.
+                int recorded=entityManager.createNativeQuery("""
+                        UPDATE rag.runs SET metrics=jsonb_set(coalesce(metrics,'{}'::jsonb),
+                            '{cancel_requested}','true'::jsonb,true), updated_at=clock_timestamp()
+                        WHERE job_id=:job AND jsonb_typeof(coalesce(metrics,'{}'::jsonb))='object'
+                        """).setParameter("job",job).executeUpdate();
+                if (recorded!=1) throw new IllegalStateException("Cancellation intent could not be recorded");
+            }
             lease.updateStatus("STOPPING",java.time.Instant.now()); leases.saveAndFlush(lease);
             return "STOP";
         });
@@ -58,6 +68,9 @@ public class RagPurgeService {
             return "TERMINAL".equals(decision);
         }
         if (!supervisor.proveStopped(job) && !supervisor.stopAndVerify(job)) {
+            var finished=leases.findByJobId(job).getFirst();
+            if (TERMINAL.contains(finished.getStatus()) && finished.isStagingClosed())
+                return !"COMPLETED".equals(finished.getStatus());
             requireRecovery(job); return false;
         }
         var initial=leases.findByJobId(job).getFirst();
@@ -90,10 +103,13 @@ public class RagPurgeService {
                 if (!supervisor.proveStopped(job)) throw new IllegalStateException("Consumer termination is not proven");
                 // The acquired attempt lock drained every pre-existing staging writer.
                 lease.sealStaging();
-                lease.updateStatus(cancelled?"CANCELLED":"ABORTED",java.time.Instant.now());
+                var intent=entityManager.createNativeQuery("SELECT metrics->>'cancel_requested' FROM rag.runs WHERE job_id=:job FOR UPDATE")
+                        .setParameter("job",job).getSingleResult();
+                String outcome=cancelled || "true".equals(intent) ? "CANCELLED" : "ABORTED";
+                lease.updateStatus(outcome,java.time.Instant.now());
                 leases.saveAndFlush(lease);
                 entityManager.createNativeQuery("UPDATE rag.runs SET status=:outcome WHERE job_id=:job")
-                        .setParameter("outcome",cancelled?"CANCELLED":"ABORTED").setParameter("job",job).executeUpdate();
+                        .setParameter("outcome",outcome).setParameter("job",job).executeUpdate();
                 denyArtifacts(job);
                 eraseWithSavepoint(job);
                 if (!scope.vaultOwners().isEmpty()) {

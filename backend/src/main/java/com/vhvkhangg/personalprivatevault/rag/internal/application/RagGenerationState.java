@@ -54,7 +54,8 @@ public class RagGenerationState {
                 generationManifest = ownManifest;
             }
             var manifest=RagManifestScope.parse(generationManifest);
-            var owners=reservations.read(RagManifestScope.owners(generationManifest));
+            var ownerIds=RagManifestScope.owners(generationManifest);
+            var owners=ownerIds.isEmpty()?null:reservations.read(ownerIds);
             var selected=new TreeSet<Long>();
             manifest.path("nodes").forEach(node -> selected.add(node.path("source_id").asLong()));
             var policy=new HashMap<Long,com.vhvkhangg.personalprivatevault.rag.internal.domain.RagSource>();
@@ -62,6 +63,20 @@ public class RagGenerationState {
             boolean outdated=false;
             for (var node:manifest.path("nodes")) {
                 var source=policy.get(node.path("source_id").asLong());
+                if ("EXTERNAL_FILE".equals(node.path("source_type").asText())) {
+                    var ext=externalFileAuthority.findByFileSourceId(UUID.fromString(node.path("domain_id").asText()));
+                    if (source==null || ext==null) return "UNAVAILABLE";
+                    if (!ext.isEligible() || source.getClassification()!=RagClassification.NON_PRIVATE || source.getAccessState()!=RagAccessState.APPROVED
+                            || !Objects.equals(source.getApprovedOwnerResetVersion(),ext.getConsentResetVersion())
+                            || ext.getConsentResetVersion()!=node.path("owner_reset_version").asLong()) return "REVOKED";
+                    if (ext.isSnapshotIntegrityFailed()) return "UNAVAILABLE";
+                    if (ext.getSourceVersion()!=node.path("owner_source_version").asLong()
+                            || !Objects.toString(ext.getSelectedRevisionId(),"").equals(node.path("snapshot").path("revision_id").asText())) outdated=true;
+                    else if (source.getAuthorizationEpoch()!=node.path("epoch").asLong()
+                            || source.getFieldPolicyVersion()!=node.path("field_version").asInt()) return "REVOKED";
+                    for (var field:node.path("fields")) if (!source.getApprovedFields().contains(field.asText())) return "REVOKED";
+                    continue;
+                }
                 var owner=owners.require(Long.parseLong(node.path("domain_id").asText()));
                 if (source==null || owner.deleted() || source.getClassification()!=RagClassification.NON_PRIVATE
                         || source.getAccessState()!=RagAccessState.APPROVED

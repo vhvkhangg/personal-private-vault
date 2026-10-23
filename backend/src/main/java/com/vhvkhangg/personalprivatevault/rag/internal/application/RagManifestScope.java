@@ -45,9 +45,19 @@ final class RagManifestScope {
 
         if ("2.0".equals(contract)) {
             for (var item : node.path("nodes")) {
-                if (!item.path("source_type").asText().matches("FICTION|FILM")) throw new IllegalStateException("Unsupported issued source");
-                long id = Long.parseLong(item.path("domain_id").asText());
-                if (id <= 0 || !vaultOwners.add(id)) throw new IllegalStateException("Invalid issued source scope");
+                String type = item.path("source_type").asText();
+                if ("EXTERNAL_FILE".equals(type)) {
+                    try {
+                        externalFiles.add(UUID.fromString(item.path("domain_id").asText()));
+                    } catch (Exception ex) {
+                        throw new IllegalStateException("Invalid external file issued source scope", ex);
+                    }
+                } else if ("FICTION".equals(type) || "FILM".equals(type)) {
+                    long id = Long.parseLong(item.path("domain_id").asText());
+                    if (id <= 0 || !vaultOwners.add(id)) throw new IllegalStateException("Invalid issued source scope");
+                } else {
+                    throw new IllegalStateException("Unsupported issued source");
+                }
             }
         } else if ("3.0".equals(contract)) {
             for (var root : node.path("roots")) {

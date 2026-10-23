@@ -114,3 +114,13 @@ def stage_document_result(
             raise AuthorityUnavailable("Document stage denied")
         staged_id = row[0]
     return staged_id
+
+
+def seal_document_result(job_id: str, attempt_id: str, lease_token: str) -> str:
+    with connection() as conn:
+        row = conn.execute(
+            "SELECT rag.seal_document_result(%s,%s,%s)", (job_id, attempt_id, lease_token)
+        ).fetchone()
+        if row is None or not isinstance(row[0], str):
+            raise AuthorityUnavailable("Document result seal denied")
+        return row[0]

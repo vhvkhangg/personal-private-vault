@@ -1,6 +1,5 @@
 """D17 final corrective regressions; real producer, no publication authority."""
 
-import hashlib
 import json
 from contextlib import contextmanager
 
@@ -27,6 +26,7 @@ def producer(monkeypatch):
         ),
     )
     monkeypatch.setattr(worker, "verify_document_grant", lambda _: None)
+    monkeypatch.setattr(worker, "seal_document_result", lambda *_: "f" * 64)
     outputs = []
     # Exercise the actual JSON serialization boundary, then inspect decoded output.
     monkeypatch.setattr(
@@ -112,12 +112,9 @@ def test_scope_exit_deadline_counts(producer, monkeypatch, texts):
     assert outputs[0]["reason_code"] == "RESOURCE_LIMIT_EXCEEDED"
     if len(texts) > 1:
         assert outputs[1]["success"] and outputs[1]["chunks_payload"]
-    assert (
-        response.receipt["output_digest"]
-        == hashlib.sha256(
-            f"{response.job_id}:{response.attempt_id}:{len(texts) - 1}:1".encode()
-        ).hexdigest()
-    )
+    # The actual-result seal is a SQL boundary mocked by this producer-local fixture.
+    # Native Java/PG tests verify its content binding; counts above remain independent.
+    assert response.receipt["output_digest"] == "f" * 64
 
 
 @pytest.mark.parametrize("prefix", ["", "> - ", "1. "])

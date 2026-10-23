@@ -1,0 +1,2386 @@
+{
+  "date": "2026-10-22",
+  "decision": "CHANGES_REQUESTED",
+  "role": "Independent reviewer; no implementation authored in this review",
+  "scope": "P18-S3-VERIFIED-INDEXING / D24 / S3-F01-F06 / mandatory S3-01-16",
+  "head": "ef32d41b33dd00e5fa08cf63977e91b8936ef3d5",
+  "authoritative_submission_sha256": "64b4a5ac0f8372e6aca49e1d74bfc7167db7a6bdc5fb3a19318cda34b15fbe55",
+  "dispositions": {
+    "S3-F01": "NOT CLOSED: protected SQL/roster/source replay repaired; norm-preserving vector forgery accepted",
+    "S3-F02": "CLOSED for original external UUID/currentness/version defect",
+    "S3-F03": "NOT CLOSED: MD-root naming repaired; DOMAIN-to-external closure bypasses Markdown admission",
+    "S3-F04": "CLOSED captured suffix/format admission",
+    "S3-F05": "NOT CLOSED: typed snapshot on MD-root path; external child loses typed binding in DOMAIN branch",
+    "S3-F06": "NOT CLOSED: new native selection fails; adversarial gaps remain despite audited improved evidence",
+    "FR18-3": "OPEN / NOT VERIFIED CLOSED"
+  },
+  "findings": {
+    "S3-RR-01": {
+      "severity": "High",
+      "original": "S3-F01",
+      "description": "Negated real finite unit vector published CURRENT; no trusted inference-to-chunk comparison"
+    },
+    "S3-RR-02": {
+      "severity": "High",
+      "original": [
+        "S3-F03",
+        "S3-F05"
+      ],
+      "description": "Normal API DOMAIN parent flattens external .md child to plain text, no typed child snapshot; D17-required-rejection material publishes CURRENT"
+    },
+    "S3-RR-03": {
+      "severity": "Medium (blocking mandatory gate)",
+      "original": "S3-F06",
+      "description": "Real staging cancellation races automatic failure finish and returns ABORTED instead of CANCELLED"
+    }
+  },
+  "commands": [
+    {
+      "name": "python",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_r03_only.py",
+        "rag-engine/tests/test_optional_ocr_dependency.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_slice3_verified_indexing.py",
+        "rag-engine/tests/test_slice3_corrective.py",
+        "rag-engine/tests/test_slice3_dependency_names.py",
+        "rag-engine/tests/test_contracts.py",
+        "rag-engine/tests/test_bound_ingress.py",
+        "rag-engine/tests/test_consumption_containment.py",
+        "rag-engine/tests/test_chunker.py",
+        "rag-engine/tests/test_embeddings.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\python-final-v3-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\python-final-v3-temp"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "240",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\python.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_r03_only.py",
+        "rag-engine/tests/test_optional_ocr_dependency.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_slice3_verified_indexing.py",
+        "rag-engine/tests/test_slice3_corrective.py",
+        "rag-engine/tests/test_slice3_dependency_names.py",
+        "rag-engine/tests/test_contracts.py",
+        "rag-engine/tests/test_bound_ingress.py",
+        "rag-engine/tests/test_consumption_containment.py",
+        "rag-engine/tests/test_chunker.py",
+        "rag-engine/tests/test_embeddings.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\python-final-v3-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\python-final-v3-temp"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 240.0,
+        "executable": "python.exe",
+        "argv_sha256": "c658f767195e0b2217361fd1ef47068df307a574f7854986bbbcd78be916a4eb",
+        "started_utc": "2026-10-22T00:41:59.344+00:00",
+        "pid": 9392,
+        "finished_utc": "2026-10-22T00:43:00.409+00:00",
+        "duration_seconds": 61.065,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/python.json",
+      "receipt_sha256": "8b8c96d90135b9bf11ea1ffc0bbe759b3d172d0c0e6e2b6dee8bfc0061d5843a",
+      "log_path": "logs/phase18/s3-final-independent-20261022/python.log",
+      "log_sha256": "8279791a57e7cd3244da4dbb109834a263dc62d18eedd03b39eee4f807cded46"
+    },
+    {
+      "name": "java-native",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest,RagSlice3ConnectionLossIntegrationTest,RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "1150",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\java-native.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest,RagSlice3ConnectionLossIntegrationTest,RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 1150.0,
+        "executable": "mvn.cmd",
+        "argv_sha256": "13871ebfbd163e6e77fb8414d21661f829c3651875fe80b831c5c7abb2a5a024",
+        "started_utc": "2026-10-22T00:41:59.348+00:00",
+        "pid": 29096,
+        "finished_utc": "2026-10-22T00:57:34.088+00:00",
+        "duration_seconds": 934.742,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/java-native.json",
+      "receipt_sha256": "e54a8e9c88e98967843d49c6b708968e33e2be7eed03bbd4050e2d3fb0742751",
+      "log_path": "logs/phase18/s3-final-independent-20261022/java-native.log",
+      "log_sha256": "37e6f5c1702aedb83e57324c92c282b20d84540b0d58ff77f53bab95f4570824"
+    },
+    {
+      "name": "mypy",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "mypy",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "--cache-dir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\new-mypy-cache",
+        "rag-engine/src"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\mypy.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "mypy",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "--cache-dir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\new-mypy-cache",
+        "rag-engine/src"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "100684835748ddc3bc767fe3085141f34eef6d53b644a2da012602cfc7318174",
+        "started_utc": "2026-10-22T00:41:59.413+00:00",
+        "pid": 27760,
+        "finished_utc": "2026-10-22T00:42:11.095+00:00",
+        "duration_seconds": 11.681,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/mypy.json",
+      "receipt_sha256": "22cc8e34d990f758749ba822c0e7485d8a2a1776ec1614d31a9c1b9b8d8a3323",
+      "log_path": "logs/phase18/s3-final-independent-20261022/mypy.log",
+      "log_sha256": "c95c10a7717e5ebeda56994a232cfd77839bedaa5e42711470f6616333ed2928"
+    },
+    {
+      "name": "pip",
+      "argv": [
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\pip.json",
+        "--",
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "uv",
+        "argv_sha256": "827ca9745a8b9a3def7bb43670084c2f28034c9974411dab7058153139a69f03",
+        "started_utc": "2026-10-22T00:42:34.445+00:00",
+        "pid": 16924,
+        "finished_utc": "2026-10-22T00:42:35.145+00:00",
+        "duration_seconds": 0.7,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/pip.json",
+      "receipt_sha256": "83df9f3e41fd2e161dfd8f6f0efaf2f6bde89f27fc471a19192d0464a4403954",
+      "log_path": "logs/phase18/s3-final-independent-20261022/pip.log",
+      "log_sha256": "6f76459bf366e29e82410e2324a747997a8192c69d4f81e2552538bf8902deb8"
+    },
+    {
+      "name": "ruff",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "python.exe",
+        "argv_sha256": "8f4cf07211d521159893c73632d0d996ab4342d92670d48efa8f7827c0dffe22",
+        "started_utc": "2026-10-22T00:42:34.446+00:00",
+        "pid": 32900,
+        "finished_utc": "2026-10-22T00:42:34.802+00:00",
+        "duration_seconds": 0.356,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/ruff.json",
+      "receipt_sha256": "3cb385d9fd96abe51fdb1a2b6d4165587d2ee26b9aabe21cd32ed489675221e0",
+      "log_path": "logs/phase18/s3-final-independent-20261022/ruff.log",
+      "log_sha256": "893b86fa0d0443e902ce683d44afc5188112d73639fad3c7280bcae728c15d51"
+    },
+    {
+      "name": "lock",
+      "argv": [
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\lock.json",
+        "--",
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "uv",
+        "argv_sha256": "c8699a98f099cdf9bc602ad760395767f001cc10177c430329a2a0e001933e82",
+        "started_utc": "2026-10-22T00:42:34.517+00:00",
+        "pid": 20780,
+        "finished_utc": "2026-10-22T00:42:35.090+00:00",
+        "duration_seconds": 0.572,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/lock.json",
+      "receipt_sha256": "ded2880bc37c11c3c3665602cf032a80970e639af48e4cdc9ffff8ff710a3724",
+      "log_path": "logs/phase18/s3-final-independent-20261022/lock.log",
+      "log_sha256": "433be69fde0084240a55f0f337a7e29100bfe4be85d44f5ff1d982cd7a680b75"
+    },
+    {
+      "name": "format",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\format.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "python.exe",
+        "argv_sha256": "bfc61fb889bcd09b246e6136cc7b1cd6dc023a2cc0947e9f87b3f20ca78e08b4",
+        "started_utc": "2026-10-22T00:42:34.481+00:00",
+        "pid": 17696,
+        "finished_utc": "2026-10-22T00:42:34.806+00:00",
+        "duration_seconds": 0.325,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/format.json",
+      "receipt_sha256": "c0b1d13394d4b4942d491040f8955edb3ca363a3ec150158e9f23f673d47d7dc",
+      "log_path": "logs/phase18/s3-final-independent-20261022/format.log",
+      "log_sha256": "fe1e5fb8c1ad8d2227821452a05a23a6d53ecb893383f682891aac81f3be7f44"
+    },
+    {
+      "name": "probe-compile",
+      "argv": [
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\probe-compile.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\probe-compile.json",
+        "--",
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\probe-compile.args"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "javac",
+        "argv_sha256": "4201120f5bc98b55a131d5e36a85617007f88c1b36dc252858c3d62ad125eb1e",
+        "started_utc": "2026-10-22T00:43:40.785+00:00",
+        "pid": 20308,
+        "finished_utc": "2026-10-22T00:43:44.033+00:00",
+        "duration_seconds": 3.248,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/probe-compile.json",
+      "receipt_sha256": "de71c24083e21b1ee988fd21aaa998c5960196d2e19a4ab11f5d0444b327f096",
+      "log_path": "logs/phase18/s3-final-independent-20261022/probe-compile.log",
+      "log_sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e"
+    },
+    {
+      "name": "probe-native",
+      "argv": [
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\probe-native.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\probe-native.json",
+        "--",
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\probe-native.args"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "java",
+        "argv_sha256": "041be442110ac36cb423dacba2b67b7a47137dc6f90f1b582d0444b623914bd1",
+        "started_utc": "2026-10-22T00:44:10.301+00:00",
+        "pid": 2160,
+        "finished_utc": "2026-10-22T00:44:54.548+00:00",
+        "duration_seconds": 44.247,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/probe-native.json",
+      "receipt_sha256": "0ff88c1a41c8bfbcc459f31337f520222e7f15b2543417bb349e3b5098768c0a",
+      "log_path": "logs/phase18/s3-final-independent-20261022/probe-native.log",
+      "log_sha256": "4e22a4bc2b154b4c32d781addd64f1b8221fc28d23f28147e2d6952608e1d47f"
+    },
+    {
+      "name": "vector-confirm-compile",
+      "argv": [
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\vector-confirm-compile.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\vector-confirm-compile.json",
+        "--",
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\vector-confirm-compile.args"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "javac",
+        "argv_sha256": "ea9cec3c87a021001077c640a508980abbfcd1eb65888477bbdebbe372c3581a",
+        "started_utc": "2026-10-22T00:47:59.702+00:00",
+        "pid": 12256,
+        "finished_utc": "2026-10-22T00:48:02.297+00:00",
+        "duration_seconds": 2.595,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/vector-confirm-compile.json",
+      "receipt_sha256": "aee5d96066e617826b237d461efa6df3fcfebea9963efd4404dc5ff4de32fb12",
+      "log_path": "logs/phase18/s3-final-independent-20261022/vector-confirm-compile.log",
+      "log_sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e"
+    },
+    {
+      "name": "vector-confirm-native",
+      "argv": [
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\vector-confirm-native.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\vector-confirm-native.json",
+        "--",
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\vector-confirm-native.args"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "java",
+        "argv_sha256": "6b1a33a64b920a254541027edb566ceca718f02c94896d6fd0eedead0d007363",
+        "started_utc": "2026-10-22T00:48:22.057+00:00",
+        "pid": 28196,
+        "finished_utc": "2026-10-22T00:49:10.365+00:00",
+        "duration_seconds": 48.308,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/vector-confirm-native.json",
+      "receipt_sha256": "b2e4820d7d5e088efa30b50ca0b17285b98d4e710c80a550fba0d46db9a7b5ec",
+      "log_path": "logs/phase18/s3-final-independent-20261022/vector-confirm-native.log",
+      "log_sha256": "e6e1b7060cc32a09b2562f52be19c2031d8449f021968f41f730affd32c957e1"
+    },
+    {
+      "name": "mixed-compile",
+      "argv": [
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\mixed-compile.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\mixed-compile.json",
+        "--",
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\mixed-compile.args"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 60.0,
+        "executable": "javac",
+        "argv_sha256": "8daa7363d6f5e630371a41721d2054402b86e7b0c539b6a5c16318b92953af25",
+        "started_utc": "2026-10-22T00:50:42.781+00:00",
+        "pid": 6216,
+        "finished_utc": "2026-10-22T00:50:45.197+00:00",
+        "duration_seconds": 2.416,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/mixed-compile.json",
+      "receipt_sha256": "b2f93670c87e174771d637a826a1d2adb99de187762faa5b0666caa2d24d3d64",
+      "log_path": "logs/phase18/s3-final-independent-20261022/mixed-compile.log",
+      "log_sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e"
+    },
+    {
+      "name": "mixed-native",
+      "argv": [
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\mixed-native.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\mixed-native.json",
+        "--",
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\mixed-native.args"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "java",
+        "argv_sha256": "f51410f174b908af0070d46fd4a7847a2336496593f41b259a3e670657816e13",
+        "started_utc": "2026-10-22T00:51:42.140+00:00",
+        "pid": 13016,
+        "finished_utc": "2026-10-22T00:52:34.809+00:00",
+        "duration_seconds": 52.669,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/mixed-native.json",
+      "receipt_sha256": "d59e996d267973c0c2e064741817fa57698fa9abaa79d64840ecc848e4be2731",
+      "log_path": "logs/phase18/s3-final-independent-20261022/mixed-native.log",
+      "log_sha256": "2256a1c9135152b01947782ebbd4c239c6e790dc626a1f73cbbab7f2668be39a"
+    },
+    {
+      "name": "diff-check",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "30",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\diff-check.json",
+        "--",
+        "git",
+        "diff",
+        "--check"
+      ],
+      "environment_selection": {
+        "PPV_S3_EVIDENCE": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022",
+        "PPV_RAG_MODEL_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\models\\paraphrase-multilingual-MiniLM-L12-v2",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUFF_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\ruff-cache",
+        "UV_CACHE_DIR": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-final-independent-20261022\\uv-cache"
+      },
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 30.0,
+        "executable": "git",
+        "argv_sha256": "7c730eec3ea71bd24ffc5a9255bf7f542481bf601dba6c72bed6e00f6c2fab3c",
+        "started_utc": "2026-10-22T01:05:25.854+00:00",
+        "pid": 24944,
+        "finished_utc": "2026-10-22T01:05:25.995+00:00",
+        "duration_seconds": 0.141,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s3-final-independent-20261022/diff-check.json",
+      "receipt_sha256": "1b73c713700de0f6cddfd94ab6b5c4216f3409b286535e42fcb15fb880f1ebdf",
+      "log_path": "logs/phase18/s3-final-independent-20261022/diff-check.log",
+      "log_sha256": "98defd449d50b0b76042fcfb99afd6201f850e879058eeb1ce3b6dd72bb2cf19"
+    }
+  ],
+  "independent_java": {
+    "tests": 94,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 1,
+    "watchdog_seconds": 934.742,
+    "classes": [
+      {
+        "class_name": "RagSlice3CorrectiveIntegrationTest",
+        "tests": 88,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 846.816,
+        "report_sha256": "4f0848dd7e76d36cc53add4403003f49dbeb85be947d2767fca9ae210b03659d"
+      },
+      {
+        "class_name": "RagSlice3ConnectionLossIntegrationTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 46.203,
+        "report_sha256": "b10de6d59230d5e88cbbaf2897bf82067b6bbd6eba6f037c40b93c0e36f36c90"
+      },
+      {
+        "class_name": "RagSlice3VerifiedIndexingIntegrationTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 32.476,
+        "report_sha256": "35b40d1c03c91fe57fcdae56dea69d3ca52ab735a61c52b2c772785bcf9dc7db"
+      }
+    ]
+  },
+  "independent_python": {
+    "passed": 189,
+    "exit_code": 0,
+    "pytest_seconds": 57.18
+  },
+  "static": {
+    "mypy_sources": 26,
+    "fresh_cache": true,
+    "formatted_files": 79,
+    "compatible_packages": 67,
+    "offline_lock_resolved": 73,
+    "all_executed_exit_codes_zero": true
+  },
+  "native_observations": {
+    "vector_first": {
+      "fault": "Every real native vector component negated; norm and dimension unchanged; test-only admin re-seal as implementer negative tests",
+      "original_vector_norm_squared": 0.9999999562494295,
+      "cosine_with_genuine_vector": -1.0,
+      "job_status": "COMPLETED",
+      "published": 1,
+      "current": "CURRENT",
+      "generations": 1
+    },
+    "stored_vector_confirmation": {
+      "fault": "Every real native vector component negated; norm and dimension unchanged; test-only admin re-seal as implementer negative tests",
+      "original_vector_norm_squared": 0.9999999562494295,
+      "cosine_with_genuine_vector": -1.0,
+      "job_status": "COMPLETED",
+      "published": 1,
+      "current": "CURRENT",
+      "published_pgvector_dimensions": 384,
+      "published_cosine_to_genuine": -1.0000000000000004,
+      "max_error_from_exact_sign_flip": 4.217262261629884e-09,
+      "genuine_vector_sha256": "ee0ab508c095ae29a913404a95b44605a9e26a7e9691d6652344198cafd6919f",
+      "forged_vector_sha256": "10e5eda0caa5fbfefd3d0898048bcc90ed5ee1de936550a3613330abbbecc5c6",
+      "stored_pgvector_sha256": "3d8a67a3b8581ceffa27f7304ea18a4f29b97a1d07a4b8a9f8248ed5d71e5ee9",
+      "source_id": "e72c2693-11b7-4515-b092-3cf8212df090",
+      "revision_id": "fa911f4c-5b86-4dac-8123-348222e41918",
+      "job_id": "80236a4b-48c4-4cba-894f-3c5eac19c2cc",
+      "attempt_id": "953e6d1c-4118-4dcb-8c00-7bf5b2ba3e5d",
+      "grant_digests": [
+        {
+          "input_digest": "aa3209c56701b013b30fe450883c0d3d856e4175f1877435bcfda4f344e02124",
+          "scope_digest": "fdaf951294f304cef829d7ec97dcf427972a9a084716e7fc15c053685e7bb038",
+          "output_digest": "d9a5448f668d80f0dbfc5a929b1599b136c17985ea033579d0e6ebfa571dce89"
+        }
+      ],
+      "generations": 1
+    },
+    "mixed_closure": {
+      "case": "DOMAIN parent with separately approved external Markdown child through normal API, no administrative corruption",
+      "external_child_source_id": "8174f264-86f3-43fd-8004-02ddfb047c3e",
+      "external_child_rag_policy_id": 1,
+      "issued_root_input": [
+        {
+          "approved_fields": [
+            "title"
+          ],
+          "content_b64": null,
+          "content_text": null,
+          "format": "DOMAIN",
+          "ocr_languages": [
+            "en"
+          ],
+          "prepared_fields": [
+            {
+              "approved_field": "content",
+              "source_key": "1",
+              "source_version": 1,
+              "text": "# External Markdown child\n\n<script>unsupported-active-markdown-material</script>\n"
+            },
+            {
+              "approved_field": "title",
+              "source_key": "2",
+              "source_version": 3,
+              "text": "Authorized DOMAIN parent"
+            }
+          ],
+          "root_key": "domain-parent",
+          "source_id": "1",
+          "source_version": 3,
+          "transclusions": {}
+        }
+      ],
+      "status": "COMPLETED",
+      "published": 1,
+      "current": "CURRENT",
+      "stored_chunks": [
+        {
+          "source_identity": "1",
+          "content": "# External Markdown child",
+          "locator": "{\"char_end\": 25, \"line_end\": 1, \"char_start\": 0, \"line_start\": 1, \"source_key\": \"1\", \"approved_field\": \"content\", \"source_version\": 1}"
+        },
+        {
+          "source_identity": "1",
+          "content": "<script>unsupported-active-markdown-material</script>",
+          "locator": "{\"char_end\": 80, \"line_end\": 3, \"char_start\": 27, \"line_start\": 3, \"source_key\": \"1\", \"approved_field\": \"content\", \"source_version\": 1}"
+        },
+        {
+          "source_identity": "2",
+          "content": "Authorized DOMAIN parent",
+          "locator": "{\"char_end\": 24, \"line_end\": 1, \"char_start\": 0, \"line_start\": 1, \"source_key\": \"2\", \"approved_field\": \"title\", \"source_version\": 3}"
+        }
+      ],
+      "child_selected_revision": "cd367b77-f421-49d6-97db-b1fdb09335d1"
+    },
+    "cancellation_failure": [
+      {
+        "path": "logs/phase18/s3-final-independent-20261022/native-bindings/2af133b3-be15-4e07-882d-3ba7ce548ff3.json",
+        "data": {
+          "sources": [
+            {
+              "file_source_id": "f474a28e-de26-4305-8e5d-6da625a92b06",
+              "source_version": 1,
+              "consent_reset_version": 1,
+              "selected_revision_id": null,
+              "pending_revision_id": "eb23b5cf-35ab-4baf-817c-ea2f4633a116",
+              "approved_pending_revision_id": "eb23b5cf-35ab-4baf-817c-ea2f4633a116",
+              "pending_revision_hash": "60759beb5d9f8a6d2b1481057bf8a4f24d8df8572592956085420fce91530a06",
+              "pending_byte_length": 35,
+              "selected_revision_hash": null,
+              "selected_byte_length": null,
+              "reserved_by": null
+            }
+          ],
+          "test": "cancellationDuringRealWorkerStagingDrainsItsPhysicalWriterBeforeRelease()",
+          "jobs": [
+            {
+              "job_id": "b242efdc-26c4-4ebf-9128-6a3278a96ed2",
+              "attempt_id": "5a6421d0-a436-400e-a405-cd3af5135f7d",
+              "status": "ABORTED",
+              "staging_closed": true,
+              "identity": "{\"process_id\": 29652, \"runtime_id\": \"8779fa35-b881-471e-8537-78af8a913d4d\", \"started_at\": \"2026-10-22T00:53:24.067784800Z\", \"endpoint_nonce\": \"27ce124d-1293-459f-b4ee-d510cdfcac89\", \"creation_file_time\": \"134371040040677848\"}",
+              "manifest_sha256": "6d4eee41e649f64c99dfc620527dc63c8de3923f4a67ecfc873e446672552613",
+              "grants": [],
+              "actual_roster": [],
+              "published": [],
+              "outcomes": []
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "diagnostic_qualification": [
+    "A diagnostic process exit 0 is not an acceptance PASS; actual wrong acceptance is recorded",
+    "Vector corruption uses explicit test-only administrator re-seal, matching implementer source-replay negative methodology; runtime permissions are not claimed bypassed",
+    "Mixed closure uses ordinary capture/approval/dependency/batch APIs with no administrator mutation",
+    "Cancellation failure is before fixture cleanup; zero G/outcome/grants, staging closed, released reservation observed; status mismatch remains",
+    "No whole unchanged failing Java selection rerun for green; retained 238-test run is attributed separately"
+  ],
+  "retained_evidence_audit": {
+    "python_subset_count": 120,
+    "python_subset_mismatches": [],
+    "v3_other_java_fixture_drift": "RagSlice3VerifiedIndexingIntegrationTest was strengthened before v4; not a Python receipt invalidation",
+    "final_artifacts": 285,
+    "artifact_hash_errors": [],
+    "native_identities": [
+      {
+        "pid": 796,
+        "creation_file_time": 134371021529953002,
+        "role": "validator"
+      },
+      {
+        "pid": 1068,
+        "creation_file_time": 134371018531613635,
+        "role": "validator"
+      },
+      {
+        "pid": 1364,
+        "creation_file_time": 134371018594086988,
+        "role": "validator"
+      },
+      {
+        "pid": 1504,
+        "creation_file_time": 134371020144656277,
+        "role": "producer"
+      },
+      {
+        "pid": 1688,
+        "creation_file_time": 134371019247351264,
+        "role": "validator"
+      },
+      {
+        "pid": 1764,
+        "creation_file_time": 134371021494241950,
+        "role": "producer"
+      },
+      {
+        "pid": 1924,
+        "creation_file_time": 134371017463611385,
+        "role": "producer"
+      },
+      {
+        "pid": 2328,
+        "creation_file_time": 134371022272275228,
+        "role": "validator"
+      },
+      {
+        "pid": 2400,
+        "creation_file_time": 134371018561530338,
+        "role": "producer"
+      },
+      {
+        "pid": 2556,
+        "creation_file_time": 134371018272932974,
+        "role": "producer"
+      },
+      {
+        "pid": 2808,
+        "creation_file_time": 134371021599642917,
+        "role": "validator"
+      },
+      {
+        "pid": 3492,
+        "creation_file_time": 134371023547255714,
+        "role": "producer"
+      },
+      {
+        "pid": 3588,
+        "creation_file_time": 134371021565382160,
+        "role": "producer"
+      },
+      {
+        "pid": 3784,
+        "creation_file_time": 134371021057632004,
+        "role": "validator"
+      },
+      {
+        "pid": 4440,
+        "creation_file_time": 134371021983138549,
+        "role": "producer"
+      },
+      {
+        "pid": 4512,
+        "creation_file_time": 134371018120124618,
+        "role": "validator"
+      },
+      {
+        "pid": 5320,
+        "creation_file_time": 134371021696091139,
+        "role": "producer"
+      },
+      {
+        "pid": 5332,
+        "creation_file_time": 134371019912677038,
+        "role": "producer"
+      },
+      {
+        "pid": 5720,
+        "creation_file_time": 134371019405937572,
+        "role": "producer"
+      },
+      {
+        "pid": 5740,
+        "creation_file_time": 134371020613722817,
+        "role": "validator"
+      },
+      {
+        "pid": 7372,
+        "creation_file_time": 134371020900042181,
+        "role": "validator"
+      },
+      {
+        "pid": 7428,
+        "creation_file_time": 134371017782189042,
+        "role": "validator"
+      },
+      {
+        "pid": 7484,
+        "creation_file_time": 134371019443707443,
+        "role": "producer"
+      },
+      {
+        "pid": 7616,
+        "creation_file_time": 134371021358464366,
+        "role": "producer"
+      },
+      {
+        "pid": 7852,
+        "creation_file_time": 134371018320078638,
+        "role": "producer"
+      },
+      {
+        "pid": 7864,
+        "creation_file_time": 134371020756749647,
+        "role": "validator"
+      },
+      {
+        "pid": 7868,
+        "creation_file_time": 134371022092245815,
+        "role": "validator"
+      },
+      {
+        "pid": 8348,
+        "creation_file_time": 134371019213109156,
+        "role": "producer"
+      },
+      {
+        "pid": 8400,
+        "creation_file_time": 134371019561471386,
+        "role": "producer"
+      },
+      {
+        "pid": 8596,
+        "creation_file_time": 134371021392817629,
+        "role": "validator"
+      },
+      {
+        "pid": 8768,
+        "creation_file_time": 134371019660967439,
+        "role": "producer"
+      },
+      {
+        "pid": 9440,
+        "creation_file_time": 134371021257712945,
+        "role": "validator"
+      },
+      {
+        "pid": 9628,
+        "creation_file_time": 134371018022725471,
+        "role": "producer"
+      },
+      {
+        "pid": 9644,
+        "creation_file_time": 134371020505378248,
+        "role": "producer"
+      },
+      {
+        "pid": 9668,
+        "creation_file_time": 134371017124057578,
+        "role": "producer"
+      },
+      {
+        "pid": 9672,
+        "creation_file_time": 134371018305437780,
+        "role": "validator"
+      },
+      {
+        "pid": 9736,
+        "creation_file_time": 134371020578404609,
+        "role": "producer"
+      },
+      {
+        "pid": 10112,
+        "creation_file_time": 134371021422607252,
+        "role": "producer"
+      },
+      {
+        "pid": 10136,
+        "creation_file_time": 134371017396069057,
+        "role": "producer"
+      },
+      {
+        "pid": 10308,
+        "creation_file_time": 134371017717391729,
+        "role": "validator"
+      },
+      {
+        "pid": 10596,
+        "creation_file_time": 134371018623825168,
+        "role": "producer"
+      },
+      {
+        "pid": 10644,
+        "creation_file_time": 134371017955070697,
+        "role": "producer"
+      },
+      {
+        "pid": 10652,
+        "creation_file_time": 134371023961447285,
+        "role": "producer"
+      },
+      {
+        "pid": 10748,
+        "creation_file_time": 134371017597268015,
+        "role": "producer"
+      },
+      {
+        "pid": 10848,
+        "creation_file_time": 134371021665418653,
+        "role": "validator"
+      },
+      {
+        "pid": 11184,
+        "creation_file_time": 134371022205214604,
+        "role": "validator"
+      },
+      {
+        "pid": 11240,
+        "creation_file_time": 134371018384269208,
+        "role": "producer"
+      },
+      {
+        "pid": 11912,
+        "creation_file_time": 134371022498921803,
+        "role": "validator"
+      },
+      {
+        "pid": 11988,
+        "creation_file_time": 134371022788139414,
+        "role": "validator"
+      },
+      {
+        "pid": 12376,
+        "creation_file_time": 134371021288140779,
+        "role": "producer"
+      },
+      {
+        "pid": 12408,
+        "creation_file_time": 134371020542881271,
+        "role": "validator"
+      },
+      {
+        "pid": 12476,
+        "creation_file_time": 134371019013507220,
+        "role": "validator"
+      },
+      {
+        "pid": 12680,
+        "creation_file_time": 134371018878473952,
+        "role": "producer"
+      },
+      {
+        "pid": 13016,
+        "creation_file_time": 134371020350428744,
+        "role": "producer"
+      },
+      {
+        "pid": 13044,
+        "creation_file_time": 134371022305010979,
+        "role": "producer"
+      },
+      {
+        "pid": 13260,
+        "creation_file_time": 134371022865766402,
+        "role": "validator"
+      },
+      {
+        "pid": 13460,
+        "creation_file_time": 134371020018077903,
+        "role": "validator"
+      },
+      {
+        "pid": 13496,
+        "creation_file_time": 134371019724534788,
+        "role": "producer"
+      },
+      {
+        "pid": 13596,
+        "creation_file_time": 134371019342946869,
+        "role": "producer"
+      },
+      {
+        "pid": 13692,
+        "creation_file_time": 134371019598786098,
+        "role": "producer"
+      },
+      {
+        "pid": 13960,
+        "creation_file_time": 134371024282616658,
+        "role": "validator"
+      },
+      {
+        "pid": 14228,
+        "creation_file_time": 134371020865029520,
+        "role": "producer"
+      },
+      {
+        "pid": 15000,
+        "creation_file_time": 134371022237387400,
+        "role": "producer"
+      },
+      {
+        "pid": 15316,
+        "creation_file_time": 134371020080643570,
+        "role": "validator"
+      },
+      {
+        "pid": 15592,
+        "creation_file_time": 134371021630032044,
+        "role": "producer"
+      },
+      {
+        "pid": 15996,
+        "creation_file_time": 134371017637093876,
+        "role": "producer"
+      },
+      {
+        "pid": 16704,
+        "creation_file_time": 134371022464124512,
+        "role": "producer"
+      },
+      {
+        "pid": 16776,
+        "creation_file_time": 134371019631441936,
+        "role": "validator"
+      },
+      {
+        "pid": 16864,
+        "creation_file_time": 134371020683768049,
+        "role": "validator"
+      },
+      {
+        "pid": 16984,
+        "creation_file_time": 134371021223086781,
+        "role": "producer"
+      },
+      {
+        "pid": 17112,
+        "creation_file_time": 134371021193036226,
+        "role": "validator"
+      },
+      {
+        "pid": 17132,
+        "creation_file_time": 134371018687058057,
+        "role": "producer"
+      },
+      {
+        "pid": 17144,
+        "creation_file_time": 134371019849340329,
+        "role": "producer"
+      },
+      {
+        "pid": 17328,
+        "creation_file_time": 134371017531655651,
+        "role": "producer"
+      },
+      {
+        "pid": 17548,
+        "creation_file_time": 134371019081418555,
+        "role": "producer"
+      },
+      {
+        "pid": 17580,
+        "creation_file_time": 134371021325066349,
+        "role": "validator"
+      },
+      {
+        "pid": 17616,
+        "creation_file_time": 134371018151153961,
+        "role": "producer"
+      },
+      {
+        "pid": 17620,
+        "creation_file_time": 134371022168888335,
+        "role": "producer"
+      },
+      {
+        "pid": 18208,
+        "creation_file_time": 134371021732320271,
+        "role": "validator"
+      },
+      {
+        "pid": 18476,
+        "creation_file_time": 134371018353401139,
+        "role": "validator"
+      },
+      {
+        "pid": 18500,
+        "creation_file_time": 134371018087335011,
+        "role": "producer"
+      },
+      {
+        "pid": 18660,
+        "creation_file_time": 134371022535205940,
+        "role": "producer"
+      },
+      {
+        "pid": 18688,
+        "creation_file_time": 134371019310548656,
+        "role": "validator"
+      },
+      {
+        "pid": 18728,
+        "creation_file_time": 134371020648368492,
+        "role": "producer"
+      },
+      {
+        "pid": 18908,
+        "creation_file_time": 134371018782924184,
+        "role": "validator"
+      },
+      {
+        "pid": 19256,
+        "creation_file_time": 134371021022582353,
+        "role": "producer"
+      },
+      {
+        "pid": 19296,
+        "creation_file_time": 134371018657361270,
+        "role": "validator"
+      },
+      {
+        "pid": 19432,
+        "creation_file_time": 134371019520576952,
+        "role": "producer"
+      },
+      {
+        "pid": 19680,
+        "creation_file_time": 134371018847724541,
+        "role": "validator"
+      },
+      {
+        "pid": 19752,
+        "creation_file_time": 134371020828126446,
+        "role": "validator"
+      },
+      {
+        "pid": 20420,
+        "creation_file_time": 134371017016448822,
+        "role": "producer"
+      },
+      {
+        "pid": 20676,
+        "creation_file_time": 134371016947831789,
+        "role": "producer"
+      },
+      {
+        "pid": 20728,
+        "creation_file_time": 134371018911581778,
+        "role": "validator"
+      },
+      {
+        "pid": 20900,
+        "creation_file_time": 134371019757232703,
+        "role": "validator"
+      },
+      {
+        "pid": 20988,
+        "creation_file_time": 134371019181268392,
+        "role": "validator"
+      },
+      {
+        "pid": 21552,
+        "creation_file_time": 134371020932756550,
+        "role": "producer"
+      },
+      {
+        "pid": 21748,
+        "creation_file_time": 134371021811394614,
+        "role": "validator"
+      },
+      {
+        "pid": 21752,
+        "creation_file_time": 134371020989768553,
+        "role": "validator"
+      },
+      {
+        "pid": 21756,
+        "creation_file_time": 134371022571315623,
+        "role": "validator"
+      },
+      {
+        "pid": 21992,
+        "creation_file_time": 134371021124231060,
+        "role": "validator"
+      },
+      {
+        "pid": 22116,
+        "creation_file_time": 134371020110082913,
+        "role": "producer"
+      },
+      {
+        "pid": 22188,
+        "creation_file_time": 134371019481478445,
+        "role": "producer"
+      },
+      {
+        "pid": 22364,
+        "creation_file_time": 134371020465167511,
+        "role": "validator"
+      },
+      {
+        "pid": 22480,
+        "creation_file_time": 134371019951599505,
+        "role": "validator"
+      },
+      {
+        "pid": 22516,
+        "creation_file_time": 134371018980223747,
+        "role": "producer"
+      },
+      {
+        "pid": 22884,
+        "creation_file_time": 134371017881799842,
+        "role": "producer"
+      },
+      {
+        "pid": 23044,
+        "creation_file_time": 134371022018583562,
+        "role": "validator"
+      },
+      {
+        "pid": 23096,
+        "creation_file_time": 134371022605405525,
+        "role": "producer"
+      },
+      {
+        "pid": 23120,
+        "creation_file_time": 134371017814001953,
+        "role": "producer"
+      },
+      {
+        "pid": 23232,
+        "creation_file_time": 134371018719946535,
+        "role": "validator"
+      },
+      {
+        "pid": 23268,
+        "creation_file_time": 134371020425746923,
+        "role": "producer"
+      },
+      {
+        "pid": 23524,
+        "creation_file_time": 134371017847139379,
+        "role": "validator"
+      },
+      {
+        "pid": 23696,
+        "creation_file_time": 134371022407272399,
+        "role": "validator"
+      },
+      {
+        "pid": 23760,
+        "creation_file_time": 134371018749707988,
+        "role": "producer"
+      },
+      {
+        "pid": 23976,
+        "creation_file_time": 134371021158372867,
+        "role": "producer"
+      },
+      {
+        "pid": 24028,
+        "creation_file_time": 134371024245321340,
+        "role": "producer"
+      },
+      {
+        "pid": 24084,
+        "creation_file_time": 134371019819666983,
+        "role": "validator"
+      },
+      {
+        "pid": 24168,
+        "creation_file_time": 134371020955776017,
+        "role": "producer"
+      },
+      {
+        "pid": 24224,
+        "creation_file_time": 134371018497871210,
+        "role": "producer"
+      },
+      {
+        "pid": 24376,
+        "creation_file_time": 134371022056872240,
+        "role": "producer"
+      },
+      {
+        "pid": 24448,
+        "creation_file_time": 134371021909371026,
+        "role": "producer"
+      },
+      {
+        "pid": 24588,
+        "creation_file_time": 134371017565697542,
+        "role": "validator"
+      },
+      {
+        "pid": 24620,
+        "creation_file_time": 134371019376124095,
+        "role": "validator"
+      },
+      {
+        "pid": 24636,
+        "creation_file_time": 134371021876014335,
+        "role": "validator"
+      },
+      {
+        "pid": 24740,
+        "creation_file_time": 134371018419433527,
+        "role": "validator"
+      },
+      {
+        "pid": 25124,
+        "creation_file_time": 134371020387893176,
+        "role": "validator"
+      },
+      {
+        "pid": 25264,
+        "creation_file_time": 134371019277944646,
+        "role": "producer"
+      },
+      {
+        "pid": 25284,
+        "creation_file_time": 134371017429442517,
+        "role": "validator"
+      },
+      {
+        "pid": 25308,
+        "creation_file_time": 134371018210457391,
+        "role": "producer"
+      },
+      {
+        "pid": 25532,
+        "creation_file_time": 134371020790883024,
+        "role": "producer"
+      },
+      {
+        "pid": 25788,
+        "creation_file_time": 134371019147163395,
+        "role": "producer"
+      },
+      {
+        "pid": 25856,
+        "creation_file_time": 134371017989833406,
+        "role": "validator"
+      },
+      {
+        "pid": 25888,
+        "creation_file_time": 134371020720588290,
+        "role": "producer"
+      },
+      {
+        "pid": 25996,
+        "creation_file_time": 134371020314013578,
+        "role": "validator"
+      },
+      {
+        "pid": 26204,
+        "creation_file_time": 134371022373391724,
+        "role": "producer"
+      },
+      {
+        "pid": 26780,
+        "creation_file_time": 134371018814436141,
+        "role": "producer"
+      },
+      {
+        "pid": 26956,
+        "creation_file_time": 134371020215772803,
+        "role": "validator"
+      },
+      {
+        "pid": 27204,
+        "creation_file_time": 134371020174478687,
+        "role": "producer"
+      },
+      {
+        "pid": 27328,
+        "creation_file_time": 134371019116479456,
+        "role": "validator"
+      },
+      {
+        "pid": 27424,
+        "creation_file_time": 134371019982668878,
+        "role": "producer"
+      },
+      {
+        "pid": 27440,
+        "creation_file_time": 134371018483448071,
+        "role": "validator"
+      },
+      {
+        "pid": 27540,
+        "creation_file_time": 134371024237793279,
+        "role": "validator"
+      },
+      {
+        "pid": 27704,
+        "creation_file_time": 134371017922282714,
+        "role": "validator"
+      },
+      {
+        "pid": 27708,
+        "creation_file_time": 134371019693818331,
+        "role": "validator"
+      },
+      {
+        "pid": 27732,
+        "creation_file_time": 134371019044169186,
+        "role": "producer"
+      },
+      {
+        "pid": 27864,
+        "creation_file_time": 134371022125492309,
+        "role": "producer"
+      },
+      {
+        "pid": 27976,
+        "creation_file_time": 134371016982506908,
+        "role": "validator"
+      },
+      {
+        "pid": 28524,
+        "creation_file_time": 134371019882738718,
+        "role": "validator"
+      },
+      {
+        "pid": 28556,
+        "creation_file_time": 134371021460799275,
+        "role": "validator"
+      },
+      {
+        "pid": 28804,
+        "creation_file_time": 134371022712848810,
+        "role": "validator"
+      },
+      {
+        "pid": 28808,
+        "creation_file_time": 134371017175765668,
+        "role": "producer"
+      },
+      {
+        "pid": 29084,
+        "creation_file_time": 134371022677096547,
+        "role": "producer"
+      },
+      {
+        "pid": 29188,
+        "creation_file_time": 134371023110893150,
+        "role": "producer"
+      },
+      {
+        "pid": 29296,
+        "creation_file_time": 134371020048043455,
+        "role": "producer"
+      },
+      {
+        "pid": 29304,
+        "creation_file_time": 134371022752109375,
+        "role": "producer"
+      },
+      {
+        "pid": 29744,
+        "creation_file_time": 134371020264577679,
+        "role": "producer"
+      },
+      {
+        "pid": 29892,
+        "creation_file_time": 134371017212999232,
+        "role": "validator"
+      },
+      {
+        "pid": 30284,
+        "creation_file_time": 134371021841719721,
+        "role": "producer"
+      },
+      {
+        "pid": 30712,
+        "creation_file_time": 134371017497214040,
+        "role": "validator"
+      },
+      {
+        "pid": 30888,
+        "creation_file_time": 134371017748450051,
+        "role": "producer"
+      },
+      {
+        "pid": 30940,
+        "creation_file_time": 134371024200588898,
+        "role": "producer"
+      },
+      {
+        "pid": 30996,
+        "creation_file_time": 134371022827269929,
+        "role": "producer"
+      },
+      {
+        "pid": 31048,
+        "creation_file_time": 134371018243364884,
+        "role": "validator"
+      },
+      {
+        "pid": 31140,
+        "creation_file_time": 134371017049351668,
+        "role": "validator"
+      },
+      {
+        "pid": 31208,
+        "creation_file_time": 134371022340275196,
+        "role": "validator"
+      },
+      {
+        "pid": 31596,
+        "creation_file_time": 134371017683832129,
+        "role": "producer"
+      },
+      {
+        "pid": 32120,
+        "creation_file_time": 134371021089126839,
+        "role": "producer"
+      },
+      {
+        "pid": 32248,
+        "creation_file_time": 134371018942584020,
+        "role": "producer"
+      },
+      {
+        "pid": 32524,
+        "creation_file_time": 134371021944731142,
+        "role": "validator"
+      },
+      {
+        "pid": 32668,
+        "creation_file_time": 134371018450407478,
+        "role": "producer"
+      },
+      {
+        "pid": 32720,
+        "creation_file_time": 134371018057603935,
+        "role": "validator"
+      },
+      {
+        "pid": 33008,
+        "creation_file_time": 134371021772411766,
+        "role": "producer"
+      },
+      {
+        "pid": 33220,
+        "creation_file_time": 134371024007452487,
+        "role": "validator"
+      },
+      {
+        "pid": 33332,
+        "creation_file_time": 134371019786823787,
+        "role": "producer"
+      },
+      {
+        "pid": 33464,
+        "creation_file_time": 134371022640635130,
+        "role": "validator"
+      }
+    ],
+    "missing": [],
+    "unmeasured": [],
+    "parent_errors": [],
+    "resource_hash_errors": [],
+    "receipt_log_hash_errors": [],
+    "sampling_limits": [
+      "50ms sampling can miss very short processes and disk peaks; OS per-process peak working set is retained where a handle was acquired.",
+      "Host headroom is machine-wide. NVML is device-wide, not attributable worker VRAM. CUDA is not an available ONNX provider.",
+      "Temporary tree includes owned JUnit, Testcontainers and native-library fixture files; managed revision storage is reported separately.",
+      "This selection measures actual native integration cases; it is not the deferred Slice 4 comprehensive maximum workload profile."
+    ],
+    "cuda": "UNAVAILABLE"
+  },
+  "retained_corpus_audit": {
+    "parser": {
+      "results_sha256": "094b8c02f5ecdcb07a27037b3b8237f83aeb8ed28b736747ed9d8a24f0f6519c",
+      "count": 1329,
+      "counts": {
+        "PASS": 1267,
+        "PASS_REQUIRED_REJECTION": 62
+      },
+      "mode": "PARSER_CHUNKER_AST",
+      "source_ids_unique": true,
+      "profile_gold_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+      "resolution_sha256": "1e15ef98cf95ce21e102c078e0481d93381ae34f851cef74d8ebc7b3b9b8476c"
+    },
+    "producer": {
+      "results_sha256": "3cebec59f44626ac8742f9eb60edd89298f8a671e8aec965f22e7f98c4a6f994",
+      "count": 1329,
+      "counts": {
+        "PASS": 1267,
+        "PASS_REQUIRED_REJECTION": 62
+      },
+      "mode": "PRODUCER_LOCAL_REAL_CPU_CAPTURE",
+      "source_ids_unique": true,
+      "profile_gold_sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+      "resolution_sha256": "1e15ef98cf95ce21e102c078e0481d93381ae34f851cef74d8ebc7b3b9b8476c"
+    }
+  },
+  "retained_current_source_manifest": {
+    "path": "logs\\phase18\\s3-final-corrective-20261021\\java-current-final-v4-source-hashes.json",
+    "sha256": "b9f31a881cf390a0a3b60487cd0058fa49ef58da6e208e4ee0c73e4e14b3f18b",
+    "file_count": 1740,
+    "all_match": true,
+    "mismatches": []
+  },
+  "retained_238_test_receipt": {
+    "receipt": {
+      "profile": "normal",
+      "timeout_seconds": 1150.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "6f5cb837974e19c0cbe15b58164b4b50185bb70223103061e3dccc57e069a5a8",
+      "started_utc": "2026-10-22T00:09:31.622+00:00",
+      "pid": 17072,
+      "finished_utc": "2026-10-22T00:28:19.497+00:00",
+      "duration_seconds": 1127.876,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed"
+    },
+    "receipt_file": {
+      "sha256": "2266743e5be95a6b0367a936c1dda5e36d38693b7e91649dd648d241f1da413a",
+      "bytes": 394
+    },
+    "log": {
+      "sha256": "2caba297ffcc02cc96ad708ab14054ad23e3b8c2b70cc2ab1c22b10b2f755150",
+      "bytes": 220359
+    },
+    "maven_totals": {
+      "tests": 238,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  "retained_resource_summary": {
+    "exit_code": 0,
+    "orchestration_exit_code": 0,
+    "wall_seconds": 1128.8576235999935,
+    "sample_interval_target_ms": 50,
+    "samples": 13623,
+    "sampled_tree_peak_working_set_bytes": 2844975104,
+    "sampled_tree_peak_private_bytes": 3083436032,
+    "sum_process_lifetime_peaks_not_simultaneous_bytes": 130957000704,
+    "tree_cpu_seconds": 1623.109375,
+    "host_total_bytes": 17112092672,
+    "host_min_available_bytes": 776765440,
+    "device_wide_vram_peak_bytes": 1678184448,
+    "vram_measurement_available": true,
+    "onnx_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "cuda": "UNAVAILABLE",
+    "sampled_owned_temp_tree_peak_bytes": 8623477,
+    "sampled_managed_capture_validator_temp_peak_bytes": 2389542,
+    "sampled_managed_revision_bytes": 500155,
+    "remaining_managed_capture_temps": [],
+    "owned_survivors": [],
+    "unreadable_pids": [],
+    "identity_rule": "Child creation must lie within the identified parent lifetime; retained handles and (PID,creation FILETIME) distinguish reuse.",
+    "rejected_non_descendant_candidates": [],
+    "initial_candidate_open_failures": [
+      {
+        "pid": 7280,
+        "parent_pid": 21880
+      },
+      {
+        "pid": 12432,
+        "parent_pid": 23180
+      }
+    ],
+    "limitations": [
+      "50ms sampling can miss very short processes and disk peaks; OS per-process peak working set is retained where a handle was acquired.",
+      "Host headroom is machine-wide. NVML is device-wide, not attributable worker VRAM. CUDA is not an available ONNX provider.",
+      "Temporary tree includes owned JUnit, Testcontainers and native-library fixture files; managed revision storage is reported separately.",
+      "This selection measures actual native integration cases; it is not the deferred Slice 4 comprehensive maximum workload profile."
+    ]
+  },
+  "preservation": {
+    "implementer_asset_count": 10170,
+    "implementer_asset_mismatches": [],
+    "historical_asset_count": 6614,
+    "historical_asset_mismatches": [],
+    "entry_nonignored_count": 2493,
+    "entry_drifts": [
+      "docs/implementation/handoffs/ACTIVE.md"
+    ],
+    "index_sha256": "95b5f781018ad9e7cb3d65e5db23e439e81bc61068f3a27b299f854189d5d6fb",
+    "index_unchanged": true,
+    "archived_original_reports": 276,
+    "archived_original_reports_all_match": true
+  },
+  "production_and_migration_sha256": {
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagBatchFinalizationResult.java": "2d72de504a988e9c28f1812188d30d37514617b971c81c3f808a36c00a4f4b28",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagConsentCommand.java": "29720af4a8b6e7dfd3402c060ba7abf2709169621bc40bd94fc02759fef1546e",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchCommand.java": "5b4aa51c127af96cdf6f37ccb3634d4a66a1c4e0b346478147d90f8228b1b7af",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchFinalizeCommand.java": "3e0c7856a96d29e7f272c917dcf1be7bc04612d99428752cd7699c80b5c8a6f0",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchReport.java": "b29e41e95d2a37d93cdc425b1757bcb0c2e65f4fda44c6cc77fd07202f3d7991",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchTask.java": "cf74eff27ac4ea76768c56c3874f0ed98d9ed80310ca2bf153ad8b6e520630b3",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentRootItem.java": "1c331b8010ca56024b0e1c3d46f838845e71725aaf93cd5172beebe55158abca",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagFileOutcomeView.java": "fa73028f28e95b20581b2cbdfd7dda4378c81588bb6a15ed253ba55582b1be54",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagFinalizationResult.java": "0b87c50a0048d78eef7302a80d01d3e79fdcfd75e350a6b22677c31fdf93515c",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagIndexCommand.java": "0e6911346dbc7c1164431194238505feccf8bca2b1e1858b159da32d4f76adc1",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagJobAdmissionResult.java": "a95668f306b48bc2ebddfc432a0a29a499fd5f140e53a70f0268a2936ecef2cc",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagJobBusyException.java": "a12f4c2654bfa4c0ddd34c3a816de4fae24718eacdef9f2353903f5390c45b15",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagJobStatusView.java": "3d586c27e53f00beb0e4f5e596f5291a9a019a824413932fa26b44afc8ca8533",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagOperations.java": "9433cb128d4683d9fc847147e552873ae0163e21768f113479530d74be262ba2",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagSnapshotCaptureCommand.java": "8e1c9fffcf7c167a4022ecf79502e846d27ac8850bba55e2e5c14776e42e3686",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagSourceChangedException.java": "217b07ec9385fa223cb7518b5c8c1c3c3fdd1ff12ee848549109e5d88f3cdfbb",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/package-info.java": "137486b78db1df3b0cef7747fb8eb293758fc68579eba0e632b87f72a231b386",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDependencyGraph.java": "407a67833a30229bc4b41713b3153d6adac1cd131b0edb0f6c6dbf430c485835",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentBatchService.java": "fd14fc274a004e32931ef86b0dadf712fe5ef231e9a59ee9611361b2c8e6d67d",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentFinalizationGate.java": "0d3774e8321d33e95ae86284bfec2da2cd0651f8c452e19a3f734f5e226923f2",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentInput.java": "af5f255b15d8263d902c9a3b86a1f26f8062678d496f7519d8c8be3231410c90",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentReportService.java": "f020994290fb23d1e39d0bc308b0217649efed0ae919d500391ebb225e243278",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentResultVerifier.java": "12af58289a97fb56f6ca54d9582057b1e804bf18e954e4708870e7337d355ed7",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagExternalFileAuthority.java": "c83bfda384e242743fffae86964be291195224bf96e7117ff8a2fee66e3b0027",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagFinalizationGate.java": "ad1c2bd0b099f65ce6572ffa72d58530d6c75e1a71d18a9da09381e296ba597a",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagGenerationState.java": "336c3ea15b8fbf63539e5ced8e81d342742e17e1c0460035a9483ec7b971d2d3",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagJobService.java": "65e642b43e36d42860f00dd7c9dd480639196db3ff078943c35e89fcfa4ce3f9",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagLimits.java": "19e23bf73647b13516e2260a62f5c9b39c390eee9acf93fde6a35dfcbc6126b8",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagManifestScope.java": "b8534b2df46e376543e7c23c159de80c0ef31e02656794e0c7247b52a812cc8d",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagPurgeService.java": "605ebf049b607c48f8b8be3c0155fb5546e930a7db3204be84f4a8964adaeeb4",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagRecoveryService.java": "2444e9140245f230a4e34e516ef17f509edb4c65c9d7cd01a48283695e2f2901",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagRuntimeIdentity.java": "3a98bff8c1245fb6d96c7c99578aad0f35e5e5da6f2c88cc78605a90f1d8261a",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagRuntimeSecurity.java": "7543bc3ffa72af6bfa9faf38e60c1efe44a18cd9859d2c069223eaebbb9c19ed",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagService.java": "eec3642cf7de8631ba45114c516623fe774dcf842a1fe9ebf5372b7cb652f0b2",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSnapshotAcquisitionService.java": "d2bfb57effeddc7139dee81a7d89dc47e56fb549ded96f48acd55ab00641966e",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceAuthority.java": "d75870625fe11459c4581763c6b2526d47ab3c5d8cac68a92661258a83748cfd",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceService.java": "e137dfb579d66ad29a19fb80319f7b65a385b4b98493761555d56941ee1cf532",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerGrantService.java": "cb4b9200fa53c16560b3acdd0f500ad29faf80ed1163ae3eda1891c4f6275326",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerSupervisor.java": "a1af557656c856699b5eb6c4297b21eeed1798e024e5c8cb89510cf03952db6f",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/package-info.java": "6245c2539d2461523c9409d345cad48f9a909116d8d640e9c9bdd7f4311cb30b",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagBatchRoot.java": "501be7d49e6e5fb9e3e2d5c2fec655c6f5172f01d85ee4207bd5360686621726",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagDependency.java": "1784720970c2a9a97ad82b1119d68dbcd09a31979d32d885ce907ea1db6ba10f",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagDocumentChunk.java": "540b5946ddbd23fb37ae09fab069ee39b0a92f5cad0f8e57b87768ba66162eb0",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagExternalFileSource.java": "6c33719f4f65e2109ea8e8821b5a9695cc5bc9261eb09cde827542381d0becf5",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagFieldAllowlist.java": "f8623d85943707a5ea12db44467717e1ec43c32e061b6ad3ea4039f94e60c99f",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagFileOutcome.java": "4502f2467291bfff4bfe75e06efa744b1dde1bcb390b48a18853785f99fb98e1",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagGenerationRoot.java": "357a2d44e0f33a8e3f651ba80127de5701e26235ea2a4cb00bf4018e0b8ec244",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagIndexGeneration.java": "c7841a5ff8b8909063a2d2e36b54f3a52cebd96d90c9883d459fee17fe854ebf",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagJobLease.java": "d607975f20f7e8ec908ad78d5621629cf05eab9f2788bb2e59fd31235fa11d28",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagRun.java": "11270e6995852cadea277400f8fa11aaaf6151bc583af0ec70b97b9ddacf93b3",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagSource.java": "a35590459d6f5c8f9f98bdbeec4d42f37d8e1d418bf5dc86f72328ce583cde98",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagStagedDocumentOutput.java": "70e3bdd48df5d59fa31aa96887281908ecdd59e0981a5db204c67d8dc4e5001a",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagStagedOutput.java": "b14ab6d443deb6dec105e4035063f2aa97fc36aa11075e4991c2d4e29de1be94",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagWorkerGrant.java": "d1413e425f6b943d52bd06da8cc8e1959e086e7936fc07ed323ed7627e0bdefe",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/package-info.java": "b48bd77ebd304b3786e6b414f5efcdd011756479cb5071ce5d9a13f6b5d85522",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/client/NativeWorkerProcess.java": "aa63bbbaa4e133c66b7afcf112bc2cbfea524c5232e85fa5d00c7e0d42a078cd",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/client/RagEngineClient.java": "a1ed296cd806b13948e98df7863f399f832c1c481992ec0dfb09ce611d204adb",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/client/package-info.java": "51f330410fdc20d65b947d6ab28f017445fd82440ecabbe0add6548d7830550b",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagBatchRootRepository.java": "2e3bba412180a555f30a96a70353114a37e0238066df408ba36d58143f7bbad9",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagDependencyRepository.java": "0146e3e427cb7788789095c24bef346780259003dd1c2f279ce3eb5dcf4f4a8b",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagDocumentChunkRepository.java": "cc67505bb21c4c99c2815957c865cfa3758826af6cbb4676b496ab28018c1bb1",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagExternalFileSourceRepository.java": "e5a0d64aff9ae99cbf62b155a40c9d94f6ae1b9be9bde95521bbf60fee2a59b1",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagFileOutcomeRepository.java": "d7da29710fead96d86f273b442beeb06b310bd551bbff9e821d99c900e747d0f",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagGenerationRootRepository.java": "821054f5877f92dff4ce0e03a2a39833264b57e26359272c4d4b3126f73bef13",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagIndexGenerationRepository.java": "a4b7daac57525c2c92cf016f2300b1ddf1417a03cd8172a01b0071133eb0b9e6",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagJobLeaseRepository.java": "ba60170b697090715533f9fb2e1d881a52eacb5472c2e4e683fd0aa0e63ae394",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagRunRepository.java": "7790fe84e7ad11e9ba7919ac80d3030d1b5cc52bec51006520f9fa845c9e1c7a",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagSourceRepository.java": "4be44d8dd6e582314d5346e4600dfd4fc63ad14c775b3320ef47d7ac7009c26a",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagStagedDocumentOutputRepository.java": "1e7ba4a4aba13848ac6d9533a148f7f5fd98f33e950e4d218d97ee470ac43449",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagStagedOutputRepository.java": "77f36355c84798a487f0e8af04f79a1a36157fd7e94fb86e036fffb2c81d1d14",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/package-info.java": "2694271b14b012525f29c4703365bdb53f20a8c604aced55067d2c8481959c73",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/RagOriginalBytesStore.java": "17d67e3c58f49d08045eb7df8b3b1b5552dfad4fd991b756042fe4f3c911bf93",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/SnapshotIntegrityException.java": "3817b6e87b99f57f969b01ddc74c8c4820332988635307bf06074bb80ea07011",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/SnapshotMissingException.java": "60c72f1d53f4317789c381d829226cbd8bb685053ad28540aa5bfd12d6e8cb63",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/SnapshotStorageException.java": "1df7ced2bb1c78b16fdda5999dfd4d691403b88f0467bf2fd5214bb970081980",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/package-info.java": "e6697a7384411e5f47bfe31d204e441e64c889ab00302e0848961352e411e335",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/windows/WindowsNativeFileGuard.java": "3e8527f08552c9016afd4f71f274288123595741025dd2eb4801647d0aa44f41",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/windows/package-info.java": "54a5ada8eafc40b603bac900b6b9f3ac73e8d6df9c91e93ab8d85132aa02b70c",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/advice/RagExceptionAdvice.java": "d3dd0c9ce15ba8b6760146a1abd302332cbd215bafd1958af150bfa342fa817a",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/advice/package-info.java": "f75bf29fa0d9a0f610df87ca616fa637fdee3a56953a6d7e805a125b646e8155",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/controller/RagJobController.java": "4aa7435bf0ea352d399c75c56b502726cf297da1970f5fdad50d58cb2ca84cc5",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/controller/RagSourceController.java": "619bec37e05807294b5978674d5f8261b46189632a0965083625686f192903e1",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/controller/package-info.java": "3ba7de0f18fad5253fb2da939ae247caedaf49ef4af1db371de7bae0a9fe4072",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/AdmitDocumentBatchRequest.java": "1b90a4ff39c2f2895989ae00d865f3e5a19056c306cbfef512cdf9652d8d190d",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/AdmitJobRequest.java": "200b1a4f64da49d8054a43bd63e5a340f42ccca1076d38eae86f7496b2785961",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/ApproveSourceRequest.java": "926142222dc2846415c69fb6abbe33efb1b4546bdf3ee594eee87d27896b77e4",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/CaptureSnapshotRequest.java": "f214e023169dccc150a4ccd93a5a89000060c4ade22c61d923e5d72db118a5f8",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/DocumentRootItemDto.java": "c99804a82ba5c958c54ff2a4c1f045f907878d36020ccab83a8b47a3fb807067",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/FileOutcomeDto.java": "79fa18cb0f27b166c6f4031edb59903d02b4f59e5d22c4e2e57f11ccc432076d",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/FinalizeDocumentBatchRequest.java": "5086655962c592599f6a9c562a3ba08e45799fec2cbc1222c87f0c8c44571641",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/FinalizeGenerationRequest.java": "90f0ef841c5468f631b9270a785ac40ef2d8647413808c310ee8996cbbe2b579",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagBatchFinalizationResponse.java": "8b71afb95085e9f39e34a9a43f991613b7f1cb9fe21c2373faaab20987624c70",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagDocumentBatchReportResponse.java": "d752c52960dd1767c0c4bc5f01ca0dd22909531d94c80a0317bf37e77453a8f1",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagFinalizationResponse.java": "68cb27c49d8d3116af24d17b0686fe5b36222be820795ab92fa9b6389f4f8918",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagJobAdmissionResponse.java": "faf6721200abcae3060566842fe93b8992825692cef3324477a60491cdbb5a08",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagJobStatusResponse.java": "34114fecc6dba5d53902877276b817400432d70145cfff9024c42c936e2843dc",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagSourceResponse.java": "bb5aeb95f4eda430f29682947345a3d5dfce4a41806aaa1f7db90c8dbd2e67af",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RegisterDomainSourceRequest.java": "ac8311012379618c9c03b73f104f2043e590e856fd22c4c431869ded0c4d27c5",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RegisterFileSourceRequest.java": "f6992c9b33eda30b41d5d80856174b838d1de85f1b2cd236d90ea5e94c4839f7",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/package-info.java": "fc1c48dd77e64a87ce26733c3c0475bc0ecee1c7769dc4d46322dfe08a5cfee9",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/mapper/RagWebMapper.java": "6ef78432770f4ba3a0c67e3f24830cc83b96e7b5238cbc49bbe47dc7b440c825",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/mapper/package-info.java": "2fc049d39fa0c5aa82774cba782f3ad26405c62d6811455af25f868dd94189fd",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/package-info.java": "0f2d1378173e8f8672e8358a1f144187955206c6d96a05e03dd1c8df62012127",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagAccessState.java": "c49c9770d4c51b6017ed0e16eb0d55a18cfe97604d469fd556732eb659ffd86c",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagClassification.java": "ee3b9e46d2381caeacc6303ef3efb948935aad6526cc4cc037630cfa050d7491",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagSnapshotExpectation.java": "25a5dff22bd64d035a9b1ec652f25785ef8f619f51c7253ca8fc5793cd14d69e",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagSourceType.java": "789b10c0bd8400c9fafbc589d11abf977083006f9730285a671dfaa9d5fbf354",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagSourceView.java": "ea49fb0eb67207bcd1b14412fef7e261a5173d5fa10f776d7be6faa88c5f6a94",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/package-info.java": "c9742645324ed4f6596ec98a65be77159bf82f3fe9f7e8bfb2e7c0c4c3ec7171",
+    "backend/src/main/resources/db/migration/README.md": "a766a13b9e1c55dc06399ce41bb47e799eb94114f8eefdb416abc5462b0ed161",
+    "backend/src/main/resources/db/migration/V10__rag_complete_worker_authority.sql": "80fb17a6063a3d0b48be89feea3d8ba7f3badd265dafc01bacd08353692124fe",
+    "backend/src/main/resources/db/migration/V11__rag_disabled_source_tombstones.sql": "5b87ad0d27cd127cbb57d444a14ab53d6cdf45bf3f7612ce5445c0b47a6e7392",
+    "backend/src/main/resources/db/migration/V12__rag_exact_worker_dependency_proof.sql": "028fcf43df186fb78f91b0388172107401d9d6f3342a4472d45b156a4634be50",
+    "backend/src/main/resources/db/migration/V13__rag_effective_database_privileges.sql": "f9e1be477231753d98ded4717c39a260d7c06eee7affeec06833b5da1d8662ae",
+    "backend/src/main/resources/db/migration/V14__rag_source_state_and_reservations.sql": "27fbd08abf4757fb33bc41289690a65dcfa00cd494823c55e9a0b4c9e91bffa4",
+    "backend/src/main/resources/db/migration/V15__rag_single_job_and_sealed_worker.sql": "52b53f04cd6993e761a02c480ed79afeb4b14e40b84c10192e29aa629d8aebc8",
+    "backend/src/main/resources/db/migration/V16__rag_current_read_and_terminal_scrub.sql": "6e9a9f77f4c12f4caf95749ad47fc3ad8b0258baa590ffbdb20bba23796a4a54",
+    "backend/src/main/resources/db/migration/V17__rag_retained_consent_history.sql": "90eae19be851c2ecc41cbfebc5dcf0a0d81b4ca68265c5eb1ced27349f91dc86",
+    "backend/src/main/resources/db/migration/V18__rag_document_indexing.sql": "832bdc31d10c4f84bdf5dd0da4a06e757d2e37dd4e608ad9b34acfb029ed695e",
+    "backend/src/main/resources/db/migration/V19__rag_require_vector_storage.sql": "01713ed5710c20e512472f5266a66a4ad0597100b0b56f32b2c0d59dd09901d8",
+    "backend/src/main/resources/db/migration/V1__create_schema_v1.sql": "25d0423e15490f558900b3df3d6fc6176840f820fa36e59ecc78cf4fcdbce686",
+    "backend/src/main/resources/db/migration/V20__rag_snapshot_revisions.sql": "88e616347f8165ea1ce94ffe0a814cbdae9660525bc26952d2d187c341a0577f",
+    "backend/src/main/resources/db/migration/V21__rag_snapshot_integrity.sql": "6083f9bbb1156a357faefb63af206a34f7a65673564f4bc8d3d753a2bfc565ae",
+    "backend/src/main/resources/db/migration/V22__rag_document_result_authority.sql": "443802cfe7a4b6a0d41939e61b93ef7190210ff0f2a13bdb0cfb7c270ee488e6",
+    "backend/src/main/resources/db/migration/V2__add_search_support.sql": "30f181edd9a51e55f9c30c6cc7b2d780d1ca82ecd87f1cd200e82607ba781f9a",
+    "backend/src/main/resources/db/migration/V3__rag_foundation.sql": "95fe0a834d0df6cc057f385fe2e0478147629694203e12008fb1eaa399c04c5d",
+    "backend/src/main/resources/db/migration/V4__rag_worker_security.sql": "58978496808267058812d14de9ccebd92c46db4e783cf0b116c7c97070e8e187",
+    "backend/src/main/resources/db/migration/V5__rag_staging_definer_and_indexes.sql": "e16bc5e021c583fa7ea80894c1bc8c524dffea043b8a2ed22316ba37e941c69e",
+    "backend/src/main/resources/db/migration/V6__rag_security_hardening.sql": "bfa8f4e928bbab8cfa9e563d30c0154e52d160e3c6e33fe3352499d8abb67c16",
+    "backend/src/main/resources/db/migration/V7__rag_issued_worker_grants.sql": "9b3bf4a525adfbf693e439f5e7c75b48d590ebada1b53102e7452740a58fd98d",
+    "backend/src/main/resources/db/migration/V8__rag_commit_deadlines_and_consent_instances.sql": "134ee303d1775f87898c2e7b9bf43af728095d3539aa17dd38b7293b1005799c",
+    "backend/src/main/resources/db/migration/V9__rag_runtime_authority.sql": "d8b8e17d2eee41647d8ac571ea9726ca9c1fc00db16fedd88a0fbd94d915a76f",
+    "rag-engine/src/ppv_rag/__init__.py": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5",
+    "rag-engine/src/ppv_rag/chunking/__init__.py": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d",
+    "rag-engine/src/ppv_rag/chunking/chunker.py": "7e5c73c93b384c5d9596dd5704dfa94a9cbc6d699d14d4573df11935e10154f1",
+    "rag-engine/src/ppv_rag/config.py": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a",
+    "rag-engine/src/ppv_rag/contracts.py": "ea3808f5777b8a911b7fcc9b5480ba2b8377b745341bdfa263117361092e4276",
+    "rag-engine/src/ppv_rag/db.py": "721a2ef5d1ebabf14ca68ee53a07e766af292ac69e17dde2ca682461837a40e6",
+    "rag-engine/src/ppv_rag/document_source.py": "f582708e69026ca83de277e4f029a4173c6a80849fd9a66f4487f3cb20b2a178",
+    "rag-engine/src/ppv_rag/document_verification.py": "b19aae57c00a86b44036a8b2ba6fa239596647916baa86f1f397999f34c77273",
+    "rag-engine/src/ppv_rag/embeddings/__init__.py": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a",
+    "rag-engine/src/ppv_rag/embeddings/model.py": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+    "rag-engine/src/ppv_rag/limits.py": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194",
+    "rag-engine/src/ppv_rag/main.py": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea",
+    "rag-engine/src/ppv_rag/ocr/engine.py": "3953b9e6299525e4e3f775875b5ac4c186f952a1ffc203109c649c8a13d4203a",
+    "rag-engine/src/ppv_rag/parsers/__init__.py": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60",
+    "rag-engine/src/ppv_rag/parsers/docx.py": "f613bcdeca8a06093d0d024717bff284882880d26737ebc38e66b0810bc69f65",
+    "rag-engine/src/ppv_rag/parsers/excel.py": "3b863ad2d60e8e34899ac8d9aa2338335534863fac157f61e099ab173e3749ee",
+    "rag-engine/src/ppv_rag/parsers/markdown.py": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+    "rag-engine/src/ppv_rag/parsers/models.py": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+    "rag-engine/src/ppv_rag/parsers/obsidian.py": "83ce26efe8913e59302688b128b1f9227cadfdd20e7b22a18ae07ac1e67354fc",
+    "rag-engine/src/ppv_rag/parsers/obsidian_html.py": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+    "rag-engine/src/ppv_rag/parsers/pdf.py": "ac61c950bdaa85b2ceb46cc7d07cf27a222ac9f5f70dcc837b2c04e814c2e44e",
+    "rag-engine/src/ppv_rag/parsers/text.py": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623",
+    "rag-engine/src/ppv_rag/security.py": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44",
+    "rag-engine/src/ppv_rag/telemetry.py": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9",
+    "rag-engine/src/ppv_rag/transport.py": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54",
+    "rag-engine/src/ppv_rag/worker.py": "da2b089a2ac20ca31a7ef6f47b0f2152a83dccb1e21297321dd19c9a408a7c38"
+  },
+  "entry_manifest": {
+    "path": "logs/phase18/s3-final-independent-20261022/entry.json",
+    "sha256": "c894daf3fba61abae56b037a2077123d0b8c1418d14fd07e02b29d170b7508c3",
+    "nonignored_files": 2493
+  },
+  "artifacts": {
+    "logs/phase18/s3-final-independent-20261022/cancellation-failure-observations.json": {
+      "sha256": "68e128c2eac98c005b6c42ead61ddab4254dad9dc7e547d0322f76cd3f4c3a48",
+      "bytes": 1612
+    },
+    "logs/phase18/s3-final-independent-20261022/candidate-inventory.json": {
+      "sha256": "4f25870a8fb50e7e37cda49f2f275693178890cb603571a93872fe0e1f75c663",
+      "bytes": 48381
+    },
+    "logs/phase18/s3-final-independent-20261022/commands.jsonl": {
+      "sha256": "01054829f21a9b58b49c2df89906169a4283909b280ac218362305ef88bffdc3",
+      "bytes": 21063
+    },
+    "logs/phase18/s3-final-independent-20261022/corpus-audit.json": {
+      "sha256": "7229bbf9edd5b4b725b87e4d9581f90eed8b3a3e018b6fbe08ab3202b9280321",
+      "bytes": 960
+    },
+    "logs/phase18/s3-final-independent-20261022/diff-check.json": {
+      "sha256": "1b73c713700de0f6cddfd94ab6b5c4216f3409b286535e42fcb15fb880f1ebdf",
+      "bytes": 385
+    },
+    "logs/phase18/s3-final-independent-20261022/diff-check.log": {
+      "sha256": "98defd449d50b0b76042fcfb99afd6201f850e879058eeb1ce3b6dd72bb2cf19",
+      "bytes": 4299
+    },
+    "logs/phase18/s3-final-independent-20261022/entry-surefire-reports.zip": {
+      "sha256": "75faf64b18d1e3888e4f92464a7c67aee9d93a9b6675195377ee543056addec6",
+      "bytes": 1035527
+    },
+    "logs/phase18/s3-final-independent-20261022/entry.json": {
+      "sha256": "c894daf3fba61abae56b037a2077123d0b8c1418d14fd07e02b29d170b7508c3",
+      "bytes": 1904149
+    },
+    "logs/phase18/s3-final-independent-20261022/format.json": {
+      "sha256": "c0b1d13394d4b4942d491040f8955edb3ca363a3ec150158e9f23f673d47d7dc",
+      "bytes": 392
+    },
+    "logs/phase18/s3-final-independent-20261022/format.log": {
+      "sha256": "fe1e5fb8c1ad8d2227821452a05a23a6d53ecb893383f682891aac81f3be7f44",
+      "bytes": 195
+    },
+    "logs/phase18/s3-final-independent-20261022/java-native.json": {
+      "sha256": "e54a8e9c88e98967843d49c6b708968e33e2be7eed03bbd4050e2d3fb0742751",
+      "bytes": 403
+    },
+    "logs/phase18/s3-final-independent-20261022/java-native.log": {
+      "sha256": "37e6f5c1702aedb83e57324c92c282b20d84540b0d58ff77f53bab95f4570824",
+      "bytes": 134338
+    },
+    "logs/phase18/s3-final-independent-20261022/large-alias-candidate-b2380728-9476-439f-916d-a7bcecd1f045.json": {
+      "sha256": "f2b77a323a69ccab6494405aa954a06d09c5c9174e7e0d4500b59fb75249163a",
+      "bytes": 565554
+    },
+    "logs/phase18/s3-final-independent-20261022/lock.json": {
+      "sha256": "ded2880bc37c11c3c3665602cf032a80970e639af48e4cdc9ffff8ff710a3724",
+      "bytes": 384
+    },
+    "logs/phase18/s3-final-independent-20261022/lock.log": {
+      "sha256": "433be69fde0084240a55f0f337a7e29100bfe4be85d44f5ff1d982cd7a680b75",
+      "bytes": 106
+    },
+    "logs/phase18/s3-final-independent-20261022/mixed-closure-results.json": {
+      "sha256": "0a980cf56c2a0dfcbaf7d81ffc6b6c14d688f14289c735cc92e890b7fc1650f6",
+      "bytes": 1885
+    },
+    "logs/phase18/s3-final-independent-20261022/mixed-compile.args": {
+      "sha256": "894da259f76d697abefb17b19e3f3fc91492755d578a5221aaedd17127b6e548",
+      "bytes": 24673
+    },
+    "logs/phase18/s3-final-independent-20261022/mixed-compile.json": {
+      "sha256": "b2f93670c87e174771d637a826a1d2adb99de187762faa5b0666caa2d24d3d64",
+      "bytes": 386
+    },
+    "logs/phase18/s3-final-independent-20261022/mixed-compile.log": {
+      "sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e",
+      "bytes": 80
+    },
+    "logs/phase18/s3-final-independent-20261022/mixed-native.args": {
+      "sha256": "1cd397b1381917e63c1bbccc0f384a8885bae77bbabf50d5c16bb83a2dbbf8e2",
+      "bytes": 24639
+    },
+    "logs/phase18/s3-final-independent-20261022/mixed-native.json": {
+      "sha256": "d59e996d267973c0c2e064741817fa57698fa9abaa79d64840ecc848e4be2731",
+      "bytes": 388
+    },
+    "logs/phase18/s3-final-independent-20261022/mixed-native.log": {
+      "sha256": "2256a1c9135152b01947782ebbd4c239c6e790dc626a1f73cbbab7f2668be39a",
+      "bytes": 16405
+    },
+    "logs/phase18/s3-final-independent-20261022/mypy.json": {
+      "sha256": "22cc8e34d990f758749ba822c0e7485d8a2a1776ec1614d31a9c1b9b8d8a3323",
+      "bytes": 394
+    },
+    "logs/phase18/s3-final-independent-20261022/mypy.log": {
+      "sha256": "c95c10a7717e5ebeda56994a232cfd77839bedaa5e42711470f6616333ed2928",
+      "bytes": 214
+    },
+    "logs/phase18/s3-final-independent-20261022/native-failures.json": {
+      "sha256": "4471b095c533def8c78659a843d6559cf56427e807ee231044963ed20737ac2d",
+      "bytes": 741
+    },
+    "logs/phase18/s3-final-independent-20261022/new-native-surefire.zip": {
+      "sha256": "93dfe89280ebfa7701fb467d1ae812d6c6c2899c4d3b865fc1e66a12d352a31a",
+      "bytes": 1038904
+    },
+    "logs/phase18/s3-final-independent-20261022/pip.json": {
+      "sha256": "83df9f3e41fd2e161dfd8f6f0efaf2f6bde89f27fc471a19192d0464a4403954",
+      "bytes": 382
+    },
+    "logs/phase18/s3-final-independent-20261022/pip.log": {
+      "sha256": "6f76459bf366e29e82410e2324a747997a8192c69d4f81e2552538bf8902deb8",
+      "bytes": 201
+    },
+    "logs/phase18/s3-final-independent-20261022/plan.json": {
+      "sha256": "06f77b7fe4ada0a126f7ed5699f096bd85bce4688e077ebfe1123a04db65b882",
+      "bytes": 4448
+    },
+    "logs/phase18/s3-final-independent-20261022/preservation-audit.json": {
+      "sha256": "c51470ab25c225c161aa607164162f14c3e7aeb4648f2ecf20834b317ec91f14",
+      "bytes": 460
+    },
+    "logs/phase18/s3-final-independent-20261022/probe-compile.args": {
+      "sha256": "67a0d3205071e1b72eabfc87ae17e44fe8958d0ded972cfaaa4684a6228a7286",
+      "bytes": 24677
+    },
+    "logs/phase18/s3-final-independent-20261022/probe-compile.json": {
+      "sha256": "de71c24083e21b1ee988fd21aaa998c5960196d2e19a4ab11f5d0444b327f096",
+      "bytes": 387
+    },
+    "logs/phase18/s3-final-independent-20261022/probe-compile.log": {
+      "sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e",
+      "bytes": 80
+    },
+    "logs/phase18/s3-final-independent-20261022/probe-native.args": {
+      "sha256": "6c1dc4d25eb00ee999498e95f1dfd06315e639080353e99b2ceb09301d0f7a45",
+      "bytes": 24643
+    },
+    "logs/phase18/s3-final-independent-20261022/probe-native.json": {
+      "sha256": "0ff88c1a41c8bfbcc459f31337f520222e7f15b2543417bb349e3b5098768c0a",
+      "bytes": 387
+    },
+    "logs/phase18/s3-final-independent-20261022/probe-native.log": {
+      "sha256": "4e22a4bc2b154b4c32d781addd64f1b8221fc28d23f28147e2d6952608e1d47f",
+      "bytes": 16356
+    },
+    "logs/phase18/s3-final-independent-20261022/python.json": {
+      "sha256": "8b8c96d90135b9bf11ea1ffc0bbe759b3d172d0c0e6e2b6dee8bfc0061d5843a",
+      "bytes": 393
+    },
+    "logs/phase18/s3-final-independent-20261022/python.log": {
+      "sha256": "8279791a57e7cd3244da4dbb109834a263dc62d18eedd03b39eee4f807cded46",
+      "bytes": 434
+    },
+    "logs/phase18/s3-final-independent-20261022/retained-evidence-audit.json": {
+      "sha256": "e109c8a3efc71735a4b52c99efe435ed2b43c3981107af8957efd8cdb0ee230d",
+      "bytes": 20497
+    },
+    "logs/phase18/s3-final-independent-20261022/ruff.json": {
+      "sha256": "3cb385d9fd96abe51fdb1a2b6d4165587d2ee26b9aabe21cd32ed489675221e0",
+      "bytes": 392
+    },
+    "logs/phase18/s3-final-independent-20261022/ruff.log": {
+      "sha256": "893b86fa0d0443e902ce683d44afc5188112d73639fad3c7280bcae728c15d51",
+      "bytes": 187
+    },
+    "logs/phase18/s3-final-independent-20261022/run.py": {
+      "sha256": "8437da84f5ab01715c93670bd29b3b53ff56e06ad50ff1569866826b798ee088",
+      "bytes": 1325
+    },
+    "logs/phase18/s3-final-independent-20261022/S3FreshAdversarialProbe.java": {
+      "sha256": "9ac9286c90b1ede2c7c1cba6888b8c2cb252027d45b8aad6f5746768af28489b",
+      "bytes": 3156
+    },
+    "logs/phase18/s3-final-independent-20261022/S3FreshVectorReceiptProbe.java": {
+      "sha256": "bb4bd517c828d82bcfbe8b70bc51c23fee5a42952975032e37856b6f453781b8",
+      "bytes": 4607
+    },
+    "logs/phase18/s3-final-independent-20261022/S3MixedClosureProbe.java": {
+      "sha256": "bbcf6c1a956c103da33ccfd9310a6fb0d32e1131a712e2c7013e0233f1f96f25",
+      "bytes": 4096
+    },
+    "logs/phase18/s3-final-independent-20261022/source-continuity-audit.json": {
+      "sha256": "d358b440851806cfc8b63712e8e15b065e3c8c2119325f1cd7907abfb65b6496",
+      "bytes": 699
+    },
+    "logs/phase18/s3-final-independent-20261022/vector-confirm-compile.args": {
+      "sha256": "5e2dd1dabd5ec4562ec04b171230b2bc6c2310288897ef47457868a3571d65ac",
+      "bytes": 24679
+    },
+    "logs/phase18/s3-final-independent-20261022/vector-confirm-compile.json": {
+      "sha256": "aee5d96066e617826b237d461efa6df3fcfebea9963efd4404dc5ff4de32fb12",
+      "bytes": 387
+    },
+    "logs/phase18/s3-final-independent-20261022/vector-confirm-compile.log": {
+      "sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e",
+      "bytes": 80
+    },
+    "logs/phase18/s3-final-independent-20261022/vector-confirm-native.args": {
+      "sha256": "63381c1c54b3ab10f8ae33153df9687d520095fe88bb683c0a853b740ffb15b4",
+      "bytes": 24645
+    },
+    "logs/phase18/s3-final-independent-20261022/vector-confirm-native.json": {
+      "sha256": "b2e4820d7d5e088efa30b50ca0b17285b98d4e710c80a550fba0d46db9a7b5ec",
+      "bytes": 388
+    },
+    "logs/phase18/s3-final-independent-20261022/vector-confirm-native.log": {
+      "sha256": "e6e1b7060cc32a09b2562f52be19c2031d8449f021968f41f730affd32c957e1",
+      "bytes": 16417
+    },
+    "logs/phase18/s3-final-independent-20261022/vector-probe-results.json": {
+      "sha256": "c1bb61af4242002fa00aded578d752de88e36d02587e2c1595b849324a4e7df8",
+      "bytes": 342
+    },
+    "logs/phase18/s3-final-independent-20261022/vector-publication-confirmation.json": {
+      "sha256": "a8a1536f1f81e00c72be5adbe6cc1474487fdef65169a7e09cd4aad482008da7",
+      "bytes": 1322
+    },
+    "logs/phase18/s3-final-independent-20261022/fresh-environment-models.json": {
+      "sha256": "05c7276bb557c4138841b94cc503331c168164abb638e20eef0446a2ef6200b7",
+      "bytes": 570
+    }
+  },
+  "source_identity_qualification": {
+    "final_v4": "1740 exact current matches",
+    "python_v3": "120 Python subset matches; only later Java mixed-fixture change in full manifest",
+    "migration_V22": "443802cfe7a4b6a0d41939e61b93ef7190210ff0f2a13bdb0cfb7c270ee488e6",
+    "original_V1_V21": "unchanged content against HEAD; raw entry bytes preserved",
+    "review_only_source_change": "ACTIVE review-status update; new review/evidence/inventory docs; no production/test/config/dependency changes"
+  },
+  "governance": {
+    "Phase17": "COMPLETE/FROZEN",
+    "Slice1_D14": "CLOSED",
+    "Slice2_D23": "MARKDOWN_ONLY_CLOSED",
+    "D24": "overall .md ONLY",
+    "D22_originals": "NOT_RECOVERED / ORIGINAL_PRESERVATION_FAILED",
+    "historical_full_java": "FAILED 1433 tests / 1 failure / 2 errors / 0 skips",
+    "external_indexing": "INACTIVE",
+    "live_originals": "DISABLED/DEFERRED",
+    "FR18_3": "OPEN",
+    "P18_FINAL": "NOT_ACCEPTED",
+    "Slice4": "NOT_AUTHORIZED",
+    "new_correction_authority": false,
+    "publishing_or_staging": false
+  },
+  "limits": [
+    "Complete mandatory matrix does not pass; present counterexamples prevent FR18-3 closure",
+    "No new complete 238-test run, full clean gate, maximum resource profile or historical fixed-output scripts",
+    "Two 1329-case corpus checks and v4 resource monitor audited/reused, not described as newly rerun",
+    "CUDA UNAVAILABLE; device-wide VRAM is not worker allocation or GPU inference PASS",
+    "Original Antigravity pre-repair stdout remains missing; retained D14 log actual exception verified, no invented cause",
+    "No malicious same-user OS sandbox or zero-global-writes requirement introduced"
+  ],
+  "fresh_environment_and_models": {
+    "models": {
+      "model.onnx": {
+        "sha256": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+        "bytes": 118453870
+      },
+      "tokenizer.json": {
+        "sha256": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+        "bytes": 9081518
+      }
+    },
+    "onnx_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "versions": {
+      "mypy": "2.4.0",
+      "ruff": "0.17.0",
+      "pytest": "9.1.1",
+      "onnxruntime": "1.31.0",
+      "tokenizers": "0.23.3",
+      "pydantic": "2.14.1"
+    }
+  }
+}

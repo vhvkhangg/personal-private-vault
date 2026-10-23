@@ -1,3 +1,42 @@
+**D24 CURRENT - 2026-10-21:** Overall Phase 18 external document target is **Obsidian Markdown `.md` ONLY**. Owner authorizes the new initial **Slice 3 Verified Indexing D+F**; see [D24](owner-decisions.md#2026-10-21--d24-overall-markdown-only-phase-18-and-slice-3-verified-indexing), [executable handoff](slice-3-verified-indexing-handoff.md), [baseline/applicability/cleanup](slice-3-markdown-scope-and-baseline-2026-10-21.md). Slice 2/D23 producer-local scope is CLOSED and prior work is **published** at verified main `ef32d41b33dd00e5fa08cf63977e91b8936ef3d5`, including unaccepted mixed changes; publication does not accept them. The former selective staging/commit workflow is superseded and must not be reopened. TXT/Office/PDF/OCR are excluded from Slice 3 and final Markdown acceptance; temporarily retain without use/certification, then remove unnecessary implementation/dependencies/tests/fixtures once at Slice 4 end before P18-FINAL. No Slice 4 implementation now. Phase 17 FROZEN; Slice 1/D14 CLOSED; D22 originals NOT_RECOVERED / original preservation FAILED; FR18-3 OPEN; Java publication NOT ACCEPTED; historical full Java gate FAILED until genuine successful rerun; indexing INACTIVE; live originals DISABLED/DEFERRED; P18-FINAL NOT ACCEPTED. Historical Antigravity remediation 2/2 remains exhausted; this initial slice grants no extra remediation rounds. Preparation only in this session; no activation or agent publishing.
+
+## RR-01-03 corrective checkpoint - 2026-10-22
+
+The separately Owner-authorized RR-01-03 checkpoint returns **READY_FOR_INDEPENDENT_SLICE_3_RE_REVIEW**. Final Java selections pass 249/0/0/0 on identical source; Python passes 198 tests. This is implementation evidence awaiting independent review.
+Its [new handback](slice-3-rr-corrective-handback-2026-10-22.md),
+[executed matrix](slice-3-rr-corrective-matrix-2026-10-22.md) and
+[machine inventory](slice-3-rr-corrective-evidence-2026-10-22.json) record original
+counterexamples, minimal corrections and preserved failures. Earlier submitted
+readiness claims are historical; the independent CHANGES_REQUESTED review is
+preserved. FR18-3 OPEN; external indexing INACTIVE; no Slice 3 acceptance,
+activation, publishing or Slice 4 authorization.
+
+
+## Additional final Slice 3 checkpoint - 2026-10-22
+
+The Owner authorized one finite continuation for remaining S3-F03/S3-F06 and
+mandatory Slice 3 evidence. **READY_FOR_INDEPENDENT_SLICE_3_RE_REVIEW**. Final selected Java 238/0/0/0, Python 189 and required static/corpus checks pass. See the
+[new handback](slice-3-final-corrective-handback-2026-10-22.md),
+[executed matrix](slice-3-final-corrective-matrix-2026-10-22.md) and
+[machine inventory](slice-3-final-corrective-evidence-2026-10-22.json).
+Codex is the implementer; independent review remains required. Prior failed
+receipts/reviews and BLOCKED checkpoint are preserved, with no Antigravity reset,
+Slice 3/FR18-3 closure, activation, publishing, Slice 4 or automatic further checkpoint.
+
+## Preserved prior Slice 3 corrective evidence — 2026-10-21
+
+**BLOCKED / incomplete mandatory matrix.** New receipts are isolated under
+`logs/phase18/s3-corrective-20261021/`; original failures/reviews remain unchanged.
+The [handback](slice-3-codex-corrective-handback-2026-10-21.md) records the exact
+failed attempts and passing 178-test Java selection, 3 read-order and 4 final revision-binding checks,
+137+41 Python selections, official 1,329-example corpus checks and static gates.
+The [machine inventory](slice-3-codex-corrective-evidence-2026-10-21.json) binds
+commands, source hashes and receipts. See the [complete execution matrix](slice-3-codex-corrective-matrix-2026-10-21.md)
+for remaining child-target, concurrency, restart, connection-loss and resource gaps.
+FR18-3 remains OPEN; no acceptance or historical full-gate PASS is inferred.
+
+## Preserved pre-D24 status and contract history
+
 # Phase 18 — Document Indexing Verification Evidence
 
 ## 2026-10-20 — Slice 1 independent final acceptance under D14

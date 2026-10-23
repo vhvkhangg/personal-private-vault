@@ -111,6 +111,19 @@ public class RagWorkerGrantService {
         requireIssued(grant,false,false);
     }
 
+    public void verifyDocumentResult(RagWorkerGrant grant, String response) {
+        try {
+            var receipt=json.readTree(response).path("receipt");
+            String digest=(String)entityManager.createNativeQuery("SELECT output_digest FROM rag.worker_grants WHERE job_id=:job AND attempt_id=:attempt AND stage_type='DOCUMENT_V3' AND consumed_at IS NOT NULL")
+                    .setParameter("job",grant.jobId()).setParameter("attempt",grant.attemptId()).getSingleResult();
+            if (!Objects.equals(digest,receipt.path("output_digest").asText())
+                    || !grant.jobId().toString().equals(receipt.path("job_id").asText())
+                    || !grant.attemptId().toString().equals(receipt.path("attempt_id").asText())
+                    || !"3.0".equals(receipt.path("contract_version").asText()))
+                throw new IllegalStateException("Document result seal mismatch");
+        } catch (java.io.IOException invalid) { throw new IllegalStateException("Invalid document result receipt"); }
+    }
+
     @Transactional(readOnly=true)
     public UUID executionSession(UUID job, UUID attempt) {
         supervisor.requireReady(job,attempt);

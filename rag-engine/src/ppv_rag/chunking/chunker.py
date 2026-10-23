@@ -62,7 +62,13 @@ class StructureFirstChunker:
                 return
 
             text_parts = [e.text for e in current_elements]
-            chunk_text = "\n\n".join(text_parts)
+            exact_contiguous = all(
+                e.locator.get("profile") == "ppv-obsidian-source-v1" for e in current_elements
+            ) and all(
+                a.locator.get("char_end") == b.locator.get("char_start")
+                for a, b in zip(current_elements, current_elements[1:])
+            )
+            chunk_text = ("" if exact_contiguous else "\n\n").join(text_parts)
             if not chunk_text:
                 current_elements = []
                 current_len = 0
@@ -99,6 +105,25 @@ class StructureFirstChunker:
         for elem in parsed.elements:
             checkpoint()
             elem_len = len(elem.text)
+            # A selected heading/block may clip a neighbouring unit to only a
+            # newline. Preserve it and its original metadata in an adjacent exact
+            # source span rather than emitting an unembeddable whitespace chunk.
+            if (
+                current_elements
+                and elem.locator.get("profile") == "ppv-obsidian-source-v1"
+                and current_elements[-1].locator.get("profile") == "ppv-obsidian-source-v1"
+                and (not elem.text.strip() or not any(e.text.strip() for e in current_elements))
+                and elem.source_identity == current_source
+                and elem.source_version == current_revision
+                and elem.approved_field == current_elements[-1].approved_field
+                and elem.locator.get("dependency_edges")
+                == current_elements[-1].locator.get("dependency_edges")
+                and current_elements[-1].locator.get("char_end") == elem.locator.get("char_start")
+                and self._fits("".join(e.text for e in current_elements) + elem.text)
+            ):
+                current_elements.append(elem)
+                current_len += elem_len
+                continue
             elem_ws = elem.locator.get("worksheet", "")
             elem_page = elem.locator.get("page")
 

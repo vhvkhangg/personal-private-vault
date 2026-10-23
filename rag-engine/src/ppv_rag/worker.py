@@ -23,10 +23,12 @@ from ppv_rag.contracts import (
 from ppv_rag.db import (
     AuthorityUnavailable,
     connection,
+    seal_document_result,
     stage_document_result,
     stage_receipt,
     verify_grant,
 )
+from ppv_rag.document_source import document_binding, parse_prepared_document
 from ppv_rag.embeddings.model import MultilingualEmbeddingPipeline
 from ppv_rag.limits import ParsingCancelled, check_text, checkpoint, parsing_scope
 from ppv_rag.ocr.engine import AdaptiveOCREngine
@@ -142,6 +144,7 @@ def process_document_batch_request(
     failed_count = 0
     peak_ram = get_system_ram_bytes()
     peak_vram = get_gpu_vram_bytes()
+    pending_results: list[dict[str, Any]] = []
 
     try:
         ocr_engine: AdaptiveOCREngine | None = None
@@ -215,13 +218,17 @@ def process_document_batch_request(
                             )
                             for k, v in root.transclusions.items()
                         }
-                        parsed_doc = parse_markdown(
-                            text,
-                            root.root_key,
-                            source_version=root.source_version,
-                            dependencies=deps,
-                            approved_metadata_fields=frozenset(root.approved_fields),
-                            whole_file=True,
+                        parsed_doc = (
+                            parse_prepared_document(root)
+                            if root.snapshot is not None
+                            else parse_markdown(
+                                text,
+                                root.source_id if root.snapshot is not None else root.root_key,
+                                source_version=root.source_version,
+                                dependencies=deps,
+                                approved_metadata_fields=frozenset(root.approved_fields),
+                                whole_file=True,
+                            )
                         )
 
                     elif fmt == "docx":
@@ -378,27 +385,55 @@ def process_document_batch_request(
                 "pipeline_identity": asdict(embedding_pipeline.metadata()),
                 "ram_measurement_kind": "PROCESS_PEAK_WORKING_SET",
                 "vram_measurement_kind": "DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES",
+                "input_binding": document_binding(root),
             }
 
             if cancelled():
                 raise ParsingCancelled("PARSING_CANCELLED")
-            stage_document_result(
-                job_id=request.job_id,
-                attempt_id=request.attempt_id,
-                lease_token=request.lease_token,
-                root_key=root.root_key,
-                success=success,
-                reason_code=reason_code,
-                warning_codes=warning_codes,
-                chunks_payload=chunks_payload,
-                resource_report=resource_report,
+            pending_results.append(
+                dict(
+                    job_id=request.job_id,
+                    attempt_id=request.attempt_id,
+                    lease_token=request.lease_token,
+                    root_key=root.root_key,
+                    success=success,
+                    reason_code=reason_code,
+                    warning_codes=warning_codes,
+                    chunks_payload=chunks_payload,
+                    resource_report=resource_report,
+                )
             )
+
+        # A selected child root's explicit failure invalidates true dependent roots,
+        # including nested dependencies, while unrelated roots remain independent.
+        failed_sources = {
+            root.source_id
+            for root, result in zip(request.roots, pending_results, strict=True)
+            if not result["success"]
+        }
+        for _ in request.roots:
+            changed = False
+            for root, result in zip(request.roots, pending_results, strict=True):
+                if result["success"] and any(
+                    child.source_key in failed_sources for child in root.transclusions.values()
+                ):
+                    result.update(success=False, reason_code="DEPENDENCY_FAILED", chunks_payload=[])
+                    failed_sources.add(root.source_id)
+                    changed = True
+            if not changed:
+                break
+        staged_count = sum(bool(result["success"]) for result in pending_results)
+        failed_count = len(pending_results) - staged_count
+        for result in pending_results:
+            if cancelled():
+                raise ParsingCancelled("PARSING_CANCELLED")
+            stage_document_result(**result)
 
         if cancelled():
             raise ParsingCancelled("PARSING_CANCELLED")
-        output_digest = hashlib.sha256(
-            f"{request.job_id}:{request.attempt_id}:{staged_count}:{failed_count}".encode()
-        ).hexdigest()
+        output_digest = seal_document_result(
+            request.job_id, request.attempt_id, request.lease_token
+        )
 
         receipt = {
             "contract_version": "3.0",

@@ -77,6 +77,8 @@ public class RagJobService {
         Objects.requireNonNull(sourceId, "sourceId");
         Objects.requireNonNull(command);
         var prepared = authority.prepareSource(sourceId, command.descriptionConfirmations());
+        if (prepared.proofs().values().stream().anyMatch(p -> "EXTERNAL_FILE".equals(p.type())))
+            throw new IllegalArgumentException("External sources require the negotiated snapshot document protocol");
         try {
         return transactionTemplate.execute(status -> {
         RagSourceAuthority.Snapshot snapshot = authority.lockPrepared(prepared, null, true);

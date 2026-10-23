@@ -1,0 +1,3602 @@
+{
+  "date": "2026-10-21",
+  "role": "Codex corrective implementer; not independent review",
+  "status": "BLOCKED",
+  "authorization": "One finite Owner-authorized S3-F01 through S3-F06 checkpoint; not a reset of Antigravity 2/2",
+  "head": "ef32d41b33dd00e5fa08cf63977e91b8936ef3d5",
+  "entry_head": "ef32d41b33dd00e5fa08cf63977e91b8936ef3d5",
+  "semantic_index_unchanged": true,
+  "entry_manifest": {
+    "path": "logs/phase18/s3-corrective-20261021/entry.json",
+    "sha256": "a8e5744a7c464b6a7d7a6b0273da00b8e515c8c834cd0db2268f12979349b489"
+  },
+  "preservation": {
+    "entry_files": 2477,
+    "entry_unchanged": 2450,
+    "changed_existing": {
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentBatchService.java": {
+        "entry": {
+          "sha256": "bb1678f0a55b7a88a0aa8610ff7b0828856959e1d6117f61d17b789576017728",
+          "bytes": 16112
+        },
+        "current": {
+          "sha256": "fd14fc274a004e32931ef86b0dadf712fe5ef231e9a59ee9611361b2c8e6d67d",
+          "bytes": 16186,
+          "crlf": 296,
+          "lf": 0
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentFinalizationGate.java": {
+        "entry": {
+          "sha256": "f03c80d055448d96819c66278fca659e1141d5c27bfbdc163b0eecd6e48dc58a",
+          "bytes": 28022
+        },
+        "current": {
+          "sha256": "27745925bbaa48806a8c1bba0f3740949cf1f02192706ab0bec45d1f0be35d8d",
+          "bytes": 32771,
+          "crlf": 569,
+          "lf": 0
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentInput.java": {
+        "entry": {
+          "sha256": "2c6d1e4b41de09194afcf0da7eb35a529f8860a7c803ad9e5e0592f6fa75f9a0",
+          "bytes": 4087
+        },
+        "current": {
+          "sha256": "80e455b20e66cd4e2473aec70fecec3b26bb2c72df20423048b973fbfbbc6d2d",
+          "bytes": 4864,
+          "crlf": 88,
+          "lf": 0
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagGenerationState.java": {
+        "entry": {
+          "sha256": "876a35ee44b95b1fd52ffd8a3caafb4dfec21d499bcd5a0f7ecd2822d8f83792",
+          "bytes": 6910
+        },
+        "current": {
+          "sha256": "336c3ea15b8fbf63539e5ced8e81d342742e17e1c0460035a9483ec7b971d2d3",
+          "bytes": 8362,
+          "crlf": 115,
+          "lf": 0
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagJobService.java": {
+        "entry": {
+          "sha256": "b28e335167571430a402c1c89fb27eb092148eb4021c8cfccc72b36539d2db37",
+          "bytes": 10865
+        },
+        "current": {
+          "sha256": "65e642b43e36d42860f00dd7c9dd480639196db3ff078943c35e89fcfa4ce3f9",
+          "bytes": 11080,
+          "crlf": 0,
+          "lf": 202
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceAuthority.java": {
+        "entry": {
+          "sha256": "4539739433904204661bf710c7f45655a139cd5b168f6c88226796716daf36d1",
+          "bytes": 31033
+        },
+        "current": {
+          "sha256": "822f44d2ffa1397427cc7c600bd949b307a96ff74162562710db051236b257ff",
+          "bytes": 34605,
+          "crlf": 513,
+          "lf": 0
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceService.java": {
+        "entry": {
+          "sha256": "661cba6def898210ad22ef37840a8b11f0fadb5a74224b4901a0186cc4b667af",
+          "bytes": 35605
+        },
+        "current": {
+          "sha256": "29c0b710486a2e1099888e0e8390e28d677db22017953837ef52ebd0c3c73979",
+          "bytes": 35915,
+          "crlf": 577,
+          "lf": 0
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerGrantService.java": {
+        "entry": {
+          "sha256": "ed9e68731cc6f31b250b974672c05bd72fc7d21f78680caee121f2443e8a1a09",
+          "bytes": 10301
+        },
+        "current": {
+          "sha256": "cb4b9200fa53c16560b3acdd0f500ad29faf80ed1163ae3eda1891c4f6275326",
+          "bytes": 11352,
+          "crlf": 166,
+          "lf": 0
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerSupervisor.java": {
+        "entry": {
+          "sha256": "05ae81b6df30eb80a7a55d022cd413c10b59af1ad22393c89e0df0d54d6d05a7",
+          "bytes": 17053
+        },
+        "current": {
+          "sha256": "a1af557656c856699b5eb6c4297b21eeed1798e024e5c8cb89510cf03952db6f",
+          "bytes": 20485,
+          "crlf": 344,
+          "lf": 0
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagJobLease.java": {
+        "entry": {
+          "sha256": "87cf3e731b5449ae0c8964223d0cfe7401582041a4d46fd6ecb5cc862ec2b548",
+          "bytes": 6184
+        },
+        "current": {
+          "sha256": "d607975f20f7e8ec908ad78d5621629cf05eab9f2788bb2e59fd31235fa11d28",
+          "bytes": 6604,
+          "crlf": 0,
+          "lf": 170
+        }
+      },
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/RagOriginalBytesStore.java": {
+        "entry": {
+          "sha256": "05189f7bf74ecbbbe4397dac78ad04b7ddecc6578291c5b90de82470ff25e297",
+          "bytes": 45570
+        },
+        "current": {
+          "sha256": "68b1e056415cfa14b1156f70a28c7efa4cc9948bb34872973172df3a63164648",
+          "bytes": 47063,
+          "crlf": 961,
+          "lf": 0
+        }
+      },
+      "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagDocumentBatchIntegrationTest.java": {
+        "entry": {
+          "sha256": "aac0144c51aaa4f195412326d4b146592660480ea117cfef193f28bd68a1a1f0",
+          "bytes": 26491
+        },
+        "current": {
+          "sha256": "0dd187670f82ef1506923c89aa1d4141f4892eaf06685a7fb9d538cd2575a3fa",
+          "bytes": 22250,
+          "crlf": 438,
+          "lf": 0
+        }
+      },
+      "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3VerifiedIndexingIntegrationTest.java": {
+        "entry": {
+          "sha256": "a3ddaecd2c07df8b530b7f42e06bad2ba590ed48988972a620f3256f07f374ee",
+          "bytes": 15341
+        },
+        "current": {
+          "sha256": "e711e09f1d1b379e737bc5ea221d680805f3da9affa27fb8336da7b7eb42490d",
+          "bytes": 15354,
+          "crlf": 0,
+          "lf": 310
+        }
+      },
+      "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSnapshotCorrectiveIntegrationTest.java": {
+        "entry": {
+          "sha256": "8373be68904d5405688fbca28c9a7c63c514390b8c48b71e3192ef348bad0f53",
+          "bytes": 35650
+        },
+        "current": {
+          "sha256": "9418788ae2639890e8f099783d703669fe148ad874288ce313404c140c175177",
+          "bytes": 35698,
+          "crlf": 497,
+          "lf": 0
+        }
+      },
+      "docs/architecture/rag-phase-18-api-extension.md": {
+        "entry": {
+          "sha256": "0f51f73205aa15bd7a03b173a3844c9019ddbd5b17bf2db194433e6f50342188",
+          "bytes": 20153
+        },
+        "current": {
+          "sha256": "7d0887e27990460cb39309ae9a094ab69723352bb48de7982cbbb4b754211719",
+          "bytes": 21144,
+          "crlf": 0,
+          "lf": 113
+        }
+      },
+      "docs/database/phase-18-document-indexing.dbml": {
+        "entry": {
+          "sha256": "15a1bef9da7321c033c701ed04411330366372f7ececd7ba29328c8e61bbfdd1",
+          "bytes": 9568
+        },
+        "current": {
+          "sha256": "d57033453ad2b4302d632c4bf77b8dcef2bc4cc7517edae5041e661f5a738f92",
+          "bytes": 10350,
+          "crlf": 0,
+          "lf": 161
+        }
+      },
+      "docs/implementation/handoffs/ACTIVE.md": {
+        "entry": {
+          "sha256": "af30179d3fa4541d5d74ce52be122c3a7f748fb2f04aace677a4477527ff8179",
+          "bytes": 6118
+        },
+        "current": {
+          "sha256": "01e48a2c50ff11909c10bf6340740f1057e199e1a7ccac0ab05a61f5f56cb3c6",
+          "bytes": 7156,
+          "crlf": 0,
+          "lf": 93
+        }
+      },
+      "docs/implementation/phase-18/README.md": {
+        "entry": {
+          "sha256": "de85e3f9dc78c73d90e596415d933fb6ce886eb528f0246a7cbfd2bfa11caa6c",
+          "bytes": 19860
+        },
+        "current": {
+          "sha256": "6900da0ece26780933556018461ce225e91ecf23b236024d77a7aa419f9ef8d6",
+          "bytes": 20638,
+          "crlf": 0,
+          "lf": 80
+        }
+      },
+      "docs/implementation/phase-18/slice-3-verified-indexing-handoff.md": {
+        "entry": {
+          "sha256": "a98f537b3c5df8bdc3f45d93a743cb1c2a25c31b50a70766121b1ad6eee4a358",
+          "bytes": 14754
+        },
+        "current": {
+          "sha256": "89e262feec192cd012c050767284867e2a2f3233b24c04eb9030b41c9ca31e96",
+          "bytes": 15202,
+          "crlf": 0,
+          "lf": 187
+        }
+      },
+      "docs/implementation/phase-18/slice-3-verified-indexing-test-matrix.md": {
+        "entry": {
+          "sha256": "b41b84bfdf4dc1c8d1acf02c01acad5794ad49a534ea026048b01e3476b6d1ab",
+          "bytes": 8360
+        },
+        "current": {
+          "sha256": "56642abe9c54095f7a0d3d7d17f5c028a9b51ad357f28317899f51fe4e5e64b1",
+          "bytes": 8781,
+          "crlf": 0,
+          "lf": 37
+        }
+      },
+      "docs/implementation/phase-18/test-evidence.md": {
+        "entry": {
+          "sha256": "1ce3b645e51ebdadd46d4ad6041e9c16ea47407ca6592919178f23c6fd246ec5",
+          "bytes": 24581
+        },
+        "current": {
+          "sha256": "d448e389a9b5dce6fb22593bfc8bba3f78493962cd80f5495b63c3180186a373",
+          "bytes": 25426,
+          "crlf": 0,
+          "lf": 277
+        }
+      },
+      "rag-engine/src/ppv_rag/contracts.py": {
+        "entry": {
+          "sha256": "28db2741bfdee641b6958dd3b017462338588a93c39e25d480bb4a3a3146441b",
+          "bytes": 4444
+        },
+        "current": {
+          "sha256": "a3ee221d9ee270816cb158cc87270de14f1ac16355d67723b80dcc9d3ae00967",
+          "bytes": 7601,
+          "crlf": 0,
+          "lf": 216
+        }
+      },
+      "rag-engine/src/ppv_rag/db.py": {
+        "entry": {
+          "sha256": "421dc9e3823a349b3b6a935f59eb17ac89368458aaf0e346d792b6075b963177",
+          "bytes": 4366
+        },
+        "current": {
+          "sha256": "721a2ef5d1ebabf14ca68ee53a07e766af292ac69e17dde2ca682461837a40e6",
+          "bytes": 4767,
+          "crlf": 0,
+          "lf": 126
+        }
+      },
+      "rag-engine/src/ppv_rag/worker.py": {
+        "entry": {
+          "sha256": "bbe028401e06e8ae24d6df7b03ef29999a77234ef83fe026defc4d13f36c92cc",
+          "bytes": 18158
+        },
+        "current": {
+          "sha256": "da2b089a2ac20ca31a7ef6f47b0f2152a83dccb1e21297321dd19c9a408a7c38",
+          "bytes": 19908,
+          "crlf": 465,
+          "lf": 0
+        }
+      },
+      "rag-engine/tests/test_d17_completion.py": {
+        "entry": {
+          "sha256": "b1f312a410cb0d0b5cdcadfd737e4926d3462dde85d898632bbe7402021ec01e",
+          "bytes": 7544
+        },
+        "current": {
+          "sha256": "dfef9d25be330267cb21370cd202a19e572111aa9e920fe7e6a162e3a4e56787",
+          "bytes": 7621,
+          "crlf": 0,
+          "lf": 185
+        }
+      },
+      "rag-engine/tests/test_d17_final_corrective.py": {
+        "entry": {
+          "sha256": "eebf396dcbb6826e49c4a8d0336bb985f42c7f01f863d8182dfe5f42984a4301",
+          "bytes": 9524
+        },
+        "current": {
+          "sha256": "a738ce7f086c4660d0a5c900e636751a1fe8719152222daa0ad29de91a084a84",
+          "bytes": 9621,
+          "crlf": 248,
+          "lf": 0
+        }
+      },
+      "rag-engine/tests/test_obsidian_d17.py": {
+        "entry": {
+          "sha256": "9a3c0603ecb82e986bea89d9347749494f0a11a17e56d2f9e7b2145ed4c290e7",
+          "bytes": 19300
+        },
+        "current": {
+          "sha256": "3e5f5f2f5ae7e2fcb5dfb3826b166f7325ac2b1afdad1042a858c2ed720dac9a",
+          "bytes": 19531,
+          "crlf": 0,
+          "lf": 494
+        }
+      }
+    },
+    "new_files": {
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentResultVerifier.java": {
+        "sha256": "12af58289a97fb56f6ca54d9582057b1e804bf18e954e4708870e7337d355ed7",
+        "bytes": 6734,
+        "crlf": 0,
+        "lf": 100
+      },
+      "backend/src/main/resources/db/migration/V22__rag_document_result_authority.sql": {
+        "sha256": "443802cfe7a4b6a0d41939e61b93ef7190210ff0f2a13bdb0cfb7c270ee488e6",
+        "bytes": 12980,
+        "crlf": 0,
+        "lf": 182
+      },
+      "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3CorrectiveIntegrationTest.java": {
+        "sha256": "f883242b18943ac53e57639f682d19034b545eaa5ec41d5850eb3b012e7236af",
+        "bytes": 18750,
+        "crlf": 0,
+        "lf": 226
+      },
+      "docs/implementation/phase-18/slice-3-codex-corrective-handback-2026-10-21.md": {
+        "sha256": "3f59019d403c8d9239a4fb7c8d394291918f7032ef1c8adcecc420fb76c96229",
+        "bytes": 15027,
+        "crlf": 0,
+        "lf": 131
+      },
+      "docs/implementation/phase-18/slice-3-codex-corrective-matrix-2026-10-21.md": {
+        "sha256": "298b2bd8278cc7265a63a92c6c2fddc3f06d7a55ba214517b4bfda36b165b070",
+        "bytes": 7324,
+        "crlf": 0,
+        "lf": 34
+      },
+      "rag-engine/src/ppv_rag/document_source.py": {
+        "sha256": "95239503da33f111c3268504f5ad9a53d35bc2e2069eae2c97aecf5170f9faa5",
+        "bytes": 2172,
+        "crlf": 0,
+        "lf": 55
+      },
+      "rag-engine/src/ppv_rag/document_verification.py": {
+        "sha256": "a691d6c0bd3db700ae41147a6d5c59109a447047950d0acddf2d7b4522bcf35f",
+        "bytes": 5357,
+        "crlf": 0,
+        "lf": 132
+      },
+      "rag-engine/tests/test_slice3_corrective.py": {
+        "sha256": "8763daa3e1f1ddbda79618a4c4e9404b1695bc75f9ed7f7e02d16112e32b7704",
+        "bytes": 3407,
+        "crlf": 0,
+        "lf": 112
+      }
+    },
+    "historical_reviews_unchanged": 199,
+    "historical_receipts": {
+      "s3-independent-20261021": {
+        "compared": 107,
+        "unchanged": 107,
+        "mismatches": []
+      },
+      "s3-dd2503569f884d0f98ce2d006a619fed": {
+        "compared": 24,
+        "unchanged": 24,
+        "mismatches": []
+      }
+    },
+    "original_surefire_archive": {
+      "files": 272,
+      "sha256": "5b0e74aa7c4635565d314d216fc03c3e50b46c8c2fc902ae9db012c16e50594a"
+    },
+    "entry_changed_source_archive": {
+      "files": 36,
+      "sha256": "e699408067ebdbc947d93b8b4bef4be2242dab1863de6b7f4f6ee43d401beb43"
+    },
+    "untracked_original_test_reconstructed_and_hash_verified": true
+  },
+  "accepted_d17_identity": [
+    {
+      "path": "rag-engine/.python-version",
+      "sha256": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/pyproject.toml",
+      "sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/chunking/chunker.py",
+      "sha256": "64ace30d9de57eb45d32e70910fd9caab3dd1df32469a81b65b74af367cc6e45",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/embeddings/model.py",
+      "sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/markdown.py",
+      "sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/obsidian.py",
+      "sha256": "6dfa91355524da18c18ecfabb7cedc17cedcb2735f70e52feaf5daabae3ee33d",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/obsidian_html.py",
+      "sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md",
+      "sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md",
+      "sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+      "sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md",
+      "sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md",
+      "sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt",
+      "sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md",
+      "sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json",
+      "sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17",
+      "unchanged": true
+    },
+    {
+      "path": "rag-engine/uv.lock",
+      "sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa",
+      "unchanged": true
+    }
+  ],
+  "models": {
+    "rag-engine/models/paraphrase-multilingual-MiniLM-L12-v2/model.onnx": {
+      "sha256": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+      "bytes": 118453870,
+      "crlf": 2,
+      "lf": 16651
+    },
+    "rag-engine/models/paraphrase-multilingual-MiniLM-L12-v2/tokenizer.json": {
+      "sha256": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+      "bytes": 9081518,
+      "crlf": 0,
+      "lf": 0
+    }
+  },
+  "source_identity_at_aggregate_java_gate": {
+    "files": 1661,
+    "mismatches": [
+      "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceAuthority.java",
+      "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3CorrectiveIntegrationTest.java"
+    ],
+    "manifest": "logs/phase18/s3-corrective-20261021/java-current-verify-source-hashes.json",
+    "sha256": "818abb77b2ee5a73a763c98b773bf0be75da3f93ceef1139920505daf3c4f7eb"
+  },
+  "source_identity_at_last_affected_gate": {
+    "files": 1661,
+    "mismatches": [],
+    "manifest": "logs/phase18/s3-corrective-20261021/java-revision-binding-final-source-hashes.json",
+    "sha256": "665e9d27039cb0124d70be3b8411ce15a2bd6dba95e7763a46f12113e14f6e27"
+  },
+  "commands": [
+    {
+      "name": "before-compile",
+      "argv": [
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\compile.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\before-compile.json",
+        "--",
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\compile.args"
+      ]
+    },
+    {
+      "name": "before-native",
+      "argv": [
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\native.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "300",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\before-native.json",
+        "--",
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\native.args"
+      ]
+    },
+    {
+      "name": "java-first",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-first.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ]
+    },
+    {
+      "name": "ruff",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\ruff.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ]
+    },
+    {
+      "name": "format",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\format.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ]
+    },
+    {
+      "name": "mypy",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "mypy",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "--cache-dir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\fresh-mypy",
+        "rag-engine/src"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\mypy.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "mypy",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "--cache-dir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\fresh-mypy",
+        "rag-engine/src"
+      ]
+    },
+    {
+      "name": "dependency",
+      "argv": [
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\dependency.json",
+        "--",
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe"
+      ]
+    },
+    {
+      "name": "lock",
+      "argv": [
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\lock.json",
+        "--",
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ]
+    },
+    {
+      "name": "format-apply",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "--select",
+        "I",
+        "--fix",
+        "rag-engine/src/ppv_rag/contracts.py",
+        "rag-engine/src/ppv_rag/worker.py",
+        "rag-engine/src/ppv_rag/document_source.py",
+        "rag-engine/src/ppv_rag/document_verification.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\format-apply.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "--select",
+        "I",
+        "--fix",
+        "rag-engine/src/ppv_rag/contracts.py",
+        "rag-engine/src/ppv_rag/worker.py",
+        "rag-engine/src/ppv_rag/document_source.py",
+        "rag-engine/src/ppv_rag/document_verification.py"
+      ]
+    },
+    {
+      "name": "format-apply2",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "rag-engine/src/ppv_rag/contracts.py",
+        "rag-engine/src/ppv_rag/worker.py",
+        "rag-engine/src/ppv_rag/document_source.py",
+        "rag-engine/src/ppv_rag/document_verification.py"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\format-apply2.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "rag-engine/src/ppv_rag/contracts.py",
+        "rag-engine/src/ppv_rag/worker.py",
+        "rag-engine/src/ppv_rag/document_source.py",
+        "rag-engine/src/ppv_rag/document_verification.py"
+      ]
+    },
+    {
+      "name": "java-corrective-1",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest,RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-corrective-1.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest,RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ]
+    },
+    {
+      "name": "python-first",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_r03_only.py",
+        "rag-engine/tests/test_optional_ocr_dependency.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_slice3_verified_indexing.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-first-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-first-temp"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "600",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-first.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_r03_only.py",
+        "rag-engine/tests/test_optional_ocr_dependency.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_slice3_verified_indexing.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-first-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-first-temp"
+      ]
+    },
+    {
+      "name": "java-corrective-2",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest,RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-corrective-2.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest,RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ]
+    },
+    {
+      "name": "python-second",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_r03_only.py",
+        "rag-engine/tests/test_optional_ocr_dependency.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_slice3_verified_indexing.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-second-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-second-temp"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "600",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-second.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_r03_only.py",
+        "rag-engine/tests/test_optional_ocr_dependency.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_slice3_verified_indexing.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-second-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-second-temp"
+      ]
+    },
+    {
+      "name": "java-module-1",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagSlice3CorrectiveIntegrationTest,RagSlice3VerifiedIndexingIntegrationTest,RagDocumentInputCompatibilityTest",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-module-1.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagSlice3CorrectiveIntegrationTest,RagSlice3VerifiedIndexingIntegrationTest,RagDocumentInputCompatibilityTest",
+        "test"
+      ]
+    },
+    {
+      "name": "java-s3-verify",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagDocumentInputCompatibilityTest,RagWorkerPostgresPrivilegeIntegrationTest,RagCommitAcknowledgementRecoveryIntegrationTest,RagSecondJvmRecoveryIntegrationTest,RagCancellationRecoveryIntegrationTest,RagSlice1SnapshotIntegrationTest,RagSnapshotCorrectiveIntegrationTest,RagSlice3*Test",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-s3-verify.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagDocumentInputCompatibilityTest,RagWorkerPostgresPrivilegeIntegrationTest,RagCommitAcknowledgementRecoveryIntegrationTest,RagSecondJvmRecoveryIntegrationTest,RagCancellationRecoveryIntegrationTest,RagSlice1SnapshotIntegrationTest,RagSnapshotCorrectiveIntegrationTest,RagSlice3*Test",
+        "test"
+      ]
+    },
+    {
+      "name": "ruff-final",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\ruff-final.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "rag-engine"
+      ]
+    },
+    {
+      "name": "format-final",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\format-final.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "rag-engine"
+      ]
+    },
+    {
+      "name": "mypy-final",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "mypy",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "--cache-dir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\fresh-mypy-final",
+        "rag-engine/src"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\mypy-final.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "mypy",
+        "--config-file",
+        "rag-engine/pyproject.toml",
+        "--cache-dir",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\fresh-mypy-final",
+        "rag-engine/src"
+      ]
+    },
+    {
+      "name": "dependency-final",
+      "argv": [
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\dependency-final.json",
+        "--",
+        "uv",
+        "pip",
+        "check",
+        "--python",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe"
+      ]
+    },
+    {
+      "name": "lock-final",
+      "argv": [
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "120",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\lock-final.json",
+        "--",
+        "uv",
+        "lock",
+        "--directory",
+        "rag-engine",
+        "--check",
+        "--offline"
+      ]
+    },
+    {
+      "name": "python-final",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_r03_only.py",
+        "rag-engine/tests/test_optional_ocr_dependency.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_slice3_verified_indexing.py",
+        "rag-engine/tests/test_slice3_corrective.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-final-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-final-temp"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "600",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-final.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_obsidian_d17.py",
+        "rag-engine/tests/test_d17_completion.py",
+        "rag-engine/tests/test_d17_final_corrective.py",
+        "rag-engine/tests/test_d17_r03_only.py",
+        "rag-engine/tests/test_optional_ocr_dependency.py",
+        "rag-engine/tests/test_worker.py",
+        "rag-engine/tests/test_slice3_verified_indexing.py",
+        "rag-engine/tests/test_slice3_corrective.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-final-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-final-temp"
+      ]
+    },
+    {
+      "name": "java-final-affected",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSnapshotCorrectiveIntegrationTest,RagSlice3CorrectiveIntegrationTest,RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagDocumentInputCompatibilityTest,RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-final-affected.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSnapshotCorrectiveIntegrationTest,RagSlice3CorrectiveIntegrationTest,RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagDocumentInputCompatibilityTest,RagSlice3VerifiedIndexingIntegrationTest",
+        "test"
+      ]
+    },
+    {
+      "name": "python-compat",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_contracts.py",
+        "rag-engine/tests/test_bound_ingress.py",
+        "rag-engine/tests/test_consumption_containment.py",
+        "rag-engine/tests/test_security.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-temp"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "600",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_contracts.py",
+        "rag-engine/tests/test_bound_ingress.py",
+        "rag-engine/tests/test_consumption_containment.py",
+        "rag-engine/tests/test_security.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-temp"
+      ]
+    },
+    {
+      "name": "python-compat-corrected",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_contracts.py",
+        "rag-engine/tests/test_bound_ingress.py",
+        "rag-engine/tests/test_consumption_containment.py",
+        "rag-engine/tests/test_chunker.py",
+        "rag-engine/tests/test_embeddings.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-corrected-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-corrected-temp"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "600",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-corrected.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "rag-engine/tests/test_contracts.py",
+        "rag-engine/tests/test_bound_ingress.py",
+        "rag-engine/tests/test_consumption_containment.py",
+        "rag-engine/tests/test_chunker.py",
+        "rag-engine/tests/test_embeddings.py",
+        "-q",
+        "-o",
+        "cache_dir=C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-corrected-cache",
+        "--basetemp",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\python-compat-corrected-temp"
+      ]
+    },
+    {
+      "name": "official-parser",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\d17_structural_conformance.py",
+        "--official",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official",
+        "--profile-gold",
+        "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+        "--resolution",
+        "docs/implementation/phase-18/d17-r03-container-interpretation-2026-10-20.json",
+        "--output",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\official-parser-results.json"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\official-parser.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\d17_structural_conformance.py",
+        "--official",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official",
+        "--profile-gold",
+        "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+        "--resolution",
+        "docs/implementation/phase-18/d17-r03-container-interpretation-2026-10-20.json",
+        "--output",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\official-parser-results.json"
+      ]
+    },
+    {
+      "name": "official-producer",
+      "argv": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\d17_structural_conformance.py",
+        "--producer",
+        "--official",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official",
+        "--profile-gold",
+        "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+        "--resolution",
+        "docs/implementation/phase-18/d17-r03-container-interpretation-2026-10-20.json",
+        "--output",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\official-producer-results.json"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\official-producer.json",
+        "--",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\d17_structural_conformance.py",
+        "--producer",
+        "--official",
+        "logs/phase18/s2-d17-markdown-2026-10-20/official",
+        "--profile-gold",
+        "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+        "--resolution",
+        "docs/implementation/phase-18/d17-r03-container-interpretation-2026-10-20.json",
+        "--output",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\official-producer-results.json"
+      ]
+    },
+    {
+      "name": "java-s3-verify-final",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagDocumentInputCompatibilityTest,RagWorkerPostgresPrivilegeIntegrationTest,RagCommitAcknowledgementRecoveryIntegrationTest,RagSecondJvmRecoveryIntegrationTest,RagCancellationRecoveryIntegrationTest,RagSlice1SnapshotIntegrationTest,RagSnapshotCorrectiveIntegrationTest,RagSlice3*Test",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-s3-verify-final.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagDocumentInputCompatibilityTest,RagWorkerPostgresPrivilegeIntegrationTest,RagCommitAcknowledgementRecoveryIntegrationTest,RagSecondJvmRecoveryIntegrationTest,RagCancellationRecoveryIntegrationTest,RagSlice1SnapshotIntegrationTest,RagSnapshotCorrectiveIntegrationTest,RagSlice3*Test",
+        "test"
+      ]
+    },
+    {
+      "name": "java-current-tree",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest,RagSnapshotCorrectiveIntegrationTest,RagSlice1SnapshotIntegrationTest,ApplicationArchitectureTests,OpenApiRouteInventoryIntegrationTest,RagWebIntegrationTest,RagNativeWorkerProcessTest,RagStagingCommitFenceIntegrationTest",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-current-tree.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest,RagSnapshotCorrectiveIntegrationTest,RagSlice1SnapshotIntegrationTest,ApplicationArchitectureTests,OpenApiRouteInventoryIntegrationTest,RagWebIntegrationTest,RagNativeWorkerProcessTest,RagStagingCommitFenceIntegrationTest",
+        "test"
+      ]
+    },
+    {
+      "name": "java-availability-final",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest#runtimeCannotForgeOrEraseRealProducerProofAndGenuineGenerationIsCurrent",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-availability-final.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest#runtimeCannotForgeOrEraseRealProducerProofAndGenuineGenerationIsCurrent",
+        "test"
+      ]
+    },
+    {
+      "name": "boundary-corrective-compile",
+      "argv": [
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\boundary-compile.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\boundary-corrective-compile.json",
+        "--",
+        "javac",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\boundary-compile.args"
+      ]
+    },
+    {
+      "name": "boundary-corrective-native",
+      "argv": [
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\boundary-native.args"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "300",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\boundary-corrective-native.json",
+        "--",
+        "java",
+        "@C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\boundary-native.args"
+      ]
+    },
+    {
+      "name": "java-current-verify",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagDocumentInputCompatibilityTest,RagWorkerPostgresPrivilegeIntegrationTest,RagCommitAcknowledgementRecoveryIntegrationTest,RagSecondJvmRecoveryIntegrationTest,RagCancellationRecoveryIntegrationTest,RagSlice1SnapshotIntegrationTest,RagSnapshotCorrectiveIntegrationTest,RagSlice3*Test,ApplicationArchitectureTests,OpenApiRouteInventoryIntegrationTest,RagWebIntegrationTest,RagNativeWorkerProcessTest,RagStagingCommitFenceIntegrationTest",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-current-verify.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagNativeDocumentBatchIntegrationTest,RagDocumentBatchIntegrationTest,RagDocumentInputCompatibilityTest,RagWorkerPostgresPrivilegeIntegrationTest,RagCommitAcknowledgementRecoveryIntegrationTest,RagSecondJvmRecoveryIntegrationTest,RagCancellationRecoveryIntegrationTest,RagSlice1SnapshotIntegrationTest,RagSnapshotCorrectiveIntegrationTest,RagSlice3*Test,ApplicationArchitectureTests,OpenApiRouteInventoryIntegrationTest,RagWebIntegrationTest,RagNativeWorkerProcessTest,RagStagingCommitFenceIntegrationTest",
+        "test"
+      ]
+    },
+    {
+      "name": "diff-check",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\diff-check.json",
+        "--",
+        "git",
+        "diff",
+        "--check"
+      ]
+    },
+    {
+      "name": "java-canonical-read-order",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest#runtimeCannotForgeOrEraseRealProducerProofAndGenuineGenerationIsCurrent+namedNestedAnchoredChildrenRetainSourceSpecificRevisionAndCurrentness+identicalChildBytesKeepDifferentSourcesAndUnknownEmbedCannotReadSibling",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-canonical-read-order.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest#runtimeCannotForgeOrEraseRealProducerProofAndGenuineGenerationIsCurrent+namedNestedAnchoredChildrenRetainSourceSpecificRevisionAndCurrentness+identicalChildBytesKeepDifferentSourcesAndUnknownEmbedCannotReadSibling",
+        "test"
+      ]
+    },
+    {
+      "name": "diff-check-final",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\diff-check-final.json",
+        "--",
+        "git",
+        "diff",
+        "--check"
+      ]
+    },
+    {
+      "name": "pending-pointer-before",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest#pendingPointerCannotSubstituteForTheApprovedRevisionEvenWithEqualHash",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\pending-pointer-before.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest#pendingPointerCannotSubstituteForTheApprovedRevisionEvenWithEqualHash",
+        "test"
+      ]
+    },
+    {
+      "name": "java-revision-binding-final",
+      "argv": [
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest#runtimeCannotForgeOrEraseRealProducerProofAndGenuineGenerationIsCurrent+namedNestedAnchoredChildrenRetainSourceSpecificRevisionAndCurrentness+identicalChildBytesKeepDifferentSourcesAndUnknownEmbedCannotReadSibling+pendingPointerCannotSubstituteForTheApprovedRevisionEvenWithEqualHash",
+        "test"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "900",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\java-revision-binding-final.json",
+        "--",
+        "mvn.cmd",
+        "-ntp",
+        "-f",
+        "backend/pom.xml",
+        "-DargLine=--enable-native-access=ALL-UNNAMED",
+        "-Dtest=RagSlice3CorrectiveIntegrationTest#runtimeCannotForgeOrEraseRealProducerProofAndGenuineGenerationIsCurrent+namedNestedAnchoredChildrenRetainSourceSpecificRevisionAndCurrentness+identicalChildBytesKeepDifferentSourcesAndUnknownEmbedCannotReadSibling+pendingPointerCannotSubstituteForTheApprovedRevisionEvenWithEqualHash",
+        "test"
+      ]
+    },
+    {
+      "name": "diff-check-handback-final",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "wrapper": [
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\scripts\\run-bounded-command.py",
+        "--timeout-seconds",
+        "60",
+        "--receipt",
+        "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\logs\\phase18\\s3-corrective-20261021\\diff-check-handback-final.json",
+        "--",
+        "git",
+        "diff",
+        "--check"
+      ]
+    }
+  ],
+  "receipts": {
+    "before-compile": {
+      "receipt": "logs/phase18/s3-corrective-20261021/before-compile.json",
+      "receipt_sha256": "841d31d2a74247fe92eef7a08b10378c3bc9e86d60278c69dbea2efc39ea603c",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "javac",
+      "argv_sha256": "3d700aa19a39f772e65b0dd9de2ba60ba1638068827c96b684abb195b3ff8d52",
+      "started_utc": "2026-10-21T10:37:40.135+00:00",
+      "pid": 30948,
+      "finished_utc": "2026-10-21T10:37:42.236+00:00",
+      "duration_seconds": 2.101,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/before-compile.log",
+        "sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e",
+        "bytes": 80,
+        "crlf": 2,
+        "lf": 0
+      }
+    },
+    "before-native": {
+      "receipt": "logs/phase18/s3-corrective-20261021/before-native.json",
+      "receipt_sha256": "be7ef1b07c6010b61d942366d22d5dd9edde2ecffba80e85b1453169368d0512",
+      "profile": "normal",
+      "timeout_seconds": 300.0,
+      "executable": "java",
+      "argv_sha256": "fe21cf2bebc3c8ae92a233e065ded79e3d911dc90303537569fba31464aa4c93",
+      "started_utc": "2026-10-21T10:37:42.364+00:00",
+      "pid": 2488,
+      "finished_utc": "2026-10-21T10:38:19.714+00:00",
+      "duration_seconds": 37.35,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/before-native.log",
+        "sha256": "85a87863b3484aa25fc4b4c7f8399dc42736531e211d34dc115a97d26024b6a1",
+        "bytes": 17208,
+        "crlf": 92,
+        "lf": 23
+      }
+    },
+    "boundary-corrective-compile": {
+      "receipt": "logs/phase18/s3-corrective-20261021/boundary-corrective-compile.json",
+      "receipt_sha256": "3e6fe6c15b663464971b100abbba68f2190e41223ea447c602e1fa0ccbdc344a",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "javac",
+      "argv_sha256": "5645a205085513087a9ef1b896305869f51226240bfdfd96697fe1469f8403a9",
+      "started_utc": "2026-10-21T11:37:26.398+00:00",
+      "pid": 28656,
+      "finished_utc": "2026-10-21T11:37:28.401+00:00",
+      "duration_seconds": 2.003,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/boundary-corrective-compile.log",
+        "sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e",
+        "bytes": 80,
+        "crlf": 2,
+        "lf": 0
+      }
+    },
+    "boundary-corrective-native": {
+      "receipt": "logs/phase18/s3-corrective-20261021/boundary-corrective-native.json",
+      "receipt_sha256": "1ddd1c64ce5725eae60b0a7ce688297e0446423eeae5ab052d81689d456559d3",
+      "profile": "normal",
+      "timeout_seconds": 300.0,
+      "executable": "java",
+      "argv_sha256": "ade042fc30a698328da2c8a4a2d87655bd45419bebf90187554bb2e6cdfaa29b",
+      "started_utc": "2026-10-21T11:37:28.523+00:00",
+      "pid": 33496,
+      "finished_utc": "2026-10-21T11:38:20.109+00:00",
+      "duration_seconds": 51.586,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/boundary-corrective-native.log",
+        "sha256": "25a08b8d6c76465f6755a3e601e7c38080673558b0296c4bba48c44607102d06",
+        "bytes": 22041,
+        "crlf": 125,
+        "lf": 23
+      }
+    },
+    "dependency-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/dependency-final.json",
+      "receipt_sha256": "606a34447f43ea1e89a26b1e5cfcf4cf1daa3f3b76acb427be25f6d53d996364",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "uv",
+      "argv_sha256": "827ca9745a8b9a3def7bb43670084c2f28034c9974411dab7058153139a69f03",
+      "started_utc": "2026-10-21T11:12:07.260+00:00",
+      "pid": 13880,
+      "finished_utc": "2026-10-21T11:12:07.397+00:00",
+      "duration_seconds": 0.137,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/dependency-final.log",
+        "sha256": "34e9381395292a796b874ad711264e4b5ff6f7e9290b67103833759f6e3d267f",
+        "bytes": 201,
+        "crlf": 2,
+        "lf": 3
+      }
+    },
+    "dependency": {
+      "receipt": "logs/phase18/s3-corrective-20261021/dependency.json",
+      "receipt_sha256": "9efa45451683eb655d0eef22c6b2dd142ac3f36e06c5aecc5efa747d8145baea",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "uv",
+      "argv_sha256": "827ca9745a8b9a3def7bb43670084c2f28034c9974411dab7058153139a69f03",
+      "started_utc": "2026-10-21T10:45:13.448+00:00",
+      "pid": 22216,
+      "finished_utc": "2026-10-21T10:45:13.579+00:00",
+      "duration_seconds": 0.13,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/dependency.log",
+        "sha256": "28582bb37e9da0861000cc49ccc7c4fd42ab47699349c509014b1c9cb6d0fa85",
+        "bytes": 201,
+        "crlf": 2,
+        "lf": 3
+      }
+    },
+    "diff-check-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/diff-check-final.json",
+      "receipt_sha256": "03fbe89c3302ee11b056e8c794d709d3c93ff93c6ced849f894557deb7f7eb08",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "git",
+      "argv_sha256": "7c730eec3ea71bd24ffc5a9255bf7f542481bf601dba6c72bed6e00f6c2fab3c",
+      "started_utc": "2026-10-21T11:56:09.964+00:00",
+      "pid": 29584,
+      "finished_utc": "2026-10-21T11:56:10.073+00:00",
+      "duration_seconds": 0.109,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/diff-check-final.log",
+        "sha256": "86a73db5793267f5060be16752ed1891fe8ccf2ccbb6d5cdfbbe57f1af370956",
+        "bytes": 3301,
+        "crlf": 2,
+        "lf": 17
+      }
+    },
+    "diff-check-handback-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/diff-check-handback-final.json",
+      "receipt_sha256": "37695854c08f55edd2c7fd3ede5141deb5ff420b9588f4aa7ebaacd147f8e496",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "git",
+      "argv_sha256": "7c730eec3ea71bd24ffc5a9255bf7f542481bf601dba6c72bed6e00f6c2fab3c",
+      "started_utc": "2026-10-21T12:10:27.553+00:00",
+      "pid": 32248,
+      "finished_utc": "2026-10-21T12:10:27.701+00:00",
+      "duration_seconds": 0.148,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/diff-check-handback-final.log",
+        "sha256": "86a73db5793267f5060be16752ed1891fe8ccf2ccbb6d5cdfbbe57f1af370956",
+        "bytes": 3301,
+        "crlf": 2,
+        "lf": 17
+      }
+    },
+    "diff-check": {
+      "receipt": "logs/phase18/s3-corrective-20261021/diff-check.json",
+      "receipt_sha256": "ebbd0e4f53e63a1cc366e2cc661f442459be18dc6be9009f9ab876a8fd085b26",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "git",
+      "argv_sha256": "7c730eec3ea71bd24ffc5a9255bf7f542481bf601dba6c72bed6e00f6c2fab3c",
+      "started_utc": "2026-10-21T11:49:54.475+00:00",
+      "pid": 27060,
+      "finished_utc": "2026-10-21T11:49:54.620+00:00",
+      "duration_seconds": 0.145,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/diff-check.log",
+        "sha256": "86a73db5793267f5060be16752ed1891fe8ccf2ccbb6d5cdfbbe57f1af370956",
+        "bytes": 3301,
+        "crlf": 2,
+        "lf": 17
+      }
+    },
+    "format-apply": {
+      "receipt": "logs/phase18/s3-corrective-20261021/format-apply.json",
+      "receipt_sha256": "0a91c42dd74798b4b674f560f3929e744e83789e627c74808c79cf8b3e5e0e7b",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "934dc3d8082ffb3073e8711711327729af67d31d37b116faab8bdb539f09e2d4",
+      "started_utc": "2026-10-21T10:46:45.025+00:00",
+      "pid": 8040,
+      "finished_utc": "2026-10-21T10:46:45.142+00:00",
+      "duration_seconds": 0.118,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/format-apply.log",
+        "sha256": "66c70d615038861cb58c7ee963862d4f41421759d25f27fca16251697f68d4c8",
+        "bytes": 206,
+        "crlf": 2,
+        "lf": 1
+      }
+    },
+    "format-apply2": {
+      "receipt": "logs/phase18/s3-corrective-20261021/format-apply2.json",
+      "receipt_sha256": "32ac68ad5972a107de429a74cdbd6914afa9348c68fbe5a70791cd956c09d22f",
+      "profile": "normal",
+      "timeout_seconds": 60.0,
+      "executable": "python.exe",
+      "argv_sha256": "a78d523f8f03036b360edf3c3cdfa8da6774d17275ee33f35e9c5c64feddf073",
+      "started_utc": "2026-10-21T10:46:45.266+00:00",
+      "pid": 29484,
+      "finished_utc": "2026-10-21T10:46:45.370+00:00",
+      "duration_seconds": 0.104,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/format-apply2.log",
+        "sha256": "5fce05613516c40ba6b186fa717eaeb1bc700e827f627b98c56f146fc56e1172",
+        "bytes": 188,
+        "crlf": 2,
+        "lf": 1
+      }
+    },
+    "format-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/format-final.json",
+      "receipt_sha256": "aa27c2b095bffeac73d7ffd11e7473bf93bf0bf26e1244e82145992420ccc806",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "bfc61fb889bcd09b246e6136cc7b1cd6dc023a2cc0947e9f87b3f20ca78e08b4",
+      "started_utc": "2026-10-21T11:11:58.867+00:00",
+      "pid": 26608,
+      "finished_utc": "2026-10-21T11:11:58.978+00:00",
+      "duration_seconds": 0.111,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/format-final.log",
+        "sha256": "90ca240659c438a316e15b5b1ade912a60a392483a6ed147665b062c9fe8930a",
+        "bytes": 196,
+        "crlf": 2,
+        "lf": 1
+      }
+    },
+    "format": {
+      "receipt": "logs/phase18/s3-corrective-20261021/format.json",
+      "receipt_sha256": "175ceef0153ddf00c8c7841fd750127f3b8fcdb933a609d1df511724511e550a",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "bfc61fb889bcd09b246e6136cc7b1cd6dc023a2cc0947e9f87b3f20ca78e08b4",
+      "started_utc": "2026-10-21T10:45:03.301+00:00",
+      "pid": 30612,
+      "finished_utc": "2026-10-21T10:45:03.443+00:00",
+      "duration_seconds": 0.141,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/format.log",
+        "sha256": "aad76667caff18ce4670ba8c8c53bda1d243c43f992a65983a7173b73b5cee37",
+        "bytes": 10118,
+        "crlf": 30,
+        "lf": 155
+      }
+    },
+    "java-availability-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-availability-final.json",
+      "receipt_sha256": "d7bd213535d6b8e69af2f6ec803ece5144f2b146a9d41b8a5a781ad5ee345a21",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "8fd1eb8a5ee130f8acdf5b762da6f7506cdf834bd90b29d6cc4bc254b82cd97a",
+      "started_utc": "2026-10-21T11:35:35.196+00:00",
+      "pid": 22952,
+      "finished_utc": "2026-10-21T11:36:29.473+00:00",
+      "duration_seconds": 54.277,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-availability-final.log",
+        "sha256": "ea40664c7714c798af46954e033c9895f637d60174783ce884aa75e4fad18940",
+        "bytes": 20190,
+        "crlf": 137,
+        "lf": 26
+      },
+      "test_counts": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-availability-final-surefire",
+        "files": 274,
+        "sha256": "4406b6427d58f175abc05b065f05c94ed4678bee50b3f49de784406b4bb49284"
+      }
+    },
+    "java-canonical-read-order": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-canonical-read-order.json",
+      "receipt_sha256": "e1de446c6cd58f82822c8854acc8aa3ac6e2e0be19ad2b6587f36d1961ad8dcb",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "c1614c3e90791d94d594d420b092fa70b640604811fd7a90b496c34ad3bcff6a",
+      "started_utc": "2026-10-21T11:52:26.686+00:00",
+      "pid": 23372,
+      "finished_utc": "2026-10-21T11:53:41.842+00:00",
+      "duration_seconds": 75.157,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-canonical-read-order.log",
+        "sha256": "3158dd17d5c4bbbdf44b3a4cab811c9c50dd2d05bdbc17edb533674680ecc5b0",
+        "bytes": 21191,
+        "crlf": 143,
+        "lf": 26
+      },
+      "test_counts": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-canonical-read-order-surefire",
+        "files": 274,
+        "sha256": "0c65da7e2bf380f7eeff4a08941ac8ce0a2d152f7399a0872e0f91ebd3acdb05"
+      }
+    },
+    "java-corrective-1": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-corrective-1.json",
+      "receipt_sha256": "598f8098813045935a3b40a665df0f1b3c669bbf6a680cb130bd0ed8b41c9645",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "70d6095c445f4444e50964b7da004e518747db69949e5624b82549982e82764a",
+      "started_utc": "2026-10-21T10:47:55.269+00:00",
+      "pid": 3084,
+      "finished_utc": "2026-10-21T10:50:11.480+00:00",
+      "duration_seconds": 136.21,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-corrective-1.log",
+        "sha256": "4a52c1773ac32993af96e0f8b4624d0fca0c55acf872fdeca3ce518f9c39a63c",
+        "bytes": 41664,
+        "crlf": 327,
+        "lf": 66
+      },
+      "test_counts": {
+        "tests": 20,
+        "failures": 2,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-corrective-1-surefire",
+        "files": 274,
+        "sha256": "e197045b77e1fa9961f8f4991027c2574c6469fa474efd9cfcd90afcfda7a04c"
+      }
+    },
+    "java-corrective-2": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-corrective-2.json",
+      "receipt_sha256": "2575ad9712ecc31f3f450f091874825a2dfb97cf4cda792b2a070636555cae7f",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "70d6095c445f4444e50964b7da004e518747db69949e5624b82549982e82764a",
+      "started_utc": "2026-10-21T10:53:45.458+00:00",
+      "pid": 26468,
+      "finished_utc": "2026-10-21T10:56:06.939+00:00",
+      "duration_seconds": 141.482,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-corrective-2.log",
+        "sha256": "25f562c778b5b05c164d2da6f3d3875e36c24909bb7cec64cc9a794fcac74f49",
+        "bytes": 29861,
+        "crlf": 196,
+        "lf": 26
+      },
+      "test_counts": {
+        "tests": 20,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-corrective-2-surefire",
+        "files": 274,
+        "sha256": "1773d5a52e4afe3f009cb88c565a9e29f3266693a9736b888cc0d6b6560a4acc"
+      }
+    },
+    "java-current-tree": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-current-tree.json",
+      "receipt_sha256": "9be28a0c006cf8707e0a513d3628c3ffa1b5c984a99ba2220dd25c190c7947b2",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "764f2e56c9139bf650901f1eca9e57ad6c6a6ff8455369b05e4632b5bda52ff5",
+      "started_utc": "2026-10-21T11:29:18.388+00:00",
+      "pid": 32572,
+      "finished_utc": "2026-10-21T11:33:24.768+00:00",
+      "duration_seconds": 246.38,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-current-tree.log",
+        "sha256": "be757e90c04c1d138de8e08b712900622d5aa7a15428d8ef9c1132f9fc5708f2",
+        "bytes": 94922,
+        "crlf": 568,
+        "lf": 78
+      },
+      "test_counts": {
+        "tests": 140,
+        "failures": 1,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-current-tree-surefire",
+        "files": 274,
+        "sha256": "012dc0886dd2a415e292fa0cebe24545831a1fa2084973cd2e67ac5438b6eb6b"
+      }
+    },
+    "java-current-verify": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-current-verify.json",
+      "receipt_sha256": "c8df52e31ba7b260dfd763237389f10cc9d19c3f5ecc32f4efce0d7ad5e4c39d",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "6f5cb837974e19c0cbe15b58164b4b50185bb70223103061e3dccc57e069a5a8",
+      "started_utc": "2026-10-21T11:39:18.869+00:00",
+      "pid": 17796,
+      "finished_utc": "2026-10-21T11:47:55.079+00:00",
+      "duration_seconds": 516.21,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-current-verify.log",
+        "sha256": "6c66471ce0def704b32469e184f351468b9370f7057f738ba7bb598eb6a25d3f",
+        "bytes": 121662,
+        "crlf": 707,
+        "lf": 108
+      },
+      "test_counts": {
+        "tests": 178,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-current-verify-surefire",
+        "files": 274,
+        "sha256": "0653deac9aaaf2d47c2039abdce88eb4fa0e421fd648749f12fbe7892dfc700b"
+      }
+    },
+    "java-final-affected": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-final-affected.json",
+      "receipt_sha256": "c3fa25434a53c239c56fd4ddf77904ebfcc23d975c0d0d83bf744f44b219a077",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "68f9537ae24477de93561615987da9acea855f5f99297c94baf85dba825add90",
+      "started_utc": "2026-10-21T11:12:48.867+00:00",
+      "pid": 16984,
+      "finished_utc": "2026-10-21T11:17:29.750+00:00",
+      "duration_seconds": 280.883,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-final-affected.log",
+        "sha256": "35902ea93aebadac34162006611d3366586a3391b42aeaa334a5815a319b26d6",
+        "bytes": 80671,
+        "crlf": 507,
+        "lf": 44
+      },
+      "test_counts": {
+        "tests": 88,
+        "failures": 1,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-final-affected-surefire",
+        "files": 274,
+        "sha256": "4a6dafd89b377b6852b7656c4f5f73b7f18ed0f65f5674837d06be4e02105b46"
+      }
+    },
+    "java-first": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-first.json",
+      "receipt_sha256": "d960ecbb893883c9e416275da90f6233b129f560e69e2507a961cd1f8124bd6e",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "1de4a18dac9510f8909a68fb8ee68d24863f3fcf3a021ba03f4223ac2a0c096c",
+      "started_utc": "2026-10-21T10:44:52.687+00:00",
+      "pid": 16636,
+      "finished_utc": "2026-10-21T10:46:08.723+00:00",
+      "duration_seconds": 76.036,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-first.log",
+        "sha256": "47edb51a0d5bbff16d1238c4d4915991d8f394ef0dc45e266713229cc6f7d015",
+        "bytes": 23482,
+        "crlf": 167,
+        "lf": 26
+      }
+    },
+    "java-module-1": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-module-1.json",
+      "receipt_sha256": "ef3ab5cb8b5b645d598121935d32eedfbf64590263bec2366e62ef51be62b418",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "19e63913bb7613907c93f91caeeebaddcd80ca5a09db39cd9467935335752bdf",
+      "started_utc": "2026-10-21T10:57:13.816+00:00",
+      "pid": 22336,
+      "finished_utc": "2026-10-21T11:00:05.643+00:00",
+      "duration_seconds": 171.826,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-module-1.log",
+        "sha256": "ab6f8d841c2e0dfcdcb03fec399851261fc79ece684f7a986c63a032d50af14e",
+        "bytes": 36580,
+        "crlf": 238,
+        "lf": 26
+      },
+      "test_counts": {
+        "tests": 33,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-module-1-surefire",
+        "files": 274,
+        "sha256": "889ec56eb82718e3f358afe38f7098b928120e97a723fd8cf1160a899004d908"
+      }
+    },
+    "java-revision-binding-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-revision-binding-final.json",
+      "receipt_sha256": "4cf61ab77047127df36f16df4c08b1dfbc2ae00464ef13c4763a0c7eecf0987a",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "977abf5cafab8a97205de36c66580dbb68d86e5f5a61475336d0b22eadc0d736",
+      "started_utc": "2026-10-21T12:07:10.628+00:00",
+      "pid": 21856,
+      "finished_utc": "2026-10-21T12:08:32.961+00:00",
+      "duration_seconds": 82.334,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-revision-binding-final.log",
+        "sha256": "9f9dd3c12171e08f1079375dbcb9795fb8fc4616daefd10e6478b655defdca46",
+        "bytes": 21693,
+        "crlf": 146,
+        "lf": 26
+      },
+      "test_counts": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-revision-binding-final-surefire",
+        "files": 274,
+        "sha256": "1bbfa8eeb79efff7723085170446ef829be6e11f9c08b194d83a0a6997678c3c"
+      }
+    },
+    "java-s3-verify-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-s3-verify-final.json",
+      "receipt_sha256": "c7771b73ce9d047bb9bbccb2656baec8ee308ddc524703604e3e4721e00547fd",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "4116f9aaa049081050021d257cefd875b9aac640f598d669ee2d30da58b450f1",
+      "started_utc": "2026-10-21T11:19:20.259+00:00",
+      "pid": 7716,
+      "finished_utc": "2026-10-21T11:27:49.617+00:00",
+      "duration_seconds": 509.359,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-s3-verify-final.log",
+        "sha256": "ba136959d266d43ce7bffc592370eefe3ceeb403fc29fc38e708fd9d90650bbb",
+        "bytes": 111061,
+        "crlf": 654,
+        "lf": 94
+      },
+      "test_counts": {
+        "tests": 120,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-s3-verify-final-surefire",
+        "files": 274,
+        "sha256": "1d8a7f15a4f419b0ef58e61de5a2afacf4e66417d7bdf47d83ab621942b88129"
+      }
+    },
+    "java-s3-verify": {
+      "receipt": "logs/phase18/s3-corrective-20261021/java-s3-verify.json",
+      "receipt_sha256": "188b322da5cdc44248f7bd6750ce75a50d4ecbfbab500ffe1890db7f4faeb9fa",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "4116f9aaa049081050021d257cefd875b9aac640f598d669ee2d30da58b450f1",
+      "started_utc": "2026-10-21T11:03:21.887+00:00",
+      "pid": 32764,
+      "finished_utc": "2026-10-21T11:11:07.960+00:00",
+      "duration_seconds": 466.074,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/java-s3-verify.log",
+        "sha256": "a513063fa038a693638e54c0047c566cdc792fd746c8cba2d1b975be8f597fbb",
+        "bytes": 110776,
+        "crlf": 678,
+        "lf": 99
+      },
+      "test_counts": {
+        "tests": 112,
+        "failures": 5,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/java-s3-verify-surefire",
+        "files": 274,
+        "sha256": "7a9ed74de8c64f9ee60c56df8b156023b46032d09961c06e8451380249eadb23"
+      }
+    },
+    "lock-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/lock-final.json",
+      "receipt_sha256": "cfb47e42da5f13cb4c7d6981106cd3194bd1022ea93c2ae9e2cfadcb6f125d6f",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "uv",
+      "argv_sha256": "c8699a98f099cdf9bc602ad760395767f001cc10177c430329a2a0e001933e82",
+      "started_utc": "2026-10-21T11:12:07.517+00:00",
+      "pid": 6176,
+      "finished_utc": "2026-10-21T11:12:07.653+00:00",
+      "duration_seconds": 0.136,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/lock-final.log",
+        "sha256": "3926520402fb8b210769317530d4ba4080da540e826f82ea990e07ad6c4b5814",
+        "bytes": 107,
+        "crlf": 2,
+        "lf": 1
+      }
+    },
+    "lock": {
+      "receipt": "logs/phase18/s3-corrective-20261021/lock.json",
+      "receipt_sha256": "84a42f76a352a8514b3a7fbb7934c0481234c5a7b0fff34a1ce9e46a94a458c7",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "uv",
+      "argv_sha256": "c8699a98f099cdf9bc602ad760395767f001cc10177c430329a2a0e001933e82",
+      "started_utc": "2026-10-21T10:45:13.710+00:00",
+      "pid": 29072,
+      "finished_utc": "2026-10-21T10:45:13.846+00:00",
+      "duration_seconds": 0.136,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/lock.log",
+        "sha256": "8cc0ae39dbdefa76f7b36785c4097d02731c21afae6d116af6e2b8f9ec95c1b8",
+        "bytes": 107,
+        "crlf": 2,
+        "lf": 1
+      }
+    },
+    "mypy-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/mypy-final.json",
+      "receipt_sha256": "6a87ab1477fed9a003675efd5c851fe2ba2ef0cb52996cf81a61528a935fbb4a",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "01f6e9b54ece7fe0014f2456d14d65759d65d0b31287c270d1590b25abbaf6cb",
+      "started_utc": "2026-10-21T11:11:59.101+00:00",
+      "pid": 23836,
+      "finished_utc": "2026-10-21T11:12:07.137+00:00",
+      "duration_seconds": 8.036,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/mypy-final.log",
+        "sha256": "47eeef55da3894cce8c69a54d3e589bfc45e783f704ce10a5496f8c1e7b851e4",
+        "bytes": 214,
+        "crlf": 3,
+        "lf": 0
+      }
+    },
+    "mypy": {
+      "receipt": "logs/phase18/s3-corrective-20261021/mypy.json",
+      "receipt_sha256": "af684910cdf0c9de9f247022fd1c8ed1c9d0db3929666b43a0a047c4789d999e",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "05b900fc4589bdfbc20de734a0a53f85e67d46303f14e4adea0004c806eea7ab",
+      "started_utc": "2026-10-21T10:45:03.603+00:00",
+      "pid": 11908,
+      "finished_utc": "2026-10-21T10:45:13.305+00:00",
+      "duration_seconds": 9.703,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/mypy.log",
+        "sha256": "47eeef55da3894cce8c69a54d3e589bfc45e783f704ce10a5496f8c1e7b851e4",
+        "bytes": 214,
+        "crlf": 3,
+        "lf": 0
+      }
+    },
+    "official-parser": {
+      "receipt": "logs/phase18/s3-corrective-20261021/official-parser.json",
+      "receipt_sha256": "31c2175f50bc7349fec6bf1d85401e640f08ee4811511a19e45c5860619e345b",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "253f3084e24e4beac98296ced523e6464824a8e5dfc0ee35b422215e07c14f21",
+      "started_utc": "2026-10-21T11:16:03.835+00:00",
+      "pid": 30272,
+      "finished_utc": "2026-10-21T11:16:06.671+00:00",
+      "duration_seconds": 2.835,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/official-parser.log",
+        "sha256": "e61d6e13c6b38983b0b89708c21857f1698ab39d11fc7a627b974fc40ac88cc5",
+        "bytes": 228,
+        "crlf": 3,
+        "lf": 0
+      }
+    },
+    "official-producer": {
+      "receipt": "logs/phase18/s3-corrective-20261021/official-producer.json",
+      "receipt_sha256": "b0b6dd88a27a51603b00784defe18f395de48de88d919ef0f15032f6fc5ae54e",
+      "profile": "normal",
+      "timeout_seconds": 180.0,
+      "executable": "python.exe",
+      "argv_sha256": "61c2bcbef3e254e463dbd08f0fd9c2bf9d019d80a9538a59d364cba19accc960",
+      "started_utc": "2026-10-21T11:16:06.804+00:00",
+      "pid": 28968,
+      "finished_utc": "2026-10-21T11:16:39.510+00:00",
+      "duration_seconds": 32.706,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/official-producer.log",
+        "sha256": "e61d6e13c6b38983b0b89708c21857f1698ab39d11fc7a627b974fc40ac88cc5",
+        "bytes": 228,
+        "crlf": 3,
+        "lf": 0
+      }
+    },
+    "pending-pointer-before": {
+      "receipt": "logs/phase18/s3-corrective-20261021/pending-pointer-before.json",
+      "receipt_sha256": "bd43586eaf7d8eeaa80b89c1ac73b4d4b956ae40e50063b636cb8ab82766c323",
+      "profile": "normal",
+      "timeout_seconds": 900.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "57fb9f2011ab05c05a3a3b4b497e06c7c20df6a531ef599d8ac413011a10319a",
+      "started_utc": "2026-10-21T12:05:28.230+00:00",
+      "pid": 28272,
+      "finished_utc": "2026-10-21T12:06:18.315+00:00",
+      "duration_seconds": 50.086,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/pending-pointer-before.log",
+        "sha256": "2d5494be077aff798f455e950a644b5cecd505362fb03cd1436fb8904949f910",
+        "bytes": 20717,
+        "crlf": 152,
+        "lf": 27
+      },
+      "test_counts": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skips": 0
+      },
+      "surefire_archive": {
+        "path": "logs/phase18/s3-corrective-20261021/pending-pointer-before-surefire",
+        "files": 274,
+        "sha256": "25c5abc01bfcf92acb31d6f3b650b5b51a0231af2dc40cdb6f5fcc033fa81415"
+      }
+    },
+    "python-compat-corrected": {
+      "receipt": "logs/phase18/s3-corrective-20261021/python-compat-corrected.json",
+      "receipt_sha256": "fb1060c884c06006d98ca516e6597aee63137968b00c5fe148fcc1882f22578f",
+      "profile": "normal",
+      "timeout_seconds": 600.0,
+      "executable": "python.exe",
+      "argv_sha256": "8235cb2410c773043b31c5ec512ec1330e39a5a4adca9772b062b2e41263f1ec",
+      "started_utc": "2026-10-21T11:15:02.490+00:00",
+      "pid": 22300,
+      "finished_utc": "2026-10-21T11:15:12.780+00:00",
+      "duration_seconds": 10.29,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/python-compat-corrected.log",
+        "sha256": "22574015cd0a475bc6cf5c964b3b70cb169b3540931d22c1cc96e23cef3accdf",
+        "bytes": 270,
+        "crlf": 4,
+        "lf": 0
+      }
+    },
+    "python-compat": {
+      "receipt": "logs/phase18/s3-corrective-20261021/python-compat.json",
+      "receipt_sha256": "4cea9ea45d6fac3f0a99fb00f656e0ba7d2e08167805f0d39c1c5701fea81493",
+      "profile": "normal",
+      "timeout_seconds": 600.0,
+      "executable": "python.exe",
+      "argv_sha256": "d5c86c987dc329a4035436038997024271dda48ded1405b6da7f79d8b4308f62",
+      "started_utc": "2026-10-21T11:14:49.205+00:00",
+      "pid": 26288,
+      "finished_utc": "2026-10-21T11:14:50.818+00:00",
+      "duration_seconds": 1.613,
+      "result": "COMMAND_FAILED",
+      "exit_code": 4,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/python-compat.log",
+        "sha256": "38c0d9dde0021594129993f015e3fbfc484a1f487b49a7e6621201cb996908ab",
+        "bytes": 277,
+        "crlf": 6,
+        "lf": 0
+      }
+    },
+    "python-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/python-final.json",
+      "receipt_sha256": "a53ddffc3b80d1da5111a1489b037f859b05f51417a44e4908eb6c03438f0153",
+      "profile": "normal",
+      "timeout_seconds": 600.0,
+      "executable": "python.exe",
+      "argv_sha256": "afbb6b29dee5d51857fed68ccf0c7298b76bf41f03793c932f79a204d06cfa13",
+      "started_utc": "2026-10-21T11:12:08.078+00:00",
+      "pid": 28360,
+      "finished_utc": "2026-10-21T11:12:38.089+00:00",
+      "duration_seconds": 30.012,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/python-final.log",
+        "sha256": "5482cacd87b177878eb18232ad63d2062223dca87f999501a757d6f10f78500f",
+        "bytes": 353,
+        "crlf": 5,
+        "lf": 0
+      }
+    },
+    "python-first": {
+      "receipt": "logs/phase18/s3-corrective-20261021/python-first.json",
+      "receipt_sha256": "9fb5766dfe4c385e684255133582bc953a4cac63211a8f744a54e7e8d8cb9901",
+      "profile": "normal",
+      "timeout_seconds": 600.0,
+      "executable": "python.exe",
+      "argv_sha256": "5dc410c8a26cdd4b4f04930ed832c87c4223e421c0b501d6b9e781ae47006f6b",
+      "started_utc": "2026-10-21T10:48:05.490+00:00",
+      "pid": 5952,
+      "finished_utc": "2026-10-21T10:48:44.730+00:00",
+      "duration_seconds": 39.24,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/python-first.log",
+        "sha256": "26b752d2ccda830c6c0ec192f6fee610594676ea14d8ea901f42ef6d7fd6175a",
+        "bytes": 14564,
+        "crlf": 345,
+        "lf": 0
+      }
+    },
+    "python-second": {
+      "receipt": "logs/phase18/s3-corrective-20261021/python-second.json",
+      "receipt_sha256": "373b28c49db269d4ed5fd95f7a16548737ecf2597a2377abd58a5d2cb9c69587",
+      "profile": "normal",
+      "timeout_seconds": 600.0,
+      "executable": "python.exe",
+      "argv_sha256": "15a84e53a91f3fa5f9151e6d080596137838db6edf809aa8a57a233cb7fd47c9",
+      "started_utc": "2026-10-21T10:54:45.566+00:00",
+      "pid": 3284,
+      "finished_utc": "2026-10-21T10:55:21.128+00:00",
+      "duration_seconds": 35.562,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/python-second.log",
+        "sha256": "815e581c5d9cffd4fdb8b17f81a6e18c9bdc8000eb05fdb3ab55ec07f837459b",
+        "bytes": 353,
+        "crlf": 5,
+        "lf": 0
+      }
+    },
+    "ruff-final": {
+      "receipt": "logs/phase18/s3-corrective-20261021/ruff-final.json",
+      "receipt_sha256": "81cbfb716de005acea2b065e9c829a52f07cdf2e69aec765bf303d095faac8c2",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "8f4cf07211d521159893c73632d0d996ab4342d92670d48efa8f7827c0dffe22",
+      "started_utc": "2026-10-21T11:11:58.635+00:00",
+      "pid": 9500,
+      "finished_utc": "2026-10-21T11:11:58.747+00:00",
+      "duration_seconds": 0.111,
+      "result": "PASS",
+      "exit_code": 0,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/ruff-final.log",
+        "sha256": "8515531b8f6e6fe1a4d6456bdcebabd2ee1ca07a26812202945dbe891d732ee4",
+        "bytes": 188,
+        "crlf": 2,
+        "lf": 1
+      }
+    },
+    "ruff": {
+      "receipt": "logs/phase18/s3-corrective-20261021/ruff.json",
+      "receipt_sha256": "e7830eefb1188c4893a47bf40da4134d6cb1057f78d5bef65704ba53f4616f7b",
+      "profile": "normal",
+      "timeout_seconds": 120.0,
+      "executable": "python.exe",
+      "argv_sha256": "8f4cf07211d521159893c73632d0d996ab4342d92670d48efa8f7827c0dffe22",
+      "started_utc": "2026-10-21T10:45:02.993+00:00",
+      "pid": 7476,
+      "finished_utc": "2026-10-21T10:45:03.142+00:00",
+      "duration_seconds": 0.148,
+      "result": "COMMAND_FAILED",
+      "exit_code": 1,
+      "cleanup": "not_needed",
+      "stdout_stderr": {
+        "path": "logs/phase18/s3-corrective-20261021/ruff.log",
+        "sha256": "250d8318391f5dc8af1e4a4f9ab318fe429cc7b62403f33c7dc8ccd169e08d8f",
+        "bytes": 8680,
+        "crlf": 7,
+        "lf": 173
+      }
+    }
+  },
+  "ignored_evidence_assets": {
+    "before-compile.json": {
+      "sha256": "841d31d2a74247fe92eef7a08b10378c3bc9e86d60278c69dbea2efc39ea603c",
+      "bytes": 387,
+      "crlf": 13,
+      "lf": 0
+    },
+    "before-compile.log": {
+      "sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e",
+      "bytes": 80,
+      "crlf": 2,
+      "lf": 0
+    },
+    "before-native.json": {
+      "sha256": "be7ef1b07c6010b61d942366d22d5dd9edde2ecffba80e85b1453169368d0512",
+      "bytes": 386,
+      "crlf": 13,
+      "lf": 0
+    },
+    "before-native.log": {
+      "sha256": "85a87863b3484aa25fc4b4c7f8399dc42736531e211d34dc115a97d26024b6a1",
+      "bytes": 17208,
+      "crlf": 92,
+      "lf": 23
+    },
+    "boundary-compile.args": {
+      "sha256": "2925d8773f28b6be18488b82ad30c7f85225c7a1c1bd377a24383716e96f9021",
+      "bytes": 24672,
+      "crlf": 4,
+      "lf": 0
+    },
+    "boundary-corrective-compile.json": {
+      "sha256": "3e6fe6c15b663464971b100abbba68f2190e41223ea447c602e1fa0ccbdc344a",
+      "bytes": 387,
+      "crlf": 13,
+      "lf": 0
+    },
+    "boundary-corrective-compile.log": {
+      "sha256": "c487924f4db68a9963253375a524a4060a7cb430f0aab51385a8de15f56f527e",
+      "bytes": 80,
+      "crlf": 2,
+      "lf": 0
+    },
+    "boundary-corrective-native.json": {
+      "sha256": "1ddd1c64ce5725eae60b0a7ce688297e0446423eeae5ab052d81689d456559d3",
+      "bytes": 388,
+      "crlf": 13,
+      "lf": 0
+    },
+    "boundary-corrective-native.log": {
+      "sha256": "25a08b8d6c76465f6755a3e601e7c38080673558b0296c4bba48c44607102d06",
+      "bytes": 22041,
+      "crlf": 125,
+      "lf": 23
+    },
+    "boundary-native.args": {
+      "sha256": "65a05dfff6376c97339878197d0e1af87aa8d3ee96b1d15214b90c88dc2be4f1",
+      "bytes": 24627,
+      "crlf": 3,
+      "lf": 0
+    },
+    "boundary-probe-results.json": {
+      "sha256": "19fd570422541d684b807f2c0511786019f3a17f13359698e7d7660dd33c8a81",
+      "bytes": 1952,
+      "crlf": 72,
+      "lf": 0
+    },
+    "build_evidence.py": {
+      "sha256": "b6744e72ffb311d0423ae4cf4feb0e79a97f4389a745235d98a1f68d2c4ee5bc",
+      "bytes": 8904,
+      "crlf": 0,
+      "lf": 112
+    },
+    "checkpoint.py": {
+      "sha256": "1c6d0b9a673a1bf94871a571bd179e7cbf1c1ef135edcf2384c4269acafecc09",
+      "bytes": 1877,
+      "crlf": 0,
+      "lf": 38
+    },
+    "commands.jsonl": {
+      "sha256": "b6099085f90a9e9ed6e2d69d9f2995c7d0643f472e540904bfcf76e54a24ae22",
+      "bytes": 42723,
+      "crlf": 39,
+      "lf": 0
+    },
+    "compile.args": {
+      "sha256": "8d149e06e3d310dae3bd09cf7ad814e0353587805f0b73bed4f0ec724616e85c",
+      "bytes": 24670,
+      "crlf": 4,
+      "lf": 0
+    },
+    "d17_structural_conformance.py": {
+      "sha256": "7252a625e2c5d2e20eaa2e76b3db25fd706729c91556d35e33a66f4c8d8247da",
+      "bytes": 16087,
+      "crlf": 373,
+      "lf": 0
+    },
+    "dependency-final.json": {
+      "sha256": "606a34447f43ea1e89a26b1e5cfcf4cf1daa3f3b76acb427be25f6d53d996364",
+      "bytes": 385,
+      "crlf": 13,
+      "lf": 0
+    },
+    "dependency-final.log": {
+      "sha256": "34e9381395292a796b874ad711264e4b5ff6f7e9290b67103833759f6e3d267f",
+      "bytes": 201,
+      "crlf": 2,
+      "lf": 3
+    },
+    "dependency.json": {
+      "sha256": "9efa45451683eb655d0eef22c6b2dd142ac3f36e06c5aecc5efa747d8145baea",
+      "bytes": 384,
+      "crlf": 13,
+      "lf": 0
+    },
+    "dependency.log": {
+      "sha256": "28582bb37e9da0861000cc49ccc7c4fd42ab47699349c509014b1c9cb6d0fa85",
+      "bytes": 201,
+      "crlf": 2,
+      "lf": 3
+    },
+    "diff-check-final.json": {
+      "sha256": "03fbe89c3302ee11b056e8c794d709d3c93ff93c6ced849f894557deb7f7eb08",
+      "bytes": 385,
+      "crlf": 13,
+      "lf": 0
+    },
+    "diff-check-final.log": {
+      "sha256": "86a73db5793267f5060be16752ed1891fe8ccf2ccbb6d5cdfbbe57f1af370956",
+      "bytes": 3301,
+      "crlf": 2,
+      "lf": 17
+    },
+    "diff-check-handback-final.json": {
+      "sha256": "37695854c08f55edd2c7fd3ede5141deb5ff420b9588f4aa7ebaacd147f8e496",
+      "bytes": 385,
+      "crlf": 13,
+      "lf": 0
+    },
+    "diff-check-handback-final.log": {
+      "sha256": "86a73db5793267f5060be16752ed1891fe8ccf2ccbb6d5cdfbbe57f1af370956",
+      "bytes": 3301,
+      "crlf": 2,
+      "lf": 17
+    },
+    "diff-check.json": {
+      "sha256": "ebbd0e4f53e63a1cc366e2cc661f442459be18dc6be9009f9ab876a8fd085b26",
+      "bytes": 385,
+      "crlf": 13,
+      "lf": 0
+    },
+    "diff-check.log": {
+      "sha256": "86a73db5793267f5060be16752ed1891fe8ccf2ccbb6d5cdfbbe57f1af370956",
+      "bytes": 3301,
+      "crlf": 2,
+      "lf": 17
+    },
+    "format-apply.json": {
+      "sha256": "0a91c42dd74798b4b674f560f3929e744e83789e627c74808c79cf8b3e5e0e7b",
+      "bytes": 391,
+      "crlf": 13,
+      "lf": 0
+    },
+    "format-apply.log": {
+      "sha256": "66c70d615038861cb58c7ee963862d4f41421759d25f27fca16251697f68d4c8",
+      "bytes": 206,
+      "crlf": 2,
+      "lf": 1
+    },
+    "format-apply2.json": {
+      "sha256": "32ac68ad5972a107de429a74cdbd6914afa9348c68fbe5a70791cd956c09d22f",
+      "bytes": 392,
+      "crlf": 13,
+      "lf": 0
+    },
+    "format-apply2.log": {
+      "sha256": "5fce05613516c40ba6b186fa717eaeb1bc700e827f627b98c56f146fc56e1172",
+      "bytes": 188,
+      "crlf": 2,
+      "lf": 1
+    },
+    "format-final.json": {
+      "sha256": "aa27c2b095bffeac73d7ffd11e7473bf93bf0bf26e1244e82145992420ccc806",
+      "bytes": 393,
+      "crlf": 13,
+      "lf": 0
+    },
+    "format-final.log": {
+      "sha256": "90ca240659c438a316e15b5b1ade912a60a392483a6ed147665b062c9fe8930a",
+      "bytes": 196,
+      "crlf": 2,
+      "lf": 1
+    },
+    "format.json": {
+      "sha256": "175ceef0153ddf00c8c7841fd750127f3b8fcdb933a609d1df511724511e550a",
+      "bytes": 403,
+      "crlf": 13,
+      "lf": 0
+    },
+    "format.log": {
+      "sha256": "aad76667caff18ce4670ba8c8c53bda1d243c43f992a65983a7173b73b5cee37",
+      "bytes": 10118,
+      "crlf": 30,
+      "lf": 155
+    },
+    "input-output-hashes.jsonl": {
+      "sha256": "82ce6fb08e4ebd690dadea6a929b44a55f5180f51227240e0af84f98da76ccf0",
+      "bytes": 8570,
+      "crlf": 0,
+      "lf": 4
+    },
+    "java-availability-final.json": {
+      "sha256": "d7bd213535d6b8e69af2f6ec803ece5144f2b146a9d41b8a5a781ad5ee345a21",
+      "bytes": 391,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-availability-final.log": {
+      "sha256": "ea40664c7714c798af46954e033c9895f637d60174783ce884aa75e4fad18940",
+      "bytes": 20190,
+      "crlf": 137,
+      "lf": 26
+    },
+    "java-canonical-read-order-source-hashes.json": {
+      "sha256": "fd26805deed23afddea8f5eddcd65f9a4584e042955f1314814c4bbb7307cb0b",
+      "bytes": 292214,
+      "crlf": 1662,
+      "lf": 0
+    },
+    "java-canonical-read-order.json": {
+      "sha256": "e1de446c6cd58f82822c8854acc8aa3ac6e2e0be19ad2b6587f36d1961ad8dcb",
+      "bytes": 391,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-canonical-read-order.log": {
+      "sha256": "3158dd17d5c4bbbdf44b3a4cab811c9c50dd2d05bdbc17edb533674680ecc5b0",
+      "bytes": 21191,
+      "crlf": 143,
+      "lf": 26
+    },
+    "java-corrective-1.json": {
+      "sha256": "598f8098813045935a3b40a665df0f1b3c669bbf6a680cb130bd0ed8b41c9645",
+      "bytes": 400,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-corrective-1.log": {
+      "sha256": "4a52c1773ac32993af96e0f8b4624d0fca0c55acf872fdeca3ce518f9c39a63c",
+      "bytes": 41664,
+      "crlf": 327,
+      "lf": 66
+    },
+    "java-corrective-2.json": {
+      "sha256": "2575ad9712ecc31f3f450f091874825a2dfb97cf4cda792b2a070636555cae7f",
+      "bytes": 392,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-corrective-2.log": {
+      "sha256": "25f562c778b5b05c164d2da6f3d3875e36c24909bb7cec64cc9a794fcac74f49",
+      "bytes": 29861,
+      "crlf": 196,
+      "lf": 26
+    },
+    "java-current-tree.json": {
+      "sha256": "9be28a0c006cf8707e0a513d3628c3ffa1b5c984a99ba2220dd25c190c7947b2",
+      "bytes": 401,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-current-tree.log": {
+      "sha256": "be757e90c04c1d138de8e08b712900622d5aa7a15428d8ef9c1132f9fc5708f2",
+      "bytes": 94922,
+      "crlf": 568,
+      "lf": 78
+    },
+    "java-current-verify-source-hashes.json": {
+      "sha256": "818abb77b2ee5a73a763c98b773bf0be75da3f93ceef1139920505daf3c4f7eb",
+      "bytes": 292214,
+      "crlf": 1662,
+      "lf": 0
+    },
+    "java-current-verify.json": {
+      "sha256": "c8df52e31ba7b260dfd763237389f10cc9d19c3f5ecc32f4efce0d7ad5e4c39d",
+      "bytes": 391,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-current-verify.log": {
+      "sha256": "6c66471ce0def704b32469e184f351468b9370f7057f738ba7bb598eb6a25d3f",
+      "bytes": 121662,
+      "crlf": 707,
+      "lf": 108
+    },
+    "java-final-affected.json": {
+      "sha256": "c3fa25434a53c239c56fd4ddf77904ebfcc23d975c0d0d83bf744f44b219a077",
+      "bytes": 402,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-final-affected.log": {
+      "sha256": "35902ea93aebadac34162006611d3366586a3391b42aeaa334a5815a319b26d6",
+      "bytes": 80671,
+      "crlf": 507,
+      "lf": 44
+    },
+    "java-first.json": {
+      "sha256": "d960ecbb893883c9e416275da90f6233b129f560e69e2507a961cd1f8124bd6e",
+      "bytes": 401,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-first.log": {
+      "sha256": "47edb51a0d5bbff16d1238c4d4915991d8f394ef0dc45e266713229cc6f7d015",
+      "bytes": 23482,
+      "crlf": 167,
+      "lf": 26
+    },
+    "java-module-1.json": {
+      "sha256": "ef3ab5cb8b5b645d598121935d32eedfbf64590263bec2366e62ef51be62b418",
+      "bytes": 392,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-module-1.log": {
+      "sha256": "ab6f8d841c2e0dfcdcb03fec399851261fc79ece684f7a986c63a032d50af14e",
+      "bytes": 36580,
+      "crlf": 238,
+      "lf": 26
+    },
+    "java-revision-binding-final-source-hashes.json": {
+      "sha256": "665e9d27039cb0124d70be3b8411ce15a2bd6dba95e7763a46f12113e14f6e27",
+      "bytes": 292214,
+      "crlf": 1662,
+      "lf": 0
+    },
+    "java-revision-binding-final.json": {
+      "sha256": "4cf61ab77047127df36f16df4c08b1dfbc2ae00464ef13c4763a0c7eecf0987a",
+      "bytes": 391,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-revision-binding-final.log": {
+      "sha256": "9f9dd3c12171e08f1079375dbcb9795fb8fc4616daefd10e6478b655defdca46",
+      "bytes": 21693,
+      "crlf": 146,
+      "lf": 26
+    },
+    "java-s3-verify-final.json": {
+      "sha256": "c7771b73ce9d047bb9bbccb2656baec8ee308ddc524703604e3e4721e00547fd",
+      "bytes": 391,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-s3-verify-final.log": {
+      "sha256": "ba136959d266d43ce7bffc592370eefe3ceeb403fc29fc38e708fd9d90650bbb",
+      "bytes": 111061,
+      "crlf": 654,
+      "lf": 94
+    },
+    "java-s3-verify.json": {
+      "sha256": "188b322da5cdc44248f7bd6750ce75a50d4ecbfbab500ffe1890db7f4faeb9fa",
+      "bytes": 402,
+      "crlf": 13,
+      "lf": 0
+    },
+    "java-s3-verify.log": {
+      "sha256": "a513063fa038a693638e54c0047c566cdc792fd746c8cba2d1b975be8f597fbb",
+      "bytes": 110776,
+      "crlf": 678,
+      "lf": 99
+    },
+    "lock-final.json": {
+      "sha256": "cfb47e42da5f13cb4c7d6981106cd3194bd1022ea93c2ae9e2cfadcb6f125d6f",
+      "bytes": 384,
+      "crlf": 13,
+      "lf": 0
+    },
+    "lock-final.log": {
+      "sha256": "3926520402fb8b210769317530d4ba4080da540e826f82ea990e07ad6c4b5814",
+      "bytes": 107,
+      "crlf": 2,
+      "lf": 1
+    },
+    "lock.json": {
+      "sha256": "84a42f76a352a8514b3a7fbb7934c0481234c5a7b0fff34a1ce9e46a94a458c7",
+      "bytes": 385,
+      "crlf": 13,
+      "lf": 0
+    },
+    "lock.log": {
+      "sha256": "8cc0ae39dbdefa76f7b36785c4097d02731c21afae6d116af6e2b8f9ec95c1b8",
+      "bytes": 107,
+      "crlf": 2,
+      "lf": 1
+    },
+    "mypy-final.json": {
+      "sha256": "6a87ab1477fed9a003675efd5c851fe2ba2ef0cb52996cf81a61528a935fbb4a",
+      "bytes": 393,
+      "crlf": 13,
+      "lf": 0
+    },
+    "mypy-final.log": {
+      "sha256": "47eeef55da3894cce8c69a54d3e589bfc45e783f704ce10a5496f8c1e7b851e4",
+      "bytes": 214,
+      "crlf": 3,
+      "lf": 0
+    },
+    "mypy.json": {
+      "sha256": "af684910cdf0c9de9f247022fd1c8ed1c9d0db3929666b43a0a047c4789d999e",
+      "bytes": 393,
+      "crlf": 13,
+      "lf": 0
+    },
+    "mypy.log": {
+      "sha256": "47eeef55da3894cce8c69a54d3e589bfc45e783f704ce10a5496f8c1e7b851e4",
+      "bytes": 214,
+      "crlf": 3,
+      "lf": 0
+    },
+    "native-probe-results.json": {
+      "sha256": "673e0c6fee8e21d722dd9ac513664db96098385e48554aaec4e9f92ad0ec85ca",
+      "bytes": 1066,
+      "crlf": 28,
+      "lf": 0
+    },
+    "native.args": {
+      "sha256": "54f2919c6dfdb223724cc9c3ed20f9f7bddb2cedc04ba1414a8ee28959979d9b",
+      "bytes": 24625,
+      "crlf": 3,
+      "lf": 0
+    },
+    "official-parser-results.json": {
+      "sha256": "094b8c02f5ecdcb07a27037b3b8237f83aeb8ed28b736747ed9d8a24f0f6519c",
+      "bytes": 387799,
+      "crlf": 11912,
+      "lf": 0
+    },
+    "official-parser.json": {
+      "sha256": "31c2175f50bc7349fec6bf1d85401e640f08ee4811511a19e45c5860619e345b",
+      "bytes": 393,
+      "crlf": 13,
+      "lf": 0
+    },
+    "official-parser.log": {
+      "sha256": "e61d6e13c6b38983b0b89708c21857f1698ab39d11fc7a627b974fc40ac88cc5",
+      "bytes": 228,
+      "crlf": 3,
+      "lf": 0
+    },
+    "official-producer-results.json": {
+      "sha256": "3cebec59f44626ac8742f9eb60edd89298f8a671e8aec965f22e7f98c4a6f994",
+      "bytes": 387812,
+      "crlf": 11912,
+      "lf": 0
+    },
+    "official-producer.json": {
+      "sha256": "b0b6dd88a27a51603b00784defe18f395de48de88d919ef0f15032f6fc5ae54e",
+      "bytes": 394,
+      "crlf": 13,
+      "lf": 0
+    },
+    "official-producer.log": {
+      "sha256": "e61d6e13c6b38983b0b89708c21857f1698ab39d11fc7a627b974fc40ac88cc5",
+      "bytes": 228,
+      "crlf": 3,
+      "lf": 0
+    },
+    "pending-pointer-before-source-hashes.json": {
+      "sha256": "2edb62dc65e59bc0c48049546a8582ebf9a0903728e9d7ea4016ff09786a792f",
+      "bytes": 292214,
+      "crlf": 1662,
+      "lf": 0
+    },
+    "pending-pointer-before.json": {
+      "sha256": "bd43586eaf7d8eeaa80b89c1ac73b4d4b956ae40e50063b636cb8ab82766c323",
+      "bytes": 401,
+      "crlf": 13,
+      "lf": 0
+    },
+    "pending-pointer-before.log": {
+      "sha256": "2d5494be077aff798f455e950a644b5cecd505362fb03cd1436fb8904949f910",
+      "bytes": 20717,
+      "crlf": 152,
+      "lf": 27
+    },
+    "prepare_boundary.py": {
+      "sha256": "13f32e03f3b8aced5c3c48ae5f47ad2d836c086922dfbd6ddae9131a1c086c1e",
+      "bytes": 5504,
+      "crlf": 0,
+      "lf": 59
+    },
+    "python-compat-corrected.json": {
+      "sha256": "fb1060c884c06006d98ca516e6597aee63137968b00c5fe148fcc1882f22578f",
+      "bytes": 393,
+      "crlf": 13,
+      "lf": 0
+    },
+    "python-compat-corrected.log": {
+      "sha256": "22574015cd0a475bc6cf5c964b3b70cb169b3540931d22c1cc96e23cef3accdf",
+      "bytes": 270,
+      "crlf": 4,
+      "lf": 0
+    },
+    "python-compat.json": {
+      "sha256": "4cea9ea45d6fac3f0a99fb00f656e0ba7d2e08167805f0d39c1c5701fea81493",
+      "bytes": 403,
+      "crlf": 13,
+      "lf": 0
+    },
+    "python-compat.log": {
+      "sha256": "38c0d9dde0021594129993f015e3fbfc484a1f487b49a7e6621201cb996908ab",
+      "bytes": 277,
+      "crlf": 6,
+      "lf": 0
+    },
+    "python-final.json": {
+      "sha256": "a53ddffc3b80d1da5111a1489b037f859b05f51417a44e4908eb6c03438f0153",
+      "bytes": 394,
+      "crlf": 13,
+      "lf": 0
+    },
+    "python-final.log": {
+      "sha256": "5482cacd87b177878eb18232ad63d2062223dca87f999501a757d6f10f78500f",
+      "bytes": 353,
+      "crlf": 5,
+      "lf": 0
+    },
+    "python-first.json": {
+      "sha256": "9fb5766dfe4c385e684255133582bc953a4cac63211a8f744a54e7e8d8cb9901",
+      "bytes": 402,
+      "crlf": 13,
+      "lf": 0
+    },
+    "python-first.log": {
+      "sha256": "26b752d2ccda830c6c0ec192f6fee610594676ea14d8ea901f42ef6d7fd6175a",
+      "bytes": 14564,
+      "crlf": 345,
+      "lf": 0
+    },
+    "python-second.json": {
+      "sha256": "373b28c49db269d4ed5fd95f7a16548737ecf2597a2377abd58a5d2cb9c69587",
+      "bytes": 393,
+      "crlf": 13,
+      "lf": 0
+    },
+    "python-second.log": {
+      "sha256": "815e581c5d9cffd4fdb8b17f81a6e18c9bdc8000eb05fdb3ab55ec07f837459b",
+      "bytes": 353,
+      "crlf": 5,
+      "lf": 0
+    },
+    "ruff-final.json": {
+      "sha256": "81cbfb716de005acea2b065e9c829a52f07cdf2e69aec765bf303d095faac8c2",
+      "bytes": 392,
+      "crlf": 13,
+      "lf": 0
+    },
+    "ruff-final.log": {
+      "sha256": "8515531b8f6e6fe1a4d6456bdcebabd2ee1ca07a26812202945dbe891d732ee4",
+      "bytes": 188,
+      "crlf": 2,
+      "lf": 1
+    },
+    "ruff.json": {
+      "sha256": "e7830eefb1188c4893a47bf40da4134d6cb1057f78d5bef65704ba53f4616f7b",
+      "bytes": 402,
+      "crlf": 13,
+      "lf": 0
+    },
+    "ruff.log": {
+      "sha256": "250d8318391f5dc8af1e4a4f9ab318fe429cc7b62403f33c7dc8ccd169e08d8f",
+      "bytes": 8680,
+      "crlf": 7,
+      "lf": 173
+    },
+    "run.py": {
+      "sha256": "c212fb239f4baf5d8abdb531f83c3aa1b6f31073ca784d1d9d5b3166a3b67615",
+      "bytes": 5094,
+      "crlf": 68,
+      "lf": 0
+    },
+    "runtime-capabilities.json": {
+      "sha256": "b26ed9377c4c0841cf02e279ede56dd99a84bd92c216533423494f39b605d8bc",
+      "bytes": 684,
+      "crlf": 15,
+      "lf": 0
+    },
+    "runtime_caps.py": {
+      "sha256": "7a3394427f749db7c18022980b2ab3e8706b3b640bf005c7cfb60232b67b070f",
+      "bytes": 1216,
+      "crlf": 0,
+      "lf": 15
+    },
+    "S3BoundaryProbe.java": {
+      "sha256": "c8fa1c221d222460fc7d74d423b6f366bca9c9b5a490e7eb4a481042c78b56d8",
+      "bytes": 15280,
+      "crlf": 170,
+      "lf": 0
+    },
+    "S3ReviewProbe.java": {
+      "sha256": "1e2d3ed20a061217b1ab9841faaba6160104693fb0c483bc37034a8c31448f49",
+      "bytes": 8248,
+      "crlf": 112,
+      "lf": 0
+    }
+  },
+  "native_entry_observations": [
+    {
+      "selected_version": 2,
+      "status": "COMPLETED",
+      "case": "legitimateCurrent",
+      "published": 1,
+      "generation_state": "UNAVAILABLE"
+    },
+    {
+      "runtime_rows_updated": 1,
+      "fractional_ref": 0.5,
+      "published": 1,
+      "forged_rows_published": 1,
+      "case": "forgedRuntimeOutput",
+      "status": "COMPLETED"
+    },
+    {
+      "failed": 1,
+      "status": "COMPLETED",
+      "case": "missingOutput",
+      "runtime_rows_deleted": 1,
+      "published": 1
+    },
+    {
+      "published": 1,
+      "case": "nonMdAdmission",
+      "original_extension": ".markdown",
+      "status": "COMPLETED"
+    },
+    {
+      "case": "namedChild",
+      "probe_exception": "org.springframework.dao.DataIntegrityViolationException",
+      "message": "could not execute statement [ERROR: Dependency owner scope unavailable\n  Where: PL/pgSQL function rag.guard_dependency_change() line 14 at RAISE] [insert into rag.dependencies (child_source_id,created_at,parent_source_id) values (?,?,?)]; SQL [insert into rag.dependencies (child_source_id,created_at,parent_source_id) values (?,?,?)]; constraint [null]"
+    }
+  ],
+  "native_corrective_boundaries": [
+    {
+      "independent_snapshots_before_after_commit": [
+        {
+          "status": "ACTIVE",
+          "generations": 0,
+          "selected": false,
+          "outcomes": 0,
+          "reserved": true
+        },
+        {
+          "status": "COMPLETED",
+          "generations": 1,
+          "selected": true,
+          "outcomes": 1,
+          "reserved": false
+        }
+      ],
+      "physical_commits": 1,
+      "fault": "org.springframework.transaction.TransactionSystemException",
+      "replayed_published": 1,
+      "case": "commitLostJavaAcknowledgement",
+      "durable": {
+        "status": "COMPLETED",
+        "generations": 1,
+        "selected": true,
+        "outcomes": 1,
+        "reserved": false
+      }
+    },
+    {
+      "case": "deferredCommitRollback",
+      "durable": {
+        "status": "RECOVERY_REQUIRED",
+        "generations": 0,
+        "selected": false,
+        "outcomes": 0,
+        "reserved": true
+      },
+      "failure": "org.springframework.dao.DataAccessResourceFailureException"
+    },
+    {
+      "finalization_exception": "NONE",
+      "access": "APPROVED",
+      "revocation_exception": "org.hibernate.exception.GenericJDBCException",
+      "mutation_exception": "org.hibernate.exception.GenericJDBCException",
+      "case": "reservedMutationAndRevocation",
+      "durable": {
+        "status": "COMPLETED",
+        "generations": 1,
+        "selected": true,
+        "outcomes": 1,
+        "reserved": false
+      }
+    },
+    {
+      "remaining_external_reservations": 0,
+      "remaining_vault_reservations": 0,
+      "failed": 0,
+      "status": "COMPLETED",
+      "case": "mixedDomainExternal",
+      "published": 2
+    },
+    {
+      "case": "uncommittedConnectionLoss",
+      "after_reconciliation": {
+        "status": "ABORTED",
+        "generations": 0,
+        "selected": false,
+        "outcomes": 0,
+        "reserved": false
+      },
+      "before_reconciliation": {
+        "status": "RECOVERY_REQUIRED",
+        "generations": 0,
+        "selected": false,
+        "outcomes": 0,
+        "reserved": true
+      },
+      "failure": "org.springframework.dao.DataAccessResourceFailureException"
+    }
+  ],
+  "synthetic_input_output_proofs": [
+    {
+      "job": "2c5c0d6f-afcf-40a4-8fef-515285c08102",
+      "sources": [
+        {
+          "source_id": "1058967a-02b8-4e29-b8f7-f6361a290df5",
+          "revision": {
+            "sourceVersion": 1,
+            "consentResetVersion": 1,
+            "authorizationEpoch": 2,
+            "fieldPolicyVersion": 2,
+            "fileAuthorizationEpoch": 2,
+            "filePolicyVersion": 2,
+            "selectedRevisionId": null,
+            "pendingRevisionId": "be2ae6dd-7da5-4a06-a159-b1a3a86e6469",
+            "pendingSha256": "16e2974d891a7ec52d8fdd958badc32013a0ea17b929fffb1b23154ec34b7cd0",
+            "pendingByteLength": 45
+          }
+        }
+      ],
+      "issued": {
+        "input_digest": "19c2f4e539b1da3be0c17556e6d9df034e0f0894e5155962b7133b6210578f7f",
+        "scope_digest": "977446e26b9114ed26f5aab913b367b1e16f54c48ce760cf9528ceca8487b112",
+        "output_digest": "1d9a9abd196a19353923addd4ca5681faeec8bab6a7bb475693d73c6e80fa9fa"
+      },
+      "actual_result_digest": "1d9a9abd196a19353923addd4ca5681faeec8bab6a7bb475693d73c6e80fa9fa",
+      "worker_native_job_resources": {
+        "peakJobMemoryBytes": 795889664,
+        "peakProcessMemoryBytes": 794660864,
+        "totalUserCpu100ns": 24687500,
+        "totalKernelCpu100ns": 7187500,
+        "readOperations": 2363,
+        "writeOperations": 24,
+        "readTransferBytes": 273205810,
+        "writeTransferBytes": 260
+      },
+      "actual_chunks_json_sha256": "1f40ab30f30d7ab57bbe474452c142a1110691c10a6bf00900e243d3e0a018a8",
+      "worker_resources": "[{\"duration_ms\": 85, \"worker_cpu_ms\": 78, \"pipeline_identity\": {\"provider\": \"CPU\", \"dimensions\": 384, \"model_name\": \"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2\", \"artifact_hash\": \"98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f\", \"model_version\": \"2.0.0\", \"parser_version\": \"ppv-parser-v18.6-d17-html-container-boundaries\", \"chunker_version\": \"structure-first-v18.5-compact-source-context\", \"tokenizer_version\": \"hf-tokenizers-0.23.3\", \"ocr_pipeline_version\": \"rapidocr-1.4.4-en-hans-script-admission-v18.2\", \"tokenizer_artifact_hash\": \"2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8\"}, \"peak_gpu_vram_bytes\": 1518694400, \"host_total_ram_bytes\": 17112092672, \"ram_measurement_kind\": \"PROCESS_PEAK_WORKING_SET\", \"peak_system_ram_bytes\": 635297792, \"vram_measurement_kind\": \"DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES\", \"host_available_ram_bytes\": 2996559872}]"
+    },
+    {
+      "job": "cff5a644-c9d3-4a25-a118-5b10ef55c2a0",
+      "sources": [
+        {
+          "source_id": "494e2f3f-8096-4efe-8626-da2c358e6963",
+          "revision": {
+            "sourceVersion": 1,
+            "consentResetVersion": 1,
+            "authorizationEpoch": 2,
+            "fieldPolicyVersion": 2,
+            "fileAuthorizationEpoch": 2,
+            "filePolicyVersion": 2,
+            "selectedRevisionId": null,
+            "pendingRevisionId": "5f2c2107-505e-4f33-bc36-d27d0153c339",
+            "pendingSha256": "a5d4f64992f3cc910e0f0a123688d5fcb4ff906640ba60e2757b7bb73f7a147c",
+            "pendingByteLength": 41
+          }
+        }
+      ],
+      "issued": {
+        "input_digest": "6762b00d6f35c09b97174a082098ff60a5b7efaf392ad2a0f577f37e6f75e40e",
+        "scope_digest": "c40623cf7a9be13977c252091d2da581969c7cf4a22881db772f7fd4126f3b7f",
+        "output_digest": "d1860a3aa9dfb74dbbff48d2b11da400f28cc363d9bfe8745ac58b35318faebb"
+      },
+      "actual_result_digest": "d1860a3aa9dfb74dbbff48d2b11da400f28cc363d9bfe8745ac58b35318faebb",
+      "worker_native_job_resources": {
+        "peakJobMemoryBytes": 795721728,
+        "peakProcessMemoryBytes": 794488832,
+        "totalUserCpu100ns": 24375000,
+        "totalKernelCpu100ns": 7812500,
+        "readOperations": 2363,
+        "writeOperations": 24,
+        "readTransferBytes": 273205810,
+        "writeTransferBytes": 260
+      },
+      "actual_chunks_json_sha256": "5f69fa97c1c15c5a80c3676961af7fd1ba9315fea5ca11b23ecb519ea44dd537",
+      "worker_resources": "[{\"duration_ms\": 79, \"worker_cpu_ms\": 125, \"pipeline_identity\": {\"provider\": \"CPU\", \"dimensions\": 384, \"model_name\": \"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2\", \"artifact_hash\": \"98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f\", \"model_version\": \"2.0.0\", \"parser_version\": \"ppv-parser-v18.6-d17-html-container-boundaries\", \"chunker_version\": \"structure-first-v18.5-compact-source-context\", \"tokenizer_version\": \"hf-tokenizers-0.23.3\", \"ocr_pipeline_version\": \"rapidocr-1.4.4-en-hans-script-admission-v18.2\", \"tokenizer_artifact_hash\": \"2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8\"}, \"peak_gpu_vram_bytes\": 1518694400, \"host_total_ram_bytes\": 17112092672, \"ram_measurement_kind\": \"PROCESS_PEAK_WORKING_SET\", \"peak_system_ram_bytes\": 635056128, \"vram_measurement_kind\": \"DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES\", \"host_available_ram_bytes\": 2954231808}]"
+    },
+    {
+      "job": "eca491bf-22a0-4496-be4b-a1a78f5cc4ad",
+      "sources": [
+        {
+          "source_id": "3bfaefd8-f493-4958-b788-c5ce5815e75e",
+          "revision": {
+            "sourceVersion": 1,
+            "consentResetVersion": 1,
+            "authorizationEpoch": 2,
+            "fieldPolicyVersion": 2,
+            "fileAuthorizationEpoch": 2,
+            "filePolicyVersion": 2,
+            "selectedRevisionId": null,
+            "pendingRevisionId": "f5551325-7ff1-4cf9-8690-0b486966a55f",
+            "pendingSha256": "cc383b8d53dbbb675301be193547181b2996f2664e1e260b99efc196fc255e80",
+            "pendingByteLength": 39
+          }
+        }
+      ],
+      "issued": {
+        "input_digest": "f88b26de9fde810874cf3a5328e654bf563bf1ca13a1074532b405edf9270f7a",
+        "scope_digest": "c069741a83e81a50ecc61429dd0fd31d8ebec347ae4d3eea3d614da78b6351ce",
+        "output_digest": "1977b339cca831b67fe3f6f33a2bcef7912a5f2972d6e12827dfebde29536b04"
+      },
+      "actual_result_digest": "1977b339cca831b67fe3f6f33a2bcef7912a5f2972d6e12827dfebde29536b04",
+      "worker_native_job_resources": {
+        "peakJobMemoryBytes": 795598848,
+        "peakProcessMemoryBytes": 794386432,
+        "totalUserCpu100ns": 23281250,
+        "totalKernelCpu100ns": 8437500,
+        "readOperations": 2363,
+        "writeOperations": 24,
+        "readTransferBytes": 273205810,
+        "writeTransferBytes": 260
+      },
+      "actual_chunks_json_sha256": "6df70f935153f56aae960c298a6c1dfde3131e76e994f2c54914dfe7e84500f4",
+      "worker_resources": "[{\"duration_ms\": 78, \"worker_cpu_ms\": 125, \"pipeline_identity\": {\"provider\": \"CPU\", \"dimensions\": 384, \"model_name\": \"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2\", \"artifact_hash\": \"98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f\", \"model_version\": \"2.0.0\", \"parser_version\": \"ppv-parser-v18.6-d17-html-container-boundaries\", \"chunker_version\": \"structure-first-v18.5-compact-source-context\", \"tokenizer_version\": \"hf-tokenizers-0.23.3\", \"ocr_pipeline_version\": \"rapidocr-1.4.4-en-hans-script-admission-v18.2\", \"tokenizer_artifact_hash\": \"2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8\"}, \"peak_gpu_vram_bytes\": 1518694400, \"host_total_ram_bytes\": 17112092672, \"ram_measurement_kind\": \"PROCESS_PEAK_WORKING_SET\", \"peak_system_ram_bytes\": 634875904, \"vram_measurement_kind\": \"DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES\", \"host_available_ram_bytes\": 2960613376}]"
+    },
+    {
+      "job": "98317013-8db7-4051-9a02-fea2d3163b30",
+      "sources": [
+        {
+          "source_id": "0d0f9116-3733-4ea7-be6f-50518ead6e3f",
+          "revision": {
+            "sourceVersion": 1,
+            "consentResetVersion": 1,
+            "authorizationEpoch": 2,
+            "fieldPolicyVersion": 2,
+            "fileAuthorizationEpoch": 2,
+            "filePolicyVersion": 2,
+            "selectedRevisionId": null,
+            "pendingRevisionId": "a67aa823-1d5c-4fe3-902e-9694d81e17ee",
+            "pendingSha256": "f42d3e98a123b1a2617098caa8382e3c9a5a8d390da74e908878858f6b12c1ba",
+            "pendingByteLength": 66
+          }
+        }
+      ],
+      "issued": {
+        "input_digest": "981b453ef929c7317647e12f6fc39b694a2d0c419f7bbe001074fc03decb079d",
+        "scope_digest": "fb110470a3341768df0be1bcc2292756c97eca9a34c4817d58ec64a9b3b777b7",
+        "output_digest": "cbd39d8de6f21f05c78e022acebf0d154ef06f64d8079438dc63528bb3ad38ed"
+      },
+      "actual_result_digest": "cbd39d8de6f21f05c78e022acebf0d154ef06f64d8079438dc63528bb3ad38ed",
+      "worker_native_job_resources": {
+        "peakJobMemoryBytes": 796065792,
+        "peakProcessMemoryBytes": 794857472,
+        "totalUserCpu100ns": 22500000,
+        "totalKernelCpu100ns": 9062500,
+        "readOperations": 2370,
+        "writeOperations": 24,
+        "readTransferBytes": 273205810,
+        "writeTransferBytes": 260
+      },
+      "actual_chunks_json_sha256": "b7d685a51e06ae4dca4c7db342d4c0d0070fcfc5373024ec07ed819f9ec1f159",
+      "worker_resources": "[{\"duration_ms\": 90, \"worker_cpu_ms\": 78, \"pipeline_identity\": {\"provider\": \"CPU\", \"dimensions\": 384, \"model_name\": \"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2\", \"artifact_hash\": \"98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f\", \"model_version\": \"2.0.0\", \"parser_version\": \"ppv-parser-v18.6-d17-html-container-boundaries\", \"chunker_version\": \"structure-first-v18.5-compact-source-context\", \"tokenizer_version\": \"hf-tokenizers-0.23.3\", \"ocr_pipeline_version\": \"rapidocr-1.4.4-en-hans-script-admission-v18.2\", \"tokenizer_artifact_hash\": \"2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8\"}, \"peak_gpu_vram_bytes\": 1518694400, \"host_total_ram_bytes\": 17112092672, \"ram_measurement_kind\": \"PROCESS_PEAK_WORKING_SET\", \"peak_system_ram_bytes\": 635265024, \"vram_measurement_kind\": \"DEVICE_WIDE_SAMPLE_MAX_AT_FILE_BOUNDARIES\", \"host_available_ram_bytes\": 2930515968}]"
+    }
+  ],
+  "runtime_capabilities": {
+    "python": "3.14.4 (main, Apr 14 2026, 14:30:57) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "onnxruntime": "1.31.0",
+    "execution_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "cuda": "UNAVAILABLE",
+    "host_total_ram_bytes": 17112092672,
+    "host_available_ram_bytes": 3499798528,
+    "vram_measurement_available": true,
+    "device_wide_vram_sample_bytes": 1517645824,
+    "limitation": "Host headroom and device-wide sample are not worker/validator peak RAM/VRAM or actual temp disk."
+  },
+  "unresolved": [
+    "Full native v3 writer/seal interleavings",
+    "Full concurrent root/child selected-R/authority barriers",
+    "Prior-G and multi-root physical rollback fault matrix",
+    "Committed connection-level acknowledgement loss",
+    "Killed-controller/validator restart and unavailable-DB reconciliation",
+    "Independent complete integrated RAM/VRAM/CPU/temp-disk/expansion profile",
+    "Uncertified folder-qualified/frontmatter-alias child target resolution and legacy filename metadata policy"
+  ],
+  "governance": {
+    "phase17": "COMPLETE/FROZEN",
+    "slice1_D14": "CLOSED",
+    "slice2_D23": "Markdown-only CLOSED",
+    "D22": "three original captures NOT_RECOVERED",
+    "FR18_3": "OPEN",
+    "external_indexing": "INACTIVE",
+    "live_originals": "DISABLED/DEFERRED",
+    "historical_full_java": "FAILED: 1433 tests / 1 failure / 2 errors / 0 skips",
+    "P18_FINAL": "NOT ACCEPTED",
+    "slice4": "NOT AUTHORIZED",
+    "publishing": "NONE"
+  }
+}

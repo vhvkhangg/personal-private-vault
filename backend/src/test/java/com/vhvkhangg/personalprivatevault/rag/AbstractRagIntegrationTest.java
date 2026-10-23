@@ -39,9 +39,10 @@ abstract class AbstractRagIntegrationTest extends AbstractWebIntegrationTest {
     static class RuntimeDatasource {
         @org.springframework.context.annotation.Bean
         @org.springframework.context.annotation.Primary
-        javax.sql.DataSource ragRuntimeDatasource() {
+        javax.sql.DataSource ragRuntimeDatasource(org.springframework.core.env.Environment environment) {
             var config=new com.zaxxer.hikari.HikariConfig();
-            config.setJdbcUrl(POSTGRES.getJdbcUrl());
+            config.setJdbcUrl(environment.getProperty("ppv.rag.test-runtime-jdbc-url",POSTGRES.getJdbcUrl()));
+            if (environment.containsProperty("ppv.rag.test-runtime-jdbc-url")) config.setConnectionTimeout(5000);
             config.setUsername("rag_runtime");config.setPassword(PASSWORD);
             return new com.zaxxer.hikari.HikariDataSource(config);
         }

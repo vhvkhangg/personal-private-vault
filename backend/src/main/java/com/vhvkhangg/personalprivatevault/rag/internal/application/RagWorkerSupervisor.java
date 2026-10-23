@@ -53,6 +53,9 @@ public class RagWorkerSupervisor {
         final UUID nonce=UUID.randomUUID();
         boolean stopping, ready, dispatching, returned, stopped;
         NativeWorkerProcess process;
+        boolean verifying;
+        NativeWorkerProcess verifier;
+        Runnable verificationCleanup;
     }
 
     /** Only the invocation that acquired the dispatch slot may abort its failed startup. */
@@ -169,11 +172,17 @@ public class RagWorkerSupervisor {
         while(System.nanoTime()<end) {
             NativeWorkerProcess process;
             synchronized(session) { process=session.process; }
+            NativeWorkerProcess verifier;
+            synchronized(session) { verifier=session.verifier; }
+            boolean verificationStopped=verifier==null || verifier.terminateAndVerify(Duration.ofMillis(250));
             boolean terminated=process==null || process.terminateAndVerify(Duration.ofMillis(Math.max(1,
                     Math.min(250,TimeUnit.NANOSECONDS.toMillis(end-System.nanoTime())))));
             boolean transportStopped=client.stopAndVerifyTransport(job);
             synchronized(session) {
-                if(terminated && transportStopped && !session.dispatching && (session.process==null || session.process.hasTerminatedTree())) {
+                if(terminated && verificationStopped && !session.verifying && transportStopped && !session.dispatching && (session.process==null || session.process.hasTerminatedTree())) {
+                    if (session.verificationCleanup!=null) {
+                        session.verificationCleanup.run(); session.verificationCleanup=null;
+                    }
                     session.stopped=true; return true;
                 }
                 try { session.wait(20); }
@@ -190,7 +199,7 @@ public class RagWorkerSupervisor {
     public boolean proveStopped(UUID job) {
         var session=sessions.get(job);
         if(session==null) return false;
-        synchronized(session) { return session.stopped && session.stopping && !session.dispatching; }
+        synchronized(session) { return session.stopped && session.stopping && !session.dispatching && !session.verifying; }
     }
 
     /** Source-free accounting is read before a known terminal C closes the native job handle. */
@@ -209,7 +218,7 @@ public class RagWorkerSupervisor {
     public Set<UUID> provenStoppedJobs() {
         var jobs=new HashSet<UUID>();
         sessions.forEach((job,session) -> { synchronized(session) {
-            if(session.stopped && session.stopping && !session.dispatching) jobs.add(job);
+            if(session.stopped && session.stopping && !session.dispatching && !session.verifying) jobs.add(job);
         } });
         return Set.copyOf(jobs);
     }
@@ -242,6 +251,12 @@ public class RagWorkerSupervisor {
                         || NativeWorkerProcess.isRecordedProcessTerminated(workerPid,fileTime,STOP_LIMIT);
             }
             if(!terminated) return false;
+            if (worker!=null && worker.get("verification") instanceof Map<?,?> verification) {
+                terminated=NativeWorkerProcess.recoverTerminated(lease.getAttemptId(),STOP_LIMIT)
+                        || NativeWorkerProcess.isRecordedProcessTerminated(((Number)verification.get("process_id")).longValue(),
+                            Long.parseLong((String)verification.get("creation_file_time")),STOP_LIMIT);
+                if (!terminated) return false;
+            }
             var session=sessions.computeIfAbsent(lease.getJobId(), ignored -> new Session());
             synchronized(session) { session.stopping=true; session.stopped=true; session.returned=true; }
             return true;
@@ -252,10 +267,54 @@ public class RagWorkerSupervisor {
     public void forget(UUID job) {
         var session=sessions.get(job);
         if(session!=null) synchronized(session) {
-            if(!session.stopped || session.dispatching) throw new IllegalStateException("Worker termination is not proven");
+            if(!session.stopped || session.dispatching || session.verifying) throw new IllegalStateException("Worker termination is not proven");
             if(session.process!=null) session.process.close();
+            if(session.verifier!=null) session.verifier.close();
             client.forgetTransport(job);
             sessions.remove(job,session);
+        }
+    }
+
+    public void beginVerification(UUID job, UUID attempt) {
+        outsideTransaction();
+        var session=Objects.requireNonNull(sessions.get(job));
+        synchronized(session) {
+            var lease=leases.findByJobIdAndAttemptId(job,attempt).orElseThrow();
+            if (!session.stopped || session.dispatching || session.verifying || !"ACTIVE".equals(lease.getStatus())
+                    || lease.getWorkerIdentity().containsKey("verification"))
+                throw new IllegalStateException("Document verification cannot start");
+            session.verifying=true;
+        }
+    }
+
+    /** Persist the exact suspended validator identity before it can consume the managed input. */
+    public void bindVerification(UUID job, UUID attempt, NativeWorkerProcess verifier) {
+        var session=Objects.requireNonNull(sessions.get(job));
+        synchronized(session) { session.verifier=verifier; }
+        tx.executeWithoutResult(status -> {
+            var lease=leases.findByJobIdAndAttemptIdForUpdate(job,attempt).orElseThrow(); entities.refresh(lease);
+            if (!"ACTIVE".equals(lease.getStatus())) throw new IllegalStateException("Document verification cancelled");
+            lease.bindVerification(Map.of("process_id",verifier.pid(),"creation_file_time",Long.toString(verifier.creationTimeFileTime())));
+            entities.flush();
+        });
+    }
+
+    public void endVerification(UUID job, NativeWorkerProcess verifier) {
+        var session=Objects.requireNonNull(sessions.get(job));
+        synchronized(session) {
+            boolean stopped;
+            try { stopped=verifier==null || verifier.hasTerminatedTree(); }
+            catch (RuntimeException unknown) { stopped=false; }
+            session.verifying=false; session.stopped=stopped;
+            session.notifyAll();
+        }
+    }
+
+    public void deferVerificationCleanup(UUID job, Runnable cleanup) {
+        var session=Objects.requireNonNull(sessions.get(job));
+        synchronized(session) {
+            if (session.stopped && !session.verifying) cleanup.run();
+            else session.verificationCleanup=cleanup;
         }
     }
 
@@ -278,6 +337,8 @@ public class RagWorkerSupervisor {
     }
     @PreDestroy void shutdown() {
         sessions.keySet().forEach(this::stopAndVerify);
-        sessions.values().forEach(session -> { synchronized(session) { if(session.process!=null) session.process.close(); } });
+        sessions.values().forEach(session -> { synchronized(session) {
+            if(session.process!=null) session.process.close(); if(session.verifier!=null) session.verifier.close();
+        } });
     }
 }

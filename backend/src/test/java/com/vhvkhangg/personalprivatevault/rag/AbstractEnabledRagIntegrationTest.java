@@ -31,11 +31,12 @@ abstract class AbstractEnabledRagIntegrationTest extends AbstractRagIntegrationT
     @DynamicPropertySource
     static void enableIsolatedWorker(DynamicPropertyRegistry properties) {
         Path worker = repository().resolve("rag-engine");
+        Path venv = venvPath(worker);
         properties.add("ppv.rag.test-scoped-execution", () -> "true");
         properties.add("ppv.rag.engine.url", () -> "http://127.0.0.1:" + WORKER_PORT);
         properties.add("ppv.rag.engine.service-key", () -> SERVICE_KEY);
-        properties.add("ppv.rag.worker.executable", () -> basePython(worker).toString());
-        properties.add("ppv.rag.worker.venv-launcher", () -> worker.resolve(".venv/Scripts/python.exe").toString());
+        properties.add("ppv.rag.worker.executable", () -> basePython(venv).toString());
+        properties.add("ppv.rag.worker.venv-launcher", () -> venv.resolve("Scripts/python.exe").toString());
         properties.add("ppv.rag.worker.working-directory", worker::toString);
         properties.add("ppv.rag.worker.dsn", () -> "postgresql://rag_worker:" + WORKER_PASSWORD
                 + "@127.0.0.1:" + POSTGRES.getMappedPort(5432) + "/" + POSTGRES.getDatabaseName());
@@ -97,10 +98,18 @@ abstract class AbstractEnabledRagIntegrationTest extends AbstractRagIntegrationT
         return connection;
     }
 
-    private static Path basePython(Path worker) {
+    private static Path venvPath(Path worker) {
+        Path d17 = worker.resolve(".venv-d17");
+        if (Files.isDirectory(d17) && Files.isRegularFile(d17.resolve("Scripts/python.exe"))) {
+            return d17;
+        }
+        return worker.resolve(".venv");
+    }
+
+    private static Path basePython(Path venv) {
         assertThat(System.getProperty("os.name")).startsWith("Windows");
         try {
-            String home = Files.readAllLines(worker.resolve(".venv/pyvenv.cfg")).stream()
+            String home = Files.readAllLines(venv.resolve("pyvenv.cfg")).stream()
                     .filter(line -> line.startsWith("home = ")).map(line -> line.substring(7))
                     .findFirst().orElseThrow();
             Path executable = Path.of(home).resolve("python.exe");

@@ -1,3 +1,30 @@
+**D24 CURRENT - 2026-10-21:** Overall Phase 18 external document target is **Obsidian Markdown `.md` ONLY**. Owner authorizes the new initial **Slice 3 Verified Indexing D+F**; see [D24](owner-decisions.md#2026-10-21--d24-overall-markdown-only-phase-18-and-slice-3-verified-indexing), [executable handoff](slice-3-verified-indexing-handoff.md), [baseline/applicability/cleanup](slice-3-markdown-scope-and-baseline-2026-10-21.md). Slice 2/D23 producer-local scope is CLOSED and prior work is **published** at verified main `ef32d41b33dd00e5fa08cf63977e91b8936ef3d5`, including unaccepted mixed changes; publication does not accept them. The former selective staging/commit workflow is superseded and must not be reopened. TXT/Office/PDF/OCR are excluded from Slice 3 and final Markdown acceptance; temporarily retain without use/certification, then remove unnecessary implementation/dependencies/tests/fixtures once at Slice 4 end before P18-FINAL. No Slice 4 implementation now. Phase 17 FROZEN; Slice 1/D14 CLOSED; D22 originals NOT_RECOVERED / original preservation FAILED; FR18-3 OPEN; Java publication NOT ACCEPTED; historical full Java gate FAILED until genuine successful rerun; indexing INACTIVE; live originals DISABLED/DEFERRED; P18-FINAL NOT ACCEPTED. Historical Antigravity remediation 2/2 remains exhausted; this initial slice grants no extra remediation rounds. Preparation only in this session; no activation or agent publishing.
+
+## D24 effective final-gate applicability
+
+The final five-command gate runs **after** Slice 4's one-time excluded-format cleanup,
+with no unnecessary Office/PDF/OCR positive tests, dependencies or fixtures left as release
+requirements. S3-VERIFY is a focused intermediate gate and cannot pass this final gate.
+The commands below retain their five operations; D24 selects the verified locked Markdown
+runtime `.venv-d17` and a new unique receipt directory to protect historical evidence.
+No P18-FINAL command runs during this preparation.
+
+| Focused evidence | D24 effective required scope |
+| --- | --- |
+| P18-QUALITY | D17 Markdown syntax/fidelity/source/locator/child semantics; native vi/en/Hans/Hant; D20 adjudication only within its accepted D17 bounds. No OCR or Office/PDF positive requirement. |
+| P18-SNAPSHOT-APP | Whole-file R integrity/approval/path/no-overwrite/cleanup/recovery checks unchanged; actual indexing inputs `.md` only. |
+| P18-PUBLISH-PG | Actual D17 Python -> Java -> PG result admission, role negatives, atomicity/fences, full per-file outcomes, rollback/unknown-C and Slice 4 lifecycle/NO_CHANGE integration. |
+| P18-OFFLINE-MODEL | Pinned model/tokenizer, finite dimensioned pgvector, GPU and bounded same-model CPU fallback; no required OCR artifacts/runtime. |
+| P18-RESOURCES | Final representative Markdown pipeline system RAM and VRAM separately, CPU/time/temp disk, finite file/expanded-text/chunk/reference/transport limits and cancellation. |
+| P18-REPORT | Applicable outcomes, selected/pending R and G, qualified currentness, lifecycle/NO_CHANGE, truthful measured fallback/resources and recovery. |
+
+This table supersedes only conflicting format-specific descriptions in the older table below.
+The historical failed Java gate, D14's bounded exception, aggregate connection-resource investigation,
+independent FR18-3 closure, remaining lifecycle/verification requirements and strict genuine-exit-zero
+aggregation remain. No full success may be claimed by blanket skips or missing mandatory coverage.
+
+## Preserved pre-D24 status and contract history
+
 **D21 CURRENT — 2026-10-20: Slice 2 `.md` ONLY / `READY_FOR_INDEPENDENT_SLICE_2_CLOSEOUT_REVIEW`.** All twelve frozen D17 requirements remain mandatory and independently VERIFIED / accepted under D20. TXT, DOCX, PDF, XLS, XLSX and OCR are excluded from Slice 2 acceptance; historical code/tests/failures remain intact and reintroduction requires a future explicit Owner Decision. See [D21](owner-decisions.md#2026-10-20--d21-slice-2-obsidian-markdown-only-scope-rebase), the [controlling scope/matrix](slice-2-markdown-only-d21-scope-and-acceptance.md) and [proposed closeout](slice-2-markdown-only-d21-proposed-closeout-2026-10-20.md). **Slice 2 is not declared CLOSED and owner commit readiness is not granted here.** Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; historical Java full gate FAILED; Slices 3/4 unauthorized. No global Phase 18 acceptance or new implementation/activation.
 
 ## Preserved prior scope/status and broader target records
@@ -36,13 +63,13 @@ The five-command gate below and all retained quality/resource/producer obligatio
 
 ## Exact existing Windows runner and five final commands (retained)
 
-Run from repository root using **actual verified installed pinned** `rag-engine/.venv/Scripts/python.exe`, `scripts/run-bounded-command.py`, Maven/Java and appropriate PostgreSQL/Testcontainers. Verify current code/environment before use. Missing interpreter/runner/test, nonzero exit, timeout or skipped required coverage is **FAIL**, not automatic PASS. The CLI watchdog is not a user indexing-time limit.
+Run from repository root using **actual verified installed pinned** `rag-engine/.venv-d17/Scripts/python.exe`, `scripts/run-bounded-command.py`, Maven/Java and appropriate PostgreSQL/Testcontainers. Verify current code/environment before use. Missing interpreter/runner/test, nonzero exit, timeout or skipped required coverage is **FAIL**, not automatic PASS. The CLI watchdog is not a user indexing-time limit.
 
 ```powershell
 $Root = (Get-Location).Path # must be the repository root
-$Python = Join-Path $Root 'rag-engine/.venv/Scripts/python.exe'
+$Python = Join-Path $Root 'rag-engine/.venv-d17/Scripts/python.exe'
 $Runner = Join-Path $Root 'scripts/run-bounded-command.py'
-$Receipts = Join-Path $Root 'logs/phase18'
+$Receipts = Join-Path $Root ('logs/phase18/p18-final-' + [guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Force -Path $Receipts | Out-Null
 if (-not (Test-Path $Python)) { throw 'Pinned worker Python venv missing; verify the locked environment' }
 if (-not (Test-Path $Runner)) { throw 'Bounded runner missing' }

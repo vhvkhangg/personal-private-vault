@@ -43,6 +43,7 @@ public class RagDocumentBatchService {
     private final RagWorkerGrantService grants;
     private final RagEngineClient engineClient;
     private final RagPurgeService purgeService;
+    private final RagExternalFileAuthority externalFileAuthority;
 
     private final RagSourceAuthority authority;
     private final TransactionTemplate transaction;
@@ -63,6 +64,7 @@ public class RagDocumentBatchService {
             RagEngineClient engineClient,
             RagPurgeService purgeService,
             RagSourceAuthority authority,
+            RagExternalFileAuthority externalFileAuthority,
             PlatformTransactionManager transactions
     ) {
         this.sources = sources;
@@ -78,6 +80,7 @@ public class RagDocumentBatchService {
         this.engineClient = engineClient;
         this.purgeService = purgeService;
         this.authority = authority;
+        this.externalFileAuthority = Objects.requireNonNull(externalFileAuthority, "externalFileAuthority must not be null");
         this.transaction = new TransactionTemplate(transactions);
         this.transaction.setTimeout(15);
     }
@@ -132,6 +135,7 @@ public class RagDocumentBatchService {
                 if (closure.contains(id)) { confirmations.put(id, hash); usedConfirmations.add(id); }
             });
             var proof = authority.prepareSource(source.getId(), confirmations);
+            RagDocumentInput.validateClosure(proof);
             var rootProof = proof.proofs().get(source.getId());
             if (!Objects.equals(item.expectedSourceVersion(), rootProof.version())
                     || !Objects.equals(item.expectedAuthorizationEpoch(), rootProof.epoch())
@@ -147,9 +151,22 @@ public class RagDocumentBatchService {
         return transaction.execute(status -> {
             var snapshots = authority.lockPreparedBatch(prepared.values(), null, true);
             var ownerIds = new TreeSet<Long>();
-            prepared.values().forEach(root -> root.proofs().values().forEach(proof -> ownerIds.add(proof.ownerId())));
-            // The source guards above already cover every member; reserve the exact union.
-            vaultReservations.reserve(ownerIds, attemptId);
+            var externalIds = new TreeSet<UUID>();
+            for (var root : prepared.values()) {
+                for (var proof : root.proofs().values()) {
+                    if ("EXTERNAL_FILE".equals(proof.type())) {
+                        externalIds.add(UUID.fromString(proof.sourceIdentity()));
+                    } else {
+                        ownerIds.add(proof.ownerId());
+                    }
+                }
+            }
+            if (!ownerIds.isEmpty()) {
+                vaultReservations.reserve(ownerIds, attemptId);
+            }
+            if (!externalIds.isEmpty()) {
+                externalFileAuthority.reserve(externalIds, attemptId);
+            }
             var primaryRoot = snapshots.values().stream().map(RagSourceAuthority.Snapshot::root)
                     .min(Comparator.comparing(RagSource::getId)).orElseThrow();
             RagJobLease lease = new RagJobLease(
@@ -231,11 +248,18 @@ public class RagDocumentBatchService {
                 var root = admitted.get(task.rootKey());
                 if (root == null || !seen.add(task.rootKey())) throw new IllegalArgumentException("Invalid document root");
                 var proof = prepared.get(root.getSourceId()).proofs().get(root.getSourceId());
-                if (!task.sourceId().equals(Long.toString(proof.ownerId()))
-                        || !new HashSet<>(task.approvedFields()).equals(proof.fields())
-                        || !"DOMAIN".equalsIgnoreCase(task.format()) || task.contentText() != null
-                        || task.contentB64() != null || !task.transclusions().isEmpty())
+                if (!task.sourceId().equals(proof.sourceIdentity())
+                        || !new HashSet<>(task.approvedFields()).equals(proof.fields()))
                     throw new IllegalArgumentException("Document input must be prepared by source authority");
+                if ("EXTERNAL_FILE".equalsIgnoreCase(proof.type())) {
+                    if (!"MD".equalsIgnoreCase(task.format()) || task.contentText() != null
+                            || task.contentB64() != null || !task.transclusions().isEmpty())
+                        throw new IllegalArgumentException("External file task format must be MD and bodies must not be caller-supplied");
+                } else {
+                    if (!"DOMAIN".equalsIgnoreCase(task.format()) || task.contentText() != null
+                            || task.contentB64() != null || !task.transclusions().isEmpty())
+                        throw new IllegalArgumentException("Document input must be prepared by source authority");
+                }
             }
             var rootTasks = authority.documentInput(jobId, attemptId, prepared);
             String inputPayloadJson = RagDocumentInput.encode(rootTasks);
@@ -244,7 +268,8 @@ public class RagDocumentBatchService {
             var session = grants.executionSession(jobId, attemptId);
             var nonce = supervisor.requireReady(jobId, attemptId);
 
-            engineClient.triggerBoundWorkerBatch(grant, session, nonce, rootTasks);
+            String response=engineClient.triggerBoundWorkerBatch(grant, session, nonce, rootTasks);
+            grants.verifyDocumentResult(grant,response);
             succeeded = true;
         } catch (Exception e) {
             throw new IllegalStateException("Failed to execute document batch stage", e);

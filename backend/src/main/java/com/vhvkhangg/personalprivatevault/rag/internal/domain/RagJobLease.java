@@ -84,6 +84,13 @@ public class RagJobLease {
         workerIdentity = java.util.Map.copyOf(identity);
     }
 
+    public void bindVerification(java.util.Map<String,Object> identity) {
+        if (workerIdentity==null || workerIdentity.containsKey("verification"))
+            throw new IllegalStateException("Document verification is single use");
+        var updated=new java.util.HashMap<>(workerIdentity);
+        updated.put("verification",java.util.Map.copyOf(identity)); workerIdentity=java.util.Map.copyOf(updated);
+    }
+
     public void sealStaging() { stagingClosed = true; }
 
     @Column(name = "created_at", nullable = false)

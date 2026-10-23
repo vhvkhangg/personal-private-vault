@@ -309,6 +309,16 @@ public class RagOriginalBytesStore {
      * Enforces kernel-level no-overwrite atomic move via Win32 MoveFileExW without replace flag.
      */
     public StoredSnapshot sealRevision(UUID sourceId, UUID revisionId, UUID captureId, String sha256, long byteLength) {
+        return sealRevision(sourceId, revisionId, captureId, sha256, byteLength, null);
+    }
+
+    public StoredSnapshot sealRevision(UUID sourceId, UUID revisionId, UUID captureId, String sha256, long byteLength,
+            String sourceName) {
+        return sealRevision(sourceId, revisionId, captureId, sha256, byteLength, sourceName, java.util.List.of());
+    }
+
+    public StoredSnapshot sealRevision(UUID sourceId, UUID revisionId, UUID captureId, String sha256, long byteLength,
+            String sourceName, java.util.List<String> targetDigests) {
         Objects.requireNonNull(sourceId, "sourceId must not be null");
         Objects.requireNonNull(revisionId, "revisionId must not be null");
         Objects.requireNonNull(captureId, "captureId must not be null");
@@ -376,6 +386,8 @@ public class RagOriginalBytesStore {
                 + "  \"sha256\": \"" + sha256 + "\",\n"
                 + "  \"byteLength\": " + byteLength + ",\n"
                 + "  \"sealedAt\": \"" + sealedAt + "\",\n"
+                + "  \"sourceName\": " + encodeSourceName(sourceName) + ",\n"
+                + "  \"targetDigests\": " + encodeSourceName(targetDigests) + ",\n"
                 + "  \"sealStatus\": \"SEALED\"\n"
                 + "}\n";
 
@@ -452,8 +464,41 @@ public class RagOriginalBytesStore {
             String sha256,
             Long byteLength,
             Instant sealedAt,
-            String sealStatus
+            String sealStatus,
+            String sourceName,
+            java.util.List<String> targetDigests
     ) {}
+
+    private static String encodeSourceName(Object name) {
+        try { return STRICT_MAPPER.writeValueAsString(name); }
+        catch (JacksonException invalid) { throw new SnapshotIntegrityException("Invalid captured source name"); }
+    }
+
+    /** Captured identity metadata, never a live-original read. Legacy manifests have no admitted format. */
+    public String sourceName(UUID sourceId, UUID revisionId) {
+        Path path = revisionsDir.resolve(sourceId.toString()).resolve(revisionId + ".manifest.json");
+        validateManifest(path, sourceId, revisionId, null, null, null);
+        try {
+            String name = STRICT_MAPPER.readValue(Files.readString(path, StandardCharsets.UTF_8), ManifestPayload.class).sourceName();
+            if (name == null || name.isBlank() || name.length() > 255 || name.contains("/") || name.contains("\\"))
+                throw new SnapshotIntegrityException("Captured source format identity is unavailable");
+            return name;
+        } catch (IOException invalid) { throw new SnapshotIntegrityException("Captured source identity is unavailable"); }
+    }
+
+    /** Hashed lexical capture names only; never enumerates or reopens an original. */
+    public java.util.List<String> targetDigests(UUID sourceId, UUID revisionId) {
+        Path path = revisionsDir.resolve(sourceId.toString()).resolve(revisionId + ".manifest.json");
+        validateManifest(path, sourceId, revisionId, null, null, null);
+        try {
+            var values = STRICT_MAPPER.readValue(Files.readString(path, StandardCharsets.UTF_8), ManifestPayload.class).targetDigests();
+            if (values == null) return java.util.List.of();
+            if (values.size() > 512 || values.stream().anyMatch(v -> v == null || !v.matches("[0-9a-f]{64}"))
+                    || !values.equals(values.stream().distinct().sorted().toList()))
+                throw new SnapshotIntegrityException("Invalid captured target identity");
+            return java.util.List.copyOf(values);
+        } catch (IOException invalid) { throw new SnapshotIntegrityException("Captured target identity is unavailable"); }
+    }
 
     /**
      * Strictly parses and validates manifest file content against expected values.

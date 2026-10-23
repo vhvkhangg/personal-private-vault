@@ -89,7 +89,7 @@ public class RagSourceService {
         try (var context=acquisitionService.newContext()) {
             acquired=acquisitionService.acquireBounded(original, context);
             context.check();
-            byteStore.sealRevision(fileId,revision,acquired.captureId(),acquired.sha256(),acquired.byteLength());
+            byteStore.sealRevision(fileId,revision,acquired.captureId(),acquired.sha256(),acquired.byteLength(),original.getFileName().toString(),RagSourceAuthority.capturedTargetDigests(original));
             context.check();
             var candidate=acquired;
             return transaction.execute(status -> {
@@ -103,7 +103,9 @@ public class RagSourceService {
                 externalFileAuthority.save(ext);
                 var source=new RagSource(RagSourceType.EXTERNAL_FILE,fileId.toString(),RagClassification.NON_PRIVATE,
                         1,1,Set.of(),RagAccessState.DENIED,candidate.sha256(),"UNCONFIRMED",clock.instant());
-                source.setFileIdentity(candidate.canonicalDigest());
+                // Two fixed-width SHA-256 values bind captured path intent AND basename
+                // without retaining the private original path or adding storage columns.
+                source.setFileIdentity(candidate.canonicalDigest()+RagSourceAuthority.capturedNameDigest(original.getFileName().toString(),RagSourceAuthority.capturedTargetDigests(original)));
                 source=sources.saveAndFlush(source);
                 checkBeforeCommit(context);
                 return toView(source,ext,"");
@@ -139,6 +141,8 @@ public class RagSourceService {
             captures.computeIfAbsent(sourceId,key -> java.util.concurrent.ConcurrentHashMap.newKeySet()).add(context);
             try {
                 verifySnapshotPlan(sourceId,plan);
+                UUID namingRevision=plan.expected().pendingRevisionId()!=null ? plan.expected().pendingRevisionId() : plan.expected().selectedRevisionId();
+                var targetDigests=byteStore.targetDigests(plan.fileId(),namingRevision);
                 acquired=acquisitionService.acquireBounded(original,context);
                 context.check();
                 boolean equal=Objects.equals(plan.comparisonHash(),acquired.sha256())
@@ -146,7 +150,7 @@ public class RagSourceService {
                 if (!equal) {
                     byteStore.beginRevision(revision);
                     context.check();
-                    byteStore.sealRevision(plan.fileId(),revision,acquired.captureId(),acquired.sha256(),acquired.byteLength());
+                    byteStore.sealRevision(plan.fileId(),revision,acquired.captureId(),acquired.sha256(),acquired.byteLength(),original.getFileName().toString(),targetDigests);
                 }
                 context.check();
                 var candidate=acquired;
@@ -341,7 +345,7 @@ public class RagSourceService {
                 source.approve(command.approvedFields(),plan.expected().pendingSha256(),source.getDescriptionRevisionHash(),clock.instant());
                 source.bindOwnerResetVersion(ext.getConsentResetVersion());
                 source.bindApprovalInstance(runtime.instance());
-                ext.approvePendingRevision(plan.expected().pendingRevisionId(),clock.instant());
+                ext.approvePendingRevision(plan.expected().pendingRevisionId(),source.getAuthorizationEpoch(),source.getFieldPolicyVersion(),clock.instant());
                 externalFileAuthority.save(ext);
                 sources.saveAndFlush(source);
                 return toView(source,ext,"");

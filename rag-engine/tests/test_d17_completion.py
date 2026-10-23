@@ -117,6 +117,7 @@ def test_md17_12_actual_producer_html_and_all_or_nothing(monkeypatch):
         ),
     )
     monkeypatch.setattr(worker, "verify_document_grant", lambda request: None)
+    monkeypatch.setattr(worker, "seal_document_result", lambda *_: "f" * 64)
     captured = []
     monkeypatch.setattr(worker, "stage_document_result", lambda **kwargs: captured.append(kwargs))
     sources = [

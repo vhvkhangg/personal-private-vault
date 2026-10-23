@@ -1,13 +1,33 @@
+// RR-01-03 2026-10-22: no migration/schema/grant changes.
+// Existing rag.runs.metrics operational JSON carries cancel_requested=true,
+// committed under the active lease guard before process shutdown; terminal
+// finish reads durable intent. Public status/contract and C_P remain unchanged.
+// docs/implementation/phase-18/slice-3-rr-corrective-handback-2026-10-22.md.
+// D24 2026-10-21: overall Phase 18 external input is Obsidian Markdown .md only.
+// Current corrective candidate 2026-10-21: V22__rag_document_result_authority.sql
+// adds no tables/columns/enums. Existing RAG functions/grants/triggers protect
+// ordered actual-result seals, nonterminal document evidence and typed UUID dependencies.
+// worker_identity JSON may bind one suspended DB-credential-free verifier;
+// generation JSON carries original input and post-selection manifests/result digest.
+// Captured basename and optional sorted lexical suffix hashes are in the managed
+// file manifest, independently bound with canonical-path SHA-256 in existing
+// sources.file_identity (64+64 hex, no raw path). Legacy naming proofs are retained.
+// 2026-10-22 final checkpoint adds no migration/schema/grant. Execution evidence:
+// docs/implementation/phase-18/slice-3-final-corrective-handback-2026-10-22.md.
+// Implementation evidence is ready for independent re-review, not accepted publication/FR18-3 closure.
+// See docs/implementation/phase-18/slice-3-codex-corrective-handback-2026-10-21.md.
+// Format applicability and planned end-Slice-4 cleanup: docs/implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md.
+// D24 preparation inspected V21; V22 is the current unaccepted corrective candidate above.
 // 2026-10-19 OWNER AMENDMENT: ADR-0023 supersedes old OS-native G1/G3
 // requirements (Restricted Token/LPAC/DACL/ABA/forensic proofs). Java-owned
 // application snapshot: selected regular file, streamed SHA-256+length,
 // no-overwrite R, integrity before use and bounded crash/orphan recovery.
 // Keep SQL source guards, result checks, one trusted C_P and whole-file consent.
 // This is logical mapping, NOT a new migration or runtime PASS.
-// Phase 18 candidate physical schema: V18/V19 plus Slice 1 V20/V21.
-// Slice 1 corrections are Codex-authored and await separate independent re-review.
+// Phase 18 candidate physical schema: V18/V19 plus closed Slice 1 V20/V21 and unaccepted Slice 3 V22.
+// Slice 1 is CLOSED under D14; Slice 3 final corrective evidence awaits independent re-review.
 // Pending snapshots/whole-file approval are exposed; external indexing INACTIVE.
-// No selected-R/sourceVersion/G promotion or finalized NO_CHANGE is implemented here.
+// Selected-R/sourceVersion/G promotion is Slice 3 candidate behavior; final NO_CHANGE remains unimplemented here.
 // Appends to frozen Schema v1 and Phase 17 additive DBML without modifying frozen baselines.
 // Mixed-source lock order (ADR-0021 clause 2): optional graph barrier -> sorted Vault
 // source-state guards -> sorted RAG external-file source guards -> Vault lifecycle

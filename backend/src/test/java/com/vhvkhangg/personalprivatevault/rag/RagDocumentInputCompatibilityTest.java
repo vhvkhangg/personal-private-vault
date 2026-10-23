@@ -25,7 +25,10 @@ class RagDocumentInputCompatibilityTest {
         String expected = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
                 .digest(input.getBytes(StandardCharsets.UTF_8)));
         Path projectRoot = Files.isDirectory(Path.of("rag-engine")) ? Path.of(".") : Path.of("..");
-        Path python = projectRoot.resolve("rag-engine/.venv/Scripts/python.exe").toAbsolutePath();
+        Path python = projectRoot.resolve("rag-engine/.venv-d17/Scripts/python.exe").toAbsolutePath();
+        if (!Files.isRegularFile(python)) {
+            python = projectRoot.resolve("rag-engine/.venv/Scripts/python.exe").toAbsolutePath();
+        }
         assertThat(python).isRegularFile();
         var builder = new ProcessBuilder(python.toString(), "-c", """
                 import json, sys

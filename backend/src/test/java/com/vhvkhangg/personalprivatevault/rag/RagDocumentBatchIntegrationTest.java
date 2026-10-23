@@ -15,8 +15,8 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
-@Timeout(40)
-class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
+@Timeout(120)
+class RagDocumentBatchIntegrationTest extends AbstractEnabledRagIntegrationTest {
 
     @Autowired
     private RagOperations rag;
@@ -42,35 +42,11 @@ class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
     @Autowired
     private com.vhvkhangg.personalprivatevault.rag.internal.application.RagSourceAuthority sourceAuthority;
 
-    private static Map<String, Object> resources(Map<String, Object> measured) {
-        var result = new HashMap<String, Object>(measured);
-        result.put("pipeline_identity", Map.ofEntries(
-                Map.entry("model_name", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"),
-                Map.entry("model_version", "2.0.0"),
-                Map.entry("artifact_hash", "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f"),
-                Map.entry("dimensions", 384), Map.entry("tokenizer_version", "hf-tokenizers-0.23.3"),
-                Map.entry("tokenizer_artifact_hash", "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8"),
-                Map.entry("parser_version", "ppv-parser-v18.1-pdfplumber-0.11.10"), Map.entry("chunker_version", "structure-first-v18.1"),
-                Map.entry("ocr_pipeline_version", "rapidocr-1.4.4"), Map.entry("provider", "CPU")));
-        return result;
-    }
-
-    private static final List<Float> TEST_EMBEDDING = Collections.nCopies(384, 0.05f);
-    private static final String VALID_DIGEST = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
-
     private void prepareProvenStopAndGrant(UUID jobId, UUID attemptId) {
-        var prepared = sourceAuthority.prepareBatch(jobId, attemptId);
-        String input = com.vhvkhangg.personalprivatevault.rag.internal.application.RagSourceAuthority.digest(
-                com.vhvkhangg.personalprivatevault.rag.internal.application.RagDocumentInput.encode(
-                        sourceAuthority.documentInput(jobId, attemptId, prepared)));
-        String scope = finalizeCommand(jobId).dependencyDigest();
-        String output = com.vhvkhangg.personalprivatevault.rag.internal.application.RagSourceAuthority.digest("DOCUMENT_V3:" + input);
-        supervisor.stopAndVerify(jobId);
-        jdbcTemplate.update("""
-                INSERT INTO rag.worker_grants(job_id, attempt_id, session_id, session_until, input_digest, scope_digest, output_digest, stage_type, consumed_at)
-                VALUES (?, ?, gen_random_uuid(), clock_timestamp() + interval '1 hour', ?, ?, ?, 'DOCUMENT_V3', clock_timestamp())
-                ON CONFLICT (job_id, attempt_id) DO NOTHING
-                """, jobId, attemptId, input, scope, output);
+        var tasks=jdbcTemplate.queryForList("SELECT b.root_key,s.source_id,s.approved_fields_text FROM rag.batch_roots b JOIN rag.sources s ON s.id=b.source_id WHERE b.job_id=? ORDER BY b.root_key",jobId)
+                .stream().map(row -> new RagDocumentBatchTask((String)row.get("root_key"),(String)row.get("source_id"),"DOMAIN",null,null,null,
+                    Arrays.asList(((String)row.get("approved_fields_text")).split(",")),Map.of())).toList();
+        enabledRag.executeDocumentBatch(jobId,attemptId,tasks);
     }
 
     private RagDocumentBatchFinalizeCommand finalizeCommand(UUID jobId) {
@@ -188,9 +164,11 @@ class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
         RagSourceView src3 = createFictionCandidate();
 
 
-        src1 = rag.approveSource(src1.id(), consent(src1, Set.of("title")));
+        src1 = rag.approveSource(src1.id(), consent(src1, Set.of("title", "description")));
         src2 = rag.approveSource(src2.id(), consent(src2, Set.of("title")));
-        src3 = rag.approveSource(src3.id(), consent(src3, Set.of("title")));
+        jdbcTemplate.update("UPDATE fictions SET description='' WHERE id=?",Long.valueOf(src3.sourceId()));
+        src3=rag.findSource(src3.id()).orElseThrow();
+        src3 = rag.approveSource(src3.id(), consent(src3, Set.of("description")));
 
         List<RagDocumentRootItem> items = List.of(
                 new RagDocumentRootItem("root-1", src1.sourceType(), src1.sourceId(),
@@ -208,32 +186,12 @@ class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
         // Prepare proven supervisor stop and grant before staging outputs
         prepareProvenStopAndGrant(jobId, attemptId);
 
-        // Stage outputs directly: root-1 SUCCESS (2 chunks), root-2 SUCCESS (1 chunk), root-3 FAILED (0 chunks)
-        stagedRepo.save(new RagStagedDocumentOutput(
-                jobId, attemptId, "root-1", true, "SUCCESS", List.of(),
-                List.of(
-                        Map.of("source_identity", "root-1", "content", "Paragraph 1", "locator", Map.of("line_start", 1, "line_end", 1), "embedding", TEST_EMBEDDING),
-                        Map.of("source_identity", "root-1", "content", "Paragraph 2", "locator", Map.of("line_start", 5, "line_end", 5), "embedding", TEST_EMBEDDING)
-                ),
-                resources(Map.of("peak_system_ram_bytes", 50000000L, "peak_gpu_vram_bytes", 10000000L)),
-                Instant.now()
-        ));
+        // Real DOMAIN input: title+description, title, and empty description.
 
-        stagedRepo.save(new RagStagedDocumentOutput(
-                jobId, attemptId, "root-2", true, "SUCCESS", List.of("NON_MATERIAL_WARNING"),
-                List.of(
-                        Map.of("source_identity", "root-2", "content", "Heading content", "locator", Map.of("line_start", 1, "line_end", 1), "embedding", TEST_EMBEDDING)
-                ),
-                resources(Map.of("peak_system_ram_bytes", 52000000L, "peak_gpu_vram_bytes", 11000000L)),
-                Instant.now()
-        ));
 
-        stagedRepo.save(new RagStagedDocumentOutput(
-                jobId, attemptId, "root-3", false, "CORRUPT_FILE", List.of("Invalid header"),
-                List.of(),
-                Map.of("peak_system_ram_bytes", 40000000L, "peak_gpu_vram_bytes", 0L),
-                Instant.now()
-        ));
+
+
+
 
         // Finalize batch
         RagBatchFinalizationResult finResult = rag.finalizeDocumentBatch(
@@ -269,11 +227,11 @@ class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
         var o2 = outcomes.stream().filter(o -> "root-2".equals(o.rootKey())).findFirst().orElseThrow();
         assertThat(o2.result()).isEqualTo("SUCCESS");
         assertThat(o2.chunkCount()).isEqualTo(1);
-        assertThat(o2.warningCodes()).contains("NON_MATERIAL_WARNING");
+        assertThat(o2.warningCodes()).isEmpty();
 
         var o3 = outcomes.stream().filter(o -> "root-3".equals(o.rootKey())).findFirst().orElseThrow();
         assertThat(o3.result()).isEqualTo("FAILED");
-        assertThat(o3.errorCode()).isEqualTo("CORRUPT_FILE");
+        assertThat(o3.errorCode()).isEqualTo("EMPTY_CONTENT");
 
         // Verify entire reservation union is released
         Integer vaultReserved = jdbcTemplate.queryForObject(
@@ -306,8 +264,12 @@ class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
         RagSourceView src2 = createFictionCandidate();
 
 
-        src1 = rag.approveSource(src1.id(), consent(src1, Set.of("title")));
-        src2 = rag.approveSource(src2.id(), consent(src2, Set.of("title")));
+        jdbcTemplate.update("UPDATE fictions SET description='' WHERE id=?",Long.valueOf(src1.sourceId()));
+        src1=rag.findSource(src1.id()).orElseThrow();
+        src1 = rag.approveSource(src1.id(), consent(src1, Set.of("description")));
+        jdbcTemplate.update("UPDATE fictions SET description='' WHERE id=?",Long.valueOf(src2.sourceId()));
+        src2=rag.findSource(src2.id()).orElseThrow();
+        src2 = rag.approveSource(src2.id(), consent(src2, Set.of("description")));
 
         List<RagDocumentRootItem> items = List.of(
                 new RagDocumentRootItem("root-1", src1.sourceType(), src1.sourceId(),
@@ -322,15 +284,9 @@ class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
 
         prepareProvenStopAndGrant(jobId, attemptId);
 
-        // Stage both as FAILED
-        stagedRepo.save(new RagStagedDocumentOutput(
-                jobId, attemptId, "root-1", false, "PARSE_ERROR", List.of("Parse failed"),
-                List.of(), Map.of(), Instant.now()
-        ));
-        stagedRepo.save(new RagStagedDocumentOutput(
-                jobId, attemptId, "root-2", false, "OCR_FAILED", List.of("OCR failed"),
-                List.of(), Map.of(), Instant.now()
-        ));
+        // The actual producer returns two EMPTY_CONTENT failures.
+
+
 
         RagBatchFinalizationResult finResult = rag.finalizeDocumentBatch(
                 jobId, attemptId, finalizeCommand(jobId)
@@ -376,16 +332,8 @@ class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
 
         prepareProvenStopAndGrant(jobId, attemptId);
 
-        stagedRepo.save(new RagStagedDocumentOutput(
-                jobId, attemptId, "root-A", true, "SUCCESS", List.of(),
-                List.of(Map.of("source_identity", "root-A", "content", "A content", "locator", Map.of("line_start", 1, "line_end", 1), "embedding", TEST_EMBEDDING)),
-                resources(Map.of()), Instant.now()
-        ));
-        stagedRepo.save(new RagStagedDocumentOutput(
-                jobId, attemptId, "root-B", true, "SUCCESS", List.of(),
-                List.of(Map.of("source_identity", "root-B", "content", "B content", "locator", Map.of("line_start", 1, "line_end", 1), "embedding", TEST_EMBEDDING)),
-                resources(Map.of()), Instant.now()
-        ));
+
+
 
         rag.finalizeDocumentBatch(jobId, attemptId, finalizeCommand(jobId));
 
@@ -465,11 +413,7 @@ class RagDocumentBatchIntegrationTest extends AbstractRagIntegrationTest {
 
         prepareProvenStopAndGrant(jobId, attemptId);
 
-        stagedRepo.save(new RagStagedDocumentOutput(
-                jobId, attemptId, "root-1", true, "SUCCESS", List.of(),
-                List.of(Map.of("source_identity", "root-1", "content", "Purge candidate", "locator", Map.of("line_start", 1, "line_end", 1), "embedding", TEST_EMBEDDING)),
-                resources(Map.of()), Instant.now()
-        ));
+
 
         RagBatchFinalizationResult fin = rag.finalizeDocumentBatch(jobId, attemptId, finalizeCommand(jobId));
         UUID genUuid = fin.publishedGenerations().get("root-1");

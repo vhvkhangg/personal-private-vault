@@ -301,9 +301,17 @@ class RagNativeWorkerProcessTest {
             : Path.of("..").toAbsolutePath().normalize();
     }
 
+    private static Path venvPath() {
+        Path d17 = repository().resolve("rag-engine/.venv-d17");
+        if (Files.isDirectory(d17) && Files.isRegularFile(d17.resolve("Scripts/python.exe"))) {
+            return d17;
+        }
+        return repository().resolve("rag-engine/.venv");
+    }
+
     private static Path python() throws IOException {
         assertThat(System.getProperty("os.name")).startsWith("Windows");
-        Path config = repository().resolve("rag-engine/.venv/pyvenv.cfg");
+        Path config = venvPath().resolve("pyvenv.cfg");
         String home = Files.readAllLines(config).stream().filter(line -> line.startsWith("home = "))
             .map(line -> line.substring(7)).findFirst().orElseThrow();
         Path executable = Path.of(home).resolve("python.exe");
@@ -320,7 +328,7 @@ class RagNativeWorkerProcessTest {
             }
         }
         result.put("__PYVENV_LAUNCHER__",
-            repository().resolve("rag-engine/.venv/Scripts/python.exe").toString());
+            venvPath().resolve("Scripts/python.exe").toString());
         result.put("PYTHONNOUSERSITE", "1");
         result.put("PYTHONDONTWRITEBYTECODE", "1");
         return result;

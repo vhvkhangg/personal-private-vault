@@ -1,3 +1,70 @@
+## 2026-10-21 — D24 overall Markdown-only Phase 18 and Slice 3 Verified Indexing
+
+**OWNER APPROVED prospectively, from the explicit current Owner authorization —
+Slice 3 D+F initial implementation may follow the prepared handoff; this session stops at preparation.**
+D24 was unused in the ledger at entry. This decision supersedes only the named future scope,
+delivery and preservation instructions; it does not rewrite D1–D23 or historical evidence.
+
+1. **Published baseline.** Owner confirms all prior Slice 2 changes, including historically
+   unaccepted code, were committed/pushed. Read-only local HEAD, origin/main and live remote
+   main match **`ef32d41b33dd00e5fa08cf63977e91b8936ef3d5`**; entry tree is clean.
+   Publication is not acceptance of the whole source tree. D23's still-pending selective
+   staging/commit workflow is superseded; do not reopen it or assert it was performed.
+2. **Overall format amendment.** The intended final **overall Phase 18** external document
+   format is **Obsidian Markdown `.md` ONLY**, extending beyond D21/D22's former Slice 2
+   qualification. TXT, DOCX, PDF, XLS, XLSX and OCR are no longer required for Slice 3 or
+   Markdown-only final Phase 18 acceptance. `.markdown` is not an additional authorized
+   external format alias. Native vi/en/zh-Hans/zh-Hant text, complete D17 syntax/fidelity,
+   inert HTML/tables/properties and separately approved `.md` dependencies remain required.
+   Non-MD/OCR subcases become N/A by prospective scope decision, never historical PASS.
+3. **Canonical applicability.** Approve the exact prospective
+   [contract/AC/FCNC/IS/P18-FINAL applicability table](slice-3-markdown-scope-and-baseline-2026-10-21.md#prospective-applicability-reconciliation).
+   This amends ADR-0021/22/23 format clauses and extends ADR-0024 with the previously absent
+   overall-format decision. ADR-0020 and frozen Phase 17 Vault privacy/field/v2 contracts
+   remain unchanged. The original all-format text remains history, not current deliverables.
+   Five P18-FINAL commands and applicable quality/resource/offline/model/publication checks
+   remain mandatory on the final cleaned Markdown tree.
+4. **No security/quality waiver.** Retain immutable ORIGINAL_BYTES authority, exact S/R/hash/length,
+   whole-file consent and child grants, locators/source provenance, parser/chunker/model identity,
+   actual producer-output validation, restricted worker SQL, trusted Java/PostgreSQL publication,
+   one physical C_P/file outcomes/exact union release, source-first checks, attempt fencing/CAS,
+   E1, positive process/task stop, durable unknown-outcome reconciliation, lifecycle/NO_CHANGE,
+   finite resources and required verification. ADR-0023 application-level same-user risk remains
+   explicit. No arbitrary file discovery, direct original ingestion, activation or sandbox claim.
+5. **Initial Slice 3 authority.** Authorize the smallest executable D+F slice in
+   [P18-S3-VERIFIED-INDEXING](slice-3-verified-indexing-handoff.md) and its
+   [mandatory FR18-3/integration matrix](slice-3-verified-indexing-test-matrix.md).
+   Reuse current source/worker/staging/repository/transaction/recovery mechanisms; inspect the
+   published mixed implementation before reuse. No unapproved schema/API/architecture expansion.
+   Minimal existing-contract SQL function/grant/fence repairs must append after actual V21,
+   never rewrite frozen migrations; any new tables/columns/routes/status/architecture require
+   a separate decision. Actual external integration inputs are approved `.md` snapshots only.
+6. **Slice 4 and required one-time removal.** Defer final NO_CHANGE logic, same-R Reindex API,
+   complete lifecycle/purge/restore, comprehensive resource profile and overall P18-FINAL.
+   Temporarily retain excluded unaccepted implementation/dependencies/tests/fixtures without
+   use or certification. At the **end of Slice 4, before P18-FINAL**, perform the
+   [consolidated cleanup plan](slice-3-markdown-scope-and-baseline-2026-10-21.md#slice-3--slice-4-boundary-and-cleanup).
+   Do not preserve unwanted format implementations for hypothetical reuse; Git history suffices.
+   This supersedes older future-work preservation preferences, not evidence/migration preservation.
+   No Slice 4 implementation starts under this Slice 3 handoff.
+7. **Frozen/open states.** Phase 17 COMPLETE/FROZEN; Slice 1/D14 CLOSED; Slice 2/D23 CLOSED only
+   for Markdown producer-local acceptance. D22 original captures NOT_RECOVERED / original
+   preservation FAILED. FR18-3 OPEN until independent closure. Java identity/publication not
+   accepted; historical Java full gate FAILED until genuine successful rerun; aggregate
+   PostgreSQL resource investigation remains required before P18-FINAL. Overall Phase 18 and
+   P18-FINAL NOT ACCEPTED; external indexing INACTIVE; live originals DISABLED/DEFERRED.
+8. **Workflow.** D24 authorizes this new initial Slice 3 implementation, not reopening exhausted
+   historical Antigravity remediation 2/2 or granting more remediation rounds. Separate independent
+   Codex review is mandatory. Stop on review findings for explicit Owner routing; no automatic
+   third round/takeover, self-acceptance, commit/push/tag/PR or activation. Preparation changes
+   documentation only and stops after the handoff; implementation occurs in a separate session.
+
+The [verified baseline/classification](slice-3-markdown-scope-and-baseline-2026-10-21.md)
+distinguishes published source from accepted scope. Prior decisions/reviews below retain their
+original statuses at their time; D24 governs conflicting current/future instructions.
+
+## Preserved D23 and earlier decisions
+
 ## 2026-10-21 — D23 bounded Phase 18 Slice 2 Markdown-only Owner closeout
 
 **OWNER CLOSEOUT APPROVAL — D21 Obsidian Markdown `.md` producer-local Slice 2 ONLY; publication of the reviewed selective delivery remains PENDING.** This record takes effect when adopted by the repository Owner. It does not authorize whole-tree staging, a blind commit, or any following slice.

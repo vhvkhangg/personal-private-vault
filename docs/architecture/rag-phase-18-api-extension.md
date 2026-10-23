@@ -1,8 +1,56 @@
+**RR-01-03 checkpoint, 2026-10-22:** trusted replay now independently computes
+pinned-model embeddings for source-derived chunks and compares components in
+chunk order. Mixed DOMAIN/external-snapshot closures deny admission before
+worker dispatch; independent mixed roots remain supported. Explicit cancellation
+intent uses existing internal run metrics before competing teardown. No public
+wire/schema/status changes. Final verification passes; implementation disposition is READY_FOR_INDEPENDENT_SLICE_3_RE_REVIEW; see the
+[RR handback](../implementation/phase-18/slice-3-rr-corrective-handback-2026-10-22.md).
+FR18-3 remains OPEN and external indexing INACTIVE. Earlier candidate notices
+below are preserved history.
+
+**D24 CURRENT - 2026-10-21:** Overall Phase 18 external document target is **Obsidian Markdown `.md` ONLY**. Owner authorizes the new initial **Slice 3 Verified Indexing D+F**; see [D24](../implementation/phase-18/owner-decisions.md#2026-10-21--d24-overall-markdown-only-phase-18-and-slice-3-verified-indexing), [executable handoff](../implementation/phase-18/slice-3-verified-indexing-handoff.md), [baseline/applicability/cleanup](../implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md). Slice 2/D23 producer-local scope is CLOSED and prior work is **published** at verified main `ef32d41b33dd00e5fa08cf63977e91b8936ef3d5`, including unaccepted mixed changes; publication does not accept them. The former selective staging/commit workflow is superseded and must not be reopened. TXT/Office/PDF/OCR are excluded from Slice 3 and final Markdown acceptance; temporarily retain without use/certification, then remove unnecessary implementation/dependencies/tests/fixtures once at Slice 4 end before P18-FINAL. No Slice 4 implementation now. Phase 17 FROZEN; Slice 1/D14 CLOSED; D22 originals NOT_RECOVERED / original preservation FAILED; FR18-3 OPEN; Java publication NOT ACCEPTED; historical full Java gate FAILED until genuine successful rerun; indexing INACTIVE; live originals DISABLED/DEFERRED; P18-FINAL NOT ACCEPTED. Historical Antigravity remediation 2/2 remains exhausted; this initial slice grants no extra remediation rounds. Preparation only in this session; no activation or agent publishing.
+
+## Preserved pre-D24 status and contract history
+
 > **D21 Slice 2 applicability, 2026-10-20:** The Owner-approved current Slice 2 acceptance scope is Obsidian Markdown `.md` only; TXT/DOCX/PDF/XLS/XLSX/OCR are excluded from that slice and require a future explicit Owner Decision for reintroduction. See the [scope/matrix](../implementation/phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md). The original broader Phase 18 clauses below remain unaccepted reference obligations; this notice does not silently delete or pass them. Precise conflicts and higher-level qualification are [ACCEPTED in ADR-0024 under Owner D22](../adr/0024-phase-18-slice-profile-acceptance-boundaries.md), strictly for D21 Slice 2 applicability, not as an overall Phase 18 rebase. Phase 17/Slice 1 and Java/FR18-3/P18-FINAL guarantees are unchanged.
 
 # Phase 18 RAG API and worker contract — current inventory and approved target
 
-**Current implementation:** PARTIAL / INCOMPLETE / NOT ACCEPTED. [ACTIVE](../implementation/handoffs/ACTIVE.md) now authorizes **only Phase 18 Slice 1 A+B+C** implementation under [D13](../implementation/phase-18/owner-decisions.md), not this entire target inventory. Domain-projection repairs remain credited; live-original indexing is DISABLED/DEFERRED and snapshot indexing inactive. **Approved external target (as amended by [ADR-0023](../adr/0023-phase-18-application-level-snapshot-worker-trust.md) for G1/G3/same-user worker):** [ADR-0022](../adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md), `OWNER_APPROVED / CANONICALLY_SYNCHRONIZED`, prospectively amending only listed [ADR-0021](../adr/0021-phase-18-bounded-multi-file-verified-indexing.md)/P17 external clauses. [ADR-0020](../adr/0020-phase-17-single-job-reservations-e1.md) controls unaffected frozen production. No target field/type/route below is claimed implemented, and this document launches no work.
+**Current implementation, 2026-10-22:** Slice 1/D14 and Slice 2/D23 remain CLOSED. The additional finite Slice 3 corrective checkpoint is **READY_FOR_INDEPENDENT_SLICE_3_RE_REVIEW**, not accepted. See [ACTIVE](../implementation/handoffs/ACTIVE.md) and the [final handback](../implementation/phase-18/slice-3-final-corrective-handback-2026-10-22.md). External indexing remains INACTIVE, live originals DISABLED/DEFERRED; ADR-0020/Vault/v2 remains frozen and ADR-0022/23/24/D24 retain their scoped applicability.
+
+### Slice 3 corrective candidate wire inventory — not accepted
+
+The final additional Owner-authorized checkpoint is recorded in the
+[2026-10-22 handback](../implementation/phase-18/slice-3-final-corrective-handback-2026-10-22.md).
+Newly captured manifests may carry `snapshot.target_digests`: a sorted unique
+list of at most 512 SHA-256 lexical suffix fingerprints, bound to the captured
+name through the existing `sources.file_identity`. No original path is exposed.
+An empty legacy list is omitted from serialized input so legacy DOMAIN/v3 digest
+identity is retained. Basename-only historical snapshots are not silently given
+unrecorded folder names. Pending updates inherit the existing naming proof.
+Each individually approved child is transported once by UUID; the existing D17
+source tree resolves literal aliases and authenticated relative targets, then
+applies heading/block selection. Unknown/ambiguous names fail when requested;
+unselected sections do not authorize or trigger additional resolution.
+No route, schema version or public status changes in this checkpoint.
+
+The existing `3.0` document envelope now explicitly negotiates external snapshots
+through `root.snapshot`: `mode=RAG_SNAPSHOT`, `consent_mode=WHOLE_FILE`, external
+source UUID, revision UUID, captured source name, byte length/SHA-256, expected
+selected-R UUID, sourceVersion, reset, authorization epoch and field-policy version.
+Every approved child field has its own matching snapshot tuple. Java constructs
+the bodies and approved child bindings; caller body replacement remains denied.
+No original path is sent to Python. Legacy external/v2 admission is denied;
+Foundation v2 and DOMAIN v3 serialization/digests remain compatible.
+
+Worker staged resources retain the root/child `input_binding`; the result receipt
+returns the protected canonical actual-result digest. V22 seals exact ordered
+root outcomes and ordered actual chunks/metadata/vectors, separately binding input,
+scope and attempt. Java-owned accepted-D17 source replay precedes publication.
+Generation JSON retains both `input_manifest_text` and post-selection `manifest_text`,
+plus `actual_result_digest`. No new HTTP route or public job status is introduced.
+The [final executed matrix](../implementation/phase-18/slice-3-final-corrective-matrix-2026-10-22.md)
+records current implementation proof, retained failures and sampling limitations; independent review is pending.
 
 ## Approved external snapshot target — NOT IMPLEMENTED / NOT_VERIFIED
 

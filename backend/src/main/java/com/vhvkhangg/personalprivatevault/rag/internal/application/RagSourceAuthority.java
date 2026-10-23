@@ -32,6 +32,7 @@ public class RagSourceAuthority {
     private final RagRuntimeSecurity runtimeSecurity;
     private final RagBatchRootRepository batchRoots;
     private final RagExternalFileAuthority externalFileAuthority;
+    private final com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore;
     private final ObjectMapper json = new ObjectMapper().findAndRegisterModules()
             .enable(com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
 
@@ -39,20 +40,26 @@ public class RagSourceAuthority {
             VaultEntryOperations vault, SourceIndexReservations reservations, FictionSourceOperations fiction,
             FilmSourceOperations film, EntityManager entityManager, RagRuntimeIdentity runtimeIdentity,
             RagLimits limits, RagRuntimeSecurity runtimeSecurity,
-            RagBatchRootRepository batchRoots, RagExternalFileAuthority externalFileAuthority) {
+            RagBatchRootRepository batchRoots, RagExternalFileAuthority externalFileAuthority,
+            com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore) {
         this.graph = graph; this.sources = sources; this.leases = leases; this.vault = vault;
         this.reservations = reservations; this.fiction = fiction; this.film = film; this.entityManager = entityManager;
         this.runtimeIdentity = runtimeIdentity; this.limits = limits; this.runtimeSecurity = runtimeSecurity;
         this.batchRoots = batchRoots; this.externalFileAuthority = externalFileAuthority;
+        this.byteStore = byteStore;
     }
 
     public record Snapshot(RagSource root, String manifest, String payload) {
         @Override public String toString() { return "Snapshot[sourceId=" + root.getId() + "]"; }
     }
     public record Attempt(RagJobLease lease, Snapshot snapshot) {}
-    public record SourceProof(long ownerId, String type, long version, long reset, long epoch,
-            int policy, Set<String> fields, String contentHash, String descriptionHash) {
-        public SourceProof { fields = Set.copyOf(fields); }
+    public record SourceProof(long ownerId, String sourceIdentity, String type, long version, long reset, long epoch,
+            int policy, Set<String> fields, String contentHash, String descriptionHash, Map<String, Object> snapshot, String fileIdentity) {
+        public SourceProof { fields = Set.copyOf(fields); snapshot = Collections.unmodifiableMap(new TreeMap<>(snapshot)); }
+        public SourceProof(long ownerId, String type, long version, long reset, long epoch,
+                int policy, Set<String> fields, String contentHash, String descriptionHash) {
+            this(ownerId, Long.toString(ownerId), type, version, reset, epoch, policy, fields, contentHash, descriptionHash, Map.of(), null);
+        }
     }
     public record Prepared(Long rootId, Map<Long, SourceProof> proofs, String manifest, String payload) {
         public Prepared { proofs = Map.copyOf(proofs); }
@@ -68,19 +75,40 @@ public class RagSourceAuthority {
         var initial = sources.findAllById(ids);
         if (initial.size() != ids.size()) throw new IllegalStateException("Source authority is unavailable");
         var ownerIds = new TreeSet<Long>();
+        var externalIds = new TreeSet<UUID>();
         for (var source : initial) {
-            if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) throw new IllegalStateException("External file indexing capability is inactive in Slice 1 (disabled)");
-            ownerIds.add(Long.valueOf(source.getSourceId()));
+            if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
+                externalIds.add(UUID.fromString(source.getSourceId()));
+            } else {
+                ownerIds.add(Long.valueOf(source.getSourceId()));
+            }
         }
         // Capture history BEFORE reading/hashing content. The final guard compares this exact version.
-        var versions = reservations.read(ownerIds);
+        var versions = ownerIds.isEmpty() ? null : reservations.read(ownerIds);
+        Map<UUID, RagExternalFileSource> externalSources = new HashMap<>();
+        for (UUID extId : externalIds) {
+            var ext = externalFileAuthority.findByFileSourceId(extId);
+            if (ext == null) throw new IllegalStateException("External file authority is unavailable");
+            externalSources.put(extId, ext);
+        }
         for (var source : initial) {
-            var owner = versions.require(Long.parseLong(source.getSourceId()));
-            if (owner.deleted() || !source.getSourceType().name().equals(owner.sourceType())
-                    || source.getClassification() != RagClassification.NON_PRIVATE || source.getAccessState() != RagAccessState.APPROVED
-                    || !Objects.equals(source.getApprovedOwnerResetVersion(), owner.consentResetVersion()))
-                throw new IllegalStateException("Source consent or eligibility is unavailable");
-            RagFieldAllowlist.validateApprovedFields(source.getSourceType(), source.getApprovedFields());
+            if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
+                UUID extId = UUID.fromString(source.getSourceId());
+                var ext = externalSources.get(extId);
+                if (ext == null || !ext.isEligible() || ext.isSnapshotIntegrityFailed()
+                        || source.getClassification() != RagClassification.NON_PRIVATE || source.getAccessState() != RagAccessState.APPROVED
+                        || !Objects.equals(source.getApprovedOwnerResetVersion(), ext.getConsentResetVersion())) {
+                    throw new IllegalStateException("Source consent or eligibility is unavailable: External file indexing capability is inactive in Slice 1 (disabled)");
+                }
+                RagFieldAllowlist.validateApprovedFields(source.getSourceType(), source.getApprovedFields());
+            } else {
+                var owner = versions.require(Long.parseLong(source.getSourceId()));
+                if (owner.deleted() || !source.getSourceType().name().equals(owner.sourceType())
+                        || source.getClassification() != RagClassification.NON_PRIVATE || source.getAccessState() != RagAccessState.APPROVED
+                        || !Objects.equals(source.getApprovedOwnerResetVersion(), owner.consentResetVersion()))
+                    throw new IllegalStateException("Source consent or eligibility is unavailable");
+                RagFieldAllowlist.validateApprovedFields(source.getSourceType(), source.getApprovedFields());
+            }
         }
         Map<Long, FictionSourceProjection> fictions = new HashMap<>();
         fiction.findSources(initial.stream().filter(s -> s.getSourceType() == RagSourceType.FICTION)
@@ -93,42 +121,105 @@ public class RagSourceAuthority {
         var payload = new ArrayList<Map<String, Object>>();
         var usedConfirmations = new HashSet<Long>();
         for (var source : initial.stream().sorted(Comparator.comparing(RagSource::getId)).toList()) {
-            long ownerId = Long.parseLong(source.getSourceId());
-            var owner = versions.require(ownerId);
-            Map<String, Object> values;
-            String contentHash, descriptionHash;
-            if (source.getSourceType() == RagSourceType.FICTION) {
-                var projection = fictions.get(ownerId);
-                if (projection == null || !projection.isEligible()) throw new IllegalStateException("Source is ineligible (NSFW or deleted)");
-                values = fictionValues(projection); contentHash = projection.contentRevisionHash(); descriptionHash = projection.descriptionRevisionHash();
-            } else {
-                var projection = films.get(ownerId);
-                if (projection == null || !projection.isEligible()) throw new IllegalStateException("Source is ineligible (NSFW or deleted)");
-                values = filmValues(projection); contentHash = projection.contentRevisionHash(); descriptionHash = projection.descriptionRevisionHash();
-            }
-            var fields = source.getApprovedFields();
-            if (fields.contains("description")) {
-                String confirmation = descriptionConfirmations.get(source.getId());
-                if (confirmation != null) {
-                    if (!confirmation.equals(descriptionHash)) throw new RagSourceChangedException();
-                    usedConfirmations.add(source.getId());
+            if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
+                UUID extId = UUID.fromString(source.getSourceId());
+                var ext = externalSources.get(extId);
+                UUID revisionId;
+                String revisionHash;
+                long byteLength;
+                if (ext.getApprovedPendingRevisionId() != null) {
+                    revisionId = ext.getApprovedPendingRevisionId();
+                    revisionHash = ext.getPendingRevisionHash();
+                    byteLength = ext.getPendingByteLength();
+                } else if (ext.getSelectedRevisionId() != null) {
+                    revisionId = ext.getSelectedRevisionId();
+                    revisionHash = ext.getSelectedRevisionHash();
+                    byteLength = ext.getSelectedByteLength();
+                } else {
+                    throw new IllegalStateException("No approved revision available for indexing");
                 }
-                if (!Objects.equals(source.getDescriptionRevisionHash(), descriptionHash) && confirmation == null)
+                if (!Objects.equals(source.getSourceRevisionHash(), revisionHash)) {
                     throw new RagSourceChangedException();
+                }
+                byte[] bytes = byteStore.readRevisionBytes(extId, revisionId, revisionHash, byteLength);
+                String sourceName = byteStore.sourceName(extId, revisionId);
+                var targetDigests = byteStore.targetDigests(extId, revisionId);
+                if (!Objects.equals(source.getFileIdentity(),ext.getCanonicalIdentityDigest()+capturedNameDigest(sourceName,targetDigests)))
+                    throw new IllegalStateException("Captured source format identity is unavailable");
+                if (!sourceName.toLowerCase(Locale.ROOT).endsWith(".md"))
+                    throw new IllegalArgumentException("Only captured .md sources are admitted");
+                String contentText;
+                try {
+                    contentText = StandardCharsets.UTF_8.newDecoder()
+                            .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+                            .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT)
+                            .decode(java.nio.ByteBuffer.wrap(bytes)).toString();
+                } catch (java.nio.charset.CharacterCodingException invalid) {
+                    throw new IllegalArgumentException("Invalid Markdown UTF-8 encoding");
+                }
+                var snapshot = new TreeMap<String, Object>();
+                snapshot.put("mode", "RAG_SNAPSHOT"); snapshot.put("consent_mode", "WHOLE_FILE");
+                snapshot.put("source_type", "EXTERNAL_FILE"); snapshot.put("source_id", source.getSourceId());
+                snapshot.put("revision_id", revisionId.toString()); snapshot.put("sha256", revisionHash);
+                snapshot.put("byte_length", byteLength); snapshot.put("source_name", sourceName);
+                if (!targetDigests.isEmpty()) snapshot.put("target_digests", targetDigests);
+                snapshot.put("expected_selected_revision_id", ext.getSelectedRevisionId() == null ? null : ext.getSelectedRevisionId().toString());
+                snapshot.put("source_version", ext.getSourceVersion()); snapshot.put("consent_reset_version", ext.getConsentResetVersion());
+                snapshot.put("authorization_epoch", source.getAuthorizationEpoch()); snapshot.put("field_policy_version", source.getFieldPolicyVersion());
+                var fields = source.getApprovedFields();
+                var proof = new SourceProof(0L, source.getSourceId(), source.getSourceType().name(),
+                        ext.getSourceVersion(), ext.getConsentResetVersion(),
+                        source.getAuthorizationEpoch(), source.getFieldPolicyVersion(),
+                        fields, revisionHash, "", snapshot, source.getFileIdentity());
+                proofs.put(source.getId(), proof);
+                var node = new TreeMap<String, Object>();
+                node.put("source_id", source.getId()); node.put("source_type", proof.type()); node.put("domain_id", source.getSourceId());
+                node.put("epoch", proof.epoch()); node.put("field_version", proof.policy()); node.put("fields", fields.stream().sorted().toList());
+                node.put("content_revision", proof.contentHash()); node.put("description_revision", proof.descriptionHash());
+                node.put("owner_source_version", proof.version()); node.put("owner_reset_version", proof.reset());
+                node.put("snapshot", snapshot);
+                nodes.add(node);
+                var selected = new TreeMap<String, Object>();
+                selected.put("content", contentText);
+                payload.add(Map.of("source_id", source.getId(), "source_type", proof.type(), "id", source.getSourceId(), "text", contentText, "fields", selected));
+            } else {
+                long ownerId = Long.parseLong(source.getSourceId());
+                var owner = versions.require(ownerId);
+                Map<String, Object> values;
+                String contentHash, descriptionHash;
+                if (source.getSourceType() == RagSourceType.FICTION) {
+                    var projection = fictions.get(ownerId);
+                    if (projection == null || !projection.isEligible()) throw new IllegalStateException("Source is ineligible (NSFW or deleted)");
+                    values = fictionValues(projection); contentHash = projection.contentRevisionHash(); descriptionHash = projection.descriptionRevisionHash();
+                } else {
+                    var projection = films.get(ownerId);
+                    if (projection == null || !projection.isEligible()) throw new IllegalStateException("Source is ineligible (NSFW or deleted)");
+                    values = filmValues(projection); contentHash = projection.contentRevisionHash(); descriptionHash = projection.descriptionRevisionHash();
+                }
+                var fields = source.getApprovedFields();
+                if (fields.contains("description")) {
+                    String confirmation = descriptionConfirmations.get(source.getId());
+                    if (confirmation != null) {
+                        if (!confirmation.equals(descriptionHash)) throw new RagSourceChangedException();
+                        usedConfirmations.add(source.getId());
+                    }
+                    if (!Objects.equals(source.getDescriptionRevisionHash(), descriptionHash) && confirmation == null)
+                        throw new RagSourceChangedException();
+                }
+                var selected = new TreeMap<String, Object>();
+                for (String field : fields) selected.put(field, values.get(field));
+                var proof = new SourceProof(ownerId, source.getSourceType().name(), owner.sourceVersion(), owner.consentResetVersion(),
+                        source.getAuthorizationEpoch(), source.getFieldPolicyVersion(), fields, contentHash,
+                        fields.contains("description") ? descriptionHash : "");
+                proofs.put(source.getId(), proof);
+                var node = new TreeMap<String, Object>();
+                node.put("source_id", source.getId()); node.put("source_type", proof.type()); node.put("domain_id", source.getSourceId());
+                node.put("epoch", proof.epoch()); node.put("field_version", proof.policy()); node.put("fields", fields.stream().sorted().toList());
+                node.put("content_revision", proof.contentHash()); node.put("description_revision", proof.descriptionHash());
+                node.put("owner_source_version", proof.version()); node.put("owner_reset_version", proof.reset());
+                nodes.add(node);
+                payload.add(Map.of("source_id", source.getId(), "source_type", proof.type(), "id", ownerId, "fields", selected));
             }
-            var selected = new TreeMap<String, Object>();
-            for (String field : fields) selected.put(field, values.get(field));
-            var proof = new SourceProof(ownerId, source.getSourceType().name(), owner.sourceVersion(), owner.consentResetVersion(),
-                    source.getAuthorizationEpoch(), source.getFieldPolicyVersion(), fields, contentHash,
-                    fields.contains("description") ? descriptionHash : "");
-            proofs.put(source.getId(), proof);
-            var node = new TreeMap<String, Object>();
-            node.put("source_id", source.getId()); node.put("source_type", proof.type()); node.put("domain_id", source.getSourceId());
-            node.put("epoch", proof.epoch()); node.put("field_version", proof.policy()); node.put("fields", fields.stream().sorted().toList());
-            node.put("content_revision", proof.contentHash()); node.put("description_revision", proof.descriptionHash());
-            node.put("owner_source_version", proof.version()); node.put("owner_reset_version", proof.reset());
-            nodes.add(node);
-            payload.add(Map.of("source_id", source.getId(), "source_type", proof.type(), "id", ownerId, "fields", selected));
         }
         if (!usedConfirmations.equals(descriptionConfirmations.keySet())) throw new IllegalArgumentException("Description confirmation is outside the selected fields");
         var edges = new ArrayList<List<Long>>();
@@ -180,25 +271,85 @@ public class RagSourceAuthority {
         }
         if (proofs.isEmpty() || proofs.size() > limits.selectedSources())
             throw new IllegalStateException("Source selection budget exceeded");
-        var ownerIds = new TreeSet<Long>(); proofs.values().forEach(p -> ownerIds.add(p.ownerId()));
-        SourceVersions versions;
-        if (currentRead) versions = reservations.lockForRead(ownerIds);
-        else if (reservation == null) { vault.acquireSourceGuards(ownerIds); versions = reservations.read(ownerIds); }
-        else versions = reservations.lockReserved(ownerIds, reservation);
+        var ownerIds = new TreeSet<Long>();
+        var externalIds = new TreeSet<UUID>();
+        for (var proof : proofs.values()) {
+            if ("EXTERNAL_FILE".equals(proof.type())) {
+                externalIds.add(UUID.fromString(proof.sourceIdentity()));
+            } else {
+                ownerIds.add(proof.ownerId());
+            }
+        }
+        SourceVersions versions = null;
+        if (!ownerIds.isEmpty()) {
+            if (currentRead) versions = reservations.lockForRead(ownerIds);
+            else if (reservation == null) { vault.acquireSourceGuards(ownerIds); versions = reservations.read(ownerIds); }
+            else versions = reservations.lockReserved(ownerIds, reservation);
+        }
+        Map<UUID, RagExternalFileSource> externalSources = new HashMap<>();
+        if (!externalIds.isEmpty()) {
+            if (currentRead) {
+                for (UUID extId : externalIds.stream().sorted(Comparator.comparing(UUID::toString)).toList()) {
+                    var ext = externalFileAuthority.findByFileSourceId(extId);
+                    if (ext == null) throw new IllegalStateException("External file source unavailable");
+                    entityManager.refresh(ext,jakarta.persistence.LockModeType.PESSIMISTIC_READ);
+                    externalSources.put(extId, ext);
+                }
+            } else if (reservation == null) {
+                externalFileAuthority.requireEditable(externalIds);
+                for (UUID extId : externalIds) {
+                    var ext = externalFileAuthority.findByFileSourceId(extId);
+                    if (ext == null) throw new IllegalStateException("External file source unavailable");
+                    externalSources.put(extId, ext);
+                }
+            } else {
+                var lockedExt = externalFileAuthority.lockReserved(externalIds, reservation);
+                if (lockedExt.size() != externalIds.size()) throw new RagSourceChangedException();
+                lockedExt.forEach(e -> externalSources.put(e.getFileSourceId(), e));
+            }
+        }
         var locked = sources.findAllByIdInForUpdate(new TreeSet<>(proofs.keySet()));
         if (locked.size() != proofs.size()) throw new IllegalStateException("Source authority is unavailable");
         Map<Long, RagSource> byId = new HashMap<>();
         for (var source : locked) {
             entityManager.refresh(source);
             var expected = proofs.get(source.getId());
-            var owner = versions.require(expected.ownerId());
-            if (owner.deleted() || !owner.sourceType().equals(expected.type()) || owner.sourceVersion() != expected.version()
-                    || owner.consentResetVersion() != expected.reset() || !source.getSourceId().equals(Long.toString(expected.ownerId()))
-                    || !source.getSourceType().name().equals(expected.type())
-                    || source.getClassification() != RagClassification.NON_PRIVATE || source.getAccessState() != RagAccessState.APPROVED
-                    || !Objects.equals(source.getApprovedOwnerResetVersion(), expected.reset())
-                    || source.getAuthorizationEpoch() != expected.epoch() || source.getFieldPolicyVersion() != expected.policy()
-                    || !source.getApprovedFields().equals(expected.fields())) throw new RagSourceChangedException();
+            if ("EXTERNAL_FILE".equals(source.getSourceType().name())) {
+                UUID extId = UUID.fromString(source.getSourceId());
+                var ext = externalSources.get(extId);
+                if (ext == null || !ext.isEligible() || ext.isSnapshotIntegrityFailed()
+                        || ext.getSourceVersion() != expected.version()
+                        || ext.getConsentResetVersion() != expected.reset()
+                        || !source.getSourceId().equals(expected.sourceIdentity())
+                        || source.getClassification() != RagClassification.NON_PRIVATE
+                        || source.getAccessState() != RagAccessState.APPROVED
+                        || !Objects.equals(source.getApprovedOwnerResetVersion(), expected.reset())
+                        || source.getAuthorizationEpoch() != expected.epoch()
+                        || source.getFieldPolicyVersion() != expected.policy()
+                        || !source.getApprovedFields().equals(expected.fields())) {
+                    throw new RagSourceChangedException();
+                }
+                if (!Objects.equals(expected.snapshot().get("expected_selected_revision_id"),
+                            ext.getSelectedRevisionId() == null ? null : ext.getSelectedRevisionId().toString())
+                        || !Objects.equals(expected.snapshot().get("revision_id"),
+                            Objects.toString(ext.getApprovedPendingRevisionId() != null ? ext.getApprovedPendingRevisionId() : ext.getSelectedRevisionId(), null))
+                        || !Objects.equals(expected.snapshot().get("sha256"), ext.getApprovedPendingRevisionId()!=null ? ext.getPendingRevisionHash() : ext.getSelectedRevisionHash())
+                        || !Objects.equals(expected.snapshot().get("byte_length"), ext.getApprovedPendingRevisionId()!=null ? ext.getPendingByteLength() : ext.getSelectedByteLength())
+                        || (ext.getApprovedPendingRevisionId()!=null
+                            && !Objects.equals(ext.getApprovedPendingRevisionId(),ext.getPendingRevisionId()))
+                        || !Objects.equals(source.getFileIdentity(),expected.fileIdentity())
+                        || ext.getAuthorizationEpoch()!=expected.epoch() || ext.getFieldPolicyVersion()!=expected.policy())
+                    throw new RagSourceChangedException();
+            } else {
+                var owner = versions.require(expected.ownerId());
+                if (owner.deleted() || !owner.sourceType().equals(expected.type()) || owner.sourceVersion() != expected.version()
+                        || owner.consentResetVersion() != expected.reset() || !source.getSourceId().equals(Long.toString(expected.ownerId()))
+                        || !source.getSourceType().name().equals(expected.type())
+                        || source.getClassification() != RagClassification.NON_PRIVATE || source.getAccessState() != RagAccessState.APPROVED
+                        || !Objects.equals(source.getApprovedOwnerResetVersion(), expected.reset())
+                        || source.getAuthorizationEpoch() != expected.epoch() || source.getFieldPolicyVersion() != expected.policy()
+                        || !source.getApprovedFields().equals(expected.fields())) throw new RagSourceChangedException();
+            }
             if (admission) {
                 source.updateHashes(expected.contentHash(), expected.fields().contains("description")
                         ? expected.descriptionHash() : source.getDescriptionRevisionHash(), databaseTime());
@@ -319,6 +470,24 @@ public class RagSourceAuthority {
     public java.time.Instant databaseTime() {
         Number micros = (Number) entityManager.createNativeQuery("SELECT CAST(EXTRACT(EPOCH FROM clock_timestamp())*1000000 AS bigint)").getSingleResult();
         return java.time.Instant.ofEpochSecond(micros.longValue() / 1000000, (micros.longValue() % 1000000) * 1000);
+    }
+
+    static List<String> capturedTargetDigests(java.nio.file.Path original) {
+        var names = new TreeSet<String>();
+        // Path syntax only. No traversal, filesystem discovery or original-file read.
+        for (int start=0; start<original.getNameCount(); start++) {
+            String suffix=original.subpath(start,original.getNameCount()).toString().replace('\\','/');
+            names.add(digest(suffix));
+            if (suffix.toLowerCase(Locale.ROOT).endsWith(".md")) names.add(digest(suffix.substring(0,suffix.length()-3)));
+        }
+        if (names.size()>512) throw new IllegalArgumentException("Captured target identity budget exceeded");
+        return List.copyOf(names);
+    }
+
+    static String capturedNameDigest(String name, List<String> targets) {
+        // Preserve previously sealed basename-only proofs; new suffix proofs cannot
+        // be grafted onto them because the independent SQL identity then differs.
+        return targets.isEmpty() ? digest(name) : digest(name+"\n"+String.join("\n",targets));
     }
 
     public static String digest(String value) {

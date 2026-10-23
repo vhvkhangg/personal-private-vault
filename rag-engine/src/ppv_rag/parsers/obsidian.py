@@ -1101,13 +1101,19 @@ def parse_obsidian(
         (v.source_key, v.source_version, v.approved_field, v.text_content) for v in dep_map.values()
     ]:
         checkpoint()
-        supplied += len(text)
-        if supplied > MAX_TEXT_CHARS:
+        if len(text) > MAX_TEXT_CHARS or (
+            source not in bindings and supplied + len(text) > MAX_TEXT_CHARS
+        ):
             raise BufferError("RESOURCE_LIMIT_EXCEEDED: supplied Markdown payloads")
         digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
         binding = (version, field, digest)
-        if source in bindings and bindings[source] != binding:
-            raise MarkdownFailure("MD_CONFLICTING_REVISION")
+        if source in bindings:
+            if bindings[source] != binding:
+                raise MarkdownFailure("MD_CONFLICTING_REVISION")
+            continue
+        # Alias keys identify one immutable supplied S/R. Expansion below still
+        # charges every actually selected occurrence, including repeated embeds.
+        supplied += len(text)
         bindings[source] = binding
     root = _note(content, root_key, source_version, approved_field)
     cache[root_key] = root

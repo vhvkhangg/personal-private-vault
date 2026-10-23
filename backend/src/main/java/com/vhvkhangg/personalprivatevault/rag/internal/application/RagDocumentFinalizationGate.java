@@ -4,6 +4,7 @@ import com.vhvkhangg.personalprivatevault.rag.api.RagBatchFinalizationResult;
 import com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchFinalizeCommand;
 import com.vhvkhangg.personalprivatevault.rag.internal.domain.*;
 import com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.persistence.*;
+import com.vhvkhangg.personalprivatevault.rag.source.RagSourceType;
 import com.vhvkhangg.personalprivatevault.vault.entry.SourceIndexReservations;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
@@ -32,8 +33,9 @@ public class RagDocumentFinalizationGate {
             Map.entry("artifact_hash", "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f"),
             Map.entry("dimensions", 384), Map.entry("tokenizer_version", "hf-tokenizers-0.23.3"),
             Map.entry("tokenizer_artifact_hash", "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8"),
-            Map.entry("parser_version", "ppv-parser-v18.1-pdfplumber-0.11.10"), Map.entry("chunker_version", "structure-first-v18.1"),
-            Map.entry("ocr_pipeline_version", "rapidocr-1.4.4"));
+            Map.entry("parser_version", "ppv-parser-v18.6-d17-html-container-boundaries"),
+            Map.entry("chunker_version", "structure-first-v18.5-compact-source-context"),
+            Map.entry("ocr_pipeline_version", "rapidocr-1.4.4-en-hans-script-admission-v18.2"));
 
     private final RagSourceAuthority authority;
     private final RagJobLeaseRepository leases;
@@ -51,6 +53,8 @@ public class RagDocumentFinalizationGate {
     private final RagPurgeService purge;
     private final EntityManager entityManager;
     private final TransactionTemplate transaction;
+    private final TransactionTemplate drain;
+    private final RagDocumentResultVerifier resultVerifier;
 
     public RagDocumentFinalizationGate(
             RagSourceAuthority authority,
@@ -68,7 +72,8 @@ public class RagDocumentFinalizationGate {
             RagWorkerSupervisor supervisor,
             RagPurgeService purge,
             EntityManager entityManager,
-            PlatformTransactionManager transactions
+            PlatformTransactionManager transactions,
+            RagDocumentResultVerifier resultVerifier
     ) {
         this.authority = authority;
         this.leases = leases;
@@ -87,6 +92,8 @@ public class RagDocumentFinalizationGate {
         this.entityManager = entityManager;
         this.transaction = new TransactionTemplate(transactions);
         this.transaction.setTimeout(15);
+        this.drain=new TransactionTemplate(transactions); this.drain.setTimeout(15);
+        this.resultVerifier=resultVerifier;
     }
 
     public RagBatchFinalizationResult finalizeDocumentBatch(
@@ -128,9 +135,7 @@ public class RagDocumentFinalizationGate {
         String expectedInput = RagSourceAuthority.digest(
                 RagDocumentInput.encode(authority.documentInput(jobId, attemptId, prepared)));
         String expectedScope = RagSourceAuthority.digest(initial.getDependencyManifest());
-        String expectedOutput = RagSourceAuthority.digest("DOCUMENT_V3:" + expectedInput);
-        var generationDigests = new HashMap<Long, String>();
-        prepared.forEach((id, proof) -> generationDigests.put(id, RagSourceAuthority.digest(proof.manifest())));
+        String unsealedOutput = RagSourceAuthority.digest("DOCUMENT_V3:"+expectedInput);
 
         // 2. Positive supervisor verification of stopped worker
         if (!supervisor.isSupervised(jobId)) {
@@ -139,6 +144,43 @@ public class RagDocumentFinalizationGate {
         if (!supervisor.proveStopped(jobId) && !supervisor.stopAndVerify(jobId)) {
             throw new IllegalStateException("Consumer termination is not proven for job: " + jobId);
         }
+
+        // Producer is stopped. Only the audited worker function could insert these rows;
+        // runtime cannot alter them or erase a nonterminal result/seal.
+        String expectedOutput=drain.execute(status -> {
+            authority.lockPreparedBatchAttempt(jobId,attemptId,prepared);
+            String sealed=(String)entityManager.createNativeQuery("SELECT output_digest FROM rag.worker_grants WHERE job_id=:job AND attempt_id=:attempt AND stage_type='DOCUMENT_V3' AND consumed_at IS NOT NULL AND input_digest=:input AND scope_digest=:scope")
+                    .setParameter("job",jobId).setParameter("attempt",attemptId).setParameter("input",expectedInput).setParameter("scope",expectedScope).getSingleResult();
+            if (unsealedOutput.equals(sealed))
+                throw new IllegalStateException("Document result has not been sealed by the producer");
+            return sealed;
+        });
+        String actualDigest=(String)entityManager.createNativeQuery("SELECT rag.document_result_digest(:job,:attempt)")
+                .setParameter("job",jobId).setParameter("attempt",attemptId).getSingleResult();
+        if (!Objects.equals(expectedOutput,actualDigest)) throw new IllegalStateException("Sealed document output was altered");
+        List<RagStagedDocumentOutput> candidate;
+        try { candidate=readCandidate(jobId,attemptId); }
+        catch (RuntimeException malformed) { purge.requireRecovery(jobId); throw malformed; }
+        try {
+            candidate.forEach(this::pipelineIdentity);
+            resultVerifier.verify(jobId,attemptId,authority.documentInput(jobId,attemptId,prepared),candidate);
+        } catch (RuntimeException rejected) {
+            purge.requireRecovery(jobId); throw rejected;
+        }
+        var promoted=new TreeSet<Long>();
+        for (var root:batchRoots.findByJobId(jobId)) {
+            if (candidate.stream().anyMatch(s -> s.getRootKey().equals(root.getRootKey()) && s.isSuccess()))
+                prepared.get(root.getSourceId()).proofs().forEach((id,p) -> {
+                    if ("EXTERNAL_FILE".equals(p.type()) && !Objects.equals(p.snapshot().get("revision_id"),p.snapshot().get("expected_selected_revision_id")))
+                        promoted.add(id);
+                });
+        }
+        var publicationManifests=new HashMap<Long,String>();
+        var generationDigests=new HashMap<Long,String>();
+        prepared.forEach((id,p) -> {
+            String manifest=publicationManifest(p.manifest(),promoted);
+            publicationManifests.put(id,manifest); generationDigests.put(id,RagSourceAuthority.digest(manifest));
+        });
 
         RagBatchFinalizationResult result;
         try {
@@ -152,7 +194,8 @@ public class RagDocumentFinalizationGate {
                 var vaultOwnerIds = issuedScope.vaultOwners();
                 var externalFileIds = issuedScope.externalFiles();
                 var policyMap = new HashMap<Long, RagSource>();
-                sources.findAllById(prepared.keySet()).forEach(source -> policyMap.put(source.getId(), source));
+                var allIds=new TreeSet<Long>(); prepared.values().forEach(p -> allIds.addAll(p.proofs().keySet()));
+                sources.findAllById(allIds).forEach(source -> policyMap.put(source.getId(), source));
 
                 if (lease.isStagingClosed()) {
                     throw new IllegalStateException("Staging is already closed");
@@ -182,12 +225,14 @@ public class RagDocumentFinalizationGate {
                 }
 
                 // (8) Generation / staging / run
-                List<RagStagedDocumentOutput> staged = stagedOutputs.findByJobIdAndAttemptId(jobId, attemptId);
+                List<RagStagedDocumentOutput> staged = readCandidate(jobId,attemptId);
                 Map<String, RagStagedDocumentOutput> stagedByRoot = new HashMap<>();
                 for (var s : staged) {
                     if (stagedByRoot.putIfAbsent(s.getRootKey(), s) != null)
                         throw new IllegalStateException("Duplicate document output");
                 }
+                if (!stagedByRoot.keySet().equals(roots.stream().map(RagBatchRoot::getRootKey).collect(java.util.stream.Collectors.toSet())))
+                    throw new IllegalStateException("Document output roster mismatch");
 
                 Map<String, UUID> publishedGenerations = new LinkedHashMap<>();
                 int publishedCount = 0;
@@ -225,12 +270,14 @@ public class RagDocumentFinalizationGate {
 
                         // Save generation root with exact metadata
                         Map<String, Object> exactManifest = new LinkedHashMap<>();
-                        exactManifest.put("manifest_text", prepared.get(source.getId()).manifest());
+                        exactManifest.put("manifest_text", publicationManifests.get(source.getId()));
+                        exactManifest.put("input_manifest_text", prepared.get(source.getId()).manifest());
+                        exactManifest.put("actual_result_digest", expectedOutput);
                         exactManifest.put("source_id", source.getId());
                         exactManifest.put("domain_id", source.getSourceId());
                         exactManifest.put("source_type", source.getSourceType().name());
                         exactManifest.put("epoch", source.getAuthorizationEpoch());
-                        exactManifest.put("source_version", root.getExpectedSourceVersion());
+                        exactManifest.put("source_version", root.getExpectedSourceVersion()+(promoted.contains(source.getId())?1:0));
                         exactManifest.put("consent_reset_version", source.getApprovedOwnerResetVersion() != null ? source.getApprovedOwnerResetVersion() : 1L);
                         exactManifest.put("field_policy_version", source.getFieldPolicyVersion());
                         exactManifest.put("approved_fields", source.getApprovedFields().stream().sorted().toList());
@@ -259,7 +306,7 @@ public class RagDocumentFinalizationGate {
                             Map<String, Object> struct = (Map<String, Object>) chunkData.getOrDefault("structure_metadata", Map.of());
 
                             List<Float> floats = extractAndValidateFloats(chunkData.get("embedding"));
-                            validateChunk(content, locator, floats);
+                            validateChunk(content, locator, struct, floats);
 
                             if (locator.containsKey("page") && locator.get("page") instanceof Number pNum) {
                                 visitedPages.add(pNum.intValue());
@@ -314,6 +361,22 @@ public class RagDocumentFinalizationGate {
                     externalFileAuthority.release(externalFileIds, lease.getReservationToken());
                 }
 
+                // Promote pending revisions for successful external files after reservation release
+                for (var promotedId : promoted) {
+                        var source = policyMap.get(promotedId);
+                        if (source != null && source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
+                            UUID fileSourceId = UUID.fromString(source.getSourceId());
+                            RagExternalFileSource ext = externalFileAuthority.findByFileSourceId(fileSourceId);
+                            if (ext != null && ext.getPendingRevisionId() != null) {
+                                entityManager.refresh(ext);
+                                ext.promotePendingToSelected(now);
+                                externalFileAuthority.save(ext);
+                                source.updateHashes(ext.getSelectedRevisionHash(), source.getDescriptionRevisionHash(), now);
+                                sources.save(source);
+                            }
+                        }
+                }
+
                 entityManager.flush();
                 entityManager.createNativeQuery("UPDATE rag.runs SET status=:status WHERE job_id=:job")
                         .setParameter("status", terminalStatus)
@@ -323,7 +386,7 @@ public class RagDocumentFinalizationGate {
                 return new RagBatchFinalizationResult(jobId, terminalStatus, publishedCount, failedCount, publishedGenerations);
             });
         } catch (RuntimeException ex) {
-            log.error("Document batch finalization physical COMMIT failed for job: {}", jobId);
+            log.error("Document batch publication failed or its outcome is unknown for job: {}", jobId);
             purge.requireRecovery(jobId);
             throw ex;
         }
@@ -332,6 +395,35 @@ public class RagDocumentFinalizationGate {
             supervisor.forget(jobId);
         }
         return result;
+    }
+
+    private String publicationManifest(String manifest, Set<Long> promoted) {
+        try {
+            var json=new com.fasterxml.jackson.databind.ObjectMapper();
+            var value=json.readTree(manifest);
+            for (var node:value.path("nodes")) {
+                if (!promoted.contains(node.path("source_id").asLong())) continue;
+                var item=(com.fasterxml.jackson.databind.node.ObjectNode)node;
+                long version=node.path("owner_source_version").asLong()+1;
+                item.put("owner_source_version",version);
+                var snapshot=(com.fasterxml.jackson.databind.node.ObjectNode)item.path("snapshot");
+                snapshot.put("source_version",version);
+                snapshot.put("expected_selected_revision_id",snapshot.path("revision_id").asText());
+            }
+            return json.writeValueAsString(value);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException invalid) {
+            throw new IllegalStateException("Invalid publication scope");
+        }
+    }
+
+    private List<RagStagedDocumentOutput> readCandidate(UUID job, UUID attempt) {
+        try {
+            return stagedOutputs.findByJobIdAndAttemptId(job,attempt).stream()
+                    .sorted(Comparator.comparing(RagStagedDocumentOutput::getId)).toList();
+        } catch (RuntimeException invalid) {
+            // JSON numeric overflow and malformed stage data must not escape as payload-bearing parser errors.
+            throw new IllegalStateException("Invalid sealed document result");
+        }
     }
 
     private List<Float> extractAndValidateFloats(Object embObj) {
@@ -357,13 +449,14 @@ public class RagDocumentFinalizationGate {
 
     private Map<?, ?> pipelineIdentity(RagStagedDocumentOutput stage) {
         if (!(stage.getResourceReport().get("pipeline_identity") instanceof Map<?, ?> identity)
+                || identity.size() != PIPELINE.size()+1
                 || !PIPELINE.entrySet().stream().allMatch(e -> Objects.equals(e.getValue(), identity.get(e.getKey())))
                 || !Set.of("CPU", "CUDA").contains(identity.get("provider")))
             throw new IllegalStateException("Unverified document pipeline identity");
         return identity;
     }
 
-    private void validateChunk(String content, Map<String, Object> locator, List<Float> floats) {
+    private void validateChunk(String content, Map<String, Object> locator, Map<String, Object> struct, List<Float> floats) {
         if (content == null || content.isBlank()) {
             throw new IllegalStateException("Document chunk content must not be blank");
         }
@@ -422,8 +515,52 @@ public class RagDocumentFinalizationGate {
             if (!(locator.get("line_end") instanceof Number endNum) || endNum.intValue() < num.intValue()) {
                 throw new IllegalStateException("Markdown/TXT locator line_end must be >= line_start");
             }
+            if (locator.containsKey("char_start")) {
+                if (!(locator.get("char_start") instanceof Number cs) || cs.intValue() < 0) {
+                    throw new IllegalStateException("Markdown locator char_start must be >= 0");
+                }
+                if (locator.containsKey("char_end")) {
+                    if (!(locator.get("char_end") instanceof Number ce) || ce.intValue() < cs.intValue()) {
+                        throw new IllegalStateException("Markdown locator char_end must be >= char_start");
+                    }
+                }
+            }
         } else {
             throw new IllegalStateException("Document chunk locator must specify page, worksheet, paragraph_index, or line_start");
+        }
+
+        if (struct != null && struct.get("constituent_metadata") instanceof List<?> constituents) {
+            for (Object cObj : constituents) {
+                if (cObj instanceof Map<?, ?> cMap && "block-local-references-v1".equals(cMap.get("source_context_encoding"))) {
+                    Object locDefsObj = cMap.get("locator_definitions");
+                    if (!(locDefsObj instanceof List<?> locDefs)) {
+                        throw new IllegalStateException("Compact metadata must include locator_definitions list");
+                    }
+                    int defCount = locDefs.size();
+                    if (cMap.get("nodes") instanceof List<?> nodes) {
+                        for (Object nObj : nodes) {
+                            if (nObj instanceof Map<?, ?> nMap && nMap.get("locator_ref") instanceof Number ref) {
+                                int r = ref.intValue();
+                                if (ref.doubleValue()!=r || r < 0 || r >= defCount) {
+                                    throw new IllegalStateException("Invalid locator_ref in compact node: " + r);
+                                }
+                            }
+                        }
+                    }
+                    for (String key : List.of("source_cells", "cells", "tables")) {
+                        if (cMap.get(key) instanceof List<?> list) {
+                            for (Object item : list) {
+                                if (item instanceof Map<?, ?> map && map.get("locator_ref") instanceof Number ref) {
+                                    int r = ref.intValue();
+                                    if (ref.doubleValue()!=r || r < 0 || r >= defCount) {
+                                        throw new IllegalStateException("Invalid locator_ref in compact " + key + ": " + r);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         if (floats == null || floats.size() != 384) {
