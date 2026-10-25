@@ -4,6 +4,10 @@ globs: "docs/**/*.md, docs/**/*.dbml, docs/**/*.dsl, docs/**/*.drawio"
 description: "Documentation synchronization and frozen-baseline rules."
 ---
 
+**CURRENT DOCUMENTATION CONTRACT:** Use `docs/templates/` and [Owner policy](../../docs/workflow/current-owner-delivery-policy.md) for current vs dated-historical files, per-slice review, per-phase final review, post-P19/P22 milestone reviews, later two RAG/Backend audits and severity. Never rewrite immutable historical receipts; Owner retains `logs/`. Document closeout as changed-file package without patch scripts.
+
+
+
 # Documentation Rule
 
 - Documentation is written in English.

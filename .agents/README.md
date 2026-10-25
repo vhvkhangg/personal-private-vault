@@ -1,78 +1,25 @@
-# Agent Customization
+# Agents, skills and rules — current owner workflow
 
-## Phase 3+ workflow
+**Phase 17 FROZEN; Phase 18 CLOSED; Phase 19 NOT AUTHORIZED.** Canonical: [Owner Delivery Policy](../docs/workflow/current-owner-delivery-policy.md); [ACTIVE handoff](../docs/implementation/handoffs/ACTIVE.md). Older agent status/runbook text remains accessible in the Git history, not as active permission.
 
-1. ChatGPT prepares next-phase docs/tooling.
-2. Codex `$codex-pre-handoff-review`.
-3. Owner commits/pushes preparation after `READY FOR HANDOFF`.
-4. Codex `$codex-create-handoff`.
-5. Antigravity `/agents` → `backend-implementer`.
-6. Antigravity `/antigravity-implement-handoff`.
-7. Codex `$codex-final-review`.
-8. Owner commit/push.
-9. ChatGPT closeout + next preparation.
-10. Historical milestone reviews applied after Phase 3/6/9/12. **Closed Phase 15 audit workflow (history only; not for current RAG phases):**
-    `$codex-pre-handoff-review` returned `READY FOR AUDIT`, the owner committed preparation, then `$codex-backend-audit` ran.
-    It supersedes the former post-15 milestone.
+## Roles and gates
 
-**Current gate (2026-10-18):** [ADR-0022](../docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md) is OWNER_APPROVED / CANONICALLY_SYNCHRONIZED for external snapshots/whole-file/NO_CHANGE. [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) remains CHANGES_REQUESTED / STOPPED / INCOMPLETE / NOT_VERIFIED, documentation-only. Live ingestion DISABLED / DEFERRED; snapshot ingestion inactive. G1–G4 and FR18-1–11 OPEN; 2/2 Antigravity rounds exhausted, no automatic implementation loop. Next: independent documentation synchronization review. Frozen Phase 17 and unrelated skill/workflow rules remain unchanged.
+- ChatGPT clarifies Owner decisions and prepares docs; Codex pre-handoff review + precise handoff; **Antigravity implements and always self-reviews**; Codex independently reviews **each slice**, conducts **phase final review** after all slices, **RAG milestones after P19 and P22**, then RAG-wide and RAG+Backend audit when authorized.
+- Remediation: maximum **three** Antigravity correction + independent Codex re-review rounds **per active slice**. Initial implementation/self-review and initial Codex review do not consume this budget. Codex takeover is last resort with separate independent reviewer.
+- CRITICAL/HIGH/MEDIUM open defects or mandatory evidence NOT_VERIFIED block `READY_FOR_OWNER_COMMIT`; LOW/INFO backlog is consolidated at milestone/audit.
+- Only Owner runs Git stage/commit/push/tag/PR publication. Agents do not perform these operations or a separate staged-tree review. Project hook/execpolicy are not proof against every shell/connector bypass until actual Windows integration verification.
 
-See `docs/workflow/owner-phase-workflow.md`.
+## Entry points
 
-## Agents
+- Antigravity: `.agents/agents/backend-implementer/agent.md`, `.agents/skills/antigravity-implement-handoff/SKILL.md` and mandatory `.agents/skills/antigravity-self-review/SKILL.md`.
+- Optional **read-only** targeted architecture audit: `.agents/agents/architecture-auditor/agent.md`; not an automatic step for every slice.
+- Codex: `codex-pre-handoff-review`, `codex-create-handoff`, `codex-final-review` (slice and phase final), `codex-milestone-review` and `codex-review-coverage`. Historical `codex-backend-audit` remains for accepted Phase 15; takeover only after three failed correction reviews.
+- Reuse actual applicable Java/Python/SOLID, design-pattern, Modulith, persistence, security and testing skills. Do not add an agent or subsystem because it appears in an old ADR.
+- Documentation authoring: `.agents/skills/documentation-writing/SKILL.md`, `docs/templates/`. Complete skill/rule/agent inventory: [maintenance harness audit](../docs/implementation/maintenance/2026-10-25-post-phase18-simplification/harness-review-2026-10-25.md).
 
-- `backend-implementer` (shared Java + Python RAG implementation; no extra agent per language unless a real role boundary appears)
-- `architecture-auditor`
+## Tools status
 
-Reuse them by default. Add another agent only for a materially different role/tool/permission boundary.
-
-## Engineering skills
-
-- `java-spring-coding-standards`
-- `pragmatic-solid-design`
-- `reuse-and-consistency`
-- `design-pattern-selection`
-- `modular-monolith-architecture`
-- `jpa-postgresql-persistence`
-- `backend-testing`
-- `authentication-security`
-- `people-domain-modeling`
-- `fiction-domain-modeling`
-- `film-domain-modeling`
-- `media-domain-modeling`
-- `location-domain-modeling`
-- `account-domain-modeling`
-- `knowledge-domain-modeling`
-- `collection-domain-modeling`
-- `feed-import-workflow-modeling`
-- `finance-journal-personal-domain-modeling`
-- `global-search-domain-modeling`
-- `rest-api-http-contracts`
-- `backend-integration-portability-storage`
-
-- `local-rag-engineering` — approved Phase 17–22 scope-aware local RAG constraints
-- `python-rag-coding` — Python/FastAPI/OCR/parser/ML glue and compatible locked tooling
-- `bounded-command-execution` — executable 20-minute default / 35-minute future full-suite watchdog
-
-## Workflow/review skills
-
-- `codex-review-coverage` — shared 29-dimension evidence checklist (folder structure, SOLID/patterns, API/common placement, concurrency, security, performance, AI quality)
-- `codex-implementation-takeover` — after two failed Antigravity remediation/re-review cycles, separate from independent reviewer
-- `codex-pre-handoff-review`
-- `codex-create-handoff`
-- `antigravity-implement-handoff`
-- `codex-final-review`
-- `codex-milestone-review`
-- `codex-backend-audit`
-- `graphify-context`
-- `architecture-change`
-- `database-migration-review`
-
-## Hooks
-
-Reuse the repository safety hook. Add phase-specific hook logic only for a genuinely new command/security need.
-
-## Graphify
-
-Use `scripts/setup-graphify.ps1` and `scripts/refresh-graphify.ps1`.
-Generated `graphify-out/` is navigation context only.
+- `.agents/hooks.json` calls `hooks/repository_safety.py`; existing hook and tests remain unchanged in Maintenance A; actual Windows interception and complete owner-Git denial still require Maintenance B tests.
+- `scripts/run-bounded-command.py`: **current** normal 1,200s/full-suite 2,100s fixed waits; approved **future** default 300s, preauthorized complex work <=2,100s, diagnose *every* 300s of no output/progress. **Not yet implemented**.
+- `logs/` is ignored by Git but Owner explicitly keeps all its existing contents unchanged.
+- Graphify is optional navigation context, not authority or a prerequisite for every task.

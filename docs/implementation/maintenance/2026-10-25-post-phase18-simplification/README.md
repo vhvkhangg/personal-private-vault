@@ -1,0 +1,19 @@
+# Post-Phase-18 — Maintenance A Documentation & Harness Governance
+
+**Status: READY_FOR_OWNER_COMMIT — independent status-contract final re-review, 2026-10-26.** The [final corrective re-review](reviews/2026-10-26-maintenance-a-status-contract-final-re-review.md) verifies MA-A01 and MA-A02 CLOSED, with no blocking findings remaining. MA-A03–MA-A06 remain LOW/OPEN in the consolidated milestone/audit backlog. The [earlier corrective re-review](reviews/2026-10-26-maintenance-a-independent-corrective-re-review.md) and [original independent review](reviews/2026-10-25-maintenance-a-independent-final-review.md) remain historical and unchanged. This is review-status synchronization only and authorizes no new implementation or handoff activation. The Owner approved all material policy choices. This package implements current documentation and declarative skill/rule guidance only; it neither reopens accepted Phase 17/18 code nor starts Phase 19. Confirmed baseline: attached `personal-private-vault(20261025-120122).zip`, which records Phase 18 D27 Owner closeout and `NO_ACTIVE_HANDOFF`; checked selected active backend/RAG sources against GitHub `main` `217cb5d24bf7a62d7348d31838a7a79b01a524bd`.
+
+- [Authoritative current policy](../../../workflow/current-owner-delivery-policy.md): independently reviewed **each slice**, then **phase final review**, after every three completed RAG phases **milestone** (P19 and P22), then RAG-wide audit and RAG+Backend audit. Antigravity self-review **always**, but not counted as an independent review.
+- [Owner decisions resolved](owner-decision-docket.md): single user, future Markdown QA and Fiction/Film recommendations without Ideaverse-specific connector; three rounds of Antigravity remediation; Critical/High/Medium block, Low/Info backlog.
+- [Harness inventory](harness-review-2026-10-25.md): all skill/rule/agent/hook/config paths inventoried; changed paths and residual risks documented.
+- [Historical RAG decision audit](rag-docs-decision-audit.md) and [non-destructive cleanup disposition](planned-doc-cleanup.md).
+- `docs/templates/` standardized; no new operational agents or unnecessary backend abstractions.
+
+## Boundaries
+
+1. New `.codex/rules/owner-git.rules` adds **preview direct-token command-deny rules**, NOT a complete host-enforced ban. Actual Codex CLI behavior on the Owner's Windows must be independently checked before claiming guard enforcement; shell wrappers, config bypass, Git CLI options and app tools remain residual paths. Current Antigravity `hooks.json` and `repository_safety.py` have not been modified or integration-tested in the real Antigravity CLI by this package. Do not disable existing safety hook.
+2. Existing `scripts/run-bounded-command.py` and its tests remain unchanged; its hard waits (1,200s normal/2,100s full) are **still live**, and no progress-aware 300s inactivity diagnostics exist. **Maintenance B** belongs to Antigravity implementation and independent Codex review.
+3. Existing `logs/` remains untouched. Historical D17 human-adjudication display/forms and D20 patch receipt are **retained** because approved historical package manifests and evidence JSON refer to exact paths/hashes. No automatic old-file deletion, renaming, or evidence rewriting.
+4. Only new/changed files are in the delivery ZIP. Owner does normal Git add/commit/push; no separate staged-tree review gate. No publication, file mutation or permission claim is made on the Owner's machine.
+5. Workflow changes do not themselves authorize future RAG Phases 19–22, model installation, indexing activation, new OCR, R7, GPU or LLM judge functionality.
+
+**Next implementation boundary:** after the Owner applies/publishes this docs-only package, **Maintenance B** may be separately authorized to Antigravity for real watchdog/Git-hook/tool-output corrections; review with Codex. Do not treat this package as a tested runner fix or Phase 19 preparation approval.

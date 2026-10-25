@@ -1,9 +1,12 @@
 ---
 name: codex-create-handoff
-description: Create a concise implementation handoff for Antigravity from an owner-approved current scope without writing production code.
+description: Create a detailed, bounded, testable implementation handoff for Antigravity from an owner-approved slice without writing production code.
 ---
 
 # Codex Create Handoff
+
+**CURRENT HANDOFF STANDARD:** Read [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) and `docs/templates/handoff.md`. Create one **detailed but finite** handoff **per approved slice**, including every Owner-visible acceptance behavior, examples, expected errors, privacy/consent negatives, affected code and reusable prior methods, and tests; use shortest sufficient implementation, with explicit exclusions and no hypothetical enterprise stack. Codex plans, Antigravity implements then **must self-review**, independent Codex reviews each slice and the entire phase once complete. Three bounded Antigravity remediation/re-review rounds maximum. Never auto-authorize Phase 19 from closed Phase 18, historical rows or a planning proposal. Accepted CPU-only `.md` historical P18 contracts remain frozen, with no automatic R7/GPU/OCR demand.
+
 
 Invoke with `$codex-create-handoff`. Codex plans the slice; it does not implement production code here.
 
@@ -40,7 +43,7 @@ If it is missing, `CHANGES_REQUESTED`, or still awaiting review, stop and instru
 A maintenance handoff may be created without a numbered phase pre-handoff gate only when all of these are true:
 
 - a canonical maintenance scope exists under `docs/implementation/maintenance/`;
-- its status explicitly says `APPROVED FOR HANDOFF`;
+- its status explicitly says `READY_FOR_HANDOFF`, as emitted by `$codex-pre-handoff-review` for the approved implementation-maintenance scope; review readiness is not Owner authorization, which must be checked separately below;
 - the owner explicitly approved that maintenance scope;
 - the scope names the frozen phase(s), exact defects, permitted targets, non-goals, and test/evidence contract;
 - no other live handoff exists.
@@ -59,11 +62,11 @@ Do not merge preparation review and handoff creation into one step.
 5. Inspect `git status --short` and `git diff --stat`.
 6. Use Graphify for targeted navigation when available; verify facts in canonical files.
 7. Read only files needed for the approved slice.
-8. Write `docs/implementation/handoffs/ACTIVE.md` using `assets/handoff-template.md`.
+8. Write `docs/implementation/handoffs/ACTIVE.md` using `assets/handoff-template.md` and the current `docs/templates/handoff.md`; the handoff must be explicit, testable and detailed where needed.
 9. Set `Status: READY_FOR_IMPLEMENTATION`.
 10. Include targets, invariants, non-goals, acceptance criteria, test/evidence contract, frozen references,
     relevant engineering skills, and known risks.
-11. Keep the handoff concise.
+11. Keep the handoff **complete and executable without guesswork**, but do not paste unrelated historical logs or redesign accepted mechanisms.
 
 ## Review-to-handoff traceability
 
@@ -71,7 +74,7 @@ Read the latest phase-specific Codex preparation report **and** shared [`codex-r
 
 ## Minimal handoff and remediation budget — future RAG
 
-Read [proportional delivery policy](../../../docs/workflow/rag-phase-delivery-guardrails.md) and the pre-handoff KEEP/SIMPLIFY/DEFER decisions. Keep the handoff a bounded vertical slice of **that** numbered phase, no runtime features from later phases, no duplicate job engine or speculative adapter framework. List MUST acceptance, explicit optional/deferred items, changed paths, actual skill/agent choices, a few risk-based negative cases and the single final full-suite gate. A generic 29-dimension rubric does not make new features mandatory. Specify 20-minute default and 35-minute future-phase full-suite-only watchdog, and remediation counter initialized at zero. Codex takeover eligibility begins **only after two Antigravity remediation plus independent re-review cycles**, not automatically on the first finding.
+Read [proportional delivery policy](../../../docs/workflow/rag-phase-delivery-guardrails.md) and the pre-handoff KEEP/SIMPLIFY/DEFER decisions. Keep the handoff a bounded vertical slice of **that** numbered phase, no runtime features from later phases, no duplicate job engine or speculative adapter framework. List MUST acceptance, explicit optional/deferred items, changed paths, actual skill/agent choices, a few risk-based negative cases and the **approved slice-specific risk-based verification gate**. Require a full application suite only when that slice's approved contract explicitly mandates it or a demonstrated integration/source-drift risk warrants it; otherwise focused checks and an independent slice review suffice. Never waive an existing mandatory frozen or explicitly approved phase-specific gate. A generic 29-dimension rubric does not make new features mandatory. Specify current runner truth: old 20/35-minute executable caps still apply until Maintenance B; planned normal 5-minute hard cap and approved large/complex up-to-35-minute cap with 5-minute inactivity diagnostics are NOT YET IMPLEMENTED. Remediation counter starts at zero; takeover only after **three** independently blocked Antigravity remediation/re-review rounds, not after a single review.
 
 ## Engineering skills
 
@@ -79,7 +82,7 @@ Reference only relevant skills:
 `java-spring-coding-standards`, `pragmatic-solid-design`, `reuse-and-consistency`,
 `design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `backend-testing`, plus any phase/domain-specific skill approved by the preparation gate.
 For authorized RAG Phases 18–22, explicitly include `python-rag-coding` for Python changes, `local-rag-engineering` for Java/Python source safety and `bounded-command-execution` for long verification. State the selected implementer (`backend-implementer`) and independent reviewer path, not a redundant Python agent.
-For Phase 18, make the exact approved P18-03/P18-04 **single final Java physical COMMIT / file-level outcomes** amendment an entry precondition, not an assumption; require Windows R7 live-file proof and independent peak **system RAM** vs **VRAM** evidence. Do not build a handoff while a contract decision remains open.
+**Historical Phase 18 only:** P18-03/P18-04 single trusted Java publication, Phase 18 D24 `.md` + D26 CPU-only acceptance remain frozen. Do **not** require live-file R7, GPU VRAM or OCR for new work absent explicit Owner authorization. Do not build a handoff while a material contract decision remains open.
 
 Do not commit, push, tag, or modify production implementation.
 

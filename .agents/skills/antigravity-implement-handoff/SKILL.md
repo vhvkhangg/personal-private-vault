@@ -5,6 +5,9 @@ description: Implement the active Codex handoff, write tests, iterate to green, 
 
 # Antigravity Implement Handoff
 
+**MANDATORY CURRENT LOOP:** Read [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) and the current approved slice. Implement **only** that slice; focused tests first; always invoke [`antigravity-self-review`](../antigravity-self-review/SKILL.md) after implementation and before marking `IMPLEMENTED_AWAITING_CODEX_REVIEW`. The self-review does **not** count as Codex review or a remediation round. Independent Codex **slice review** follows each slice. All CRITICAL/HIGH/MEDIUM findings block; LOW/INFO are deferred to milestone/audit backlog. Permit up to **3** Antigravity corrective + independent re-review rounds **per active slice/handoff** (initial implementation/review do not count). No unapproved R7/GPU/OCR/LLM judge or Phase 19. Watchdog runtime remains old until Maintenance B; never pretend the 5-minute inactivity diagnostic already works.
+
+
 Use `/antigravity-implement-handoff`.
 
 For substantial backend work select `backend-implementer` from `/agents`.
@@ -39,14 +42,15 @@ Apply relevant skills progressively:
 
 1. Read exact handoff references.
 2. Use Graphify before broad exploration when available; verify source facts.
-3. Implement only approved targets. For Phase 18 preserve per-file outcome semantics, **one final trusted Java physical COMMIT**, source-set reservations and the R7 external-file disabled-by-default gate until proven. Record peak **system RAM** separately from **GPU VRAM** for resource evidence; never assume model/limit choices before target-host measurement.
+3. Implement only approved targets. Preserve all accepted source/permission and publication invariants for changed code. Phase 18 is frozen under D26 CPU-only; do not demand unapproved future R7/GPU/OCR mechanisms or mutate frozen behavior silently.
 4. Add/update tests.
 5. Iterate focused tests.
-6. Do not rerun an unchanged failing full suite for a lucky PASS; use focused evidence and diagnose the failure. Two-remediation-round policy is independent of raw test retry count.
-7. Run final verification after convergence through `scripts/run-bounded-command.py` when a long external command is expected (ordinary 1,200 s; required future-phase full suites up to 2,100 s if supported by the host CLI).
+6. Do not rerun an unchanged failing full suite for a lucky PASS; use focused evidence and diagnose the failure. Three-remediation-round policy is independent of raw test retry count.
+7. Run justified final verification after convergence through the **currently implemented** `scripts/run-bounded-command.py` (normal 1,200s / full-suite 2,100s **until Maintenance B is implemented**). Do not claim 5-minute inactivity monitoring exists yet.
 8. Record exact command/result/test counts.
-9. Refresh Graphify with `scripts/refresh-graphify.ps1` after meaningful source changes when installed.
-10. Mark `IMPLEMENTED_AWAITING_CODEX_REVIEW` and summarize changes/evidence/risks.
+9. Run mandatory `/antigravity-self-review` and resolve self-found issues before Codex; do not count it as an independent review or remediation round.
+10. Refresh Graphify with `scripts/refresh-graphify.ps1` after meaningful source changes when installed.
+11. Mark `IMPLEMENTED_AWAITING_CODEX_REVIEW` and summarize changes/evidence/risks.
 
 Do not commit, push, tag, or create/merge a PR.
 
@@ -58,7 +62,7 @@ Every invocation must end with a concise **Next step:** statement.
   `$codex-final-review`;
 - blocked implementation → state the exact blocker and whether the owner/Codex must clarify or amend the handoff;
 - remediation round 1 complete → tell the owner to rerun `$codex-final-review`;
-- remediation round 2 complete → tell the owner to rerun independent `$codex-final-review`, and if still blocked to switch to `$codex-implementation-takeover`;
-- after round 2 is independently blocked → stop Antigravity and request a Codex implementation takeover, not a third Antigravity attempt.
+- remediation round 2 complete → independent `$codex-final-review`; if still blocked, Antigravity may do the **third** authorized remediation;
+- remediation round 3 complete → independent `$codex-final-review`; if still blocked, stop Antigravity and request bounded `$codex-implementation-takeover` with Owner visibility. No fourth automatic attempt.
 
 Never leave the owner to infer the next workflow action.

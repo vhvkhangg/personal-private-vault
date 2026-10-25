@@ -5,6 +5,9 @@ description: Final-review an implemented active handoff or explicit owner-approv
 
 # Codex Final Review
 
+**CURRENT REVIEW CADENCE:** [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) governs. For **each completed slice**, do one independent Codex slice review; after all slices in a phase, do **one phase final review** consolidating prior accepted evidence and only re-running relevant checks for drift. Also review at milestones after P19/P22 and separate RAG-wide / RAG+Backend audits when authorized. An implementer self-review is **not** an independent review. CRITICAL/HIGH/MEDIUM OPEN/mandatory NOT_VERIFIED block; LOW/INFO are tracked for milestone/audit and do not force per-slice rework. No new feature/pattern can be imposed as a finding without Owner need or reproducible defect. Max **three** Antigravity remediation + independent re-review rounds on active slice before possible Codex takeover. Never require a separate staging-review session; Owner alone performs normal Git add/commit/push.
+
+
 Invoke with `$codex-final-review`. Codex is review-only.
 
 ## Review-mode gate
@@ -13,9 +16,9 @@ Invoke with `$codex-final-review`. Codex is review-only.
 
 Use only when `docs/implementation/handoffs/ACTIVE.md` is `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 
-### Maintenance/governance mode
+### Maintenance/governance, phase-final and audit mode
 
-Use only for an explicit owner-approved scope document. A frozen phase may be touched only where that scope says so.
+Use only for explicit Owner-approved maintenance scope, phase-final aggregation of previously independently reviewed and published slices, or explicitly authorized audit. A frozen phase may be touched only where that scope says so. Phase-final is not a second final review of the same uncommitted slice.
 
 ### No valid mode
 
@@ -37,7 +40,7 @@ Apply the relevant review skills:
 
 ## Mandatory shared coverage gate
 
-Use [`codex-review-coverage`](../codex-review-coverage/SKILL.md) as a **29-dimension evidence ledger**, in addition to the targeted rules below. In particular perform an actual recursive changed-package/folder inspection, compare `ApiResponse` and other shared transport abstractions against accepted ADR-0016 (do not demand an arbitrary `common` module), and inspect exception/interface/enum/command/view grouping and coupling. Every dimension must be PASS/FINDING/N/A/NOT_VERIFIED with rationale and code or test evidence where applicable. For RAG, require live source-commit guards and local-only worker/security integration tests **only for changed/enabled capabilities**. Require external-file handle/identity proof when the active phase enables actual file ingestion; do not demand proofs for Phase 17-disabled future capabilities.
+Use [`codex-review-coverage`](../codex-review-coverage/SKILL.md) as a **risk-applicable checklist** (record irrelevant categories as a compact N/A group; no artificial 29 independent gates), in addition to the targeted rules below. In particular perform an actual recursive changed-package/folder inspection, compare `ApiResponse` and other shared transport abstractions against accepted ADR-0016 (do not demand an arbitrary `common` module), and inspect exception/interface/enum/command/view grouping and coupling. Every dimension must be PASS/FINDING/N/A/NOT_VERIFIED with rationale and code or test evidence where applicable. For RAG, require live source-commit guards and local-only worker/security integration tests **only for changed/enabled capabilities**. Require external-file handle/identity proof when the active phase enables actual file ingestion; do not demand proofs for Phase 17-disabled future capabilities.
 
 ## Mandatory final-review dimensions
 
@@ -167,8 +170,10 @@ If no blocking finding remains:
 
 Every invocation must end with a concise **Next step:** statement derived from the reviewed scope.
 
-- `CHANGES_REQUESTED` → if two Antigravity remediation/re-review rounds are already exhausted, direct the owner to `$codex-implementation-takeover` in a separate implementation session; otherwise back to Antigravity `/antigravity-implement-handoff` (or
-  `/antigravity-test-slice` only when the review explicitly requires test-only remediation);
+- `CHANGES_REQUESTED` → **route by review mode**, never automatically through `ACTIVE.md`:
+  - **Documentation/governance-only maintenance with `NO_ACTIVE_HANDOFF`:** return precise blocking findings to **ChatGPT**, the approved documentation owner, for a bounded file correction. Keep the review/status under the canonical maintenance scope, then rerun independent `$codex-final-review` there. Do **not** invoke Antigravity implementation/test-slice or create/activate a handoff.
+  - **Authorized implementation slice (including maintenance tooling with a valid active implementation handoff):** return to Antigravity `/antigravity-implement-handoff`, or `/antigravity-test-slice` only for expressly test-only scope; require self-review and independent re-review. After all **three** correction/re-review rounds are independently blocked, escalate to Owner for a separately bounded `$codex-implementation-takeover` decision. No automatic takeover.
+  - **Phase-final or audit without an active implementation handoff:** record findings at that approved review scope and request an explicit Owner remediation disposition. Do not infer a new slice or feature-phase authorization.
 - `READY FOR OWNER COMMIT` → state the scope-specific next gate:
   - Phase 15 audit remediation → **do not commit yet**; rerun `$codex-backend-audit` for repository-wide closure and
     commit only after `BACKEND_AUDIT_READY`;

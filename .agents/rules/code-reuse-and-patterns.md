@@ -3,6 +3,10 @@ trigger: model_decision
 description: "Apply when adding behavior that may duplicate an existing rule, introducing shared helpers/abstractions, or choosing a design pattern."
 ---
 
+**SIMPLIFY BY DEFAULT:** Before adding abstraction, ask if an existing single-user module function suffices. Antigravity must self-review for unnecessary patterns; Codex pre-handoff must reject unsolicited mechanisms before implementation. Accepted privacy/data-integrity guarantees are kept. See [Owner policy](../../docs/workflow/current-owner-delivery-policy.md).
+
+
+
 # Code Reuse and Pattern Rule
 
 Before introducing a new implementation of an existing-looking business capability:

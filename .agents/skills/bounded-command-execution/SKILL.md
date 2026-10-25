@@ -5,6 +5,9 @@ description: Run potentially long Java/Python build, test, OCR and benchmark com
 
 # Bounded Command Execution — Windows first
 
+**MAINTENANCE B NOT YET IMPLEMENTED.** Approved forward execution policy in [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md): default 300s wall-time hard cap; pre-approved complicated/large-test commands up to 2,100s; after 300s **without output/progress**, diagnose logs, child CPU/I/O/thread and test-report movement before deciding the owned process tree is hung. Do not kill merely because a valid long test is quiet. **Current script still waits with fixed 1,200/2,100s caps, no liveness monitor.** Until a separate Antigravity implementation and independent Codex review replace it, call only the existing working runner and report its real limits; no phase historical receipt is rewritten. Console short, full raw output/receipts preserved in ignored `logs/` (Owner decided keep every existing log).
+
+
 For Phases 18–22, prefer `scripts/run-bounded-command.py` for potentially long-running commands. A prose instruction alone does **not** automatically interrupt an external process; actually launch the command through the watchdog.
 
 - Ordinary commands: **at most 1,200 seconds (20 minutes)**. For explicitly required **full test suites only**, the owner authorizes up to **2,100 seconds (35 minutes)** using `--profile full-suite`.

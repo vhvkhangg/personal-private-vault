@@ -5,6 +5,9 @@ description: Review next-phase docs, roadmap, agents, skills, rules, hooks, modu
 
 # Codex Pre-Handoff Review
 
+**FORWARD SCOPE GATE (2026-10-25):** Follow [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md). Phase 19 is NOT AUTHORIZED. Before declaring READY FOR HANDOFF, compare **all Owner-visible functions** against the simplest reusable mechanism and list KEEP/REUSE/SIMPLIFY/REMOVE/DEFER, implementation/verification effort, required approvals and explicit non-goals. Ask material decisions together before implementation; no automatic R7/OCR/GPU/judge, Markdown-note recommendation, or Ideaverse integration. Plan small separately committable slices; Antigravity self-review is mandatory; slice Codex review after each slice; phase final Codex review after all slices; milestone after RAG P19/P22; then two future audits. CRITICAL/HIGH/MEDIUM open findings block. New workflow has **three** Antigravity remediation/re-review rounds. Historical phase documents are not active handoff authority.
+
+
 Invoke with `$codex-pre-handoff-review`.
 
 This is a review-only preparation gate. Do not write production code and do not create the implementation handoff.
@@ -13,18 +16,21 @@ This is a review-only preparation gate. Do not write production code and do not 
 
 The Phase 15 audit-first special path is **historical**, not a current phase-review mode. Its original `READY FOR AUDIT` and `$codex-backend-audit` steps are preserved in `docs/implementation/phase-15/`, `docs/workflow/owner-phase-workflow.md` and the dedicated `$codex-backend-audit` skill. **Do not reopen Phase 15 or reissue `READY FOR AUDIT` during a new RAG phase.** The old branch appeared here to support the initial Phase 15 audit workflow; it is now removed from this active pre-handoff skill to prevent choosing the wrong gate.
 
-## Preconditions
+## Preconditions — select the approved review mode first
+
+### Numbered implementation phase
 
 - Prior required implementation phase is committed/pushed and frozen. **RAG sequence exception:** P-17 needs frozen Phase 15 `BACKEND_AUDIT_READY` (Phase 16 deferred); P-18 through P-22 each require the immediately preceding **RAG phase** frozen. Phase 16 Frontend is reviewed only when the owner separately starts it after Phase 22. Verify proposed ADR-0019, the [RAG multi-phase plan](../../../docs/implementation/rag-phase-plan.md), and no simulated Phase 16 completion. The roadmap's active approved phase governs which phase gets the next review.
 - `docs/implementation/handoffs/ACTIVE.md` is `NO_ACTIVE_HANDOFF`.
 - Owner approved the next phase concept.
-- Next phase has a `README.md` and `preparation-review.md`.
+- The approved next phase has a `README.md` and `preparation-review.md`.
+- At a milestone boundary, including completed RAG Phase 19 or 22, the immediately preceding milestone review must be `MILESTONE_READY`. Otherwise stop and route to `$codex-milestone-review`.
 
-## Milestone prerequisite
+### Explicit Owner-approved maintenance preparation
 
-When the immediately preceding implementation phase is 3, 6, 9, or 12, its milestone review must be
-`MILESTONE_READY` before this pre-handoff review may run. Otherwise **STOP** and instruct the owner to run or
-remediate `$codex-milestone-review`.
+- Verify the Owner's actual approval and the canonical scope under `docs/implementation/maintenance/`; inspect its `README.md` or decision record, permitted files, exclusions, expected evidence and named documentation/implementation owner. Do not infer authorization from a historical finding or a future phase plan.
+- Review only that maintenance scope. A **documentation/governance-only** maintenance review may run with `ACTIVE.md = NO_ACTIVE_HANDOFF`; it must not create an implementation handoff or make Phase 19 active. If the scope calls for production/tooling implementation, keep its eventual implementation handoff separately subject to `$codex-create-handoff` authorization and the active-handoff rules.
+- Numbered-phase `README.md`/`preparation-review.md`, predecessor-phase completion and milestone prerequisites **do not apply** to a maintenance-only review. Reject scope conflicts or an unrelated live handoff rather than inventing a numbered phase.
 
 ## Review dimensions
 
@@ -55,34 +61,29 @@ Apply [owner-approved efficient delivery policy](../../../docs/workflow/rag-phas
 
 Do not merely mention "overengineering": produce a short **KEEP / SIMPLIFY / DEFER / REJECT / OWNER DECISION REQUIRED** matrix for each major feature, API, dependency, evaluation and benchmark obligation. Trace every mandatory check to owner needs, approved phase scope or a reproducible defect. A hypothetical multi-user/cluster/enterprise threat is not a blocker in this single-user desktop unless a genuine local failure applies. Preserve all authorized privacy/consent/source and OS/process bounds. Never silently relax a frozen/security contract; show exact minimal amendment for owner approval instead.
 
-Distinguish mandatory current-phase acceptance from end-state Phase 22 features, and from an independent reviewer finding unrelated to the phase. Identify proposed model/OCR/parser selection via small Windows+8 GB VRAM measurements, not a full speculative ML stack. Prefer latest **stable mutually compatible** release set (ADR-0013); don't demand every numerically newest major, runtime download or untested CUDA wheel. Use the pinned Phase 17 baseline as evidence, not permission for incidental upgrades.
+Distinguish mandatory current-phase acceptance from end-state Phase 22 features, and from an independent reviewer finding unrelated to the phase. Review model/parser choices ONLY for Owner-approved capability; OCR/GPU work is not automatically in scope. If such a capability is separately approved, use narrowly measured target-host evidence rather than speculative stacks. Prefer latest **stable mutually compatible** release set (ADR-0013); don't demand every numerically newest major, runtime download or untested CUDA wheel. Use the pinned Phase 17 baseline as evidence, not permission for incidental upgrades.
 
-Set one named final verification gate and bounded focused slices; reference the watchdog and two-round escalation policy. A 29-dimension rubric is 29 **review considerations**, not 29 required subsystems or 29 independent benchmark builds. If the proposed phase is too wide, mark `CHANGES_REQUESTED` with a **finite owner decision**, not an implementation plan for every possible future feature.
+Set a bounded focused verification gate for each slice and a separate phase final review; reference the currently implemented watchdog (do not claim pending adaptive behavior) and three-round escalation policy. A 29-dimension rubric is 29 **review considerations**, not 29 required subsystems or 29 independent benchmark builds. If the proposed phase is too wide, mark `CHANGES_REQUESTED` with a **finite owner decision**, not an implementation plan for every possible future feature.
 
 ## CHANGES_REQUESTED
 
-- Set the phase's `preparation-review.md` to `CHANGES_REQUESTED`.
-- Record findings in that phase's `reviews/` folder.
-- Do not create a handoff.
+- **Numbered phase:** set its `preparation-review.md` to `CHANGES_REQUESTED`; write findings under that phase's `reviews/`.
+- **Maintenance:** update the canonical maintenance scope's status to `CHANGES_REQUESTED`; write the dated review under that scope's `reviews/`. Do not touch a numbered phase's preparation status or `ACTIVE.md` for docs-only maintenance.
+- Do not create or activate a handoff. Route document-only corrections to ChatGPT (the approved documentation owner); route production/tooling corrections only through a separately approved maintenance implementation handoff.
 
-## READY FOR HANDOFF
+## READY FOR HANDOFF / MAINTENANCE PREPARATION READY
 
-- Set `preparation-review.md` to `READY FOR HANDOFF`.
-- Record the review in that phase's `reviews/` folder.
-- Return `READY FOR HANDOFF`.
-- Provide exactly one Conventional Commit message for the preparation/docs/tooling slice.
-- Do not create the implementation handoff automatically.
-
-The owner commits/pushes preparation first, then invokes `$codex-create-handoff`.
+- **Numbered phase:** set its `preparation-review.md` to `READY FOR HANDOFF` and write the review under that phase's `reviews/`. After the Owner commits/pushes the approved preparation, `$codex-create-handoff` may prepare the next approved implementation slice.
+- **Maintenance:** record the review under the canonical maintenance scope's `reviews/` and set that scope's status to `READY_FOR_HANDOFF` only if its Owner-approved next step is an implementation handoff. For documentation-only maintenance, record `READY_FOR_OWNER_COMMIT` when independently ready and direct the Owner to ordinary commit/push; **do not require** `$codex-create-handoff` or make `ACTIVE.md` live.
+- Provide one Conventional Commit message when ready; do not create the implementation handoff or publish automatically.
 
 ## Required final response — next step
 
-Every invocation must end with a concise **Next step:** statement.
+Every invocation must end with a concise **Next step:** statement consistent with the selected review mode.
 
-- prerequisite/gate failure → name the exact prerequisite/action to resolve before rerunning this skill;
-- `CHANGES_REQUESTED` → tell the owner to give the findings/latest package to ChatGPT for preparation remediation,
-  then rerun `$codex-pre-handoff-review`;
-- normal `READY FOR HANDOFF` → tell the owner to commit/push the preparation slice using the provided commit message,
-  then run `$codex-create-handoff`.
+- Prerequisite failure → state the exact missing approval or canonical scope, without inventing Phase 19.
+- `CHANGES_REQUESTED` → direct documentation-maintenance findings to ChatGPT for a bounded docs correction and independent maintenance re-review; implementation findings follow the separately authorized handoff's owner. Numbered-phase preparation findings follow their existing phase correction route.
+- Numbered-phase `READY FOR HANDOFF` → Owner commits/pushes preparation, then runs `$codex-create-handoff` for the approved slice.
+- Maintenance ready → Owner commits/pushes reviewed docs-only changes, or invokes the explicitly approved maintenance implementation handoff if applicable. Do not impose a new phase gate.
 
 Never leave the owner to infer the next workflow action.

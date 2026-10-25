@@ -1,68 +1,23 @@
 ---
 name: codex-milestone-review
-description: Perform the historical cross-phase architecture, quality, security, maintainability, and performance milestone review after Phases 3, 6, 9, and 12; Phase 15 uses the stronger dedicated backend audit instead.
+description: Independently review quality, architecture and accepted requirements after each three completed phases; legacy Backend 3/6/9/12 are historical, current RAG milestones after P19 and P22.
 ---
 
 # Codex Milestone Review
 
-Run after Phase 3, 6, 9, and 12 is committed/pushed/frozen, before the next implementation handoff.
+Follow [current Owner policy](../../../docs/workflow/current-owner-delivery-policy.md). **Phase 19 is NOT AUTHORIZED / NOT STARTED**; this skill does not create work from a milestone schedule.
 
-Do not run this skill after Phase 15. The dedicated `$codex-backend-audit` supersedes the former post-Phase-15
-milestone and covers the full backend rather than only Phases 13–15.
+## Trigger and scope
 
-## Scope/status document
+- Historical Backend milestones following Phases 3, 6, 9, 12 remain complete and immutable; Phase 15 comprehensive Backend audit superseded a post-15 milestone.
+- Future RAG milestone **after Phase 19**: aggregate **RAG Phases 17–19** only when 19 is Owner-closed/published.
+- Future RAG milestone **after Phase 22**: aggregate **RAG Phases 20–22** only when 22 is Owner-closed/published.
+- After all RAG phases, a **separately authorized RAG-wide audit** covers 17–22, followed by a **separately authorized RAG + Backend integration/repository-wide audit**. Do not treat a milestone review as either full audit.
 
-When the closing phase contains `milestone-review.md`, treat it as the canonical milestone scope/status document.
-Update it to `CHANGES_REQUESTED` or `MILESTONE_READY` together with the formal review record.
+Check the slice reviews/phase final reviews and current source for accumulated regressions, duplicated business rules, hard-coded owner-specific failures, real data-integrity/security issues, clean architecture/code, SOLID/DRY/KISS/YAGNI, resource leaks, missing regression coverage, docs/harness contradictions and approved user-visible behavior. Reuse unchanged hash-backed evidence. Keep the 29-category `codex-review-coverage` rubric proportional to changed/active code; do not invent 29 new test subsystems.
 
-Do not create or modify the next implementation handoff.
+## Backlog and findings
 
-## Review windows
+Resolve any CRITICAL/HIGH/MEDIUM blocker before `MILESTONE_READY` through an approved narrow maintenance slice. Consolidate previously recorded LOW/INFO into **one prioritized correction pass** if they remain applicable; if there is no actionable correction, close the observation with evidence rather than generating pointless code. Do not silently change frozen requirements.
 
-- after Phase 3: Phases 1–3;
-- after Phase 6: Phases 4–6;
-- after Phase 9: Phases 7–9;
-- after Phase 12: Phases 10–12.
-
-## Mandatory shared coverage gate
-
-Use [`codex-review-coverage`](../codex-review-coverage/SKILL.md) for a per-dimension ledger across the reviewed phase window, emphasizing actual module/package/folder inventory, shared HTTP contracts and exception grouping (respect ADR-0016). Evaluate interactions/accumulated risk, not merely each phase's previous PASS. The historical milestones after Phases 3/6/9/12 remain closed; do not automatically insert one between RAG phases 17–22 without a newly owner-approved gate.
-
-## Mandatory checks
-
-- business/domain invariant consistency across phases;
-- module dependency direction and accidental coupling;
-- duplicate business rules / competing canonical implementations;
-- SOLID, cohesion/coupling, and API responsibility drift;
-- design-pattern misuse and overengineering;
-- package/public-contract consistency;
-- N+1 queries, repeated I/O, excessive lock scope, unbounded reads, and realistic algorithmic/memory hotspots;
-- transaction/concurrency/data-integrity boundaries;
-- authentication/authorization/secrets/logging;
-- test reliability and missing regression coverage;
-- documentation/roadmap/tooling drift;
-- repository/package-tree drift, stale moved files/`.gitkeep`, and owner-reported warning debt;
-- accumulated technical debt that materially raises the risk/cost of the next phases.
-
-Do not request speculative micro-optimizations; performance findings need a concrete inefficient path or credible
-data-access/complexity risk.
-
-## Result
-
-Write the milestone review in the closing phase's `reviews/` folder.
-
-If blocking findings exist, return `CHANGES_REQUESTED` and identify whether they need docs/tooling remediation or an
-owner-approved maintenance implementation slice. Never silently modify a frozen phase.
-
-If no blocking findings remain, return `MILESTONE_READY`.
-
-## Required final response — next step
-
-Every invocation must end with a concise **Next step:** statement.
-
-- `CHANGES_REQUESTED` → tell the owner that the next action is owner approval of a narrow maintenance scope, then
-  give the latest package/findings to ChatGPT to prepare that maintenance;
-- `MILESTONE_READY` → tell the owner to commit/push the milestone review/status docs, then give the latest package
-  to ChatGPT for post-milestone synchronization/reset before running the next phase `$codex-pre-handoff-review`.
-
-Never leave the owner to infer the next workflow action.
+Write a dated record under the milestone-closing phase's `reviews/` and update its milestone status. Return `MILESTONE_READY` only when mandatory scope is verified and no blocker remains, otherwise `CHANGES_REQUESTED` or `OWNER_DECISION_REQUIRED`. Only Owner stages/commits/pushes. Next step must be one concrete Owner action; never self-start Phase 19 or any other phase.

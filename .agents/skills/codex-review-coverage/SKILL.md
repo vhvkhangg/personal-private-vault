@@ -5,6 +5,9 @@ description: Evidence-driven shared review coverage and repository/package-tree 
 
 # Codex Review Coverage — shared mandatory rubric
 
+**Proportional applicability (current):** use the 29 dimensions as a *thought checklist*, not 29 compulsory projects, test suites, artifacts or blocking findings. For a slice, document a few relevant categories with evidence; summarize unchanged/irrelevant ones as `N/A`. Reused source-applicable evidence is acceptable. Mandatory approved requirement NOT_VERIFIED and open CRITICAL/HIGH/MEDIUM block; LOW/INFO go to milestone/audit. Future RAG Phase 19 must not be inferred from the historical Phase 18 OCR/GPU/judge rubric. See [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md).
+
+
 **Scope-aware, not mechanically exhaustive:** This is a **checklist of dimensions to consider** for each review. Classify each item `PASS / FINDING / N/A / NOT_VERIFIED`, with exact paths and evidence for high-risk dimensions. Only declare `N/A` with a reason, e.g. "no API code in docs-only preparation". `NOT_VERIFIED` is **not** `PASS`. A docs-only review MUST inspect whether evidence obligations are specified; it must not pretend to have run runtime tests. Historical frozen phases remain untouched without owner-approved maintenance.
 
 ## Proportionality rule for single-user RAG Phases 18–22

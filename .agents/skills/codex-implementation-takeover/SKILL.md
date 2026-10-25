@@ -1,16 +1,19 @@
 ---
 name: codex-implementation-takeover
-description: Implement only unresolved authorized handoff findings after two unsuccessful Antigravity remediation and independent Codex re-review cycles, with independent subsequent review and no new architecture.
+description: Implement only unresolved authorized handoff findings after three unsuccessful Antigravity remediation and independent Codex re-review cycles, with independent subsequent review and no new architecture.
 ---
 
 # Codex Implementation Takeover — bounded escalation
 
-Invoke with `$codex-implementation-takeover` **only after escalation is earned**. The owner selected policy **1A: two remediation + re-review cycles for the whole active phase**, not two attempts per finding.
+**CURRENT ESCALATION:** The Owner's forward rule is **three**, not two, completed Antigravity corrective rounds following an initial independently blocking Codex **slice** review. Each correction requires an independent re-review. Initial implementation/self-review and the initial slice review do not count. [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) supersedes the historic two-round statement below. `READY_FOR_OWNER_COMMIT` requires no OPEN CRITICAL/HIGH/MEDIUM or mandatory unverified case. Do not open Phase 19 or rewrite frozen Phase 17/18.
+
+
+Invoke with `$codex-implementation-takeover` **only after escalation is earned**. The owner selected policy **three remediation + re-review cycles for the active slice/handoff**, not two attempts per finding.
 
 ## Entry conditions (all required)
 
-1. `ACTIVE.md` has an implementation handoff for the currently owner-approved Phase 18–22 or an explicitly authorized maintenance scope; never modify the frozen Phase 17 implementation implicitly.
-2. Two actual Antigravity remediation rounds **following the initial `CHANGES_REQUESTED` final review** each ended in independent Codex `CHANGES_REQUESTED`. Record both immutable report paths, dates and exact remaining blocking findings. Do not count initial implementation or preparatory review as one of the two remediation rounds.
+1. `ACTIVE.md` has an implementation handoff for the currently owner-approved RAG phase or an explicitly authorized maintenance scope; never modify the frozen Phase 17 implementation implicitly.
+2. Three actual Antigravity remediation rounds **following the initial `CHANGES_REQUESTED` final review** each ended in independent Codex `CHANGES_REQUESTED`. Record both immutable report paths, dates and exact remaining blocking findings. Do not count initial implementation or preparatory review as one of the three remediation rounds.
 3. Remaining findings are in-scope, actionable and reproducible. If a finding requires contract/security/frozen-baseline change, **stop for owner decision**; do not use takeover to invent authority.
 4. The owner has approved the escalation policy; record the transition in the current handoff's remediation ledger and note that Codex is now the implementer, not the independent reviewer.
 
@@ -19,7 +22,7 @@ Invoke with `$codex-implementation-takeover` **only after escalation is earned**
 - Read the existing handoff, exact newest review and relevant code/tests before editing. Fix only **still-open** blockers; keep accepted, unchanged evidence and privacy/consent contracts.
 - Choose minimal root-cause repair and precise regression test. Avoid a new abstraction/framework, unrelated cleanup or broad audit unless a concrete blocker demands it.
 - Apply `python-rag-coding` for Python and `java-spring-coding-standards` for Java, plus `local-rag-engineering` and `bounded-command-execution` for the touched scope.
-- Tests progress focused -> affected module -> one required full clean gate. Preserve real failures and exact receipts. Full command <=35 minutes only for explicitly designated future-phase full-suite tests; ordinary commands <=20 minutes.
+- Tests progress focused -> affected module -> any phase-required gate only if necessary. Preserve real failures and exact receipts. **Current** watchdog remains fixed 20/35 minutes pending Maintenance B; the **approved future** default is 5-minute ordinary hard cap, up to 35 minutes for preapproved complex/large tests, with 5-minute silence diagnostics on all commands (not blind termination).
 - Set existing handoff status to `IMPLEMENTED_AWAITING_CODEX_REVIEW` with an explicit **Codex takeover authorship** note; do **not** close findings yourself.
 
 ## Independence and ownership

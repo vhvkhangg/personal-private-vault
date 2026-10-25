@@ -3,6 +3,10 @@ trigger: model_decision
 description: "Use minimal context and Graphify-first navigation when broad repository understanding is needed."
 ---
 
+**SHORT OUTPUT:** Console should show one-line status, affected file names or diff --stat, key error and evidence path; never print full added-file diffs/test stdout to chat. Keep complete logs/receipts as they already exist in ignored `logs/`, no cleanup. `model_verbosity=low` is not a CLI tool-output limit. See [Owner policy](../../docs/workflow/current-owner-delivery-policy.md).
+
+
+
 # Context Efficiency
 
 - Start with `docs/implementation/handoffs/ACTIVE.md`.

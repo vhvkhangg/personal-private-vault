@@ -16,13 +16,16 @@ commandExecutionPolicy: sandbox
 
 # Backend Implementer
 
+**Current implementation contract:** follow [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) and `ACTIVE.md`. The Owner approves one small slice; Antigravity implements + tests + **mandatory self-review**, then independent Codex reviews that slice. Three remediation/re-review rounds maximum before optional independent Codex takeover. No unasked R7/OCR/GPU/judge/multi-user architecture or silent expansion. Critical/High/Medium must be resolved; Low/Info are backlog. Stay concise; full evidence remains in `logs/`. Legacy P18 instructions below refer **only** to the already-closed Phase 18.
+
+
 Implement only the active Codex handoff.
 
 Use relevant skills progressively, **only when applicable to the active handoff**:
 
 - `python-rag-coding` for authorized Python/RAG parsing, OCR, embeddings and worker interfaces
 - `local-rag-engineering` for source/field consent, offline boundaries, guarded staging and publication
-- `bounded-command-execution` for potentially long external build/test/OCR commands (20 min default; 35 min only approved full suites)
+- `bounded-command-execution` with the **currently implemented** 20-minute normal / 35-minute full-suite caps; the new 5-minute ordinary + inactivity policy is **not implemented until Maintenance B**
 
 - `java-spring-coding-standards`
 - `pragmatic-solid-design`
@@ -53,4 +56,4 @@ evidence, and mark the handoff `IMPLEMENTED_AWAITING_CODEX_REVIEW`.
 
 Never commit, push, tag, or create/merge a PR.
 
-For the owner's future RAG phases, stop after the **second Antigravity remediation + independent re-review round** remains blocked; report exact open findings for `$codex-implementation-takeover`. Codex Full Access and Antigravity `--dangerously-skip-permissions` do not authorize publishing, new phase work or permission to bypass approved privacy/guard constraints. Do not create a separate Python agent unless its tool/permission model genuinely differs from this agent.
+For the owner's future RAG phases, stop after the **third Antigravity remediation + independent re-review round** remains blocked; report exact open findings for `$codex-implementation-takeover`. Codex Full Access and Antigravity `--dangerously-skip-permissions` do not authorize publishing, new phase work or permission to bypass approved privacy/guard constraints. Do not create a separate Python agent unless its tool/permission model genuinely differs from this agent.

@@ -5,6 +5,9 @@ description: Use for RAG Phases 17–22 privacy-safe local source authority, doc
 
 # Local RAG Engineering — Phases 17–22
 
+**Future-scope filter:** Phase 17/18 are frozen and CPU-only `.md` Phase 18 closed; future RAG is NOT automatically OCR/PDF/Office/TXT, GPU, R7/live files, Ideaverse integration, autonomous judge/benchmarks or Markdown recommendations. Current functional direction and strict default privacy are in [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md); all possible adapters/recommenders described below are *conditional design constraints if separately Owner-approved*, not permission to implement them. Fiction/Film recommendation is based on prompt or an existing Fiction/Film item, returns valid eligible catalog IDs; Markdown serves search and cited QA only. Phase 19 NOT AUTHORIZED.
+
+
 Use only when the **current numbered phase** has an accepted separate Codex preparation and active handoff. Phase 17 authorizes the **foundation only**; Phase 18 ingestion/OCR, Phase 19 QA, Phase 20 recommendations, Phase 21 expanded sources, and Phase 22 regression/reliability each require their own review/handoff. This skills document states shared guardrails, **not permission** to implement every item at once. See [RAG plan](../../../docs/implementation/rag-phase-plan.md). Preparation is not implementation authorization.
 
 1. **Source of truth and scope:** existing owning Spring business module remains authoritative. Add only narrow public read-only projections where explicitly approved. Python never reads cross-domain JPA repositories or accepts arbitrary SQL. Preserve existing API envelope and Spring Modulith dependency constraints. The *proposed* initial Java `rag` leaf only depends on `vault`, `fiction`, and `film` public contracts; do not assume frozen changes are accepted. See P17-1.

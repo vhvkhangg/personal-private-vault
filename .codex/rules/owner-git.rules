@@ -1,0 +1,15 @@
+# Owner-only publishing policy (Codex CLI prefix-based execpolicy; preview).
+# This denies common DIRECT invocations. It is not a complete shell/alias/PowerShell or
+# MCP/GUI bypass defense. Validate on the actual trusted Windows Codex version.
+# Agents never stage/commit/push, tag/release, create/merge PRs, or delete repo history.
+
+prefix_rule(pattern = ["git", ["add", "commit", "push", "tag"]], decision = "forbidden", justification = "Only the Owner stages and publishes. Use git status or git diff and supply a commit message.", match = ["git commit -m test", "git push origin main", "git add .", "git tag v1"], not_match = ["git status", "git diff --stat"])
+prefix_rule(pattern = ["git.exe", ["add", "commit", "push", "tag"]], decision = "forbidden", justification = "Owner-only staging and publishing.")
+prefix_rule(pattern = ["git", "reset", "--hard"], decision = "forbidden", justification = "Destructive reset is Owner-only.")
+prefix_rule(pattern = ["git.exe", "reset", "--hard"], decision = "forbidden", justification = "Destructive reset is Owner-only.")
+prefix_rule(pattern = ["git", "clean", ["-f", "-fd", "-fdx", "-fx", "-fX"]], decision = "forbidden", justification = "Destructive clean is Owner-only.")
+prefix_rule(pattern = ["git.exe", "clean", ["-f", "-fd", "-fdx", "-fx", "-fX"]], decision = "forbidden", justification = "Destructive clean is Owner-only.")
+prefix_rule(pattern = ["git", "branch", "-D"], decision = "forbidden", justification = "Destructive branch deletion is Owner-only.")
+prefix_rule(pattern = ["gh", "pr", ["create", "merge", "close"]], decision = "forbidden", justification = "PR publication and merge are Owner-only.")
+prefix_rule(pattern = ["gh", "release", "create"], decision = "forbidden", justification = "Release publication is Owner-only.")
+prefix_rule(pattern = ["gh", "repo", "delete"], decision = "forbidden", justification = "Repository deletion is Owner-only.")

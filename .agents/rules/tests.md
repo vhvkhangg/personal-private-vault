@@ -4,6 +4,10 @@ globs: "backend/src/test/**/*.java"
 description: "Tests written by Antigravity as part of an active Codex handoff."
 ---
 
+**CURRENT TEST POLICY:** Scope tests to approved source/risks; Antigravity self-review before Codex; independent Codex review per slice, final review per phase. Unchanged receipts may be reused by hash. LOW/INFO backlog once at milestone/audit, CRITICAL/HIGH/MEDIUM block. Approved 5-minute inactivity diagnostics are not available in the current watchdog until Maintenance B. See [Owner policy](../../docs/workflow/current-owner-delivery-policy.md).
+
+
+
 # Test Rule
 
 - Antigravity implements tests and production fixes within the active handoff.

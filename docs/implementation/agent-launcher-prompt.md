@@ -1,3 +1,5 @@
+> **CURRENT (2026-10-25):** Phase 17 FROZEN, Phase 18 CLOSED, Phase 19 NOT AUTHORIZED; current `ACTIVE.md` is `NO_ACTIVE_HANDOFF`. Follow [Owner Delivery Policy](../workflow/current-owner-delivery-policy.md). All earlier Phase 18 launcher instructions below are HISTORICAL and must not be run as current tasks.
+
 **D21 current launcher scope - 2026-10-20:** Phase 18 Slice 2 is Obsidian Markdown .md ONLY. The current authorized task is documentation-only scope reconciliation and preparation for separate independent Slice 2 closeout review; no implementation or automatic corrective round. See [ACTIVE](handoffs/ACTIVE.md) and the [D21 scope/matrix](phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md). TXT/DOCX/PDF/XLS/XLSX/OCR acceptance is excluded; D17/D20 accepted evidence is preserved; FR18-3 OPEN, indexing INACTIVE, Phase 17 FROZEN, Slice 1/D14 CLOSED, Java full gate FAILED, Slices 3/4 unauthorized. Prior prompts below are historical where superseded; no commit/push/tag/PR or owner-commit readiness.
 
 ## Preserved earlier launcher content
