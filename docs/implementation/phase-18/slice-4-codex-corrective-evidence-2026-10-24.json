@@ -1,0 +1,353 @@
+{
+  "date": "2026-10-24",
+  "role": "CODEX_IMPLEMENTER_NOT_INDEPENDENT_REVIEW",
+  "state": "BLOCKED",
+  "gpu": "GPU_EVIDENCE_BLOCKED",
+  "head": "ebe125f7529124b62761e8d01c692cbbd28e4aa7",
+  "source_files": 1732,
+  "source_content_map_sha256": "9426693be6932b21931a83596b8e588a23680e1c461b17e7e5e426efd0c55a97",
+  "native_full_source_equal": false,
+  "native_full_source_differences": [
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3CorrectiveIntegrationTest.java"
+  ],
+  "native_full_production_source_equal": true,
+  "evidence_root": "logs/phase18/s4-corrective-20261024",
+  "final_java_gate": "final-java-v3",
+  "final_java": {
+    "profile": "full-suite",
+    "timeout_seconds": 2100.0,
+    "executable": "mvn.cmd",
+    "argv_sha256": "2a033f8dd643becad8a69842abc7a09977b3f9000a254035df3ddd38b4ca8f9b",
+    "started_utc": "2026-10-24T15:11:43.879+00:00",
+    "pid": 22460,
+    "finished_utc": "2026-10-24T15:42:32.570+00:00",
+    "duration_seconds": 1848.691,
+    "result": "COMMAND_FAILED",
+    "exit_code": 1,
+    "cleanup": "not_needed"
+  },
+  "final_java_counts": {
+    "tests": 1567,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 1
+  },
+  "final_python": {
+    "passed": 238,
+    "failed": 0,
+    "skipped": 0
+  },
+  "native": {
+    "tests": 104,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "corpus_each": {
+    "supported": 1267,
+    "required_rejections": 62
+  },
+  "remaining": [
+    {
+      "required_gate": "Full clean Java verification failed",
+      "receipt": "final-java-v3.json",
+      "result": {
+        "profile": "full-suite",
+        "timeout_seconds": 2100.0,
+        "executable": "mvn.cmd",
+        "argv_sha256": "2a033f8dd643becad8a69842abc7a09977b3f9000a254035df3ddd38b4ca8f9b",
+        "started_utc": "2026-10-24T15:11:43.879+00:00",
+        "pid": 22460,
+        "finished_utc": "2026-10-24T15:42:32.570+00:00",
+        "duration_seconds": 1848.691,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      },
+      "failed_cases": [
+        "com.vhvkhangg.personalprivatevault.rag.RagSourceAuthorityIntegrationTest.genuinelyFreshBatchProjectionsHaveConstantQueryCountsAndEnforceByteBudget"
+      ]
+    },
+    "Actual CUDA inference/same-model GPU fallback UNAVAILABLE; Owner applicability decision required",
+    "Independent review and Owner Slice 4/P18-FINAL acceptance not performed"
+  ],
+  "historical": {
+    "original_submission_java_reported": [
+      1549,
+      1,
+      0,
+      0
+    ],
+    "reviewer_xml_observed": [
+      1536,
+      1,
+      0,
+      0
+    ],
+    "discrepancy_13_cause": "UNKNOWN",
+    "failed_results_preserved": true,
+    "D22_originals": "NOT_RECOVERED"
+  },
+  "inventories": [
+    "final-source-hashes.json",
+    "final-changed-paths.json",
+    "final-command-index.json",
+    "final-java-test-index.json",
+    "final-preservation.json",
+    "final-assets.json",
+    "cleanup-plan.json",
+    "final-runtime-inventory-data.json",
+    "final-resource-summary.json"
+  ],
+  "focused_summaries": [
+    "P18-QUALITY.json",
+    "P18-SNAPSHOT-APP.json",
+    "P18-PUBLISH-PG.json",
+    "P18-OFFLINE-MODEL.json",
+    "P18-RESOURCES.json",
+    "P18-REPORT.json"
+  ],
+  "changes_since_checkpoint_entry": {
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchCommand.java": {
+      "entry": "5b4aa51c127af96cdf6f37ccb3634d4a66a1c4e0b346478147d90f8228b1b7af",
+      "final": "73dc459d62ba4115ab23e9bcb2a4d2a93428dfded3fe6a92046057cf30961806"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchReport.java": {
+      "entry": "b29e41e95d2a37d93cdc425b1757bcb0c2e65f4fda44c6cc77fd07202f3d7991",
+      "final": "55a513c623cc91b7f8327978bbbb68d222bb8a54448a5a98015b8b587d07de79"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagJobAdmissionResult.java": {
+      "entry": "a95668f306b48bc2ebddfc432a0a29a499fd5f140e53a70f0268a2936ecef2cc",
+      "final": "e1d2bbedb590a86c08e8d27cace15f11c44ede4e1041602f3185b1b36bd417e8"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentBatchService.java": {
+      "entry": "0782017b6aa544fd85511d25f9455acb6ab3bc2a1ec3ad09bf87e57322f1b22e",
+      "final": "f0dbf564ffd015af101a3993228995849adc2cc38792a8e96b0c43150fce4e46"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentFinalizationGate.java": {
+      "entry": "e1a8e6024ef08d3ee1f3f5288a26c17744e5584cfdf90e4c4a44fe9a2c28803d",
+      "final": "51760a1d0bc5c7598cc24888f5ab67eae8057adb2b0384b0216f3b2cda9bedc3"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentInput.java": {
+      "entry": "d480d727807b912ba1e925f31e6d00ab6c85fc9218d492f5c28bdf941f4f6882",
+      "final": "01da76b8eb15f209c1a6cf9ff39e29db6fe34bb8e90b9e67eb500ceec6f37d5a"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentReportService.java": {
+      "entry": "1f71774459c4672389f4140559621a2d50dfc4b0a711d98ea009b6b737de5fb2",
+      "final": "c9fd219efe1cb3f1c18c70d64a076ff69af9f2d733fcd08907fc4b981dcd43a6"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagGenerationState.java": {
+      "entry": "69352ec4843ef60354f5ad7b784d57ab57169ca2eea0f12686334c393b574d22",
+      "final": "4e42244a7c75786bb21fc2620f74e24a1df16a5fccc6fc0c024ab56085b442bb"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagNoChangeService.java": {
+      "entry": null,
+      "final": "1cb0e5fcba8800522f9c0c26b2fff8dac8d6ad59688bbb68dd5b305f0e54ffa8"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagRecoveryService.java": {
+      "entry": "2444e9140245f230a4e34e516ef17f509edb4c65c9d7cd01a48283695e2f2901",
+      "final": "91abea4f9ff4889380bfdc973bbfbd198c3bf51bb5a15804bc546fa0ab1d33fa"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceService.java": {
+      "entry": "6c1f6339cea2acfbc95f3cbe04025552f5ecf172fc9827eff4b2d6182d9d349d",
+      "final": "d96739cdb82d717d064dcf460178003c3dbdeb15832bf92c01754d7316e55576"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerGrantService.java": {
+      "entry": "fe1e622d09eee417ff972f7b804b59ce84b4ed8ccfa12fb0943f21a517bcd63f",
+      "final": "34f2f807ad88332dc415fa776ab6e94f7ab3b8c054c99694da2ad2a2c7fd6ae7"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/client/RagEngineClient.java": {
+      "entry": "a1ed296cd806b13948e98df7863f399f832c1c481992ec0dfb09ce611d204adb",
+      "final": "de8008baf79c00f2b6f7c0a4a4607a4b6c145acd747a2ce79210d5fd7a28f252"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/controller/RagJobController.java": {
+      "entry": "4aa7435bf0ea352d399c75c56b502726cf297da1970f5fdad50d58cb2ca84cc5",
+      "final": "d64975256f318203a186f87e7bbdfb4b9526af4bb156a49acfb02ac5854b569c"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/AdmitDocumentBatchRequest.java": {
+      "entry": "1b90a4ff39c2f2895989ae00d865f3e5a19056c306cbfef512cdf9652d8d190d",
+      "final": "2be545b93f55f38e587e43df77a049452f9dcc0916eae0d2fd1eec5acf2321e9"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/FileOutcomeDto.java": {
+      "entry": "79fa18cb0f27b166c6f4031edb59903d02b4f59e5d22c4e2e57f11ccc432076d",
+      "final": "a1b45481876d42c3bc0b095191751fa65ca0f628f5db3c9caff5c7cd95f01146"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagDocumentBatchReportResponse.java": {
+      "entry": "d752c52960dd1767c0c4bc5f01ca0dd22909531d94c80a0317bf37e77453a8f1",
+      "final": "641e59870f618f6b878158814ed958ddece0d497a2bcd817938195005bd813f6"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagJobAdmissionResponse.java": {
+      "entry": "faf6721200abcae3060566842fe93b8992825692cef3324477a60491cdbb5a08",
+      "final": "91e1fbf448fb14e9837aa12a3f4f816825cffa1dbc480023484e1e09fb954f26"
+    },
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/mapper/RagWebMapper.java": {
+      "entry": "6ef78432770f4ba3a0c67e3f24830cc83b96e7b5238cbc49bbe47dc7b440c825",
+      "final": "87c29598d2e904c5e4fd610e909332e885c3f6d81afdc176efafad7bfd42864d"
+    },
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagEngineClientTest.java": {
+      "entry": "e4ae3bfd12cd6f4bd0d03d76bac1cb68eaeaefdc220fef759f1e413b54715544",
+      "final": "d9b6d0a269d1c7055a6d8959227c8aa481caf8cf7590cea596506566f3072a66"
+    },
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3CorrectiveIntegrationTest.java": {
+      "entry": "66a974dc6123d70b054936cdca57f5eeb454506ea890e17b444040a035c9b382",
+      "final": "447fbdcea4bfb8b1e36e1a54b2bc64a9d9d66f8a3391ee4411f6ae7ab9f2aec8"
+    },
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3RecoveryProbeProcess.java": {
+      "entry": "214978798c6f4c8b05cf20c7bfa40dde7b33430ae5384e9b8b7bf8c044b5a3b7",
+      "final": "0979288b4f96fc3cd039d4c057b0d4ef1e86cbc5f205b65fa46d59e18d44b139"
+    },
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice4CorrectiveIntegrationTest.java": {
+      "entry": null,
+      "final": "20633c73a65689f900babbf637fce7c36912fc8e70034e2bc85c269ebec7e09f"
+    },
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice4LifecycleIntegrationTest.java": {
+      "entry": "8b17296d6e5cfcaffb11e6e26734f0a34f4b6fede6c728d47d79f4abeda3e44c",
+      "final": "b39c1ec3dd618cc9ebc65b963aa3e12e9078988a05589b646f5c054c1460cd80"
+    },
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice4ResourceIntegrationTest.java": {
+      "entry": null,
+      "final": "eaae7c8fb30fbfd48da40c5e5d99873abaf8cf5c34f72bc432ea50372da719f7"
+    },
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSnapshotCorrectiveIntegrationTest.java": {
+      "entry": "0bf3eceb5e93786f133e43a957cc9e5e83b9985eaa4881126405a218f5ddddc6",
+      "final": "0514e75feb592e0f2d11a9d50dc30f5bba9c5b44ac408c63b2108decc7699fd4"
+    },
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagWindowsNativePrerequisiteTest.java": {
+      "entry": "697b213b4dd9a43355f7b9f5abf20a1333128bb40220420669609c7dfd268ab8",
+      "final": "8d893fffa77d1b4a4cb4234aa0b2dec1461ab9cf3f97b6f0a948eb60474f9662"
+    },
+    "rag-engine/scripts/measure_d18_pt_a.py": {
+      "entry": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3",
+      "final": "cd48abfe16529fa65e95eb48ed8bdb8dc3e6fbde2e3339d827dfaddd12a544f8"
+    },
+    "rag-engine/scripts/run_d18_pt_a_native.py": {
+      "entry": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8",
+      "final": "15cb87adf108d954a8b77c706d9528761d07816f29d825a80ac8da41eac9fce2"
+    },
+    "rag-engine/src/ppv_rag/parsers/models.py": {
+      "entry": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb",
+      "final": "20f862d3d1e2b59c30a5b26167e66cbab2566b9a39ba66a6ee486148e59744d3"
+    },
+    "rag-engine/tests/test_slice4_cleanup.py": {
+      "entry": null,
+      "final": "44b7e5cb0542d233d2255a00d5d90fe82ebbb790af1a772f70e19f0a5f67e7fa"
+    }
+  },
+  "preserved_baseline_deletions": {
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice2NativeOcrCancellationIntegrationTest.java": "f05ec988f9a79eb07713abb018254881ba07194fe768c7cb7bdc6723a88b82c0",
+    "backend/src/test/resources/rag/native-ocr-worker/src/ppv_rag/__init__.py": "3d3183894350ec05fbd4433809a1d6f79b00587451fb27c770769e0358bd7cfe",
+    "backend/src/test/resources/rag/native-ocr-worker/src/ppv_rag/main.py": "ab097728789501952d0716c6332c77d0ead74173c0973d0a3d1ed030af29860f",
+    "rag-engine/scripts/d18_pt_a_ocr_checkpoint.py": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5",
+    "rag-engine/scripts/freeze_phase18_ocr_fixtures.py": "939e78c06c06b3dc4e4963379bc78654d86c6984fee20ef538eb5a938435839b",
+    "rag-engine/scripts/probe_phase18_ocr.py": "ee6e6970e75b2c2bc7594e3cf9d37d0d08eebafb479019e746ea732990de38cf",
+    "rag-engine/scripts/provision_phase18_latin_ocr.py": "4dbaf78f73d8f0ce66027f6aba43e687cdd957958d2ced92d9e14d2450508662",
+    "rag-engine/scripts/slice2_ocr_checkpoint.py": "3a61b568bfa6ad8e8e70bf7f77212197f585a29a3c76090980038cc6a2704286",
+    "rag-engine/scripts/slice2_paddleocr_checkpoint.py": "8928d39a0cebf96a22935435c0f020c11161bb07c304e2cb6d14b6d2af4ba1b7",
+    "rag-engine/scripts/slice2_tesseract_vietocr_checkpoint.py": "d1e1b0397efcfbe034c092bfaf81b9389f4de9fd00a8792fc1ccb9b73efd6090",
+    "rag-engine/src/ppv_rag/ocr/engine.py": "d0f48566dd83e468eed5a1a1e6bcda066ae4fabf8ad31776354cc1ddb3c6d09c",
+    "rag-engine/src/ppv_rag/parsers/docx.py": "e86993823b0043a7226f588a6e6df3dca03e35cbae49a01a79a3a104ef4be758",
+    "rag-engine/src/ppv_rag/parsers/excel.py": "7dc8b1161c4fbbc1095522db1d0bcf674b3bc401f683c35f247d34f97b624941",
+    "rag-engine/src/ppv_rag/parsers/pdf.py": "3a19b91668051c717bff82164f0bb0609a38831f093ea63f84124f9acd63e59c",
+    "rag-engine/tests/test_optional_ocr_dependency.py": "4b6d16129f075a02b7503f0e8c027cf4ba0c0676e7ebb632853fdab972652771",
+    "rag-engine/tests/test_pdf_geometry.py": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723",
+    "rag-engine/tests/test_pdf_scanned_surrounding_text.py": "607efe9807e686e95f0f9feeeda17b4f66698504113adcfa4e8b2d84c3e265ba"
+  },
+  "runtime": {
+    "python": "3.14.4",
+    "installed_distributions": 52,
+    "locked_packages": 54,
+    "lock_sha256": "5d5ab94a66875c51c35840e37aec76a2efa5e193a1fa1210347691c96c3517cc",
+    "inventory_sha256": "e3e6abede98246b3bf5e8f752f702399e14d016eeb7dab3fa592a85b093edad4",
+    "removed": [
+      "cffi",
+      "charset-normalizer",
+      "cryptography",
+      "et-xmlfile",
+      "lxml",
+      "openpyxl",
+      "pdfminer.six",
+      "pdfplumber",
+      "pillow",
+      "pycparser",
+      "pypdf",
+      "pypdfium2",
+      "python-docx",
+      "xlrd",
+      "xlwt"
+    ],
+    "added": [],
+    "upgraded_or_changed": [],
+    "providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "mandatory_gate_failure": {
+    "test": "RagSourceAuthorityIntegrationTest.genuinelyFreshBatchProjectionsHaveConstantQueryCountsAndEnforceByteBudget",
+    "line": 83,
+    "expected_statements": 5,
+    "observed_statements": 6,
+    "extra_statement_origin": "NOT_ISOLATED",
+    "frozen_test_unchanged": true,
+    "accepted_origin": "829d294aca7d916851348ff21004c631915d572e",
+    "acceptance_impact": "Required Java clean verify FAILED; S4-16/17 and final-gate F05/F07 obligations unresolved; no waiver"
+  },
+  "final_java_xml_counts": {
+    "tests": 1567,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 1
+  },
+  "final_java_counts_basis": "SUM_OF_FRESH_ARCHIVED_XML",
+  "final_java_stdout_counts": {
+    "tests": 1580,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 1
+  },
+  "new_stdout_xml_difference_13_cause": "UNKNOWN; both current counts preserved separately, not inferred from historical discrepancy",
+  "model": {
+    "name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "model_sha256": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+    "tokenizer_sha256": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+    "dimension": 384
+  },
+  "final_cpu_resource": {
+    "receipt": "final-cpu-resource.json",
+    "raw": "final-cpu-resource-resources.json",
+    "final_source_equal": true
+  },
+  "manifest_hashes": {
+    "final-source-hashes.json": "791466606291748ab5d06f9f375fa68d4e95b9c18c3493f03de0c9944531787c",
+    "final-command-index.json": "114373521b8a9717077f59e02195fb1f2ee641ba5ab30500129999940ed62acb",
+    "final-java-test-index.json": "6fd24d3dd6de6499b383e51f3bef07ed09c0d4d926abf7dc7f43713c9116bdee",
+    "final-preservation.json": "4645fb7244a3946909ba1472d31fce2079b782342bb336d4f8f2c14dc26fb259",
+    "final-source-continuity-v3.json": "432bf0af2346224aba8d622b2c8eed71afd2dda4b00b1fd9da1b7ac09ebbb4bc",
+    "final-runtime-inventory-data.json": "e3e6abede98246b3bf5e8f752f702399e14d016eeb7dab3fa592a85b093edad4",
+    "final-resource-summary.json": "bf9dc7723bdef2531231c33e6c984025e6d5d26ace545b4a04f54fa7e7c9c085"
+  },
+  "focused_summary_hashes": {
+    "P18-QUALITY": "6334dd2fa82b8e8ac0199c5e5189f157e1a233ae64240e1590bffb448a2cfc60",
+    "P18-SNAPSHOT-APP": "85d0d493ee79629723aa884ef368e0b4e68a96ac7c5b18836da80c59d114213f",
+    "P18-PUBLISH-PG": "28903d5555777f0fc5c1eee0d6021bfdc51d5b3053f983a9667093045ccc6b01",
+    "P18-OFFLINE-MODEL": "64a88add41ef66994ebb1c41b6afaeb1ade2285c41e8d22b3b3a69561625d2e7",
+    "P18-RESOURCES": "6fbbd74ed29d64e37703dace9b888691db672b7c9da3b8318b482d14274a064b",
+    "P18-REPORT": "f4100fa96849a3e8f98afa0902ba3024ede2595a365cf807bdc05748f5612c98"
+  },
+  "frozen_query_test_preservation": {
+    "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSourceAuthorityIntegrationTest.java",
+    "raw_sha256": "d3676b2f95041cd2343088e0ad1b0ea6244e1e70b6861d91db318bba182b6fa1",
+    "checkpoint_entry_unchanged": true,
+    "phase17_content_unchanged_after_lf_normalization": true
+  },
+  "findings": {
+    "F01": "IMPLEMENTED_NATIVE_EVIDENCE_AVAILABLE_INDEPENDENT_REVIEW_PENDING",
+    "F02": "IMPLEMENTED_NATIVE_EVIDENCE_AVAILABLE_INDEPENDENT_REVIEW_PENDING",
+    "F03": "IMPLEMENTED_AUTHENTICATED_CONTROLLER_EVIDENCE_AVAILABLE",
+    "F04": "CLEANUP_AND_OFFLINE_SYNC_EVIDENCE_AVAILABLE",
+    "F05": "FOCUSED_LIFECYCLE_PASS_BUT_MANDATORY_FULL_GATE_BLOCKED",
+    "F06": "CPU_NATIVE_MEASURED_GPU_EVIDENCE_BLOCKED_OWNER_DECISION_REQUIRED",
+    "F07": "NARROW_APPLICABILITY_CORRECTED_FULL_GATE_STILL_FAILED",
+    "N01": "EOF_FIXED_FINAL_DIFF_CHECK_PASS"
+  }
+}

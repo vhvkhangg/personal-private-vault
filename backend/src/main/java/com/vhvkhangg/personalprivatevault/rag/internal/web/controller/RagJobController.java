@@ -79,7 +79,7 @@ public class RagJobController {
                         r.expectedFieldPolicyVersion(),
                         r.approvedFields()
                 )).toList();
-        com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchCommand cmd = new com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchCommand(roots, request.descriptionConfirmations());
+        com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchCommand cmd = new com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchCommand(roots, request.descriptionConfirmations(), request.noChangeRoots());
         RagJobAdmissionResult result = ragOperations.admitDocumentBatch(cmd);
         return ApiResponses.created(RagWebMapper.toResponse(result));
     }

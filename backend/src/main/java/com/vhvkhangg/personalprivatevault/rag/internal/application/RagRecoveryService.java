@@ -19,6 +19,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
     private final RagRuntimeSecurity security;
     private final RagWorkerSupervisor supervisor;
     private final RagGenerationState current;
+    private final RagNoChangeService noChange;
     private final TransactionTemplate transaction;
     private final com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore;
     private final TransactionTemplate snapshotTransaction;
@@ -28,10 +29,10 @@ public class RagRecoveryService implements SmartInitializingSingleton {
 
     public RagRecoveryService(EntityManager entityManager,RagRuntimeIdentity runtime,RagPurgeService purge,
             PlatformTransactionManager transactions,RagRuntimeSecurity security,
-            RagWorkerSupervisor supervisor,RagGenerationState current,
+            RagWorkerSupervisor supervisor,RagGenerationState current,RagNoChangeService noChange,
             com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore) {
         this.entityManager=entityManager; this.runtime=runtime; this.purge=purge; this.security=security;
-        this.supervisor=supervisor; this.current=current;
+        this.supervisor=supervisor; this.current=current;this.noChange=noChange;
         transaction=new TransactionTemplate(transactions); transaction.setTimeout(10);
         this.byteStore=byteStore;
         snapshotTransaction=new TransactionTemplate(transactions); snapshotTransaction.setTimeout(10);
@@ -44,6 +45,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
         if (registeredOnce && !security.isCurrentRuntime()) return;
         // Take no ownership of a live/unknown old controller. Proof and any native
         // process waits happen outside SQL transactions; the final TX rechecks it.
+        if(noChange.hasLiveForeignOperation())return;
         var outstanding=nonterminal();
         var stopped=new HashSet<UUID>();
         for(var lease:outstanding) {
@@ -56,6 +58,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             entityManager.createNativeQuery("SET LOCAL transaction_timeout='10s'").executeUpdate();
             entityManager.createNativeQuery("SELECT pg_advisory_xact_lock(:key)")
                     .setParameter("key",RagDependencyGraph.LOCK_ID).getSingleResult();
+            if(noChange.hasLiveForeignOperation())return false;
             var fresh=entityManager.createQuery("SELECT l FROM RagJobLease l WHERE l.status IN "
                     +"('ADMITTED','STARTING','ACTIVE','STOPPING','RECOVERY_REQUIRED','FINALIZING') ORDER BY l.id",RagJobLease.class)
                     .setMaxResults(2).getResultList();
@@ -71,6 +74,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
         });
         if (Boolean.TRUE.equals(registered)) {
             registeredOnce=true;
+            noChange.reconcile();
             for(var lease:outstanding) purge.abortJob(lease.getJobId(),false);
             byteStore.resetRecoveryScan();
             reconcileSnapshots();
@@ -84,6 +88,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             if (!registeredOnce) afterSingletonsInstantiated();
             return;
         }
+        noChange.reconcile();
         reconcileSnapshots();
         for(var attempt:nonterminal()) recover(attempt);
         for(UUID job:supervisor.provenStoppedJobs()) {
@@ -151,6 +156,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
                     // Startup changes runtime ownership under this same graph lock.
                     if (!security.isCurrentRuntime()) return;
                     if (byteStore.active(entry)) return;
+                    if(entry.temporary() && noChange.protectsCapture(entry.artifactId()))return;
                     if (!entry.temporary()) {
                         Number count=(Number)entityManager.createNativeQuery("""
                                 SELECT count(*) FROM rag.external_file_sources

@@ -14,6 +14,10 @@ public record RagDocumentBatchReportResponse(
         Long peakSystemRamBytes,
         Long peakGpuVramBytes,
         Instant createdAt,
-        Instant finishedAt
+        Instant finishedAt,
+        UUID operationId
 ) {
+    public RagDocumentBatchReportResponse(UUID job,String status,String summary,List<FileOutcomeDto> outcomes,String artifact,String model,Long ram,Long vram,Instant created,Instant finished) {
+        this(job,status,summary,outcomes,artifact,model,ram,vram,created,finished,null);
+    }
 }

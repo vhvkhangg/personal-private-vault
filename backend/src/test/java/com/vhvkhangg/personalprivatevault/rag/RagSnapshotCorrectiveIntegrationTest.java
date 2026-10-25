@@ -48,7 +48,7 @@ class RagSnapshotCorrectiveIntegrationTest extends AbstractRagIntegrationTest {
     @MockitoSpyBean PlatformTransactionManager transactions;
     @TempDir Path originals;
 
-    Path file(String content) throws IOException { return Files.writeString(originals.resolve(UUID.randomUUID()+".txt"),content); }
+    Path file(String content) throws IOException { return Files.writeString(originals.resolve(UUID.randomUUID()+".md"),content); }
     RagSourceView register(Path path) { return rag.registerSnapshotCandidate(path.toString()); }
     RagSnapshotCaptureCommand update(Path path,RagSourceView preview) { return new RagSnapshotCaptureCommand(path.toString(),preview.snapshot()); }
     RagConsentCommand consent(RagSourceView view) { return new RagConsentCommand(Set.of("content"),view.sourceVersion(),view.consentResetVersion(),view.authorizationEpoch(),view.fieldPolicyVersion(),null,view.snapshot()); }
@@ -328,7 +328,7 @@ class RagSnapshotCorrectiveIntegrationTest extends AbstractRagIntegrationTest {
         var fresh=new RagOriginalBytesStore(ROOT,store.getMaxSourceBytes());
         var restarted=new RagRecoveryService(beans.getBean(jakarta.persistence.EntityManager.class),beans.getBean(RagRuntimeIdentity.class),
                 beans.getBean(RagPurgeService.class),transactions,beans.getBean(RagRuntimeSecurity.class),
-                beans.getBean(RagWorkerSupervisor.class),beans.getBean(RagGenerationState.class),fresh);
+                beans.getBean(RagWorkerSupervisor.class),beans.getBean(RagGenerationState.class),beans.getBean(RagNoChangeService.class),fresh);
         restarted.afterSingletonsInstantiated(); return restarted;
     }
 

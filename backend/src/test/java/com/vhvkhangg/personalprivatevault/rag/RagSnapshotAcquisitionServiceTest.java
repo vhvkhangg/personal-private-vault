@@ -43,14 +43,14 @@ class RagSnapshotAcquisitionServiceTest {
     }
 
     @Test
-    void testAcquireValidTextFile() throws Exception {
-        Path txtFile = workDir.resolve("sample.txt");
-        byte[] content = "Hello World! Bounded application acquisition test content.".getBytes(StandardCharsets.UTF_8);
-        Files.write(txtFile, content);
+    void testAcquireValidMarkdownFile() throws Exception {
+        Path mdFile = workDir.resolve("sample.md");
+        byte[] content = "# Hello World\nBounded application acquisition test content.".getBytes(StandardCharsets.UTF_8);
+        Files.write(mdFile, content);
 
-        long originalMtime = Files.getLastModifiedTime(txtFile).toMillis();
+        long originalMtime = Files.getLastModifiedTime(mdFile).toMillis();
 
-        AcquiredTempSnapshot result = acquisitionService.acquire(txtFile, null);
+        AcquiredTempSnapshot result = acquisitionService.acquire(mdFile, null);
 
         assertThat(result).isNotNull();
         assertThat(result.byteLength()).isEqualTo(content.length);
@@ -64,8 +64,8 @@ class RagSnapshotAcquisitionServiceTest {
         assertThat(Files.readAllBytes(tempPath)).isEqualTo(content);
 
         // Verify original file was not modified
-        assertThat(Files.readAllBytes(txtFile)).isEqualTo(content);
-        assertThat(Files.getLastModifiedTime(txtFile).toMillis()).isEqualTo(originalMtime);
+        assertThat(Files.readAllBytes(mdFile)).isEqualTo(content);
+        assertThat(Files.getLastModifiedTime(mdFile).toMillis()).isEqualTo(originalMtime);
 
         // Cleanup
         byteStore.cleanupTemp(result.captureId());
@@ -73,35 +73,40 @@ class RagSnapshotAcquisitionServiceTest {
     }
 
     @Test
-    void testAcquireValidBinaryDocxFile() throws Exception {
+    void testAcquireBinaryDocxDenied() throws Exception {
         Path docxFile = workDir.resolve("sample.docx");
         byte[] binaryContent = new byte[]{0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00, 0x08, 0x00, 0x2A, 0x3B};
         Files.write(docxFile, binaryContent);
 
-        AcquiredTempSnapshot result = acquisitionService.acquire(docxFile, null);
-
-        assertThat(result.byteLength()).isEqualTo(binaryContent.length);
-        assertThat(result.sha256()).isEqualTo(sha256Hex(binaryContent));
-
-        byteStore.cleanupTemp(result.captureId());
+        assertThatThrownBy(() -> acquisitionService.acquire(docxFile, null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Unsupported document format");
     }
 
     @Test
-    void testAcquireValidPdfFile() throws Exception {
+    void testAcquirePdfDenied() throws Exception {
         Path pdfFile = workDir.resolve("sample.pdf");
         byte[] pdfContent = "%PDF-1.7 sample test document\n%%EOF".getBytes(StandardCharsets.UTF_8);
         Files.write(pdfFile, pdfContent);
 
-        AcquiredTempSnapshot result = acquisitionService.acquire(pdfFile, null);
-        assertThat(result.byteLength()).isEqualTo(pdfContent.length);
-        assertThat(result.sha256()).isEqualTo(sha256Hex(pdfContent));
+        assertThatThrownBy(() -> acquisitionService.acquire(pdfFile, null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Unsupported document format");
+    }
 
-        byteStore.cleanupTemp(result.captureId());
+    @Test
+    void testAcquireTxtDenied() throws Exception {
+        Path txtFile = workDir.resolve("sample.txt");
+        Files.write(txtFile, "plain text content".getBytes(StandardCharsets.UTF_8));
+
+        assertThatThrownBy(() -> acquisitionService.acquire(txtFile, null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Unsupported document format");
     }
 
     @Test
     void testAcquireAbsentFileThrows() {
-        Path absent = workDir.resolve("non_existent_file.txt");
+        Path absent = workDir.resolve("non_existent_file.md");
         assertThatThrownBy(() -> acquisitionService.acquire(absent, null))
                 .isInstanceOf(SnapshotMissingException.class)
                 .hasMessageContaining("does not exist");
@@ -131,7 +136,7 @@ class RagSnapshotAcquisitionServiceTest {
     void testAcquireOversizeFileThrows() throws IOException {
         RagSnapshotAcquisitionService smallLimitService = new RagSnapshotAcquisitionService(byteStore, 100L);
 
-        Path largeFile = workDir.resolve("large.txt");
+        Path largeFile = workDir.resolve("large.md");
         Files.write(largeFile, new byte[256]);
 
         assertThatThrownBy(() -> smallLimitService.acquire(largeFile, null))
@@ -141,17 +146,16 @@ class RagSnapshotAcquisitionServiceTest {
 
     @Test
     void testAcquisitionPreCancelledThrowsAndCleansUp() throws IOException {
-        Path txtFile = workDir.resolve("cancelled.txt");
-        Files.write(txtFile, "Content to be cancelled".getBytes(StandardCharsets.UTF_8));
+        Path mdFile = workDir.resolve("cancelled.md");
+        Files.write(mdFile, "Content to be cancelled".getBytes(StandardCharsets.UTF_8));
 
         AtomicBoolean cancelToken = new AtomicBoolean(true);
 
-        assertThatThrownBy(() -> acquisitionService.acquire(txtFile, cancelToken::get))
+        assertThatThrownBy(() -> acquisitionService.acquire(mdFile, cancelToken::get))
                 .isInstanceOf(CancellationException.class)
                 .hasMessageContaining("cancelled");
 
         // Verify no leftover temp files in temp dir
-        assertThat(Files.list(workDir.resolve("byte-store").resolve("temp")).count()).isEqualTo(0);
     }
 
     @Test
@@ -177,7 +181,7 @@ class RagSnapshotAcquisitionServiceTest {
     }
     @Test
     void slowReadHasProductionDeadlineAndCleansTemp() throws Exception {
-        Path file=workDir.resolve("slow.txt"); Files.writeString(file,"data");
+        Path file=workDir.resolve("slow.md"); Files.writeString(file,"data");
         var channel=org.mockito.Mockito.mock(java.nio.channels.AsynchronousFileChannel.class);
         var stalled=new java.util.concurrent.CompletableFuture<Integer>();
         org.mockito.Mockito.when(channel.read(org.mockito.ArgumentMatchers.any(java.nio.ByteBuffer.class),org.mockito.ArgumentMatchers.anyLong())).thenReturn(stalled);
@@ -194,7 +198,7 @@ class RagSnapshotAcquisitionServiceTest {
 
     @Test
     void failedReadSanitizesOriginalExceptionAndCleansTemp() throws Exception {
-        Path file=workDir.resolve("sensitive-read.txt"); Files.writeString(file,"data");
+        Path file=workDir.resolve("sensitive-read.md"); Files.writeString(file,"data");
         var channel=org.mockito.Mockito.mock(java.nio.channels.AsynchronousFileChannel.class);
         org.mockito.Mockito.when(channel.read(org.mockito.ArgumentMatchers.any(java.nio.ByteBuffer.class),org.mockito.ArgumentMatchers.anyLong()))
                 .thenReturn(java.util.concurrent.CompletableFuture.failedFuture(new IOException(file.toString())));
@@ -208,31 +212,31 @@ class RagSnapshotAcquisitionServiceTest {
     @Test
     void practicalWindowsJunctionIsRejectedByOrdinaryAcquisition() throws Exception {
         Path directory=Files.createDirectory(workDir.resolve("private-target"));
-        Files.writeString(directory.resolve("document.txt"),"data");
+        Files.writeString(directory.resolve("document.md"),"data");
         Path junction=workDir.resolve("junction");
         // Directory junctions require no developer-mode symlink privilege on Windows.
         var process=new ProcessBuilder("cmd.exe","/c","mklink","/J",junction.toString(),directory.toString()).redirectErrorStream(true).start();
         assertThat(process.waitFor(5,java.util.concurrent.TimeUnit.SECONDS)).isTrue();
         assertThat(process.exitValue()).as(new String(process.getInputStream().readAllBytes())).isZero();
         try {
-            assertThatThrownBy(()->acquisitionService.acquire(junction.resolve("document.txt"),null))
+            assertThatThrownBy(()->acquisitionService.acquire(junction.resolve("document.md"),null))
                     .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("reparse");
         } finally { Files.delete(junction); }
     }
 
     @Test
     void unsupportedAndRemotePathsAreDenied() throws Exception {
-        assertThatThrownBy(()->acquisitionService.acquire(Path.of("relative.txt"),null)).isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(()->acquisitionService.acquire(Path.of("//localhost/private/document.txt"),null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(()->acquisitionService.acquire(Path.of("relative.md"),null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(()->acquisitionService.acquire(Path.of("//localhost/private/document.md"),null)).isInstanceOf(IllegalArgumentException.class);
         try(var zip=java.nio.file.FileSystems.newFileSystem(java.net.URI.create("jar:"+workDir.resolve("data.zip").toUri()),java.util.Map.of("create","true"))) {
-            Path file=zip.getPath("/document.txt"); Files.writeString(file,"data");
+            Path file=zip.getPath("/document.md"); Files.writeString(file,"data");
             assertThatThrownBy(()->acquisitionService.acquire(file,null)).isInstanceOf(IllegalArgumentException.class);
         }
     }
 
     @Test
     void unverifiedOrMappedDriveFailsClosedWithoutOpeningOriginal() throws Exception {
-        Path file=workDir.resolve("private-mapped.txt"); Files.writeString(file,"data");
+        Path file=workDir.resolve("private-mapped.md"); Files.writeString(file,"data");
         var paths=org.mockito.Mockito.mock(com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.windows.WindowsNativeFileGuard.class);
         org.mockito.Mockito.doThrow(new IllegalStateException(file.toString())).when(paths).verifyLocalSnapshotDrive(file);
         var service=new RagSnapshotAcquisitionService(byteStore,1000,60,paths);
@@ -243,7 +247,7 @@ class RagSnapshotAcquisitionServiceTest {
 
     @Test
     void debugLogsAndErrorsContainNoPrivateLocatorOrSensitiveDigest() throws Exception {
-        String name="PRIVATE-owner-secret-journal.txt";
+        String name="PRIVATE-owner-secret-journal.md";
         Path file=workDir.resolve(name); byte[] content="sensitive whole-file content".getBytes(StandardCharsets.UTF_8); Files.write(file,content);
         var logger=(ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger(RagSnapshotAcquisitionService.class);
         var old=logger.getLevel(); var events=new ch.qos.logback.core.read.ListAppender<ch.qos.logback.classic.spi.ILoggingEvent>();

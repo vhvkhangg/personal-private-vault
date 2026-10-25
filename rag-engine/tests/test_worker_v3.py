@@ -11,6 +11,7 @@ from ppv_rag.config import Settings
 from ppv_rag.contracts import (
     DocumentBatchStageRequest,
     DocumentRootTask,
+    PreparedDocumentField,
     document_input_digest,
 )
 from ppv_rag.main import app
@@ -33,15 +34,23 @@ def test_process_document_batch_request_mixed_formats(monkeypatch: pytest.Monkey
     monkeypatch.setattr(worker, "settings", test_settings)
     monkeypatch.setattr(worker, "verify_document_grant", lambda req: None)
     monkeypatch.setattr(worker, "stage_document_result", lambda **kwargs: None)
+    monkeypatch.setattr(worker, "seal_document_result", lambda *args, **kwargs: "0" * 64)
 
-    # Roots: 1 TXT success, 1 MD success, 1 unsupported format failure
+    # Roots: 1 DOMAIN success, 1 MD success, 1 unsupported format failure
     roots = [
         DocumentRootTask(
-            root_key="doc-1.txt",
-            source_id="file-1",
-            format="txt",
-            content_text="This is an approved test document about indexing.",
-            approved_fields=["content"],
+            root_key="domain-1",
+            source_id="domain-1",
+            format="DOMAIN",
+            prepared_fields=[
+                PreparedDocumentField(
+                    source_key="domain-1",
+                    source_version=1,
+                    approved_field="title",
+                    text="This is an approved test document about indexing.",
+                )
+            ],
+            approved_fields=["title"],
         ),
         DocumentRootTask(
             root_key="notes.md",
@@ -90,10 +99,10 @@ def test_process_document_batch_endpoint_containment_disabled() -> None:
         "lease_token": lease_token,
         "roots": [
             {
-                "root_key": "sample.txt",
+                "root_key": "sample.md",
                 "source_id": "file-10",
-                "format": "txt",
-                "content_text": "Sample text content for endpoint test.",
+                "format": "md",
+                "content_text": "# Sample markdown content for endpoint test.",
                 "ocr_languages": ["en"],
                 "approved_fields": ["content"],
                 "transclusions": {},
@@ -132,13 +141,14 @@ def test_process_document_batch_endpoint_bound(
     monkeypatch.setattr(worker, "settings", bound_with_dsn)
     monkeypatch.setattr(worker, "verify_document_grant", lambda req: None)
     monkeypatch.setattr(worker, "stage_document_result", lambda **kwargs: None)
+    monkeypatch.setattr(worker, "seal_document_result", lambda *args, **kwargs: "0" * 64)
 
     roots_data = [
         {
-            "root_key": "sample.txt",
+            "root_key": "sample.md",
             "source_id": "file-10",
-            "format": "txt",
-            "content_text": "Sample text content for endpoint test.",
+            "format": "md",
+            "content_text": "# Sample markdown content for endpoint test.",
             "content_b64": None,
             "ocr_languages": ["en"],
             "approved_fields": ["content"],
@@ -200,10 +210,10 @@ def test_process_document_batch_input_digest_mismatch_denied(
         "lease_token": lease_token,
         "roots": [
             {
-                "root_key": "sample.txt",
+                "root_key": "sample.md",
                 "source_id": "file-10",
-                "format": "txt",
-                "content_text": "Sample text content.",
+                "format": "md",
+                "content_text": "# Sample markdown content.",
                 "ocr_languages": ["en"],
                 "approved_fields": ["content"],
                 "transclusions": {},

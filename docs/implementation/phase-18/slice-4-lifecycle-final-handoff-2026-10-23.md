@@ -1,3 +1,26 @@
+## D26 prospective CPU-only applicability - 2026-10-25
+
+**OWNER_APPROVED scope amendment; final acceptance NOT GRANTED.** [D26](owner-decisions.md#d26-cpu-only)
+selects pinned offline CPU inference ONLY. Actual CUDA inference, GPU OOM-to-CPU fallback
+and process-attributed GPU VRAM remain **NOT VERIFIED** and are
+**NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS. See the
+[exact execution profile and reconciliation](cpu-only-d26-applicability-2026-10-25.md).
+
+**Work package D effective requirement:** representative native full-path offline CPU inference, CPU/wall/tree RAM/host headroom/temp disk/expansion/cancel/cleanup with exact producer/verifier/source identities. Missing actual CUDA/fallback/attributed GPU VRAM is historically NOT VERIFIED but no longer a CPU-only acceptance blocker. Existing successful gate and independent non-GPU review evidence are retained; no implementation or new measurement cycle starts.
+
+This is prospective acceptance applicability only. Unaffected Markdown/authority/publication,
+CPU/RAM/disk/deadline/cancellation/security and five-command requirements remain mandatory.
+Future GPU enablement requires separate Owner authorization and independent verification.
+No source/runtime/test/model/lock/runner change, activation or closeout follows. Original
+GPU_EVIDENCE_BLOCKED and failed/timeout evidence remains unchanged historical truth.
+Slice 4/P18-FINAL/Phase 18 remain NOT ACCEPTED / NOT CLOSED; indexing INACTIVE.
+
+## Preserved pre-D26 text - unaffected rules remain effective
+
+> **Corrective handback - 2026-10-24:** `BLOCKED / GPU_EVIDENCE_BLOCKED`. See [handback](slice-4-codex-corrective-handback-2026-10-24.md) and [S4 matrix](slice-4-codex-corrective-matrix-2026-10-24.md). Native 104 and Python 238 pass; actual full Java exit 1 ({'tests': 1567, 'failures': 1, 'errors': 0, 'skipped': 1}). CUDA inference/fallback remains unavailable and unwaived. Slice 4/P18-FINAL NOT ACCEPTED. Earlier dated results/statuses below are preserved history.
+
+> **Codex executable handoff issued ? 2026-10-23:** [ACTIVE](../handoffs/ACTIVE.md) is now `P18-S4-LIFECYCLE-FINAL / READY_FOR_IMPLEMENTATION`. Use the [executable contract](slice-4-executable-handoff-2026-10-23.md), [complete execution/test/resource plan](slice-4-execution-and-test-plan-2026-10-23.md) and [baseline assessment](reviews/2026-10-23-slice-4-handoff-preparation.md). The preparation status below records its earlier pending state. No implementation or S4/P18-FINAL acceptance is claimed.
+
 # P18-S4-LIFECYCLE-FINAL — Slice 4 implementation handoff preparation (E+H)
 
 **Owner-authorized:** 2026-10-23, D25.

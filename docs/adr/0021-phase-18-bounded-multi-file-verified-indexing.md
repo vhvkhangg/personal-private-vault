@@ -1,3 +1,22 @@
+## D26 prospective CPU-only applicability - 2026-10-25
+
+**OWNER_APPROVED scope amendment; final acceptance NOT GRANTED.** [D26](../implementation/phase-18/owner-decisions.md#d26-cpu-only)
+selects pinned offline CPU inference ONLY. Actual CUDA inference, GPU OOM-to-CPU fallback
+and process-attributed GPU VRAM remain **NOT VERIFIED** and are
+**NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS. See the
+[exact execution profile and reconciliation](../implementation/phase-18/cpu-only-d26-applicability-2026-10-25.md).
+
+**Affected clause: D18-A.4 and linked release/implementation acceptance.** Exact parser/chunker/model/tokenizer/provenance tuples and Java/PG verification remain required. Their Phase 18 execution profile is now pinned CPU-only; linked GPU/fallback obligations are superseded only as mapped by D26. No source authority, transaction, schema/module boundary or frozen ADR-0020/Phase 17 change.
+
+This is prospective acceptance applicability only. Unaffected Markdown/authority/publication,
+CPU/RAM/disk/deadline/cancellation/security and five-command requirements remain mandatory.
+Future GPU enablement requires separate Owner authorization and independent verification.
+No source/runtime/test/model/lock/runner change, activation or closeout follows. Original
+GPU_EVIDENCE_BLOCKED and failed/timeout evidence remains unchanged historical truth.
+Slice 4/P18-FINAL/Phase 18 remain NOT ACCEPTED / NOT CLOSED; indexing INACTIVE.
+
+## Preserved pre-D26 text - unaffected rules remain effective
+
 > **Accepted prospective D24 amendment - 2026-10-21:** The Owner now chooses the **overall Phase 18 `.md`-only target**, supplying the overall-format decision left open by D21/D22/ADR-0024. The exact [applicability table](../implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md#prospective-applicability-reconciliation) and [D24](../implementation/phase-18/owner-decisions.md#2026-10-21--d24-overall-markdown-only-phase-18-and-slice-3-verified-indexing) prospectively supersede conflicting format/OCR and future-preservation clauses below. D17 Markdown fidelity/security/child grants, actual producer validation, Java/PG atomic publication, fencing/recovery, offline/model/resources and lifecycle/final verification remain. New initial Slice 3 D+F is authorized only through ACTIVE; Slice 4 implementation is deferred, with one required excluded-format cleanup at its end before P18-FINAL. No activation or acceptance follows. Historical clauses/decisions remain unchanged below; ADR-0020/Phase 17 remain frozen.
 
 > **D21 Slice 2 applicability, 2026-10-20:** The Owner-approved current Slice 2 acceptance scope is Obsidian Markdown `.md` only; TXT/DOCX/PDF/XLS/XLSX/OCR are excluded from that slice and require a future explicit Owner Decision for reintroduction. See the [scope/matrix](../implementation/phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md). The original broader Phase 18 clauses below remain unaccepted reference obligations; this notice does not silently delete or pass them. Precise conflicts and higher-level qualification are [ACCEPTED in ADR-0024 under Owner D22](0024-phase-18-slice-profile-acceptance-boundaries.md), strictly for D21 Slice 2 applicability, not as an overall Phase 18 rebase. Phase 17/Slice 1 and Java/FR18-3/P18-FINAL guarantees are unchanged.

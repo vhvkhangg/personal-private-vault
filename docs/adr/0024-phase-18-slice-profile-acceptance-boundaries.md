@@ -1,3 +1,22 @@
+## D26 prospective CPU-only applicability - 2026-10-25
+
+**OWNER_APPROVED scope amendment; final acceptance NOT GRANTED.** [D26](../implementation/phase-18/owner-decisions.md#d26-cpu-only)
+selects pinned offline CPU inference ONLY. Actual CUDA inference, GPU OOM-to-CPU fallback
+and process-attributed GPU VRAM remain **NOT VERIFIED** and are
+**NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS. See the
+[exact execution profile and reconciliation](../implementation/phase-18/cpu-only-d26-applicability-2026-10-25.md).
+
+**Affected clauses: D22 exact qualification and P18-FINAL GPU/model boundary.** D26 supplies the separately Owner-approved overall execution-profile decision that D22/D24 did not make. GPU-specific final acceptance portions are now not applicable under the CPU-only profile; overall model/offline/CPU/resources/publication/lifecycle/five-command guarantees remain. D21/D22 slice-only and D24 overall .md scope/history are preserved; this is not retroactive acceptance of a broader slice or Phase 17 amendment.
+
+This is prospective acceptance applicability only. Unaffected Markdown/authority/publication,
+CPU/RAM/disk/deadline/cancellation/security and five-command requirements remain mandatory.
+Future GPU enablement requires separate Owner authorization and independent verification.
+No source/runtime/test/model/lock/runner change, activation or closeout follows. Original
+GPU_EVIDENCE_BLOCKED and failed/timeout evidence remains unchanged historical truth.
+Slice 4/P18-FINAL/Phase 18 remain NOT ACCEPTED / NOT CLOSED; indexing INACTIVE.
+
+## Preserved pre-D26 text - unaffected rules remain effective
+
 > **Accepted prospective D24 amendment - 2026-10-21:** The Owner now chooses the **overall Phase 18 `.md`-only target**, supplying the overall-format decision left open by D21/D22/ADR-0024. The exact [applicability table](../implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md#prospective-applicability-reconciliation) and [D24](../implementation/phase-18/owner-decisions.md#2026-10-21--d24-overall-markdown-only-phase-18-and-slice-3-verified-indexing) prospectively supersede conflicting format/OCR and future-preservation clauses below. D17 Markdown fidelity/security/child grants, actual producer validation, Java/PG atomic publication, fencing/recovery, offline/model/resources and lifecycle/final verification remain. New initial Slice 3 D+F is authorized only through ACTIVE; Slice 4 implementation is deferred, with one required excluded-format cleanup at its end before P18-FINAL. No activation or acceptance follows. Historical clauses/decisions remain unchanged below; ADR-0020/Phase 17 remain frozen.
 
 # ADR-0024 — Explicit Phase 18 slice-profile acceptance boundaries

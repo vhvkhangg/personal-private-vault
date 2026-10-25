@@ -26,6 +26,19 @@ public final class RagSlice3RecoveryProbeProcess {
             try(var application=new SpringApplicationBuilder(PersonalPrivateVaultApplication.class).run(options)) {
                 var jdbc=application.getBean(JdbcTemplate.class);var rag=application.getBean(RagOperations.class);
                 UUID job;var result=new LinkedHashMap<String,Object>();
+                if(args[0].equals("CN_WAIT") || args[0].equals("CN_RECOVER")) {
+                    var service=application.getBean(RagNoChangeService.class);UUID operation;
+                    if(args[0].equals("CN_WAIT")) {
+                        var proof=service.prepare(Long.parseLong(args[2]));operation=service.begin(Map.of("unchanged",proof),null);
+                    } else {operation=UUID.fromString(args[2]);application.getBean(RagRecoveryService.class).reconcile();}
+                    result.put("success",true);result.put("operation_id",operation.toString());result.put("controller_pid",ProcessHandle.current().pid());
+                    result.put("status",jdbc.queryForObject("SELECT status FROM rag.runs WHERE run_id=? AND job_id IS NULL",String.class,operation));
+                    result.put("reserved",jdbc.queryForObject("SELECT count(*) FROM rag.external_file_sources WHERE reserved_by=?",Integer.class,operation));
+                    result.put("current_runtime",application.getBean(RagRuntimeSecurity.class).isCurrentRuntime());
+                    result.put("indexing_jobs",jdbc.queryForObject("SELECT count(*) FROM rag.job_leases",Integer.class));
+                    emit(receipt,result);if(args[0].equals("CN_WAIT"))Runtime.getRuntime().halt(System.in.read()=='H'?73:74);return;
+                }
+
                 if(args[0].equals("CURRENT")) {
                     result.put("state",application.getBean(RagGenerationState.class).state(UUID.fromString(args[2])));
                     result.put("success",true);emit(receipt,result);return;

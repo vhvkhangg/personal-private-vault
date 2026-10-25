@@ -9,8 +9,11 @@ public record RagJobAdmissionResponse(
         Long sourceId,
         String leaseToken,
         Instant leasedUntil,
-        long authorizationEpoch
+        long authorizationEpoch,
+        UUID operationId,
+        String operationDisposition
 ) {
+    public RagJobAdmissionResponse(UUID jobId,UUID attemptId,Long sourceId,String token,Instant until,long epoch) {this(jobId,attemptId,sourceId,token,until,epoch,null,null);}
     @Override
     public String toString() {
         return "RagJobAdmissionResponse[jobId=" + jobId + ", attemptId=" + attemptId + ", sourceId=" + sourceId

@@ -1,0 +1,936 @@
+{
+  "status": "READY_FOR_INDEPENDENT_CPU_ONLY_FINAL_REVIEW",
+  "date": "2026-10-25",
+  "role": "Owner-authorized documentation-only D26 applicability preparation; not independent final review or closeout",
+  "owner_decision": {
+    "id": "D26",
+    "next_available_verified": true,
+    "previous_highest_id": "D25",
+    "ledger": "docs/implementation/phase-18/owner-decisions.md#d26-cpu-only",
+    "authority": "Explicit Owner approval of option B in 2026-10-25 independent final corrective re-review",
+    "prospective_scope": "Pinned offline CPU inference ONLY",
+    "implementation_runtime_change_authorized": false,
+    "final_acceptance_or_closeout_granted": false
+  },
+  "GPU_subcases": [
+    {
+      "subcase": "Actual CUDA inference",
+      "evidence_status": "NOT VERIFIED",
+      "prospective_applicability": "NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE",
+      "PASS": false
+    },
+    {
+      "subcase": "GPU OOM-to-CPU fallback",
+      "evidence_status": "NOT VERIFIED",
+      "prospective_applicability": "NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE",
+      "PASS": false
+    },
+    {
+      "subcase": "Process-attributed GPU VRAM",
+      "evidence_status": "NOT VERIFIED",
+      "prospective_applicability": "NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE",
+      "PASS": false
+    }
+  ],
+  "retained_guarantees": [
+    "D24 Obsidian .md only and all twelve D17 requirements",
+    "Exact source/revision/hash/length/consent/approved dependency authority",
+    "Same pinned offline multilingual CPU embeddings, compatible finite 384-vectors and actual trusted replay",
+    "Producer/Java/restricted PostgreSQL publication, physical C_P, guarded C_N/NO_CHANGE, same-R reindex, lifecycle/recovery",
+    "CPU/RAM/disk/wall/deadline/cancellation/security/cleanup requirements and truthful attribution",
+    "Unchanged five-command P18-FINAL, profiles/cwd/interpreter and individual limits",
+    "Frozen Phase 17 and closed Slices 1-3/FR18-3 guarantees"
+  ],
+  "future_GPU": "Separate explicit Owner authorization and independent verification required; no existing unexecuted path certified or activated",
+  "controlling_clause_and_file_traceability": {
+    "docs/implementation/phase-18/owner-decisions.md": {
+      "affected_clause": "D26 decision ledger",
+      "entry_sha256": "b1aff828a6f7526b0882247712d46f22a9c9d215290e2d04de602da8cc7bcf9d",
+      "amendment_prefix_bytes": 3235,
+      "final_sha256": "62f9ec621f63e22649e4b71fe66ab102762f1b9b7e9b2c37b3ddb5b6da581ae5",
+      "original_body_preserved": true
+    },
+    "docs/implementation/handoffs/ACTIVE.md": {
+      "affected_clause": "Current routing",
+      "entry_sha256": "e72ca563ffdf1394e7df5a6a33d2c8ecf4bb267887dc5f5cef229bbd2481634c",
+      "amendment_prefix_bytes": 1258,
+      "final_sha256": "5eaaaa11bd0db94cfe0ccda1c5c6e22c695af940c2ecbdab85d25eb055e95a86",
+      "original_body_preserved": true
+    },
+    "docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md": {
+      "affected_clause": "D18-A.4 and linked release/implementation acceptance",
+      "entry_sha256": "e1451f101eb26290a0343f5f51c18a5b80a4c7313c97e17e4e854b15e58fe980",
+      "amendment_prefix_bytes": 1522,
+      "final_sha256": "94f49ee29de09755bdac78dba45d001b3daaf88a232d5b65ed3402cafbb3eba2",
+      "original_body_preserved": true
+    },
+    "docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md": {
+      "affected_clause": "N10 and GPU language in remaining acceptance gates",
+      "entry_sha256": "8b0bf24ff8e6869cf0a619dba57f81da97738daa2aba59c67d7fcfabdc53611e",
+      "amendment_prefix_bytes": 1607,
+      "final_sha256": "036b1f0e838932cc26bc856dcc9f0699592d0aadffbd8123daf448b4d1da77ed",
+      "original_body_preserved": true
+    },
+    "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md": {
+      "affected_clause": "Mandatory user-visible feature set GPU/fallback/VRAM and retained N10 matrix row",
+      "entry_sha256": "7cb3e360605170b5db525eb347e363e1a7e68bb841799d88cd03de70fbfcdbec",
+      "amendment_prefix_bytes": 1663,
+      "final_sha256": "f0ea31e297063425d16d089eb4a3c941d26c09072ce15ce3e91e2f1fce245969",
+      "original_body_preserved": true
+    },
+    "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md": {
+      "affected_clause": "D22 exact qualification and P18-FINAL GPU/model boundary",
+      "entry_sha256": "1a8d7cfc55b5d87fdb620ff5eac6cecb1d147ae295eb2b4bb5b8c0343f0fb2c2",
+      "amendment_prefix_bytes": 1640,
+      "final_sha256": "e3e1634348b6d7f73ceaa56ec022341dfdabd1e339d9188a111772214c6367e4",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md": {
+      "affected_clause": "D24 applicability AC-05/06/07/08 and Slice 4 resource boundary",
+      "entry_sha256": "bc2df8b52b7510c5500b79630f6a48fb6b3199e9cc7f9a66c6fb129ec1ce0788",
+      "amendment_prefix_bytes": 1509,
+      "final_sha256": "7d47aa6d1fd8b1415aecf5642d1e77ed6c20aba410fd8a4764dfafe1bcf3a387",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/slice-4-lifecycle-final-handoff-2026-10-23.md": {
+      "affected_clause": "Work package D resources",
+      "entry_sha256": "5b379cba478f89b497ffb4abace6ccd85f07af84560f138ceac85a3eadaf3655",
+      "amendment_prefix_bytes": 1541,
+      "final_sha256": "3b416289871f22675c8453e210f09f1c27c519f8a61da61ae89cd5feb49ce6bb",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/slice-4-executable-handoff-2026-10-23.md": {
+      "affected_clause": "Package D resource protocol and Stops/handback GPU conditions",
+      "entry_sha256": "bcdec21adfbe67308af45f08c9d41332c66970e6e1f9730bf1e488b331044316",
+      "amendment_prefix_bytes": 1561,
+      "final_sha256": "de8bbd976d997cf5ef090765e7ca8d51992ea18cd68e64977463fdbdd129d4ab",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/slice-4-lifecycle-final-acceptance-2026-10-23.md": {
+      "affected_clause": "S4-15, with retained S4-14/17/18 boundaries",
+      "entry_sha256": "be6e291adeaade32765d483cab5ec87b9771be23c0f310d833f9ef0be3fce7c7",
+      "amendment_prefix_bytes": 2056,
+      "final_sha256": "9311dcfa9719225c86a58dd930c9318e62d9a32f0e6037d5e2f782b283f33358",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/slice-4-execution-and-test-plan-2026-10-23.md": {
+      "affected_clause": "S4-15; AC-05; Final resources and evidence protocol",
+      "entry_sha256": "a20d14285e40ef6e58665b2275f13b6a7b7586e2690f26e29cddaa72b08e0ac8",
+      "amendment_prefix_bytes": 2152,
+      "final_sha256": "56bc962d0536816d6fe1a5de020bf157f6e55ca323e5c808d52d8c3ef7db6625",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/acceptance-and-evidence.md": {
+      "affected_clause": "AC-05; GPU portions of AC-08 and FCNC-15/IS-26/27/30",
+      "entry_sha256": "937df16db9f546faa29cfd1c250fea45c715836769b0eeba7ab894f76198b1aa",
+      "amendment_prefix_bytes": 2161,
+      "final_sha256": "8df4f584b58992a56b2647d757c0c364e135c498e793d61bf01fb7c5e1c6cb5c",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/final-verification-gate.md": {
+      "affected_clause": "P18-OFFLINE-MODEL/RESOURCES/REPORT GPU portions; five commands unchanged",
+      "entry_sha256": "1eb1a71fde2910eab298192de43be080469f2362684d2211002c203da084a78b",
+      "amendment_prefix_bytes": 2430,
+      "final_sha256": "dc73d141724909854f2cd8613379edc883d6b11af4ed4d068043d6188b103e18",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/README.md": {
+      "affected_clause": "Current status/evidence routing",
+      "entry_sha256": "dbce012c1791fea8f0c1761fb8669cf08ee8b719ac6fb25d0fa7fd24521d89bb",
+      "amendment_prefix_bytes": 1602,
+      "final_sha256": "dd559e502e4b7c16a5902698c5de65bdd266263ef1dd04cd532e23856f174fee",
+      "original_body_preserved": true
+    },
+    "docs/implementation/phase-18/test-evidence.md": {
+      "affected_clause": "Current status/evidence routing",
+      "entry_sha256": "58b35811f55ee96f58b989df2ffdf3bee0518ec52d42b43a213e6ae368bd2cc9",
+      "amendment_prefix_bytes": 1602,
+      "final_sha256": "9d944097aac493147129a51387b7eec82e06d9820e5759dbe1f2e69b917672a4",
+      "original_body_preserved": true
+    },
+    "docs/implementation/rag-phase-plan.md": {
+      "affected_clause": "Phase 18 execution profile only",
+      "entry_sha256": "0c9bf1b3f58a2a5f8fa943194fd377fc38cff31ee9d28d2e8f2d5261a1cdc89b",
+      "amendment_prefix_bytes": 1527,
+      "final_sha256": "69c503d1517513d4f77013aed1facd3c945067df03d36e614783d7557079ccf4",
+      "original_body_preserved": true
+    }
+  },
+  "profile": "docs/implementation/phase-18/cpu-only-d26-applicability-2026-10-25.md",
+  "handback": "docs/implementation/phase-18/slice-4-cpu-only-d26-handback-2026-10-25.md",
+  "readiness_audit": {
+    "status": "PASS",
+    "utc": "2026-10-25T06:19:38.506224+00:00",
+    "scope": "Documentation applicability consistency only, not independent final acceptance",
+    "head": "ebe125f7529124b62761e8d01c692cbbd28e4aa7",
+    "raw_index_sha256": "e581e312ac9d427c0f0a4550f0e10a211cb5a9474cb00f8de29895a947037cdf",
+    "semantic_index_sha256": "b71429afaaa21bf42df8f893b7cb76dba51bb00ac0abd01df8908139c4a36eb5",
+    "head_and_index_unchanged": true,
+    "source_entries_verified": 1732,
+    "source_drift": {},
+    "entry_repo_files": 2522,
+    "changed_existing_docs": {
+      "docs/implementation/phase-18/slice-4-executable-handoff-2026-10-23.md": {
+        "entry": "bcdec21adfbe67308af45f08c9d41332c66970e6e1f9730bf1e488b331044316",
+        "final": "de8bbd976d997cf5ef090765e7ca8d51992ea18cd68e64977463fdbdd129d4ab"
+      },
+      "docs/implementation/phase-18/slice-4-execution-and-test-plan-2026-10-23.md": {
+        "entry": "a20d14285e40ef6e58665b2275f13b6a7b7586e2690f26e29cddaa72b08e0ac8",
+        "final": "56bc962d0536816d6fe1a5de020bf157f6e55ca323e5c808d52d8c3ef7db6625"
+      },
+      "docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md": {
+        "entry": "e1451f101eb26290a0343f5f51c18a5b80a4c7313c97e17e4e854b15e58fe980",
+        "final": "94f49ee29de09755bdac78dba45d001b3daaf88a232d5b65ed3402cafbb3eba2"
+      },
+      "docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md": {
+        "entry": "8b0bf24ff8e6869cf0a619dba57f81da97738daa2aba59c67d7fcfabdc53611e",
+        "final": "036b1f0e838932cc26bc856dcc9f0699592d0aadffbd8123daf448b4d1da77ed"
+      },
+      "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md": {
+        "entry": "7cb3e360605170b5db525eb347e363e1a7e68bb841799d88cd03de70fbfcdbec",
+        "final": "f0ea31e297063425d16d089eb4a3c941d26c09072ce15ce3e91e2f1fce245969"
+      },
+      "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md": {
+        "entry": "1a8d7cfc55b5d87fdb620ff5eac6cecb1d147ae295eb2b4bb5b8c0343f0fb2c2",
+        "final": "e3e1634348b6d7f73ceaa56ec022341dfdabd1e339d9188a111772214c6367e4"
+      },
+      "docs/implementation/handoffs/ACTIVE.md": {
+        "entry": "e72ca563ffdf1394e7df5a6a33d2c8ecf4bb267887dc5f5cef229bbd2481634c",
+        "final": "5eaaaa11bd0db94cfe0ccda1c5c6e22c695af940c2ecbdab85d25eb055e95a86"
+      },
+      "docs/implementation/phase-18/README.md": {
+        "entry": "dbce012c1791fea8f0c1761fb8669cf08ee8b719ac6fb25d0fa7fd24521d89bb",
+        "final": "dd559e502e4b7c16a5902698c5de65bdd266263ef1dd04cd532e23856f174fee"
+      },
+      "docs/implementation/phase-18/acceptance-and-evidence.md": {
+        "entry": "937df16db9f546faa29cfd1c250fea45c715836769b0eeba7ab894f76198b1aa",
+        "final": "8df4f584b58992a56b2647d757c0c364e135c498e793d61bf01fb7c5e1c6cb5c"
+      },
+      "docs/implementation/phase-18/final-verification-gate.md": {
+        "entry": "1eb1a71fde2910eab298192de43be080469f2362684d2211002c203da084a78b",
+        "final": "dc73d141724909854f2cd8613379edc883d6b11af4ed4d068043d6188b103e18"
+      },
+      "docs/implementation/phase-18/owner-decisions.md": {
+        "entry": "b1aff828a6f7526b0882247712d46f22a9c9d215290e2d04de602da8cc7bcf9d",
+        "final": "62f9ec621f63e22649e4b71fe66ab102762f1b9b7e9b2c37b3ddb5b6da581ae5"
+      },
+      "docs/implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md": {
+        "entry": "bc2df8b52b7510c5500b79630f6a48fb6b3199e9cc7f9a66c6fb129ec1ce0788",
+        "final": "7d47aa6d1fd8b1415aecf5642d1e77ed6c20aba410fd8a4764dfafe1bcf3a387"
+      },
+      "docs/implementation/phase-18/slice-4-lifecycle-final-acceptance-2026-10-23.md": {
+        "entry": "be6e291adeaade32765d483cab5ec87b9771be23c0f310d833f9ef0be3fce7c7",
+        "final": "9311dcfa9719225c86a58dd930c9318e62d9a32f0e6037d5e2f782b283f33358"
+      },
+      "docs/implementation/phase-18/slice-4-lifecycle-final-handoff-2026-10-23.md": {
+        "entry": "5b379cba478f89b497ffb4abace6ccd85f07af84560f138ceac85a3eadaf3655",
+        "final": "3b416289871f22675c8453e210f09f1c27c519f8a61da61ae89cd5feb49ce6bb"
+      },
+      "docs/implementation/phase-18/test-evidence.md": {
+        "entry": "58b35811f55ee96f58b989df2ffdf3bee0518ec52d42b43a213e6ae368bd2cc9",
+        "final": "9d944097aac493147129a51387b7eec82e06d9820e5759dbe1f2e69b917672a4"
+      },
+      "docs/implementation/rag-phase-plan.md": {
+        "entry": "0c9bf1b3f58a2a5f8fa943194fd377fc38cff31ee9d28d2e8f2d5261a1cdc89b",
+        "final": "69c503d1517513d4f77013aed1facd3c945067df03d36e614783d7557079ccf4"
+      }
+    },
+    "new_checkpoint_docs": [
+      "docs\\implementation\\phase-18\\cpu-only-d26-applicability-2026-10-25.md",
+      "docs\\implementation\\phase-18\\slice-4-cpu-only-d26-handback-2026-10-25.md",
+      "docs\\implementation\\phase-18\\slice-4-cpu-only-d26-evidence-2026-10-25.json"
+    ],
+    "unchanged_other_entry_files": 2506,
+    "original_bodies_preserved": true,
+    "historical_assets_verified": 83955,
+    "historical_drift": [],
+    "new_links_checked": 41,
+    "five_command_codeblock_hashes_unchanged": [
+      "bc4582d5c5a66b714c11a27b1ec5acac85fc5f7484080b056a2c239236f792c9"
+    ],
+    "python_receipts": {
+      "final-ruff": {
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "python.exe",
+          "argv_sha256": "fe87c08fff6a7b3af3a0a329627c5de167a27a1818dee6f7ac0937e24b21129c",
+          "started_utc": "2026-10-24T13:35:35.921+00:00",
+          "pid": 25672,
+          "finished_utc": "2026-10-24T13:35:36.165+00:00",
+          "duration_seconds": 0.244,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "receipt_path": "logs\\phase18\\s4-corrective-20261024\\final-ruff.json",
+        "receipt_sha256": "1830716d409461b7f3c7db77f63e71330fe40ff306e297e387cb4e745a686f45",
+        "log_sha256": "357c54b41841e32df7ac0c6fd798c441cdcb9801c43ca81464de0b0db4961877",
+        "manifest_sha256": "03002001c526857e0ae59f461d7938c109576b68a53b795cf9136f00386dc55a",
+        "current_rag_engine_entries_verified": 108,
+        "drift": {}
+      },
+      "final-format": {
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "python.exe",
+          "argv_sha256": "173cac94e7a1e29380f8b042efb9911f11c44065e0629de13442f5731df55903",
+          "started_utc": "2026-10-24T13:35:37.012+00:00",
+          "pid": 6076,
+          "finished_utc": "2026-10-24T13:35:37.255+00:00",
+          "duration_seconds": 0.243,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "receipt_path": "logs\\phase18\\s4-corrective-20261024\\final-format.json",
+        "receipt_sha256": "8cc5dc1748c797b2724d161ffe262ed2b390a561825e884db93f34b29be01ea3",
+        "log_sha256": "88e72faed91dfbac3486a99ad599ffd6652d000d8b870f64ec65b634fd05c77a",
+        "manifest_sha256": "03002001c526857e0ae59f461d7938c109576b68a53b795cf9136f00386dc55a",
+        "current_rag_engine_entries_verified": 108,
+        "drift": {}
+      },
+      "final-mypy": {
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "python.exe",
+          "argv_sha256": "7e12fc4b1ab7fa686ce74b526362093c00f57f4691c5900c0f8e9a6cbb6240e4",
+          "started_utc": "2026-10-24T13:35:38.120+00:00",
+          "pid": 22344,
+          "finished_utc": "2026-10-24T13:35:50.689+00:00",
+          "duration_seconds": 12.569,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "receipt_path": "logs\\phase18\\s4-corrective-20261024\\final-mypy.json",
+        "receipt_sha256": "1ef236513e21cea0447ad518dc53e3958f4d64dad7548e5f4a0274c03c296d0d",
+        "log_sha256": "a3b96faba049e6372fd49272b6ccf8b9c147c04954ba54f805817a03290064c1",
+        "manifest_sha256": "03002001c526857e0ae59f461d7938c109576b68a53b795cf9136f00386dc55a",
+        "current_rag_engine_entries_verified": 108,
+        "drift": {}
+      },
+      "final-pytest-v2": {
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 600.0,
+          "executable": "python.exe",
+          "argv_sha256": "b07754d65623788bda30b0b2f33a73e5fbb893ed0b04c7ad30415464bb57829f",
+          "started_utc": "2026-10-24T13:51:36.338+00:00",
+          "pid": 31580,
+          "finished_utc": "2026-10-24T13:52:32.915+00:00",
+          "duration_seconds": 56.576,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "receipt_path": "logs\\phase18\\s4-corrective-20261024\\final-pytest-v2.json",
+        "receipt_sha256": "a5ee307e35901944ca69ec2a3e898947fad0e04e130d3f34f1eb40f41893f151",
+        "log_sha256": "2247069af08cfea1bbbc490594f29fb6f12639a0c5891947de12542ee7591e80",
+        "manifest_sha256": "03002001c526857e0ae59f461d7938c109576b68a53b795cf9136f00386dc55a",
+        "current_rag_engine_entries_verified": 108,
+        "drift": {}
+      }
+    },
+    "full_pytest_XML": {
+      "tests": 238,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "archived_full_java": {
+      "receipt": {
+        "profile": "full-suite",
+        "timeout_seconds": 2100.0,
+        "executable": "mvn.cmd",
+        "argv_sha256": "2a033f8dd643becad8a69842abc7a09977b3f9000a254035df3ddd38b4ca8f9b",
+        "started_utc": "2026-10-25T02:53:18.621+00:00",
+        "pid": 30876,
+        "finished_utc": "2026-10-25T03:25:36.535+00:00",
+        "duration_seconds": 1937.915,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "suites": 142,
+      "testcase_elements": {
+        "tests": 1580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "suite_attributes": {
+        "tests": 1567,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "skip": [
+        {
+          "classname": "com.vhvkhangg.personalprivatevault.rag.RagWindowsNativePrerequisiteTest",
+          "name": "attemptsAliasCreationAndRemovalDuringProtectedLifetime",
+          "reason": "System property [ppv.rag.legacy-live-alias-diagnostic] does not exist ==> ADR-0023 supersedes hostile-alias lifetime proof for immutable snapshots; historical opt-in only"
+        }
+      ],
+      "archived_JAR_sha256": "ad6a380e7d313b7429ff4a69ca60d182a2a664cccb35528848bfc7a8c8cd3bde"
+    },
+    "independently_run_commands_reused": [
+      {
+        "name": "independent-native",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 720.0,
+          "executable": "mvn.cmd",
+          "argv_sha256": "27187eb7210a6f960af6c70b409fc5ca530bc7055ec89a8bc9e4b88c0a7108e8",
+          "started_utc": "2026-10-25T05:50:26.118+00:00",
+          "pid": 29436,
+          "finished_utc": "2026-10-25T05:55:43.346+00:00",
+          "duration_seconds": 317.228,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      },
+      {
+        "name": "ruff",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "python.exe",
+          "argv_sha256": "7d8286ca3ce649b9f02ddbbfdcbf5dce4a3543db60f6918717715caa8c58619f",
+          "started_utc": "2026-10-25T05:50:41.993+00:00",
+          "pid": 26548,
+          "finished_utc": "2026-10-25T05:50:42.137+00:00",
+          "duration_seconds": 0.144,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      },
+      {
+        "name": "format",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "python.exe",
+          "argv_sha256": "143d18dbf2fb1d7d5152a04ad33ebd5dcde2558f9a24f599563067f82746060c",
+          "started_utc": "2026-10-25T05:50:42.283+00:00",
+          "pid": 2116,
+          "finished_utc": "2026-10-25T05:50:42.401+00:00",
+          "duration_seconds": 0.118,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      },
+      {
+        "name": "mypy",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "python.exe",
+          "argv_sha256": "c3b781549c406c2287d5c3c6567c6bf081275c230e7094f9a3147dbbc4ac2307",
+          "started_utc": "2026-10-25T05:50:42.542+00:00",
+          "pid": 30728,
+          "finished_utc": "2026-10-25T05:50:51.519+00:00",
+          "duration_seconds": 8.977,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      },
+      {
+        "name": "cleanup-tests",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "python.exe",
+          "argv_sha256": "e7e687a40795973ba7c005cd4e1e92ea3c6284fd94c7816b8e4e0ab62b9a3e48",
+          "started_utc": "2026-10-25T05:50:51.732+00:00",
+          "pid": 27072,
+          "finished_utc": "2026-10-25T05:50:54.314+00:00",
+          "duration_seconds": 2.583,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      },
+      {
+        "name": "dependency",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "uv",
+          "argv_sha256": "827ca9745a8b9a3def7bb43670084c2f28034c9974411dab7058153139a69f03",
+          "started_utc": "2026-10-25T05:50:54.477+00:00",
+          "pid": 33744,
+          "finished_utc": "2026-10-25T05:50:54.600+00:00",
+          "duration_seconds": 0.123,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      },
+      {
+        "name": "offline-lock",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "uv",
+          "argv_sha256": "c8699a98f099cdf9bc602ad760395767f001cc10177c430329a2a0e001933e82",
+          "started_utc": "2026-10-25T05:50:54.767+00:00",
+          "pid": 32988,
+          "finished_utc": "2026-10-25T05:50:54.832+00:00",
+          "duration_seconds": 0.065,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      },
+      {
+        "name": "diff-check",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 180.0,
+          "executable": "git",
+          "argv_sha256": "7c730eec3ea71bd24ffc5a9255bf7f542481bf601dba6c72bed6e00f6c2fab3c",
+          "started_utc": "2026-10-25T05:50:55.007+00:00",
+          "pid": 6244,
+          "finished_utc": "2026-10-25T05:50:55.266+00:00",
+          "duration_seconds": 0.259,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      },
+      {
+        "name": "preservation-check",
+        "receipt": {
+          "profile": "normal",
+          "timeout_seconds": 240.0,
+          "executable": "python.exe",
+          "argv_sha256": "f437ec5b63631cbfb1e85ffdb084de188c4e388a95d737594e0b432f3d100780",
+          "started_utc": "2026-10-25T05:56:10.376+00:00",
+          "pid": 30844,
+          "finished_utc": "2026-10-25T05:57:14.026+00:00",
+          "duration_seconds": 63.649,
+          "result": "PASS",
+          "exit_code": 0,
+          "cleanup": "not_needed"
+        },
+        "executed_in_this_checkpoint": false
+      }
+    ],
+    "runtime": {
+      "version": "3.14.4 (main, Apr 14 2026, 14:30:57) [MSC v.1944 64 bit (AMD64)]",
+      "executable": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+      "installed_distribution_count": 52,
+      "installed_matches_independent_inventory": true,
+      "model_hashes": {
+        "rag-engine/models/paraphrase-multilingual-MiniLM-L12-v2/model.onnx": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+        "rag-engine/models/paraphrase-multilingual-MiniLM-L12-v2/tokenizer.json": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8"
+      },
+      "uv_lock_sha256": "5d5ab94a66875c51c35840e37aec76a2efa5e193a1fa1210347691c96c3517cc"
+    },
+    "GPU_subcases": {
+      "evidence": "NOT VERIFIED",
+      "applicability": "NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE",
+      "GPU_PASS_claim": false
+    },
+    "diff_check_exit": 0,
+    "gate_or_inference_executions_in_this_checkpoint": 0,
+    "historical_review_sha256": "f205d45b0b26bf3fc74bf6c1ec4fec3fcd2429238b6dc32c358ead8880e9674d"
+  },
+  "final_checks": {
+    "status": "PASS",
+    "utc": "2026-10-25T06:21:25.523555+00:00",
+    "changed_existing_documents": 16,
+    "new_governance_documents": 3,
+    "source_hashes_verified": 1732,
+    "source_drift": {},
+    "raw_and_semantic_index_and_HEAD_unchanged": true,
+    "all_original_amended_document_bodies_preserved_byte_for_byte": true,
+    "git_diff_check_exit": 0,
+    "original_five_command_block_sha256": [
+      "bc4582d5c5a66b714c11a27b1ec5acac85fc5f7484080b056a2c239236f792c9"
+    ],
+    "full_java_reruns": 0,
+    "inference_or_test_gate_executions": 0
+  },
+  "verification_commands": [
+    {
+      "scope": "Documentation/source/receipt/history verification, not a product test gate",
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "scripts/run-bounded-command.py",
+        "--timeout-seconds",
+        "180",
+        "--receipt",
+        "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/prepare-receipt.json",
+        "--",
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-B",
+        "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/prepare.py"
+      ],
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 180.0,
+        "executable": "python.exe",
+        "argv_sha256": "9215b53827220ede1c6096c523ce0ff6bb01af5569fb13865bed09cd66f08aa3",
+        "started_utc": "2026-10-25T06:09:18.606+00:00",
+        "pid": 23060,
+        "finished_utc": "2026-10-25T06:10:29.489+00:00",
+        "duration_seconds": 70.883,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/prepare-receipt.json",
+      "log_path": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/prepare.log",
+      "preserved_script_version": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/prepare.py",
+      "script_version_sha256": "1b7682a86ddb20ff16c5ba5e9308aafdb9379028266604c20686f26e7227d3ab"
+    },
+    {
+      "scope": "Documentation/source/receipt/history verification, not a product test gate",
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "scripts/run-bounded-command.py",
+        "--timeout-seconds",
+        "240",
+        "--receipt",
+        "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-receipt.json",
+        "--",
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-B",
+        "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit.py"
+      ],
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 240.0,
+        "executable": "python.exe",
+        "argv_sha256": "77729eeadee077ff63dd0633eaa1984041f9cf2290cea37309b4ab3dd92391d7",
+        "started_utc": "2026-10-25T06:17:34.043+00:00",
+        "pid": 2988,
+        "finished_utc": "2026-10-25T06:17:34.218+00:00",
+        "duration_seconds": 0.175,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-receipt.json",
+      "log_path": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit.log",
+      "preserved_script_version": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v1.py",
+      "script_version_sha256": "c2fc1dba1c4e8eb8815564ad5ab46b373c7b8577b09df0b2e29c9f26c2f5c503"
+    },
+    {
+      "scope": "Documentation/source/receipt/history verification, not a product test gate",
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "scripts/run-bounded-command.py",
+        "--timeout-seconds",
+        "240",
+        "--receipt",
+        "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v2-receipt.json",
+        "--",
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-B",
+        "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit.py"
+      ],
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 240.0,
+        "executable": "python.exe",
+        "argv_sha256": "77729eeadee077ff63dd0633eaa1984041f9cf2290cea37309b4ab3dd92391d7",
+        "started_utc": "2026-10-25T06:18:03.961+00:00",
+        "pid": 2612,
+        "finished_utc": "2026-10-25T06:18:06.077+00:00",
+        "duration_seconds": 2.116,
+        "result": "COMMAND_FAILED",
+        "exit_code": 1,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v2-receipt.json",
+      "log_path": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v2.log",
+      "preserved_script_version": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v2.py",
+      "script_version_sha256": "05e72a5a672c59b36357e0097af7e1318e43dc4c4889925694df2248925fb999"
+    },
+    {
+      "scope": "Documentation/source/receipt/history verification, not a product test gate",
+      "cwd": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault",
+      "argv": [
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "scripts/run-bounded-command.py",
+        "--timeout-seconds",
+        "240",
+        "--receipt",
+        "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v3-receipt.json",
+        "--",
+        "rag-engine/.venv-d17/Scripts/python.exe",
+        "-B",
+        "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit.py"
+      ],
+      "receipt": {
+        "profile": "normal",
+        "timeout_seconds": 240.0,
+        "executable": "python.exe",
+        "argv_sha256": "77729eeadee077ff63dd0633eaa1984041f9cf2290cea37309b4ab3dd92391d7",
+        "started_utc": "2026-10-25T06:18:34.816+00:00",
+        "pid": 28368,
+        "finished_utc": "2026-10-25T06:19:38.540+00:00",
+        "duration_seconds": 63.724,
+        "result": "PASS",
+        "exit_code": 0,
+        "cleanup": "not_needed"
+      },
+      "receipt_path": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v3-receipt.json",
+      "log_path": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v3.log",
+      "preserved_script_version": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit.py",
+      "script_version_sha256": "1c297c515b5993abc1dd7270e775edfc442a9a62b02b28a394c19af554632070"
+    }
+  ],
+  "failed_documentation_checks": {
+    "audit": "Incomplete checker heading regex stopped before checks; original script audit-v1.py, receipt and log retained",
+    "audit-v2": "Checker treated inherited missing tracked files as newly created; original script audit-v2.py, receipt/log retained",
+    "audit-v3": "Corrected full-heading and exact inherited-deletion-set checks PASS; no product assertion or acceptance criterion changed",
+    "meaning": "Three documentation-check attempts inside one authorized documentation checkpoint; zero product test/full-gate/inference executions"
+  },
+  "source_and_history": {
+    "head": "ebe125f7529124b62761e8d01c692cbbd28e4aa7",
+    "raw_index_sha256": "e581e312ac9d427c0f0a4550f0e10a211cb5a9474cb00f8de29895a947037cdf",
+    "semantic_index_sha256": "b71429afaaa21bf42df8f893b7cb76dba51bb00ac0abd01df8908139c4a36eb5",
+    "source_manifest": "logs/phase18/s4-java-instrumented-20261025-201e93c2/final-source.json",
+    "source_manifest_sha256": "015cc6d027b15c3b0743fcf434a9371edb60fff6e29b4304bafe12a2ef0bf478",
+    "matched_source_entries": 1732,
+    "historical_asset_manifest": "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/historical-manifest.json",
+    "historical_assets_verified": 83955,
+    "historical_review_and_all_GPU_failed_timeout_records": "UNCHANGED",
+    "D24_D25_ledger_text": "Preserved byte-for-byte as suffix under prospective D26",
+    "inherited_implementation_dirty_tree_and_17_deletions": "Preserved; not new D26 changes",
+    "initial_amendment_index_note": "amendment-index.json is draft generation metadata before a matrix wording clarification. amendment-verification.json contains the checked final prefix/document fingerprints."
+  },
+  "architectural_impact": {
+    "database_schema_migrations": "NONE",
+    "module_ownership_dependency_direction": "NONE",
+    "repository_structure": "NONE",
+    "authentication_security_model": "NONE",
+    "storage_strategy": "NONE",
+    "ADR0020_Phase17": "FROZEN_UNCHANGED",
+    "change": "Only prospective Phase 18 GPU acceptance applicability in ADR0021-24 and named controlling documents"
+  },
+  "preserved_code_runtime_artifacts": {
+    "source": 1732,
+    "runtime": {
+      "version": "3.14.4 (main, Apr 14 2026, 14:30:57) [MSC v.1944 64 bit (AMD64)]",
+      "executable": "C:\\Users\\VU KHANG\\IdeaProjects\\personal-private-vault\\rag-engine\\.venv-d17\\Scripts\\python.exe",
+      "installed_distribution_count": 52,
+      "installed_matches_independent_inventory": true,
+      "model_hashes": {
+        "rag-engine/models/paraphrase-multilingual-MiniLM-L12-v2/model.onnx": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+        "rag-engine/models/paraphrase-multilingual-MiniLM-L12-v2/tokenizer.json": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8"
+      },
+      "uv_lock_sha256": "5d5ab94a66875c51c35840e37aec76a2efa5e193a1fa1210347691c96c3517cc"
+    },
+    "fixture_sha256": "9291ce7b3b0c4ae753873cbd3108ebf85b802cef554317f393953f9cbb97bb47",
+    "runner_sha256": "e9643978b8dc708b86b4014bc83805e44336fe16fee796c901c564d69cdf058d",
+    "backend_pom_sha256": "21a033c9d2dad8b4b326a9c7cd5232e7a0ecb1f4eb4854fd8dafb84de7b4431b",
+    "pyproject_sha256": "34bb51fb1b658b3e778874409f9b4266393a5baaa97366cdba20e7891b307959",
+    "runtime_source_tests_fixtures_models_dependencies_plugins_locks_Maven_runner_limits": "UNCHANGED"
+  },
+  "remaining_gates": [
+    "Independent CPU-only final review of D26 consistency and existing applicable evidence",
+    "Later explicit Owner disposition; no self-close of S4-18, Slice 4, P18-FINAL or Phase 18"
+  ],
+  "governance": {
+    "Phase17": "FROZEN",
+    "Slices1_3_and_FR18_3": "CLOSED",
+    "D24": ".md ONLY",
+    "D22_originals": "NOT_RECOVERED",
+    "external_indexing": "INACTIVE",
+    "live_originals": "DISABLED/DEFERRED",
+    "Slice4_P18_FINAL_Phase18": "NOT ACCEPTED / NOT CLOSED",
+    "historical_GPU_EVIDENCE_BLOCKED": "Preserved; GPU acceptance only prospectively not applicable under D26, never PASS",
+    "stage_commit_push_tag_PR_activation": "NONE",
+    "automatic_next_cycle": "NOT AUTHORIZED"
+  },
+  "changed_governance_documents": [
+    "docs/implementation/phase-18/owner-decisions.md",
+    "docs/implementation/handoffs/ACTIVE.md",
+    "docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md",
+    "docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md",
+    "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md",
+    "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md",
+    "docs/implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md",
+    "docs/implementation/phase-18/slice-4-lifecycle-final-handoff-2026-10-23.md",
+    "docs/implementation/phase-18/slice-4-executable-handoff-2026-10-23.md",
+    "docs/implementation/phase-18/slice-4-lifecycle-final-acceptance-2026-10-23.md",
+    "docs/implementation/phase-18/slice-4-execution-and-test-plan-2026-10-23.md",
+    "docs/implementation/phase-18/acceptance-and-evidence.md",
+    "docs/implementation/phase-18/final-verification-gate.md",
+    "docs/implementation/phase-18/README.md",
+    "docs/implementation/phase-18/test-evidence.md",
+    "docs/implementation/rag-phase-plan.md",
+    "docs/implementation/phase-18/cpu-only-d26-applicability-2026-10-25.md",
+    "docs/implementation/phase-18/slice-4-cpu-only-d26-handback-2026-10-25.md",
+    "docs/implementation/phase-18/slice-4-cpu-only-d26-evidence-2026-10-25.json"
+  ],
+  "governance_document_hashes": {
+    "docs/implementation/phase-18/owner-decisions.md": "62f9ec621f63e22649e4b71fe66ab102762f1b9b7e9b2c37b3ddb5b6da581ae5",
+    "docs/implementation/handoffs/ACTIVE.md": "5eaaaa11bd0db94cfe0ccda1c5c6e22c695af940c2ecbdab85d25eb055e95a86",
+    "docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md": "94f49ee29de09755bdac78dba45d001b3daaf88a232d5b65ed3402cafbb3eba2",
+    "docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md": "036b1f0e838932cc26bc856dcc9f0699592d0aadffbd8123daf448b4d1da77ed",
+    "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md": "f0ea31e297063425d16d089eb4a3c941d26c09072ce15ce3e91e2f1fce245969",
+    "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md": "e3e1634348b6d7f73ceaa56ec022341dfdabd1e339d9188a111772214c6367e4",
+    "docs/implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md": "7d47aa6d1fd8b1415aecf5642d1e77ed6c20aba410fd8a4764dfafe1bcf3a387",
+    "docs/implementation/phase-18/slice-4-lifecycle-final-handoff-2026-10-23.md": "3b416289871f22675c8453e210f09f1c27c519f8a61da61ae89cd5feb49ce6bb",
+    "docs/implementation/phase-18/slice-4-executable-handoff-2026-10-23.md": "de8bbd976d997cf5ef090765e7ca8d51992ea18cd68e64977463fdbdd129d4ab",
+    "docs/implementation/phase-18/slice-4-lifecycle-final-acceptance-2026-10-23.md": "9311dcfa9719225c86a58dd930c9318e62d9a32f0e6037d5e2f782b283f33358",
+    "docs/implementation/phase-18/slice-4-execution-and-test-plan-2026-10-23.md": "56bc962d0536816d6fe1a5de020bf157f6e55ca323e5c808d52d8c3ef7db6625",
+    "docs/implementation/phase-18/acceptance-and-evidence.md": "8df4f584b58992a56b2647d757c0c364e135c498e793d61bf01fb7c5e1c6cb5c",
+    "docs/implementation/phase-18/final-verification-gate.md": "dc73d141724909854f2cd8613379edc883d6b11af4ed4d068043d6188b103e18",
+    "docs/implementation/phase-18/README.md": "dd559e502e4b7c16a5902698c5de65bdd266263ef1dd04cd532e23856f174fee",
+    "docs/implementation/phase-18/test-evidence.md": "9d944097aac493147129a51387b7eec82e06d9820e5759dbe1f2e69b917672a4",
+    "docs/implementation/rag-phase-plan.md": "69c503d1517513d4f77013aed1facd3c945067df03d36e614783d7557079ccf4",
+    "docs/implementation/phase-18/cpu-only-d26-applicability-2026-10-25.md": "9d5afbfde5653ecefc359c1413ecda51f8fadbab8da43cb92c009ba50794fcae",
+    "docs/implementation/phase-18/slice-4-cpu-only-d26-handback-2026-10-25.md": "6a54d91f72050779f930d322a80a4482f5695d666d63b7fb7a13464242f5d87b"
+  },
+  "raw_artifacts": {
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/amend_docs.py": {
+      "sha256": "c4c490af7ebe8b9fcfe2a486d4464a389e680c1ef3d60911704f1ab4804dc8c7",
+      "bytes": 17717,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/amendment-index.json": {
+      "sha256": "1658aa498cb030627f532dceee59e4704a135f54d82a2447835a63555b49fb70",
+      "bytes": 6403,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/amendment-verification.json": {
+      "sha256": "7ae302cf98009688e9843b7af61deb8f26fb2f3db84ad9ce8080ec9a85852079",
+      "bytes": 6403,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-receipt.json": {
+      "sha256": "126d8ccca3ec34f09f326035e4f9ce8d8059f6569db72db0d40f1a3c0dbce94d",
+      "bytes": 402,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-results.json": {
+      "sha256": "abf766bd25c08a04c603dae098c6f3528f79a5537358e5e487cce1367abf314a",
+      "bytes": 16485,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v1.py": {
+      "sha256": "c2fc1dba1c4e8eb8815564ad5ab46b373c7b8577b09df0b2e29c9f26c2f5c503",
+      "bytes": 9546,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v2-receipt.json": {
+      "sha256": "99a6fe96500197ae40cdfec2589ef5e45b3923d2c4f63a95410c1dcc960afc13",
+      "bytes": 402,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v2.log": {
+      "sha256": "32ad83e4ea167be3bf883498e48f73eb7ee4eb6e32dc56b0971358957fa0358c",
+      "bytes": 3920,
+      "encoding": "UTF-16LE BOM"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v2.py": {
+      "sha256": "05e72a5a672c59b36357e0097af7e1318e43dc4c4889925694df2248925fb999",
+      "bytes": 9651,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v3-receipt.json": {
+      "sha256": "c6efe6c143f6d12ba2546d3bc5d9a14e1d3751200bd0eafdd9ccc9e7bc70f44b",
+      "bytes": 394,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit-v3.log": {
+      "sha256": "985801fbdd5bf807b71b5f683102888680d1353350e149f7eb555cd2d496777f",
+      "bytes": 740,
+      "encoding": "UTF-16LE BOM"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit.log": {
+      "sha256": "16838f3a96229b20c5e7d86bb168c90f88c8776cb0f978f14a678a57f621f842",
+      "bytes": 2100,
+      "encoding": "UTF-16LE BOM"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/audit.py": {
+      "sha256": "1c297c515b5993abc1dd7270e775edfc442a9a62b02b28a394c19af554632070",
+      "bytes": 9936,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/diff-check.json": {
+      "sha256": "8ec082a2f64bf228e81110209613bc178c1368895e019594bce461e30fc8f17b",
+      "bytes": 8106,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/entry.json": {
+      "sha256": "9cbaff655ded15a775b5101f9de79e0b467293a72de65e2159dfb69d8b0cc6c2",
+      "bytes": 439609,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/final-checks.json": {
+      "sha256": "b594ec8c03cfceea6a6918b2f139673a698f102587c1110289b65be08fe9dc86",
+      "bytes": 547,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/graph-query.json": {
+      "sha256": "7f4beb0752fe1ee8d89795e7543866ef4fed5bd6d620a9d06ce5ff5bd61975c9",
+      "bytes": 390,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/graph-query.log": {
+      "sha256": "ebffc1e2051d923de21f40e7e3b441fd161a621542650d08c385aec8dcccad40",
+      "bytes": 14266,
+      "encoding": "UTF-16LE BOM"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/historical-manifest.json": {
+      "sha256": "70bcd70b112c0d01523f1e4eafa6a1e62d7a6512cde14cc40e6430a34bcbc2d5",
+      "bytes": 16310512,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/package.py": {
+      "sha256": "539c3d0599d831f5a304b756d30ad3d0419d74b306a9e64469c6847feb26531b",
+      "bytes": 8549,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/prepare-receipt.json": {
+      "sha256": "13dd41083d90a1ef062c76f67c334cbad09849fb3a7d1389d04801c0efbdbe47",
+      "bytes": 394,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/prepare.log": {
+      "sha256": "81e52069464f4e0a415e2c908262cf9b3035d4c02e458f5988b9190ceb692280",
+      "bytes": 508,
+      "encoding": "UTF-16LE BOM"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/prepare.py": {
+      "sha256": "1b7682a86ddb20ff16c5ba5e9308aafdb9379028266604c20686f26e7227d3ab",
+      "bytes": 1595,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/readiness.json": {
+      "sha256": "548fe32c94137823042b21d1927d2510fd6854a1ebe490da0e29685381b6e9d8",
+      "bytes": 220,
+      "encoding": "UTF-8/ascii"
+    },
+    "logs/phase18/s4-cpu-only-d26-20261025-4d33d1b7/source.json": {
+      "sha256": "015cc6d027b15c3b0743fcf434a9371edb60fff6e29b4304bafe12a2ef0bf478",
+      "bytes": 302188,
+      "encoding": "UTF-8/ascii"
+    }
+  }
+}

@@ -46,6 +46,7 @@ public class RagSourceService {
     private final RagOriginalBytesStore byteStore;
     private final RagRecoveryService recovery;
     private final RagRuntimeSecurity security;
+    private final RagNoChangeService noChange;
     private final Map<Long, Set<RagSnapshotAcquisitionService.CaptureContext>> captures = new java.util.concurrent.ConcurrentHashMap<>();
 
     public RagSourceService(RagSourceRepository sources, RagDependencyRepository dependencies, RagDependencyGraph graph,
@@ -54,6 +55,7 @@ public class RagSourceService {
             RagRuntimeIdentity runtime, Clock clock, RagLimits limits, PlatformTransactionManager transactions,
             RagExternalFileAuthority externalFileAuthority, RagSnapshotAcquisitionService acquisitionService,
             RagOriginalBytesStore byteStore, RagRecoveryService recovery, RagRuntimeSecurity security,
+            RagNoChangeService noChange,
             @Value("${ppv.rag.limits.max-dependency-depth:5}") int maxDepth) {
         this.sources = sources; this.dependencies = dependencies; this.graph = graph; this.purge = purge;
         this.fiction = fiction; this.film = film; this.vault = vault; this.reservations = reservations;
@@ -63,6 +65,7 @@ public class RagSourceService {
         this.byteStore = Objects.requireNonNull(byteStore, "byteStore must not be null");
         this.recovery = recovery;
         this.security = security;
+        this.noChange=noChange;
         if (maxDepth < 1 || maxDepth > 8) throw new IllegalArgumentException("Invalid dependency depth budget");
         this.maxDepth = maxDepth; this.limits = limits;
         this.transaction = new TransactionTemplate(transactions);
@@ -147,6 +150,17 @@ public class RagSourceService {
                 context.check();
                 boolean equal=Objects.equals(plan.comparisonHash(),acquired.sha256())
                         && Objects.equals(plan.comparisonLength(),acquired.byteLength());
+                if (equal && plan.expected().selectedRevisionId()!=null
+                        && sources.findById(sourceId).orElseThrow().getAccessState()==RagAccessState.APPROVED) {
+                    var proof=noChange.prepare(sourceId);
+                    var fresh=sources.findById(sourceId).orElseThrow();
+                    var ext=externalFileAuthority.findByFileSourceId(plan.fileId());
+                    if(!command.expectedSnapshot().equals(snapshotExpectation(fresh,ext)))throw new RagSourceChangedException();
+                    context.check();
+                    UUID operation=noChange.begin(Map.of("capture",proof),acquired.captureId());
+                    noChange.finish(operation,Map.of("capture",proof),() -> checkBeforeCommit(context));
+                    return toView(sources.findById(sourceId).orElseThrow(),externalFileAuthority.findByFileSourceId(plan.fileId()),"");
+                }
                 if (!equal) {
                     byteStore.beginRevision(revision);
                     context.check();
@@ -165,6 +179,12 @@ public class RagSourceService {
                         ext.bindPendingConsent(source.getAuthorizationEpoch(),source.getFieldPolicyVersion());
                         externalFileAuthority.save(ext);
                         entityManager.flush();
+                    } else {
+                        // Unselected pending-byte reuse is custody, not a completed NO_CHANGE.
+                        // Approved selected equality must have taken the canonical guarded C_N path.
+                        if(source.getAccessState()==RagAccessState.APPROVED)
+                            throw new IllegalStateException("Reindex required: no selected revision");
+                        if(ext.isSnapshotIntegrityFailed())throw new RagSourceChangedException();
                     }
                     checkBeforeCommit(context);
                     return toView(source,ext,"");
@@ -198,6 +218,10 @@ public class RagSourceService {
 
     private void finishCapture(RagSnapshotAcquisitionService.AcquiredTempSnapshot acquired, UUID fileId, UUID revision) {
         try {
+            if(acquired!=null) {
+                try {if(noChange.protectsCapture(acquired.captureId()))return;}
+                catch(RuntimeException unknownDatabase) {return;}
+            }
             if (acquired!=null) byteStore.cleanupTemp(acquired.captureId());
         } finally {
             if (acquired!=null) byteStore.endCapture(acquired.captureId());
@@ -236,6 +260,7 @@ public class RagSourceService {
         var ext=externalFileAuthority.findByFileSourceId(fileId);
         if (ext==null) throw new RagSourceChangedException();
         entityManager.refresh(ext);
+        if (source.getAccessState()==RagAccessState.APPROVED && !Objects.equals(source.getApprovedOwnerResetVersion(),ext.getConsentResetVersion()))throw new RagSourceChangedException();
         if (!ext.isEligible() || ext.isSnapshotIntegrityFailed() || !expected.equals(snapshotExpectation(source,ext)))
             throw new RagSourceChangedException();
         return new SnapshotPlan(fileId,ext.getCanonicalIdentityDigest(),expected,ext.getSelectedRevisionHash(),ext.getSelectedByteLength());

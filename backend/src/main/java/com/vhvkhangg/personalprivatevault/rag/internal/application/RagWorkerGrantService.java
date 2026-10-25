@@ -79,7 +79,11 @@ public class RagWorkerGrantService {
 
         String input = RagSourceAuthority.digest(actualInputPayload);
         var preparedBatch = authority.prepareBatch(jobId, attemptId);
-        String expectedInput = RagDocumentInput.encode(authority.documentInput(jobId, attemptId, preparedBatch));
+        var lease=leases.findByJobIdAndAttemptId(jobId,attemptId).orElseThrow();
+        var expectedPlan=RagDocumentInput.workerPlan(lease.getDependencyManifest());
+        var targetKeys=new LinkedHashSet<>(expectedPlan);
+        var inputTasks = authority.documentInput(jobId, attemptId, preparedBatch, targetKeys);
+        String expectedInput = RagDocumentInput.encode(inputTasks);
         if (!expectedInput.equals(actualInputPayload)) throw new IllegalArgumentException("Unprepared document input");
         var initial = leases.findByJobIdAndAttemptId(jobId, attemptId).orElseThrow();
         String expectedManifest = initial.getDependencyManifest();
@@ -102,6 +106,19 @@ public class RagWorkerGrantService {
                     .executeUpdate();
             RagWorkerGrant grant = new RagWorkerGrant(jobId, attemptId, proof.lease().getLeaseToken(), "DOCUMENT_V3", actualInputPayload, input, scope, output);
             requireIssued(grant);
+            if (targetKeys != null) {
+                try {
+                    List<String> planKeys = inputTasks.stream().map(m -> (String) m.get("root_key")).toList();
+                    String planJson = json.writeValueAsString(planKeys);
+                    entityManager.createNativeQuery("""
+                            UPDATE rag.runs
+                            SET metrics = jsonb_set(COALESCE(metrics, CAST('{}' AS jsonb)), '{worker_plan}', CAST(:plan AS jsonb))
+                            WHERE job_id = :job
+                            """).setParameter("plan", planJson).setParameter("job", jobId).executeUpdate();
+                } catch (Exception e) {
+                    throw new IllegalStateException("Failed to record worker plan in run metadata", e);
+                }
+            }
             proof.lease().updateStatus("ACTIVE", authority.databaseTime());
             return grant;
         });

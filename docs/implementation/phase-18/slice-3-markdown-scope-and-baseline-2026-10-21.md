@@ -1,3 +1,22 @@
+## D26 prospective CPU-only applicability - 2026-10-25
+
+**OWNER_APPROVED scope amendment; final acceptance NOT GRANTED.** [D26](owner-decisions.md#d26-cpu-only)
+selects pinned offline CPU inference ONLY. Actual CUDA inference, GPU OOM-to-CPU fallback
+and process-attributed GPU VRAM remain **NOT VERIFIED** and are
+**NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS. See the
+[exact execution profile and reconciliation](cpu-only-d26-applicability-2026-10-25.md).
+
+**Affected rows: AC-05/06/07/08 retained column and Slice 4 resource boundary.** D24 remains the overall .md-only format decision. The later D26 changes only GPU/same-model GPU fallback and process-VRAM acceptance portions: retain the same model, 384-vector space, CPU resource/cancellation/reporting, authority, actual publication and lifecycle/final gates. This additive note does not rewrite D24 or the accepted Slice 3 baseline.
+
+This is prospective acceptance applicability only. Unaffected Markdown/authority/publication,
+CPU/RAM/disk/deadline/cancellation/security and five-command requirements remain mandatory.
+Future GPU enablement requires separate Owner authorization and independent verification.
+No source/runtime/test/model/lock/runner change, activation or closeout follows. Original
+GPU_EVIDENCE_BLOCKED and failed/timeout evidence remains unchanged historical truth.
+Slice 4/P18-FINAL/Phase 18 remain NOT ACCEPTED / NOT CLOSED; indexing INACTIVE.
+
+## Preserved pre-D26 text - unaffected rules remain effective
+
 # Phase 18 Slice 3 — published baseline and prospective Markdown scope
 
 **Authority:** Owner D24, 2026-10-21. Preparation only; no runtime acceptance or activation.

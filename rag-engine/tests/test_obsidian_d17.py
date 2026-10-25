@@ -337,11 +337,6 @@ def test_md17_actual_producer_matrix_and_failures(monkeypatch):
     monkeypatch.setattr(worker, "seal_document_result", lambda *_: "f" * 64)
     staged = []
     monkeypatch.setattr(worker, "stage_document_result", lambda **kwargs: staged.append(kwargs))
-
-    def forbidden_ocr(*args, **kwargs):
-        raise AssertionError("Markdown must not initialize OCR")
-
-    monkeypatch.setattr(worker, "AdaptiveOCREngine", forbidden_ocr)
     roots = [
         DocumentRootTask(
             root_key=f"p{i}",

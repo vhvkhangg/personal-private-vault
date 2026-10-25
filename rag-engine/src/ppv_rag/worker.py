@@ -31,12 +31,8 @@ from ppv_rag.db import (
 from ppv_rag.document_source import document_binding, parse_prepared_document
 from ppv_rag.embeddings.model import MultilingualEmbeddingPipeline
 from ppv_rag.limits import ParsingCancelled, check_text, checkpoint, parsing_scope
-from ppv_rag.ocr.engine import AdaptiveOCREngine
-from ppv_rag.parsers.docx import parse_docx
-from ppv_rag.parsers.excel import parse_xls, parse_xlsx
 from ppv_rag.parsers.markdown import ApprovedDependency, RestrictiveContentError, parse_markdown
 from ppv_rag.parsers.models import ParsedDocument
-from ppv_rag.parsers.pdf import parse_pdf
 from ppv_rag.parsers.text import parse_text
 from ppv_rag.telemetry import (
     get_gpu_vram_bytes,
@@ -147,7 +143,6 @@ def process_document_batch_request(
     pending_results: list[dict[str, Any]] = []
 
     try:
-        ocr_engine: AdaptiveOCREngine | None = None
         embedding_pipeline = MultilingualEmbeddingPipeline()
         chunker = StructureFirstChunker(token_count=embedding_pipeline.token_count)
 
@@ -187,20 +182,7 @@ def process_document_batch_request(
                     fmt = root.format.lower().strip()
                     if fmt == "domain":
                         pass
-                    elif fmt == "txt":
-                        text = root.content_text or ""
-                        if not text and root.content_b64:
-                            raw_bytes = base64.b64decode(root.content_b64, validate=True)
-                            if len(raw_bytes) > MAX_FILE_BYTES:
-                                raise BufferError("RESOURCE_LIMIT_EXCEEDED")
-                            text = raw_bytes.decode("utf-8", errors="strict")
-                        if len(text) > MAX_TEXT_CHARS:
-                            raise BufferError("RESOURCE_LIMIT_EXCEEDED")
-                        parsed_doc = parse_text(
-                            text, root.root_key, source_version=root.source_version
-                        )
-
-                    elif fmt in {"md", "markdown"}:
+                    elif fmt == "md":
                         text = root.content_text or ""
                         if not text and root.content_b64:
                             raw_bytes = base64.b64decode(root.content_b64, validate=True)
@@ -229,61 +211,6 @@ def process_document_batch_request(
                                 approved_metadata_fields=frozenset(root.approved_fields),
                                 whole_file=True,
                             )
-                        )
-
-                    elif fmt == "docx":
-                        data = (
-                            base64.b64decode(root.content_b64, validate=True)
-                            if root.content_b64
-                            else b""
-                        )
-                        if len(data) > MAX_FILE_BYTES:
-                            raise BufferError("RESOURCE_LIMIT_EXCEEDED")
-                        parsed_doc = parse_docx(
-                            data, root.root_key, source_version=root.source_version
-                        )
-
-                    elif fmt == "xlsx":
-                        data = (
-                            base64.b64decode(root.content_b64, validate=True)
-                            if root.content_b64
-                            else b""
-                        )
-                        if len(data) > MAX_FILE_BYTES:
-                            raise BufferError("RESOURCE_LIMIT_EXCEEDED")
-                        parsed_doc = parse_xlsx(
-                            data, root.root_key, source_version=root.source_version
-                        )
-
-                    elif fmt == "xls":
-                        data = (
-                            base64.b64decode(root.content_b64, validate=True)
-                            if root.content_b64
-                            else b""
-                        )
-                        if len(data) > MAX_FILE_BYTES:
-                            raise BufferError("RESOURCE_LIMIT_EXCEEDED")
-                        parsed_doc = parse_xls(
-                            data, root.root_key, source_version=root.source_version
-                        )
-
-                    elif fmt == "pdf":
-                        if ocr_engine is None:
-                            ocr_engine = AdaptiveOCREngine()
-                        data = (
-                            base64.b64decode(root.content_b64, validate=True)
-                            if root.content_b64
-                            else b""
-                        )
-                        if len(data) > MAX_FILE_BYTES:
-                            raise BufferError("RESOURCE_LIMIT_EXCEEDED")
-                        lang = root.ocr_languages[0] if root.ocr_languages else "en"
-                        parsed_doc = parse_pdf(
-                            data,
-                            root.root_key,
-                            source_version=root.source_version,
-                            language=lang,
-                            ocr_engine=ocr_engine,
                         )
                     else:
                         raise ValueError("UNSUPPORTED_FORMAT")

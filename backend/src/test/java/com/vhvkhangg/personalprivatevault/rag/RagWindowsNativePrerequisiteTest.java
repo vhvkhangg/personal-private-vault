@@ -131,6 +131,9 @@ class RagWindowsNativePrerequisiteTest {
     }
 
     @Test
+    @org.junit.jupiter.api.condition.EnabledIfSystemProperty(
+            named="ppv.rag.legacy-live-alias-diagnostic",matches="true",
+            disabledReason="ADR-0023 supersedes hostile-alias lifetime proof for immutable snapshots; historical opt-in only")
     void attemptsAliasCreationAndRemovalDuringProtectedLifetime() throws Exception {
         Path file = source();
         Path alias = directory.resolve("late-alias.txt");

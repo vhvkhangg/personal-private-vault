@@ -1,10 +1,9 @@
-"""Bounded local development workload; no held-out, publication or GPU acceptance claim."""
+"""Bounded local development workload; Markdown and embedding pipeline resource measurement."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
-import io
 import json
 import os
 import socket
@@ -18,20 +17,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "rag-engine/src"))
 
-import docx  # noqa: E402
+import ssl  # noqa: F401, E402
+
+import html5lib  # noqa: F401, E402
 import onnxruntime as ort  # noqa: E402
-import openpyxl  # noqa: E402
-import pypdf  # noqa: E402
-from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 
 from ppv_rag.chunking.chunker import StructureFirstChunker  # noqa: E402
 from ppv_rag.embeddings.model import MultilingualEmbeddingPipeline  # noqa: E402
 from ppv_rag.limits import parsing_scope  # noqa: E402
-from ppv_rag.ocr.engine import AdaptiveOCREngine  # noqa: E402
-from ppv_rag.parsers.docx import parse_docx  # noqa: E402
-from ppv_rag.parsers.excel import parse_xlsx  # noqa: E402
 from ppv_rag.parsers.markdown import parse_markdown  # noqa: E402
-from ppv_rag.parsers.pdf import parse_pdf  # noqa: E402
 from ppv_rag.telemetry import (  # noqa: E402
     get_gpu_vram_bytes,
     get_host_ram_headroom_bytes,
@@ -39,31 +33,6 @@ from ppv_rag.telemetry import (  # noqa: E402
     get_system_ram_bytes,
     gpu_measurement_available,
 )
-
-
-def saved(document: object) -> bytes:
-    output = io.BytesIO()
-    document.save(output)  # type: ignore[attr-defined]
-    return output.getvalue()
-
-
-def scanned_pdf(pages: int) -> bytes:
-    image = Image.new("RGB", (1400, 400), "white")
-    ImageDraw.Draw(image).text(
-        (50, 100),
-        "Resource workload contains 45 books.",
-        font=ImageFont.truetype("C:/Windows/Fonts/arial.ttf", 42),
-        fill="black",
-    )
-    output = io.BytesIO()
-    image.save(output, "PDF", resolution=144)
-    page = pypdf.PdfReader(io.BytesIO(output.getvalue())).pages[0]
-    writer = pypdf.PdfWriter()
-    for _ in range(pages):
-        writer.add_page(page)
-    output = io.BytesIO()
-    writer.write(output)
-    return output.getvalue()
 
 
 def main() -> None:
@@ -77,24 +46,8 @@ def main() -> None:
 
     socket.socket = deny  # type: ignore[assignment]
     if args.termination_workload:
-        ocr = AdaptiveOCREngine()
-        run_pass = ocr._run_pass
-        entered = False
-
-        def measured_pass(*args: object, **kwargs: object) -> object:
-            nonlocal entered
-            if not entered:
-                print(
-                    json.dumps({"pid": os.getpid(), "phase": "REAL_OCR_NATIVE_PASS_ENTERED"}),
-                    flush=True,
-                )
-                entered = True
-            return run_pass(*args, **kwargs)  # type: ignore[arg-type]
-
-        ocr._run_pass = measured_pass  # type: ignore[method-assign,assignment]
-        with parsing_scope():
-            parse_pdf(scanned_pdf(100), "termination-development", 1, ocr_engine=ocr)
-        raise RuntimeError("Termination diagnostic unexpectedly completed before watchdog")
+        print(json.dumps({"status": "N/A_BY_D24", "detail": "OCR excluded under D24"}))
+        return
 
     started, cpu = time.perf_counter(), time.process_time()
     samples: list[int] = []
@@ -123,24 +76,12 @@ def main() -> None:
         monitor = threading.Thread(target=sample)
         monitor.start()
         try:
-            ocr = AdaptiveOCREngine()
-            scan_bytes = scanned_pdf(3)
-            word = docx.Document()
-            for index in range(200):
-                word.add_paragraph(f"Development paragraph {index}: dữ liệu; 中文.")
-            workbook = openpyxl.Workbook()
-            for index in range(500):
-                workbook.active.append([f"Row {index}", index, "=SUM(1,2)"])
-            word_bytes, workbook_bytes = saved(word), saved(workbook)
             phase = "pipeline"
             with parsing_scope(seconds=120):
+                md_content = "---\nprivate: true\n---\n" + "text line for measurement\n" * 500
                 documents = [
-                    parse_docx(word_bytes, "word", 1),
-                    parse_xlsx(workbook_bytes, "sheet", 1),
-                    parse_markdown(
-                        "---\nprivate: true\n---\n" + "text\n" * 200, "md", 1, whole_file=True
-                    ),
-                    parse_pdf(scan_bytes, "scan", 1, ocr_engine=ocr),
+                    parse_markdown(md_content, "md-1", 1, whole_file=True),
+                    parse_markdown(md_content, "md-2", 1, whole_file=True),
                 ]
                 model = MultilingualEmbeddingPipeline(force_cpu=True)
                 chunks = [
@@ -154,7 +95,7 @@ def main() -> None:
             print(
                 json.dumps(
                     {
-                        "scope": "EXPOSED_DEVELOPMENT_ONLY; not held-out acceptance",
+                        "scope": "EXPOSED_DEVELOPMENT_ONLY; Markdown only under D24/D25",
                         "pid": os.getpid(),
                         "documents": len(documents),
                         "elements": sum(len(d.elements) for d in documents),
@@ -186,7 +127,7 @@ def main() -> None:
                         else "AVAILABLE_NOT_RUN",
                         "providers": ort.get_available_providers(),
                         "pipeline": asdict(model.metadata()),
-                        "fixture_sha256": hashlib.sha256(scan_bytes).hexdigest(),
+                        "fixture_sha256": hashlib.sha256(md_content.encode("utf-8")).hexdigest(),
                     },
                     indent=2,
                 ),

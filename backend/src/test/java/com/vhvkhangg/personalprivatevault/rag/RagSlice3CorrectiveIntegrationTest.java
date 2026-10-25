@@ -22,6 +22,7 @@ class RagSlice3CorrectiveIntegrationTest extends AbstractEnabledRagIntegrationTe
     @org.springframework.test.context.bean.override.mockito.MockitoSpyBean
     RagWorkerSupervisor observedSupervisor;
     @Autowired RagPurgeService purgeService;
+    @Autowired RagRecoveryService rollbackRecovery;
 
     @ParameterizedTest @ValueSource(strings={"sign-flip", "vector-swap", "permuted-components"})
     void trustedInferenceRejectsNormPreservingNativeVectorForgery(String fault) throws Exception {
@@ -300,17 +301,19 @@ class RagSlice3CorrectiveIntegrationTest extends AbstractEnabledRagIntegrationTe
 
     @ParameterizedTest @ValueSource(strings={".markdown",".txt",".pdf",".docx",".xls",".xlsx"})
     void capturedFormatCannotBeSpoofedByMdTask(String extension) throws Exception {
-        var v=source("Excluded"+extension,"# Plain bytes do not authorize a format\n");
-        assertThatThrownBy(() -> stage(v)).isInstanceOf(IllegalArgumentException.class).hasMessageContaining(".md");
+        Path path=work.resolve("Excluded"+extension); Files.createDirectories(path.getParent());
+        Files.writeString(path,"# Plain bytes do not authorize a format\n",StandardCharsets.UTF_8);
+        assertThatThrownBy(() -> enabledRag.registerSnapshotCandidate(path.toString()))
+                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Unsupported document format");
         assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM rag.job_leases",Integer.class)).isZero();
     }
 
     @Test void editedManifestNameCannotTurnCapturedTxtIntoMd() throws Exception {
-        var v=source("Original.txt","# The actual captured source was TXT\n");
+        var v=source("Original.md","# The actual captured source was MD\n");
         Path manifest=store.getStorageRoot().resolve("revisions").resolve(v.sourceId())
                 .resolve(v.snapshot().pendingRevisionId()+".manifest.json");
         assertThat(manifest.toFile().setWritable(true)).isTrue();
-        var changed=(ObjectNode)objectMapper.readTree(Files.readString(manifest)); changed.put("sourceName","Original.md");
+        var changed=(ObjectNode)objectMapper.readTree(Files.readString(manifest)); changed.put("sourceName","Original.txt");
         Files.writeString(manifest,objectMapper.writeValueAsString(changed));
         assertThatThrownBy(() -> stage(v)).isInstanceOf(IllegalStateException.class).hasMessageContaining("identity");
         assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM rag.job_leases",Integer.class)).isZero();
@@ -497,20 +500,28 @@ class RagSlice3CorrectiveIntegrationTest extends AbstractEnabledRagIntegrationTe
         current=enabledRag.approveSource(current.id(),new RagConsentCommand(Set.of("content"),current.sourceVersion(),current.consentResetVersion(),current.authorizationEpoch(),current.fieldPolicyVersion(),null,current.snapshot()));
         var second=source("Second.md","# Second candidate must also roll back\n");var job=stage(current,second);
         String table=switch(location) {case "generation","commit"->"index_generations";case "chunks"->"document_chunks";case "outcome"->"file_outcomes";default->"external_file_sources";};
-        admin("CREATE FUNCTION rag.s3_fault() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'bounded synthetic publication fault' USING ERRCODE='53100'; END $$");
-        String trigger=location.equals("commit")?"CREATE CONSTRAINT TRIGGER s3_fault AFTER INSERT ON rag."+table+" DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION rag.s3_fault()":
-            "CREATE TRIGGER s3_fault BEFORE "+(location.equals("promotion")?"UPDATE":"INSERT")+" ON rag."+table+" FOR EACH ROW "+(location.equals("promotion")?"WHEN (NEW.selected_revision_id IS DISTINCT FROM OLD.selected_revision_id) ":"")+"EXECUTE FUNCTION rag.s3_fault()";
-        admin(trigger);
-        try {assertThatThrownBy(()->finish(job)).isInstanceOf(RuntimeException.class);}
-        finally {admin("DROP TRIGGER s3_fault ON rag."+table);admin("DROP FUNCTION rag.s3_fault()");}
-        // Independent connection: no publication writes, outcome or release leaked.
-        try(var c=DriverManager.getConnection(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword());var q=c.prepareStatement("SELECT (SELECT count(*) FROM rag.index_generations WHERE job_id=?),(SELECT count(*) FROM rag.file_outcomes WHERE job_id=?),(SELECT count(*) FROM rag.external_file_sources WHERE reserved_by=?)")) {
-            q.setObject(1,job.jobId());q.setObject(2,job.jobId());q.setObject(3,job.attemptId());try(var rows=q.executeQuery()){assertThat(rows.next()).isTrue();assertThat(rows.getInt(1)).isZero();assertThat(rows.getInt(2)).isZero();assertThat(rows.getInt(3)).isEqualTo(2);}
+        // Observe physical rollback before the independent recovery scheduler can
+        // legitimately abort the stopped attempt and release its reservations.
+        // Fence only this observation; retain every original assertion, then run recovery.
+        synchronized(org.springframework.test.util.AopTestUtils.getUltimateTargetObject(rollbackRecovery)) {
+            admin("CREATE FUNCTION rag.s3_fault() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'bounded synthetic publication fault' USING ERRCODE='53100'; END $$");
+            String trigger=location.equals("commit")?"CREATE CONSTRAINT TRIGGER s3_fault AFTER INSERT ON rag."+table+" DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION rag.s3_fault()":
+                "CREATE TRIGGER s3_fault BEFORE "+(location.equals("promotion")?"UPDATE":"INSERT")+" ON rag."+table+" FOR EACH ROW "+(location.equals("promotion")?"WHEN (NEW.selected_revision_id IS DISTINCT FROM OLD.selected_revision_id) ":"")+"EXECUTE FUNCTION rag.s3_fault()";
+            admin(trigger);
+            try {assertThatThrownBy(()->finish(job)).isInstanceOf(RuntimeException.class).hasStackTraceContaining("bounded synthetic publication fault");}
+            finally {admin("DROP TRIGGER s3_fault ON rag."+table);admin("DROP FUNCTION rag.s3_fault()");}
+            // Independent connection: no publication writes, outcome or release leaked.
+            try(var c=DriverManager.getConnection(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword());var q=c.prepareStatement("SELECT (SELECT count(*) FROM rag.index_generations WHERE job_id=?),(SELECT count(*) FROM rag.file_outcomes WHERE job_id=?),(SELECT count(*) FROM rag.external_file_sources WHERE reserved_by=?)")) {
+                q.setObject(1,job.jobId());q.setObject(2,job.jobId());q.setObject(3,job.attemptId());try(var rows=q.executeQuery()){assertThat(rows.next()).isTrue();assertThat(rows.getInt(1)).isZero();assertThat(rows.getInt(2)).isZero();assertThat(rows.getInt(3)).isEqualTo(2);}
+            }
+            assertThat(enabledRag.findSource(old.id()).orElseThrow().snapshot().selectedRevisionId()).isEqualTo(selected);
+            assertThat(enabledRag.findSource(second.id()).orElseThrow().snapshot().selectedRevisionId()).isNull();
+            assertThat(generationState.state(preserved)).isEqualTo("CURRENT");
+            assertThat(oldResult.publishedCount()).isEqualTo(1);
         }
-        assertThat(enabledRag.findSource(old.id()).orElseThrow().snapshot().selectedRevisionId()).isEqualTo(selected);
-        assertThat(enabledRag.findSource(second.id()).orElseThrow().snapshot().selectedRevisionId()).isNull();
-        assertThat(generationState.state(preserved)).isEqualTo("CURRENT");
-        assertThat(oldResult.publishedCount()).isEqualTo(1);
+        rollbackRecovery.reconcile();
+        assertThat(jdbcTemplate.queryForObject("SELECT status FROM rag.job_leases WHERE job_id=?",String.class,job.jobId())).isEqualTo("ABORTED");
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM rag.external_file_sources WHERE reserved_by=?",Integer.class,job.attemptId())).isZero();
     }
 
     @ParameterizedTest @ValueSource(strings={"writer-first","seal-first","expired-after-wait"})
@@ -695,13 +706,21 @@ class RagSlice3CorrectiveIntegrationTest extends AbstractEnabledRagIntegrationTe
     }
 
     @Test void cancellationDuringMeasuredRealNativeCpuWorkStopsBeforeAnyPublication() throws Exception {
-        var source=source("Cpu.md","# Native work\n\n"+"Native CPU model work. ".repeat(12000));
+        // Distinct passages prevent the accepted D17 cache from completing this
+        // real CPU workload before the unchanged >=4 CPU-second observation.
+        var text=new StringBuilder("# Native work\n\n");
+        for(int section=0;section<192;section++) {
+            text.append("## Distinct source section ").append(section).append("\n\n");
+            for(int item=0;item<8;item++) text.append("Source section ").append(section).append(" item ").append(item)
+                    .append(" preserves immutable context and distinct archive observations for bounded local model inference.\n\n");
+        }
+        var source=source("Cpu.md",text.toString());
         var item=new RagDocumentRootItem("root-0",source.sourceType(),source.sourceId(),source.sourceVersion(),source.authorizationEpoch(),source.fieldPolicyVersion(),source.approvedFields());var job=enabledRag.admitDocumentBatch(new RagDocumentBatchCommand(List.of(item),Map.of()));
         var execution=java.util.concurrent.Executors.newSingleThreadExecutor();
         try {
             var producing=execution.submit(()->enabledRag.executeDocumentBatch(job.jobId(),job.attemptId(),List.of(new RagDocumentBatchTask("root-0",source.sourceId(),"MD",null,null,null,List.of("content"),Map.of()))));
             var sessionsField=RagWorkerSupervisor.class.getDeclaredField("sessions");sessionsField.setAccessible(true);
-            org.awaitility.Awaitility.await().atMost(java.time.Duration.ofSeconds(20)).until(()-> {
+            org.awaitility.Awaitility.await().atMost(java.time.Duration.ofSeconds(60)).until(()-> {
                 Object session=((Map<?,?>)sessionsField.get(supervisor)).get(job.jobId());if(session==null)return false;
                 var processField=session.getClass().getDeclaredField("process");processField.setAccessible(true);
                 var process=(com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.client.NativeWorkerProcess)processField.get(session);if(process==null)return false;

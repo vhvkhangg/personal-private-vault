@@ -8,6 +8,8 @@ import java.util.Map;
 
 public record AdmitDocumentBatchRequest(
         @NotEmpty List<@Valid DocumentRootItemDto> roots,
-        Map<Long, String> descriptionConfirmations
+        Map<Long, String> descriptionConfirmations,
+        java.util.Set<String> noChangeRoots
 ) {
+    public AdmitDocumentBatchRequest(List<DocumentRootItemDto> roots,Map<Long,String> confirmations) {this(roots,confirmations,java.util.Set.of());}
 }

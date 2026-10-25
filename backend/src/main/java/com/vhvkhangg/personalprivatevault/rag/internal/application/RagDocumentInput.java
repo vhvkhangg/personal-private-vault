@@ -11,6 +11,16 @@ public final class RagDocumentInput {
 
     private RagDocumentInput() {}
 
+    static List<String> workerPlan(String manifest) {
+        try {
+            var keys=new ArrayList<String>();
+            for(var root:JSON.readTree(manifest).path("roots"))if(!root.has("no_change_generation"))keys.add(root.path("root_key").asText());
+            if(keys.isEmpty())throw new IllegalStateException("Nonpublication operation has no worker plan");
+            return List.copyOf(keys);
+        } catch(java.io.IOException invalid) {throw new IllegalStateException("Invalid admitted roster",invalid);}
+    }
+
+
     static void validateClosure(RagSourceAuthority.Prepared prepared) {
         boolean external = "EXTERNAL_FILE".equals(prepared.proofs().get(prepared.rootId()).type());
         if (prepared.proofs().values().stream().anyMatch(proof ->

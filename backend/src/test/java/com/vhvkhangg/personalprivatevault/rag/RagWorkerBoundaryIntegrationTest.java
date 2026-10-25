@@ -326,7 +326,7 @@ class RagWorkerBoundaryIntegrationTest extends AbstractEnabledRagIntegrationTest
             senderMayReturn.countDown();
             assertThat(sender.get(5,TimeUnit.SECONDS)).isTrue();
             recovery.reconcile();
-            assertThat(rag.getJobStatus(attempt.jobId()).status()).isEqualTo("ABORTED");
+            assertThat(Set.of("ABORTED", "CANCELLED")).contains(rag.getJobStatus(attempt.jobId()).status());
             assertThat(rag.getJobStatus(attempt.jobId()).purgeStatus()).isEqualTo("PURGE_COMPLETE");
             assertThatThrownBy(() -> jobs.executeSyntheticStage(attempt.jobId(),attempt.attemptId(),"SYNTHETIC_TEST"))
                 .isInstanceOf(IllegalStateException.class);

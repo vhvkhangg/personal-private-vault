@@ -1,3 +1,14 @@
+// Slice 4 corrective inventory 2026-10-24; implementation, not acceptance.
+// D25 closed Slice 3 / FR18-3 in the accepted .md publication scope.
+// V23__rag_mixed_batch_worker_plan.sql uses existing runs.metrics and batch_roots;
+// it introduces no columns. This corrective checkpoint adds no migration.
+// Standalone/all-unchanged C_N maps to existing nullable-job runs: metrics.kind
+// NONPUBLICATION, exact root/G/manifest roster and controller PID/start/runtime,
+// durable disposition and optional capture ID; no indexing lease, R or G.
+// Source-first reservations remain held through known physical C_N outcome;
+// unknown SQL outcome is reconciled without adopting files or rerunning work.
+// Mixed runs.metrics.roster_order survives lease scrubbing for complete reports.
+// Earlier dated schema/implementation notices below are preserved history.
 // RR-01-03 2026-10-22: no migration/schema/grant changes.
 // Existing rag.runs.metrics operational JSON carries cancel_requested=true,
 // committed under the active lease guard before process shutdown; terminal

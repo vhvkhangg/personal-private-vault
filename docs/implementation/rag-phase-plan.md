@@ -1,3 +1,22 @@
+## D26 prospective CPU-only applicability - 2026-10-25
+
+**OWNER_APPROVED scope amendment; final acceptance NOT GRANTED.** [D26](phase-18/owner-decisions.md#d26-cpu-only)
+selects pinned offline CPU inference ONLY. Actual CUDA inference, GPU OOM-to-CPU fallback
+and process-attributed GPU VRAM remain **NOT VERIFIED** and are
+**NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS. See the
+[exact execution profile and reconciliation](phase-18/cpu-only-d26-applicability-2026-10-25.md).
+
+**Phase 18 only:** the accepted final execution profile is pinned offline CPU inference; D24 .md-only, exact authority/producer/PG, CPU resources and unchanged five-command gates remain. This note changes no Phase 17 frozen guarantee or Phase 19-22 capability/authorization. Hardware GPU presence is not accepted inference capability; future GPU enablement requires its own explicit Owner authorization and independent verification.
+
+This is prospective acceptance applicability only. Unaffected Markdown/authority/publication,
+CPU/RAM/disk/deadline/cancellation/security and five-command requirements remain mandatory.
+Future GPU enablement requires separate Owner authorization and independent verification.
+No source/runtime/test/model/lock/runner change, activation or closeout follows. Original
+GPU_EVIDENCE_BLOCKED and failed/timeout evidence remains unchanged historical truth.
+Slice 4/P18-FINAL/Phase 18 remain NOT ACCEPTED / NOT CLOSED; indexing INACTIVE.
+
+## Preserved pre-D26 text - unaffected rules remain effective
+
 **D21 CURRENT — 2026-10-20: Slice 2 `.md` ONLY / `READY_FOR_INDEPENDENT_SLICE_2_CLOSEOUT_REVIEW`.** All twelve frozen D17 requirements remain mandatory and independently VERIFIED / accepted under D20. TXT, DOCX, PDF, XLS, XLSX and OCR are excluded from Slice 2 acceptance; historical code/tests/failures remain intact and reintroduction requires a future explicit Owner Decision. See [D21](phase-18/owner-decisions.md#2026-10-20--d21-slice-2-obsidian-markdown-only-scope-rebase), the [controlling scope/matrix](phase-18/slice-2-markdown-only-d21-scope-and-acceptance.md) and [proposed closeout](phase-18/slice-2-markdown-only-d21-proposed-closeout-2026-10-20.md). **Slice 2 is not declared CLOSED and owner commit readiness is not granted here.** Phase 17 FROZEN; Slice 1/D14 CLOSED; FR18-3 OPEN; external indexing INACTIVE; historical Java full gate FAILED; Slices 3/4 unauthorized. No global Phase 18 acceptance or new implementation/activation.
 
 ## Preserved prior scope/status and broader target records

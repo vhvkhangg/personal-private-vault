@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-25",
+  "checkpoint": "OWNER AUTHORIZATION - P18 SLICE 4 JAVA-GATE FIXTURE CORRECTION",
+  "state": "BLOCKED",
+  "role": "CODEX_IMPLEMENTER_NOT_INDEPENDENT_REVIEW",
+  "head": "ebe125f7529124b62761e8d01c692cbbd28e4aa7",
+  "gpu": "GPU_EVIDENCE_BLOCKED_UNCHANGED",
+  "slice4": "NOT_ACCEPTED",
+  "P18_FINAL": "NOT_ACCEPTED",
+  "source_files": 1732,
+  "source_manifest_sha256": "015cc6d027b15c3b0743fcf434a9371edb60fff6e29b4304bafe12a2ef0bf478",
+  "fixture_entry_sha256": "d209b329a17b2e23165057400370d5468928a7cf48fd7516eff8c50eea9c7137",
+  "fixture_final_sha256": "9291ce7b3b0c4ae753873cbd3108ebf85b802cef554317f393953f9cbb97bb47",
+  "frozen_test_sha256": "d3676b2f95041cd2343088e0ad1b0ea6244e1e70b6861d91db318bba182b6fa1",
+  "only_code_change": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/AbstractRagIntegrationTest.java",
+  "full_java": {
+    "receipt": {
+      "profile": "full-suite",
+      "timeout_seconds": 2100.0,
+      "executable": "mvn.cmd",
+      "argv_sha256": "2a033f8dd643becad8a69842abc7a09977b3f9000a254035df3ddd38b4ca8f9b",
+      "started_utc": "2026-10-25T01:34:59.263+00:00",
+      "pid": 15684,
+      "finished_utc": "2026-10-25T02:09:59.840+00:00",
+      "duration_seconds": 2100.577,
+      "result": "TIMEOUT",
+      "exit_code": 124,
+      "cleanup": "windows_tree_termination_requested"
+    },
+    "reporting_scope": "COMPLETED_SUITE_REPORTS_ONLY_PARTIAL_AFTER_TIMEOUT",
+    "stdout": null,
+    "stdout_summary_complete": false,
+    "testcase_elements": {
+      "tests": 1265,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suite_attributes": {
+      "tests": 1252,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "skipped": [],
+    "failed": [],
+    "last_completed_suite_stdout_counts": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "package_verify_completed": false,
+    "packaged_artifacts": {}
+  },
+  "count_basis": "Actual testcase elements and Surefire method-name-grouped suite attributes reported separately; existing 13 difference is reporter metadata, no tests filtered. Timeout counts include only completed archived suites.",
+  "required_focused": [
+    "original-normal",
+    "original-50ms",
+    "installed-50ms-observer",
+    "recovery-concurrency",
+    "invocation-propagation-probe"
+  ],
+  "failed_probe_compile_preserved": "invocation-probe-compile.json; two diagnostic Void lambdas corrected, no product/assertion change",
+  "files": {
+    "exact_patch": "fixture-correction.patch",
+    "command_index": "command-index.json",
+    "full_counts": "full-java-counts.json",
+    "query_observation": "installed-query-analysis.json",
+    "preservation": "preservation.json",
+    "baseline": "entry.json"
+  },
+  "historical_assets_preserved": 81449,
+  "original_review_and_triage_preserved": true,
+  "remaining": [
+    {
+      "required_java_gate": "INCOMPLETE_TIMEOUT_EXIT_124",
+      "failed": [],
+      "unexpected_skips": [],
+      "receipt": {
+        "profile": "full-suite",
+        "timeout_seconds": 2100.0,
+        "executable": "mvn.cmd",
+        "argv_sha256": "2a033f8dd643becad8a69842abc7a09977b3f9000a254035df3ddd38b4ca8f9b",
+        "started_utc": "2026-10-25T01:34:59.263+00:00",
+        "pid": 15684,
+        "finished_utc": "2026-10-25T02:09:59.840+00:00",
+        "duration_seconds": 2100.577,
+        "result": "TIMEOUT",
+        "exit_code": 124,
+        "cleanup": "windows_tree_termination_requested"
+      }
+    },
+    "GPU evidence unresolved; no CUDA installation/waiver authorized",
+    "Slice 4/P18-FINAL and independent acceptance not performed"
+  ],
+  "evidence_hashes": {
+    "entry.json": "0f33fe9d74e0f9326e7d82305861c6987d212c3f8a8a918eb117ca46fcc6b02d",
+    "historical-assets.json": "1e14121db132dcc5188fc3dd5ddf3153357c6df52afac5c43be4f67db0b8c519",
+    "entry-target.zip": "6814ce32563dd84513835544a238f437434800a8a41444cfeb3d5fb421191252",
+    "fixture-correction.patch": "acf0afd8bf2fbef2835465e29afd1393e1203e15a80ae30597576c7eedeb7d9f",
+    "final-source.json": "015cc6d027b15c3b0743fcf434a9371edb60fff6e29b4304bafe12a2ef0bf478",
+    "command-index.json": "f9e5585bdabb5143a4da629824fecc48df90431645b71e57298c25d98481919f",
+    "full-java-counts.json": "98da41a94346e3db987f28527225322584ac436e190d96b4382e2f19e38d3ee0",
+    "installed-query-analysis.json": "d9baf98f3301bdc33cc1868324bb2cdce8143df96b5530c40f12b18c4c6b5757",
+    "preservation.json": "ecba896195f98dd9266f4a37518cbe9abdcee87a8407e2e2843a4c6522acad07",
+    "final-diff-check.json": "912856912baa82fce1e3982ef9b636d17dc0dbe21ff96f6a668c0ed8ce38101f",
+    "build-artifact-hashes.json": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f"
+  }
+}

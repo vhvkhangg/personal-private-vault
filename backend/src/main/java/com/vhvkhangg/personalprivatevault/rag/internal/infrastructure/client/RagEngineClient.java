@@ -290,13 +290,15 @@ public class RagEngineClient {
             body.put("scope_digest", grant.scopeDigest());
             body.put("roots", rootTasks);
 
-            var response = sendBounded(transport(grant.jobId()), request("/v1/worker/execute-batch")
+            // Computation may use the existing per-root 60s budget; control/v2 requests remain short.
+            Duration executionBudget = Duration.ofSeconds(Math.min(900, 15L + 60L * rootTasks.size()));
+            var response = sendBounded(transport(grant.jobId()), request("/v1/worker/execute-batch").timeout(executionBudget)
                     .header("X-RAG-Job-Id", grant.jobId().toString())
                     .header("X-RAG-Attempt-Id", grant.attemptId().toString())
                     .header("X-RAG-Lease-Token", grant.token())
                     .header("X-RAG-Session-Id", session.toString())
                     .header("X-RAG-Endpoint-Nonce", nonce.toString())
-                    .POST(HttpRequest.BodyPublishers.ofString(json.writeValueAsString(body))).build(), 33554432);
+                    .POST(HttpRequest.BodyPublishers.ofString(json.writeValueAsString(body))).build(), 33554432, executionBudget);
 
             byte[] bytes = response.body();
             if (response.statusCode() != 200) {

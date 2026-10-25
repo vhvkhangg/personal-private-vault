@@ -46,6 +46,7 @@ public class RagDocumentBatchService {
     private final RagExternalFileAuthority externalFileAuthority;
 
     private final RagSourceAuthority authority;
+    private final RagNoChangeService noChange;
     private final TransactionTemplate transaction;
     private final ObjectMapper objectMapper = new ObjectMapper()
             .enable(com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
@@ -63,7 +64,7 @@ public class RagDocumentBatchService {
             RagWorkerGrantService grants,
             RagEngineClient engineClient,
             RagPurgeService purgeService,
-            RagSourceAuthority authority,
+            RagSourceAuthority authority, RagNoChangeService noChange,
             RagExternalFileAuthority externalFileAuthority,
             PlatformTransactionManager transactions
     ) {
@@ -79,7 +80,7 @@ public class RagDocumentBatchService {
         this.grants = grants;
         this.engineClient = engineClient;
         this.purgeService = purgeService;
-        this.authority = authority;
+        this.authority = authority;this.noChange=noChange;
         this.externalFileAuthority = Objects.requireNonNull(externalFileAuthority, "externalFileAuthority must not be null");
         this.transaction = new TransactionTemplate(transactions);
         this.transaction.setTimeout(15);
@@ -147,9 +148,21 @@ public class RagDocumentBatchService {
         if (!usedConfirmations.equals(command.descriptionConfirmations().keySet()))
             throw new IllegalArgumentException("Description confirmation is outside the selected fields");
         // Encoding and digest work happens before any SQL row guard.
-        String batchManifestJson = buildBatchManifest(command.roots(), prepared);
+        var unchanged=new LinkedHashMap<String,RagNoChangeService.Proof>();
+        for(var item:command.roots())if(command.noChangeRoots().contains(item.rootKey())) {
+            var proof=noChange.prepare(prepared.get(item.rootKey()).rootId());
+            if(!proof.source().manifest().equals(prepared.get(item.rootKey()).manifest()))throw new com.vhvkhangg.personalprivatevault.rag.api.RagSourceChangedException();
+            unchanged.put(item.rootKey(),proof);
+        }
+        if(unchanged.size()==command.roots().size()) {
+            UUID operation=noChange.begin(unchanged,null);noChange.finish(operation,unchanged);
+            var first=prepared.values().iterator().next();var p=first.proofs().get(first.rootId());
+            return new RagJobAdmissionResult(null,null,first.rootId(),null,null,p.epoch(),operation,"NO_CHANGE");
+        }
+        String batchManifestJson = buildBatchManifest(command.roots(), prepared,unchanged);
         return transaction.execute(status -> {
             var snapshots = authority.lockPreparedBatch(prepared.values(), null, true);
+            unchanged.values().forEach(noChange::validateLocked);
             var ownerIds = new TreeSet<Long>();
             var externalIds = new TreeSet<UUID>();
             for (var root : prepared.values()) {
@@ -185,14 +198,19 @@ public class RagDocumentBatchService {
                         proof.version(), proof.epoch(), now));
             }
             runs.save(new RagRun(UUID.randomUUID(), jobId, primaryRoot.getId(),
-                    primaryRoot.getAuthorizationEpoch(), "ADMITTED", "{}", "NONE", now));
+                    primaryRoot.getAuthorizationEpoch(), "ADMITTED", rosterMetrics(command.roots()), "NONE", now));
             return new RagJobAdmissionResult(jobId, attemptId, primaryRoot.getId(), leaseToken,
                     leasedUntil, primaryRoot.getAuthorizationEpoch());
         });
     }
 
+    private String rosterMetrics(List<RagDocumentRootItem> items) {
+        try {return objectMapper.writeValueAsString(Map.of("roster_order",items.stream().map(RagDocumentRootItem::rootKey).toList()));}
+        catch(java.io.IOException invalid) {throw new IllegalStateException("Invalid admitted roster",invalid);}
+    }
+
     private String buildBatchManifest(List<RagDocumentRootItem> items,
-            Map<String, RagSourceAuthority.Prepared> prepared) {
+            Map<String, RagSourceAuthority.Prepared> prepared,Map<String,RagNoChangeService.Proof> unchanged) {
         try {
             var roots = new ArrayList<Map<String, Object>>();
             for (var item : items) {
@@ -200,6 +218,7 @@ public class RagDocumentBatchService {
                 var proof = root.proofs().get(root.rootId());
                 var value = new TreeMap<String, Object>();
                 value.put("root_key", item.rootKey());
+                if(unchanged.containsKey(item.rootKey()))value.put("no_change_generation",unchanged.get(item.rootKey()).generation().toString());
                 value.put("source_type", proof.type());
                 value.put("source_id", item.sourceId());
                 value.put("rag_source_id", root.rootId());
@@ -224,6 +243,10 @@ public class RagDocumentBatchService {
         Objects.requireNonNull(attemptId, "attemptId must not be null");
         Objects.requireNonNull(tasks, "tasks must not be null");
 
+        var initial=leases.findByJobIdAndAttemptId(jobId,attemptId).orElseThrow();
+        var expectedPlan=RagDocumentInput.workerPlan(initial.getDependencyManifest());
+        if(!tasks.stream().map(com.vhvkhangg.personalprivatevault.rag.api.RagDocumentBatchTask::rootKey).toList().equals(expectedPlan))
+            throw new IllegalArgumentException("Tasks must match the immutable Java-owned worker plan");
         try {
             supervisor.begin(jobId, attemptId);
         } catch (RagWorkerSupervisor.StartupFailure startupFailure) {
@@ -242,7 +265,8 @@ public class RagDocumentBatchService {
             var prepared = authority.prepareBatch(jobId, attemptId);
             var admitted = new HashMap<String, RagBatchRoot>();
             batchRoots.findByJobId(jobId).forEach(root -> admitted.put(root.getRootKey(), root));
-            if (tasks.size() != admitted.size()) throw new IllegalArgumentException("Incomplete document selection");
+            if (tasks.isEmpty()) throw new IllegalArgumentException("Batch contains no tasks requiring worker execution");
+            if (tasks.size() > admitted.size()) throw new IllegalArgumentException("Task count exceeds admitted roots");
             var seen = new HashSet<String>();
             for (var task : tasks) {
                 var root = admitted.get(task.rootKey());
@@ -261,7 +285,7 @@ public class RagDocumentBatchService {
                         throw new IllegalArgumentException("Document input must be prepared by source authority");
                 }
             }
-            var rootTasks = authority.documentInput(jobId, attemptId, prepared);
+            var rootTasks = authority.documentInput(jobId, attemptId, prepared, seen);
             String inputPayloadJson = RagDocumentInput.encode(rootTasks);
 
             var grant = grants.issueDocumentBatchGrant(jobId, attemptId, inputPayloadJson);

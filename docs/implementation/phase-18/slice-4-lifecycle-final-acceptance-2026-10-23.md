@@ -1,3 +1,32 @@
+## D26 prospective CPU-only applicability - 2026-10-25
+
+**OWNER_APPROVED scope amendment; final acceptance NOT GRANTED.** [D26](owner-decisions.md#d26-cpu-only)
+selects pinned offline CPU inference ONLY. Actual CUDA inference, GPU OOM-to-CPU fallback
+and process-attributed GPU VRAM remain **NOT VERIFIED** and are
+**NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS. See the
+[exact execution profile and reconciliation](cpu-only-d26-applicability-2026-10-25.md).
+
+| Effective current row | D26 mandatory outcome / evidence |
+| --- | --- |
+| **S4-15 CPU/native** | Representative full-path CPU/wall/simultaneous producer+verifier+Java RAM/host headroom/disk/expansion/deadline/cancellation/cleanup evidence remains mandatory; CPU/native portion independently VERIFIED with stated sampling limits. |
+| **S4-15 GPU subcases** | Actual CUDA, GPU OOM-to-CPU fallback and process-attributed VRAM remain NOT VERIFIED; **NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never a GPU PASS. The CPU/native part of S4-15 remains mandatory. |
+| S4-14 / AC-05 | Same locked offline CPU runtime/model/tokenizer/vector identity and format/SQL/producer security guarantees. |
+| S4-17 | Unchanged five-command PASS receipts remain source-applicable, including the single genuine complete Java gate; no rerun or new skip. |
+| S4-18 | Independent CPU-only final review and later explicit Owner closeout still required; not self-completed by scope approval. |
+
+This is prospective acceptance applicability only. Unaffected Markdown/authority/publication,
+CPU/RAM/disk/deadline/cancellation/security and five-command requirements remain mandatory.
+Future GPU enablement requires separate Owner authorization and independent verification.
+No source/runtime/test/model/lock/runner change, activation or closeout follows. Original
+GPU_EVIDENCE_BLOCKED and failed/timeout evidence remains unchanged historical truth.
+Slice 4/P18-FINAL/Phase 18 remain NOT ACCEPTED / NOT CLOSED; indexing INACTIVE.
+
+## Preserved pre-D26 text - unaffected rules remain effective
+
+> **Corrective handback - 2026-10-24:** `BLOCKED / GPU_EVIDENCE_BLOCKED`. See [handback](slice-4-codex-corrective-handback-2026-10-24.md) and [S4 matrix](slice-4-codex-corrective-matrix-2026-10-24.md). Native 104 and Python 238 pass; actual full Java exit 1 ({'tests': 1567, 'failures': 1, 'errors': 0, 'skipped': 1}). CUDA inference/fallback remains unavailable and unwaived. Slice 4/P18-FINAL NOT ACCEPTED. Earlier dated results/statuses below are preserved history.
+
+> **Executable mapping added ? 2026-10-23:** Every S4-01?18 row is mapped to concrete tests, assertions and receipts in the [execution/test/resource plan](slice-4-execution-and-test-plan-2026-10-23.md), normative under [the executable handoff](slice-4-executable-handoff-2026-10-23.md). All runtime rows remain `NOT_RUN`; ACTIVE readiness is handoff readiness only.
+
 # Slice 4 Lifecycle & Final — bounded acceptance matrix (D25)
 
 **Status:** Prospective acceptance planning only; all rows `NOT_RUN`, not PASS. This matrix does not alter historical findings. Codex must attach source-backed executable cases and receipts before implementation acceptance.

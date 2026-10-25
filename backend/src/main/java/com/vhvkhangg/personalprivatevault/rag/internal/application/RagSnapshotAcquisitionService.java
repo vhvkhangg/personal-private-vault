@@ -22,7 +22,7 @@ import java.util.function.BooleanSupplier;
 @Service
 public class RagSnapshotAcquisitionService {
     private static final Logger log = LoggerFactory.getLogger(RagSnapshotAcquisitionService.class);
-    private static final Set<String> EXTENSIONS = Set.of(".txt", ".md", ".markdown", ".docx", ".pdf", ".xlsx", ".xls");
+    private static final Set<String> EXTENSIONS = Set.of(".md");
     private static final Set<String> LOCAL_FILESYSTEMS = Set.of("ntfs", "refs", "ext4", "xfs", "btrfs", "overlay", "tmpfs", "apfs");
     private final RagOriginalBytesStore byteStore;
     private final long maxSourceBytes;

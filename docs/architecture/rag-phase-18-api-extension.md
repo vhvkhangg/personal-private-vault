@@ -1,3 +1,37 @@
+## Slice 4 corrective candidate - 2026-10-24 (not accepted)
+
+D25 closed Slice 3/FR18-3 within the accepted Markdown publication scope. Current
+Slice 4 correction and evidence are in the [corrective handback](../implementation/phase-18/slice-4-codex-corrective-handback-2026-10-24.md).
+This section supersedes older current-inventory claims below prospectively.
+
+The existing authenticated `POST /api/v1/rag/jobs/admit-batch` accepts optional
+`noChangeRoots`, a subset of the complete ordered admitted roster. Absence means
+execute every root. Java proves each explicit unchanged disposition; caller task
+omission/reordering cannot assert it. Mixed requests keep the existing indexing
+admission fields and one C_P. All-unchanged requests return `operationId` and
+`operationDisposition=NO_CHANGE` with no job/attempt/lease/deadline. The existing
+`GET /api/v1/rag/jobs/{id}/document-report` accepts the operation identity too;
+its report has operationId and summaryOutcome, without fabricated indexing job
+identity/status. Existing ApiResponse envelope and routes are preserved.
+
+`FileOutcomeDto` and its production mapper expose freshnessBasis,
+snapshotIndexState, originalFreshness, publishedNewGeneration,
+selectedRevisionId and pendingRevisionId. Reports contain every admitted root,
+including CANCELLED/ABORTED/RECOVERY_REQUIRED and failures retaining an eligible
+G. Currentness is evaluated once per effective G/root. Historical outcomes do
+not establish present eligibility. Original freshness remains UNVERIFIED.
+
+C_N uses existing nullable-job `rag.runs` operational rows and metrics, full
+source reservations and guarded finish/reconciliation; it never creates an
+indexing lease, R, G or sourceVersion change. V23 uses runs.metrics and
+rag.batch_roots, not new columns. No migration is added by this correction.
+The selected model remains sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2;
+the exact inert OCR fingerprint remains compatibility metadata only.
+External indexing INACTIVE; live originals DISABLED/DEFERRED; Slice 4 and
+P18-FINAL NOT ACCEPTED. CUDA evidence is unavailable in the selected runtime.
+
+## Preserved earlier inventory
+
 **RR-01-03 checkpoint, 2026-10-22:** trusted replay now independently computes
 pinned-model embeddings for source-derived chunks and compares components in
 chunk order. Mixed DOMAIN/external-snapshot closures deny admission before

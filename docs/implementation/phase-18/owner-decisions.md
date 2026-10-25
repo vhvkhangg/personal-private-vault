@@ -1,3 +1,44 @@
+## 2026-10-25 - D26 pinned offline CPU-only final execution scope
+
+<a id="d26-cpu-only"></a>
+
+**OWNER APPROVED PROSPECTIVELY.** The Owner explicitly selects **option B** in the
+[2026-10-25 independent final corrective re-review](reviews/2026-10-25-slice-4-independent-final-corrective-re-review.md).
+D26 is the next unused decision ID after D25. This approves the final execution scope,
+not Slice 4, P18-FINAL or Phase 18 acceptance/closeout.
+
+1. **Pinned offline CPU inference ONLY.** Preserve the verified multilingual model/tokenizer,
+   finite compatible 384-dimensional vectors, exact approved Markdown/source/revision/consent/
+   dependency identity, actual producer/trusted Java/restricted PostgreSQL publication, NO_CHANGE,
+   reindex, lifecycle, recovery and all CPU/RAM/disk/deadline/cancellation/security requirements.
+2. **Explicit GPU applicability amendment.** Actual CUDA inference, GPU OOM-to-CPU fallback
+   and process-attributed GPU VRAM remain **NOT VERIFIED**. Their acceptance subcases become
+   **NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS or measured zero.
+   Starting directly on CPU is not GPU fallback. Original GPU_EVIDENCE_BLOCKED evidence stands.
+3. **Exact prospective reconciliation.** Adopt the [D26 execution profile and clause matrix](cpu-only-d26-applicability-2026-10-25.md).
+   It amends only the named GPU portions of ADR-0021-24, D24 applicability, S4-15/AC-05 and
+   associated resource/report/final gates. D24 `.md`-only and D25 history remain unchanged;
+   unaffected requirements and all frozen Phase 17/Slices 1-3 guarantees remain effective.
+4. **No runtime change or gate weakening.** Source/tests/fixtures/runtime/dependencies/plugins/
+   model/lockfile/Maven configuration/runner are unchanged. All five existing P18-FINAL commands,
+   working directories, source applicability, watchdogs and individual limits remain mandatory.
+   Applicable independently audited PASS receipts may be reused on exact unchanged source;
+   no expensive full Java rerun is necessary for this documentation-only amendment.
+5. **Future GPU is separately gated.** GPU enablement or provider/runtime/dependency/configuration
+   changes require new explicit Owner authorization and independent verification. No existing
+   unexecuted GPU path is certified, installed, activated or promoted by D26.
+6. **Preservation and alternatives.** B is approved; the independent review's alternative A
+   (separately authorized compatible actual CUDA evidence) is not undertaken. Preserve original
+   review conclusions, GPU blockers, failed/timeout receipts, accepted baselines and D22 originals
+   NOT_RECOVERED. No historical GPU failure or missing evidence is rewritten as PASS.
+7. **Next gate and boundaries.** Documentation consistency/source/receipt/hash checks and
+   independent CPU-only final review precede any later Owner closeout. Do not self-close findings,
+   Slice 4, P18-FINAL or Phase 18 or grant owner-commit readiness. Phase 17 FROZEN; Slices 1-3 and
+   FR18-3 CLOSED; external indexing INACTIVE, live originals DISABLED/DEFERRED. No staging,
+   commit/push/tag/PR, activation, implementation or new remediation/verification cycle.
+
+## Preserved D25 and earlier Owner decisions
+
 ## 2026-10-23 — D25 Slice 3 Owner-published closeout and Slice 4 authorization
 
 **CURRENT OWNER DECISION — APPROVED.** This is a prospective milestone and handoff transition; previously dated decision and review text below remains historical, not silently rewritten. The Owner explicitly confirmed committing/pushing the independently reviewed Slice 3 and requested formal closeout and Slice 4 start.

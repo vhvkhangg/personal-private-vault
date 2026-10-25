@@ -1,3 +1,31 @@
+## D26 prospective CPU-only applicability - 2026-10-25
+
+**OWNER_APPROVED scope amendment; final acceptance NOT GRANTED.** [D26](owner-decisions.md#d26-cpu-only)
+selects pinned offline CPU inference ONLY. Actual CUDA inference, GPU OOM-to-CPU fallback
+and process-attributed GPU VRAM remain **NOT VERIFIED** and are
+**NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS. See the
+[exact execution profile and reconciliation](cpu-only-d26-applicability-2026-10-25.md).
+
+| Effective current condition | Mandatory acceptance |
+| --- | --- |
+| **AC-05 Embeddings/offline** | One pinned compatible multilingual offline CPU model, valid finite 384-dimensional vectors in pgvector, exact source/model/tokenizer/producer binding, no remote runtime fetch; actual CPU/SQL/model-mismatch proof remains mandatory. |
+| **AC-05 GPU-specific subcases** | Actual CUDA, GPU OOM-to-CPU fallback and process-attributed VRAM: NOT VERIFIED / **NOT_APPLICABLE_UNDER_OWNER_APPROVED_CPU_ONLY_SCOPE**, never PASS. |
+| **AC-08 Operations/resources/report** | All manual import/update/NO_CHANGE/reindex, source guards, bounded cancellation/positive native stop, simultaneous CPU process-tree RAM/host headroom/CPU/time/temp-disk and truthful per-file outcome/currentness measurements remain required. Only GPU-specific resource/fallback subcases are excluded. |
+| FCNC-15; IS-26/27/30 | Retain accurate reports, source qualification, offline pinned CPU and resource budgets, cancellation/recovery and single genuine five-command P18-FINAL. No GPU PASS or zero-VRAM substitution. |
+
+This is prospective acceptance applicability only. Unaffected Markdown/authority/publication,
+CPU/RAM/disk/deadline/cancellation/security and five-command requirements remain mandatory.
+Future GPU enablement requires separate Owner authorization and independent verification.
+No source/runtime/test/model/lock/runner change, activation or closeout follows. Original
+GPU_EVIDENCE_BLOCKED and failed/timeout evidence remains unchanged historical truth.
+Slice 4/P18-FINAL/Phase 18 remain NOT ACCEPTED / NOT CLOSED; indexing INACTIVE.
+
+## Preserved pre-D26 text - unaffected rules remain effective
+
+> **Corrective handback - 2026-10-24:** `BLOCKED / GPU_EVIDENCE_BLOCKED`. See [handback](slice-4-codex-corrective-handback-2026-10-24.md) and [S4 matrix](slice-4-codex-corrective-matrix-2026-10-24.md). Native 104 and Python 238 pass; actual full Java exit 1 ({'tests': 1567, 'failures': 1, 'errors': 0, 'skipped': 1}). CUDA inference/fallback remains unavailable and unwaived. Slice 4/P18-FINAL NOT ACCEPTED. Earlier dated results/statuses below are preserved history.
+
+> **S4 executable routing ? 2026-10-23:** [ACTIVE](../handoffs/ACTIVE.md) is now `P18-S4-LIFECYCLE-FINAL / READY_FOR_IMPLEMENTATION`; [executable contract](slice-4-executable-handoff-2026-10-23.md) and [full S4 tests/resource plan](slice-4-execution-and-test-plan-2026-10-23.md). Implementation NOT_STARTED and S4 rows NOT_RUN. The five P18-FINAL commands are unchanged; historical Java aggregate FAILED, D22 NOT_RECOVERED, indexing INACTIVE and P18-FINAL NOT ACCEPTED. Older pending notices below are historical.
+
 **CURRENT OWNER STATUS — D25 / 2026-10-23:** Phase 18 **Slice 3 Verified Indexing D+F is COMPLETE / CLOSED / OWNER-PUBLISHED** at verified GitHub `main` commit `e2e00534fb35534a298e8fb15d174f18cb63b5a0` (90/90 reviewed paths). S3-F01–F06, S3-RR-01–03 and **FR18-3 are independently VERIFIED/CLOSED** within D24's Obsidian `.md` producer → Java → PostgreSQL publication scope. Owner has authorized **Slice 4 Lifecycle & Final (E+H)**; canonical [ACTIVE](../handoffs/ACTIVE.md) now records `P18-S4-LIFECYCLE-FINAL / PENDING_CODEX_HANDOFF`. Refer to [D25](owner-decisions.md#2026-10-23--d25-slice-3-owner-published-closeout-and-slice-4-authorization), [Slice 3 closeout](slice-3-closeout-2026-10-23.md), [Slice 4 preparation](slice-4-lifecycle-final-handoff-2026-10-23.md) and [S4 matrix](slice-4-lifecycle-final-acceptance-2026-10-23.md). External indexing **INACTIVE**; live originals **DISABLED/DEFERRED**; Phase 18/P18-FINAL **NOT ACCEPTED**; historical Java full gate **FAILED**; D22 originals **NOT_RECOVERED**. Consolidated removal of unaccepted TXT/`.markdown`/PDF/Office/OCR implementation is planned **once near Slice 4 end before P18-FINAL**; historical applied Flyway migrations and failure evidence remain intact. The D24 and older status statements below are **dated historical records and do not override D25**.
 
 ---

@@ -60,6 +60,21 @@ class RagEngineClientTest {
         reply.set(new ObjectMapper().writeValueAsString(Map.of("status","STAGED","receipt",receipt)));
         assertThatThrownBy(()->client.triggerBoundWorkerStage(grant,UUID.randomUUID(),UUID.randomUUID())).isInstanceOf(IllegalStateException.class);
     }
+    @Test void batchComputationCanOutlastTheShortControlTimeout() throws Exception {
+        var grant=new RagWorkerGrant(UUID.randomUUID(),UUID.randomUUID(),"a".repeat(64),"DOCUMENT_BATCH","Synthetic","b".repeat(64),"c".repeat(64),"d".repeat(64));
+        transports.add(grant.jobId());server.removeContext("/");
+        byte[] body=new ObjectMapper().writeValueAsBytes(Map.of("contract_version","3.0","status","STAGED",
+                "job_id",grant.jobId().toString(),"attempt_id",grant.attemptId().toString()));
+        server.createContext("/",exchange -> {
+            exchange.getRequestBody().close();
+            try {Thread.sleep(1250);}catch(InterruptedException interrupted){Thread.currentThread().interrupt();}
+            exchange.sendResponseHeaders(200,body.length);
+            try(var out=exchange.getResponseBody()){out.write(body);}
+        });
+        long started=System.nanoTime();
+        assertThat(client.triggerBoundWorkerBatch(grant,UUID.randomUUID(),UUID.randomUUID(),List.of(Map.of("root_key","root")))).contains("STAGED");
+        assertThat(java.time.Duration.ofNanos(System.nanoTime()-started)).isGreaterThan(java.time.Duration.ofSeconds(1));
+    }
     @Test void rejectsRemoteDnsProxyCredentialsAndKnownDevelopmentSecret() {
         for(String origin:List.of("http://example.com","http://localhost:8001","http://user@127.0.0.1:8001",
                 "https://127.0.0.1:8001","http://127.0.0.1:8001/path")) {

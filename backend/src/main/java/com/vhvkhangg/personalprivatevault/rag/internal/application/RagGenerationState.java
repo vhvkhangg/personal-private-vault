@@ -1,6 +1,8 @@
 package com.vhvkhangg.personalprivatevault.rag.internal.application;
 
+import com.vhvkhangg.personalprivatevault.rag.internal.domain.RagGenerationRoot;
 import com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.persistence.*;
+import com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore;
 import com.vhvkhangg.personalprivatevault.rag.source.*;
 import com.vhvkhangg.personalprivatevault.vault.entry.SourceIndexReservations;
 import jakarta.persistence.EntityManager;
@@ -21,16 +23,18 @@ public class RagGenerationState {
     private final RagExternalFileAuthority externalFileAuthority;
     private final RagGenerationRootRepository generationRoots;
     private final RagBatchRootRepository batchRoots;
+    private final RagOriginalBytesStore byteStore;
     private final EntityManager entityManager;
     private final TransactionTemplate transaction;
     public RagGenerationState(RagSourceAuthority authority,RagIndexGenerationRepository generations,
             RagJobLeaseRepository leases,RagSourceRepository sources,SourceIndexReservations reservations,
             RagExternalFileAuthority externalFileAuthority,
             RagGenerationRootRepository generationRoots, RagBatchRootRepository batchRoots,
+            RagOriginalBytesStore byteStore,
             EntityManager entityManager,PlatformTransactionManager transactions) {
         this.authority=authority; this.generations=generations; this.leases=leases; this.sources=sources;
         this.reservations=reservations; this.externalFileAuthority=externalFileAuthority;
-        this.batchRoots=batchRoots; this.generationRoots=generationRoots; this.entityManager=entityManager;
+        this.batchRoots=batchRoots; this.generationRoots=generationRoots; this.byteStore=byteStore; this.entityManager=entityManager;
         transaction=new TransactionTemplate(transactions); transaction.setTimeout(10);
     }
     public String stateForJob(UUID job) {
@@ -51,6 +55,9 @@ public class RagGenerationState {
                 var root = generationRoots.findById(initial.getId()).orElse(null);
                 if (root == null || !(root.getExactDependencyManifest().get("manifest_text") instanceof String ownManifest))
                     return "UNAVAILABLE";
+                if (!isPipelineCurrent(root)) {
+                    return "OUTDATED";
+                }
                 generationManifest = ownManifest;
             }
             var manifest=RagManifestScope.parse(generationManifest);
@@ -70,6 +77,15 @@ public class RagGenerationState {
                             || !Objects.equals(source.getApprovedOwnerResetVersion(),ext.getConsentResetVersion())
                             || ext.getConsentResetVersion()!=node.path("owner_reset_version").asLong()) return "REVOKED";
                     if (ext.isSnapshotIntegrityFailed()) return "UNAVAILABLE";
+                    if (byteStore != null && ext.getSelectedRevisionId() != null) {
+                        try {
+                            if (!byteStore.verifyIntegrity(ext.getFileSourceId(), ext.getSelectedRevisionId(), ext.getSelectedRevisionHash(), ext.getSelectedByteLength())) {
+                                return "UNAVAILABLE";
+                            }
+                        } catch (RuntimeException integrityFailed) {
+                            return "UNAVAILABLE";
+                        }
+                    }
                     if (ext.getSourceVersion()!=node.path("owner_source_version").asLong()
                             || !Objects.toString(ext.getSelectedRevisionId(),"").equals(node.path("snapshot").path("revision_id").asText())) outdated=true;
                     else if (source.getAuthorizationEpoch()!=node.path("epoch").asLong()
@@ -111,5 +127,25 @@ public class RagGenerationState {
             // index should be irreversibly erased. Reconciliation retries later.
             return "UNAVAILABLE";
         }
+    }
+
+    public boolean isPipelineCurrent(RagGenerationRoot root) {
+        if (root == null) return false;
+        var p = RagDocumentFinalizationGate.PIPELINE;
+        return Objects.equals(p.get("artifact_hash"), root.getModelArtifactHash())
+                && Objects.equals(p.get("model_version"), root.getModelVersion())
+                && Objects.equals(p.get("tokenizer_version"), root.getTokenizerVersion())
+                && Objects.equals(p.get("parser_version"), root.getParserVersion())
+                && Objects.equals(p.get("chunker_version"), root.getChunkerVersion())
+                && Objects.equals(p.get("ocr_pipeline_version"), root.getOcrPipelineVersion())
+                && Objects.equals(p.get("dimensions"), root.getVectorDimensions());
+    }
+
+    public String snapshotState(UUID generationId) {
+        String s = state(generationId);
+        if ("CURRENT".equals(s)) {
+            return "SNAPSHOT_CURRENT";
+        }
+        return s;
     }
 }

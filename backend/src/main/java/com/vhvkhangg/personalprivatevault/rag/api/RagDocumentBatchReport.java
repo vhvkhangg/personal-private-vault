@@ -20,11 +20,16 @@ public record RagDocumentBatchReport(
         Long peakSystemRamBytes,
         Long peakGpuVramBytes,
         Instant createdAt,
-        Instant finishedAt
+        Instant finishedAt,
+        UUID operationId
 ) {
+    public RagDocumentBatchReport(UUID job,String status,String summary,List<RagFileOutcomeView> outcomes,String artifact,String model,Long ram,Long vram,Instant created,Instant finished) {
+        this(job,status,summary,outcomes,artifact,model,ram,vram,created,finished,null);
+    }
     public RagDocumentBatchReport {
-        Objects.requireNonNull(jobId, "jobId must not be null");
-        Objects.requireNonNull(status, "status must not be null");
+        if(operationId==null) {
+            Objects.requireNonNull(jobId,"jobId must not be null");Objects.requireNonNull(status,"status must not be null");
+        } else if(jobId!=null || status!=null)throw new IllegalArgumentException("Nonpublication report cannot claim an indexing job status");
         Objects.requireNonNull(summaryOutcome, "summaryOutcome must not be null");
         outcomes = outcomes != null ? List.copyOf(outcomes) : List.of();
     }

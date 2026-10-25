@@ -78,7 +78,11 @@ public class RagSourceAuthority {
         var externalIds = new TreeSet<UUID>();
         for (var source : initial) {
             if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
-                externalIds.add(UUID.fromString(source.getSourceId()));
+                try {
+                    externalIds.add(UUID.fromString(source.getSourceId()));
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalStateException("External file indexing capability is inactive (disabled)");
+                }
             } else {
                 ownerIds.add(Long.valueOf(source.getSourceId()));
             }
@@ -445,14 +449,22 @@ public class RagSourceAuthority {
     }
 
     public List<Map<String, Object>> documentInput(UUID jobId, UUID attemptId, Map<Long, Prepared> prepared) {
+        return documentInput(jobId, attemptId, prepared, null);
+    }
+
+    public List<Map<String, Object>> documentInput(UUID jobId, UUID attemptId, Map<Long, Prepared> prepared, Set<String> targetRootKeys) {
         var lease = leases.findByJobIdAndAttemptId(jobId, attemptId).orElseThrow();
         var manifest = RagManifestScope.parse(lease.getDependencyManifest());
         if (!"3.0".equals(manifest.path("contract_version").asText()))
             throw new IllegalStateException("Document contract required");
         var input = new ArrayList<Map<String, Object>>();
         for (var root : manifest.path("roots")) {
+            String rootKey = root.path("root_key").asText();
+            if (targetRootKeys != null && !targetRootKeys.contains(rootKey)) {
+                continue;
+            }
             var proof = Objects.requireNonNull(prepared.get(root.path("rag_source_id").asLong()));
-            input.add(RagDocumentInput.approvedRoot(root.path("root_key").asText(), proof));
+            input.add(RagDocumentInput.approvedRoot(rootKey, proof));
         }
         if (RagDocumentInput.encode(input).getBytes(StandardCharsets.UTF_8).length > limits.inputBytes())
             throw new IllegalStateException("Worker input byte budget exceeded");

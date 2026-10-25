@@ -55,7 +55,9 @@ public final class RagWebMapper {
                 result.sourceId(),
                 result.leaseToken(),
                 result.leasedUntil(),
-                result.authorizationEpoch()
+                result.authorizationEpoch(),
+                result.operationId(),
+                result.operationDisposition()
         );
     }
 
@@ -97,7 +99,9 @@ public final class RagWebMapper {
                 view.pageCount(),
                 view.errorCode(),
                 view.errorMessage(),
-                view.currentIndexState()
+                view.currentIndexState(),
+                view.freshnessBasis(),view.snapshotIndexState(),view.originalFreshness(),
+                view.publishedNewGeneration(),view.selectedRevisionId(),view.pendingRevisionId()
         );
     }
 
@@ -116,7 +120,8 @@ public final class RagWebMapper {
                 report.peakSystemRamBytes(),
                 report.peakGpuVramBytes(),
                 report.createdAt(),
-                report.finishedAt()
+                report.finishedAt(),
+                report.operationId()
         );
     }
 

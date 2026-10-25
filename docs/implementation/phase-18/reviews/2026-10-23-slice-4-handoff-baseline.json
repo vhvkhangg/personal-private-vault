@@ -1,0 +1,2037 @@
+{
+  "date": "2026-10-23",
+  "scope": "Read-only source/tooling baseline for handoff preparation; hashes are not runtime acceptance",
+  "head": "ebe125f7529124b62761e8d01c692cbbd28e4aa7",
+  "local_origin_main": "ebe125f7529124b62761e8d01c692cbbd28e4aa7",
+  "remote_main": "ebe125f7529124b62761e8d01c692cbbd28e4aa7",
+  "slice3_source_baseline": "e2e00534fb35534a298e8fb15d174f18cb63b5a0",
+  "entry_status_short": "",
+  "source_diff_from_slice3": [],
+  "slice3_published_paths": [
+    "AGENTS.md",
+    "README.md",
+    "backend/AGENTS.md",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentBatchService.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentFinalizationGate.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentInput.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentResultVerifier.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagGenerationState.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagJobService.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagManifestScope.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagPurgeService.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceAuthority.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceService.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerGrantService.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerSupervisor.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagExternalFileSource.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagJobLease.java",
+    "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/RagOriginalBytesStore.java",
+    "backend/src/main/resources/db/migration/V22__rag_document_result_authority.sql",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/AbstractEnabledRagIntegrationTest.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/AbstractRagIntegrationTest.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagDocumentBatchIntegrationTest.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagDocumentInputCompatibilityTest.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagNativeWorkerProcessTest.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3ConnectionLossIntegrationTest.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3CorrectiveIntegrationTest.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3Evidence.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3RecoveryProbeProcess.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3VerifiedIndexingIntegrationTest.java",
+    "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSnapshotCorrectiveIntegrationTest.java",
+    "docs/README.md",
+    "docs/adr/0021-phase-18-bounded-multi-file-verified-indexing.md",
+    "docs/adr/0022-phase-18-immutable-snapshot-whole-file-consent-no-change.md",
+    "docs/adr/0023-phase-18-application-level-snapshot-worker-trust.md",
+    "docs/adr/0024-phase-18-slice-profile-acceptance-boundaries.md",
+    "docs/adr/README.md",
+    "docs/architecture/rag-phase-18-api-extension.md",
+    "docs/database/phase-18-document-indexing.dbml",
+    "docs/implementation/handoffs/ACTIVE.md",
+    "docs/implementation/handoffs/README.md",
+    "docs/implementation/phase-18/README.md",
+    "docs/implementation/phase-18/acceptance-and-evidence.md",
+    "docs/implementation/phase-18/final-verification-gate.md",
+    "docs/implementation/phase-18/held-out-quality-and-locators.md",
+    "docs/implementation/phase-18/owner-decisions.md",
+    "docs/implementation/phase-18/preparation-review.md",
+    "docs/implementation/phase-18/reviews/2026-10-21-slice-3-verified-indexing-independent-evidence.json",
+    "docs/implementation/phase-18/reviews/2026-10-21-slice-3-verified-indexing-independent-final-review.md",
+    "docs/implementation/phase-18/reviews/2026-10-21-slice-3-verified-indexing-independent-inventory.json",
+    "docs/implementation/phase-18/reviews/2026-10-22-slice-3-independent-final-corrective-evidence.json",
+    "docs/implementation/phase-18/reviews/2026-10-22-slice-3-independent-final-corrective-inventory.json",
+    "docs/implementation/phase-18/reviews/2026-10-22-slice-3-independent-final-corrective-re-review.md",
+    "docs/implementation/phase-18/reviews/2026-10-23-slice-3-rr-independent-final-evidence.json",
+    "docs/implementation/phase-18/reviews/2026-10-23-slice-3-rr-independent-final-inventory.json",
+    "docs/implementation/phase-18/reviews/2026-10-23-slice-3-rr-independent-final-re-review.md",
+    "docs/implementation/phase-18/simplified-implementation-handoff.md",
+    "docs/implementation/phase-18/slice-2-d23-active-register-archive-2026-10-21.md",
+    "docs/implementation/phase-18/slice-2-markdown-only-d23-closeout-2026-10-21.md",
+    "docs/implementation/phase-18/slice-3-codex-corrective-evidence-2026-10-21.json",
+    "docs/implementation/phase-18/slice-3-codex-corrective-handback-2026-10-21.md",
+    "docs/implementation/phase-18/slice-3-codex-corrective-matrix-2026-10-21.md",
+    "docs/implementation/phase-18/slice-3-final-corrective-evidence-2026-10-22.json",
+    "docs/implementation/phase-18/slice-3-final-corrective-handback-2026-10-22.md",
+    "docs/implementation/phase-18/slice-3-final-corrective-matrix-2026-10-22.md",
+    "docs/implementation/phase-18/slice-3-inherited-source-comparison-2026-10-21.json",
+    "docs/implementation/phase-18/slice-3-markdown-scope-and-baseline-2026-10-21.md",
+    "docs/implementation/phase-18/slice-3-preparation-receipt-2026-10-21.md",
+    "docs/implementation/phase-18/slice-3-rr-corrective-evidence-2026-10-22.json",
+    "docs/implementation/phase-18/slice-3-rr-corrective-handback-2026-10-22.md",
+    "docs/implementation/phase-18/slice-3-rr-corrective-matrix-2026-10-22.md",
+    "docs/implementation/phase-18/slice-3-verified-indexing-handback.md",
+    "docs/implementation/phase-18/slice-3-verified-indexing-handoff.md",
+    "docs/implementation/phase-18/slice-3-verified-indexing-test-matrix.md",
+    "docs/implementation/phase-18/test-evidence.md",
+    "docs/workflow/rag-phase-delivery-guardrails.md",
+    "rag-engine/README.md",
+    "rag-engine/src/ppv_rag/chunking/chunker.py",
+    "rag-engine/src/ppv_rag/contracts.py",
+    "rag-engine/src/ppv_rag/db.py",
+    "rag-engine/src/ppv_rag/document_source.py",
+    "rag-engine/src/ppv_rag/document_verification.py",
+    "rag-engine/src/ppv_rag/parsers/obsidian.py",
+    "rag-engine/src/ppv_rag/worker.py",
+    "rag-engine/tests/test_d17_completion.py",
+    "rag-engine/tests/test_d17_final_corrective.py",
+    "rag-engine/tests/test_obsidian_d17.py",
+    "rag-engine/tests/test_slice3_corrective.py",
+    "rag-engine/tests/test_slice3_dependency_names.py",
+    "rag-engine/tests/test_slice3_rr.py",
+    "rag-engine/tests/test_slice3_verified_indexing.py"
+  ],
+  "all_tracked_source_tooling_count": 1824,
+  "all_tracked_source_tooling_path_hash_digest": "f05fcc9b1411201afe39f2bb62503d883bbc0a0d60a2288d3017ca334c276819",
+  "relevant_source_tooling_files": [
+    {
+      "path": ".agents/README.md",
+      "bytes": 3463,
+      "sha256": "b068e6a1b68c8ce9ae38dfc9c0169d642306ba62767ffbac8f290080c8a705dc"
+    },
+    {
+      "path": ".agents/agents/architecture-auditor/agent.md",
+      "bytes": 2155,
+      "sha256": "c204e8e87e23b9c1a5847b3630b50a19f2d3c9e5ae3bff7375ad5f51196823ef"
+    },
+    {
+      "path": ".agents/agents/backend-implementer/agent.md",
+      "bytes": 3575,
+      "sha256": "4ee53b9ef15a34468a4f3df2ba232f4a4bb3f8cdaabae4de5a337c60f5208f68"
+    },
+    {
+      "path": ".agents/hooks.json",
+      "bytes": 361,
+      "sha256": "62c0ff6210485601e63652900aac7e3cce83047b175b1d72b7e40e056e9fe52e"
+    },
+    {
+      "path": ".agents/hooks/repository_safety.py",
+      "bytes": 16012,
+      "sha256": "e6492129a3fda6860fa19db9f1aa49d07e01f214049bc99a5325fa5b9a4c189e"
+    },
+    {
+      "path": ".agents/hooks/test_repository_safety.py",
+      "bytes": 9246,
+      "sha256": "915ec7d9fae2f8ba951f475341c2e959c544a790b440200fca11efacc68cbceb"
+    },
+    {
+      "path": ".agents/rules/agent-handoff-workflow.md",
+      "bytes": 2594,
+      "sha256": "5a525d1976b34fcdf599d42116e5a39321d750cea360e825fa0fe245cf1ff445"
+    },
+    {
+      "path": ".agents/rules/architecture-change.md",
+      "bytes": 715,
+      "sha256": "e50547e4a41d78371df017d5ff6f570a970d959a1c91122549e0a02670daedbf"
+    },
+    {
+      "path": ".agents/rules/backend-java.md",
+      "bytes": 959,
+      "sha256": "0899c508f185749b027200f2502778009b88b15d194ee0f766ef0a170bc9ee04"
+    },
+    {
+      "path": ".agents/rules/backend-phase-1-foundation.md",
+      "bytes": 932,
+      "sha256": "4e7cc324a63643526d81cfa9def9ea3b0af9a13cc43de1ccd8ce73ac1ecf89a5"
+    },
+    {
+      "path": ".agents/rules/backend-phase-10-feed-importdata.md",
+      "bytes": 2078,
+      "sha256": "46cbed0aeee524c6ded3f037972fcc05f0a012ad461506b4c8b095f39f48cc7f"
+    },
+    {
+      "path": ".agents/rules/backend-phase-11-finance-journal-personal.md",
+      "bytes": 2494,
+      "sha256": "a76bd52b9f70925f4d61f41a8b34969e17a949d469877058828c8c998167dd52"
+    },
+    {
+      "path": ".agents/rules/backend-phase-12-global-search.md",
+      "bytes": 2194,
+      "sha256": "ecabea0a5d4ce138680cdafb06f5090c609b41616379b400961aaadec24b490f"
+    },
+    {
+      "path": ".agents/rules/backend-phase-13-rest-api.md",
+      "bytes": 1532,
+      "sha256": "33f7576aada7afcf7c91733b33e91e8ad9447b819745be73c592839c68172373"
+    },
+    {
+      "path": ".agents/rules/backend-phase-14-integration-closure.md",
+      "bytes": 2337,
+      "sha256": "19e9401e84522e8933eb73486d3488e129ef72585f3fbf51b432ee525f603cb5"
+    },
+    {
+      "path": ".agents/rules/backend-phase-2-auth-settings.md",
+      "bytes": 1431,
+      "sha256": "b7dc31822995a0fabc3b738f9d28128085fcf461db8d3a713db3647bf65f3520"
+    },
+    {
+      "path": ".agents/rules/backend-phase-3-people.md",
+      "bytes": 1158,
+      "sha256": "178d44c9fd1a28caed847ee7994d75f58cb464b2fc874e6a83bc4e74e95d24fc"
+    },
+    {
+      "path": ".agents/rules/backend-phase-4-fiction.md",
+      "bytes": 1108,
+      "sha256": "a92d9c0c86060bc6f4b1fabc76ff8311bd86077c74d5110605e5ff61d69378e3"
+    },
+    {
+      "path": ".agents/rules/backend-phase-5-film.md",
+      "bytes": 1324,
+      "sha256": "9328a0328a25bc681fd96b6b092c51fbf074524a9a20dff176748075caa6c07e"
+    },
+    {
+      "path": ".agents/rules/backend-phase-6-media-location.md",
+      "bytes": 1478,
+      "sha256": "35c33ad8c2f40050e0150a379ce9c9aa4d917f4da9d80330e4ccfaae9260de0c"
+    },
+    {
+      "path": ".agents/rules/backend-phase-7-account.md",
+      "bytes": 1879,
+      "sha256": "363b9f21093b87c6d9ce86a91a4ce3b28a7538a309544c95f0b932172885fb80"
+    },
+    {
+      "path": ".agents/rules/backend-phase-8-knowledge.md",
+      "bytes": 2063,
+      "sha256": "595a2cfb0d1910328c8a8226f8fbc97ebbee386c45de4e10b97c6aaa5a033792"
+    },
+    {
+      "path": ".agents/rules/backend-phase-9-collection.md",
+      "bytes": 2179,
+      "sha256": "a9af0151ea5ab924a7b0bc57e42099b2e2f389e0fa72c8c9dcef2aec936c6153"
+    },
+    {
+      "path": ".agents/rules/backend-python.md",
+      "bytes": 1059,
+      "sha256": "4d407850e8baf720a871c595bbcd182db2e9e1a8eda59c6df321c911cb7b5306"
+    },
+    {
+      "path": ".agents/rules/code-reuse-and-patterns.md",
+      "bytes": 804,
+      "sha256": "912234f2e614a62438b84d6273e6732e893d6bf100ecc9eca7e91b1ca5d833d5"
+    },
+    {
+      "path": ".agents/rules/context-efficiency.md",
+      "bytes": 694,
+      "sha256": "d24d261749d12c07d76938625b25fb113a8e9be19d4b0d43697a32b20a4b7317"
+    },
+    {
+      "path": ".agents/rules/database-migrations.md",
+      "bytes": 1875,
+      "sha256": "ed014e818300285a7fe2f7848c45a36a1084f2bddac732a5c921649ff6ff686f"
+    },
+    {
+      "path": ".agents/rules/documentation.md",
+      "bytes": 573,
+      "sha256": "cde8615ebf1d2951c42ba3056fb9f4cb0a046459dbb662bd94384569bcec8dde"
+    },
+    {
+      "path": ".agents/rules/maintenance-milestone-10-12-search-case-normalization.md",
+      "bytes": 657,
+      "sha256": "524305dd23282922ac34460ec38c9485cb207259a0a6fde74268b72f2ad898c4"
+    },
+    {
+      "path": ".agents/rules/package-organization.md",
+      "bytes": 1983,
+      "sha256": "215e85f75f96721b71460d5077d3d8237bfaf263d72c30c88134119c126009f7"
+    },
+    {
+      "path": ".agents/rules/security.md",
+      "bytes": 871,
+      "sha256": "26cd631b56b779b0c3e2578e1ca8aa364a8269e16b63897365747411a4e9398c"
+    },
+    {
+      "path": ".agents/rules/tests.md",
+      "bytes": 730,
+      "sha256": "ef2f97998ca70ce2eaa704accff6d85644b04e9805e4895211587945913d2e79"
+    },
+    {
+      "path": ".agents/skills/account-domain-modeling/SKILL.md",
+      "bytes": 4144,
+      "sha256": "4860f4f5799186dbebc8802b4f88c57bc1c9ac368fb5f8c234161193eacd187f"
+    },
+    {
+      "path": ".agents/skills/antigravity-implement-handoff/SKILL.md",
+      "bytes": 3477,
+      "sha256": "318082d1bb2fe671bdb2828ad8be39806f5f667bf226b6e531a1206e28c9abc9"
+    },
+    {
+      "path": ".agents/skills/antigravity-test-slice/SKILL.md",
+      "bytes": 1809,
+      "sha256": "0938aa0f6b7f627b2d140334fdeca51ccb2b58c15a1fde8d6e4b7f289041618a"
+    },
+    {
+      "path": ".agents/skills/architecture-change/SKILL.md",
+      "bytes": 1224,
+      "sha256": "8517907f501dc277c620b12a4ff82a839066fd54e2fc7c7c4ebafbb4c3809505"
+    },
+    {
+      "path": ".agents/skills/authentication-security/SKILL.md",
+      "bytes": 1876,
+      "sha256": "cc8babbf192d4c5556f1dbcc5c3a8c8dff65bfa34a176992907ec19056185f44"
+    },
+    {
+      "path": ".agents/skills/backend-integration-portability-storage/SKILL.md",
+      "bytes": 4659,
+      "sha256": "5a3698283ef44abd189661737b0a581b0c2590b0ae1df6451f610c15bfbe1133"
+    },
+    {
+      "path": ".agents/skills/backend-testing/SKILL.md",
+      "bytes": 1245,
+      "sha256": "a6aa5e5b1c8b32d537dce4f2e22d0f10fafa4621afd0c6d295ca365d33c1aa8c"
+    },
+    {
+      "path": ".agents/skills/bounded-command-execution/SKILL.md",
+      "bytes": 2749,
+      "sha256": "3c06c147714b7263341374ef5357ea398e92dacd9889929fcb72e93b4f56e43b"
+    },
+    {
+      "path": ".agents/skills/codex-backend-audit/SKILL.md",
+      "bytes": 9880,
+      "sha256": "a1f12a576739d6007d2d20b3ae480a350f00dd031c6f40017d2ec4a0e4eb8346"
+    },
+    {
+      "path": ".agents/skills/codex-backend-audit/assets/backend-audit-report-template.md",
+      "bytes": 1464,
+      "sha256": "f7ac52b321dcc4047c184e2671d17e11ad82ac58d010bbb23d1f2ca89323520e"
+    },
+    {
+      "path": ".agents/skills/codex-create-handoff/SKILL.md",
+      "bytes": 6550,
+      "sha256": "6997bf50530c4401fb5a0e4dcb3d92a0e28cbcbedc5bbff0d37839bb7312cb01"
+    },
+    {
+      "path": ".agents/skills/codex-create-handoff/assets/handoff-template.md",
+      "bytes": 902,
+      "sha256": "11093b7c7392609a18ad46460392d4f7718b2e707017ec51670f736ed0a36f95"
+    },
+    {
+      "path": ".agents/skills/codex-final-review/SKILL.md",
+      "bytes": 8159,
+      "sha256": "85306a62d7cbaf71126d278848d841ba020aeb7ecabe71fb55ad0f9147d74505"
+    },
+    {
+      "path": ".agents/skills/codex-final-review/assets/review-template.md",
+      "bytes": 632,
+      "sha256": "213fd238aa33d0675aaf9d2a56926428251d185a9e354b9b1ecd2036dccad5ac"
+    },
+    {
+      "path": ".agents/skills/codex-implementation-takeover/SKILL.md",
+      "bytes": 3356,
+      "sha256": "22276967f31032f3a5ed9b6b7d3fbd80b8513d29bb301438a7611507c07bf2f7"
+    },
+    {
+      "path": ".agents/skills/codex-milestone-review/SKILL.md",
+      "bytes": 3429,
+      "sha256": "fd37e0f2360e7646c41f6c4c10b5ee7e7954a5a1c2202c57530d110f058c0e29"
+    },
+    {
+      "path": ".agents/skills/codex-pre-handoff-review/SKILL.md",
+      "bytes": 7176,
+      "sha256": "fa2e3327e47540708d1c953774d65ded55f073a9f6bf2de72318a1dc03cf6a9a"
+    },
+    {
+      "path": ".agents/skills/codex-review-coverage/SKILL.md",
+      "bytes": 9593,
+      "sha256": "0e2f32cfba26a7028ddbde6aef958051d23be1b8977bda2b5c1751dae97fb922"
+    },
+    {
+      "path": ".agents/skills/collection-domain-modeling/SKILL.md",
+      "bytes": 3873,
+      "sha256": "afbb0c05e2cdb905be72eb6adf70731666e0db3474e08055eb485ac141025fcf"
+    },
+    {
+      "path": ".agents/skills/database-migration-review/SKILL.md",
+      "bytes": 1195,
+      "sha256": "5c82e71f07106e3baea9f029a006070c1d9464dd956b185ed9aad70af40ff8ce"
+    },
+    {
+      "path": ".agents/skills/design-pattern-selection/SKILL.md",
+      "bytes": 3043,
+      "sha256": "e965f28030e9e71b80808b0b3b4e7b4d0be96014e7be0db8d2d9f832dd770dae"
+    },
+    {
+      "path": ".agents/skills/feed-import-workflow-modeling/SKILL.md",
+      "bytes": 3453,
+      "sha256": "17df2b87817b88aa4470ccf1a6079a27cea21c6a0c9ba789ce9df70b799e125d"
+    },
+    {
+      "path": ".agents/skills/fiction-domain-modeling/SKILL.md",
+      "bytes": 2341,
+      "sha256": "dffb1d935cc136de4f093d3a8ad81c31bf2ebe252e706ab2f29c4ece9494eff6"
+    },
+    {
+      "path": ".agents/skills/film-domain-modeling/SKILL.md",
+      "bytes": 3797,
+      "sha256": "80a2566fa46b55e7fec9f216154671a640b83d41290c50b3238b6bccbac0c2ef"
+    },
+    {
+      "path": ".agents/skills/finance-journal-personal-domain-modeling/SKILL.md",
+      "bytes": 3264,
+      "sha256": "1e6381e3aa2fca79c9799a03e9a640d21b22f0b72877c94c337e495d9ae76d50"
+    },
+    {
+      "path": ".agents/skills/global-search-domain-modeling/SKILL.md",
+      "bytes": 4246,
+      "sha256": "96ab73f7f243be446b930813b78785c9611d5573497564aa9707707605eb5084"
+    },
+    {
+      "path": ".agents/skills/graphify-context/SKILL.md",
+      "bytes": 999,
+      "sha256": "7c3732b2038d824d74224172112e105c3c8c742723677b483fcf23afa288f723"
+    },
+    {
+      "path": ".agents/skills/java-spring-coding-standards/SKILL.md",
+      "bytes": 1539,
+      "sha256": "8c4835d368b4b3a7806675d862f3c6133426bed27dce0396c80bdcafaa982fe3"
+    },
+    {
+      "path": ".agents/skills/jpa-postgresql-persistence/SKILL.md",
+      "bytes": 932,
+      "sha256": "0e2e41ecb0344b8057cfd9b16cc3dc186415c30c24da367dc2359cb784d0df6c"
+    },
+    {
+      "path": ".agents/skills/knowledge-domain-modeling/SKILL.md",
+      "bytes": 5115,
+      "sha256": "b6cddb8ef18dc2346c5e738de7b887e108de4891e29e810485ddc456bbe7fc0d"
+    },
+    {
+      "path": ".agents/skills/local-rag-engineering/SKILL.md",
+      "bytes": 6286,
+      "sha256": "6c6020911683cbe92bcb0e8f965229d731af765d683f78a29ef2203fcbfeda9a"
+    },
+    {
+      "path": ".agents/skills/location-domain-modeling/SKILL.md",
+      "bytes": 2748,
+      "sha256": "36b57912bba791da4653478d4f8ae36f6dd7b6a5389d46aa442350f9966e1bef"
+    },
+    {
+      "path": ".agents/skills/media-domain-modeling/SKILL.md",
+      "bytes": 1990,
+      "sha256": "d3c0f3c2a07865344d191fa5c3684a629adde2a7626e52d2ac76207863f49584"
+    },
+    {
+      "path": ".agents/skills/modular-monolith-architecture/SKILL.md",
+      "bytes": 1531,
+      "sha256": "2b95ca8a4fc79b251bf95af9ae2a24c083d02ec68c6401f28e5206fd396cf69f"
+    },
+    {
+      "path": ".agents/skills/people-domain-modeling/SKILL.md",
+      "bytes": 2850,
+      "sha256": "84ba75aea2afce5721eb5817b27ef5b1ecb33a036e96a77757a5b7870c20f584"
+    },
+    {
+      "path": ".agents/skills/pragmatic-solid-design/SKILL.md",
+      "bytes": 910,
+      "sha256": "ca7ac4ccea78ca4b6c43c766f3b6c0cce88c232b602e93fe83e5d06825292d09"
+    },
+    {
+      "path": ".agents/skills/python-rag-coding/SKILL.md",
+      "bytes": 3655,
+      "sha256": "858f5de5b9fe40ccbf87a6fcd8a9c9e5dcab67a1110a14b3b2ba0ee4da199e72"
+    },
+    {
+      "path": ".agents/skills/rest-api-http-contracts/SKILL.md",
+      "bytes": 2632,
+      "sha256": "17898d94fbdbb7bf114bed44da208102542f7393b42881e9cb035c90fc74b453"
+    },
+    {
+      "path": ".agents/skills/reuse-and-consistency/SKILL.md",
+      "bytes": 3037,
+      "sha256": "3af3c8700e603d8dd4420b5eb6414c11d694146e418b7d00df4d83c82fd820ad"
+    },
+    {
+      "path": ".codex/README.md",
+      "bytes": 1222,
+      "sha256": "a9cf511799e479dafe03064d4d26848b88ab83abd5257051fcb79551a0249463"
+    },
+    {
+      "path": ".codex/config.toml",
+      "bytes": 257,
+      "sha256": "bae8a373421041792db5f8a839908903fea81abc826c9c0f88e157d90e5b72db"
+    },
+    {
+      "path": "backend/pom.xml",
+      "bytes": 8446,
+      "sha256": "21a033c9d2dad8b4b326a9c7cd5232e7a0ecb1f4eb4854fd8dafb84de7b4431b"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagBatchFinalizationResult.java",
+      "bytes": 693,
+      "sha256": "2d72de504a988e9c28f1812188d30d37514617b971c81c3f808a36c00a4f4b28"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagConsentCommand.java",
+      "bytes": 1386,
+      "sha256": "29720af4a8b6e7dfd3402c060ba7abf2709169621bc40bd94fc02759fef1546e"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchCommand.java",
+      "bytes": 890,
+      "sha256": "5b4aa51c127af96cdf6f37ccb3634d4a66a1c4e0b346478147d90f8228b1b7af"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchFinalizeCommand.java",
+      "bytes": 190,
+      "sha256": "3e0c7856a96d29e7f272c917dcf1be7bc04612d99428752cd7699c80b5c8a6f0"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchReport.java",
+      "bytes": 1054,
+      "sha256": "b29e41e95d2a37d93cdc425b1757bcb0c2e65f4fda44c6cc77fd07202f3d7991"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentBatchTask.java",
+      "bytes": 998,
+      "sha256": "cf74eff27ac4ea76768c56c3874f0ed98d9ed80310ca2bf153ad8b6e520630b3"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagDocumentRootItem.java",
+      "bytes": 879,
+      "sha256": "1c331b8010ca56024b0e1c3d46f838845e71725aaf93cd5172beebe55158abca"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagFileOutcomeView.java",
+      "bytes": 611,
+      "sha256": "fa73028f28e95b20581b2cbdfd7dda4378c81588bb6a15ed253ba55582b1be54"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagFinalizationResult.java",
+      "bytes": 665,
+      "sha256": "0b87c50a0048d78eef7302a80d01d3e79fdcfd75e350a6b22677c31fdf93515c"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagIndexCommand.java",
+      "bytes": 718,
+      "sha256": "0e6911346dbc7c1164431194238505feccf8bca2b1e1858b159da32d4f76adc1"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagJobAdmissionResult.java",
+      "bytes": 1018,
+      "sha256": "a95668f306b48bc2ebddfc432a0a29a499fd5f140e53a70f0268a2936ecef2cc"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagJobBusyException.java",
+      "bytes": 224,
+      "sha256": "a12f4c2654bfa4c0ddd34c3a816de4fae24718eacdef9f2353903f5390c45b15"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagJobStatusView.java",
+      "bytes": 919,
+      "sha256": "3d586c27e53f00beb0e4f5e596f5291a9a019a824413932fa26b44afc8ca8533"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagOperations.java",
+      "bytes": 2256,
+      "sha256": "9433cb128d4683d9fc847147e552873ae0163e21768f113479530d74be262ba2"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagSnapshotCaptureCommand.java",
+      "bytes": 669,
+      "sha256": "8e1c9fffcf7c167a4022ecf79502e846d27ac8850bba55e2e5c14776e42e3686"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/RagSourceChangedException.java",
+      "bytes": 316,
+      "sha256": "217b07ec9385fa223cb7518b5c8c1c3c3fdd1ff12ee848549109e5d88f3cdfbb"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/api/package-info.java",
+      "bytes": 168,
+      "sha256": "137486b78db1df3b0cef7747fb8eb293758fc68579eba0e632b87f72a231b386"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDependencyGraph.java",
+      "bytes": 5129,
+      "sha256": "407a67833a30229bc4b41713b3153d6adac1cd131b0edb0f6c6dbf430c485835"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentBatchService.java",
+      "bytes": 16240,
+      "sha256": "9c91844e1c95e01970a8d793bd86b4a72cd9dd920bd21472a50ed2c3b140ad8d"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentFinalizationGate.java",
+      "bytes": 32884,
+      "sha256": "0d3774e8321d33e95ae86284bfec2da2cd0651f8c452e19a3f734f5e226923f2"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentInput.java",
+      "bytes": 5162,
+      "sha256": "d480d727807b912ba1e925f31e6d00ab6c85fc9218d492f5c28bdf941f4f6882"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentReportService.java",
+      "bytes": 6045,
+      "sha256": "f020994290fb23d1e39d0bc308b0217649efed0ae919d500391ebb225e243278"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagDocumentResultVerifier.java",
+      "bytes": 6734,
+      "sha256": "12af58289a97fb56f6ca54d9582057b1e804bf18e954e4708870e7337d355ed7"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagExternalFileAuthority.java",
+      "bytes": 4004,
+      "sha256": "c83bfda384e242743fffae86964be291195224bf96e7117ff8a2fee66e3b0027"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagFinalizationGate.java",
+      "bytes": 7381,
+      "sha256": "ad1c2bd0b099f65ce6572ffa72d58530d6c75e1a71d18a9da09381e296ba597a"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagGenerationState.java",
+      "bytes": 8362,
+      "sha256": "336c3ea15b8fbf63539e5ced8e81d342742e17e1c0460035a9483ec7b971d2d3"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagJobService.java",
+      "bytes": 11080,
+      "sha256": "65e642b43e36d42860f00dd7c9dd480639196db3ff078943c35e89fcfa4ce3f9"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagLimits.java",
+      "bytes": 2160,
+      "sha256": "19e23bf73647b13516e2260a62f5c9b39c390eee9acf93fde6a35dfcbc6126b8"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagManifestScope.java",
+      "bytes": 4841,
+      "sha256": "b8534b2df46e376543e7c23c159de80c0ef31e02656794e0c7247b52a812cc8d"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagPurgeService.java",
+      "bytes": 20254,
+      "sha256": "b5a8278d6c0fddeda273cfd085afd8342c6fac3378943e8b846f6d6445526ff6"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagRecoveryService.java",
+      "bytes": 15686,
+      "sha256": "2444e9140245f230a4e34e516ef17f509edb4c65c9d7cd01a48283695e2f2901"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagRuntimeIdentity.java",
+      "bytes": 460,
+      "sha256": "3a98bff8c1245fb6d96c7c99578aad0f35e5e5da6f2c88cc78605a90f1d8261a"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagRuntimeSecurity.java",
+      "bytes": 2041,
+      "sha256": "7543bc3ffa72af6bfa9faf38e60c1efe44a18cd9859d2c069223eaebbb9c19ed"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagService.java",
+      "bytes": 7863,
+      "sha256": "eec3642cf7de8631ba45114c516623fe774dcf842a1fe9ebf5372b7cb652f0b2"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSnapshotAcquisitionService.java",
+      "bytes": 11040,
+      "sha256": "d2bfb57effeddc7139dee81a7d89dc47e56fb549ded96f48acd55ab00641966e"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceAuthority.java",
+      "bytes": 35871,
+      "sha256": "d75870625fe11459c4581763c6b2526d47ab3c5d8cac68a92661258a83748cfd"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagSourceService.java",
+      "bytes": 36290,
+      "sha256": "e137dfb579d66ad29a19fb80319f7b65a385b4b98493761555d56941ee1cf532"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerGrantService.java",
+      "bytes": 11352,
+      "sha256": "cb4b9200fa53c16560b3acdd0f500ad29faf80ed1163ae3eda1891c4f6275326"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/RagWorkerSupervisor.java",
+      "bytes": 20485,
+      "sha256": "a1af557656c856699b5eb6c4297b21eeed1798e024e5c8cb89510cf03952db6f"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/application/package-info.java",
+      "bytes": 166,
+      "sha256": "6245c2539d2461523c9409d345cad48f9a909116d8d640e9c9bdd7f4311cb30b"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagBatchRoot.java",
+      "bytes": 2218,
+      "sha256": "501be7d49e6e5fb9e3e2d5c2fec655c6f5172f01d85ee4207bd5360686621726"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagDependency.java",
+      "bytes": 1678,
+      "sha256": "1784720970c2a9a97ad82b1119d68dbcd09a31979d32d885ce907ea1db6ba10f"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagDocumentChunk.java",
+      "bytes": 2899,
+      "sha256": "540b5946ddbd23fb37ae09fab069ee39b0a92f5cad0f8e57b87768ba66162eb0"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagExternalFileSource.java",
+      "bytes": 8090,
+      "sha256": "6c33719f4f65e2109ea8e8821b5a9695cc5bc9261eb09cde827542381d0becf5"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagFieldAllowlist.java",
+      "bytes": 2154,
+      "sha256": "f8623d85943707a5ea12db44467717e1ec43c32e061b6ad3ea4039f94e60c99f"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagFileOutcome.java",
+      "bytes": 2982,
+      "sha256": "4502f2467291bfff4bfe75e06efa744b1dde1bcb390b48a18853785f99fb98e1"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagGenerationRoot.java",
+      "bytes": 3305,
+      "sha256": "357a2d44e0f33a8e3f651ba80127de5701e26235ea2a4cb00bf4018e0b8ec244"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagIndexGeneration.java",
+      "bytes": 4078,
+      "sha256": "c7841a5ff8b8909063a2d2e36b54f3a52cebd96d90c9883d459fee17fe854ebf"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagJobLease.java",
+      "bytes": 6604,
+      "sha256": "d607975f20f7e8ec908ad78d5621629cf05eab9f2788bb2e59fd31235fa11d28"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagRun.java",
+      "bytes": 2825,
+      "sha256": "11270e6995852cadea277400f8fa11aaaf6151bc583af0ec70b97b9ddacf93b3"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagSource.java",
+      "bytes": 7887,
+      "sha256": "a35590459d6f5c8f9f98bdbeec4d42f37d8e1d418bf5dc86f72328ce583cde98"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagStagedDocumentOutput.java",
+      "bytes": 3030,
+      "sha256": "70e3bdd48df5d59fa31aa96887281908ecdd59e0981a5db204c67d8dc4e5001a"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagStagedOutput.java",
+      "bytes": 2145,
+      "sha256": "b14ab6d443deb6dec105e4035063f2aa97fc36aa11075e4991c2d4e29de1be94"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/RagWorkerGrant.java",
+      "bytes": 885,
+      "sha256": "d1413e425f6b943d52bd06da8cc8e1959e086e7936fc07ed323ed7627e0bdefe"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/domain/package-info.java",
+      "bytes": 135,
+      "sha256": "b48bd77ebd304b3786e6b414f5efcdd011756479cb5071ce5d9a13f6b5d85522"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/client/NativeWorkerProcess.java",
+      "bytes": 29287,
+      "sha256": "aa63bbbaa4e133c66b7afcf112bc2cbfea524c5232e85fa5d00c7e0d42a078cd"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/client/RagEngineClient.java",
+      "bytes": 16824,
+      "sha256": "a1ed296cd806b13948e98df7863f399f832c1c481992ec0dfb09ce611d204adb"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/client/package-info.java",
+      "bytes": 147,
+      "sha256": "51f330410fdc20d65b947d6ab28f017445fd82440ecabbe0add6548d7830550b"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagBatchRootRepository.java",
+      "bytes": 483,
+      "sha256": "2e3bba412180a555f30a96a70353114a37e0238066df408ba36d58143f7bbad9"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagDependencyRepository.java",
+      "bytes": 589,
+      "sha256": "0146e3e427cb7788789095c24bef346780259003dd1c2f279ce3eb5dcf4f4a8b"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagDocumentChunkRepository.java",
+      "bytes": 1153,
+      "sha256": "cc67505bb21c4c99c2815957c865cfa3758826af6cbb4676b496ab28018c1bb1"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagExternalFileSourceRepository.java",
+      "bytes": 1244,
+      "sha256": "e5a0d64aff9ae99cbf62b155a40c9d94f6ae1b9be9bde95521bbf60fee2a59b1"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagFileOutcomeRepository.java",
+      "bytes": 441,
+      "sha256": "d7da29710fead96d86f273b442beeb06b310bd551bbff9e821d99c900e747d0f"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagGenerationRootRepository.java",
+      "bytes": 417,
+      "sha256": "821054f5877f92dff4ce0e03a2a39833264b57e26359272c4d4b3126f73bef13"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagIndexGenerationRepository.java",
+      "bytes": 1312,
+      "sha256": "a4b7daac57525c2c92cf016f2300b1ddf1417a03cd8172a01b0071133eb0b9e6"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagJobLeaseRepository.java",
+      "bytes": 1545,
+      "sha256": "ba60170b697090715533f9fb2e1d881a52eacb5472c2e4e683fd0aa0e63ae394"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagRunRepository.java",
+      "bytes": 437,
+      "sha256": "7790fe84e7ad11e9ba7919ac80d3030d1b5cc52bec51006520f9fa845c9e1c7a"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagSourceRepository.java",
+      "bytes": 1115,
+      "sha256": "4be44d8dd6e582314d5346e4600dfd4fc63ad14c775b3320ef47d7ac7009c26a"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagStagedDocumentOutputRepository.java",
+      "bytes": 687,
+      "sha256": "1e7ba4a4aba13848ac6d9533a148f7f5fd98f33e950e4d218d97ee470ac43449"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/RagStagedOutputRepository.java",
+      "bytes": 1318,
+      "sha256": "77f36355c84798a487f0e8af04f79a1a36157fd7e94fb86e036fffb2c81d1d14"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/persistence/package-info.java",
+      "bytes": 159,
+      "sha256": "2694271b14b012525f29c4703365bdb53f20a8c604aced55067d2c8481959c73"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/RagOriginalBytesStore.java",
+      "bytes": 48549,
+      "sha256": "17d67e3c58f49d08045eb7df8b3b1b5552dfad4fd991b756042fe4f3c911bf93"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/SnapshotIntegrityException.java",
+      "bytes": 347,
+      "sha256": "3817b6e87b99f57f969b01ddc74c8c4820332988635307bf06074bb80ea07011"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/SnapshotMissingException.java",
+      "bytes": 232,
+      "sha256": "60c72f1d53f4317789c381d829226cbd8bb685053ad28540aa5bfd12d6e8cb63"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/SnapshotStorageException.java",
+      "bytes": 341,
+      "sha256": "1df7ced2bb1c78b16fdda5999dfd4d691403b88f0467bf2fd5214bb970081980"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/storage/package-info.java",
+      "bytes": 166,
+      "sha256": "e6697a7384411e5f47bfe31d204e441e64c889ab00302e0848961352e411e335"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/windows/WindowsNativeFileGuard.java",
+      "bytes": 57459,
+      "sha256": "3e8527f08552c9016afd4f71f274288123595741025dd2eb4801647d0aa44f41"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/infrastructure/windows/package-info.java",
+      "bytes": 145,
+      "sha256": "54a5ada8eafc40b603bac900b6b9f3ac73e8d6df9c91e93ab8d85132aa02b70c"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/advice/RagExceptionAdvice.java",
+      "bytes": 3086,
+      "sha256": "d3dd0c9ce15ba8b6760146a1abd302332cbd215bafd1958af150bfa342fa817a"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/advice/package-info.java",
+      "bytes": 134,
+      "sha256": "f75bf29fa0d9a0f610df87ca616fa637fdee3a56953a6d7e805a125b646e8155"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/controller/RagJobController.java",
+      "bytes": 6400,
+      "sha256": "4aa7435bf0ea352d399c75c56b502726cf297da1970f5fdad50d58cb2ca84cc5"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/controller/RagSourceController.java",
+      "bytes": 5688,
+      "sha256": "619bec37e05807294b5978674d5f8261b46189632a0965083625686f192903e1"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/controller/package-info.java",
+      "bytes": 129,
+      "sha256": "3ba7de0f18fad5253fb2da939ae247caedaf49ef4af1db371de7bae0a9fe4072"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/AdmitDocumentBatchRequest.java",
+      "bytes": 350,
+      "sha256": "1b90a4ff39c2f2895989ae00d865f3e5a19056c306cbfef512cdf9652d8d190d"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/AdmitJobRequest.java",
+      "bytes": 561,
+      "sha256": "200b1a4f64da49d8054a43bd63e5a340f42ccca1076d38eae86f7496b2785961"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/ApproveSourceRequest.java",
+      "bytes": 868,
+      "sha256": "926142222dc2846415c69fb6abbe33efb1b4546bdf3ee594eee87d27896b77e4"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/CaptureSnapshotRequest.java",
+      "bytes": 493,
+      "sha256": "f214e023169dccc150a4ccd93a5a89000060c4ade22c61d923e5d72db118a5f8"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/DocumentRootItemDto.java",
+      "bytes": 562,
+      "sha256": "c99804a82ba5c958c54ff2a4c1f045f907878d36020ccab83a8b47a3fb807067"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/FileOutcomeDto.java",
+      "bytes": 402,
+      "sha256": "79fa18cb0f27b166c6f4031edb59903d02b4f59e5d22c4e2e57f11ccc432076d"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/FinalizeDocumentBatchRequest.java",
+      "bytes": 253,
+      "sha256": "5086655962c592599f6a9c562a3ba08e45799fec2cbc1222c87f0c8c44571641"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/FinalizeGenerationRequest.java",
+      "bytes": 298,
+      "sha256": "90f0ef841c5468f631b9270a785ac40ef2d8647413808c310ee8996cbbe2b579"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagBatchFinalizationResponse.java",
+      "bytes": 308,
+      "sha256": "8b71afb95085e9f39e34a9a43f991613b7f1cb9fe21c2373faaab20987624c70"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagDocumentBatchReportResponse.java",
+      "bytes": 485,
+      "sha256": "d752c52960dd1767c0c4bc5f01ca0dd22909531d94c80a0317bf37e77453a8f1"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagFinalizationResponse.java",
+      "bytes": 318,
+      "sha256": "68cb27c49d8d3116af24d17b0686fe5b36222be820795ab92fa9b6389f4f8918"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagJobAdmissionResponse.java",
+      "bytes": 606,
+      "sha256": "faf6721200abcae3060566842fe93b8992825692cef3324477a60491cdbb5a08"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagJobStatusResponse.java",
+      "bytes": 384,
+      "sha256": "34114fecc6dba5d53902877276b817400432d70145cfff9024c42c936e2843dc"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RagSourceResponse.java",
+      "bytes": 997,
+      "sha256": "bb5aeb95f4eda430f29682947345a3d5dfce4a41806aaa1f7db90c8dbd2e67af"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RegisterDomainSourceRequest.java",
+      "bytes": 635,
+      "sha256": "ac8311012379618c9c03b73f104f2043e590e856fd22c4c431869ded0c4d27c5"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/RegisterFileSourceRequest.java",
+      "bytes": 343,
+      "sha256": "f6992c9b33eda30b41d5d80856174b838d1de85f1b2cd236d90ea5e94c4839f7"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/dto/package-info.java",
+      "bytes": 131,
+      "sha256": "fc1c48dd77e64a87ce26733c3c0475bc0ecee1c7769dc4d46322dfe08a5cfee9"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/mapper/RagWebMapper.java",
+      "bytes": 5701,
+      "sha256": "6ef78432770f4ba3a0c67e3f24830cc83b96e7b5238cbc49bbe47dc7b440c825"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/internal/web/mapper/package-info.java",
+      "bytes": 139,
+      "sha256": "2fc049d39fa0c5aa82774cba782f3ad26405c62d6811455af25f868dd94189fd"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/package-info.java",
+      "bytes": 1493,
+      "sha256": "0f2d1378173e8f8672e8358a1f144187955206c6d96a05e03dd1c8df62012127"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagAccessState.java",
+      "bytes": 125,
+      "sha256": "c49c9770d4c51b6017ed0e16eb0d55a18cfe97604d469fd556732eb659ffd86c"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagClassification.java",
+      "bytes": 132,
+      "sha256": "ee3b9e46d2381caeacc6303ef3efb948935aad6526cc4cc037630cfa050d7491"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagSnapshotExpectation.java",
+      "bytes": 1203,
+      "sha256": "25a5dff22bd64d035a9b1ec652f25785ef8f619f51c7253ca8fc5793cd14d69e"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagSourceType.java",
+      "bytes": 127,
+      "sha256": "789b10c0bd8400c9fafbc589d11abf977083006f9730285a671dfaa9d5fbf354"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/RagSourceView.java",
+      "bytes": 2542,
+      "sha256": "ea49fb0eb67207bcd1b14412fef7e261a5173d5fa10f776d7be6faa88c5f6a94"
+    },
+    {
+      "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/rag/source/package-info.java",
+      "bytes": 178,
+      "sha256": "c9742645324ed4f6596ec98a65be77159bf82f3fe9f7e8bfb2e7c0c4c3ec7171"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/README.md",
+      "bytes": 690,
+      "sha256": "a766a13b9e1c55dc06399ce41bb47e799eb94114f8eefdb416abc5462b0ed161"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V10__rag_complete_worker_authority.sql",
+      "bytes": 3556,
+      "sha256": "80fb17a6063a3d0b48be89feea3d8ba7f3badd265dafc01bacd08353692124fe"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V11__rag_disabled_source_tombstones.sql",
+      "bytes": 1096,
+      "sha256": "5b87ad0d27cd127cbb57d444a14ab53d6cdf45bf3f7612ce5445c0b47a6e7392"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V12__rag_exact_worker_dependency_proof.sql",
+      "bytes": 7171,
+      "sha256": "028fcf43df186fb78f91b0388172107401d9d6f3342a4472d45b156a4634be50"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V13__rag_effective_database_privileges.sql",
+      "bytes": 782,
+      "sha256": "f9e1be477231753d98ded4717c39a260d7c06eee7affeec06833b5da1d8662ae"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V14__rag_source_state_and_reservations.sql",
+      "bytes": 17723,
+      "sha256": "27fbd08abf4757fb33bc41289690a65dcfa00cd494823c55e9a0b4c9e91bffa4"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V15__rag_single_job_and_sealed_worker.sql",
+      "bytes": 17362,
+      "sha256": "52b53f04cd6993e761a02c480ed79afeb4b14e40b84c10192e29aa629d8aebc8"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V16__rag_current_read_and_terminal_scrub.sql",
+      "bytes": 3529,
+      "sha256": "6e9a9f77f4c12f4caf95749ad47fc3ad8b0258baa590ffbdb20bba23796a4a54"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V17__rag_retained_consent_history.sql",
+      "bytes": 3519,
+      "sha256": "90eae19be851c2ecc41cbfebc5dcf0a0d81b4ca68265c5eb1ced27349f91dc86"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V18__rag_document_indexing.sql",
+      "bytes": 25694,
+      "sha256": "832bdc31d10c4f84bdf5dd0da4a06e757d2e37dd4e608ad9b34acfb029ed695e"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V19__rag_require_vector_storage.sql",
+      "bytes": 3489,
+      "sha256": "01713ed5710c20e512472f5266a66a4ad0597100b0b56f32b2c0d59dd09901d8"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V1__create_schema_v1.sql",
+      "bytes": 55330,
+      "sha256": "25d0423e15490f558900b3df3d6fc6176840f820fa36e59ecc78cf4fcdbce686"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V20__rag_snapshot_revisions.sql",
+      "bytes": 998,
+      "sha256": "88e616347f8165ea1ce94ffe0a814cbdae9660525bc26952d2d187c341a0577f"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V21__rag_snapshot_integrity.sql",
+      "bytes": 1267,
+      "sha256": "6083f9bbb1156a357faefb63af206a34f7a65673564f4bc8d3d753a2bfc565ae"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V22__rag_document_result_authority.sql",
+      "bytes": 12980,
+      "sha256": "443802cfe7a4b6a0d41939e61b93ef7190210ff0f2a13bdb0cfb7c270ee488e6"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V2__add_search_support.sql",
+      "bytes": 2839,
+      "sha256": "30f181edd9a51e55f9c30c6cc7b2d780d1ca82ecd87f1cd200e82607ba781f9a"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V3__rag_foundation.sql",
+      "bytes": 5977,
+      "sha256": "95fe0a834d0df6cc057f385fe2e0478147629694203e12008fb1eaa399c04c5d"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V4__rag_worker_security.sql",
+      "bytes": 4513,
+      "sha256": "58978496808267058812d14de9ccebd92c46db4e783cf0b116c7c97070e8e187"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V5__rag_staging_definer_and_indexes.sql",
+      "bytes": 5808,
+      "sha256": "e16bc5e021c583fa7ea80894c1bc8c524dffea043b8a2ed22316ba37e941c69e"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V6__rag_security_hardening.sql",
+      "bytes": 5486,
+      "sha256": "bfa8f4e928bbab8cfa9e563d30c0154e52d160e3c6e33fe3352499d8abb67c16"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V7__rag_issued_worker_grants.sql",
+      "bytes": 8783,
+      "sha256": "9b3bf4a525adfbf693e439f5e7c75b48d590ebada1b53102e7452740a58fd98d"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V8__rag_commit_deadlines_and_consent_instances.sql",
+      "bytes": 3333,
+      "sha256": "134ee303d1775f87898c2e7b9bf43af728095d3539aa17dd38b7293b1005799c"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V9__rag_runtime_authority.sql",
+      "bytes": 1506,
+      "sha256": "d8b8e17d2eee41647d8ac571ea9726ca9c1fc00db16fedd88a0fbd94d915a76f"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/AbstractEnabledRagIntegrationTest.java",
+      "bytes": 6157,
+      "sha256": "76391deae0047836ef5912edbfe9f1ccf5c99f715f10223f6592c5dfae95ade5"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/AbstractRagIntegrationTest.java",
+      "bytes": 5345,
+      "sha256": "f87b2e859ba4e0c738a8c15f518c2d0d8d1597c5b7ef584122deaeafab42680d"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagAuthorityContractTest.java",
+      "bytes": 1889,
+      "sha256": "69bec1892ae7278d184e40b315f48b9f9c69f5bd9f3d1e8e441077e3e1190e23"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagCancellationRecoveryIntegrationTest.java",
+      "bytes": 10571,
+      "sha256": "1912698db258587207dfa27f06018887831e69a0374531ee87eae0328151b3bb"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagCommitAcknowledgementRecoveryIntegrationTest.java",
+      "bytes": 17379,
+      "sha256": "cdf69a113aea71c2a2b1373a6d43870c27d758406e5bd3b44b2c4d5c449fd89a"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagConsumptionContainmentTest.java",
+      "bytes": 2563,
+      "sha256": "3d6842c0db0c54d183fbbf7a2a89fad928418edde1b67aa0e5170967849e715e"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagDocumentBatchIntegrationTest.java",
+      "bytes": 22250,
+      "sha256": "0dd187670f82ef1506923c89aa1d4141f4892eaf06685a7fb9d538cd2575a3fa"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagDocumentInputCompatibilityTest.java",
+      "bytes": 2917,
+      "sha256": "7d9aece033d341f77ed1d14efb4af89775fe836018cfd22c1a222658351fd9c3"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagDomainCommitGuardIntegrationTest.java",
+      "bytes": 11201,
+      "sha256": "de81a2300ebd88958be6dcbf1642c122d41c21a0c71745ebe37d842f765e7a18"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagE1ExpiryIntegrationTest.java",
+      "bytes": 22763,
+      "sha256": "fcf57d13f5ff5d6cff93683f264da0a050920bd145492246c2384770159791c4"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagEngineClientTest.java",
+      "bytes": 5331,
+      "sha256": "e4ae3bfd12cd6f4bd0d03d76bac1cb68eaeaefdc220fef759f1e413b54715544"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagFinalizerOwnerConcurrencyIntegrationTest.java",
+      "bytes": 14501,
+      "sha256": "293134b3e5181dbe954fddb76ed011173ccb77c4d16388150bf8807ae5c0177d"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagFoundationBenchmark.java",
+      "bytes": 27111,
+      "sha256": "c080469308cf1bded024bf774a731f7e61eff750f4beda6ce79528cc17c58145"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagLegacyRuntimeDeniedIntegrationTest.java",
+      "bytes": 1128,
+      "sha256": "d8a1ced45d0742015f1f60d86db65b49ac0e2965eaf7ed3e740a1fdd16ca8068"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagLifecycleIntegrationTest.java",
+      "bytes": 33227,
+      "sha256": "2de2dbb90f857a873e057b904cf370c87257bda71f46b65cdb0c53fbf9fa4acb"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagNativeDocumentBatchIntegrationTest.java",
+      "bytes": 5657,
+      "sha256": "8f164b55c7884e429e63147ef50c4259603bc75103cae9291174e3d8415db001"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagNativeWorkerProcessTest.java",
+      "bytes": 16108,
+      "sha256": "ef0d3ba0ee4911e25a4a0bcebff3ebf22d7cab9c44c73c8684d6f15968463740"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagOriginalBytesStoreTest.java",
+      "bytes": 37388,
+      "sha256": "3323bc0c76b548399b282cb51361af064c7d6d8949635ae4b9630210ef891480"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagPgVectorCompatibilityIntegrationTest.java",
+      "bytes": 13403,
+      "sha256": "3f1d1f0c10b7713bb63cf51e4f6bca5da6e5186c773c1a2531cf0e039152e7c0"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagPythonCommitTerminationIntegrationTest.java",
+      "bytes": 11504,
+      "sha256": "be4142bde23afbfb6c5bb78e748c9a8d269a41358d9f2b3a1a9438ba12b95680"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagR7FeasibilityCheckpoint.java",
+      "bytes": 7096,
+      "sha256": "f87a15ea4d7c792af99e59a66f28ce1d0be365f6593b11577fbedae614db9563"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagRecoveryProbeProcess.java",
+      "bytes": 9734,
+      "sha256": "66319e7995556e82ee3babb4645af2a8402fc413bdf9faa3d4e14ba58460db14"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagRestrictedWorkerIsolationTest.java",
+      "bytes": 20951,
+      "sha256": "deb91732216d151611c1b59d9e7f98657a359d2cf8076fecbadb35c7c3b36de7"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagRuntimeRoleIntegrationTest.java",
+      "bytes": 6804,
+      "sha256": "33d2bdd3c64169f6f67f37058e7d3bdf1e76d050aa52c02549ba9286b0646f78"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSecondJvmRecoveryIntegrationTest.java",
+      "bytes": 17361,
+      "sha256": "b103bca8196c41d4c5b34c9c57f48fe5e84f771ec5c37d8db1d00376ffab035a"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSingleJobRuntimeIntegrationTest.java",
+      "bytes": 27810,
+      "sha256": "f4c18230d0b92cd14677749069c46cb3cfb95593a334a87d9b358d56359369c2"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice1SnapshotIntegrationTest.java",
+      "bytes": 17197,
+      "sha256": "d81312c66c670acd642866b20769b9e629e691b85cff56b27042964f5de257e4"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice2NativeOcrCancellationIntegrationTest.java",
+      "bytes": 10257,
+      "sha256": "f05ec988f9a79eb07713abb018254881ba07194fe768c7cb7bdc6723a88b82c0"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3ConnectionLossIntegrationTest.java",
+      "bytes": 12164,
+      "sha256": "2091b8bcc404820d66b912f674e8de9d28f65a5aa9249080d64dfc0524ea56e3"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3CorrectiveIntegrationTest.java",
+      "bytes": 87616,
+      "sha256": "496ecce9fd608c6c916c99918deee31a1fd89cab1cd97e0648c0117de883305d"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3Evidence.java",
+      "bytes": 3106,
+      "sha256": "f9bb7402ad40a7a177bd382cfdf845203948d22c0d3bef788052a37af97a359d"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3RecoveryProbeProcess.java",
+      "bytes": 6483,
+      "sha256": "214978798c6f4c8b05cf20c7bfa40dde7b33430ae5384e9b8b7bf8c044b5a3b7"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSlice3VerifiedIndexingIntegrationTest.java",
+      "bytes": 15903,
+      "sha256": "0d5bcac9fccb29a68c0b09fe1ee52e9307921ae1c72e4a05fc965dd4b0ec38d7"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSnapshotAcquisitionServiceTest.java",
+      "bytes": 14242,
+      "sha256": "e57f25ff8d2c0fc17f47ec8d4025677eba8c72e5a570419d295cbc92d63c8711"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSnapshotCorrectiveIntegrationTest.java",
+      "bytes": 35738,
+      "sha256": "c63ac70d604e0ab97103a773bfcfa87da942df73c1268e790f5a9edb5ee346cf"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSourceAuthorityIntegrationTest.java",
+      "bytes": 12283,
+      "sha256": "d3676b2f95041cd2343088e0ad1b0ea6244e1e70b6861d91db318bba182b6fa1"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagSourceReservationsIntegrationTest.java",
+      "bytes": 20788,
+      "sha256": "fc5ddf8211e8af59b760fe84d57e06f6deb77284117f4a9648edf882d71de7d6"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagStagingCommitFenceIntegrationTest.java",
+      "bytes": 8847,
+      "sha256": "1c7608b41a947aa145d3f718281dc5bb6c1f10edd2bea2d0acc4c8e055fb1f1b"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagTestCommands.java",
+      "bytes": 1906,
+      "sha256": "b4a4bc5aa2ae0d88d319aaa5e7ac9194cd5a584c695274fa94f54aa7471cbc1c"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagWebIntegrationTest.java",
+      "bytes": 11771,
+      "sha256": "8a74563bdceffd20a67d01c6f48f4dbb4110ca6548744f07db3324a2d631660e"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagWindowsAcquisitionTest.java",
+      "bytes": 21515,
+      "sha256": "dd08fd556818df74c9895ccc2099858850dcbb3367e82af926d4a3b2849fc070"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagWindowsNativePrerequisiteTest.java",
+      "bytes": 10864,
+      "sha256": "697b213b4dd9a43355f7b9f5abf20a1333128bb40220420669609c7dfd268ab8"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagWindowsNtfsFileGuardTest.java",
+      "bytes": 8710,
+      "sha256": "ffac2a466b1c16dd2dcec275a945f69ee71deda0151201dc4bc1ac35b18dad71"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagWorkerBoundaryIntegrationTest.java",
+      "bytes": 61765,
+      "sha256": "788f0cabc2d98ad5721282dd4d80ed6d59e47935e113a467c2645b003ab2a9ec"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagWorkerFixture.java",
+      "bytes": 837,
+      "sha256": "876dc4d817b09b883a599cad19e3590c5150212878430a688b32a89e9f2a31e8"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/rag/RagWorkerPostgresPrivilegeIntegrationTest.java",
+      "bytes": 8408,
+      "sha256": "75f34e5b3694b192931ae650ab8f7d73b3edd4177a0f4633665d32b4ce03c37f"
+    },
+    {
+      "path": "backend/src/test/java/com/vhvkhangg/personalprivatevault/support/AbstractPostgresIntegrationTest.java",
+      "bytes": 1412,
+      "sha256": "9dfe7d6a8d4ac869a8cf440ef7cc1c4976cc839355dfaeae38038acc2a14903f"
+    },
+    {
+      "path": "rag-engine/.dockerignore",
+      "bytes": 68,
+      "sha256": "60ae2cdd92cd9fb5423da92291c8badc95afdb33e2db25a8f8ec0a384ed9914a"
+    },
+    {
+      "path": "rag-engine/.python-version",
+      "bytes": 7,
+      "sha256": "bb90877c5ee8c4703cfd03421e92ef2a17a10b67ecc822524baeea4c8da3dc9f"
+    },
+    {
+      "path": "rag-engine/Dockerfile.offline-check",
+      "bytes": 551,
+      "sha256": "aa94fa10e50d2ce5bcf9eea10610fda23528dfad9821c64962939a6d8fd57e97"
+    },
+    {
+      "path": "rag-engine/README.md",
+      "bytes": 14579,
+      "sha256": "99efd20ca444a9a243e7d3359df6eca4ac8f2e46c05e71a322370e9d002bdf4f"
+    },
+    {
+      "path": "rag-engine/pyproject.toml",
+      "bytes": 1419,
+      "sha256": "a68d8d4f9f141dbd460825883b9d3dabc4ad1114c30fe7298eb755208ffdb2e6"
+    },
+    {
+      "path": "rag-engine/scripts/d17_completion_resources.py",
+      "bytes": 11400,
+      "sha256": "404ea11eeaef046640a7f0ad3aa6aa461441f82ae0dafeac3c3821c849d60e0e"
+    },
+    {
+      "path": "rag-engine/scripts/d17_final_onnx_probe.py",
+      "bytes": 4543,
+      "sha256": "db10a1926d4c55ba31309570fe255a4cd44c2bedd21be66137241ebe0e56bc2e"
+    },
+    {
+      "path": "rag-engine/scripts/d17_final_profile.py",
+      "bytes": 4221,
+      "sha256": "3e39f7c1e1e3d1a48588844abd23ff739ab4b15325bca31c536e96a6a7b0d39e"
+    },
+    {
+      "path": "rag-engine/scripts/d17_markdown_evidence.py",
+      "bytes": 11248,
+      "sha256": "2f5af589712281be2c996e7d74784264c468b3ebfbedb75ae1957408672473d2"
+    },
+    {
+      "path": "rag-engine/scripts/d17_structural_conformance.py",
+      "bytes": 15656,
+      "sha256": "109a28a90bd5ac3024716225edb4b54c68716c1d44edb7ba096443f2be5f2c7c"
+    },
+    {
+      "path": "rag-engine/scripts/d18_pt_a_ocr_checkpoint.py",
+      "bytes": 20468,
+      "sha256": "0a0e680c102f17cba1d93c84eec106a7bfeb0cfd105a6651cb3389d87006b7f5"
+    },
+    {
+      "path": "rag-engine/scripts/dependency_inventory.py",
+      "bytes": 3091,
+      "sha256": "262a8e05480ecb825a0933cff5ed08de0c3885712e5fbdca47c2cda42aa2b6cf"
+    },
+    {
+      "path": "rag-engine/scripts/freeze_phase18_ocr_fixtures.py",
+      "bytes": 2806,
+      "sha256": "939e78c06c06b3dc4e4963379bc78654d86c6984fee20ef538eb5a938435839b"
+    },
+    {
+      "path": "rag-engine/scripts/measure_d18_pt_a.py",
+      "bytes": 8126,
+      "sha256": "832140d127e9195f3991889936807c0fc0ab03a516b3c14d050bbcb983bc25f3"
+    },
+    {
+      "path": "rag-engine/scripts/offline_check.py",
+      "bytes": 3756,
+      "sha256": "520ab0ffb52eb616160f351a5ffd92c4bd1b4f57449b5adcb4dfa8bccfc36cea"
+    },
+    {
+      "path": "rag-engine/scripts/prepare_slice2_adjudication.py",
+      "bytes": 17855,
+      "sha256": "a37ba455c4013c24660fba69d6d58f96e863f899cd0936f1b76bd9f843cca24c"
+    },
+    {
+      "path": "rag-engine/scripts/probe_phase18_ocr.py",
+      "bytes": 3058,
+      "sha256": "8e04a757d852568a2153980e0e547d01d449a10e58228fa0a7c14fc0fb3ce5a1"
+    },
+    {
+      "path": "rag-engine/scripts/provision_embedding_model.py",
+      "bytes": 2650,
+      "sha256": "3d30e2444b7b48faf65c136ae7c6e7e71f10feb518b571e5535e17edd95af3a1"
+    },
+    {
+      "path": "rag-engine/scripts/provision_phase18_latin_ocr.py",
+      "bytes": 1016,
+      "sha256": "4dbaf78f73d8f0ce66027f6aba43e687cdd957958d2ced92d9e14d2450508662"
+    },
+    {
+      "path": "rag-engine/scripts/run_d18_pt_a_native.py",
+      "bytes": 972,
+      "sha256": "599170df2ad2ddd72ab3a95dc8177566533f1ab0b1b0d07c747d69d66d254bf8"
+    },
+    {
+      "path": "rag-engine/scripts/slice2_corrective_resources.py",
+      "bytes": 8640,
+      "sha256": "ab39e1586df90b5c661f68c0a48003fee4527a851cba72f9ceb8c015fdcfccef"
+    },
+    {
+      "path": "rag-engine/scripts/slice2_ocr_checkpoint.py",
+      "bytes": 12977,
+      "sha256": "3a61b568bfa6ad8e8e70bf7f77212197f585a29a3c76090980038cc6a2704286"
+    },
+    {
+      "path": "rag-engine/scripts/slice2_paddleocr_checkpoint.py",
+      "bytes": 13602,
+      "sha256": "8928d39a0cebf96a22935435c0f020c11161bb07c304e2cb6d14b6d2af4ba1b7"
+    },
+    {
+      "path": "rag-engine/scripts/slice2_tesseract_vietocr_checkpoint.py",
+      "bytes": 19482,
+      "sha256": "d1e1b0397efcfbe034c092bfaf81b9389f4de9fd00a8792fc1ccb9b73efd6090"
+    },
+    {
+      "path": "rag-engine/scripts/worker_boundary_check.py",
+      "bytes": 12848,
+      "sha256": "a360838a9be31fcaa139a7f22bd74404d6a365fffc301ad430972f23e27a161d"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/__init__.py",
+      "bytes": 53,
+      "sha256": "0c9bbc5eb14acb5fa89626a40028dce4d66ae770ea10e491bbbf23fa1ff96ff5"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/chunking/__init__.py",
+      "bytes": 168,
+      "sha256": "eca386adc2375958c941d4b1fafa770d1fb7e8b328ec37b6be3946096680471d"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/chunking/chunker.py",
+      "bytes": 11673,
+      "sha256": "7e5c73c93b384c5d9596dd5704dfa94a9cbc6d699d14d4573df11935e10154f1"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/config.py",
+      "bytes": 1587,
+      "sha256": "9d9da878dca02881b97fa2000cabe52acff34b8893f3697b4d7be9caac18517a"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/contracts.py",
+      "bytes": 8213,
+      "sha256": "ea3808f5777b8a911b7fcc9b5480ba2b8377b745341bdfa263117361092e4276"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/db.py",
+      "bytes": 4767,
+      "sha256": "721a2ef5d1ebabf14ca68ee53a07e766af292ac69e17dde2ca682461837a40e6"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/document_source.py",
+      "bytes": 5560,
+      "sha256": "f582708e69026ca83de277e4f029a4173c6a80849fd9a66f4487f3cb20b2a178"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/document_verification.py",
+      "bytes": 7565,
+      "sha256": "a8904c1c01b7628e270671c3c6bde35a792139e6bca5f9b42e918e3b846a0819"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/embeddings/__init__.py",
+      "bytes": 192,
+      "sha256": "12d1859f2748df7427471879c4cd92284a8710cb5a62173ff12b6fa4899d475a"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/embeddings/model.py",
+      "bytes": 10728,
+      "sha256": "0761be34112e541ae758e9b4816e27dd46c0d6abb82024e5f8690db0e372389a"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/limits.py",
+      "bytes": 8084,
+      "sha256": "15722059e350a4d8d6a7168022a4ef62090f2148577ae63a4a7d93b846ca4194"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/main.py",
+      "bytes": 6437,
+      "sha256": "1b333be2fa18a12ecde35266129041621100bd1946347adce0713bf1d8d15cea"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/ocr/engine.py",
+      "bytes": 6538,
+      "sha256": "3953b9e6299525e4e3f775875b5ac4c186f952a1ffc203109c649c8a13d4203a"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/__init__.py",
+      "bytes": 639,
+      "sha256": "d539b43ef287760509026c8734b994ff1d9a304a0be5c373a31514de61b6bf60"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/docx.py",
+      "bytes": 9198,
+      "sha256": "f613bcdeca8a06093d0d024717bff284882880d26737ebc38e66b0810bc69f65"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/excel.py",
+      "bytes": 19847,
+      "sha256": "3b863ad2d60e8e34899ac8d9aa2338335534863fac157f61e099ab173e3749ee"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/markdown.py",
+      "bytes": 22554,
+      "sha256": "40d3df95bd93171443cc8223592807f3a07a389d08c0b246b4221223cd989829"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/models.py",
+      "bytes": 7395,
+      "sha256": "16d85af8294c40443af1da1b2ff34a290fb8b27c6bc188b83e9306dcebafd2eb"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/obsidian.py",
+      "bytes": 49838,
+      "sha256": "83ce26efe8913e59302688b128b1f9227cadfdd20e7b22a18ae07ac1e67354fc"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/obsidian_html.py",
+      "bytes": 11091,
+      "sha256": "cd2f2f1c024dd7dd6674c53e4759c0447d5e11edbf442af2ccdd76590cd01172"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/pdf.py",
+      "bytes": 15959,
+      "sha256": "ac61c950bdaa85b2ceb46cc7d07cf27a222ac9f5f70dcc837b2c04e814c2e44e"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/parsers/text.py",
+      "bytes": 3552,
+      "sha256": "11912e33a412a53e02b3c175025913e3e5a612d7a09deb57564a89e73bb4b623"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/security.py",
+      "bytes": 512,
+      "sha256": "af4bd166d8388cb2d68db367edea22f70a3fc94e7d4c81c6a512cf6fb0be6e44"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/telemetry.py",
+      "bytes": 5013,
+      "sha256": "6bb8a07c2d25ce835ae6fe63348beeeef954400e6ce48be2b3116265110ff4e9"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/transport.py",
+      "bytes": 6543,
+      "sha256": "06af021b99bf377d98507d10517eb618cfe117bea7b8ce32843fbebac2e3af54"
+    },
+    {
+      "path": "rag-engine/src/ppv_rag/worker.py",
+      "bytes": 19908,
+      "sha256": "da2b089a2ac20ca31a7ef6f47b0f2152a83dccb1e21297321dd19c9a408a7c38"
+    },
+    {
+      "path": "rag-engine/tests/conftest.py",
+      "bytes": 1402,
+      "sha256": "b5c31d9da460929f125919176a9a919cc445c8ad2b6a84c67e7df7bea2b3d39f"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/manifest.json",
+      "bytes": 7325,
+      "sha256": "9c1d7b16e0c5d9d4b4f18db95e37680c556b8b6bb466ab3e0f02e8ff50897801"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/manifest.sha256",
+      "bytes": 66,
+      "sha256": "b141264c2f022d23d00c85f413348a8a4c698589d74c47d02245f8c6c1283fea"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/medical-appointment.pdf",
+      "bytes": 42507,
+      "sha256": "125a02ce892ba33713f1e14c03cb679bcb49e677fd6e8b5f48ba388658a8c78e"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/office-stock.pdf",
+      "bytes": 75221,
+      "sha256": "230d3dcce8d257f56aee279bc726b837a71b0bdc7bcd2226fb4d92aa43a9d5c6"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/shelf-regression.pdf",
+      "bytes": 39454,
+      "sha256": "c65ccafafb46f8fd75acb2a53b7030194117340a8d9a641322d553a0cbc44894"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/d18-pt-a/transport-timetable.pdf",
+      "bytes": 84026,
+      "sha256": "0621c83472c5c658168c647e86c6a4b11b2e8e8fc2939766b3646becf73d7764"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/HtmlVault.md",
+      "bytes": 838,
+      "sha256": "e8d918e50f84081eefcccae05ef77900fa9302b3cc32de00b2ff1dee156da39c"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/REVIEW.md",
+      "bytes": 2652,
+      "sha256": "cbdb446d4ed59fa99656968f92d8b2124229f988b0ad3ab66314b0d427331c1b"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-completion-v1/profile-corpus-gold.json",
+      "bytes": 33027,
+      "sha256": "7a0d67bb23e6a3ec4eec59cf65eaa74e48355c6394ea561be582c4fc9cbcb4fe"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Child.md",
+      "bytes": 286,
+      "sha256": "50f0ccb3f01d36d79c18513616664cf914ebe9ffe4cce7b5bbfbfcfdbf945acb"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Grand.md",
+      "bytes": 86,
+      "sha256": "1812be0c251b22c7b25f8da6bca5a885d7269abde2855255a33628f3d5e9c504"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/REVIEW.txt",
+      "bytes": 1972,
+      "sha256": "58d1a19a17d1dc16e99bb893a0d834edafb361a68bd6ff1ea4bb2d8186bf56f5"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/Research.md",
+      "bytes": 1823,
+      "sha256": "183d5063ed717293c5a85f55d37167759009c26224dadc2674a07881d82fa67f"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-d17-obsidian-v1/manifest.json",
+      "bytes": 723,
+      "sha256": "574883710d2dcda2b96b1aa3b7e21a551627c337e7d5a2e67d262b8481fb5d17"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-en.pdf",
+      "bytes": 10979,
+      "sha256": "6338a77779f333172819c21cd5220f338771cabb054818bf788613629a097b34"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-vi.pdf",
+      "bytes": 10634,
+      "sha256": "0e31d8e4fad2bdab11464a7fa4b3cb37a742d88a790a5b61f37841837da6421d"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hans.pdf",
+      "bytes": 10435,
+      "sha256": "5cad462872e271b2ac3f47e028ce4c7802e425f6eb25662f72f9ba715ab66a6d"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/development-shelf-zh-Hant.pdf",
+      "bytes": 10640,
+      "sha256": "49f507db4bccf141eb35a094a914c18e00289bf9426eb5fe85bfdd5db9f36c5e"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-en.pdf",
+      "bytes": 14209,
+      "sha256": "ae23974f087aa9567eacbf34bc2d645a2a78478a9fb755c4a0d029fc6b4c1b7a"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-vi.pdf",
+      "bytes": 13661,
+      "sha256": "86b41a8c3cd886b26dc4adea00067b40ffeb79d30b4e21b65023a1f239b26a07"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hans.pdf",
+      "bytes": 14743,
+      "sha256": "d2d6c4a04b909beab31619aaa09e29bf474f36fda0f350c42aaba7977fc27c0a"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/held-out-invoice-zh-Hant.pdf",
+      "bytes": 14904,
+      "sha256": "74990e04f7707a950b4456319619b7d4217f7f7041eaced03ab1e05ae8192440"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.json",
+      "bytes": 4791,
+      "sha256": "c4fbbeb23c6571a76632dfc5b2a349b0ce8bc439ff5b4fa6169830bacca5e8be"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-ocr-v2/manifest.sha256",
+      "bytes": 66,
+      "sha256": "ac980ad84345db8ac21c4f6dff8bdde9e1a2dba2eeb68e5fc269c7de61ebe5ea"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/REVIEW.md",
+      "bytes": 4069,
+      "sha256": "09cd74eb82788174c27928b9d599cee8daebb9e65852838decf05c38edee77f5"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/adjudication.json",
+      "bytes": 3652,
+      "sha256": "cd95b0d2f16b49701563ebf404f8ae64b84befcf05e7b0d80de79b358319031a"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/broken.docx",
+      "bytes": 40,
+      "sha256": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/broken.pdf",
+      "bytes": 40,
+      "sha256": "c86de98716b1a3bd1b4b651c4092462c160928c2d8ea0dcb30a5e07735915e2b"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/closure-audit.json",
+      "bytes": 1201,
+      "sha256": "ef2547cb4dc4584c7a46755e0935a9555ac63125668bcabe668937fd2a574336"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-en.pdf",
+      "bytes": 55143,
+      "sha256": "ba7ad9050e154be871ede586cba037c55de261519d1755604f92f8d85014b1e0"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-mixed.pdf",
+      "bytes": 57654,
+      "sha256": "4affedc4490dc583c8e51844d84c07172e5a47ccc1d1a2b1606421125bb3c631"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-vi.pdf",
+      "bytes": 57306,
+      "sha256": "46bd0f3ed33dfd59df5d4c8a8738fb613a8c5a1c6904aeafdd370b052007b71b"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-zh-Hans.pdf",
+      "bytes": 56268,
+      "sha256": "b6843b9c57e616bebc8ffea923f83a1ad9876031fd0f84ffe30cc1196207f941"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/courier-zh-Hant.pdf",
+      "bytes": 56311,
+      "sha256": "9109f13399560153b7034d30e12bd814996bb3ad4ad778d262ccca3c11838a5e"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/inspection.xls",
+      "bytes": 5632,
+      "sha256": "9886c9a0fca30ab5109baca294506301696bf359b1c65b0826d0b109a7a574ed"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/inspection.xlsx",
+      "bytes": 6341,
+      "sha256": "b890684a4dcc9145024da43b1db2233f686de47dadd496adf3f4cc073e02b94c"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.docx",
+      "bytes": 36140,
+      "sha256": "7f603c969e5780e5e43dfa8261623381293b04c8a209817eb01c581264074686"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.md",
+      "bytes": 101,
+      "sha256": "958481955e10081fcef79176769ea20a5bf97d3321fe0f1efa80c01f465e104a"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/maintenance.txt",
+      "bytes": 94,
+      "sha256": "9d9ec08e7bde4260b76682ec4648fa1cf4492a3971bcf90ea11abc6b010d7841"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.json",
+      "bytes": 34463,
+      "sha256": "406e3aeedc78e943cd494e30452819d18e3ceba4e1bc2e4612845d5eea225e99"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/manifest.sha256",
+      "bytes": 65,
+      "sha256": "854327b388d2a82663b634c87c012d8c6e78ed218fcdcf82fbd8249715b44679"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/missing-locator.json",
+      "bytes": 123,
+      "sha256": "45fa8b43c3e45c271ab36079f6cc966b28c78e9def2399f98b984790ba0de80e"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/tools.md",
+      "bytes": 56,
+      "sha256": "93ef31abe42d6484013b03110ec701dcc2b56a4835679851d1ac2d17b16962ed"
+    },
+    {
+      "path": "rag-engine/tests/fixtures/phase18-s2-checkpoint-v3/workshop-native.pdf",
+      "bytes": 691,
+      "sha256": "96a87d7a6f300236314224ac701cf3b8eb3f2709bf085c5472f56a95362ae033"
+    },
+    {
+      "path": "rag-engine/tests/test_bound_ingress.py",
+      "bytes": 6331,
+      "sha256": "6822be0fb5c15ac3bfd3d01f9770cd2a9e6699d24c0af8b0f93f5f4d2928729f"
+    },
+    {
+      "path": "rag-engine/tests/test_chunker.py",
+      "bytes": 4908,
+      "sha256": "5392473816e09e651e0e19f4e83653e44dfffa00fa6ea5225fae9278b2e5cad2"
+    },
+    {
+      "path": "rag-engine/tests/test_consumption_containment.py",
+      "bytes": 940,
+      "sha256": "ea23a6d8993e242b867f2b305188561d42f3c920f89de924dfb3a61d0599b79b"
+    },
+    {
+      "path": "rag-engine/tests/test_contracts.py",
+      "bytes": 1877,
+      "sha256": "eb7a6c8d985ad8ae18f1c1a7c74eccc7ec0d99a604a74cf90dbf0214939d02f9"
+    },
+    {
+      "path": "rag-engine/tests/test_d17_completion.py",
+      "bytes": 7621,
+      "sha256": "dfef9d25be330267cb21370cd202a19e572111aa9e920fe7e6a162e3a4e56787"
+    },
+    {
+      "path": "rag-engine/tests/test_d17_final_corrective.py",
+      "bytes": 9621,
+      "sha256": "a738ce7f086c4660d0a5c900e636751a1fe8719152222daa0ad29de91a084a84"
+    },
+    {
+      "path": "rag-engine/tests/test_d17_r03_only.py",
+      "bytes": 7208,
+      "sha256": "463a745ae32f292dc619c08f58e8e3e6f0f7081274fae571c501a30d8d2f4bbb"
+    },
+    {
+      "path": "rag-engine/tests/test_embeddings.py",
+      "bytes": 3799,
+      "sha256": "fb06cb72b6a3f3109b8b038f30561b361ebf261f653002f24d6433ca00a82a85"
+    },
+    {
+      "path": "rag-engine/tests/test_health.py",
+      "bytes": 311,
+      "sha256": "767dbc538065bcfc42bed41c2271775aff5049c7dd07a16e87749b0fa184f4ed"
+    },
+    {
+      "path": "rag-engine/tests/test_obsidian_d17.py",
+      "bytes": 19531,
+      "sha256": "3e5f5f2f5ae7e2fcb5dfb3826b166f7325ac2b1afdad1042a858c2ed720dac9a"
+    },
+    {
+      "path": "rag-engine/tests/test_optional_ocr_dependency.py",
+      "bytes": 2072,
+      "sha256": "4b6d16129f075a02b7503f0e8c027cf4ba0c0676e7ebb632853fdab972652771"
+    },
+    {
+      "path": "rag-engine/tests/test_parsers.py",
+      "bytes": 14390,
+      "sha256": "9c21c8da68f00f113209116f08ce11a57a6ff73d533e404d4a0eb52cfcdd62fe"
+    },
+    {
+      "path": "rag-engine/tests/test_pdf_geometry.py",
+      "bytes": 2774,
+      "sha256": "155b219f2632986a9892662031ace85c07bf05ab61133022369c743de2c66723"
+    },
+    {
+      "path": "rag-engine/tests/test_pdf_scanned_surrounding_text.py",
+      "bytes": 2913,
+      "sha256": "607efe9807e686e95f0f9feeeda17b4f66698504113adcfa4e8b2d84c3e265ba"
+    },
+    {
+      "path": "rag-engine/tests/test_slice2_checkpoint_package.py",
+      "bytes": 3195,
+      "sha256": "f5b6a70ba9110fb287b89f7d56d88d7e733c2aac178a505db455405652de507e"
+    },
+    {
+      "path": "rag-engine/tests/test_slice2_corrections.py",
+      "bytes": 27476,
+      "sha256": "3c416eb9c08cae5c4c1796b7373765a33af104bf01abad76585bf0ffe4bcae56"
+    },
+    {
+      "path": "rag-engine/tests/test_slice3_corrective.py",
+      "bytes": 3407,
+      "sha256": "8763daa3e1f1ddbda79618a4c4e9404b1695bc75f9ed7f7e02d16112e32b7704"
+    },
+    {
+      "path": "rag-engine/tests/test_slice3_dependency_names.py",
+      "bytes": 5653,
+      "sha256": "4d1726741f1a35996d7e7bda3a3e9d3bcf811ec6748b9274c9a30258aa46d647"
+    },
+    {
+      "path": "rag-engine/tests/test_slice3_rr.py",
+      "bytes": 6621,
+      "sha256": "d4f853ae6080021394af7490b2c7fa88eaf556ab2282da57a92eee9421141807"
+    },
+    {
+      "path": "rag-engine/tests/test_slice3_verified_indexing.py",
+      "bytes": 4304,
+      "sha256": "3a6a036f387e576bd415602947ffadebdb11556e8a7a62b93312e4c5024fbe8b"
+    },
+    {
+      "path": "rag-engine/tests/test_telemetry.py",
+      "bytes": 795,
+      "sha256": "d0823c24f4b30ea8d199f13da637241a6a5cc550ef2333b18bed98c6748f5077"
+    },
+    {
+      "path": "rag-engine/tests/test_transport.py",
+      "bytes": 1430,
+      "sha256": "5b9e11f0b65ec0d0bd98369737883f7dda716b977563e0c4de249bb7523952fb"
+    },
+    {
+      "path": "rag-engine/tests/test_worker.py",
+      "bytes": 4831,
+      "sha256": "35e195f5dc832ea6b6a2bc543270afdc374caf53f1939dd33f5237c984121ac3"
+    },
+    {
+      "path": "rag-engine/tests/test_worker_v3.py",
+      "bytes": 7182,
+      "sha256": "cce9785521523b1a63af38d1dead25da9ef966d34ea27d6298965f2f8d198877"
+    },
+    {
+      "path": "rag-engine/uv.lock",
+      "bytes": 383330,
+      "sha256": "f6062313800b0700c0ab7ec80199dac6a2b0731b4595060963f737be771cf2fa"
+    },
+    {
+      "path": "scripts/README.md",
+      "bytes": 1339,
+      "sha256": "00990d5e3693f234ba3e4cbab489a5b165aea0d0dbd2f20d88a89cc68d767f60"
+    },
+    {
+      "path": "scripts/apply-package-layout-migration.ps1",
+      "bytes": 5440,
+      "sha256": "99c5e8e6723e1926e260989c5956cb3b430a5f9993fd595d0bb6c64b930c0308"
+    },
+    {
+      "path": "scripts/apply-phase-review-migration.ps1",
+      "bytes": 4893,
+      "sha256": "b68e078c2c51dc11ba6b24064597d300965c0f851c67d54afbc70e8bbd9f81f5"
+    },
+    {
+      "path": "scripts/apply-workflow-doc-migration.ps1",
+      "bytes": 1195,
+      "sha256": "8f00278e5f3d22e0fd503c4be661c427d2f992b757bc134d08c01500ca915e25"
+    },
+    {
+      "path": "scripts/configure-antigravity.ps1",
+      "bytes": 4429,
+      "sha256": "88d13a1906fa4b90e46475c06e5e7ebaa7a2e917b3a322c38b13895a230a68c2"
+    },
+    {
+      "path": "scripts/diagnostics/run_cp18_ab2_startup_localization.py",
+      "bytes": 40662,
+      "sha256": "8b8c4e69261a6021019173f551b5ed9d40440ce0a2869ec151836ea8b637a410"
+    },
+    {
+      "path": "scripts/refresh-graphify.ps1",
+      "bytes": 229,
+      "sha256": "0f7bcd95e0e87ac459bf91087b7f990bead1ccbe3cd5ef07791e2e0a92ce0825"
+    },
+    {
+      "path": "scripts/run-bounded-command.py",
+      "bytes": 4955,
+      "sha256": "e9643978b8dc708b86b4014bc83805e44336fe16fee796c901c564d69cdf058d"
+    },
+    {
+      "path": "scripts/setup-graphify.ps1",
+      "bytes": 843,
+      "sha256": "3df88bc5e7b8888cf70326067626cc37ae4e106642f425bbee90b1c1f1463d54"
+    },
+    {
+      "path": "scripts/test_run_bounded_command.py",
+      "bytes": 7806,
+      "sha256": "5e867559a99f1c58384080b5a97c9a609585263985f07af5cdf49548c59ef586"
+    }
+  ],
+  "preparation_checks": {
+    "source_and_tooling_files_unchanged": 1824,
+    "relevant_sha256_checks": 384,
+    "slice3_exact_published_inventory_paths": 90,
+    "s4_test_mapping_rows": 18,
+    "changed_or_new_documentation_files": 14,
+    "local_markdown_targets": "PASS",
+    "five_command_block_unchanged": "PASS",
+    "head_and_remote_main": "ebe125f7529124b62761e8d01c692cbbd28e4aa7",
+    "production_tests_run": false
+  }
+}

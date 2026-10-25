@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
@@ -17,7 +16,6 @@ class ElementKind(str, Enum):
     CODE_BLOCK = "CODE_BLOCK"
     CALLOUT = "CALLOUT"
     TRANSCLUSION = "TRANSCLUSION"
-    SPREADSHEET_ROW = "SPREADSHEET_ROW"
     METADATA = "METADATA"
     COMMENT = "COMMENT"
 
@@ -74,71 +72,8 @@ class DocumentElement:
             if not isinstance(ls, int) or not isinstance(le, int) or ls < 1 or le < ls:
                 raise ValueError("Markdown lines must be integers with 1 <= line_start <= line_end")
 
-        elif fmt == "DOCX":
-            if self.kind in {ElementKind.COMMENT, ElementKind.METADATA}:
-                key = "comment_id" if self.kind == ElementKind.COMMENT else "property_key"
-                identity = self.locator.get(key)
-                part = self.locator.get("container_part")
-                if not (
-                    isinstance(identity, str)
-                    and identity.strip()
-                    and isinstance(part, str)
-                    and part.strip()
-                ):
-                    raise ValueError("DOCX structural identity must be nonempty and typed")
-                anchor = self.locator.get("anchor")
-                if anchor is not None:
-                    if not isinstance(anchor, dict) or set(anchor) != {"start", "end"}:
-                        raise ValueError("DOCX comment anchor missing range")
-                    for point in anchor.values():
-                        if (
-                            not isinstance(point, dict)
-                            or not point.get("structural_path")
-                            or not isinstance(point.get("char_offset"), int)
-                            or point["char_offset"] < 0
-                        ):
-                            raise ValueError("DOCX comment anchor missing original address")
-            else:
-                paragraph = self.locator.get("paragraph_index")
-                if not isinstance(paragraph, int) or isinstance(paragraph, bool) or paragraph < 0:
-                    raise ValueError("DOCX mandatory locator missing non-negative paragraph_index")
-                if "table_index" in self.locator:
-                    for key in ("table_index", "row_index", "column_index"):
-                        value = self.locator.get(key)
-                        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
-                            raise ValueError("DOCX table locator missing original cell address")
-                    if not self.locator.get("table_path"):
-                        raise ValueError("DOCX table locator missing original nesting path")
-
-        elif fmt == "PDF":
-            if "page" not in self.locator:
-                raise ValueError("PDF mandatory locator missing 1-based page")
-            page = self.locator["page"]
-            if not isinstance(page, int) or page < 1:
-                raise ValueError("PDF page must be integer >= 1 (page 0 is invalid)")
-            if "bbox" not in self.locator:
-                raise ValueError("PDF mandatory locator missing bounding box [x0, y0, x1, y1]")
-            bbox = self.locator["bbox"]
-            if not isinstance(bbox, (list, tuple)) or len(bbox) != 4:
-                raise ValueError("PDF bounding box must have 4 coordinates")
-            for coord in bbox:
-                if not isinstance(coord, (int, float)) or not math.isfinite(coord) or coord < 0:
-                    raise ValueError(
-                        f"PDF bbox coordinates must be non-negative finite numbers: {bbox}"
-                    )
-            if bbox[0] >= bbox[2] or bbox[1] >= bbox[3]:
-                raise ValueError(
-                    "PDF bbox must have x0 < x1 and y0 < y1 "
-                    f"(no reversed or zero-area boxes): {bbox}"
-                )
-
-        elif fmt in {"XLSX", "XLS"}:
-            ws = self.locator.get("worksheet")
-            if not ws or not isinstance(ws, str) or not ws.strip():
-                raise ValueError("Spreadsheet mandatory locator missing worksheet name")
-            a1 = self.locator.get("a1_range")
-            if not a1 or not isinstance(a1, str) or not a1.strip():
-                raise ValueError("Spreadsheet mandatory locator missing a1_range")
+        else:
+            raise ValueError("Unsupported locator format")
 
 
 @dataclass

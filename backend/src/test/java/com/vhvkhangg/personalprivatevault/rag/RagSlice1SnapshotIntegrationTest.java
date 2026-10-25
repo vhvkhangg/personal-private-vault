@@ -66,7 +66,7 @@ class RagSlice1SnapshotIntegrationTest extends AbstractRagIntegrationTest {
 
     @Test
     void testRegisterFileCandidate_sealsPendingRevision_leavesSelectedRevisionNull_originalUnchanged() throws Exception {
-        Path file = workDir.resolve("document.txt");
+        Path file = workDir.resolve("document.md");
         byte[] content = "Content for slice 1 testing: original bytes unchanged.".getBytes(StandardCharsets.UTF_8);
         Files.write(file, content);
         long originalMtime = Files.getLastModifiedTime(file).toMillis();
@@ -104,7 +104,7 @@ class RagSlice1SnapshotIntegrationTest extends AbstractRagIntegrationTest {
 
     @Test
     void testNoChangeCandidate_whenIdenticalBytesCaptured() throws Exception {
-        Path file = workDir.resolve("identical.txt");
+        Path file = workDir.resolve("identical.md");
         byte[] content = "Identical bytes candidate test.".getBytes(StandardCharsets.UTF_8);
         Files.write(file, content);
 
@@ -125,7 +125,7 @@ class RagSlice1SnapshotIntegrationTest extends AbstractRagIntegrationTest {
 
     @Test
     void testCapturePendingRevision_changedBytes_sealsNewPendingAndCleansOldPending() throws Exception {
-        Path file = workDir.resolve("mutate.txt");
+        Path file = workDir.resolve("mutate.md");
         byte[] v1 = "Version 1 bytes.".getBytes(StandardCharsets.UTF_8);
         Files.write(file, v1);
 
@@ -162,9 +162,9 @@ class RagSlice1SnapshotIntegrationTest extends AbstractRagIntegrationTest {
     void testDistinctSources_identicalBytes_noCrossSourceDeduplication() throws Exception {
         byte[] commonContent = "Shared content across distinct files.".getBytes(StandardCharsets.UTF_8);
 
-        Path fileA = workDir.resolve("docA.txt");
+        Path fileA = workDir.resolve("docA.md");
         Files.write(fileA, commonContent);
-        Path fileB = workDir.resolve("docB.txt");
+        Path fileB = workDir.resolve("docB.md");
         Files.write(fileB, commonContent);
 
         RagSourceView viewA = rag.registerSnapshotCandidate(fileA.toString());
@@ -219,7 +219,7 @@ class RagSlice1SnapshotIntegrationTest extends AbstractRagIntegrationTest {
 
     @Test
     void testApproveSource_invalidFieldRejected() throws Exception {
-        Path file = workDir.resolve("bad_fields.txt");
+        Path file = workDir.resolve("bad_fields.md");
         Files.write(file, "Some content".getBytes(StandardCharsets.UTF_8));
 
         RagSourceView view = rag.registerSnapshotCandidate(file.toString());
@@ -240,7 +240,7 @@ class RagSlice1SnapshotIntegrationTest extends AbstractRagIntegrationTest {
 
     @Test
     void testApproveSource_staleCasRejected() throws Exception {
-        Path file = workDir.resolve("stale_cas.txt");
+        Path file = workDir.resolve("stale_cas.md");
         Files.write(file, "Stale CAS test".getBytes(StandardCharsets.UTF_8));
 
         RagSourceView view = rag.registerSnapshotCandidate(file.toString());
@@ -260,7 +260,7 @@ class RagSlice1SnapshotIntegrationTest extends AbstractRagIntegrationTest {
 
     @Test
     void testRevokeSource_purgesRevisionsFromDisk() throws Exception {
-        Path file = workDir.resolve("revoked.txt");
+        Path file = workDir.resolve("revoked.md");
         byte[] content = "Content to be revoked".getBytes(StandardCharsets.UTF_8);
         Files.write(file, content);
 
@@ -286,7 +286,7 @@ class RagSlice1SnapshotIntegrationTest extends AbstractRagIntegrationTest {
 
     @Test
     void testExternalSourceIndexing_failsClosedInSlice1() throws Exception {
-        Path file = workDir.resolve("indexing_inactive.txt");
+        Path file = workDir.resolve("indexing_inactive.md");
         Files.write(file, "Cannot index yet".getBytes(StandardCharsets.UTF_8));
 
         RagSourceView view = rag.registerSnapshotCandidate(file.toString());
