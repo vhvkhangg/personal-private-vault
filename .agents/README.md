@@ -20,6 +20,6 @@
 ## Tools status
 
 - `.agents/hooks.json` calls `hooks/repository_safety.py`; existing hook and tests remain unchanged in Maintenance A; actual Windows interception and complete owner-Git denial still require Maintenance B tests.
-- `scripts/run-bounded-command.py`: **current** normal 1,200s/full-suite 2,100s fixed waits; approved **future** default 300s, preauthorized complex work <=2,100s, diagnose *every* 300s of no output/progress. **Not yet implemented**.
+- `scripts/run-bounded-command.py`: Maintenance B1 implemented (awaiting independent Codex review): default 300s ordinary cap, pre-authorized full-suite <=2,100s, progress/inactivity diagnosis and owned-tree cleanup; B2 tooling enforcement pending.
 - `logs/` is ignored by Git but Owner explicitly keeps all its existing contents unchanged.
 - Graphify is optional navigation context, not authority or a prerequisite for every task.

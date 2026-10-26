@@ -5,7 +5,7 @@ description: Design backend tests with JUnit 5, AssertJ, Mockito where useful, S
 
 # Backend Testing
 
-**Current execution policy:** review/test only affected requirements for approved slice and one phase-final gate when justified. Nonblocking LOW/INFO go to milestone/audit; open CRITICAL/HIGH/MEDIUM block commit. Watchdog executable remains old until Maintenance B; new 5-minute default/5-minute inactivity diagnosis is only *approved design*, not implemented. RAG P17/P18 immutable historical test receipts cannot be retroactively changed.
+**Current execution policy:** review/test only affected requirements for approved slice and one phase-final gate when justified. Nonblocking LOW/INFO go to milestone/audit; open CRITICAL/HIGH/MEDIUM block commit. Maintenance B1 watchdog implemented (5-minute default, 35-minute full suite, 5-minute inactivity diagnosis), awaiting independent Codex review; B2 tooling enforcement pending. RAG P17/P18 immutable historical test receipts cannot be retroactively changed.
 
 
 Choose the narrowest test that proves the behavior:
@@ -20,4 +20,4 @@ Never use H2 as a PostgreSQL substitute. Test meaningful invariants, failure pat
 deterministic and order-independent. Iterate focused tests while coding, then run the handoff final verification
 command and retain exact evidence.
 
-For approved mixed Java/Python RAG work, prefer focused pytest/Ruff/mypy plus risk-relevant integration checks. Use the **currently implemented** `bounded-command-execution` with old <=1,200s/<=2,100s caps until Maintenance B replaces it with the approved 5-minute default and 5-minute inactivity diagnostic. One phase-final gate is justified when source/evidence require it, not every slice/fix. Preserve exact evidence and avoid duplicate full suite runs for only docs changes. Coverage should be proportional to actual risk, never an arbitrary test-count quota.
+For approved mixed Java/Python RAG work, prefer focused pytest/Ruff/mypy plus risk-relevant integration checks. Use `bounded-command-execution` (Maintenance B1 implemented: default 300s / full-suite 2,100s with inactivity diagnosis; awaiting independent Codex review; B2 tooling enforcement pending). One phase-final gate is justified when source/evidence require it, not every slice/fix. Preserve exact evidence and avoid duplicate full suite runs for only docs changes. Coverage should be proportional to actual risk, never an arbitrary test-count quota.

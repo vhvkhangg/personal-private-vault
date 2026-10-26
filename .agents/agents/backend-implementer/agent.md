@@ -25,7 +25,7 @@ Use relevant skills progressively, **only when applicable to the active handoff*
 
 - `python-rag-coding` for authorized Python/RAG parsing, OCR, embeddings and worker interfaces
 - `local-rag-engineering` for source/field consent, offline boundaries, guarded staging and publication
-- `bounded-command-execution` with the **currently implemented** 20-minute normal / 35-minute full-suite caps; the new 5-minute ordinary + inactivity policy is **not implemented until Maintenance B**
+- `bounded-command-execution` (Maintenance B1 implemented, awaiting independent Codex review): default 300s ordinary cap, at most 2,100s full-suite cap, progress/inactivity diagnosis and owned-tree cleanup; B2 tooling enforcement pending
 
 - `java-spring-coding-standards`
 - `pragmatic-solid-design`

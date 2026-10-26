@@ -28,6 +28,6 @@
 
 Codex primarily performs pre-handoff, detailed handoff, independent slice/phase review, milestones and audits; Antigravity implements and self-reviews; ChatGPT edits docs; **Owner alone stages/commits/pushes/tags/releases/PRs**. Git command rules and Antigravity hook are defense-in-depth, subject to independent validation on the actual Windows clients. Preserve original `logs/` unchanged.
 
-The **old** executable watchdog remains fixed 1,200s normal / 2,100s full-suite. The **approved but not yet implemented** Maintenance B policy is 300s normal wall-time, up to 2,100s for approved complex/large tests, with diagnosis after 300s of no progress on **every** command. Lack of stdout alone is not a hang; don't kill unrelated processes.
+Maintenance B1 watchdog is implemented (300s normal wall-time cap, up to 2,100s for pre-approved full-suite tests, diagnosis after 300s of no progress, owned-tree termination), awaiting independent Codex review; B2 tooling enforcement remains pending. Lack of stdout alone is not a hang; don't kill unrelated processes.
 
 See [handoff state machine](../implementation/handoffs/README.md), [documentation templates](../templates/README.md) and [maintenance status](../implementation/maintenance/2026-10-25-post-phase18-simplification/README.md).

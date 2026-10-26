@@ -22,7 +22,7 @@ Invoke with `$codex-implementation-takeover` **only after escalation is earned**
 - Read the existing handoff, exact newest review and relevant code/tests before editing. Fix only **still-open** blockers; keep accepted, unchanged evidence and privacy/consent contracts.
 - Choose minimal root-cause repair and precise regression test. Avoid a new abstraction/framework, unrelated cleanup or broad audit unless a concrete blocker demands it.
 - Apply `python-rag-coding` for Python and `java-spring-coding-standards` for Java, plus `local-rag-engineering` and `bounded-command-execution` for the touched scope.
-- Tests progress focused -> affected module -> any phase-required gate only if necessary. Preserve real failures and exact receipts. **Current** watchdog remains fixed 20/35 minutes pending Maintenance B; the **approved future** default is 5-minute ordinary hard cap, up to 35 minutes for preapproved complex/large tests, with 5-minute silence diagnostics on all commands (not blind termination).
+- Tests progress focused -> affected module -> any phase-required gate only if necessary. Preserve real failures and exact receipts. Maintenance B1 watchdog is implemented (default 300s ordinary hard cap, up to 2,100s for preapproved full-suite tests, with 5-minute silence diagnostics rather than blind termination), awaiting independent Codex review; B2 tooling enforcement pending.
 - Set existing handoff status to `IMPLEMENTED_AWAITING_CODEX_REVIEW` with an explicit **Codex takeover authorship** note; do **not** close findings yourself.
 
 ## Independence and ownership

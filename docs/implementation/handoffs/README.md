@@ -1,6 +1,6 @@
 # Active implementation handoff workflow
 
-**Canonical current state:** [ACTIVE.md](ACTIVE.md) = `NO_ACTIVE_HANDOFF`. Phase 17 is FROZEN; Phase 18 is OWNER-CLOSED under D26/D27, Phase 19 remains **NOT AUTHORIZED**. No current Antigravity implementation handoff exists.
+**Canonical current state:** [ACTIVE.md](ACTIVE.md) = `MAINT-B1-PROGRESS-WATCHDOG / READY_FOR_IMPLEMENTATION`, created 2026-10-26 after accepted Maintenance B preparation was Owner-published. Only B1 watchdog implementation is authorized; B2 awaits reviewed, Owner-published B1 and its own handoff. Phase 17 is FROZEN; Phase 18 is OWNER-CLOSED under D26/D27; Phase 19 remains **NOT AUTHORIZED**. New watchdog runtime is not yet implemented or verified.
 
 Follow [Current Owner Delivery Policy](../../workflow/current-owner-delivery-policy.md); use [handoff template](../../templates/handoff.md), [review template](../../templates/review.md) and [documentation skill](../../../.agents/skills/documentation-writing/SKILL.md) for **future approved slices**.
 

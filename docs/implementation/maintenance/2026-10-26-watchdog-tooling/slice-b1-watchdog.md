@@ -1,8 +1,8 @@
 # B1 — Progress-aware watchdog (first Maintenance B slice)
 
-- **Status:** `OWNER_APPROVED / PREPARATION_REVIEWED / PENDING_CODEX_EXECUTABLE_HANDOFF` — [independent preparation review](reviews/2026-10-26-maintenance-b-independent-pre-handoff-review.md). This remains preparation, not an executable handoff.
+- **Status:** `OWNER_APPROVED / PREPARATION_REVIEWED`; B1 is [`READY_FOR_OWNER_COMMIT`](../../handoffs/ACTIVE.md) after the [separate independent takeover final review](reviews/2026-10-26-b1-independent-takeover-final-review.md). All seven findings are independently CLOSED under the unchanged [executable handoff](b1-executable-handoff-2026-10-26.md); LOW backlog remains. Antigravity counter stays **`3/3` exhausted**, without a fourth round. Owner-authorized Codex F02 takeover is independently accepted; Owner publication is next. This document remains the approved preparation requirement inventory; B2 remains separately gated.
 - **Dependency:** approved [Maintenance B scope](README.md), successful independent maintenance pre-handoff, and explicit B1 active handoff created by Codex. Never execute this preparation document directly as a handoff.
-- **Implementer:** Antigravity; mandatory self-review. **Independent reviewer:** Codex. **Publication:** Owner only, after accepted slice review.
+- **Implementer:** Antigravity, with mandatory self-review; Owner-authorized Codex takeover for F02 with its own self-check and separate independent review. **Independent reviewer:** Codex reviewing session, separate from takeover implementation. **Publication:** Owner only, after accepted slice review.
 
 ## Allowed modifications
 
