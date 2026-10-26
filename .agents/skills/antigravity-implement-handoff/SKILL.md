@@ -5,7 +5,7 @@ description: Implement the active Codex handoff, write tests, iterate to green, 
 
 # Antigravity Implement Handoff
 
-**MANDATORY CURRENT LOOP:** Read [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) and the current approved slice. Implement **only** that slice; focused tests first; always invoke [`antigravity-self-review`](../antigravity-self-review/SKILL.md) after implementation and before marking `IMPLEMENTED_AWAITING_CODEX_REVIEW`. The self-review does **not** count as Codex review or a remediation round. Independent Codex **slice review** follows each slice. All CRITICAL/HIGH/MEDIUM findings block; LOW/INFO are deferred to milestone/audit backlog. Permit up to **3** Antigravity corrective + independent re-review rounds **per active slice/handoff** (initial implementation/review do not count). No unapproved R7/GPU/OCR/LLM judge or Phase 19. Maintenance B1 watchdog implemented (normal 300s / full-suite 2,100s / inactivity diagnosis), awaiting independent Codex review; B2 tooling enforcement pending.
+**MANDATORY CURRENT LOOP:** Read [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) and the current approved slice. Implement **only** that slice; focused tests first; always invoke [`antigravity-self-review`](../antigravity-self-review/SKILL.md) after implementation and before marking `IMPLEMENTED_AWAITING_CODEX_REVIEW`. The self-review does **not** count as Codex review or a remediation round. Independent Codex **slice review** follows each slice. All CRITICAL/HIGH/MEDIUM findings block; LOW/INFO are deferred to milestone/audit backlog. Permit up to **3** Antigravity corrective + independent re-review rounds **per active slice/handoff** (initial implementation/review do not count). No unapproved R7/GPU/OCR/LLM judge or Phase 19. Maintenance B1 watchdog published (normal 300s / full-suite 2,100s / inactivity diagnosis); B2 tooling enforcement implemented.
 
 
 Use `/antigravity-implement-handoff`.
@@ -46,7 +46,7 @@ Apply relevant skills progressively:
 4. Add/update tests.
 5. Iterate focused tests.
 6. Do not rerun an unchanged failing full suite for a lucky PASS; use focused evidence and diagnose the failure. Three-remediation-round policy is independent of raw test retry count.
-7. Run justified final verification after convergence through `scripts/run-bounded-command.py` (Maintenance B1 implemented: default 300s / full-suite 2,100s with inactivity diagnosis; awaiting independent Codex review).
+7. Run justified final verification after convergence through `scripts/run-bounded-command.py` (Maintenance B1 published: default 300s / full-suite 2,100s with inactivity diagnosis; B2 tooling enforcement implemented).
 8. Record exact command/result/test counts.
 9. Run mandatory `/antigravity-self-review` and resolve self-found issues before Codex; do not count it as an independent review or remediation round.
 10. Refresh Graphify with `scripts/refresh-graphify.ps1` after meaningful source changes when installed.

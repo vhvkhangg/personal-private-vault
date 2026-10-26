@@ -1,9 +1,10 @@
 # Maintenance B — Watchdog & Tooling (post-Phase-18)
 
-- **Status:** **B1 `READY_FOR_OWNER_COMMIT`** after the [separate independent Codex takeover final review](reviews/2026-10-26-b1-independent-takeover-final-review.md), 2026-10-26. All seven findings are independently CLOSED; LOW backlog remains recorded. Antigravity counter stays **`3/3` exhausted**; Owner-authorized Codex F02 takeover is independently accepted, without a fourth round. Owner publication of B1 is next. B2 remains gated on actual B1 publication and its own handoff; Maintenance B overall is not complete.
+- **Status:** B1 stays **COMPLETE / CLOSED / OWNER-PUBLISHED**; see [closeout](b1-owner-closeout-2026-10-26.md). B2 is **READY_FOR_OWNER_COMMIT** after the [separate independent attempt-1 final review](reviews/2026-10-26-b2-independent-takeover-attempt-1-final-review.md). F01/F04 VERIFIED/CLOSED; F02/F03 closures/limits preserved. **F01 Codex attempt 1/2 accepted**, Antigravity stopped at 3/3; no counter reset, automatic attempt 2 or Option B acceptance change. Codex proof requires a trusted repository-root session with native hooks loaded. Contract, histories, logs and LOW backlog remain intact; Maintenance B is not complete.
 - **Approved authority:** Owner's explicit authorization to start Maintenance B after publishing Maintenance A.
+- **Current B2 entry:** independently accepted and Owner-published B1 commit [`a4cf43505ab48198e22799fecf5098c5c6870a79`](https://github.com/vhvkhangg/personal-private-vault/commit/a4cf43505ab48198e22799fecf5098c5c6870a79); the original preparation baseline below remains historical context.
 - **Authoritative source baseline:** GitHub `main` commit [`6fe8dbce24ae9ab43290d76172e2c39678246bbd`](https://github.com/vhvkhangg/personal-private-vault/commit/6fe8dbce24ae9ab43290d76172e2c39678246bbd), verified 2026-10-26. All preparation and subsequent implementation must verify that the local branch matches the accepted baseline or account for drift before acting.
-- **Active handoff:** [`MAINT-B1-PROGRESS-WATCHDOG / READY_FOR_OWNER_COMMIT`](../../handoffs/ACTIVE.md), created after accepted preparation was Owner-published at `dfc0c2052ffd5272ba63e6529d0bb401f1e5c022`. B1 is independently accepted and awaits Owner publication; this handoff remains B1 only.
+- **Active handoff:** [`MAINT-B2-CLI-GIT-HOOK-ENFORCEMENT / READY_FOR_OWNER_COMMIT`](../../handoffs/ACTIVE.md). Separate independent review is complete; Owner publication and brief B2 closeout are next. CLI interruption/resumption did not advance F01 beyond 1/2. B1 is not reopened; B3/Phase 19 remain unauthorized.
 - **Owners:** Owner approves scope and alone stages/commits/pushes; ChatGPT authors preparation/governance docs; Codex independently pre-reviews and writes executable handoffs, then independently reviews each implementation slice and the completed Maintenance B; Antigravity implements/tests and always self-reviews. A Codex implementation takeover is not the default.
 - **Canonical policy:** [Current Owner Delivery Policy](../../../workflow/current-owner-delivery-policy.md).
 
@@ -14,11 +15,11 @@ Fix the actual process execution watchdog and verify command-safety/short-output
 | Slice | Owner-approved scope | Primary implementer | Independent gate |
 | --- | --- | --- | --- |
 | [B1 — Progress-aware bounded commands](slice-b1-watchdog.md) | Existing Python wrapper, owned process-tree safety, bounded progress/diagnostics, focused tests and corresponding executable instructions | Antigravity; Owner-authorized Codex F02 takeover | Codex **slice review**; Owner commit/push |
-| [B2 — CLI output and Git/hook enforcement](slice-b2-tooling.md) | Codex/Antigravity actual Windows client behavior, existing rules/hook and tests, concise tool output and status receipts | Antigravity | Codex **slice review**; Owner commit/push |
+| [B2 — CLI output and Git/hook enforcement](slice-b2-tooling.md) | Codex/Antigravity actual Windows client behavior, existing rules/hook and tests, concise tool output and status receipts | Antigravity; Owner-authorized Codex F01/F04 takeover | Codex **slice review**; Owner commit/push |
 
 After the two Owner-published slices: **one Codex Maintenance B final review** aggregates the prior independent slice evidence, validates cross-slice contract consistency and only reruns relevant focused checks on demonstrated drift. Owner records a concise maintenance closeout. A new numbered RAG phase is **not** implicitly authorized.
 
-### Current implementation truth (before B1/B2)
+### Historical implementation facts at preparation (before B1/B2)
 
 - `scripts/run-bounded-command.py`: `NORMAL_CAP = 1200`, `FULL_CAP = 2100`; `proc.wait(timeout=timeout)`; no inactivity monitor, output/health sampling or diagnostic gate. Its existing full-suite shape guard and best-effort **owned-tree only** cleanup remain important; see [B1](slice-b1-watchdog.md).
 - `scripts/test_run_bounded_command.py` contains existing smoke, timeout, profile and process-tree regression tests. Prior Windows evidence is historical; new behavior must be tested, not inferred.
@@ -37,7 +38,7 @@ After the two Owner-published slices: **one Codex Maintenance B final review** a
 
 ## Controlled delivery sequence
 
-Preparation and B1 independent implementation/takeover reviews are complete; the dated [preparation report](reviews/2026-10-26-maintenance-b-independent-pre-handoff-review.md) and earlier blocking reviews remain unchanged. **Next action is Owner commit/push of accepted B1.** B2 requires actual B1 publication and its own handoff; no new implementation is activated by this status update.
+Preparation, B1 acceptance/publication, three B2 corrective reviews and separate Codex takeover attempt-1 acceptance are complete; historical records remain unchanged. **Next: Owner commits/pushes B2, then a brief publication closeout and one Maintenance B final `$codex-final-review` after both slices are published.** All four B2 blockers are CLOSED. Antigravity remains stopped at 3/3; no fourth round, second takeover attempt or B1 restart. Overall Maintenance B final review remains a future gate.
 
 1. Codex runs `$codex-pre-handoff-review` **in Owner-approved maintenance preparation mode**, applying [preparation checklist](preparation-review.md) to these two finite slices. Record its dated findings under `reviews/` here. On acceptance set this scope's exact status to **`READY_FOR_HANDOFF`**; this is readiness, **not** a new Owner authorization. On failure use `CHANGES_REQUESTED` and route docs-only corrections to ChatGPT.
 2. After Owner publishes the accepted preparation if needed by the agreed workflow, Codex runs `$codex-create-handoff` for **B1 only**; it writes the one active executable handoff, including the chosen minimal algorithm and tests. It must not include B2 implementation by inference.

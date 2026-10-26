@@ -4,7 +4,7 @@ globs: "rag-engine/**/*.py, rag-engine/pyproject.toml, rag-engine/uv.lock, rag-e
 description: "Python/FastAPI RAG implementation requires phase scope, typed interfaces, local-only behavior, locked compatible dependencies and bounded tests."
 ---
 
-**FORWARD POLICY:** New RAG work uses Owner-approved `.md` and Fiction/Film scope only; no automatic OCR/GPU/R7/LLM judge. Maintenance B1 watchdog is implemented (default 300s ordinary cap, at most 2,100s full-suite cap, 5-minute silence diagnostics), awaiting independent Codex review; B2 tooling enforcement pending. Use [Owner policy](../../docs/workflow/current-owner-delivery-policy.md).
+**FORWARD POLICY:** New RAG work uses Owner-approved `.md` and Fiction/Film scope only; no automatic OCR/GPU/R7/LLM judge. Maintenance B1 watchdog is published (default 300s ordinary cap, at most 2,100s full-suite cap, 5-minute silence diagnostics); B2 tooling enforcement implemented. Use [Owner policy](../../docs/workflow/current-owner-delivery-policy.md).
 
 
 

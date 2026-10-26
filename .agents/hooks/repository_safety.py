@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Antigravity PreToolUse hook for repository-level safety gates.
+"""Repository safety hook, with Antigravity and Codex PreToolUse adapters.
 
 The policy recognizes direct commands, common Windows shell wrappers,
 absolute executable paths, Git global options, CR/LF command boundaries,
@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import shlex
 import sys
-from typing import Iterable
+from typing import Any, Iterable
 
 FROZEN_PATH_PATTERNS = [
     "docs/database/personal-private-vault-schema-v1-FROZEN-final.dbml",
@@ -29,7 +29,7 @@ _GIT_FLAG_OPTIONS = {
     "--literal-pathspecs", "--no-literal-pathspecs", "--glob-pathspecs",
     "--noglob-pathspecs", "--icase-pathspecs",
 }
-_DENIED_GIT_SUBCOMMANDS = {"commit", "push", "tag"}
+_DENIED_GIT_SUBCOMMANDS = {"add", "commit", "push", "tag"}
 _MAX_WRAPPER_DEPTH = 4
 
 
@@ -279,11 +279,15 @@ def evaluate_command(command: str) -> tuple[str, str]:
         executable = _executable_basename(tokens[0])
         git_subcommand, _ = _git_subcommand(tokens)
         if git_subcommand in _DENIED_GIT_SUBCOMMANDS:
-            return "deny", "Repository policy: agents do not commit, push, or tag. The owner performs publishing actions."
+            return "deny", "Repository policy: agents do not add, commit, push, or tag. The owner performs staging and publishing actions."
         if executable in {"gh", "gh.exe"}:
             lower = [token.lower() for token in tokens[1:]]
-            if len(lower) >= 2 and lower[0] == "pr" and lower[1] in {"create", "merge"}:
-                return "deny", "Repository policy: agents do not create or merge pull requests."
+            if len(lower) >= 2 and lower[0] == "pr" and lower[1] in {"create", "merge", "close"}:
+                return "deny", "Repository policy: agents do not create, merge, or close pull requests."
+            if len(lower) >= 2 and lower[0] == "release" and lower[1] == "create":
+                return "deny", "Repository policy: agents do not create releases."
+            if len(lower) >= 2 and lower[0] == "repo" and lower[1] == "delete":
+                return "deny", "Repository policy: agents do not delete repositories."
 
     for tokens in segments:
         executable = _executable_basename(tokens[0])
@@ -397,25 +401,40 @@ def _is_frozen_path(path: str) -> bool:
     return bool(path) and any(pattern.lower() in path for pattern in FROZEN_PATH_PATTERNS)
 
 
-def evaluate_tool_call(name: str, args: dict) -> tuple[str, str]:
+def evaluate_tool_call(name: str, args: Any) -> tuple[str, str]:
+    if not isinstance(args, dict):
+        return "force_ask", "Repository safety hook: tool arguments must be a dictionary."
     if name == "run_command":
-        command = str(args.get("CommandLine") or args.get("commandLine") or "")
+        if "CommandLine" not in args and "commandLine" not in args:
+            return "force_ask", "Repository safety hook: run_command requires a CommandLine argument."
+        command = args.get("CommandLine") if "CommandLine" in args else args.get("commandLine")
+        if not isinstance(command, str) or not command.strip():
+            return "force_ask", "Repository safety hook: run_command requires a non-empty string CommandLine."
         return evaluate_command(command)
     if name in {"write_to_file", "replace_file_content", "multi_replace_file_content"}:
         path = _target_file(args)
+        if not path:
+            return "force_ask", "Repository safety hook: file modification requires a target file."
         if _is_frozen_path(path):
             return "force_ask", "This file is part of a frozen v1 baseline. Editing it requires deliberate owner confirmation and may require an ADR/docs update."
     return "allow", ""
 
 
-def build_hook_output(name: str, args: dict) -> dict:
+def build_hook_output(name: str, args: Any) -> dict:
     """Build the exact JSON object emitted by the PreToolUse hook."""
+    if not isinstance(args, dict):
+        return {
+            "decision": "force_ask",
+            "reason": "Repository safety hook: tool arguments must be a dictionary.",
+        }
+
     decision, reason = evaluate_tool_call(name, args)
 
     overrides: list[str] = []
     if name == "run_command" and decision == "allow":
-        command = str(args.get("CommandLine") or args.get("commandLine") or "")
-        overrides = permission_overrides_for_command(command)
+        raw_cmd = args.get("CommandLine") if "CommandLine" in args else args.get("commandLine")
+        if isinstance(raw_cmd, str) and raw_cmd.strip():
+            overrides = permission_overrides_for_command(raw_cmd)
 
     output: dict = {"decision": decision}
     if reason:
@@ -423,6 +442,34 @@ def build_hook_output(name: str, args: dict) -> dict:
     if overrides:
         output["permissionOverrides"] = overrides
     return output
+
+
+def build_codex_hook_output(payload: Any) -> dict:
+    """Adapt native Codex Bash input to the shared evaluator without granting permissions."""
+    decision, reason = "force_ask", "Repository safety hook: invalid Codex PreToolUse input."
+    if (isinstance(payload, dict) and payload.get("hook_event_name") == "PreToolUse"
+            and payload.get("tool_name") == "Bash"):
+        tool_input = payload.get("tool_input")
+        if isinstance(tool_input, dict):
+            decision, reason = evaluate_tool_call("run_command", {
+                "CommandLine": tool_input.get("command"),
+            })
+    if decision == "allow":
+        return {}  # Preserve ambient approval/sandbox policy; no allow override.
+    # Codex PreToolUse does not support ask. Conservative/invalid input must deny.
+    return {"hookSpecificOutput": {
+        "hookEventName": "PreToolUse",
+        "permissionDecision": "deny",
+        "permissionDecisionReason": reason,
+    }}
+
+
+def codex_main() -> None:
+    try:
+        payload = json.load(sys.stdin)
+    except Exception:
+        payload = None
+    _emit_output(build_codex_hook_output(payload))
 
 
 def _emit_output(output: dict) -> None:
@@ -439,11 +486,39 @@ def main() -> None:
             "reason": "Repository safety hook could not parse tool input. Confirmation is required rather than silently bypassing the guard.",
         })
 
-    tool_call = payload.get("toolCall") or {}
-    name = str(tool_call.get("name") or "")
-    args = tool_call.get("args") or {}
+    if not isinstance(payload, dict):
+        _emit_output({
+            "decision": "force_ask",
+            "reason": "Repository safety hook received non-dictionary payload. Confirmation is required.",
+        })
+
+    tool_call = payload.get("toolCall")
+    if not isinstance(tool_call, dict):
+        tool_call = payload.get("tool_call")
+    if not isinstance(tool_call, dict):
+        tool_call = payload if "name" in payload else {}
+
+    name = str(tool_call.get("name") or payload.get("toolName") or payload.get("tool_name") or "")
+    if not name:
+        _emit_output({
+            "decision": "force_ask",
+            "reason": "Repository safety hook received tool call without name. Confirmation required.",
+        })
+
+    if "args" in tool_call:
+        args = tool_call["args"]
+    elif "toolArgs" in payload:
+        args = payload["toolArgs"]
+    elif "tool_args" in payload:
+        args = payload["tool_args"]
+    else:
+        args = {}
+
     _emit_output(build_hook_output(name, args))
 
 
 if __name__ == "__main__":
-    main()
+    if sys.argv[1:] == ["--codex"]:
+        codex_main()
+    else:
+        main()

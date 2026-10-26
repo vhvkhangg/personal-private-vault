@@ -4,7 +4,7 @@ globs: "backend/src/test/**/*.java"
 description: "Tests written by Antigravity as part of an active Codex handoff."
 ---
 
-**CURRENT TEST POLICY:** Scope tests to approved source/risks; Antigravity self-review before Codex; independent Codex review per slice, final review per phase. Unchanged receipts may be reused by hash. LOW/INFO backlog once at milestone/audit, CRITICAL/HIGH/MEDIUM block. Maintenance B1 watchdog is implemented (default 300s ordinary cap, 2,100s full-suite cap, 5-minute inactivity diagnostics), awaiting independent Codex review; B2 tooling enforcement pending. See [Owner policy](../../docs/workflow/current-owner-delivery-policy.md).
+**CURRENT TEST POLICY:** Scope tests to approved source/risks; Antigravity self-review before Codex; independent Codex review per slice, final review per phase. Unchanged receipts may be reused by hash. LOW/INFO backlog once at milestone/audit, CRITICAL/HIGH/MEDIUM block. Maintenance B1 watchdog is published (default 300s ordinary cap, 2,100s full-suite cap, 5-minute inactivity diagnostics); B2 tooling enforcement implemented. See [Owner policy](../../docs/workflow/current-owner-delivery-policy.md).
 
 
 

@@ -1,8 +1,8 @@
 # B2 — CLI output and Git/hook enforcement (second Maintenance B slice)
 
-- **Status:** `OWNER_APPROVED / BLOCKED_UNTIL_B1_OWNER_PUBLISHED_AND_B2_HANDOFF`.
+- **Status:** `OWNER_APPROVED / READY_FOR_OWNER_COMMIT`; [separate independent final review](reviews/2026-10-26-b2-independent-takeover-attempt-1-final-review.md) closes F01/F04 and preserves F02/F03 closures/limits. **F01 Codex attempt 1/2 accepted**, Antigravity 3/3 stays exhausted. Independent 21/21 tests and supplemental native Windows denials/benign controls pass. Codex must start at the trusted repository root with native hooks loaded; scoped-subdirectory startup is unsupported/unverified. Contract unchanged, no Option B or automatic second attempt, B1/history/LOW backlog preserved; [ACTIVE](../../handoffs/ACTIVE.md) controls lifecycle. Next: Owner publication, brief closeout, then Maintenance B final review after both slices are published.
 - **Dependency:** B1 independently `READY_FOR_OWNER_COMMIT` **and actually Owner-published**; separate Codex B2 executable handoff. B1 verification and accepted output contract become inputs, not an invitation to rewrite B1.
-- **Implementer:** Antigravity + mandatory self-review. **Independent reviewer:** Codex. **Publication:** Owner.
+- **Implementer:** Antigravity + mandatory self-review; separately Owner-authorized Codex F01/F04 takeover and self-review. **Independent reviewer:** separate Codex session. **Publication:** Owner.
 
 ## Allowed modifications
 
