@@ -1,38 +1,37 @@
 # B2 — CLI output and Git/hook enforcement (second Maintenance B slice)
 
-- **Status:** `OWNER_APPROVED / READY_FOR_OWNER_COMMIT`; [separate independent final review](reviews/2026-10-26-b2-independent-takeover-attempt-1-final-review.md) closes F01/F04 and preserves F02/F03 closures/limits. **F01 Codex attempt 1/2 accepted**, Antigravity 3/3 stays exhausted. Independent 21/21 tests and supplemental native Windows denials/benign controls pass. Codex must start at the trusted repository root with native hooks loaded; scoped-subdirectory startup is unsupported/unverified. Contract unchanged, no Option B or automatic second attempt, B1/history/LOW backlog preserved; [ACTIVE](../../handoffs/ACTIVE.md) controls lifecycle. Next: Owner publication, brief closeout, then Maintenance B final review after both slices are published.
-- **Dependency:** B1 independently `READY_FOR_OWNER_COMMIT` **and actually Owner-published**; separate Codex B2 executable handoff. B1 verification and accepted output contract become inputs, not an invitation to rewrite B1.
-- **Implementer:** Antigravity + mandatory self-review; separately Owner-authorized Codex F01/F04 takeover and self-review. **Independent reviewer:** separate Codex session. **Publication:** Owner.
+- **Status:** `COMPLETE / CLOSED / OWNER-PUBLISHED` at GitHub `main` [`bf1683c8da88db2c6d30761cb2e76f6a77d67331`](https://github.com/vhvkhangg/personal-private-vault/commit/bf1683c8da88db2c6d30761cb2e76f6a77d67331); see [B2 Owner closeout](b2-owner-closeout-2026-10-26.md) and [independent slice review](reviews/2026-10-26-b2-independent-takeover-attempt-1-final-review.md). F01/F04 and prior F02/F03 are VERIFIED/CLOSED. **Codex F01 attempt 1/2 accepted**, Antigravity remediation **3/3 exhausted**. [Maintenance B final aggregation](reviews/2026-10-27-maintenance-b-independent-final-review.md) is **READY_FOR_OWNER_COMMIT**; Owner documentation publication/brief overall closeout are next. B3 and Phase 19 remain unauthorized.
+- **Prerequisite fulfilled:** B1 independently accepted and Owner-published at [`a4cf43505ab48198e22799fecf5098c5c6870a79`](https://github.com/vhvkhangg/personal-private-vault/commit/a4cf43505ab48198e22799fecf5098c5c6870a79), with its own [closeout](b1-owner-closeout-2026-10-26.md).
+- **Implementer/review provenance:** Antigravity implemented and self-reviewed, then Owner authorized bounded Codex F01/F04 takeover. A separate Codex review session independently accepted it. Owner alone published the result; B2 was not a Codex self-acceptance.
 
-## Allowed modifications
+## Approved change targets — retained contract
 
-- Existing `.codex/rules/owner-git.rules` and `.codex/README.md`; `.codex/config.toml` only if the approved requirement demonstrably cannot be met without a narrowly justified compatible config change. Do not silently change model selection, approved approvals/sandbox or tool permissions.
-- Existing `.agents/hooks.json`, `.agents/hooks/repository_safety.py` and `.agents/hooks/test_repository_safety.py`; minimal existing rules/skills docs to match *verified* behavior. Avoid new global agents, external privilege hooks or a system-wide policy service.
-- Reuse B1's new output/receipt/log capabilities. Do not build a second competing command-capture pipeline.
+- Existing `.codex/rules/owner-git.rules` and `.codex/README.md`; `.codex/config.toml` conditional on demonstrated need and compatible permissions. The accepted thin native hook uses this scoped route, not a global trust/permission change.
+- Existing `.agents/hooks.json`, `.agents/hooks/repository_safety.py` and `.agents/hooks/test_repository_safety.py`; only minimal existing rules/skills documentation needed to reflect tested behavior.
+- Reuse B1 output/receipt/log functionality. No second competing capture pipeline.
 
-## Acceptance examples
+## Acceptance matrix and independent result
 
-| ID | Scenario | Mandatory observable outcome |
+| ID | Required scenario | Final independent result |
 | --- | --- | --- |
-| B2-01 | Codex in actual trusted Windows project | Verify actual loaded execpolicy, **not merely** `codex execpolicy check --rules`. Record tested CLI/version/config and true interception outcomes. |
-| B2-02 | Direct Owner-only Git publishing attempts | Reject agent `git add/commit/push/tag` and `gh pr create/merge` in the actual supported CLI interception paths. Do not execute unsafe publishing actions in the real project. |
-| B2-03 | Git wrapper/options (e.g. `git -C`, `git -c`, `cmd /c`, `powershell -Command`) | Test representative wrapped forms in a **disposable local repository** or non-mutating policy probes. Where a client cannot intercept a form, classify `NOT_VERIFIED`/remaining gap; do not claim complete prevention. |
-| B2-04 | Benign work | `git status`, `git diff --stat`, ordinary relevant build/test commands continue to work without repeated unnecessary permission prompts. |
-| B2-05 | Antigravity Windows client invokes its PreToolUse hook | Prove hook is invoked with real client payload, that intended deny/force-ask/allow responses take effect, and that correct path/interpreter working-directory resolution is used. Unit tests alone are insufficient. |
-| B2-06 | Any uncovered Git publish path | Prefer the smallest supported native guard/config adjustment and tests. If enforcement is impossible without a high-risk broader redesign or privileges, stop and return a concrete limitation/Owner decision, not invented airtight security. |
-| B2-07 | Codex normal progress and diff/report output | Ask for short narration/status and file names or `git diff --stat` rather than automatic large patches. Confirm `model_verbosity=low` cannot control client-rendered `Ran` events or tool previews; do not overpromise hidden UI output. |
-| B2-08 | Long command output/error | Reuse B1 full saved output in new ignored `logs/` paths plus bounded console/receipt summaries; no repeated massive full-output paste, no test results lost. |
-| B2-09 | Privacy and preservation | No original `logs/` deletion, rewrite, relocation, or truncation; no credentials/secrets/raw argv in receipts; do not broaden shell permissions or let agent stage/commit/push. |
-| B2-10 | CLI hook unavailable/version-incompatible | Record actual limitation and only supported scoped mitigation, without altering the Owner's local global Codex/Antigravity settings without separate approval. |
+| B2-01 | Actual trusted Windows Codex project | PASS in the tested Codex CLI 0.164.0 trusted repository-root/native-hook path; not a universal client/path guarantee |
+| B2-02 | Direct Owner-only Git/PR attempts blocked | PASS for independently observed safe direct/native families; no real publishing probe |
+| B2-03 | Git options and Windows shell wrappers | PASS for original and supplemental tested `git -C`, `git -c`, absolute Git executable, `cmd`/PowerShell/nested samples; arbitrary untested variants excluded |
+| B2-04 | Benign development commands | PASS: actual `git status`, `git diff --stat`, and focused classifier test execute successfully |
+| B2-05 | Actual Antigravity Windows PreToolUse hook | PASS for observed native allow/deny/force-ask branches, subject to ambient permissions noted in the B2 review |
+| B2-06 | Unsupported bypasses/remaining control gaps | Honest supported-path acceptance and explicit unsupported/unverified paths; no blanket 100% interception claim |
+| B2-07 | Concise CLI narration/diff | Bounded agent-level summaries, with documented client-rendering limits |
+| B2-08 | Private long command output | Reuse accepted B1 full saved output and short console/receipt summary |
+| B2-09 | Secret/evidence retention | Optional audit sink removed; privacy/no-existing-log-mutation regressions pass; existing logs preserved |
+| B2-10 | Version/trust incompatibilities | Client trust and root-start limitations recorded, without unapproved global settings changes |
 
-## Minimal test and review plan
+## Verified evidence and tests
 
-1. On Windows, use `codex --version`, rule syntax checking and a **real trusted-client** invocation that cannot alter the live repository; distinguish parser test from actual hook/rule auto-loading. Capture exact outcomes in uniquely named `logs/maintenance-b/b2-*` evidence.
-2. Test Antigravity hook with its real working-directory and the existing JSON protocol (read-only and blocked dry/sandbox cases). Avoid actual Git commits/pushes/tags/PR or destructive operations in the Owner repo. For mutation-deny tests, use a disposable test repository if necessary and positively prove isolation.
-3. Run `.agents/hooks/test_repository_safety.py` plus relevant B1 focused regressions. The previous **13/13** and **5/5** are historical baseline receipts, not acceptance of new Windows behavior.
-4. Validate concise agent narration and diff-stat; keep complete new logs accessible. Do not promise ability to suppress all UI-generated events from a third-party terminal/CLI client.
-5. Antigravity mandatory self-review, Codex independent B2 review, Owner commit/push. Then one Maintenance B final review consolidates accepted B1/B2 findings and evidence. No redundant full application-suite gate absent demonstrable relevant drift.
+- Independent final focused hook suite: **21/21 PASS** using the accepted B1 300s wrapper.
+- Actual Windows Codex interception: **8 independent negative denials**, **3 earlier negative denials reused after source identity verification**, **3 benign commands completed**; exact fixture, versions and evidence directory in the [independent final review](reviews/2026-10-26-b2-independent-takeover-attempt-1-final-review.md).
+- B2-F01/F04 CLOSED, F02/F03 closures and Antigravity native `force_ask` ambient-policy limit retained. Original failed and partial reviews remain immutable historical context.
+- No Java/RAG full suite, application/schema/model changes, B1 reopen, new monitoring service or unsupported security guarantee was used for acceptance.
 
-## Explicit exclusions
+## Next gate and non-goals
 
-No new RAG feature, Phase 19, live indexing, CI/CD redesign, general purpose CLI replacement, global OS security hardening, local system-wide permission changes, new agent/daemon, blanket output suppression that loses errors, historical evidence deletion, or changes to completed Phase 17–18 contracts.
+The **one independent Maintenance B final aggregation is accepted**, reusing valid slice evidence and checking source/policy drift. Owner publishes the remaining reviewed documents and records the brief overall maintenance closeout. No new B2 handoff or implementation is active. Retain `B1-L01`, `B2-L01`, `MA-A03`–`MA-A06` as LOW backlog for milestone/audit. Do not stage/publish through agents, overwrite `logs/`, start B3/Phase 19, enable indexing, or rewrite accepted Phase 17/18 records.
