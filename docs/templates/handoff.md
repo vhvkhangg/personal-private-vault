@@ -21,6 +21,9 @@
 ## Precise change map
 [Allowed packages/files/DB/API changes; shared/frozen boundary; deletes if authorized.]
 
+## Documentation impact and owner
+[Affected current/derived paths only, explicitly approved edit permissions (implementation-adjacent vs ChatGPT governance), handback Docs Sync Check evidence and post-publication closeout action if applicable; out-of-scope history remains deferred. See docs/workflow/documentation-synchronization.md.]
+
 ## Negative/failure tests
 [Only meaningful changed-boundary security, correctness and recovery cases.]
 

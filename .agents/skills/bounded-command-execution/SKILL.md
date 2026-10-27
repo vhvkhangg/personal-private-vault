@@ -5,7 +5,7 @@ description: Run potentially long Java/Python build, test, OCR and benchmark com
 
 # Bounded Command Execution — Windows first
 
-**MAINTENANCE B1 IMPLEMENTED (awaiting independent Codex review; B2 tooling enforcement pending).**
+**MAINTENANCE B1/B2 INDEPENDENTLY ACCEPTED AND OWNER-PUBLISHED.** Existing runner limits and Windows interception remain bounded by their documented supported-client conditions.
 Approved execution policy in [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md):
 - Default ordinary command hard cap: **300 seconds (5 minutes)**.
 - Pre-approved full-test-suite commands: **at most 2,100 seconds (35 minutes)** using `--profile full-suite`.

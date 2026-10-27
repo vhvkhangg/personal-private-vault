@@ -33,6 +33,13 @@
 - Final command:
 - Required evidence file:
 
+## Documentation impact and ownership
+
+- Affected *current* docs/derived references: `<specific paths or N/A with reason>`
+- Authorized editor and timing: `<Antigravity only if explicitly in the implementation scope / ChatGPT for governance/closeout / Owner publication after acceptance>`
+- Docs Sync Check evidence at handback and independent review: `<current decision/behavior, linked verification, exact remaining drift>`
+- Historical/out-of-scope drift: `DEFERRED_OUT_OF_SCOPE` with path and impact; do not rewrite archived records or start cleanup B
+
 ## Constraints / risks
 
 - `<constraint>`

@@ -177,9 +177,22 @@ Every invocation must end with a concise **Next step:** statement derived from t
 - `READY FOR OWNER COMMIT` → state the scope-specific next gate:
   - Phase 15 audit remediation → **do not commit yet**; rerun `$codex-backend-audit` for repository-wide closure and
     commit only after `BACKEND_AUDIT_READY`;
-  - other completed numbered phase → tell the owner to commit/push using the provided commit message, then give the
-    latest package to ChatGPT for phase closeout/next-phase preparation;
+  - other completed numbered phase → tell the Owner to commit/push the accepted delivery; ChatGPT handles closeout docs as needed. Do not require the Owner to relay routine skill results through ChatGPT for another prompt;
   - milestone-triggered maintenance → tell the owner to commit/push, then rerun `$codex-milestone-review`;
   - other maintenance → follow its canonical scope/workflow.
 
 Never leave the owner to infer the next workflow action.
+
+## Documentation synchronization checkpoint — Maintenance B3 amendment
+
+Follow the shared [Documentation synchronization contract](../../../docs/workflow/documentation-synchronization.md) **at this skill's handoff/review boundary**, within Owner-approved scope and without a repository-wide cleanup. Independently check the scoped Docs Sync Check: current status/decisions vs actual reviewed changes, applicable links/references, evidence and publication claims. In B3 docs-only review, check this mechanism and B3-touched documents—not all historical `docs/`. An in-scope material conflict or mandatory NOT_VERIFIED is blocking; out-of-scope drift is recorded, not silently repaired. Record the concise **Docs Sync Check** in the existing handback/review artifact (or identify why no docs are affected). Keep the **Next step** routed to the exact remaining documentation action when necessary.
+
+## Forward next action and interruption recovery — Maintenance B3
+
+At the end of **every completed, blocked or interrupted invocation**, output one concrete line with all fields:
+
+`Next step: <application/person> | <exact skill command or Owner action> | <scope + canonical artifact> | <gate/prerequisite> | <remediation or takeover counter, if applicable>`
+
+**Route for this skill:** Implementation slice CHANGES_REQUESTED with rounds <3 -> Antigravity `/antigravity-implement-handoff` (or `/antigravity-test-slice` for test-only scope); 3/3 -> Owner decides bounded takeover, no automatic implementation. Codex takeover code -> separate independent reviewer. Documentation-only CHANGES_REQUESTED -> ChatGPT. READY_FOR_OWNER_COMMIT -> Owner commit/push, then brief slice closeout; after all published slices -> phase/maintenance final `$codex-final-review` in aggregation mode; phase-final/audit blocker -> Owner disposition.
+
+**Interrupted session:** the Owner may paste the English [resume prompt](../../../docs/workflow/resume-prompts/codex-final-review.md). Resume only from inspected files/evidence, with the current approved scope and existing counter; capacity/tool errors do not authorize a new round or reset evidence. Do not overwrite logs or bypass native safety hooks. A standalone skill command (without a special prompt) remains sufficient for an uninterrupted run.

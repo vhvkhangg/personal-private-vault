@@ -201,3 +201,17 @@ Every invocation ends with exactly one clear **Next step:**
 - `REMEDIATION_REQUIRED` → tell the owner to run Antigravity `/antigravity-implement-handoff`;
 - `BACKEND_AUDIT_READY` → tell the owner to commit/push using the provided commit message, then give ChatGPT the
   latest package for Phase 15 closeout only; Phase 16/17 preparation remains owner-gated.
+
+## Documentation synchronization checkpoint — Maintenance B3 amendment
+
+Follow the shared [Documentation synchronization contract](../../../docs/workflow/documentation-synchronization.md) **at this skill's handoff/review boundary**, within Owner-approved scope and without a repository-wide cleanup. Apply this only under an independently authorized audit scope (the existing Phase 15 audit is historical). Check relevant current docs and diagrams against source/evidence; keep historical audit records immutable. Report out-of-scope discrepancies for a later approved cleanup rather than reopening a frozen phase. Record the concise **Docs Sync Check** in the existing handback/review artifact (or identify why no docs are affected). Keep the **Next step** routed to the exact remaining documentation action when necessary.
+
+## Forward next action and interruption recovery — Maintenance B3
+
+At the end of **every completed, blocked or interrupted invocation**, output one concrete line with all fields:
+
+`Next step: <application/person> | <exact skill command or Owner action> | <scope + canonical artifact> | <gate/prerequisite> | <remediation or takeover counter, if applicable>`
+
+**Route for this skill:** Historical Phase 15 audit mode only: OWNER_DECISION_REQUIRED -> Owner resolves documented decisions, then repeat `$codex-backend-audit`; REMEDIATION_REQUIRED with approved active handoff -> Antigravity `/antigravity-implement-handoff`; BACKEND_AUDIT_READY -> Owner commit/push. Do not use this historical skill for a new RAG-wide or combined audit without an approved scope.
+
+**Interrupted session:** the Owner may paste the English [resume prompt](../../../docs/workflow/resume-prompts/codex-backend-audit.md). Resume only from inspected files/evidence, with the current approved scope and existing counter; capacity/tool errors do not authorize a new round or reset evidence. Do not overwrite logs or bypass native safety hooks. A standalone skill command (without a special prompt) remains sufficient for an uninterrupted run.

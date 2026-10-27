@@ -34,3 +34,17 @@ Every invocation must end with a concise **Next step:** statement.
 Never leave the owner to infer the next workflow action.
 
 For future Phase 18–22 RAG test-only cases, use `python-rag-coding` for Python fixtures and `bounded-command-execution` for long test calls; do not rerun full suites unchanged to obtain green. A test-only correction made by Antigravity after a `CHANGES_REQUESTED` review is a remediation round for the **per-slice three-round limit** and requires an independent re-review.
+
+## Documentation synchronization checkpoint — Maintenance B3 amendment
+
+Follow the shared [Documentation synchronization contract](../../../docs/workflow/documentation-synchronization.md) **at this skill's handoff/review boundary**, within Owner-approved scope and without a repository-wide cleanup. For test-only work, verify changed test results and evidence claims against impacted current documentation. Edit docs only when explicitly within approved test-only scope; otherwise report drift for ChatGPT/Owner without expanding the remediation round. Record the concise **Docs Sync Check** in the existing handback/review artifact (or identify why no docs are affected). Keep the **Next step** routed to the exact remaining documentation action when necessary.
+
+## Forward next action and interruption recovery — Maintenance B3
+
+At the end of **every completed, blocked or interrupted invocation**, output one concrete line with all fields:
+
+`Next step: <application/person> | <exact skill command or Owner action> | <scope + canonical artifact> | <gate/prerequisite> | <remediation or takeover counter, if applicable>`
+
+**Route for this skill:** For completed authorized test-only remediation: separate Codex `$codex-final-review`; for a production defect: return to `/antigravity-implement-handoff` only if ACTIVE and remediation budget permit; otherwise stop for Owner decision.
+
+**Interrupted session:** the Owner may paste the English [resume prompt](../../../docs/workflow/resume-prompts/antigravity-test-slice.md). Resume only from inspected files/evidence, with the current approved scope and existing counter; capacity/tool errors do not authorize a new round or reset evidence. Do not overwrite logs or bypass native safety hooks. A standalone skill command (without a special prompt) remains sufficient for an uninterrupted run.

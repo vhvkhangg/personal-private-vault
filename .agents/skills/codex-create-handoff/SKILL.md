@@ -74,7 +74,7 @@ Read the latest phase-specific Codex preparation report **and** shared [`codex-r
 
 ## Minimal handoff and remediation budget — future RAG
 
-Read [proportional delivery policy](../../../docs/workflow/rag-phase-delivery-guardrails.md) and the pre-handoff KEEP/SIMPLIFY/DEFER decisions. Keep the handoff a bounded vertical slice of **that** numbered phase, no runtime features from later phases, no duplicate job engine or speculative adapter framework. List MUST acceptance, explicit optional/deferred items, changed paths, actual skill/agent choices, a few risk-based negative cases and the **approved slice-specific risk-based verification gate**. Require a full application suite only when that slice's approved contract explicitly mandates it or a demonstrated integration/source-drift risk warrants it; otherwise focused checks and an independent slice review suffice. Never waive an existing mandatory frozen or explicitly approved phase-specific gate. A generic 29-dimension rubric does not make new features mandatory. Specify current runner truth: Maintenance B1 watchdog is implemented (default 300s ordinary hard cap, approved full-suite up to 2,100s with inactivity diagnostics), awaiting independent Codex review; B2 tooling enforcement remains pending. Remediation counter starts at zero; takeover only after **three** independently blocked Antigravity remediation/re-review rounds, not after a single review.
+Read [proportional delivery policy](../../../docs/workflow/rag-phase-delivery-guardrails.md) and the pre-handoff KEEP/SIMPLIFY/DEFER decisions. Keep the handoff a bounded vertical slice of **that** numbered phase, no runtime features from later phases, no duplicate job engine or speculative adapter framework. List MUST acceptance, explicit optional/deferred items, changed paths, actual skill/agent choices, a few risk-based negative cases and the **approved slice-specific risk-based verification gate**. Require a full application suite only when that slice's approved contract explicitly mandates it or a demonstrated integration/source-drift risk warrants it; otherwise focused checks and an independent slice review suffice. Never waive an existing mandatory frozen or explicitly approved phase-specific gate. A generic 29-dimension rubric does not make new features mandatory. Specify current runner truth: Maintenance B1/B2 are independently accepted and Owner-published: default 300s ordinary cap, approved full-suite up to 2,100s, inactivity diagnostics, and scoped Windows native Git/hook enforcement. Remediation counter starts at zero; takeover only after **three** independently blocked Antigravity remediation/re-review rounds, not after a single review.
 
 ## Engineering skills
 
@@ -98,3 +98,17 @@ Every invocation must end with a concise **Next step:** statement.
 - conflicting live handoff → state the exact handoff-resolution action required before retrying.
 
 Never leave the owner to infer the next workflow action.
+
+## Documentation synchronization checkpoint — Maintenance B3 amendment
+
+Follow the shared [Documentation synchronization contract](../../../docs/workflow/documentation-synchronization.md) **at this skill's handoff/review boundary**, within Owner-approved scope and without a repository-wide cleanup. List only **affected** current documentation, its responsible editor (Antigravity for expressly authorized implementation-adjacent docs; ChatGPT for routine governance/closeout docs), and observable sync evidence in the approved handoff. Never add unapproved work or announce `OWNER-PUBLISHED` before the Owner publishes. Record the concise **Docs Sync Check** in the existing handback/review artifact (or identify why no docs are affected). Keep the **Next step** routed to the exact remaining documentation action when necessary.
+
+## Forward next action and interruption recovery — Maintenance B3
+
+At the end of **every completed, blocked or interrupted invocation**, output one concrete line with all fields:
+
+`Next step: <application/person> | <exact skill command or Owner action> | <scope + canonical artifact> | <gate/prerequisite> | <remediation or takeover counter, if applicable>`
+
+**Route for this skill:** READY_FOR_IMPLEMENTATION -> Antigravity `/antigravity-implement-handoff` using the exact ACTIVE and executable handoff. Missing preparation/Owner approval or conflicting ACTIVE -> STOP, name required gate; do not silently create an additional handoff.
+
+**Interrupted session:** the Owner may paste the English [resume prompt](../../../docs/workflow/resume-prompts/codex-create-handoff.md). Resume only from inspected files/evidence, with the current approved scope and existing counter; capacity/tool errors do not authorize a new round or reset evidence. Do not overwrite logs or bypass native safety hooks. A standalone skill command (without a special prompt) remains sufficient for an uninterrupted run.

@@ -20,6 +20,9 @@
 ## Verification
 [Exact executed commands/exit/test counts, source applicability; distinguish reused vs fresh.]
 
+## Scope-bounded Docs Sync Check
+[For affected current docs, record authority/paths, check vs approved behavior/evidence, disposition UPDATED / ALREADY_CONSISTENT / DEFERRED_OUT_OF_SCOPE / BLOCKED_OWNER_DECISION / NOT_VERIFIED, and publication status. See docs/workflow/documentation-synchronization.md. N/A with reason is allowed for unaffected docs; no repository-wide cleanup is authorized.]
+
 ## Scope and hygiene
 [Unrequested features, files, dependencies, migration, logs/secrets, links.]
 

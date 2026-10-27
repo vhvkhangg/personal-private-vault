@@ -87,3 +87,17 @@ Every invocation must end with a concise **Next step:** statement consistent wit
 - Maintenance ready → Owner commits/pushes reviewed docs-only changes, or invokes the explicitly approved maintenance implementation handoff if applicable. Do not impose a new phase gate.
 
 Never leave the owner to infer the next workflow action.
+
+## Documentation synchronization checkpoint — Maintenance B3 amendment
+
+Follow the shared [Documentation synchronization contract](../../../docs/workflow/documentation-synchronization.md) **at this skill's handoff/review boundary**, within Owner-approved scope and without a repository-wide cleanup. Identify affected current docs, authority/conflicts and likely documentation ownership before READY_FOR_HANDOFF. Place existing unrelated stale notices in a deferred ledger, not a new project-wide fix; route approved docs-only corrections to ChatGPT. Record the concise **Docs Sync Check** in the existing handback/review artifact (or identify why no docs are affected). Keep the **Next step** routed to the exact remaining documentation action when necessary.
+
+## Forward next action and interruption recovery — Maintenance B3
+
+At the end of **every completed, blocked or interrupted invocation**, output one concrete line with all fields:
+
+`Next step: <application/person> | <exact skill command or Owner action> | <scope + canonical artifact> | <gate/prerequisite> | <remediation or takeover counter, if applicable>`
+
+**Route for this skill:** READY_FOR_HANDOFF for an approved implementation scope -> Owner publishes reviewed preparation, then Codex `$codex-create-handoff`. READY_FOR_OWNER_COMMIT for docs-only maintenance -> Owner commit/push without handoff. CHANGES_REQUESTED docs -> ChatGPT bounded repair + independent re-review. Missing Owner decision -> STOP and ask Owner; do not open ACTIVE.
+
+**Interrupted session:** the Owner may paste the English [resume prompt](../../../docs/workflow/resume-prompts/codex-pre-handoff-review.md). Resume only from inspected files/evidence, with the current approved scope and existing counter; capacity/tool errors do not authorize a new round or reset evidence. Do not overwrite logs or bypass native safety hooks. A standalone skill command (without a special prompt) remains sufficient for an uninterrupted run.

@@ -54,3 +54,17 @@ description: Evidence-driven shared review coverage and repository/package-tree 
 - For each material finding: immutable ID, severity (Critical/High/Medium/Low), evidence path+line/behavior, consequence, smallest proportional fix, explicit regression proof, frozen-boundary/owner-decision impact. Label lower-confidence inference as hypothesis and demand verification, not as proven defect.
 - **Blocking rule:** no `READY` when any applicable *critical* security/consistency dimension is `NOT_VERIFIED` without a separately owner-accepted, explicitly deferred verification gate, and never when an essential privacy/correctness contract is unresolved. Missing runtime proof in a docs-only gate becomes a mandatory handoff/release acceptance condition, not a fabricated test result.
 - Optimize **correctness and maintainability**, not maximization of abstractions/checklist counts. A structural refactor across frozen modules requires concrete evidence and explicit owner authorization.
+
+## Documentation synchronization checkpoint — Maintenance B3 amendment
+
+Follow the shared [Documentation synchronization contract](../../../docs/workflow/documentation-synchronization.md) **at this skill's handoff/review boundary**, within Owner-approved scope and without a repository-wide cleanup. For dimension 28, apply the scoped Docs Sync Check and return exact evidence/status to the invoking parent review. This helper does not create a separate documentation gate, remediate unrelated records or declare acceptance. Record the concise **Docs Sync Check** in the existing handback/review artifact (or identify why no docs are affected). Keep the **Next step** routed to the exact remaining documentation action when necessary.
+
+## Forward next action and interruption recovery — Maintenance B3
+
+At the end of **every completed, blocked or interrupted invocation**, output one concrete line with all fields:
+
+`Next step: <application/person> | <exact skill command or Owner action> | <scope + canonical artifact> | <gate/prerequisite> | <remediation or takeover counter, if applicable>`
+
+**Route for this skill:** This is a coverage helper, NOT a standalone delivery gate. Return the compact applicable PASS/FINDING/N/A/NOT_VERIFIED coverage ledger to the parent review. Only the parent skill assigns disposition and next executable command.
+
+**Interrupted session:** the Owner may paste the English [resume prompt](../../../docs/workflow/resume-prompts/codex-review-coverage.md). Resume only from inspected files/evidence, with the current approved scope and existing counter; capacity/tool errors do not authorize a new round or reset evidence. Do not overwrite logs or bypass native safety hooks. A standalone skill command (without a special prompt) remains sufficient for an uninterrupted run.

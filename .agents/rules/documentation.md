@@ -16,3 +16,5 @@ description: "Documentation synchronization and frozen-baseline rules."
 - Do not silently change frozen v1 artifacts.
 - Architecture changes require an ADR update/new ADR and synchronized affected docs.
 - Formal Codex reviews are recorded under the owning phase's `docs/implementation/phase-N/reviews/` directory.
+
+**Forward-scope consistency:** For an approved current documentation write, apply [Documentation synchronization](../../docs/workflow/documentation-synchronization.md) at the relevant handoff/review boundary. Classify current vs immutable history; record material out-of-scope drift rather than expanding the edit. This rule does not authorize cleanup B or change frozen artifacts.

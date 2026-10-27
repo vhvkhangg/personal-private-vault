@@ -19,3 +19,7 @@ Use `docs/templates/README.md` and the matching template. The user owns scope an
 7. Plan deletion/move only with explicit inventory and cross-reference/test/hash impact; do not silently discard accepted evidence.
 8. Package only new/modified files as a plain archive, without scripts for the Owner to execute. Git staging/publishing remains the Owner's action.
 9. No new acceptance rule, product feature or future phase is authorized by a documentation edit.
+
+## Scope-bounded Docs Sync Check — Maintenance B3 amendment
+
+Apply [Documentation synchronization](../../../docs/workflow/documentation-synchronization.md) when preparing new/current documentation. Classify the touched file as current, derived, immutable history or proposal; inspect the approved authority, relevant evidence and links. In the existing deliverable record, give `UPDATED / ALREADY_CONSISTENT / DEFERRED_OUT_OF_SCOPE / BLOCKED_OWNER_DECISION / NOT_VERIFIED` with exact affected paths. Do not rewrite unrelated stale repository records (cleanup B), invent a published SHA, self-approve a docs package or create a new acceptance gate. Route material out-of-scope corrections to the Owner for a separately authorized cleanup.
