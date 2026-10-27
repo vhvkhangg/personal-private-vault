@@ -1,6 +1,6 @@
 # Owner Phase Workflow — current (2026-10-27)
 
-**Authority:** [Current Owner Delivery Policy](current-owner-delivery-policy.md). This process applies **only to future Owner-authorized work**, not to frozen Phase 17/closed Phase 18. Phase 19 **NOT AUTHORIZED**. Earlier Phase 15 audit-first steps, Backend 3/6/9/12 milestones and two-remediation-round instructions are historical, not present-day execution permission.
+**Authority:** [Current Owner Delivery Policy](current-owner-delivery-policy.md). This process applies **only to future Owner-authorized work**, not to frozen Phase 17/closed Phase 18. **Phase 19 S19-1 ONLY is now Owner-approved** for a Codex handoff ([binding authorization](../implementation/phase-19/owner-authorization-s19-1-2026-10-27.md)); accepted preparation was Owner-published at `17f66bb2` and [ACTIVE](../implementation/handoffs/ACTIVE.md) is still `NO_ACTIVE_HANDOFF`. S19-2+ and indexing activation remain unauthorized. Earlier Phase 15 audit-first steps, Backend 3/6/9/12 milestones and two-remediation-round instructions are historical, not present-day execution permission.
 
 ## Before starting a phase or maintenance slice
 
@@ -21,7 +21,7 @@
 - After all approved phase slices are independently reviewed and Owner-published, run one **Codex phase final review**, reusing unchanged applicable evidence. ChatGPT then records phase Owner closeout.
 - Run the **three-phase RAG milestone review** after Phase 19 (P17–19) and after Phase 22 (P20–22), only when the closing phase is completed/authorized. Consolidate justified LOW/INFO cleanups.
 - After RAG P17–22, conduct the separately authorized RAG-wide audit. After RAG and Backend are both complete, conduct the separately authorized combined RAG+Backend integration/repository-wide audit. Reuse valid earlier evidence instead of duplicating gates. Historical Phase 15 Backend audit remains closed.
-- Do not infer authorization for Phase 19/Frontend or external indexing from a roadmap, historical handoff or closed slice.
+- Only the [explicit Owner authorization for P19-S19-1](../implementation/phase-19/owner-authorization-s19-1-2026-10-27.md) grants that first-slice scope. Do not infer permission for S19-2+, Frontend or external indexing from a roadmap, historical handoff or closed slice.
 
 ## Completed maintenance and docs synchronization
 

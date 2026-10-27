@@ -1,6 +1,6 @@
 # P19 — Owner-confirmed requirements and phase boundary
 
-**Date / authority:** Owner's direct choices during the 2026-10-27 Phase 19 preparation discussion; this is a prospective **scope record**, not a new numbered Phase 18 decision, accepted ADR amendment or implementation authorization. Cross-check with [current policy](../../workflow/current-owner-delivery-policy.md).
+**Date / authority:** Owner's direct choices during the 2026-10-27 Phase 19 preparation discussion. This is the accepted **full-P19 product scope**, not a Phase 18 decision or an authorization to implement every P19 feature. **Subsequent narrow implementation approval:** [P19-S19-1 only](owner-authorization-s19-1-2026-10-27.md), dated 2026-10-27, after the accepted and published pre-handoff review. Cross-check [current policy](../../workflow/current-owner-delivery-policy.md).
 
 ## User-visible MUST requirements
 

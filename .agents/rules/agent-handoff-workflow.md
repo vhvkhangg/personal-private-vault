@@ -3,7 +3,7 @@ trigger: model_decision
 description: "Apply when preparing, planning, implementing, testing, remediating, or reviewing a development phase."
 ---
 
-**FORWARD OVERRIDE (2026-10-25):** [Owner policy](../../docs/workflow/current-owner-delivery-policy.md) governs future work. Independent Codex review **after each slice**; phase final review after all slices, milestone after RAG P19/P22, then RAG and RAG+Backend audits. Antigravity mandatory self-review does not count; **three** remediation + independent re-review rounds **per active slice** before takeover. CRITICAL/HIGH/MEDIUM block. Historical 2-round/20-minute instructions below are no longer active. Phase 19 NOT AUTHORIZED.
+**FORWARD OVERRIDE (2026-10-25):** [Owner policy](../../docs/workflow/current-owner-delivery-policy.md) governs future work. Independent Codex review **after each slice**; phase final review after all slices, milestone after RAG P19/P22, then RAG and RAG+Backend audits. Antigravity mandatory self-review does not count; **three** remediation + independent re-review rounds **per active slice** before takeover. CRITICAL/HIGH/MEDIUM block. Historical 2-round/20-minute instructions below are no longer active. **Phase 19 S19-1 ONLY Owner-approved** for `$codex-create-handoff` after independently accepted, Owner-published preparation ([decision](../../docs/implementation/phase-19/owner-authorization-s19-1-2026-10-27.md)); [ACTIVE](../../docs/implementation/handoffs/ACTIVE.md) remains `NO_ACTIVE_HANDOFF` before that skill creates the executable handoff. S19-2+ and indexing activation are not approved.
 
 
 
