@@ -1,6 +1,6 @@
 # Agents, skills and rules — current owner workflow
 
-**Phase 17 FROZEN; Phase 18 CLOSED; Phase 19 NOT AUTHORIZED.** Canonical: [Owner Delivery Policy](../docs/workflow/current-owner-delivery-policy.md); [ACTIVE handoff](../docs/implementation/handoffs/ACTIVE.md). Older agent status/runbook text remains accessible in the Git history, not as active permission.
+**Phase 17 FROZEN; Phase 18 CLOSED; Phase 19 NOT AUTHORIZED.** Maintenance B/B3 independently reviewed and Owner-published; separate documentation cleanup B is [READY_FOR_OWNER_COMMIT](../docs/implementation/maintenance/2026-10-27-repository-doc-sync/reviews/2026-10-27-cleanup-b-independent-final-review.md), awaiting Owner publication. Canonical: [Owner Delivery Policy](../docs/workflow/current-owner-delivery-policy.md); [ACTIVE handoff](../docs/implementation/handoffs/ACTIVE.md). Older agent status/runbook text remains accessible in the Git history, not as active permission.
 
 ## Roles and gates
 

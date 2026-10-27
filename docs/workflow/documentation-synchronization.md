@@ -1,6 +1,6 @@
 # Documentation synchronization contract — prospective workflow gate
 
-**Status:** Owner-approved Maintenance B3 workflow guidance (2026-10-27), independently reviewed **READY_FOR_OWNER_COMMIT** in the [B3 review](../implementation/maintenance/2026-10-27-b3-workflow-resumability/reviews/2026-10-27-b3-independent-final-review.md); Owner publication remains pending. This contract adds a **scope-bounded consistency check**, not authorization to rewrite existing documentation, accept code, publish to Git, alter frozen decisions, or begin Phase 19. The [current Owner delivery policy](current-owner-delivery-policy.md) takes precedence if a conflict arises.
+**Current publication (2026-10-27):** This mechanism A was independently accepted in the [B3 review](../implementation/maintenance/2026-10-27-b3-workflow-resumability/reviews/2026-10-27-b3-independent-final-review.md) and Owner-published at [`3a1e5fc`](https://github.com/vhvkhangg/personal-private-vault/commit/3a1e5fc7eb14fbabb24a97b5cc27656d0f95e399). The separate documentation-only **cleanup B** is [independently READY_FOR_OWNER_COMMIT](../implementation/maintenance/2026-10-27-repository-doc-sync/reviews/2026-10-27-cleanup-b-independent-final-review.md); its own publication remains pending. The original A-only release boundary below is historical and does not imply permission for code, hooks, logs, frozen contracts, indexing or Phase 19. [Current Owner policy](current-owner-delivery-policy.md) retains precedence.
 
 ## Purpose and when to run
 

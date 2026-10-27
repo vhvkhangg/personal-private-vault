@@ -1,12 +1,11 @@
 # Active Implementation Handoff
 
-- **Status:** `NO_ACTIVE_HANDOFF`.
-- **Owner-published baseline:** GitHub `main` commit [`bf1683c8da88db2c6d30761cb2e76f6a77d67331`](https://github.com/vhvkhangg/personal-private-vault/commit/bf1683c8da88db2c6d30761cb2e76f6a77d67331), `fix(tooling): enforce owner-only Git actions with native hooks`, confirmed 2026-10-26.
-- **Most recent scope:** Maintenance B2 `MAINT-B2-CLI-GIT-HOOK-ENFORCEMENT` — `COMPLETE / CLOSED / OWNER-PUBLISHED` after [independent B2 review](../maintenance/2026-10-26-watchdog-tooling/reviews/2026-10-26-b2-independent-takeover-attempt-1-final-review.md). See [B2 Owner publication closeout](../maintenance/2026-10-26-watchdog-tooling/b2-owner-closeout-2026-10-26.md).
-- **B1:** independently accepted and Owner-published at [`a4cf43505ab48198e22799fecf5098c5c6870a79`](https://github.com/vhvkhangg/personal-private-vault/commit/a4cf43505ab48198e22799fecf5098c5c6870a79); [B1 closeout](../maintenance/2026-10-26-watchdog-tooling/b1-owner-closeout-2026-10-26.md).
-- **Maintenance B:** `READY_FOR_OWNER_COMMIT` after [independent final aggregation, 2026-10-27](../maintenance/2026-10-26-watchdog-tooling/reviews/2026-10-27-maintenance-b-independent-final-review.md). Both implementation slices are published; **next action is Owner publication of the reviewed closeout/review documents, then brief overall maintenance closeout**. No new implementation or repeated slice-review gate is authorized.
-- **Remediation history:** B1 Antigravity `3/3` exhausted with separately reviewed Codex F02 takeover. B2 Antigravity `3/3` exhausted with separately reviewed Codex F01/F04 takeover attempt `1/2`; no round resets or Option B acceptance relaxation. LOW backlog is retained.
-- **Frozen boundaries:** Phase 17 FROZEN, Phase 18 CLOSED, Phase 19 NOT AUTHORIZED; external indexing INACTIVE. Existing `logs/` untouched by documentation closeout. B3 remains outside Maintenance B and is not authorized by this publication.
+- **Status:** `NO_ACTIVE_HANDOFF` — this controls execution, not documentation-only maintenance.
+- **Latest verified Owner publication:** B3 `3a1e5fc7eb14fbabb24a97b5cc27656d0f95e399` (`docs(workflow): clarify recovery and documentation handoffs`) on 2026-10-27; [independent B3 review](../maintenance/2026-10-27-b3-workflow-resumability/reviews/2026-10-27-b3-independent-final-review.md) accepted with no blockers. Brief B3 publication closeout is independently reviewed in cleanup B, **not yet Owner-published**.
+- **Maintenance B:** B1/B2 implementation and overall final-aggregation docs independently reviewed and Owner-published through `3d07c7f15daf290f8e23d035a214716084f45ee9`; [final aggregate review](../maintenance/2026-10-26-watchdog-tooling/reviews/2026-10-27-maintenance-b-independent-final-review.md) remains immutable.
+- **Current Owner-authorized non-execution scope:** documentation cleanup B, [docket](../maintenance/2026-10-27-repository-doc-sync/README.md), **READY_FOR_OWNER_COMMIT** under the [independent review](../maintenance/2026-10-27-repository-doc-sync/reviews/2026-10-27-cleanup-b-independent-final-review.md); Owner publication/brief cleanup closeout are next. No handoff or Phase 19 activation.
+- **History and debt:** B1 and B2 Antigravity 3/3 exhausted; B2 F01 Codex attempt 1/2 accepted (no second attempt/waiver). B3-L01 is independently VERIFIED/CLOSED; B1-L01, B2-L01, MA-A03–MA-A06 and new DOCB-L01 remain LOW/open.
+- **Frozen boundaries:** Phase 17 FROZEN, Phase 18 CLOSED, Phase 19 NOT AUTHORIZED; external indexing INACTIVE, live originals DISABLED/DEFERRED. No mutation of historical logs/evidence, source, safety hooks or config.
 
 ## Immutable handoff archive
 

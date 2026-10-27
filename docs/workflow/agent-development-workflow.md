@@ -22,6 +22,6 @@ all RAG phases done -> RAG audit -> RAG + Backend integration-wide audit
 
 Review evidence should be reused between slice/phase/milestone/audit when source hashes remain applicable. Do not create a separate staged-tree review or repeat complete test suites without a concrete need. Use `docs/templates/` for new artifacts.
 
-**Tooling boundary:** Maintenance B1 progress-aware watchdog (300s ordinary / 2,100s full-suite cap with inactivity diagnostics) is **implemented**, awaiting independent Codex review; B2 tooling enforcement remains pending. `logs/` remains untouched.
+**Tooling boundary:** Maintenance B1 (300s ordinary / approved 2,100s extended, finite inactivity diagnostics) and B2 supported Windows CLI/hook enforcement are independently accepted and Owner-published. B3 documentation/recovery skills are Owner-published at [`3a1e5fc`](https://github.com/vhvkhangg/personal-private-vault/commit/3a1e5fc7eb14fbabb24a97b5cc27656d0f95e399). Native-hook enforcement has verified root/trust/client-version limits, not universal coverage. Preserve `logs/`.
 
 **Historical record:** old two-round/20-minute guidance and Backend milestone 3/6/9/12 procedures are available in prior committed versions and dated phase reports. They are not active for future work. Earlier Phase 15 backend audit remains closed; no reopening of accepted Phase 17/18 is authorized.
