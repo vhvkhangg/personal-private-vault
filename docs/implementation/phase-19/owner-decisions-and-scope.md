@@ -1,5 +1,7 @@
 # P19 — Owner-confirmed requirements and phase boundary
 
+**Current slice authority (2026-10-28):** The Owner has now separately [approved S19-2 only](owner-authorization-s19-2-2026-10-28.md), following S19-1 acceptance and its published closeout. The 2026-10-27 S19-1-only note below records historical authorization at that time, not a continuing ban on S19-2. Full-P19 functional requirements remain unchanged; no S19-3, model/cloud/runtime download, indexing activation or future-phase approval follows.
+
 **Date / authority:** Owner's direct choices during the 2026-10-27 Phase 19 preparation discussion. This is the accepted **full-P19 product scope**, not a Phase 18 decision or an authorization to implement every P19 feature. **Subsequent narrow implementation approval:** [P19-S19-1 only](owner-authorization-s19-1-2026-10-27.md), dated 2026-10-27, after the accepted and published pre-handoff review. Cross-check [current policy](../../workflow/current-owner-delivery-policy.md).
 
 ## User-visible MUST requirements

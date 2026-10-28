@@ -1,6 +1,6 @@
 # Phase 19 — Grounded Markdown Q&A: status and preparation dossier
 
-**Current post-publication status (2026-10-28):** **S19-1 COMPLETE / INDEPENDENTLY ACCEPTED / OWNER-PUBLISHED** at [`5e84e709`](https://github.com/vhvkhangg/personal-private-vault/commit/5e84e7096137b15528bb09114d7358f719c7bdc7), per [S19-1 closeout](s19-1-owner-publication-closeout-2026-10-28.md) and [independent final review](reviews/2026-10-28-s19-1-independent-codex-corrective-attempt-4-final-review.md). **Phase 19 remains OPEN; S19-2+ and indexing activation are NOT_AUTHORIZED.** [ACTIVE](../handoffs/ACTIVE.md) returns to `NO_ACTIVE_HANDOFF` by this subsequent docs-only closeout. The 2026-10-27 preparation-era statements below are historical and do not supersede this publication status.
+**Current post-publication status (2026-10-28):** **S19-1 COMPLETE / INDEPENDENTLY ACCEPTED / OWNER-PUBLISHED** at [`5e84e709`](https://github.com/vhvkhangg/personal-private-vault/commit/5e84e7096137b15528bb09114d7358f719c7bdc7), per [S19-1 closeout](s19-1-owner-publication-closeout-2026-10-28.md) and [independent final review](reviews/2026-10-28-s19-1-independent-codex-corrective-attempt-4-final-review.md). **Phase 19 remains OPEN; S19-2 is separately OWNER_APPROVED for a Codex handoff, while S19-3+ and indexing activation remain NOT_AUTHORIZED.** [ACTIVE](../handoffs/ACTIVE.md) returns to `NO_ACTIVE_HANDOFF` by this subsequent docs-only closeout. The 2026-10-27 preparation-era statements below are historical and do not supersede this publication status.
 
 **Preparation record date (historical):** 2026-10-27  
 **Preparation-only state at that time:** `READY_FOR_HANDOFF` (**preparation only**) after [independent Codex re-review 2](reviews/2026-10-27-phase-19-independent-pre-handoff-re-review-2.md), 2026-10-27. P19-PR-01–04 and P19-L01 are independently CLOSED for preparation. Runtime DB/HTTP/model/quality/resource evidence remains `NOT_VERIFIED / NOT_RUN`; no code, migration, activation or executable handoff is authorized by this review.  
@@ -11,6 +11,7 @@
 
 ## Read in order
 
+- **Current implementation scope:** [S19-2 explicit Owner approval](owner-authorization-s19-2-2026-10-28.md) — Codex handoff pending; this is not implementation acceptance.
 - **Current delivery record:** [S19-1 Owner publication closeout](s19-1-owner-publication-closeout-2026-10-28.md), [accepted independent final review](reviews/2026-10-28-s19-1-independent-codex-corrective-attempt-4-final-review.md), and [historical executable handoff](s19-1-executable-handoff-2026-10-27.md).
 
 1. [Owner decisions and product scope](owner-decisions-and-scope.md) — accepted behaviors, out-of-scope features and separate Ideaverse-module future.
@@ -33,9 +34,9 @@
 
 Given a manually approved, currently valid index of Markdown snapshots, an authenticated Owner can ask a free-form question in Vietnamese (or another input language), optionally select particular indexed sources, and receive a **non-streamed** answer containing only directly documented facts, with resolvable file/heading/evidence locators. Multi-file extraction and short bounded client-supplied conversational context are allowed; unsupported claims and contradictions are flagged rather than invented. Responses must not contain unauthorized sources or stale/revoked content. No persistent chat history, new Ideaverse module or Fiction/Film recommendation belongs in P19.
 
-## Current next gate — S19-2 requires separate Owner authorization
+## Current next gate — S19-2 Owner-approved, Codex handoff pending
 
-S19-1's preparation, handoff, implementation, independent acceptance and Owner publication **have already completed**. See [S19-1 closeout](s19-1-owner-publication-closeout-2026-10-28.md) for the exact verified implementation SHA, test evidence and preserved counters. Do not rerun `$codex-create-handoff` for S19-1 or treat the old 2026-10-27 preparation next step as current authorization. The next slice **S19-2 is not approved**; request a separate Owner decision before starting its preparation/handoff/implementation. External indexing activation is separately unapproved.
+S19-1's preparation, handoff, implementation, independent acceptance and Owner publication **have already completed**. See [S19-1 closeout](s19-1-owner-publication-closeout-2026-10-28.md) for the exact verified implementation SHA, test evidence and preserved counters. Do not rerun `$codex-create-handoff` for S19-1 or treat the old 2026-10-27 preparation next step as current authorization. The Owner subsequently **approved S19-2 only** in [the dated authorization](owner-authorization-s19-2-2026-10-28.md), after publishing the [S19-1 docs closeout](s19-1-owner-publication-closeout-2026-10-28.md) at [`beda8211`](https://github.com/vhvkhangg/personal-private-vault/commit/beda8211f2b6244bdfc31f5b07fe5a3df6e7432b). Next, Codex creates an executable S19-2 handoff using the accepted full-P19 preparation; no need to redo the historical pre-handoff review solely because the separately reviewed slice is now authorized. `ACTIVE` stays `NO_ACTIVE_HANDOFF` until Codex creates the new contract. S19-3, production external indexing activation and live-original access remain unapproved.
 
 ## Historical Docs Sync Check (2026-10-27 preparation; not current S19-1 delivery state)
 
@@ -47,4 +48,4 @@ S19-1's preparation, handoff, implementation, independent acceptance and Owner p
 | `NOT_VERIFIED` | Q&A consumer implementation/commit races, complete chunk provenance, real import, native CPU model quality/latency/RAM and local-tree changes: no runtime PASS claimed. |
 | `UPDATED` | **P19-OD-01 option A explicitly Owner-approved on 2026-10-27** for the bounded prospective consumer/source-guard design; independent feasibility and any wider delta remain review gates, not assumed acceptance. |
 
-**Current next step (2026-10-28):** Owner publishes the [S19-1 docs-only closeout](s19-1-owner-publication-closeout-2026-10-28.md); any S19-2 preparation requires a separate Owner approval. Phase 19 remains OPEN; no active executable handoff or indexing activation is authorized.
+**Current next step (2026-10-28):** Owner publishes the [S19-2 authorization](owner-authorization-s19-2-2026-10-28.md), then runs Codex `$codex-create-handoff` for S19-2 only; Phase 19 remains OPEN and indexing INACTIVE. S19-2 remediation begins at 0/3 only after its own initial independently blocking review, not inherited from S19-1.
