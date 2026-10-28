@@ -19,6 +19,91 @@ class RagSourceAuthorityIntegrationTest extends AbstractEnabledRagIntegrationTes
     @Autowired RagJobService jobs;
     @Autowired RagSourceAuthority authority;
     @Autowired PlatformTransactionManager transactions;
+    @Autowired RagGenerationState current;
+    @Autowired javax.sql.DataSource dataSource;
+
+    @org.springframework.test.context.DynamicPropertySource
+    static void isolateCurrentnessOrdering(org.springframework.test.context.DynamicPropertyRegistry properties) {
+        properties.add("ppv.rag.reconciliation-delay-ms",()->"3600000");
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"affected","obsolete","sibling"})
+    void committedInspectionIsRecheckedInsideFinalCurrentnessGuard(String scope) throws Exception {
+        UUID a=externalCurrentFixture(), b=externalCurrentFixture();
+        UUID generation=jdbcTemplate.queryForObject("SELECT generation_id FROM rag.index_generations WHERE source_id=(SELECT id FROM rag.sources WHERE source_id=?)",UUID.class,a.toString());
+        assertThat(current.state(generation)).isEqualTo("CURRENT");
+        UUID file="sibling".equals(scope)?b:a;
+        UUID revision="obsolete".equals(scope)?UUID.randomUUID():jdbcTemplate.queryForObject("SELECT selected_revision_id FROM rag.external_file_sources WHERE file_source_id=?",UUID.class,file);
+        UUID operation=UUID.randomUUID();
+        try(var connection=dataSource.getConnection();var executor=java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor()) {
+            connection.setAutoCommit(false);
+            try {
+                int blocker=backendPid(connection);
+                try(var lock=connection.createStatement()) {lock.execute("SELECT pg_advisory_xact_lock(5927097059089141831)");}
+                var reading=executor.submit(()->current.state(generation));
+                org.awaitility.Awaitility.await().atMost(java.time.Duration.ofSeconds(4)).until(()->
+                        jdbcTemplate.queryForObject("SELECT count(*) FROM pg_stat_activity WHERE ?=ANY(pg_blocking_pids(pid)) AND wait_event='advisory'",Integer.class,blocker)>0);
+                beginInspection(connection,operation,file,revision);
+                connection.commit();
+                assertThat(reading.get(6,java.util.concurrent.TimeUnit.SECONDS)).isEqualTo("affected".equals(scope)?"UNAVAILABLE":"CURRENT");
+                assertThat(jdbcTemplate.queryForObject("SELECT state FROM rag.retrieval_inspections WHERE inspection_id=?",String.class,operation)).isEqualTo("UNRESOLVED");
+                assertThat(jdbcTemplate.queryForObject("SELECT snapshot_integrity_failed FROM rag.external_file_sources WHERE file_source_id=?",Boolean.class,a)).isFalse();
+                System.out.println("S19_CURRENTNESS_ORDER inspection_first=true scope="+scope+" committed_unresolved_checked=true");
+            } finally {connection.rollback();}
+        }
+    }
+
+    @Test void currentnessGuardFirstCompletesBeforeInspectionAndNextReadIsFenced() throws Exception {
+        UUID file=externalCurrentFixture();
+        UUID generation=jdbcTemplate.queryForObject("SELECT generation_id FROM rag.index_generations WHERE source_id=(SELECT id FROM rag.sources WHERE source_id=?)",UUID.class,file.toString());
+        UUID revision=jdbcTemplate.queryForObject("SELECT selected_revision_id FROM rag.external_file_sources WHERE file_source_id=?",UUID.class,file);
+        UUID operation=UUID.randomUUID();
+        try(var leaseConnection=dataSource.getConnection();var inspectionConnection=dataSource.getConnection();
+                var executor=java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor()) {
+            leaseConnection.setAutoCommit(false);inspectionConnection.setAutoCommit(false);
+            try {
+                int leasePid=backendPid(leaseConnection), inspectionPid=backendPid(inspectionConnection);
+                try(var lock=leaseConnection.prepareStatement("SELECT l.id FROM rag.job_leases l JOIN rag.index_generations g ON g.job_id=l.job_id WHERE g.generation_id=? FOR UPDATE OF l")) {
+                    lock.setObject(1,generation);lock.executeQuery().close();
+                }
+                var reading=executor.submit(()->current.state(generation));
+                org.awaitility.Awaitility.await().atMost(java.time.Duration.ofSeconds(4)).until(()->
+                        jdbcTemplate.queryForObject("SELECT count(*) FROM pg_stat_activity WHERE ?=ANY(pg_blocking_pids(pid)) AND wait_event_type='Lock'",Integer.class,leasePid)>0);
+                int guardPid=jdbcTemplate.queryForObject("SELECT pid FROM pg_stat_activity WHERE ?=ANY(pg_blocking_pids(pid)) AND wait_event_type='Lock'",Integer.class,leasePid);
+                var inspecting=executor.submit(()->{
+                    beginInspection(inspectionConnection,operation,file,revision);inspectionConnection.commit();return operation;
+                });
+                org.awaitility.Awaitility.await().atMost(java.time.Duration.ofSeconds(4)).until(()->
+                        jdbcTemplate.queryForObject("SELECT count(*) FROM pg_stat_activity WHERE pid=? AND ?=ANY(pg_blocking_pids(pid)) AND wait_event='advisory'",Integer.class,inspectionPid,guardPid)==1);
+                leaseConnection.commit();
+                assertThat(reading.get(6,java.util.concurrent.TimeUnit.SECONDS)).isEqualTo("CURRENT");
+                assertThat(inspecting.get(6,java.util.concurrent.TimeUnit.SECONDS)).isEqualTo(operation);
+                assertThat(current.state(generation)).isEqualTo("UNAVAILABLE");
+                assertThat(jdbcTemplate.queryForObject("SELECT state FROM rag.retrieval_inspections WHERE inspection_id=?",String.class,operation)).isEqualTo("UNRESOLVED");
+                System.out.println("S19_CURRENTNESS_ORDER guard_first=true first=CURRENT next=UNAVAILABLE inspection=UNRESOLVED");
+            } finally {leaseConnection.rollback();inspectionConnection.rollback();}
+        }
+    }
+
+    private UUID externalCurrentFixture() {
+        UUID file=UUID.randomUUID();
+        jdbcTemplate.update("INSERT INTO rag.external_file_sources(file_source_id,canonical_identity_digest) VALUES(?,?)",file,"currentness-order:"+file);
+        completeRetrievalFixtureScope(Map.of(),List.of(file));return file;
+    }
+
+    private int backendPid(java.sql.Connection connection) throws java.sql.SQLException {
+        try(var statement=connection.createStatement();var result=statement.executeQuery("SELECT pg_backend_pid()")) {result.next();return result.getInt(1);}
+    }
+
+    private void beginInspection(java.sql.Connection connection,UUID operation,UUID file,UUID revision) throws java.sql.SQLException {
+        try(var statement=connection.prepareStatement("SELECT rag.retrieval_inspection_begin(?,NULL,'CURRENTNESS_ORDER_TEST','scope',?,?,?,?,?)")) {
+            statement.setObject(1,operation);statement.setObject(2,file);statement.setObject(3,revision);
+            statement.setLong(4,ProcessHandle.current().pid());
+            statement.setLong(5,com.vhvkhangg.personalprivatevault.rag.internal.application.retrieval.RagRetrievalControllerIdentity.creationFileTime());
+            statement.setString(6,retrievalFixtureController());statement.execute();
+        }
+    }
 
     private RagSourceView approved(String title) {
         Long genre = jdbcTemplate.queryForObject("INSERT INTO fiction_genres(name) VALUES (?) RETURNING id", Long.class, UUID.randomUUID().toString());

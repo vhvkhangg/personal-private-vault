@@ -19,6 +19,8 @@
  *   <li>{@code rag.generation_roots}</li>
  *   <li>{@code rag.document_chunks}</li>
  *   <li>{@code rag.staged_document_outputs}</li>
+ *   <li>{@code rag.retrieval_readers}</li>
+ *   <li>{@code rag.retrieval_inspections}</li>
  * </ul>
  *
  * <h2>Module boundary</h2>

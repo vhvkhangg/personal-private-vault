@@ -77,6 +77,7 @@ public class RagGenerationState {
                             || !Objects.equals(source.getApprovedOwnerResetVersion(),ext.getConsentResetVersion())
                             || ext.getConsentResetVersion()!=node.path("owner_reset_version").asLong()) return "REVOKED";
                     if (ext.isSnapshotIntegrityFailed()) return "UNAVAILABLE";
+                    if(externalFileAuthority.hasBlockingInspection(ext.getFileSourceId(),ext.getSelectedRevisionId())) return "UNAVAILABLE";
                     if (byteStore != null && ext.getSelectedRevisionId() != null) {
                         try {
                             if (!byteStore.verifyIntegrity(ext.getFileSourceId(), ext.getSelectedRevisionId(), ext.getSelectedRevisionHash(), ext.getSelectedByteLength())) {

@@ -328,7 +328,9 @@ class RagSnapshotCorrectiveIntegrationTest extends AbstractRagIntegrationTest {
         var fresh=new RagOriginalBytesStore(ROOT,store.getMaxSourceBytes());
         var restarted=new RagRecoveryService(beans.getBean(jakarta.persistence.EntityManager.class),beans.getBean(RagRuntimeIdentity.class),
                 beans.getBean(RagPurgeService.class),transactions,beans.getBean(RagRuntimeSecurity.class),
-                beans.getBean(RagWorkerSupervisor.class),beans.getBean(RagGenerationState.class),beans.getBean(RagNoChangeService.class),fresh);
+                beans.getBean(RagWorkerSupervisor.class),beans.getBean(RagGenerationState.class),beans.getBean(RagNoChangeService.class),fresh,
+                beans.getBean(com.vhvkhangg.personalprivatevault.rag.internal.application.retrieval.RagRetrievalService.class),
+                beans.getBean(RagSnapshotInspections.class));
         restarted.afterSingletonsInstantiated(); return restarted;
     }
 

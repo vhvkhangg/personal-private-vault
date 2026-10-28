@@ -130,3 +130,20 @@ All normal live-file registration and ingestion remain disabled.
 See [takeover evidence](../docs/implementation/phase-18/test-evidence.md) and
 [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) for unresolved source/producer,
 R7, quality and resource requirements. A separate independent review is required.
+
+## Phase 19 Slice 1 (S19-1) Query Embedding Service — 2026-10-27
+
+Phase 19 Slice 1 adds a dedicated, request-bound loopback FastAPI query embedding service
+(`ppv_rag.query_embedding:app`) hosted once per query reader under Windows Job Object supervision:
+- Pinned `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` (384 dimensions, CPU only).
+- Query constraints: <= 512 pinned-tokenizer tokens, <= 4096 Unicode code points, non-blank; streamed JSON body <= 64 KiB.
+- Request verification: mandatory shared secret headers (`X-PPV-Service-Key`, `X-PPV-Reader-Id`,
+  `X-PPV-Nonce`) and reader ID matching request body.
+- Strict JSON: `extra = "forbid"` and strict duplicate key detection.
+- Endpoints: `GET /v1/query/readiness` (`/v1/query/ready` alias) and `POST /v1/query/embed`.
+- Readiness/result bind contract 1.0, reader UUID, PID, endpoint nonce, model/tokenizer versions and artifact hashes; Java also checks the exact owned Windows process creation identity. No artifact fetch or automatic provisioning.
+- Zero answers generated; no conversational history; no LLM download.
+- Retrieval enabled only when explicitly configured via `ppv.rag.retrieval.enabled: true`
+  or test-scoped execution (`ppv.rag.test-scoped-execution: true`).
+
+This remains an unaccepted S19-1 implementation candidate. Production defaults stay disabled, indexing INACTIVE and live originals DISABLED/DEFERRED. Controlled native protocol fixtures are distinguished from actual pinned-model retrieval in the S19-1 handback; no later phase or publication follows from tests.

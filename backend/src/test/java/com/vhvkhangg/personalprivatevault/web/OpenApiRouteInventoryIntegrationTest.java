@@ -204,6 +204,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/rag/jobs/{id}/cancel | cancelRagJob | 200 | null | ApiResponseVoid | true
             POST | /api/v1/rag/jobs/{id}/finalize | finalizeRagGeneration | 200 | FinalizeGenerationRequest | ApiResponseRagFinalizationResponse | true
             POST | /api/v1/rag/jobs/{id}/finalize-batch | finalizeRagDocumentBatch | 200 | FinalizeDocumentBatchRequest | ApiResponseRagBatchFinalizationResponse | true
+            POST | /api/v1/rag/retrievals | retrieveRagMarkdownEvidence | 200 | RagRetrievalRequestDto | ApiResponseRagRetrievalResponseDto | true
+            POST | /api/v1/rag/retrievals/{requestId}/cancel | cancelRagMarkdownRetrieval | 200 | null | ApiResponseRagRetrievalCancelResponseDto | true
             POST | /api/v1/rag/sources/register-domain | registerDomainCandidate | 201 | RegisterDomainSourceRequest | ApiResponseRagSourceResponse | false
             POST | /api/v1/rag/sources/register-file | registerFileCandidate | 201 | RegisterFileSourceRequest | ApiResponseRagSourceResponse | false
             POST | /api/v1/rag/sources/{id}/approve | approveRagSource | 200 | ApproveSourceRequest | ApiResponseRagSourceResponse | true
@@ -387,8 +389,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(228);
-        assertThat(uniqueIds).hasSize(228);
+        assertThat(operationIds).hasSize(230);
+        assertThat(uniqueIds).hasSize(230);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -484,7 +486,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 228 endpoints").hasSize(228);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 230 endpoints").hasSize(230);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -499,7 +501,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 228 manifest count").isEqualTo(228);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 230 manifest count").isEqualTo(230);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());

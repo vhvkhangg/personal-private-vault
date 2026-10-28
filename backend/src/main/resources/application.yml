@@ -83,6 +83,9 @@ ppv:
       max-dependency-depth: ${PPV_RAG_MAX_DEPENDENCY_DEPTH:5}
       max-source-bytes: ${PPV_RAG_MAX_SOURCE_BYTES:52428800}
       lease-duration-minutes: ${PPV_RAG_LEASE_DURATION_MINUTES:15}
+    retrieval:
+      enabled: ${PPV_RAG_RETRIEVAL_ENABLED:false}
+
 
 vault:
   media:

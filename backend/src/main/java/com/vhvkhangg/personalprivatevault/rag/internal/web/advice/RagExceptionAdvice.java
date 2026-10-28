@@ -38,6 +38,26 @@ public class RagExceptionAdvice {
         return ApiResponses.of(HttpStatus.NOT_FOUND, "RAG_NOT_FOUND", "RAG resource unavailable");
     }
 
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.rag.api.RagReaderBusyException.class)
+    public ResponseEntity<ApiResponse<Void>> handleReaderBusy(com.vhvkhangg.personalprivatevault.rag.api.RagReaderBusyException ex) {
+        return ApiResponses.of(HttpStatus.CONFLICT, "RAG_READER_BUSY", "An active retrieval reader or source mutation is in progress");
+    }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.rag.api.RagRetrievalCancelledException.class)
+    public ResponseEntity<ApiResponse<Void>> handleRetrievalCancelled(com.vhvkhangg.personalprivatevault.rag.api.RagRetrievalCancelledException ex) {
+        return ApiResponses.of(HttpStatus.CONFLICT, "RAG_RETRIEVAL_CANCELLED", "Retrieval cancelled before response emission");
+    }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.rag.api.RagQueryScopeLimitException.class)
+    public ResponseEntity<ApiResponse<Void>> handleScopeLimit(com.vhvkhangg.personalprivatevault.rag.api.RagQueryScopeLimitException ex) {
+        return ApiResponses.of(HttpStatus.BAD_REQUEST, "RAG_QUERY_SCOPE_LIMIT", "Complete query scope exceeds the maximum allowable document limit");
+    }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.rag.api.RagQueryUnavailableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleQueryUnavailable(com.vhvkhangg.personalprivatevault.rag.api.RagQueryUnavailableException ex) {
+        return ApiResponses.of(HttpStatus.SERVICE_UNAVAILABLE, "RAG_QUERY_UNAVAILABLE", "Query service unavailable");
+    }
+
     @ExceptionHandler(java.util.concurrent.CancellationException.class)
     public ResponseEntity<ApiResponse<Void>> handleCaptureCancelled(java.util.concurrent.CancellationException ex) {
         return ApiResponses.of(HttpStatus.CONFLICT, "RAG_CAPTURE_CANCELLED", "Snapshot capture cancelled or deadline exceeded");

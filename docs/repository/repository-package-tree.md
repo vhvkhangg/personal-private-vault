@@ -428,7 +428,7 @@ tests and a hashed two-family OCR diagnostic fixture set live under worker tests
 This is an inventory of partial implementation, not complete format/language,
 resource, external-file/R7 or P18-FINAL acceptance.
 
-### Phase 18 Slice 1 additive correction inventory ? 2026-10-19
+### Phase 18 Slice 1 additive correction inventory — 2026-10-19
 
 The existing `rag/internal/application` package adds `RagSnapshotAcquisitionService`;
 `RagSourceService`, `RagRecoveryService` and the existing original-byte store own the
@@ -439,3 +439,27 @@ job engine or scheduler is added. `rag/source/RagSnapshotExpectation` and
 V20 adds pending/selected metadata; append-only V21 adds pending consent association,
 selected hash/length and durable integrity denial. See the Phase 18 DBML/API inventory.
 This additive inventory does not change the frozen v1.1 tree or accept Slice 1/Phase 18.
+
+### Phase 19 Slice 1 additive candidate inventory — 2026-10-27
+
+Under Owner Decision Option A and ADR-0025, Phase 19 Slice 1 adds authorized read-only
+Markdown evidence retrieval without answer generation, chat history, or indexing activation:
+- `rag/api`: `RagRetrievalOperations`, `RagRetrievalCommand`, `RagRetrievalResponse`,
+  `RagRetrievalOutcome`, `RagRetrievalMatch`, `RagLocator`, `RagSourceSelectionEntry`,
+  `RagRetrievalMode`, `RagRetrievalCancelResult`, and retrieval exceptions.
+- `rag/internal/domain`: `RagRetrievalReader` (ADMITTED, CONSUMING, STOP_REQUESTED, EMITTING, RECOVERY_REQUIRED, TERMINAL; exact worker creation FILETIME),
+  `RagRetrievalInspection` (preregistered authority checks).
+- `rag/internal/application`: `RagSnapshotInspections` (original snapshot operation, immutable recovery proof, bounded reconciliation and exact currentness predicate).
+- `rag/internal/infrastructure/persistence`: `RagRetrievalReaderRepository`,
+  `RagRetrievalInspectionRepository`.
+- `rag/internal/application/retrieval`: `RagRetrievalAuthority` (atomic stored-procedure execution),
+  `RagRetrievalCurrentAuthority` (canonical prepared-current closure), `RagRetrievalControllerIdentity` (Windows controller creation identity),
+  `RagQueryEmbeddingSupervisor` (Job Object CPU worker process supervisor), `RagRetrievalService` (owned Servlet nonblocking readiness/WriteListener sender, explicit HTTP DTO adapter).
+- `rag/internal/web`: `RagRetrievalIngressFilter`; `controller/RagRetrievalController` (`POST /api/v1/rag/retrievals`,
+  `POST /api/v1/rag/retrievals/{requestId}/cancel`), DTOs and OpenAPI documentation.
+- Migration `V24__rag_markdown_retrieval_readers.sql`: physical schema for readers, inspections,
+  and state-transition triggers.
+- Python `rag-engine/src/ppv_rag/query_embedding.py`: loopback FastAPI CPU embedding service.
+- Retrieval tests: Selection, Integration, Incident, Sender, EmbeddingNative, Takeover, ConnectionLoss, ProtocolNative and HttpRecovery integration/component classes. Test-only second-JVM fixtures are `RagRetrievalRecoveryControllerFixture` (synthetic identity/child barrier) and `RagRetrievalHttpControllerFixture` (real HTTP-owning Spring controller crash and production startup recovery).
+Default retrieval remains disabled (`ppv.rag.retrieval.enabled: false`); live originals remain
+disabled/deferred; external indexing remains inactive.

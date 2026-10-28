@@ -1,0 +1,49 @@
+// Phase 19 Markdown Retrieval Readers and Inspections DBML (P19-OD-01 Option A, ADR-0025, S19-1)
+// Additive to frozen Schema v1, Phase 17 and Phase 18 DBML.
+Project phase19_rag_markdown_readers {
+  database_type: 'PostgreSQL'
+  Note: 'RAG-owned additions in V24 migration. Extends rag schema with durable active-reader exclusion and authority incident inspections.'
+}
+
+Table rag.retrieval_readers {
+  reader_id uuid [pk, note: 'Unique opaque UUID of the retrieval reader']
+  reservation_token uuid [not null, unique, note: 'Unique token used for external_file_sources reservation']
+  scope_digest varchar(64) [not null, note: 'SHA-256 digest of immutable complete query scope']
+  scope_payload jsonb [not null, note: 'JSON payload containing source IDs, file source UUIDs, revision UUIDs, generation IDs and versions']
+  state varchar(32) [not null, note: 'ADMITTED | CONSUMING | STOP_REQUESTED | EMITTING | RECOVERY_REQUIRED | TERMINAL']
+  stop_requested boolean [not null, default: false, note: 'True when stop intent is registered']
+  emission_started boolean [not null, default: false, note: 'True when C_E emission transaction succeeds']
+  emission_disposition varchar(32) [not null, default: 'PENDING', note: 'PENDING | EMITTING | EMITTED | ABORTED | FAILED']
+  controller_instance varchar(255) [not null, note: 'Application runtime instance owning this reader']
+  worker_pid bigint [note: 'Native worker process PID']
+  worker_created_at timestamptz [note: 'Native worker process creation timestamp']
+  worker_creation_file_time bigint [note: 'Exact Windows creation FILETIME; PID alone is insufficient']
+  finish_disposition varchar(32) [note: 'COMPLETED | CANCELLED | EXECUTION_FAILURE | RECOVERY_REQUIRED | INCIDENT_DENIED']
+  quiescence_evidence jsonb [note: 'Evidence of positive child and sender quiescence']
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  updated_at timestamptz [not null, default: `clock_timestamp()`]
+
+  Note: 'V24 partial unique constant-expression index idx_rag_retrieval_readers_active permits only one nonterminal state. scope_payload binds controller PID/FILETIME and complete closure/manifests/pipeline/runtime. Runtime SELECT only; trusted functions own mutations.'
+}
+
+Table rag.retrieval_inspections {
+  inspection_id uuid [pk, note: 'Unique UUID of the inspection obligation']
+  reader_id uuid [note: 'Associated retrieval reader ID if inspection began during reader lifetime']
+  producer varchar(64) [not null, note: 'Producer identifier (e.g. reconciler, acquisition, reader)']
+  scope_digest varchar(64) [not null, note: 'Digest of the inspected scope']
+  affected_file_source_id uuid [not null, note: 'External file source UUID affected']
+  affected_revision_id uuid [note: 'Snapshot revision UUID affected']
+  inspection_proof jsonb [not null, default: `'{}'::jsonb`, note: 'Immutable original revision hash/byte length and controller instance/PID/exact creation FILETIME, captured before I/O; missing proof stays fenced']
+  state varchar(32) [not null, note: 'UNRESOLVED | CLEAN | INCIDENT_PENDING | DENIED']
+  deny_new_admission boolean [not null, default: false, note: 'True when this inspection blocks new reader admission']
+  details jsonb [note: 'Content-free inspection error or details']
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  updated_at timestamptz [not null, default: `clock_timestamp()`]
+
+  indexes {
+    (affected_file_source_id) [name: 'idx_rag_retrieval_inspections_unresolved', note: 'Partial: UNRESOLVED/INCIDENT_PENDING/DENIED or deny_new_admission']
+    (reader_id) [name: 'idx_rag_retrieval_inspections_reader']
+  }
+}
+
+Ref: rag.retrieval_inspections.reader_id > rag.retrieval_readers.reader_id

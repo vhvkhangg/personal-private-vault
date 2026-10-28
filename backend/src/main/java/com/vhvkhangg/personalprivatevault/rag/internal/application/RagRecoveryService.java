@@ -26,15 +26,21 @@ public class RagRecoveryService implements SmartInitializingSingleton {
     private long snapshotCursor;
     private long generationCursor;
     private volatile boolean registeredOnce;
+    private final com.vhvkhangg.personalprivatevault.rag.internal.application.retrieval.RagRetrievalService retrieval;
+    private final RagSnapshotInspections inspections;
 
     public RagRecoveryService(EntityManager entityManager,RagRuntimeIdentity runtime,RagPurgeService purge,
             PlatformTransactionManager transactions,RagRuntimeSecurity security,
             RagWorkerSupervisor supervisor,RagGenerationState current,RagNoChangeService noChange,
-            com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore) {
+            com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore,
+            com.vhvkhangg.personalprivatevault.rag.internal.application.retrieval.RagRetrievalService retrieval,
+            RagSnapshotInspections inspections) {
         this.entityManager=entityManager; this.runtime=runtime; this.purge=purge; this.security=security;
         this.supervisor=supervisor; this.current=current;this.noChange=noChange;
         transaction=new TransactionTemplate(transactions); transaction.setTimeout(10);
         this.byteStore=byteStore;
+        this.retrieval=retrieval;
+        this.inspections=inspections;
         snapshotTransaction=new TransactionTemplate(transactions); snapshotTransaction.setTimeout(10);
         snapshotTransaction.setPropagationBehavior(org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
@@ -46,6 +52,11 @@ public class RagRecoveryService implements SmartInitializingSingleton {
         // Take no ownership of a live/unknown old controller. Proof and any native
         // process waits happen outside SQL transactions; the final TX rechecks it.
         if(noChange.hasLiveForeignOperation())return;
+        var stoppedReaders=proveStoppedReaders();
+        if (stoppedReaders == null) return;
+        var inspectionInventory=inspections.stoppedOrOwnedInventory();
+        if(inspectionInventory==null) return;
+        inspections.reconcile(stoppedReaders.keySet(),retrieval::isQuiescentReader);
         var outstanding=nonterminal();
         var stopped=new HashSet<UUID>();
         for(var lease:outstanding) {
@@ -58,7 +69,8 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             entityManager.createNativeQuery("SET LOCAL transaction_timeout='10s'").executeUpdate();
             entityManager.createNativeQuery("SELECT pg_advisory_xact_lock(:key)")
                     .setParameter("key",RagDependencyGraph.LOCK_ID).getSingleResult();
-            if(noChange.hasLiveForeignOperation())return false;
+            if(noChange.hasLiveForeignOperation() || !readersMatchStopProof(stoppedReaders)
+                    || !inspections.inventoryStillKnown(inspectionInventory)) return false;
             var fresh=entityManager.createQuery("SELECT l FROM RagJobLease l WHERE l.status IN "
                     +"('ADMITTED','STARTING','ACTIVE','STOPPING','RECOVERY_REQUIRED','FINALIZING') ORDER BY l.id",RagJobLease.class)
                     .setMaxResults(2).getResultList();
@@ -66,10 +78,20 @@ public class RagRecoveryService implements SmartInitializingSingleton {
                 entityManager.refresh(lease,jakarta.persistence.LockModeType.PESSIMISTIC_WRITE);
                 if (!stopped.contains(lease.getJobId()) || !supervisor.proveStopped(lease.getJobId())) return false;
             }
+            for (var proof : stoppedReaders.values()) {
+                entityManager.createNativeQuery("""
+                        SELECT rag.retrieval_reader_finish(:reader,:token,'RECOVERY_REQUIRED','ABORTED',
+                            '{"reason":"EXACT_OLD_CONTROLLER_STOPPED","sender_quiescent":true,"native_quiescent":true,"transport_quiescent":true,"buffers_discarded":true,"controller_stopped":true}'::jsonb,
+                            ARRAY[]::uuid[],ARRAY[]::uuid[])
+                        """).setParameter("reader",proof.reader()).setParameter("token",proof.token()).getSingleResult();
+            }
             entityManager.createNativeQuery("""
                     INSERT INTO rag.runtime_state(singleton,current_instance) VALUES(true,:instance)
                     ON CONFLICT(singleton) DO UPDATE SET current_instance=excluded.current_instance
                     """).setParameter("instance",runtime.instance()).executeUpdate();
+            entityManager.createNativeQuery("SELECT rag.retrieval_reader_recover_stale(:instance)")
+                    .setParameter("instance", runtime.instance().toString())
+                    .getSingleResult();
             return true;
         });
         if (Boolean.TRUE.equals(registered)) {
@@ -81,6 +103,57 @@ public class RagRecoveryService implements SmartInitializingSingleton {
         }
     }
 
+    private record ReaderStopProof(UUID reader, UUID token, String controller, Long workerPid, Long workerFileTime) {}
+
+    /** Native/process waits occur before graph/source SQL guards. Unknown identities stay fenced. */
+    private Map<UUID,ReaderStopProof> proveStoppedReaders() {
+        try {
+            var active = entityManager.createQuery(
+                    "SELECT r FROM com.vhvkhangg.personalprivatevault.rag.internal.domain.RagRetrievalReader r WHERE r.state <> 'TERMINAL'",
+                    com.vhvkhangg.personalprivatevault.rag.internal.domain.RagRetrievalReader.class
+            ).setMaxResults(5).getResultList();
+            var stopped=new HashMap<UUID,ReaderStopProof>();
+            for (var reader : active) {
+                var payload=reader.getScopePayload();
+                if (!(payload.get("controller_pid") instanceof Number pid)
+                        || !(payload.get("controller_creation_file_time") instanceof String fileTime)) return null;
+                if (pid.longValue()==ProcessHandle.current().pid()
+                        && !com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.client.NativeWorkerProcess
+                        .isRecordedProcessTerminated(pid.longValue(),Long.parseLong(fileTime),java.time.Duration.ZERO)) return null;
+                if (!com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.client.NativeWorkerProcess
+                        .isRecordedProcessTerminated(pid.longValue(),Long.parseLong(fileTime),java.time.Duration.ofSeconds(5))) return null;
+                // A complete recorded controller tuple is required, not an absent worker PID.
+                // A stopped controller cannot run Java/context/transport callbacks again.
+                if (reader.getWorkerPid() == null) {
+                    if (!"ADMITTED".equals(reader.getState()) || reader.isEmissionStarted()) return null;
+                } else if (reader.getWorkerCreationFileTime() == null
+                        || !com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.client.NativeWorkerProcess
+                        .isRecordedProcessTerminated(reader.getWorkerPid(),reader.getWorkerCreationFileTime(),java.time.Duration.ofSeconds(5))) {
+                    return null;
+                }
+                stopped.put(reader.getReaderId(),new ReaderStopProof(reader.getReaderId(),reader.getReservationToken(),
+                        reader.getControllerInstance(),reader.getWorkerPid(),reader.getWorkerCreationFileTime()));
+            }
+            return Map.copyOf(stopped);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private boolean readersMatchStopProof(Map<UUID,ReaderStopProof> stopped) {
+        var active=entityManager.createQuery("SELECT r FROM com.vhvkhangg.personalprivatevault.rag.internal.domain.RagRetrievalReader r WHERE r.state<>'TERMINAL'",
+                com.vhvkhangg.personalprivatevault.rag.internal.domain.RagRetrievalReader.class).setMaxResults(2).getResultList();
+        for (var reader : active) {
+            entityManager.refresh(reader);
+            var proof=stopped.get(reader.getReaderId());
+            if (proof==null || !proof.token().equals(reader.getReservationToken())
+                    || !proof.controller().equals(reader.getControllerInstance())
+                    || !Objects.equals(proof.workerPid(),reader.getWorkerPid())
+                    || !Objects.equals(proof.workerFileTime(),reader.getWorkerCreationFileTime())) return false;
+        }
+        return active.size()==stopped.size();
+    }
+
     @Scheduled(fixedDelayString="${ppv.rag.reconciliation-delay-ms:30000}",initialDelayString="${ppv.rag.reconciliation-delay-ms:30000}")
     public synchronized void reconcile() {
         if (!security.isIsolatedRole()) return;
@@ -89,6 +162,8 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             return;
         }
         noChange.reconcile();
+        inspections.reconcile(Set.of(),retrieval::isQuiescentReader);
+        retrieval.reconcileCompletedSenders();
         reconcileSnapshots();
         for(var attempt:nonterminal()) recover(attempt);
         for(UUID job:supervisor.provenStoppedJobs()) {
@@ -164,6 +239,12 @@ public class RagRecoveryService implements SmartInitializingSingleton {
                                 AND (pending_revision_id=:revision OR selected_revision_id=:revision)
                                 """).setParameter("source",entry.sourceId()).setParameter("revision",entry.artifactId()).getSingleResult();
                         if (count.longValue()!=0) return;
+                        Number inspections=(Number)entityManager.createNativeQuery("""
+                                SELECT count(*) FROM rag.retrieval_inspections WHERE affected_file_source_id=:source
+                                AND (affected_revision_id IS NULL OR affected_revision_id=:revision)
+                                AND state IN ('UNRESOLVED','INCIDENT_PENDING')
+                                """).setParameter("source",entry.sourceId()).setParameter("revision",entry.artifactId()).getSingleResult();
+                        if(inspections.longValue()!=0) return;
                     }
                     var report=entry.temporary() ? byteStore.cleanupTemp(entry.artifactId())
                             : byteStore.deleteRevision(entry.sourceId(),entry.artifactId());
@@ -179,6 +260,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
     public synchronized void reconcileSnapshots() {
         try {
             if (!security.isIsolatedRole() || !security.isCurrentRuntime()) return;
+            inspections.reconcile(Set.of(),retrieval::isQuiescentReader);
             for (var entry : byteStore.nextRecoveryBatch(25)) {
                 recoverSnapshotArtifact(entry);
             }
@@ -191,26 +273,19 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             if (rows==null) return;
             snapshotCursor=rows.size()<25?0:rows.getLast().getId();
             for (var row:rows) {
-                try {
-                    if (row.getPendingRevisionId()!=null) byteStore.verifyIntegrity(row.getFileSourceId(),row.getPendingRevisionId(),row.getPendingRevisionHash(),row.getPendingByteLength());
-                    if (row.getSelectedRevisionId()!=null) {
-                        if (row.getSelectedRevisionHash()==null || row.getSelectedByteLength()==null) throw new IllegalStateException("Snapshot descriptor unavailable");
-                        byteStore.verifyIntegrity(row.getFileSourceId(),row.getSelectedRevisionId(),row.getSelectedRevisionHash(),row.getSelectedByteLength());
+                var revisions=new LinkedHashMap<UUID,SnapshotRevision>();
+                if(row.getPendingRevisionId()!=null) revisions.put(row.getPendingRevisionId(),new SnapshotRevision(row.getPendingRevisionId(),row.getPendingRevisionHash(),row.getPendingByteLength()));
+                if(row.getSelectedRevisionId()!=null) revisions.put(row.getSelectedRevisionId(),new SnapshotRevision(row.getSelectedRevisionId(),row.getSelectedRevisionHash(),row.getSelectedByteLength()));
+                for(var revision:revisions.values()) {
+                    if(inspections.hasBlocking(row.getFileSourceId(),revision.id())) continue;
+                    try {
+                        if(revision.hash()==null || revision.length()==null) continue;
+                        inspections.verify(row.getFileSourceId(),revision.id(),revision.hash(),revision.length(),"RECOVERY_SNAPSHOT",
+                                row.getCanonicalIdentityDigest()!=null?row.getCanonicalIdentityDigest():"recovery:integrity");
+                    } catch(com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.SnapshotIntegrityException
+                            | com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.SnapshotMissingException knownIncident) {
+                        // The inspection owner has durably classified this exact original operation.
                     }
-                } catch (RuntimeException integrityFailure) {
-                    snapshotTransaction.executeWithoutResult(status -> {
-                        entityManager.createNativeQuery("SELECT pg_advisory_xact_lock(:key)")
-                                .setParameter("key",RagDependencyGraph.LOCK_ID).getSingleResult();
-                        if (!security.isCurrentRuntime()) return;
-                        // No incident is applied to an intervening replacement or reserved source.
-                        entityManager.createNativeQuery("""
-                                UPDATE rag.external_file_sources SET snapshot_integrity_failed=true
-                                WHERE file_source_id=:source AND eligible AND reserved_by IS NULL
-                                AND pending_revision_id IS NOT DISTINCT FROM CAST(:pending AS uuid)
-                                AND selected_revision_id IS NOT DISTINCT FROM CAST(:selected AS uuid)
-                                """).setParameter("source",row.getFileSourceId()).setParameter("pending",row.getPendingRevisionId())
-                                .setParameter("selected",row.getSelectedRevisionId()).executeUpdate();
-                    });
                 }
             }
         } catch (RuntimeException unavailable) {
@@ -218,6 +293,8 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             org.slf4j.LoggerFactory.getLogger(getClass()).warn("Snapshot reconciliation deferred; authority or storage unavailable");
         }
     }
+
+    private record SnapshotRevision(UUID id,String hash,Long length) {}
 
     private List<RagJobLease> nonterminal() {
         var result=transaction.execute(status -> entityManager.createQuery("""

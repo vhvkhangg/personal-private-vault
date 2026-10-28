@@ -47,6 +47,7 @@ public class RagSourceService {
     private final RagRecoveryService recovery;
     private final RagRuntimeSecurity security;
     private final RagNoChangeService noChange;
+    private final RagSnapshotInspections inspections;
     private final Map<Long, Set<RagSnapshotAcquisitionService.CaptureContext>> captures = new java.util.concurrent.ConcurrentHashMap<>();
 
     public RagSourceService(RagSourceRepository sources, RagDependencyRepository dependencies, RagDependencyGraph graph,
@@ -55,7 +56,7 @@ public class RagSourceService {
             RagRuntimeIdentity runtime, Clock clock, RagLimits limits, PlatformTransactionManager transactions,
             RagExternalFileAuthority externalFileAuthority, RagSnapshotAcquisitionService acquisitionService,
             RagOriginalBytesStore byteStore, RagRecoveryService recovery, RagRuntimeSecurity security,
-            RagNoChangeService noChange,
+            RagNoChangeService noChange,RagSnapshotInspections inspections,
             @Value("${ppv.rag.limits.max-dependency-depth:5}") int maxDepth) {
         this.sources = sources; this.dependencies = dependencies; this.graph = graph; this.purge = purge;
         this.fiction = fiction; this.film = film; this.vault = vault; this.reservations = reservations;
@@ -66,6 +67,7 @@ public class RagSourceService {
         this.recovery = recovery;
         this.security = security;
         this.noChange=noChange;
+        this.inspections=inspections;
         if (maxDepth < 1 || maxDepth > 8) throw new IllegalArgumentException("Invalid dependency depth budget");
         this.maxDepth = maxDepth; this.limits = limits;
         this.transaction = new TransactionTemplate(transactions);
@@ -273,22 +275,19 @@ public class RagSourceService {
     }
 
     private void verifySnapshotPlan(Long id, SnapshotPlan plan) {
-        try {
-            var expected=plan.expected();
-            if (expected.pendingRevisionId()!=null)
-                byteStore.verifyIntegrity(plan.fileId(),expected.pendingRevisionId(),expected.pendingSha256(),expected.pendingByteLength());
-            if (expected.selectedRevisionId()!=null) {
-                if (plan.selectedHash()==null || plan.selectedLength()==null) throw new IllegalStateException("Snapshot descriptor unavailable");
-                byteStore.verifyIntegrity(plan.fileId(),expected.selectedRevisionId(),plan.selectedHash(),plan.selectedLength());
-            }
-        } catch (RuntimeException integrityFailure) {
-            transaction.executeWithoutResult(status -> {
-                snapshotPlan(id,plan.expected());
-                var ext=externalFileAuthority.findByFileSourceId(plan.fileId());
-                ext.denySnapshotIntegrity(clock.instant());
-                externalFileAuthority.save(ext);
-            });
-            throw new IllegalStateException("Registered snapshot integrity unavailable; explicit recovery required");
+        var expected=plan.expected();
+        if(expected.pendingRevisionId()!=null) verifySnapshotRevision(id,plan,expected.pendingRevisionId(),expected.pendingSha256(),expected.pendingByteLength());
+        if(expected.selectedRevisionId()!=null && !expected.selectedRevisionId().equals(expected.pendingRevisionId()))
+            verifySnapshotRevision(id,plan,expected.selectedRevisionId(),plan.selectedHash(),plan.selectedLength());
+    }
+
+    private void verifySnapshotRevision(Long id, SnapshotPlan plan, UUID revision, String hash, Long length) {
+        if(hash==null || length==null) throw new IllegalStateException("Snapshot descriptor unavailable");
+        try {inspections.verify(plan.fileId(),revision,hash,length,"SOURCE_INTEGRITY_CHECK",
+                plan.canonicalDigest()!=null?plan.canonicalDigest():"source:integrity");}
+        catch(com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.SnapshotIntegrityException
+                | com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.SnapshotMissingException incident) {
+            throw new IllegalStateException("Registered snapshot integrity unavailable; explicit recovery required",incident);
         }
     }
 

@@ -34,6 +34,11 @@ public class RagExternalFileAuthority {
                 .getSingleResult();
     }
 
+    public boolean hasBlockingInspection(UUID file,UUID revision) {
+        return Boolean.TRUE.equals(entityManager.createNativeQuery("SELECT rag.retrieval_inspection_blocks(:file,:revision,false)")
+                .setParameter("file",file).setParameter("revision",revision).getSingleResult());
+    }
+
     public void reserve(Collection<UUID> ids, UUID token) {
         if (ids == null || ids.isEmpty()) return;
         UUID[] sortedArray = ids.stream().sorted().toArray(UUID[]::new);
@@ -82,6 +87,9 @@ public class RagExternalFileAuthority {
     public java.util.Set<UUID> findAllLegitimateRevisionIds() {
         java.util.Set<UUID> revisions = new java.util.HashSet<>(repository.findAllSelectedRevisionIds());
         revisions.addAll(repository.findAllPendingRevisionIds());
+        @SuppressWarnings("unchecked") var outstanding=(List<UUID>)entityManager.createNativeQuery(
+                "SELECT DISTINCT affected_revision_id FROM rag.retrieval_inspections WHERE affected_revision_id IS NOT NULL AND state IN ('UNRESOLVED','INCIDENT_PENDING')").getResultList();
+        revisions.addAll(outstanding);
         return java.util.Set.copyOf(revisions);
     }
 

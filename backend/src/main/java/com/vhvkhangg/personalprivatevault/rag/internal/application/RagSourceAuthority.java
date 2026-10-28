@@ -68,6 +68,19 @@ public class RagSourceAuthority {
 
     @Transactional(readOnly = true)
     public Prepared prepareSource(Long rootId, Map<Long, String> descriptionConfirmations) {
+        return prepareSource(rootId,descriptionConfirmations,null);
+    }
+
+    public record SelectedSnapshot(UUID revision, String hash, long length, long version, long reset) {}
+
+    /** Retrieval may hash only the exact selected tuples whose inspection was preregistered. */
+    @Transactional(readOnly = true)
+    public Prepared prepareSelectedSource(Long rootId, Map<UUID,SelectedSnapshot> inspected) {
+        return prepareSource(rootId,Map.of(),Map.copyOf(inspected));
+    }
+
+    private Prepared prepareSource(Long rootId, Map<Long,String> descriptionConfirmations,
+            Map<UUID,SelectedSnapshot> inspected) {
         runtimeSecurity.requireIsolatedRuntime();
         var topology = graph.read();
         var ids = new TreeSet<>(topology.descendants(rootId)); ids.add(rootId);
@@ -99,6 +112,19 @@ public class RagSourceAuthority {
             if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
                 UUID extId = UUID.fromString(source.getSourceId());
                 var ext = externalSources.get(extId);
+                if(ext!=null && externalFileAuthority.hasBlockingInspection(extId,
+                        ext.getApprovedPendingRevisionId()!=null?ext.getApprovedPendingRevisionId():ext.getSelectedRevisionId()))
+                    throw new IllegalStateException("Snapshot inspection remains unresolved");
+                if (inspected != null) {
+                    var expected=inspected.get(extId);
+                    if (expected==null || ext==null || ext.getApprovedPendingRevisionId()!=null
+                            || !Objects.equals(ext.getSelectedRevisionId(),expected.revision())
+                            || !Objects.equals(ext.getSelectedRevisionHash(),expected.hash())
+                            || !Objects.equals(ext.getSelectedByteLength(),expected.length())
+                            || ext.getSourceVersion()!=expected.version() || ext.getConsentResetVersion()!=expected.reset()) {
+                        throw new RagSourceChangedException();
+                    }
+                }
                 if (ext == null || !ext.isEligible() || ext.isSnapshotIntegrityFailed()
                         || source.getClassification() != RagClassification.NON_PRIVATE || source.getAccessState() != RagAccessState.APPROVED
                         || !Objects.equals(source.getApprovedOwnerResetVersion(), ext.getConsentResetVersion())) {
@@ -128,6 +154,9 @@ public class RagSourceAuthority {
             if (source.getSourceType() == RagSourceType.EXTERNAL_FILE) {
                 UUID extId = UUID.fromString(source.getSourceId());
                 var ext = externalSources.get(extId);
+                if(ext!=null && externalFileAuthority.hasBlockingInspection(extId,
+                        ext.getApprovedPendingRevisionId()!=null?ext.getApprovedPendingRevisionId():ext.getSelectedRevisionId()))
+                    throw new IllegalStateException("Snapshot inspection remains unresolved");
                 UUID revisionId;
                 String revisionHash;
                 long byteLength;
@@ -243,6 +272,11 @@ public class RagSourceAuthority {
         return lockPrepared(prepared, null, false, true);
     }
 
+    /** One complete union/lock order for a retrieval with several admitted roots. */
+    public Map<Long, Snapshot> lockPreparedCurrentBatch(Collection<Prepared> prepared) {
+        return guardPrepared(prepared, null, false, true);
+    }
+
     private Snapshot lockPrepared(Prepared prepared, UUID reservation, boolean admission, boolean currentRead) {
         return guardPrepared(List.of(prepared), reservation, admission, currentRead).get(prepared.rootId());
     }
@@ -321,6 +355,11 @@ public class RagSourceAuthority {
             if ("EXTERNAL_FILE".equals(source.getSourceType().name())) {
                 UUID extId = UUID.fromString(source.getSourceId());
                 var ext = externalSources.get(extId);
+                // Inspection registration shares the graph/external ordering slot. A
+                // preflight check cannot certify currentness after a competing C_I.
+                if (currentRead && ext != null && externalFileAuthority.hasBlockingInspection(extId,
+                        ext.getApprovedPendingRevisionId() != null ? ext.getApprovedPendingRevisionId() : ext.getSelectedRevisionId()))
+                    throw new RagSourceChangedException();
                 if (ext == null || !ext.isEligible() || ext.isSnapshotIntegrityFailed()
                         || ext.getSourceVersion() != expected.version()
                         || ext.getConsentResetVersion() != expected.reset()
