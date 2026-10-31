@@ -50,7 +50,17 @@ Apply relevant skills progressively:
 8. Record exact command/result/test counts.
 9. Run mandatory `/antigravity-self-review` and resolve self-found issues before Codex; do not count it as an independent review or remediation round.
 10. Refresh Graphify with `scripts/refresh-graphify.ps1` after meaningful source changes when installed.
-11. Mark `IMPLEMENTED_AWAITING_CODEX_REVIEW` and summarize changes/evidence/risks.
+11. After the mandatory self-review, persist the review-ready transition in the **canonical** `docs/implementation/handoffs/ACTIVE.md` top-level `- **Status:**` field **and** its current banner, implementation-result section, remediation ledger and `Next step`. Align the current executable handoff and implementation handback, without rewriting dated independent-review history. Findings addressed by the implementer remain **pending independent adjudication**; do not mark them independently CLOSED. Preserve actual model/evaluation failures and source-applicable test results.
+12. **Before announcing `$codex-final-review`, execute the saved-file handback gate below.** A claim in a handback or chat message is not proof that the canonical status was persisted. If the gate fails, correct only authorized handback documentation and re-check; otherwise STOP and report the exact inconsistency, not a review-ready state. This verification is part of the current implementation/round, **not** a new remediation round or independent review.
+
+## Mandatory saved-file handback gate — before Codex
+
+This is a small **post-write read-back**, not another skill, agent, code test suite or review layer:
+
+1. **Reopen the files from the actual working tree after the final write**, not from an earlier in-memory draft: `docs/implementation/handoffs/ACTIVE.md`, the current slice executable handoff, and the current implementation/remediation handback. Inspect their current text, `git status --short` and the focused `git diff` for these paths.
+2. Confirm the canonical **top-level** `- **Status:**` field in `ACTIVE.md` is **exactly** `IMPLEMENTED_AWAITING_CODEX_REVIEW`. Also inspect the top **current** banner, implementation-result section and final **current** `Next step`; none may still claim `CHANGES_REQUESTED` as the **current** status. Keep dated original Codex `CHANGES_REQUESTED` findings visibly historical rather than rewriting or deleting them. Updating only a footer or writing the expected status in chat **does not pass**.
+3. Cross-check all three documents for the **same slice/handoff ID**, the actual submitted round and remaining `3`-round remediation budget, takeover state and independent-review disposition. Initial implementation is not a remediation round; after a blocking independent review, a completed corrective round counts **once**, and a subsequent documentation-only status repair counts **zero**. Implementer-addressed findings are **OPEN/PENDING CODEX REVIEW**, never `CLOSED` merely by self-review. Retain truthful `FAIL`/`REJECTED` model candidates, mandatory `NOT_VERIFIED` gates, and unchanged evidence.
+4. Only report `IMPLEMENTED_AWAITING_CODEX_REVIEW` and route to the separate-session `$codex-final-review` **after** all checks agree on the **saved** state. Record the checked canonical status, round and file paths in the existing Docs Sync Check/handback. If not provable or out of edit scope, STOP with the precise mismatch and required Owner/ChatGPT action; do not forge readiness, skip review gates, stage/commit/push, or silently consume another round.
 
 Do not commit, push, tag, or create/merge a PR.
 
