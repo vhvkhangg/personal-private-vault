@@ -28,6 +28,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
     private volatile boolean registeredOnce;
     private final com.vhvkhangg.personalprivatevault.rag.internal.application.retrieval.RagRetrievalService retrieval;
     private final RagSnapshotInspections inspections;
+    private final org.springframework.beans.factory.ObjectProvider<com.vhvkhangg.personalprivatevault.rag.internal.application.qa.RagQaService> qaProvider;
 
     public RagRecoveryService(EntityManager entityManager,RagRuntimeIdentity runtime,RagPurgeService purge,
             PlatformTransactionManager transactions,RagRuntimeSecurity security,
@@ -35,14 +36,37 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore,
             com.vhvkhangg.personalprivatevault.rag.internal.application.retrieval.RagRetrievalService retrieval,
             RagSnapshotInspections inspections) {
+        this(entityManager, runtime, purge, transactions, security, supervisor, current, noChange, byteStore, retrieval, inspections, null);
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public RagRecoveryService(EntityManager entityManager,RagRuntimeIdentity runtime,RagPurgeService purge,
+            PlatformTransactionManager transactions,RagRuntimeSecurity security,
+            RagWorkerSupervisor supervisor,RagGenerationState current,RagNoChangeService noChange,
+            com.vhvkhangg.personalprivatevault.rag.internal.infrastructure.storage.RagOriginalBytesStore byteStore,
+            com.vhvkhangg.personalprivatevault.rag.internal.application.retrieval.RagRetrievalService retrieval,
+            RagSnapshotInspections inspections,
+            org.springframework.beans.factory.ObjectProvider<com.vhvkhangg.personalprivatevault.rag.internal.application.qa.RagQaService> qaProvider) {
         this.entityManager=entityManager; this.runtime=runtime; this.purge=purge; this.security=security;
         this.supervisor=supervisor; this.current=current;this.noChange=noChange;
         transaction=new TransactionTemplate(transactions); transaction.setTimeout(10);
         this.byteStore=byteStore;
         this.retrieval=retrieval;
         this.inspections=inspections;
+        this.qaProvider=qaProvider;
         snapshotTransaction=new TransactionTemplate(transactions); snapshotTransaction.setTimeout(10);
         snapshotTransaction.setPropagationBehavior(org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+    }
+
+    private boolean isQuiescentReader(UUID readerId) {
+        if (retrieval.hasSender(readerId)) {
+            return retrieval.isQuiescentReader(readerId);
+        }
+        var qa = qaProvider != null ? qaProvider.getIfAvailable() : null;
+        if (qa != null && qa.hasSender(readerId)) {
+            return qa.isQuiescentReader(readerId);
+        }
+        return false;
     }
 
     @Override
@@ -56,7 +80,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
         if (stoppedReaders == null) return;
         var inspectionInventory=inspections.stoppedOrOwnedInventory();
         if(inspectionInventory==null) return;
-        inspections.reconcile(stoppedReaders.keySet(),retrieval::isQuiescentReader);
+        inspections.reconcile(stoppedReaders.keySet(),this::isQuiescentReader);
         var outstanding=nonterminal();
         var stopped=new HashSet<UUID>();
         for(var lease:outstanding) {
@@ -162,8 +186,10 @@ public class RagRecoveryService implements SmartInitializingSingleton {
             return;
         }
         noChange.reconcile();
-        inspections.reconcile(Set.of(),retrieval::isQuiescentReader);
+        inspections.reconcile(Set.of(),this::isQuiescentReader);
         retrieval.reconcileCompletedSenders();
+        var qa = qaProvider != null ? qaProvider.getIfAvailable() : null;
+        if (qa != null) qa.reconcileCompletedSenders();
         reconcileSnapshots();
         for(var attempt:nonterminal()) recover(attempt);
         for(UUID job:supervisor.provenStoppedJobs()) {
@@ -260,7 +286,7 @@ public class RagRecoveryService implements SmartInitializingSingleton {
     public synchronized void reconcileSnapshots() {
         try {
             if (!security.isIsolatedRole() || !security.isCurrentRuntime()) return;
-            inspections.reconcile(Set.of(),retrieval::isQuiescentReader);
+            inspections.reconcile(Set.of(),this::isQuiescentReader);
             for (var entry : byteStore.nextRecoveryBatch(25)) {
                 recoverSnapshotArtifact(entry);
             }

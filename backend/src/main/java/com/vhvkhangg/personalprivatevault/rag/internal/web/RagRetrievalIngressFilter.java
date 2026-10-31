@@ -25,7 +25,7 @@ public class RagRetrievalIngressFilter implements Filter {
             throws IOException, ServletException {
         if (request instanceof HttpServletRequest httpRequest && response instanceof HttpServletResponse httpResponse) {
             String path = httpRequest.getRequestURI();
-            if (path.startsWith("/api/v1/rag/retrievals") && "POST".equalsIgnoreCase(httpRequest.getMethod())) {
+            if ((path.startsWith("/api/v1/rag/retrievals") || path.startsWith("/api/v1/rag/qa")) && "POST".equalsIgnoreCase(httpRequest.getMethod())) {
                 if (httpRequest.getContentLengthLong() > MAX_INGRESS_BYTES) {
                     sendLimitError(httpResponse);
                     return;

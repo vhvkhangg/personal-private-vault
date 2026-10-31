@@ -1,0 +1,281 @@
+{
+  "version": "1.0",
+  "created_utc": "2026-10-28T00:00:00Z",
+  "manifest_sha256": "phase19-qa-v1-manifest",
+  "groups": {
+    "dev-group": [
+      "dev_vietnam.md",
+      "dev_architecture.md",
+      "dev_han.md",
+      "dev_stations_a.md",
+      "dev_stations_b.md",
+      "dev_observatory.md",
+      "dev_solar.md",
+      "dev_conflict_a.md",
+      "dev_conflict_b.md",
+      "dev_amber_relic.md",
+      "dev_core_parent.md",
+      "dev_private_marker.md",
+      "heldout_adversarial.md"
+    ],
+    "heldout-group": [
+      "heldout_literature.md",
+      "heldout_materials.md",
+      "heldout_ocean_han.md",
+      "heldout_specs_a.md",
+      "heldout_specs_b.md",
+      "heldout_headings.md"
+    ]
+  },
+  "slots": [
+    {
+      "id": "M01",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "vi",
+      "question": "Thủ phủ của tỉnh Lâm Đồng là thành phố nào?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["Đà Lạt"],
+      "expected_files": ["dev_vietnam.md"]
+    },
+    {
+      "id": "M02",
+      "split": "heldout",
+      "group": "heldout-group",
+      "language": "vi",
+      "question": "Ai là tác giả của tác phẩm Mùa Thu Vàng?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["Nguyễn Nhật Ánh"],
+      "expected_files": ["heldout_literature.md"]
+    },
+    {
+      "id": "M03",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What is the primary architectural style of the vault?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["modular monolith"],
+      "expected_files": ["dev_architecture.md"]
+    },
+    {
+      "id": "M04",
+      "split": "heldout",
+      "group": "heldout-group",
+      "language": "en",
+      "question": "What material is used to construct the containment shield?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["Titanium alloy"],
+      "expected_files": ["heldout_materials.md"]
+    },
+    {
+      "id": "M05",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "zh",
+      "question": "火星基地的供氧系统是由谁设计的？",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["李博士"],
+      "expected_files": ["dev_han.md"]
+    },
+    {
+      "id": "M06",
+      "split": "heldout",
+      "group": "heldout-group",
+      "language": "zh",
+      "question": "深海实验室的设计最大下潜深度是多少米？",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["5000米"],
+      "expected_files": ["heldout_ocean_han.md"]
+    },
+    {
+      "id": "M07",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What are the coordinates of Station Alpha and Station Beta?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["10, 20", "30, 40"],
+      "expected_files": ["dev_stations_a.md", "dev_stations_b.md"]
+    },
+    {
+      "id": "M08",
+      "split": "heldout",
+      "group": "heldout-group",
+      "language": "en",
+      "question": "What is the flight duration of Drone Alpha and the operational ceiling of Drone Beta?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["45 minutes", "3000 meters"],
+      "expected_files": ["heldout_specs_a.md", "heldout_specs_b.md"]
+    },
+    {
+      "id": "M09",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "history": [
+        {"role": "user", "content": "Who founded the observatory?"},
+        {"role": "assistant", "content": "Dr. Evelyn Vance founded the observatory."}
+      ],
+      "question": "In what year was it founded?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["1985"],
+      "expected_files": ["dev_observatory.md"]
+    },
+    {
+      "id": "M10",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What is the solar array generation capacity, and what is the battery brand?",
+      "expected_outcome": "PARTIAL",
+      "expected_facts": ["500W"],
+      "expected_unanswered": ["battery brand"],
+      "expected_files": ["dev_solar.md"]
+    },
+    {
+      "id": "M11",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What is the recorded height of the main communications tower?",
+      "expected_outcome": "CONFLICT",
+      "expected_facts": ["150 meters", "165 meters"],
+      "expected_files": ["dev_conflict_a.md", "dev_conflict_b.md"]
+    },
+    {
+      "id": "M12",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What is the secret recipe for Martian potato stew?",
+      "expected_outcome": "ABSTAINED",
+      "expected_facts": [],
+      "expected_files": []
+    },
+    {
+      "id": "M13",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "Could the observatory telescope be repurposed into a space weapon to destroy enemy satellites?",
+      "expected_outcome": "ABSTAINED",
+      "expected_facts": [],
+      "expected_files": []
+    },
+    {
+      "id": "M14",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What is the mythical name of the amber relic?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["Eye of the Sun"],
+      "expected_files": ["dev_amber_relic.md"]
+    },
+    {
+      "id": "M15",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What material is the master vault seal composed of?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["obsidian"],
+      "expected_files": ["dev_core_parent.md"]
+    },
+    {
+      "id": "M16",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What is the encryption key length for Project Cobalt?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["256 bits"],
+      "expected_files": ["dev_private_marker.md"]
+    },
+    {
+      "id": "E17",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "vi",
+      "question": "Đà Lạt nằm ở độ cao bao nhiêu mét so với mực nước biển?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["1500 mét"],
+      "expected_files": ["dev_vietnam.md"]
+    },
+    {
+      "id": "E18",
+      "split": "heldout",
+      "group": "heldout-group",
+      "language": "en",
+      "question": "What is the sensitivity threshold of the thermal sensor array?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["0.05 millikelvin"],
+      "expected_files": ["heldout_headings.md"]
+    },
+    {
+      "id": "E19",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What is the population of the lunar colony?",
+      "expected_outcome": "ABSTAINED",
+      "expected_facts": [],
+      "expected_files": []
+    },
+    {
+      "id": "E20",
+      "split": "heldout",
+      "group": "heldout-group",
+      "language": "en",
+      "question": "What is the warp core coolant temperature?",
+      "expected_outcome": "ABSTAINED",
+      "expected_facts": [],
+      "expected_files": []
+    },
+    {
+      "id": "E21",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "zh",
+      "question": "火星基地主穹顶的直径是多少米？",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["120米"],
+      "expected_files": ["dev_han.md"]
+    },
+    {
+      "id": "E22",
+      "split": "heldout",
+      "group": "heldout-group",
+      "language": "en",
+      "question": "What fuel do backup generators operate on?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["biodiesel fuel"],
+      "expected_files": ["heldout_headings.md"]
+    },
+    {
+      "id": "E23",
+      "split": "dev",
+      "group": "dev-group",
+      "language": "en",
+      "question": "What is the emergency protocol code?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["Delta-77"],
+      "expected_files": ["heldout_adversarial.md"]
+    },
+    {
+      "id": "E24",
+      "split": "heldout",
+      "group": "heldout-group",
+      "language": "en",
+      "history": [
+        {"role": "user", "content": "What is the flight duration of Drone Alpha?"},
+        {"role": "assistant", "content": "The flight duration is 120 minutes."}
+      ],
+      "question": "According to the specifications, how long can Drone Alpha fly on a full battery charge?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": ["45 minutes"],
+      "expected_files": ["heldout_specs_a.md"]
+    }
+  ]
+}

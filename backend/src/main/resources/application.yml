@@ -85,6 +85,16 @@ ppv:
       lease-duration-minutes: ${PPV_RAG_LEASE_DURATION_MINUTES:15}
     retrieval:
       enabled: ${PPV_RAG_RETRIEVAL_ENABLED:false}
+    # P19-S19-2 — SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY; do not enable or deploy.
+    # Authority: docs/implementation/phase-19/owner-decision-s19-2-source-archival-only-2026-10-31.md.
+    # QA components also require the existing explicit test-scoped-execution control;
+    # qa.enabled alone cannot register routes or a generator/supervisor in normal startup.
+    qa:
+      enabled: ${PPV_RAG_QA_ENABLED:false}
+      model-path: ${PPV_RAG_QA_MODEL_PATH:rag-engine/models/Qwen3-4B-Q4_K_M.gguf}
+      threads: ${PPV_RAG_QA_THREADS:4}
+      context-tokens: ${PPV_RAG_QA_CONTEXT_TOKENS:4096}
+      max-generated-tokens: ${PPV_RAG_QA_MAX_GENERATED_TOKENS:768}
 
 
 vault:

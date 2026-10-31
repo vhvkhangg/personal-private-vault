@@ -53,6 +53,7 @@ public class RagRetrievalService implements RagRetrievalOperations {
     private final RagOriginalBytesStore ragOriginalBytesStore;
     private final RagRuntimeIdentity ragRuntimeIdentity;
     private final RagRetrievalCurrentAuthority currentAuthority;
+    private final org.springframework.beans.factory.ObjectProvider<com.vhvkhangg.personalprivatevault.rag.internal.application.qa.RagQaService> qaServiceProvider;
     private final boolean retrievalEnabled;
     private final boolean testScopedExecution;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -96,6 +97,7 @@ public class RagRetrievalService implements RagRetrievalOperations {
         }
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public RagRetrievalService(
             RagSourceRepository ragSourceRepository,
             RagExternalFileSourceRepository ragExternalFileSourceRepository,
@@ -109,6 +111,7 @@ public class RagRetrievalService implements RagRetrievalOperations {
             RagOriginalBytesStore ragOriginalBytesStore,
             RagRuntimeIdentity ragRuntimeIdentity,
             RagRetrievalCurrentAuthority currentAuthority,
+            org.springframework.beans.factory.ObjectProvider<com.vhvkhangg.personalprivatevault.rag.internal.application.qa.RagQaService> qaServiceProvider,
             @Value("${ppv.rag.retrieval.enabled:false}") boolean retrievalEnabled,
             @Value("${ppv.rag.test-scoped-execution:false}") boolean testScopedExecution
     ) {
@@ -124,8 +127,44 @@ public class RagRetrievalService implements RagRetrievalOperations {
         this.ragOriginalBytesStore = ragOriginalBytesStore;
         this.ragRuntimeIdentity = ragRuntimeIdentity;
         this.currentAuthority = currentAuthority;
+        this.qaServiceProvider = qaServiceProvider;
         this.retrievalEnabled = retrievalEnabled;
         this.testScopedExecution = testScopedExecution;
+    }
+
+    public RagRetrievalService(
+            RagSourceRepository ragSourceRepository,
+            RagExternalFileSourceRepository ragExternalFileSourceRepository,
+            RagIndexGenerationRepository ragIndexGenerationRepository,
+            RagDocumentChunkRepository ragDocumentChunkRepository,
+            RagRetrievalReaderRepository ragRetrievalReaderRepository,
+            RagRetrievalInspectionRepository ragRetrievalInspectionRepository,
+            RagDependencyRepository ragDependencyRepository,
+            RagRetrievalAuthority ragRetrievalAuthority,
+            RagQueryEmbeddingSupervisor ragQueryEmbeddingSupervisor,
+            RagOriginalBytesStore ragOriginalBytesStore,
+            RagRuntimeIdentity ragRuntimeIdentity,
+            RagRetrievalCurrentAuthority currentAuthority,
+            boolean retrievalEnabled,
+            boolean testScopedExecution
+    ) {
+        this(
+                ragSourceRepository,
+                ragExternalFileSourceRepository,
+                ragIndexGenerationRepository,
+                ragDocumentChunkRepository,
+                ragRetrievalReaderRepository,
+                ragRetrievalInspectionRepository,
+                ragDependencyRepository,
+                ragRetrievalAuthority,
+                ragQueryEmbeddingSupervisor,
+                ragOriginalBytesStore,
+                ragRuntimeIdentity,
+                currentAuthority,
+                null,
+                retrievalEnabled,
+                testScopedExecution
+        );
     }
 
     private boolean isEnabled() {
@@ -230,7 +269,8 @@ public class RagRetrievalService implements RagRetrievalOperations {
         var ctx = new AsyncSenderContext(command.requestId(), UUID.randomUUID(), asyncContext);
         boolean busy;
         synchronized(activeSenders) {
-            busy=!activeSenders.isEmpty();
+            var qaService = qaServiceProvider != null ? qaServiceProvider.getIfAvailable() : null;
+            busy = !activeSenders.isEmpty() || (qaService != null && qaService.hasActiveSender());
             if(!busy) activeSenders.put(command.requestId(),ctx);
         }
         if(busy) { handleAsyncFailure(asyncContext,new RagReaderBusyException()); return; }
@@ -389,6 +429,10 @@ public class RagRetrievalService implements RagRetrievalOperations {
         }
     }
 
+    public boolean hasSender(UUID reader) {
+        return activeSenders.containsKey(reader);
+    }
+
     public boolean isQuiescentReader(UUID reader) {
         var ctx=activeSenders.get(reader);
         return ctx!=null && ctx.producerReturned && ctx.completionLatch.getCount()==0
@@ -516,7 +560,7 @@ public class RagRetrievalService implements RagRetrievalOperations {
                 return new FailureResponse(status,ApiResponses.error(code,msg));
     }
 
-    private record AdmittedSourceTarget(
+    public record AdmittedSourceTarget(
             RagSource source,
             RagExternalFileSource fileSource,
             RagIndexGeneration generation,
@@ -524,12 +568,12 @@ public class RagRetrievalService implements RagRetrievalOperations {
             String relativePath
     ) {}
 
-    private record ResolvedDepTarget(
+    public record ResolvedDepTarget(
             RagSource source,
             RagExternalFileSource fileSource
     ) {}
 
-    private record PlanExecution(
+    public record PlanExecution(
             List<AdmittedSourceTarget> targets,
             Map<Long, ResolvedDepTarget> dependencies,
             Set<UUID> allReservedFileIds,
@@ -621,7 +665,7 @@ public class RagRetrievalService implements RagRetrievalOperations {
         }
     }
 
-    private PlanExecution prepareAndAdmit(RagRetrievalCommand command, UUID reservationToken) {
+    public PlanExecution prepareAndAdmit(RagRetrievalCommand command, UUID reservationToken) {
         validateCommand(command);
 
         int topK = command.topK() != null ? command.topK() : 5;
@@ -872,7 +916,11 @@ public class RagRetrievalService implements RagRetrievalOperations {
         }
     }
 
-    private List<RagRetrievalMatch> searchAndVerifyMatches(
+    public boolean hasActiveSender() {
+        return !activeSenders.isEmpty();
+    }
+
+    public List<RagRetrievalMatch> searchAndVerifyMatches(
             PlanExecution plan,
             String queryVectorString,
             int topK

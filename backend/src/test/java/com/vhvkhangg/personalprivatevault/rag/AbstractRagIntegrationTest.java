@@ -144,6 +144,32 @@ abstract class AbstractRagIntegrationTest extends AbstractWebIntegrationTest {
             return response;
         }
     }
+
+    protected java.net.http.HttpResponse<String> requestQaOverHttp(
+            com.vhvkhangg.personalprivatevault.rag.api.RagQaCommand command) throws Exception {
+        var json=new com.fasterxml.jackson.databind.ObjectMapper();
+        int port = retrievalHttpEnvironment.getRequiredProperty("local.server.port", Integer.class);
+        try (var client = java.net.http.HttpClient.newHttpClient()) {
+            var request = java.net.http.HttpRequest.newBuilder(java.net.URI.create(
+                            "http://127.0.0.1:" + port + "/api/v1/rag/qa"))
+                    .timeout(java.time.Duration.ofSeconds(120))
+                    .header("Authorization", bearerHeader()).header("Content-Type", "application/json")
+                    .POST(java.net.http.HttpRequest.BodyPublishers.ofString(json.writeValueAsString(command))).build();
+            return client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+        }
+    }
+
+    protected java.net.http.HttpResponse<String> requestQaCancelOverHttp(UUID requestId) throws Exception {
+        int port = retrievalHttpEnvironment.getRequiredProperty("local.server.port", Integer.class);
+        try (var client = java.net.http.HttpClient.newHttpClient()) {
+            var request = java.net.http.HttpRequest.newBuilder(java.net.URI.create(
+                            "http://127.0.0.1:" + port + "/api/v1/rag/qa/" + requestId + "/cancel"))
+                    .timeout(java.time.Duration.ofSeconds(10))
+                    .header("Authorization", bearerHeader())
+                    .POST(java.net.http.HttpRequest.BodyPublishers.noBody()).build();
+            return client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+        }
+    }
     /** Only the frozen SessionFactory-wide query measurement needs recovery coordination. */
     static class QueryCountInvocation implements InvocationInterceptor {
         @Override

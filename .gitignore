@@ -20,6 +20,7 @@ __pycache__/
 *.py[cod]
 .venv/
 .venv-d17/
+.venv-qa/
 venv/
 .pytest_cache/
 .mypy_cache/

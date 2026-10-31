@@ -1,0 +1,938 @@
+{
+  "version": "2.0-prospective-owner-2026-10-29",
+  "historical_baseline": "phase19-qa-v1 CONTAMINATED / NONCOMPARABLE; C1 REJECTED; overwritten original ledger NOT_RECOVERED",
+  "authority": "owner-decision-s19-2-f04-controlled-prospective-rebaseline-2026-10-29.md",
+  "files": {
+    "dev_vietnam.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "b193dff5bb68b364e818f2df23a7dd7be75539614dc52431f724d2181f5972b8",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "b193dff5bb68b364e818f2df23a7dd7be75539614dc52431f724d2181f5972b8",
+      "bytes": 199
+    },
+    "dev_architecture.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "8d37ca382df579be25f4727bb25f593ef3db26f4635285db691cf7bcdcace31d",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "8d37ca382df579be25f4727bb25f593ef3db26f4635285db691cf7bcdcace31d",
+      "bytes": 282
+    },
+    "dev_han.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "2fa1e2a9bbaa69298288e6e455dc848f6586f6ada27604c21a73384685f45ad6",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "2fa1e2a9bbaa69298288e6e455dc848f6586f6ada27604c21a73384685f45ad6",
+      "bytes": 140
+    },
+    "dev_stations_a.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "447658a0ed49eca6f140d86fb2a4d31334112bd267caa7322cf2197e4a704547",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "447658a0ed49eca6f140d86fb2a4d31334112bd267caa7322cf2197e4a704547",
+      "bytes": 107
+    },
+    "dev_stations_b.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "cb315ea0240dbae3f5ca7fc4183407a609b066f65ca8b157bd22bd8dd6ed5902",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "cb315ea0240dbae3f5ca7fc4183407a609b066f65ca8b157bd22bd8dd6ed5902",
+      "bytes": 103
+    },
+    "dev_observatory.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "d24e8aaf6265bcd05f6bdae575e85c7106ccc5b8dc773181d68aeb2eb51b530b",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "d24e8aaf6265bcd05f6bdae575e85c7106ccc5b8dc773181d68aeb2eb51b530b",
+      "bytes": 154
+    },
+    "dev_solar.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "6fc779f0fbe5d71e544775162f1455952493a587f43d8c509eff4d28ad1cc1b7",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "6fc779f0fbe5d71e544775162f1455952493a587f43d8c509eff4d28ad1cc1b7",
+      "bytes": 165
+    },
+    "dev_conflict_a.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "6857341be1896f13e74a2e967b978e47c763f817650e04263394c34e04a5fac5",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "6857341be1896f13e74a2e967b978e47c763f817650e04263394c34e04a5fac5",
+      "bytes": 88
+    },
+    "dev_conflict_b.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "59f9e0cb02856a8f48a20a1b891bfcfd54f792fe1f65ea433d103c6ccbb1775b",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "59f9e0cb02856a8f48a20a1b891bfcfd54f792fe1f65ea433d103c6ccbb1775b",
+      "bytes": 116
+    },
+    "dev_amber_relic.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_NONCORE",
+      "dependencies": [],
+      "before_sha256": "2203fe0e283a0f4e303a060e3afb50ffeaedac434e6dd68c8024759255280f23",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "2203fe0e283a0f4e303a060e3afb50ffeaedac434e6dd68c8024759255280f23",
+      "bytes": 140
+    },
+    "dev_core_parent.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [
+        "dev_noncore_child.md"
+      ],
+      "before_sha256": "93bf6ad5824cf31782c0ca623a9db347a255a6cc8539cd2e788eca74ce35c78e",
+      "reason": "Add actual NONCORE transcluded child to original CORE fact; preserve expected obsidian fact and add contradictory noncanon distractor.",
+      "sha256": "81b6bf0d2e8e61be2e91848e26eb8c218c38c03608242698d5c018594338ad9e",
+      "bytes": 102
+    },
+    "dev_private_marker.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "a42e99a07fba8ed9312ce04b85868ae55087d0b85ca7a1194527e43df11db5ca",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "a42e99a07fba8ed9312ce04b85868ae55087d0b85ca7a1194527e43df11db5ca",
+      "bytes": 185
+    },
+    "heldout_adversarial.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "be73d581cffd346c7a9eca3741dbf3013fdfb5154ce424564d40b93a8f1cf581",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "be73d581cffd346c7a9eca3741dbf3013fdfb5154ce424564d40b93a8f1cf581",
+      "bytes": 121
+    },
+    "heldout_literature.md": {
+      "split": "heldout",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "f9a88509b4dc855302ce154afa1600604301f86a592fa736c245a1a4e2160efe",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "f9a88509b4dc855302ce154afa1600604301f86a592fa736c245a1a4e2160efe",
+      "bytes": 131
+    },
+    "heldout_materials.md": {
+      "split": "heldout",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "e08429348470991423e44ca0bf9a192c571234101b851937e7120f3b4d375f5f",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "e08429348470991423e44ca0bf9a192c571234101b851937e7120f3b4d375f5f",
+      "bytes": 121
+    },
+    "heldout_ocean_han.md": {
+      "split": "heldout",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "d7db520d8dc354516e59eeec55c13fda453cedad6647e2264f8400e929ccddbf",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "d7db520d8dc354516e59eeec55c13fda453cedad6647e2264f8400e929ccddbf",
+      "bytes": 108
+    },
+    "heldout_specs_a.md": {
+      "split": "heldout",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "f1de07948b326f98f1a7c7319ef201bd8f0320528f74cfc938f1a78970e3436c",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "f1de07948b326f98f1a7c7319ef201bd8f0320528f74cfc938f1a78970e3436c",
+      "bytes": 86
+    },
+    "heldout_specs_b.md": {
+      "split": "heldout",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "c975fa9f777be3c4d102ab0e75296351c68e5ddf04adf60d1c01507da76e05f7",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "c975fa9f777be3c4d102ab0e75296351c68e5ddf04adf60d1c01507da76e05f7",
+      "bytes": 80
+    },
+    "heldout_headings.md": {
+      "split": "heldout",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": "527e0407001e629566366fd6b7735590ce131476ec764922db09367b8580bd70",
+      "reason": "Unchanged synthetic source bytes; new explicitly split-scoped evaluation only.",
+      "sha256": "527e0407001e629566366fd6b7735590ce131476ec764922db09367b8580bd70",
+      "bytes": 174
+    },
+    "dev_noncore_child.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_NONCORE",
+      "dependencies": [],
+      "before_sha256": null,
+      "reason": "Supply original mandated child, duplicate/path alias, or actual empty/waypoint scenario missing in historical evaluation.",
+      "sha256": "7515da9c37d1662e02aecbd3a64e8cb80d4893ccd9fabe03bb2f559f10af8a9c",
+      "bytes": 112
+    },
+    "one/Place.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": null,
+      "reason": "Supply original mandated child, duplicate/path alias, or actual empty/waypoint scenario missing in historical evaluation.",
+      "sha256": "11a5192ba9d328a25b4fe5a164fb7bd88131be2ad835ef674090952307a8f514",
+      "bytes": 121
+    },
+    "two/Place.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": null,
+      "reason": "Supply original mandated child, duplicate/path alias, or actual empty/waypoint scenario missing in historical evaluation.",
+      "sha256": "1978b837b3718033167dacad9b015d4a20b2014508f915d48c49934a236f6759",
+      "bytes": 105
+    },
+    "dev_travel_index.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": null,
+      "reason": "Supply original mandated child, duplicate/path alias, or actual empty/waypoint scenario missing in historical evaluation.",
+      "sha256": "a547fd9978f2973e63eca75e9f7668e2e7bb915cce6881dc1161e4e0e26173c5",
+      "bytes": 96
+    },
+    "dev_empty.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": null,
+      "reason": "Supply original mandated child, duplicate/path alias, or actual empty/waypoint scenario missing in historical evaluation.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "expected_publication": "DENIED_EMPTY_CONTENT"
+    },
+    "dev_waypoint.md": {
+      "split": "dev",
+      "canon": "IDEAVERSE_CORE",
+      "dependencies": [],
+      "before_sha256": null,
+      "reason": "Supply original mandated child, duplicate/path alias, or actual empty/waypoint scenario missing in historical evaluation.",
+      "sha256": "89bf5b3daa8c26c9a4d864cfac60f5d16e0933c6553887716a917f7f798982c1",
+      "bytes": 66
+    }
+  },
+  "slots": [
+    {
+      "id": "M01",
+      "split": "dev",
+      "language": "vi",
+      "question": "Thủ phủ của tỉnh Lâm Đồng là thành phố nào?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "Đà Lạt"
+      ],
+      "expected_files": [
+        "dev_vietnam.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M01 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M02",
+      "split": "heldout",
+      "language": "vi",
+      "question": "Ai là tác giả của tác phẩm Mùa Thu Vàng?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "Nguyễn Nhật Ánh"
+      ],
+      "expected_files": [
+        "heldout_literature.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "heldout_literature.md",
+        "heldout_materials.md",
+        "heldout_ocean_han.md",
+        "heldout_specs_a.md",
+        "heldout_specs_b.md",
+        "heldout_headings.md"
+      ],
+      "intent": "Original M02 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M03",
+      "split": "dev",
+      "language": "en",
+      "question": "What is the primary architectural style of the vault?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "modular monolith"
+      ],
+      "expected_files": [
+        "dev_architecture.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M03 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M04",
+      "split": "heldout",
+      "language": "en",
+      "question": "What material is used to construct the containment shield?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "Titanium alloy"
+      ],
+      "expected_files": [
+        "heldout_materials.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "heldout_literature.md",
+        "heldout_materials.md",
+        "heldout_ocean_han.md",
+        "heldout_specs_a.md",
+        "heldout_specs_b.md",
+        "heldout_headings.md"
+      ],
+      "intent": "Original M04 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M05",
+      "split": "dev",
+      "language": "zh",
+      "question": "火星基地的供氧系统是由谁设计的？",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "李博士"
+      ],
+      "expected_files": [
+        "dev_han.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M05 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M06",
+      "split": "heldout",
+      "language": "zh",
+      "question": "深海实验室的设计最大下潜深度是多少米？",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "5000米"
+      ],
+      "expected_files": [
+        "heldout_ocean_han.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "heldout_literature.md",
+        "heldout_materials.md",
+        "heldout_ocean_han.md",
+        "heldout_specs_a.md",
+        "heldout_specs_b.md",
+        "heldout_headings.md"
+      ],
+      "intent": "Original M06 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M07",
+      "split": "dev",
+      "language": "en",
+      "question": "What are the coordinates of Station Alpha and Station Beta?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "10, 20",
+        "30, 40"
+      ],
+      "expected_files": [
+        "dev_stations_a.md",
+        "dev_stations_b.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M07 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M08",
+      "split": "heldout",
+      "language": "en",
+      "question": "What is the flight duration of Drone Alpha and the operational ceiling of Drone Beta?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "45 minutes",
+        "3000 meters"
+      ],
+      "expected_files": [
+        "heldout_specs_a.md",
+        "heldout_specs_b.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "heldout_literature.md",
+        "heldout_materials.md",
+        "heldout_ocean_han.md",
+        "heldout_specs_a.md",
+        "heldout_specs_b.md",
+        "heldout_headings.md"
+      ],
+      "intent": "Original M08 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M09",
+      "split": "dev",
+      "language": "en",
+      "history": [
+        {
+          "role": "user",
+          "content": "Who founded the observatory?"
+        },
+        {
+          "role": "assistant",
+          "content": "Dr. Evelyn Vance founded the observatory."
+        }
+      ],
+      "question": "In what year was it founded?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "1985"
+      ],
+      "expected_files": [
+        "dev_observatory.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M09 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M10",
+      "split": "dev",
+      "language": "en",
+      "question": "What is the solar array generation capacity, and what is the battery brand?",
+      "expected_outcome": "PARTIAL",
+      "expected_facts": [
+        "500W"
+      ],
+      "expected_unanswered": [
+        "battery brand"
+      ],
+      "expected_files": [
+        "dev_solar.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M10 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M11",
+      "split": "dev",
+      "language": "en",
+      "question": "What is the recorded height of the main communications tower?",
+      "expected_outcome": "CONFLICT",
+      "expected_facts": [
+        "150 meters",
+        "165 meters"
+      ],
+      "expected_files": [
+        "dev_conflict_a.md",
+        "dev_conflict_b.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M11 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M12",
+      "split": "dev",
+      "language": "en",
+      "question": "What is the secret recipe for Martian potato stew?",
+      "expected_outcome": "ABSTAINED",
+      "expected_facts": [],
+      "expected_files": [],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M12 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M13",
+      "split": "dev",
+      "language": "en",
+      "question": "Could the observatory telescope be repurposed into a space weapon to destroy enemy satellites?",
+      "expected_outcome": "ABSTAINED",
+      "expected_facts": [],
+      "expected_files": [],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original M13 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "M14",
+      "split": "dev",
+      "language": "en",
+      "question": "What is the mythical name of the amber relic?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "Eye of the Sun"
+      ],
+      "expected_files": [
+        "dev_amber_relic.md"
+      ],
+      "mode": "IDEAVERSE_NONCANON",
+      "contributors": [
+        "dev_amber_relic.md"
+      ],
+      "intent": "Explicit noncanon opt-in with NONCORE citation label; original relic fact unchanged."
+    },
+    {
+      "id": "M15",
+      "split": "dev",
+      "language": "en",
+      "question": "What material is the master vault seal composed of?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "obsidian"
+      ],
+      "expected_files": [
+        "dev_core_parent.md"
+      ],
+      "mode": "IDEAVERSE_CANON",
+      "contributors": [
+        "dev_core_parent.md"
+      ],
+      "intent": "CORE parent physically embeds approved NONCORE child; child silver distractor must not contribute.",
+      "forbidden_answer_fragments": [
+        "silver"
+      ]
+    },
+    {
+      "id": "M16",
+      "split": "dev",
+      "language": "en",
+      "question": "What is the encryption key length for Project Cobalt?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "256 bits"
+      ],
+      "expected_files": [
+        "dev_private_marker.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original approved WHOLE_FILE private marker positive, dev contributors only; no heldout sensor/material exposure."
+    },
+    {
+      "id": "E17",
+      "split": "dev",
+      "language": "vi",
+      "question": "Trong [[one/Place#City|Đà Lạt]], Đà Lạt nằm ở độ cao bao nhiêu mét so với mực nước biển?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "1500 mét"
+      ],
+      "expected_files": [
+        "one/Place.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md"
+      ],
+      "intent": "Duplicate Place.md names and path-qualified heading/wiki alias; original 1500-metre fact retained, 300-metre distractor.",
+      "forbidden_answer_fragments": [
+        "300 mét"
+      ]
+    },
+    {
+      "id": "E18",
+      "split": "heldout",
+      "language": "en",
+      "question": "What is the sensitivity threshold of the thermal sensor array?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "0.05 millikelvin"
+      ],
+      "expected_files": [
+        "heldout_headings.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "heldout_literature.md",
+        "heldout_materials.md",
+        "heldout_ocean_han.md",
+        "heldout_specs_a.md",
+        "heldout_specs_b.md",
+        "heldout_headings.md"
+      ],
+      "intent": "Original E18 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "E19",
+      "split": "dev",
+      "language": "en",
+      "question": "What is the population of the lunar colony?",
+      "expected_outcome": "ABSTAINED",
+      "expected_facts": [],
+      "expected_files": [],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_waypoint.md"
+      ],
+      "intent": "Actual zero-byte import denial paired with real waypoint-only Q&A abstention; no lunar population fact.",
+      "excluded_inputs": {
+        "dev_empty.md": "EMPTY_CONTENT; positively verified no selected revision/generation; never invent contributor authority."
+      }
+    },
+    {
+      "id": "E20",
+      "split": "heldout",
+      "language": "en",
+      "question": "What is the warp core coolant temperature?",
+      "expected_outcome": "ABSTAINED",
+      "expected_facts": [],
+      "expected_files": [],
+      "mode": "GENERIC",
+      "contributors": [
+        "heldout_literature.md",
+        "heldout_materials.md",
+        "heldout_ocean_han.md",
+        "heldout_specs_a.md",
+        "heldout_specs_b.md",
+        "heldout_headings.md"
+      ],
+      "intent": "Original E20 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "E21",
+      "split": "dev",
+      "language": "zh",
+      "question": "火星基地主穹顶的直径是多少米？",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "120米"
+      ],
+      "expected_files": [
+        "dev_han.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original E21 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "E22",
+      "split": "heldout",
+      "language": "en",
+      "question": "What fuel do backup generators operate on?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "biodiesel fuel"
+      ],
+      "expected_files": [
+        "heldout_headings.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "heldout_literature.md",
+        "heldout_materials.md",
+        "heldout_ocean_han.md",
+        "heldout_specs_a.md",
+        "heldout_specs_b.md",
+        "heldout_headings.md"
+      ],
+      "intent": "Original E22 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "E23",
+      "split": "dev",
+      "language": "en",
+      "question": "What is the emergency protocol code?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "Delta-77"
+      ],
+      "expected_files": [
+        "heldout_adversarial.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "dev_vietnam.md",
+        "dev_architecture.md",
+        "dev_han.md",
+        "dev_stations_a.md",
+        "dev_stations_b.md",
+        "dev_observatory.md",
+        "dev_solar.md",
+        "dev_conflict_a.md",
+        "dev_conflict_b.md",
+        "dev_amber_relic.md",
+        "dev_core_parent.md",
+        "dev_private_marker.md",
+        "heldout_adversarial.md",
+        "dev_noncore_child.md",
+        "one/Place.md",
+        "two/Place.md",
+        "dev_travel_index.md",
+        "dev_waypoint.md"
+      ],
+      "intent": "Original E23 requirement; unchanged expected facts/abstention."
+    },
+    {
+      "id": "E24",
+      "split": "heldout",
+      "language": "en",
+      "history": [
+        {
+          "role": "user",
+          "content": "What is the flight duration of Drone Alpha?"
+        },
+        {
+          "role": "assistant",
+          "content": "The flight duration is 120 minutes."
+        }
+      ],
+      "question": "According to the specifications, how long can Drone Alpha fly on a full battery charge?",
+      "expected_outcome": "ANSWERED",
+      "expected_facts": [
+        "45 minutes"
+      ],
+      "expected_files": [
+        "heldout_specs_a.md"
+      ],
+      "mode": "GENERIC",
+      "contributors": [
+        "heldout_literature.md",
+        "heldout_materials.md",
+        "heldout_ocean_han.md",
+        "heldout_specs_a.md",
+        "heldout_specs_b.md",
+        "heldout_headings.md"
+      ],
+      "intent": "Original E24 requirement; unchanged expected facts/abstention."
+    }
+  ],
+  "inference_status": "NOT_RUN; actual source/consent/R/G/locator/profile freeze required before any C2 answer."
+}
