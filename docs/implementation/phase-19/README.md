@@ -1,5 +1,7 @@
 # Phase 19 — Grounded Markdown Q&A: status and preparation dossier
 
+> **CURRENT STATUS — 2026-10-30:** [Owner suspension of S19-2 and further RAG implementation](owner-decision-s19-2-suspension-2026-10-30.md): `S19-2_SUSPENDED_BY_OWNER / BLOCKED / NOT_ACCEPTED`; canonical [`ACTIVE.md`](../handoffs/ACTIVE.md) = `NO_ACTIVE_HANDOFF`. P19-S19-1 remains independently accepted and Owner-published. **Phase 19 is unfinished/on hold**, not CLOSED or ACCEPTED; external indexing INACTIVE. The older S19-2 approval/next-gate passages below document their issuance state and are no longer operational next steps.
+
 **Current post-publication status (2026-10-28):** **S19-1 COMPLETE / INDEPENDENTLY ACCEPTED / OWNER-PUBLISHED** at [`5e84e709`](https://github.com/vhvkhangg/personal-private-vault/commit/5e84e7096137b15528bb09114d7358f719c7bdc7), per [S19-1 closeout](s19-1-owner-publication-closeout-2026-10-28.md) and [independent final review](reviews/2026-10-28-s19-1-independent-codex-corrective-attempt-4-final-review.md). **Phase 19 remains OPEN; S19-2 is separately OWNER_APPROVED for a Codex handoff, while S19-3+ and indexing activation remain NOT_AUTHORIZED.** [ACTIVE](../handoffs/ACTIVE.md) returns to `NO_ACTIVE_HANDOFF` by this subsequent docs-only closeout. The 2026-10-27 preparation-era statements below are historical and do not supersede this publication status.
 
 **Preparation record date (historical):** 2026-10-27  
@@ -11,7 +13,7 @@
 
 ## Read in order
 
-- **Current implementation scope:** [S19-2 explicit Owner approval](owner-authorization-s19-2-2026-10-28.md) — Codex handoff pending; this is not implementation acceptance.
+- **Current governing disposition:** [S19-2 Owner suspension](owner-decision-s19-2-suspension-2026-10-30.md) — no active implementation or review, M10 FAIL, C2 NOT_QUALIFIED, Phase 19 on hold. The 2026-10-28 [S19-2 original Owner approval](owner-authorization-s19-2-2026-10-28.md) is historical.
 - **Current delivery record:** [S19-1 Owner publication closeout](s19-1-owner-publication-closeout-2026-10-28.md), [accepted independent final review](reviews/2026-10-28-s19-1-independent-codex-corrective-attempt-4-final-review.md), and [historical executable handoff](s19-1-executable-handoff-2026-10-27.md).
 
 1. [Owner decisions and product scope](owner-decisions-and-scope.md) — accepted behaviors, out-of-scope features and separate Ideaverse-module future.
