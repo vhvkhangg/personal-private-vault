@@ -1,0 +1,881 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "SAD-01 · Spring module import map",
+    "output": "docs/architecture/diagrams/interactive/spring/html/spring-modules.html",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/vhvkhangg/personal-private-vault.git",
+      "revision": "29ffc45c4a7079dfb4e155ee55590ff8fca6dfb0",
+      "link_mode": "local-only"
+    },
+    "views": [
+      {
+        "id": "search-contracts",
+        "label": "Search contracts",
+        "focus": [
+          "search"
+        ],
+        "note": "Directed arrows are observed explicit Java imports."
+      },
+      {
+        "id": "shared-core",
+        "label": "Shared core",
+        "focus": [
+          "vault",
+          "reference"
+        ]
+      },
+      {
+        "id": "knowledge-imports",
+        "label": "Knowledge and imports",
+        "focus": [
+          "knowledge",
+          "feed",
+          "importdata"
+        ]
+      },
+      {
+        "id": "independent",
+        "label": "Independent owners",
+        "focus": [
+          "authentication",
+          "journal",
+          "portability"
+        ]
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "account",
+      "type": "backend",
+      "label": "account",
+      "sublabel": "account / relationship",
+      "pos": [
+        40,
+        450
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/account/package-info.java",
+          "line": 36,
+          "end_line": 44,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/account/internal/application/ExternalAccountService.java",
+          "line": 12,
+          "end_line": 15,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/account/account/package-info.java",
+          "line": 1,
+          "end_line": 2,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "authentication",
+      "type": "security",
+      "label": "authentication",
+      "sublabel": "bootstrap / session / PIN",
+      "pos": [
+        40,
+        900
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/package-info.java",
+          "line": 33,
+          "end_line": 34,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/bootstrap/package-info.java",
+          "line": 1,
+          "end_line": 3,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "collection",
+      "type": "backend",
+      "label": "collection",
+      "sublabel": "api / search facade",
+      "pos": [
+        680,
+        245
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/collection/package-info.java",
+          "line": 29,
+          "end_line": 44,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/collection/music/internal/application/MusicService.java",
+          "line": 15,
+          "end_line": 19,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/collection/api/package-info.java",
+          "line": 1,
+          "end_line": 2,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "feed",
+      "type": "backend",
+      "label": "feed",
+      "sublabel": "resource / conversion",
+      "pos": [
+        680,
+        655
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/feed/package-info.java",
+          "line": 35,
+          "end_line": 42,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/feed/internal/application/SavedResourceConversionService.java",
+          "line": 11,
+          "end_line": 17,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/feed/resource/package-info.java",
+          "line": 1,
+          "end_line": 2,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "fiction",
+      "type": "backend",
+      "label": "fiction",
+      "sublabel": "fiction / genre / search",
+      "pos": [
+        1000,
+        245
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/fiction/package-info.java",
+          "line": 36,
+          "end_line": 49,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/fiction/internal/application/FictionService.java",
+          "line": 18,
+          "end_line": 23,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/fiction/fiction/package-info.java",
+          "line": 1,
+          "end_line": 3,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "film",
+      "type": "backend",
+      "label": "film",
+      "sublabel": "film / credit / search",
+      "pos": [
+        360,
+        450
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/film/package-info.java",
+          "line": 39,
+          "end_line": 51,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/film/internal/application/FilmService.java",
+          "line": 20,
+          "end_line": 24,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/film/film/package-info.java",
+          "line": 1,
+          "end_line": 3,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "type": "backend",
+      "label": "finance",
+      "sublabel": "wallet / transaction",
+      "pos": [
+        40,
+        245
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/finance/package-info.java",
+          "line": 41,
+          "end_line": 45,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/finance/internal/application/SubscriptionService.java",
+          "line": 19,
+          "end_line": 19,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/finance/wallet/package-info.java",
+          "line": 1,
+          "end_line": 5,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "importdata",
+      "type": "backend",
+      "label": "importdata",
+      "sublabel": "job",
+      "pos": [
+        360,
+        655
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/importdata/package-info.java",
+          "line": 33,
+          "end_line": 39,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/importdata/internal/application/ImportJobService.java",
+          "line": 26,
+          "end_line": 45,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/importdata/job/package-info.java",
+          "line": 1,
+          "end_line": 2,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "journal",
+      "type": "backend",
+      "label": "journal",
+      "sublabel": "diary",
+      "pos": [
+        360,
+        900
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/journal/package-info.java",
+          "line": 31,
+          "end_line": 32,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/journal/diary/package-info.java",
+          "line": 1,
+          "end_line": 5,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "knowledge",
+      "type": "backend",
+      "label": "knowledge",
+      "sublabel": "api / search facade",
+      "pos": [
+        40,
+        655
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/knowledge/package-info.java",
+          "line": 31,
+          "end_line": 49,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/knowledge/study/internal/application/StudyItemService.java",
+          "line": 3,
+          "end_line": 23,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/knowledge/api/package-info.java",
+          "line": 1,
+          "end_line": 2,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "location",
+      "type": "backend",
+      "label": "location",
+      "sublabel": "location / address",
+      "pos": [
+        1000,
+        40
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/location/package-info.java",
+          "line": 41,
+          "end_line": 49,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/location/internal/application/BrandService.java",
+          "line": 11,
+          "end_line": 14,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/location/location/package-info.java",
+          "line": 1,
+          "end_line": 2,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "media",
+      "type": "backend",
+      "label": "media",
+      "sublabel": "image / album / search",
+      "pos": [
+        1000,
+        450
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/package-info.java",
+          "line": 33,
+          "end_line": 39,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/AlbumService.java",
+          "line": 12,
+          "end_line": 14,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/image/package-info.java",
+          "line": 1,
+          "end_line": 2,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "people",
+      "type": "backend",
+      "label": "people",
+      "sublabel": "person / group / search",
+      "pos": [
+        360,
+        245
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/people/package-info.java",
+          "line": 34,
+          "end_line": 44,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/people/internal/application/PersonService.java",
+          "line": 13,
+          "end_line": 16,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/people/person/package-info.java",
+          "line": 1,
+          "end_line": 3,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "personal",
+      "type": "backend",
+      "label": "personal",
+      "sublabel": "profile",
+      "pos": [
+        680,
+        40
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/personal/package-info.java",
+          "line": 32,
+          "end_line": 38,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/personal/internal/application/PersonalProfileService.java",
+          "line": 3,
+          "end_line": 16,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/personal/profile/package-info.java",
+          "line": 1,
+          "end_line": 5,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "portability",
+      "type": "backend",
+      "label": "portability",
+      "sublabel": "internal HTTP + JDBC",
+      "pos": [
+        680,
+        900
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/portability/package-info.java",
+          "line": 1,
+          "end_line": 5,
+          "label": "Module descriptor"
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "type": "backend",
+      "label": "reference",
+      "sublabel": "catalog / enums / view",
+      "pos": [
+        360,
+        40
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/reference/package-info.java",
+          "line": 37,
+          "end_line": 38,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/reference/catalog/package-info.java",
+          "line": 1,
+          "end_line": 3,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "search",
+      "type": "backend",
+      "label": "search",
+      "sublabel": "query / view",
+      "pos": [
+        680,
+        450
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/search/package-info.java",
+          "line": 32,
+          "end_line": 47,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/search/internal/application/GlobalSearchService.java",
+          "line": 3,
+          "end_line": 30,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/search/query/package-info.java",
+          "line": 1,
+          "end_line": 3,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "type": "backend",
+      "label": "settings",
+      "sublabel": "configuration",
+      "pos": [
+        40,
+        40
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/settings/package-info.java",
+          "line": 33,
+          "end_line": 36,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/settings/internal/application/configuration/AppSettingsService.java",
+          "line": 3,
+          "end_line": 3,
+          "label": "Observed public imports"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/settings/configuration/package-info.java",
+          "line": 1,
+          "end_line": 3,
+          "label": "Named interface"
+        }
+      ]
+    },
+    {
+      "id": "vault",
+      "type": "backend",
+      "label": "vault",
+      "sublabel": "entry / metadata / search",
+      "pos": [
+        1000,
+        655
+      ],
+      "size": [
+        190,
+        78
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/vault/package-info.java",
+          "line": 39,
+          "end_line": 40,
+          "label": "Module descriptor"
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/vault/entry/package-info.java",
+          "line": 1,
+          "end_line": 3,
+          "label": "Named interface"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "account-to-reference",
+      "from": "account",
+      "to": "reference"
+    },
+    {
+      "id": "account-to-vault",
+      "from": "account",
+      "to": "vault"
+    },
+    {
+      "id": "collection-to-people",
+      "from": "collection",
+      "to": "people"
+    },
+    {
+      "id": "collection-to-reference",
+      "from": "collection",
+      "to": "reference"
+    },
+    {
+      "id": "collection-to-vault",
+      "from": "collection",
+      "to": "vault"
+    },
+    {
+      "id": "feed-to-knowledge",
+      "from": "feed",
+      "to": "knowledge"
+    },
+    {
+      "id": "feed-to-vault",
+      "from": "feed",
+      "to": "vault"
+    },
+    {
+      "id": "fiction-to-people",
+      "from": "fiction",
+      "to": "people"
+    },
+    {
+      "id": "fiction-to-reference",
+      "from": "fiction",
+      "to": "reference"
+    },
+    {
+      "id": "fiction-to-vault",
+      "from": "fiction",
+      "to": "vault"
+    },
+    {
+      "id": "film-to-people",
+      "from": "film",
+      "to": "people"
+    },
+    {
+      "id": "film-to-reference",
+      "from": "film",
+      "to": "reference"
+    },
+    {
+      "id": "film-to-vault",
+      "from": "film",
+      "to": "vault"
+    },
+    {
+      "id": "finance-to-reference",
+      "from": "finance",
+      "to": "reference"
+    },
+    {
+      "id": "importdata-to-knowledge",
+      "from": "importdata",
+      "to": "knowledge"
+    },
+    {
+      "id": "importdata-to-vault",
+      "from": "importdata",
+      "to": "vault"
+    },
+    {
+      "id": "knowledge-to-account",
+      "from": "knowledge",
+      "to": "account"
+    },
+    {
+      "id": "knowledge-to-people",
+      "from": "knowledge",
+      "to": "people"
+    },
+    {
+      "id": "knowledge-to-reference",
+      "from": "knowledge",
+      "to": "reference"
+    },
+    {
+      "id": "knowledge-to-vault",
+      "from": "knowledge",
+      "to": "vault"
+    },
+    {
+      "id": "location-to-reference",
+      "from": "location",
+      "to": "reference"
+    },
+    {
+      "id": "location-to-vault",
+      "from": "location",
+      "to": "vault"
+    },
+    {
+      "id": "media-to-vault",
+      "from": "media",
+      "to": "vault"
+    },
+    {
+      "id": "people-to-reference",
+      "from": "people",
+      "to": "reference"
+    },
+    {
+      "id": "people-to-vault",
+      "from": "people",
+      "to": "vault"
+    },
+    {
+      "id": "personal-to-location",
+      "from": "personal",
+      "to": "location"
+    },
+    {
+      "id": "personal-to-reference",
+      "from": "personal",
+      "to": "reference"
+    },
+    {
+      "id": "search-to-account",
+      "from": "search",
+      "to": "account"
+    },
+    {
+      "id": "search-to-collection",
+      "from": "search",
+      "to": "collection"
+    },
+    {
+      "id": "search-to-feed",
+      "from": "search",
+      "to": "feed"
+    },
+    {
+      "id": "search-to-fiction",
+      "from": "search",
+      "to": "fiction"
+    },
+    {
+      "id": "search-to-film",
+      "from": "search",
+      "to": "film"
+    },
+    {
+      "id": "search-to-knowledge",
+      "from": "search",
+      "to": "knowledge"
+    },
+    {
+      "id": "search-to-location",
+      "from": "search",
+      "to": "location"
+    },
+    {
+      "id": "search-to-media",
+      "from": "search",
+      "to": "media"
+    },
+    {
+      "id": "search-to-people",
+      "from": "search",
+      "to": "people"
+    },
+    {
+      "id": "search-to-vault",
+      "from": "search",
+      "to": "vault"
+    },
+    {
+      "id": "settings-to-reference",
+      "from": "settings",
+      "to": "reference"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "19 owners · 38 observed edges",
+      "items": [
+        "A → B means Java in owner A explicitly imports a public type from B.",
+        "Nested knowledge/collection packages roll up to their top-level owner."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "One Spring application",
+      "items": [
+        "Boxes are module owners, not deployed services.",
+        "Sublabels show selected named interfaces; the linked index has exact descriptors and import evidence."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "How to read",
+      "items": [
+        "Allowed-only dependencies are omitted. No arrow means no explicit import in this scope.",
+        "Portability uses JDBC without importing another application module. Feed arrows do not claim a scheduled crawler."
+      ]
+    }
+  ]
+}

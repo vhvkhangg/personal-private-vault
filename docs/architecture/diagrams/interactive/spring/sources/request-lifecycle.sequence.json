@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "SAD-02 · Authenticated image metadata request",
+    "output": "docs/architecture/diagrams/interactive/spring/html/request-lifecycle.html",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/vhvkhangg/personal-private-vault.git",
+      "revision": "29ffc45c4a7079dfb4e155ee55590ff8fca6dfb0",
+      "link_mode": "local-only"
+    }
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "external",
+      "label": "Client",
+      "sublabel": "generic API caller",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/web/controller/ImageController.java",
+          "line": 187,
+          "end_line": 192
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "type": "security",
+      "label": "Security chain",
+      "sublabel": "Spring resource server",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/infrastructure/security/SecurityConfiguration.java",
+          "line": 58,
+          "end_line": 64
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/infrastructure/security/SecurityConfiguration.java",
+          "line": 73,
+          "end_line": 128
+        }
+      ]
+    },
+    {
+      "id": "controller",
+      "type": "backend",
+      "label": "ImageController",
+      "sublabel": "HTTP / DTO mapper",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/web/controller/ImageController.java",
+          "line": 187,
+          "end_line": 192
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/ApiResponse.java",
+          "line": 10,
+          "end_line": 23
+        }
+      ]
+    },
+    {
+      "id": "service",
+      "type": "backend",
+      "label": "ImageService",
+      "sublabel": "ImageOperations",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/ImageService.java",
+          "line": 142,
+          "end_line": 150
+        }
+      ]
+    },
+    {
+      "id": "repository",
+      "type": "backend",
+      "label": "ImageRepository",
+      "sublabel": "module-owned JPA",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/infrastructure/persistence/ImageRepository.java",
+          "line": 1,
+          "end_line": 23
+        }
+      ]
+    },
+    {
+      "id": "postgres",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "images table",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/domain/Image.java",
+          "line": 18,
+          "end_line": 40
+        },
+        {
+          "path": "backend/src/main/resources/application.yml",
+          "line": 3,
+          "end_line": 17
+        }
+      ]
+    },
+    {
+      "id": "advice",
+      "type": "backend",
+      "label": "Media advice",
+      "sublabel": "MVC exception mapping",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/web/advice/MediaExceptionAdvice.java",
+          "line": 17,
+          "end_line": 42
+        }
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "from": 145,
+      "to": 605,
+      "label": "Authenticated read · source-traced representative route"
+    },
+    {
+      "from": 635,
+      "to": 760,
+      "label": "Alternative · missing or invalid bearer token"
+    },
+    {
+      "from": 790,
+      "to": 1015,
+      "label": "Alternative · repository returned no image"
+    }
+  ],
+  "messages": [
+    {
+      "id": "request",
+      "from": "client",
+      "to": "security",
+      "y": 170,
+      "label": "GET /api/v1/images/{id}",
+      "variant": "emphasis"
+    },
+    {
+      "id": "allow",
+      "from": "security",
+      "to": "controller",
+      "y": 220,
+      "label": "Authenticated request",
+      "variant": "security",
+      "note": "HS256 JWT; issuer and time validation."
+    },
+    {
+      "id": "find-image",
+      "from": "controller",
+      "to": "service",
+      "y": 300,
+      "label": "findById(id)",
+      "variant": "emphasis",
+      "note": "Read-only service transaction."
+    },
+    {
+      "id": "repository-call",
+      "from": "service",
+      "to": "repository",
+      "y": 365,
+      "label": "findById(id)",
+      "variant": "default"
+    },
+    {
+      "id": "database-load",
+      "from": "repository",
+      "to": "postgres",
+      "y": 405,
+      "label": "JPA load by primary key",
+      "variant": "default"
+    },
+    {
+      "id": "entity-row",
+      "from": "postgres",
+      "to": "repository",
+      "y": 445,
+      "label": "Image row",
+      "variant": "return"
+    },
+    {
+      "id": "optional-image",
+      "from": "repository",
+      "to": "service",
+      "y": 485,
+      "label": "Optional<Image>",
+      "variant": "return"
+    },
+    {
+      "id": "view",
+      "from": "service",
+      "to": "controller",
+      "y": 525,
+      "label": "ImageView",
+      "variant": "return"
+    },
+    {
+      "id": "response",
+      "from": "controller",
+      "to": "client",
+      "y": 565,
+      "label": "200 · ApiResponse<ImageResponse>",
+      "variant": "return"
+    },
+    {
+      "id": "denied-request",
+      "from": "client",
+      "to": "security",
+      "y": 665,
+      "label": "Same protected route",
+      "variant": "default"
+    },
+    {
+      "id": "denied",
+      "from": "security",
+      "to": "client",
+      "y": 715,
+      "label": "401 · AUTHENTICATION_REQUIRED",
+      "variant": "return"
+    },
+    {
+      "id": "no-row",
+      "from": "repository",
+      "to": "service",
+      "y": 825,
+      "label": "Optional.empty",
+      "variant": "return"
+    },
+    {
+      "id": "not-found",
+      "from": "service",
+      "to": "advice",
+      "y": 875,
+      "label": "ImageNotFoundException",
+      "variant": "return",
+      "note": "Exception unwinds; Spring MVC selects advice."
+    },
+    {
+      "id": "error-envelope",
+      "from": "advice",
+      "to": "client",
+      "y": 965,
+      "label": "404 · IMAGE_NOT_FOUND",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Successful read",
+      "items": [
+        "Controller → ImageOperations → ImageService → owner-local repository.",
+        "The service returns ImageView; the controller maps it to ImageResponse in the shared data/error/meta envelope."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Denied and error paths",
+      "items": [
+        "401 stops before the controller. The missing-row alternative starts after the same repository lookup.",
+        "Spring MVC dispatch and JPA row loading are framework-inferred steps supported by project configuration, not a measured trace."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Transaction scope",
+      "items": [
+        "Only ImageService.findById is marked read-only here. The HTTP request has no invented global transaction.",
+        "This is a metadata read; binary transfer is a separate endpoint."
+      ]
+    }
+  ]
+}

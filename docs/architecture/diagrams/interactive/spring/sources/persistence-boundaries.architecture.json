@@ -1,0 +1,488 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "SAD-04 · Spring persistence and side effects",
+    "output": "docs/architecture/diagrams/interactive/spring/html/persistence-boundaries.html",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/vhvkhangg/personal-private-vault.git",
+      "revision": "29ffc45c4a7079dfb4e155ee55590ff8fca6dfb0",
+      "link_mode": "local-only"
+    },
+    "views": [
+      {
+        "id": "metadata-write",
+        "label": "Metadata transaction",
+        "focus": [
+          "image-create",
+          "media-jpa",
+          "vault-api",
+          "vault-jpa"
+        ]
+      },
+      {
+        "id": "upload-boundary",
+        "label": "Optional upload",
+        "focus": [
+          "upload",
+          "spool",
+          "s3-adapter",
+          "objects"
+        ]
+      },
+      {
+        "id": "snapshot-read",
+        "label": "JDBC export",
+        "focus": [
+          "snapshot",
+          "postgres",
+          "zip"
+        ]
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "upload",
+      "type": "backend",
+      "label": "Upload service",
+      "sublabel": "outside active transaction",
+      "pos": [
+        40,
+        340
+      ],
+      "size": [
+        210,
+        80
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/storage/ImageUploadService.java",
+          "line": 45,
+          "end_line": 118
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/storage/ImageUploadService.java",
+          "line": 121,
+          "end_line": 173
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/storage/ImageUploadService.java",
+          "line": 176,
+          "end_line": 193
+        }
+      ]
+    },
+    {
+      "id": "spool",
+      "type": "database",
+      "label": "Temporary file",
+      "sublabel": "size + SHA-256; cleanup",
+      "pos": [
+        40,
+        600
+      ],
+      "size": [
+        210,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/storage/ImageUploadService.java",
+          "line": 71,
+          "end_line": 101
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/storage/ImageUploadService.java",
+          "line": 164,
+          "end_line": 173
+        }
+      ]
+    },
+    {
+      "id": "s3-adapter",
+      "type": "backend",
+      "label": "S3 adapter",
+      "sublabel": "enabled property only",
+      "pos": [
+        40,
+        100
+      ],
+      "size": [
+        210,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/infrastructure/storage/MediaStorageConfiguration.java",
+          "line": 21,
+          "end_line": 52
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/infrastructure/storage/S3MediaStorageAdapter.java",
+          "line": 30,
+          "end_line": 44
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/infrastructure/storage/S3MediaStorageAdapter.java",
+          "line": 74,
+          "end_line": 109
+        }
+      ],
+      "tag": "Optional"
+    },
+    {
+      "id": "objects",
+      "type": "cloud",
+      "label": "Object storage",
+      "sublabel": "S3-compatible binary store",
+      "pos": [
+        370,
+        100
+      ],
+      "size": [
+        210,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/infrastructure/storage/S3MediaStorageAdapter.java",
+          "line": 30,
+          "end_line": 44
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/infrastructure/storage/S3MediaStorageAdapter.java",
+          "line": 74,
+          "end_line": 109
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/infrastructure/storage/MediaStorageConfiguration.java",
+          "line": 21,
+          "end_line": 46
+        }
+      ],
+      "tag": "Deployment unspecified"
+    },
+    {
+      "id": "image-create",
+      "type": "backend",
+      "label": "ImageService.create",
+      "sublabel": "owns metadata transaction",
+      "pos": [
+        650,
+        340
+      ],
+      "size": [
+        210,
+        80
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/ImageService.java",
+          "line": 33,
+          "end_line": 98
+        }
+      ]
+    },
+    {
+      "id": "media-jpa",
+      "type": "backend",
+      "label": "Media-owned JPA",
+      "sublabel": "ImageRepository / Image",
+      "pos": [
+        980,
+        340
+      ],
+      "size": [
+        210,
+        80
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/infrastructure/persistence/ImageRepository.java",
+          "line": 1,
+          "end_line": 20
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/domain/Image.java",
+          "line": 18,
+          "end_line": 41
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/ImageService.java",
+          "line": 84,
+          "end_line": 98
+        }
+      ]
+    },
+    {
+      "id": "vault-api",
+      "type": "backend",
+      "label": "VaultEntryOperations",
+      "sublabel": "create IMAGE identity",
+      "pos": [
+        650,
+        600
+      ],
+      "size": [
+        210,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/application/ImageService.java",
+          "line": 65,
+          "end_line": 68
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/vault/internal/application/entry/VaultEntryService.java",
+          "line": 61,
+          "end_line": 70
+        }
+      ]
+    },
+    {
+      "id": "vault-jpa",
+      "type": "backend",
+      "label": "Vault-owned JPA",
+      "sublabel": "VaultEntryRepository",
+      "pos": [
+        980,
+        600
+      ],
+      "size": [
+        210,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/vault/internal/application/entry/VaultEntryService.java",
+          "line": 61,
+          "end_line": 70
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/vault/internal/infrastructure/persistence/VaultEntryRepository.java",
+          "line": 1,
+          "end_line": 19
+        }
+      ]
+    },
+    {
+      "id": "postgres",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "module-owned relational data",
+      "pos": [
+        1320,
+        465
+      ],
+      "size": [
+        210,
+        90
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/resources/application.yml",
+          "line": 3,
+          "end_line": 24
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/media/internal/domain/Image.java",
+          "line": 18,
+          "end_line": 41
+        }
+      ]
+    },
+    {
+      "id": "flyway",
+      "type": "backend",
+      "label": "Flyway",
+      "sublabel": "SQL defines physical schema",
+      "pos": [
+        1320,
+        100
+      ],
+      "size": [
+        210,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/pom.xml",
+          "line": 103,
+          "end_line": 114
+        },
+        {
+          "path": "backend/src/main/resources/application.yml",
+          "line": 11,
+          "end_line": 24
+        }
+      ]
+    },
+    {
+      "id": "snapshot",
+      "type": "backend",
+      "label": "Portability JDBC",
+      "sublabel": "read-only REPEATABLE READ",
+      "pos": [
+        1320,
+        850
+      ],
+      "size": [
+        210,
+        80
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/portability/internal/infrastructure/snapshot/PortabilitySnapshotAdapter.java",
+          "line": 175,
+          "end_line": 235
+        }
+      ]
+    },
+    {
+      "id": "zip",
+      "type": "database",
+      "label": "Local archive",
+      "sublabel": "allowlisted data + manifests",
+      "pos": [
+        980,
+        850
+      ],
+      "size": [
+        210,
+        80
+      ],
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/portability/internal/infrastructure/snapshot/PortabilitySnapshotAdapter.java",
+          "line": 195,
+          "end_line": 220
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "One Spring-managed metadata transaction · default REQUIRED propagation",
+      "wraps": [
+        "image-create",
+        "media-jpa",
+        "vault-api",
+        "vault-jpa"
+      ],
+      "pad": 24
+    }
+  ],
+  "connections": [
+    {
+      "id": "upload-spool",
+      "from": "upload",
+      "to": "spool",
+      "label": "1. spool + hash"
+    },
+    {
+      "id": "upload-storage",
+      "from": "upload",
+      "to": "s3-adapter",
+      "label": "2. enabled only"
+    },
+    {
+      "id": "storage-objects",
+      "from": "s3-adapter",
+      "to": "objects",
+      "label": "PUT / HEAD / DELETE"
+    },
+    {
+      "id": "upload-metadata",
+      "from": "upload",
+      "to": "image-create",
+      "label": "3. create metadata"
+    },
+    {
+      "id": "metadata-save",
+      "from": "image-create",
+      "to": "media-jpa",
+      "label": "saveAndFlush"
+    },
+    {
+      "id": "metadata-identity",
+      "from": "image-create",
+      "to": "vault-api",
+      "label": "create IMAGE"
+    },
+    {
+      "id": "vault-save",
+      "from": "vault-api",
+      "to": "vault-jpa",
+      "label": "save"
+    },
+    {
+      "id": "media-sql",
+      "from": "media-jpa",
+      "to": "postgres",
+      "label": "JPA writes"
+    },
+    {
+      "id": "vault-sql",
+      "from": "vault-jpa",
+      "to": "postgres",
+      "label": "JPA writes"
+    },
+    {
+      "id": "migrate",
+      "from": "flyway",
+      "to": "postgres",
+      "label": "migrate SQL"
+    },
+    {
+      "id": "snapshot-sql",
+      "from": "snapshot",
+      "to": "postgres",
+      "label": "JDBC snapshot"
+    },
+    {
+      "id": "archive-write",
+      "from": "snapshot",
+      "to": "zip",
+      "label": "write ZIP"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Metadata operation",
+      "items": [
+        "ImageService validates, creates a Vault identity through the public facade, then saves image metadata.",
+        "Default REQUIRED propagation joins Vault creation to the metadata transaction. Repositories remain owner-local."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Upload operation · compensation",
+      "items": [
+        "Upload rejects an ambient transaction. Storage precedes the separate metadata transaction.",
+        "Confirmed rollback deletes the attempt object with at most three tries. An uncertain commit is reconciled; unknown outcomes retain the object."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Optional storage",
+      "items": [
+        "Disabled adapter is the default. Enabled configuration selects the S3-compatible adapter; deployment is not asserted.",
+        "Binary bytes stay in object storage; PostgreSQL holds metadata. No distributed transaction is claimed."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Portability operation",
+      "items": [
+        "One explicit read-only JDBC REPEATABLE READ connection reads an allowlist and writes a local ZIP.",
+        "It commits or rolls back that database snapshot. Flyway owns schema creation; Hibernate validates it."
+      ]
+    }
+  ]
+}

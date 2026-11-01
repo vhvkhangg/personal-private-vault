@@ -1,0 +1,561 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "SAD-03 · Owner authentication lifecycle",
+    "output": "docs/architecture/diagrams/interactive/spring/html/authentication-lifecycle.html",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/vhvkhangg/personal-private-vault.git",
+      "revision": "29ffc45c4a7079dfb4e155ee55590ff8fca6dfb0",
+      "link_mode": "local-only"
+    },
+    "views": [
+      {
+        "id": "token-rotation",
+        "label": "Token operations",
+        "focus": [
+          "controller",
+          "services",
+          "tokens",
+          "auth-store"
+        ]
+      },
+      {
+        "id": "request-gate",
+        "label": "Request gate",
+        "focus": [
+          "client",
+          "security",
+          "controller"
+        ]
+      }
+    ]
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "external",
+      "label": "Client",
+      "sublabel": "generic API caller",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/web/controller/AuthController.java",
+          "line": 43,
+          "end_line": 89
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "type": "security",
+      "label": "Security chain",
+      "sublabel": "public / JWT routes",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/infrastructure/security/SecurityConfiguration.java",
+          "line": 58,
+          "end_line": 64
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/infrastructure/security/SecurityConfiguration.java",
+          "line": 101,
+          "end_line": 128
+        }
+      ]
+    },
+    {
+      "id": "controller",
+      "type": "backend",
+      "label": "AuthController",
+      "sublabel": "validated JSON / DTOs",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/web/controller/AuthController.java",
+          "line": 43,
+          "end_line": 89
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/web/advice/AuthExceptionAdvice.java",
+          "line": 23,
+          "end_line": 55
+        }
+      ]
+    },
+    {
+      "id": "services",
+      "type": "backend",
+      "label": "Auth services",
+      "sublabel": "bootstrap / session / PIN",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/application/bootstrap/BootstrapService.java",
+          "line": 38,
+          "end_line": 65
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/application/session/SessionService.java",
+          "line": 37,
+          "end_line": 123
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/application/privatepin/PrivatePinService.java",
+          "line": 53,
+          "end_line": 105
+        }
+      ]
+    },
+    {
+      "id": "tokens",
+      "type": "security",
+      "label": "Token helpers",
+      "sublabel": "HS256 / SHA-256",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/application/token/TokenGenerator.java",
+          "line": 18,
+          "end_line": 31
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/application/token/JwtTokenService.java",
+          "line": 25,
+          "end_line": 38
+        }
+      ]
+    },
+    {
+      "id": "auth-store",
+      "type": "database",
+      "label": "Auth persistence",
+      "sublabel": "JPA / PostgreSQL",
+      "sources": [
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/infrastructure/persistence/AppUserRepository.java",
+          "line": 13,
+          "end_line": 21
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/infrastructure/persistence/RefreshTokenRepository.java",
+          "line": 13,
+          "end_line": 20
+        },
+        {
+          "path": "backend/src/main/java/com/vhvkhangg/personalprivatevault/authentication/internal/application/bootstrap/UserBootstrapper.java",
+          "line": 25,
+          "end_line": 32
+        }
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "from": 145,
+      "to": 464,
+      "label": "Bootstrap · only when singleton does not exist"
+    },
+    {
+      "from": 509,
+      "to": 960,
+      "label": "Login · username/email + password"
+    },
+    {
+      "from": 1005,
+      "to": 1456,
+      "label": "Refresh · one service transaction"
+    },
+    {
+      "from": 1501,
+      "to": 1820,
+      "label": "Revoke · supplied refresh token only"
+    },
+    {
+      "from": 1865,
+      "to": 2184,
+      "label": "PIN verification · independent authenticated request"
+    },
+    {
+      "from": 2229,
+      "to": 2548,
+      "label": "PIN change · current PIN required"
+    }
+  ],
+  "messages": [
+    {
+      "id": "auth-step-1",
+      "from": "client",
+      "to": "security",
+      "y": 170,
+      "label": "POST /auth/bootstrap",
+      "variant": "emphasis"
+    },
+    {
+      "id": "auth-step-2",
+      "from": "security",
+      "to": "controller",
+      "y": 214,
+      "label": "Permit public route",
+      "variant": "security"
+    },
+    {
+      "id": "auth-step-3",
+      "from": "controller",
+      "to": "services",
+      "y": 258,
+      "label": "bootstrap(command)",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-4",
+      "from": "services",
+      "to": "auth-store",
+      "y": 302,
+      "label": "Insert singleton via helper",
+      "variant": "default",
+      "note": "Hash password + PIN. REQUIRES_NEW; duplicate → 409."
+    },
+    {
+      "id": "auth-step-5",
+      "from": "services",
+      "to": "controller",
+      "y": 386,
+      "label": "AppUserView",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-6",
+      "from": "controller",
+      "to": "client",
+      "y": 430,
+      "label": "201 · owner view",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-7",
+      "from": "client",
+      "to": "security",
+      "y": 534,
+      "label": "POST /auth/login",
+      "variant": "emphasis"
+    },
+    {
+      "id": "auth-step-8",
+      "from": "security",
+      "to": "controller",
+      "y": 578,
+      "label": "Permit public route",
+      "variant": "security"
+    },
+    {
+      "id": "auth-step-9",
+      "from": "controller",
+      "to": "services",
+      "y": 622,
+      "label": "login(command)",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-10",
+      "from": "services",
+      "to": "auth-store",
+      "y": 666,
+      "label": "Find identifier",
+      "variant": "default",
+      "note": "PasswordEncoder matches hash; failure → 401."
+    },
+    {
+      "id": "auth-step-11",
+      "from": "services",
+      "to": "tokens",
+      "y": 750,
+      "label": "Generate + hash refresh",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-12",
+      "from": "services",
+      "to": "auth-store",
+      "y": 794,
+      "label": "Save hash + expiry",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-13",
+      "from": "services",
+      "to": "tokens",
+      "y": 838,
+      "label": "Issue access JWT",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-14",
+      "from": "services",
+      "to": "controller",
+      "y": 882,
+      "label": "AuthTokensView",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-15",
+      "from": "controller",
+      "to": "client",
+      "y": 926,
+      "label": "200 · Bearer token pair",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-16",
+      "from": "client",
+      "to": "security",
+      "y": 1030,
+      "label": "POST /auth/refresh",
+      "variant": "emphasis"
+    },
+    {
+      "id": "auth-step-17",
+      "from": "security",
+      "to": "controller",
+      "y": 1074,
+      "label": "Permit public route",
+      "variant": "security"
+    },
+    {
+      "id": "auth-step-18",
+      "from": "controller",
+      "to": "services",
+      "y": 1118,
+      "label": "rotate(raw refresh)",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-19",
+      "from": "services",
+      "to": "auth-store",
+      "y": 1162,
+      "label": "Hash lookup + write lock",
+      "variant": "default",
+      "note": "Reject expired, revoked or replaced predecessor → 401."
+    },
+    {
+      "id": "auth-step-20",
+      "from": "services",
+      "to": "tokens",
+      "y": 1246,
+      "label": "Generate + hash successor",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-21",
+      "from": "services",
+      "to": "auth-store",
+      "y": 1290,
+      "label": "Save successor; replace old",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-22",
+      "from": "services",
+      "to": "tokens",
+      "y": 1334,
+      "label": "Issue access JWT",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-23",
+      "from": "services",
+      "to": "controller",
+      "y": 1378,
+      "label": "AuthTokensView",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-24",
+      "from": "controller",
+      "to": "client",
+      "y": 1422,
+      "label": "200 · replacement pair",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-25",
+      "from": "client",
+      "to": "security",
+      "y": 1526,
+      "label": "POST /auth/revoke",
+      "variant": "emphasis"
+    },
+    {
+      "id": "auth-step-26",
+      "from": "security",
+      "to": "controller",
+      "y": 1570,
+      "label": "Permit public route",
+      "variant": "security"
+    },
+    {
+      "id": "auth-step-27",
+      "from": "controller",
+      "to": "services",
+      "y": 1614,
+      "label": "revoke(raw refresh)",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-28",
+      "from": "services",
+      "to": "auth-store",
+      "y": 1658,
+      "label": "Lock; mark token revoked",
+      "variant": "default",
+      "note": "Absent/already revoked is idempotent; JWT is unaffected."
+    },
+    {
+      "id": "auth-step-29",
+      "from": "services",
+      "to": "controller",
+      "y": 1742,
+      "label": "Complete",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-30",
+      "from": "controller",
+      "to": "client",
+      "y": 1786,
+      "label": "200 · data: null",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-31",
+      "from": "client",
+      "to": "security",
+      "y": 1890,
+      "label": "POST /auth/private-pin/verify",
+      "variant": "emphasis"
+    },
+    {
+      "id": "auth-step-32",
+      "from": "security",
+      "to": "controller",
+      "y": 1934,
+      "label": "Validated bearer JWT",
+      "variant": "security"
+    },
+    {
+      "id": "auth-step-33",
+      "from": "controller",
+      "to": "services",
+      "y": 1978,
+      "label": "verifyPin(pin)",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-34",
+      "from": "services",
+      "to": "auth-store",
+      "y": 2022,
+      "label": "Load singleton user",
+      "variant": "default",
+      "note": "Check context + six-digit format; compare stored PIN hash."
+    },
+    {
+      "id": "auth-step-35",
+      "from": "services",
+      "to": "controller",
+      "y": 2106,
+      "label": "boolean verified",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-36",
+      "from": "controller",
+      "to": "client",
+      "y": 2150,
+      "label": "200 · verified true/false",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-37",
+      "from": "client",
+      "to": "security",
+      "y": 2254,
+      "label": "PUT /auth/private-pin",
+      "variant": "emphasis"
+    },
+    {
+      "id": "auth-step-38",
+      "from": "security",
+      "to": "controller",
+      "y": 2298,
+      "label": "Validated bearer JWT",
+      "variant": "security"
+    },
+    {
+      "id": "auth-step-39",
+      "from": "controller",
+      "to": "services",
+      "y": 2342,
+      "label": "changePin(command)",
+      "variant": "default"
+    },
+    {
+      "id": "auth-step-40",
+      "from": "services",
+      "to": "auth-store",
+      "y": 2386,
+      "label": "Lock + refresh; save new hash",
+      "variant": "default",
+      "note": "Wrong current PIN → 401; invalid format → 422."
+    },
+    {
+      "id": "auth-step-41",
+      "from": "services",
+      "to": "controller",
+      "y": 2470,
+      "label": "Complete",
+      "variant": "return"
+    },
+    {
+      "id": "auth-step-42",
+      "from": "controller",
+      "to": "client",
+      "y": 2514,
+      "label": "200 · data: null",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Independent API operations",
+      "items": [
+        "All route labels use the /api/v1 prefix. Bootstrap/login/refresh/revoke are explicitly public routes.",
+        "A successful bootstrap inserts the singleton with hashed password and PIN through a REQUIRES_NEW helper; duplicate bootstrap is 409."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Token lifecycle",
+      "items": [
+        "Login validates the stored password hash. Refresh stores only SHA-256 hashes and expiry; raw refresh values are returned in JSON.",
+        "Rotation locks the predecessor and atomically saves its successor/replacement. Invalid, expired, replaced or revoked refresh tokens produce 401."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Revocation and PIN limits",
+      "items": [
+        "Revocation concerns the supplied refresh token; an issued JWT remains valid until its own validation/expiry rejects it.",
+        "PIN verification returns a boolean; it creates no unlock session. PIN changes require authenticated context and the current PIN."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Client policy is future work",
+      "items": [
+        "Token response type is Bearer. No cookie, browser persistence, inactivity timer or delivered frontend policy is asserted.",
+        "These source-derived scenarios are not a measured trace. Grouped services keep their own transaction annotations."
+      ]
+    }
+  ]
+}
