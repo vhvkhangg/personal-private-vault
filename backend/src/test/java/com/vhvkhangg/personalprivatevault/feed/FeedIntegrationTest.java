@@ -27,6 +27,9 @@ import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeOperations;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeStudyStatus;
 import com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeStudyType;
 import com.vhvkhangg.personalprivatevault.support.AbstractPostgresIntegrationTest;
+import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
+import com.vhvkhangg.personalprivatevault.vault.metadata.VaultMetadataOperations;
+import com.vhvkhangg.personalprivatevault.vault.view.TagView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -82,6 +85,12 @@ class FeedIntegrationTest extends AbstractPostgresIntegrationTest {
     private KnowledgeOperations knowledgeOperations;
 
     @Autowired
+    private VaultEntryOperations vaultEntryOperations;
+
+    @Autowired
+    private VaultMetadataOperations vaultMetadataOperations;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -94,6 +103,9 @@ class FeedIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @AfterEach
     void tearDown() {
+        jdbcTemplate.execute("DELETE FROM favorites");
+        jdbcTemplate.execute("DELETE FROM vault_entry_tags");
+        jdbcTemplate.execute("DELETE FROM tags");
         jdbcTemplate.execute("DELETE FROM saved_resource_conversions");
         jdbcTemplate.execute("DELETE FROM saved_resources");
         jdbcTemplate.execute("DELETE FROM feed_items");
@@ -805,6 +817,105 @@ class FeedIntegrationTest extends AbstractPostgresIntegrationTest {
                     Integer.class
             );
             assertThat(vaultCountAfter).isEqualTo(vaultCountBefore);
+        }
+
+        @Test
+        @DisplayName("Trashed duplicate URL still conflicts without resurrecting or creating orphan Vault entry")
+        void trashedDuplicateUrlConflictsWithoutResurrection() {
+            String url = "https://example.com/trashed-article";
+            SavedResourceView resource = savedResourceOperations.saveManual(new CreateManualSavedResourceCommand(
+                    SavedResourceKind.ARTICLE,
+                    "Original Article", url, null, null, null, null, null, null, null
+            ));
+
+            // Soft-delete/trash the vault entry
+            vaultEntryOperations.moveToTrash(resource.id());
+
+            int vaultCountBefore = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entries WHERE entry_type = 'SAVED_RESOURCE'",
+                    Integer.class
+            );
+
+            // Attempt duplicate save with same URL
+            assertThatThrownBy(() -> savedResourceOperations.saveManual(new CreateManualSavedResourceCommand(
+                    SavedResourceKind.ARTICLE,
+                    "Duplicate of Trashed", url, null, null, null, null, null, null, null
+            )))
+                    .isInstanceOf(SavedResourceConflictException.class)
+                    .hasMessageContaining("A saved resource with this URL already exists");
+
+            // Verify no orphan Vault entry was retained
+            int vaultCountAfter = jdbcTemplate.queryForObject(
+                    "SELECT count(*) FROM vault_entries WHERE entry_type = 'SAVED_RESOURCE'",
+                    Integer.class
+            );
+            assertThat(vaultCountAfter).isEqualTo(vaultCountBefore);
+
+            // Verify entry remains trashed (not resurrected or modified)
+            Instant deletedAt = jdbcTemplate.queryForObject(
+                    "SELECT deleted_at FROM vault_entries WHERE id = ?",
+                    Instant.class,
+                    resource.id()
+            );
+            assertThat(deletedAt).isNotNull();
+        }
+
+        @Test
+        @DisplayName("Legacy ID, hash and recent reads still return trashed saved resources")
+        void legacyReadsStillReturnTrashedSavedResources() {
+            String url = "https://example.com/legacy-trashed-read";
+            SavedResourceView resource = savedResourceOperations.saveManual(new CreateManualSavedResourceCommand(
+                    SavedResourceKind.ARTICLE,
+                    "Legacy Trashed Article", url, null, null, null, null, null, null, null
+            ));
+
+            // Soft-delete the resource via Vault
+            vaultEntryOperations.moveToTrash(resource.id());
+
+            // 1. findById still returns the trashed resource
+            Optional<SavedResourceView> byId = savedResourceOperations.findSavedResourceById(resource.id());
+            assertThat(byId).isPresent();
+            assertThat(byId.get().id()).isEqualTo(resource.id());
+
+            // 2. findByUrlHash still returns the trashed resource
+            Optional<SavedResourceView> byHash = savedResourceOperations.findSavedResourceByUrlHash(resource.resourceUrlHash());
+            assertThat(byHash).isPresent();
+            assertThat(byHash.get().id()).isEqualTo(resource.id());
+
+            // 3. findRecent still returns the trashed resource
+            List<SavedResourceView> recent = savedResourceOperations.findRecentSavedResources(10);
+            assertThat(recent.stream().map(SavedResourceView::id)).contains(resource.id());
+        }
+
+        @Test
+        @DisplayName("Vault favorite and tag operations succeed on saved resource ID without duplicate state")
+        void vaultFavoriteAndTagOnSavedResource() {
+            SavedResourceView resource = savedResourceOperations.saveManual(new CreateManualSavedResourceCommand(
+                    SavedResourceKind.ARTICLE,
+                    "Vault Actions Article", "https://example.com/vault-actions", null, null, null, null, null, null, null
+            ));
+
+            // Favorite the vault entry
+            vaultMetadataOperations.favorite(resource.id());
+            assertThat(vaultMetadataOperations.metadata(resource.id()).favorite()).isTrue();
+
+            // Create tag and attach
+            var tagView = vaultMetadataOperations.createTag("reading-list-" + System.currentTimeMillis());
+            vaultMetadataOperations.attachTag(resource.id(), tagView.id());
+
+            assertThat(vaultMetadataOperations.metadata(resource.id()).tags())
+                    .extracting(TagView::id)
+                    .contains(tagView.id());
+
+            // Detach tag and unfavorite
+            vaultMetadataOperations.detachTag(resource.id(), tagView.id());
+            vaultMetadataOperations.unfavorite(resource.id());
+
+            var metadataAfter = vaultMetadataOperations.metadata(resource.id());
+            assertThat(metadataAfter.favorite()).isFalse();
+            assertThat(metadataAfter.tags())
+                    .extracting(TagView::id)
+                    .doesNotContain(tagView.id());
         }
 
         @Test

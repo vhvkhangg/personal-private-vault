@@ -3,18 +3,23 @@ package com.vhvkhangg.personalprivatevault.feed.internal.web.controller;
 import com.vhvkhangg.personalprivatevault.ApiResponse;
 import com.vhvkhangg.personalprivatevault.ApiResponses;
 import com.vhvkhangg.personalprivatevault.feed.conversion.SavedResourceConversionOperations;
+import com.vhvkhangg.personalprivatevault.feed.enums.SavedResourceKind;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.ConvertToInformationRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.ConvertToNoteRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.ConvertToStudyRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CreateFeedSavedResourceRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CreateManualSavedResourceRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceConversionResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceInboxPageResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.mapper.FeedWebMapper;
 import com.vhvkhangg.personalprivatevault.feed.resource.SavedResourceOperations;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceConversionView;
+import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceInboxPageView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceView;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -55,6 +60,16 @@ public class SavedResourceController {
     public ResponseEntity<ApiResponse<SavedResourceResponse>> saveManual(@Valid @RequestBody CreateManualSavedResourceRequest request) {
         SavedResourceView saved = savedResourceOperations.saveManual(FeedWebMapper.toCommand(request));
         return ApiResponses.created(FeedWebMapper.toResponse(saved));
+    }
+
+    @GetMapping("/inbox")
+    @Operation(summary = "Browse Universal Inbox saved resources", operationId = "findSavedResourceInbox")
+    public ResponseEntity<ApiResponse<SavedResourceInboxPageResponse>> findSavedResourceInbox(
+            @RequestParam(required = false) @Parameter(description = "Optional filter by saved resource kind") SavedResourceKind kind,
+            @RequestParam(defaultValue = "50") @Positive @Max(100) @Parameter(description = "Page size limit between 1 and 100, default 50") int limit,
+            @RequestParam(required = false) @Parameter(description = "Opaque continuation cursor for keyset pagination", schema = @Schema(maxLength = 512)) String cursor) {
+        SavedResourceInboxPageView page = savedResourceOperations.findInboxSavedResources(kind, limit, cursor);
+        return ApiResponses.ok(FeedWebMapper.toResponse(page));
     }
 
     @GetMapping("/{id}")

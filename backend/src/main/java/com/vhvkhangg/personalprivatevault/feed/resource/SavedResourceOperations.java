@@ -1,7 +1,9 @@
 package com.vhvkhangg.personalprivatevault.feed.resource;
 
+import com.vhvkhangg.personalprivatevault.feed.enums.SavedResourceKind;
 import com.vhvkhangg.personalprivatevault.feed.resource.command.CreateFeedSavedResourceCommand;
 import com.vhvkhangg.personalprivatevault.feed.resource.command.CreateManualSavedResourceCommand;
+import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceInboxPageView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceView;
 
 import java.util.List;
@@ -21,4 +23,6 @@ public interface SavedResourceOperations {
     Optional<SavedResourceView> findSavedResourceByUrlHash(String resourceUrlHash);
 
     List<SavedResourceView> findRecentSavedResources(int limit);
+
+    SavedResourceInboxPageView findInboxSavedResources(SavedResourceKind kind, int limit, String cursor);
 }

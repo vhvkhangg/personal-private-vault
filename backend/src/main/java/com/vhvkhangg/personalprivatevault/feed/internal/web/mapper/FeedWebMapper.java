@@ -9,6 +9,7 @@ import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CreateManualSave
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedItemResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedSourceResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceConversionResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceInboxPageResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.UpdateFeedSourceRequest;
 import com.vhvkhangg.personalprivatevault.feed.resource.command.CreateFeedSavedResourceCommand;
@@ -18,6 +19,7 @@ import com.vhvkhangg.personalprivatevault.feed.source.command.UpdateFeedSourceCo
 import com.vhvkhangg.personalprivatevault.feed.view.FeedItemView;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedSourceView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceConversionView;
+import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceInboxPageView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceView;
 import com.vhvkhangg.personalprivatevault.knowledge.api.CreateKnowledgeInformationItemCommand;
 import com.vhvkhangg.personalprivatevault.knowledge.api.CreateKnowledgeNoteCommand;
@@ -180,6 +182,13 @@ public final class FeedWebMapper {
                 view.savedResourceId(),
                 view.targetVaultEntryId(),
                 view.createdAt()
+        );
+    }
+
+    public static SavedResourceInboxPageResponse toResponse(SavedResourceInboxPageView view) {
+        return new SavedResourceInboxPageResponse(
+                view.items().stream().map(FeedWebMapper::toResponse).toList(),
+                view.nextCursor()
         );
     }
 }

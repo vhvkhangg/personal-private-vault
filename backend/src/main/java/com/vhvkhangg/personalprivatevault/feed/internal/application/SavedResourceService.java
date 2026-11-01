@@ -14,9 +14,11 @@ import com.vhvkhangg.personalprivatevault.feed.resource.command.CreateFeedSavedR
 import com.vhvkhangg.personalprivatevault.feed.resource.command.CreateManualSavedResourceCommand;
 import com.vhvkhangg.personalprivatevault.feed.resource.exception.InvalidSavedResourceException;
 import com.vhvkhangg.personalprivatevault.feed.resource.exception.SavedResourceConflictException;
+import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceInboxPageView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceView;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
 import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
+import com.vhvkhangg.personalprivatevault.vault.search.VaultSearchOperations;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +27,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Service implementing Vault-backed saved resource persistence and queries.
@@ -40,6 +50,8 @@ public class SavedResourceService implements SavedResourceOperations {
     private final FeedItemRepository feedItemRepository;
     private final FeedSourceRepository feedSourceRepository;
     private final VaultEntryOperations vaultEntryOperations;
+    private final VaultSearchOperations vaultSearchOperations;
+
 
     @Override
     @Transactional
@@ -186,6 +198,93 @@ public class SavedResourceService implements SavedResourceOperations {
                 .map(this::toView)
                 .toList();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SavedResourceInboxPageView findInboxSavedResources(SavedResourceKind kind, int limit, String cursor) {
+        if (limit < 1 || limit > 100) {
+            throw new IllegalArgumentException("Limit must be between 1 and 100");
+        }
+
+        SavedResourceInboxCursor decodedCursor = SavedResourceInboxCursor.decode(cursor, kind);
+
+        int targetCount = limit + 1;
+        List<Long> eligibleIds = new ArrayList<>();
+        Map<Long, Instant> candidateSavedAtMap = new HashMap<>();
+        Instant seekSavedAt = decodedCursor != null ? decodedCursor.savedAt() : null;
+        Long seekId = decodedCursor != null ? decodedCursor.id() : null;
+
+        int batchSize = 100;
+        PageRequest batchRequest = PageRequest.of(0, batchSize);
+
+        while (eligibleIds.size() < targetCount) {
+            List<SavedResourceRepository.CandidateSummary> candidates;
+            if (seekSavedAt == null) {
+                candidates = (kind == null)
+                        ? savedResourceRepository.findCandidates(batchRequest)
+                        : savedResourceRepository.findCandidatesByKind(kind, batchRequest);
+            } else {
+                candidates = (kind == null)
+                        ? savedResourceRepository.findCandidatesAfter(seekSavedAt, seekId, batchRequest)
+                        : savedResourceRepository.findCandidatesByKindAfter(kind, seekSavedAt, seekId, batchRequest);
+            }
+
+            if (candidates.isEmpty()) {
+                break;
+            }
+
+            SavedResourceRepository.CandidateSummary lastExamined = candidates.get(candidates.size() - 1);
+            seekSavedAt = lastExamined.getSavedAt();
+            seekId = lastExamined.getId();
+
+            Set<Long> candidateIds = candidates.stream()
+                    .map(SavedResourceRepository.CandidateSummary::getId)
+                    .collect(Collectors.toSet());
+
+            Set<Long> activeIds = vaultSearchOperations.filterQualifyingActiveEntries(candidateIds, Set.of());
+            if (activeIds == null) {
+                activeIds = Set.of();
+            }
+
+            for (SavedResourceRepository.CandidateSummary candidate : candidates) {
+                if (activeIds.contains(candidate.getId())) {
+                    eligibleIds.add(candidate.getId());
+                    candidateSavedAtMap.put(candidate.getId(), candidate.getSavedAt());
+                    if (eligibleIds.size() == targetCount) {
+                        break;
+                    }
+                }
+            }
+
+            if (candidates.size() < batchSize) {
+                break;
+            }
+        }
+
+        List<Long> returnIds = eligibleIds.size() > limit ? eligibleIds.subList(0, limit) : eligibleIds;
+        if (returnIds.isEmpty()) {
+            return new SavedResourceInboxPageView(List.of(), null);
+        }
+
+        Map<Long, SavedResource> resourceMap = savedResourceRepository.findAllById(returnIds).stream()
+                .collect(Collectors.toMap(SavedResource::getId, Function.identity()));
+
+        List<SavedResourceView> items = returnIds.stream()
+                .map(resourceMap::get)
+                .filter(Objects::nonNull)
+                .map(this::toView)
+                .toList();
+
+        String nextCursor = null;
+        if (eligibleIds.size() > limit && !items.isEmpty()) {
+            Long lastReturnedId = returnIds.get(returnIds.size() - 1);
+            Instant dbSavedAt = candidateSavedAtMap.get(lastReturnedId);
+            nextCursor = SavedResourceInboxCursor.encode(dbSavedAt, lastReturnedId, kind);
+        }
+
+        return new SavedResourceInboxPageView(items, nextCursor);
+    }
+
 
     private String trim(String value) {
         if (value == null || value.isBlank()) {

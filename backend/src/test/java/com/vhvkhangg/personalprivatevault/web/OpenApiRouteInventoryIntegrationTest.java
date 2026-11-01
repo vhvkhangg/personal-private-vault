@@ -142,6 +142,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/reference/world-settings | listWorldSettings | 200 | null | ApiResponseListWorldSettingResponse | true
             GET | /api/v1/reference/world-settings/{id} | getWorldSetting | 200 | null | ApiResponseWorldSettingResponse | true
             GET | /api/v1/saved-resources | findSavedResources | 200 | null | ApiResponseListSavedResourceResponse | true
+            GET | /api/v1/saved-resources/inbox | findSavedResourceInbox | 200 | null | ApiResponseSavedResourceInboxPageResponse | true
             GET | /api/v1/saved-resources/{id} | getSavedResource | 200 | null | ApiResponseSavedResourceResponse | true
             GET | /api/v1/saved-resources/{id}/conversions | getSavedResourceConversions | 200 | null | ApiResponseListSavedResourceConversionResponse | true
             GET | /api/v1/search | globalSearch | 200 | null | ApiResponseListGlobalSearchResultResponse | true
@@ -389,8 +390,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(230);
-        assertThat(uniqueIds).hasSize(230);
+        assertThat(operationIds).hasSize(231);
+        assertThat(uniqueIds).hasSize(231);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -486,7 +487,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 230 endpoints").hasSize(230);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 231 endpoints").hasSize(231);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -501,7 +502,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 230 manifest count").isEqualTo(230);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 231 manifest count").isEqualTo(231);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());
@@ -619,5 +620,72 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             assertThat(p).doesNotContain("/fetch");
             assertThat(p).doesNotMatch("^/api/v1/(people|fictions|films|albums|locations|accounts|feed|imports|finance|journal|personal)/search$");
         }
+        // 8. Universal Inbox endpoint schema and parameter assertions (UI-09 / UI26-FR-01)
+        JsonNode inboxPath = paths.path("/api/v1/saved-resources/inbox").path("get");
+        assertThat(inboxPath.isMissingNode()).as("GET /api/v1/saved-resources/inbox must exist in OpenAPI").isFalse();
+
+        JsonNode params = inboxPath.path("parameters");
+        assertThat(params.isArray()).isTrue();
+        boolean foundLimit = false;
+        boolean foundCursor = false;
+        for (JsonNode param : params) {
+            String name = param.path("name").asText();
+            if ("limit".equals(name)) {
+                foundLimit = true;
+                JsonNode limitSchema = param.path("schema");
+                assertThat(limitSchema.path("type").asText()).as("limit schema type must be integer").isEqualTo("integer");
+                assertThat(limitSchema.path("format").asText()).as("limit schema format must be int32").isEqualTo("int32");
+                assertThat(limitSchema.path("default").isInt()).as("limit default must be a numeric integer node").isTrue();
+                assertThat(limitSchema.path("default").asInt()).isEqualTo(50);
+                assertThat(limitSchema.path("maximum").asInt()).isEqualTo(100);
+                if (limitSchema.has("minimum")) {
+                    assertThat(limitSchema.path("minimum").asInt()).isEqualTo(1);
+                } else {
+                    assertThat(limitSchema.path("exclusiveMinimum").asInt()).isEqualTo(0);
+                }
+            } else if ("cursor".equals(name)) {
+                foundCursor = true;
+                JsonNode cursorSchema = param.path("schema");
+                assertThat(cursorSchema.path("type").asText()).as("cursor schema type must be string").isEqualTo("string");
+                assertThat(cursorSchema.path("maxLength").asInt()).isEqualTo(512);
+            }
+        }
+        assertThat(foundLimit).as("limit parameter must be documented with bounds").isTrue();
+        assertThat(foundCursor).as("cursor parameter must be documented with maxLength 512").isTrue();
+
+        JsonNode inboxPageSchema = root.path("components").path("schemas").path("SavedResourceInboxPageResponse");
+        assertThat(inboxPageSchema.isMissingNode()).as("SavedResourceInboxPageResponse schema must exist").isFalse();
+        JsonNode nextCursorProp = inboxPageSchema.path("properties").path("nextCursor");
+        assertThat(nextCursorProp.isMissingNode()).as("nextCursor property must exist in page schema").isFalse();
+        assertThat(allowsNull(nextCursorProp)).as("nextCursor schema in SavedResourceInboxPageResponse must permit null for terminal pages").isTrue();
+
+        JsonNode itemsProp = inboxPageSchema.path("properties").path("items");
+        assertThat(itemsProp.path("type").asText()).isEqualTo("array");
+        assertThat(itemsProp.path("items").path("$ref").asText()).isEqualTo("#/components/schemas/SavedResourceResponse");
+    }
+
+    private static boolean allowsNull(JsonNode schema) {
+        if (schema.path("nullable").asBoolean(false)) {
+            return true;
+        }
+        JsonNode type = schema.path("type");
+        if (type.isTextual() && "null".equals(type.asText())) {
+            return true;
+        }
+        if (type.isArray()) {
+            for (JsonNode t : type) {
+                if ("null".equals(t.asText())) {
+                    return true;
+                }
+            }
+        }
+        for (String key : List.of("anyOf", "oneOf")) {
+            for (JsonNode s : schema.path(key)) {
+                if (allowsNull(s)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

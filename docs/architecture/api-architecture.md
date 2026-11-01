@@ -392,3 +392,9 @@ typed conflict/unverified/pending; no raw source/path/credential diagnostics.
 ## Phase 18 proposed RAG extension (not implemented)
 
 The [owner-approved D18-A additive RAG API/worker inventory](rag-phase-18-api-extension.md) adds **proposed typed batch admission and per-file report**, preserving the existing single-root API, `/api/v1` and shared `ApiResponse` envelope, and the module-local RAG HTTP adapter. No new shared envelope or cross-module dependency is authorized by this proposal; see [ADR-0021](../adr/0021-phase-18-bounded-multi-file-verified-indexing.md).
+
+## 17. Universal Inbox API extension
+
+Delivered 2026-11-01 under authorized maintenance slice `UI26-INBOX-BROWSE`.
+Adds `GET /api/v1/saved-resources/inbox` for keyset-paged Universal Inbox browsing, preserving ADR-0016 envelopes, authentication, module-local adapter ownership, and existing save/read/conversion endpoints.
+See [`universal-inbox-api-extension.md`](universal-inbox-api-extension.md).
