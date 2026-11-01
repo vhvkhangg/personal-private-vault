@@ -1,6 +1,8 @@
-# Spring-only Architecture Interactive Diagrams — preparation
+# Spring-only Architecture Interactive Diagrams — publication and history
 
-**Status: `READY_FOR_OWNER_COMMIT / PREPARATION_ONLY / NOT_IMPLEMENTED`.** The [independent preparation review](reviews/2026-11-01-independent-preparation-review.md) found no blocking preparation findings. The Owner authorizes this tightly scoped docs/diagram deliverable; execution is gated on Owner-published reviewed preparation and a vetted Archify toolchain. No diagrams, third-party execution, or installation is authorized **before that gate**. No active implementation handoff; diagram artifact acceptance remains NOT_RUN.
+> **CURRENT — `PUBLISHED / INDEPENDENTLY_ACCEPTED` (2026-11-01).** The four Spring-only Archify views SAD-01–04 passed A1–A8 in the [independent artifact review](reviews/2026-11-01-independent-artifact-review.md) and were Owner-published on `main` at [`84f11854de20`](https://github.com/vhvkhangg/personal-private-vault/commit/84f11854de20cde4dcdcd7b082b4c40c1410885b). See the [publication closeout](owner-publication-closeout-2026-11-01.md). `SAD-FR-L01` is LOW / OPEN / NONBLOCKING. No RAG/application/schema changes or active handoff followed. The following preparation-era status/workflow is historical.
+
+**Historical preparation status: `READY_FOR_OWNER_COMMIT / PREPARATION_ONLY / NOT_IMPLEMENTED`.** The [independent preparation review](reviews/2026-11-01-independent-preparation-review.md) found no blocking preparation findings. The Owner authorizes this tightly scoped docs/diagram deliverable; execution is gated on Owner-published reviewed preparation and a vetted Archify toolchain. No diagrams, third-party execution, or installation is authorized **before that gate**. No active implementation handoff; diagram artifact acceptance remains NOT_RUN.
 
 **Controlling documents:**
 
@@ -19,4 +21,6 @@
 
 No new skill is required for this preparation. External Archify is a tool candidate, not a repository-accepted dependency at issuance.
 
-**Next step:** Owner | commit/push reviewed preparation, then start a new Codex session with the launcher in [diagram-authoring-task.md](diagram-authoring-task.md) | Spring-only maintenance scope and [independent preparation review](reviews/2026-11-01-independent-preparation-review.md) | READY_FOR_OWNER_COMMIT for preparation only; vetted local execution and separate artifact review remain required | no Spring remediation loop; CSA26 2/3 consumed and stopped; S19-2 counters unchanged.
+**Historical preparation next step (now completed):** Owner | commit/push reviewed preparation, then author and independently review the diagrams | see preserved [preparation review](reviews/2026-11-01-independent-preparation-review.md).
+
+**Current next step:** Owner | review/commit this publication closeout, then seek independent `$codex-pre-handoff-review` of [Universal Inbox preparation](../2026-11-01-universal-inbox-preparation/README.md) | Archify is published; no active implementation handoff | S19-2 unchanged.

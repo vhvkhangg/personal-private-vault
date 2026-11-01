@@ -1,6 +1,6 @@
 # Spring architecture views
 
-**Status:** Authored documentation; separate independent acceptance and Owner publication pending.
+**Current status — `PUBLISHED / INDEPENDENTLY_ACCEPTED`:** SAD-01–SAD-04 passed A1–A8 in the [independent review](../../../../implementation/maintenance/2026-11-01-spring-only-archify/reviews/2026-11-01-independent-artifact-review.md) and were Owner-published at [`84f11854de20`](https://github.com/vhvkhangg/personal-private-vault/commit/84f11854de20cde4dcdcd7b082b4c40c1410885b). [Publication closeout](../../../../implementation/maintenance/2026-11-01-spring-only-archify/owner-publication-closeout-2026-11-01.md). The author-era pending-review statement is superseded; `SAD-FR-L01` remains LOW / OPEN (unused scratch archive size in handback).
 
 Source revision: `29ffc45c4a7079dfb4e155ee55590ff8fca6dfb0`. These additive views describe one Spring Boot / Spring Modulith application. Existing canonical architecture artifacts are preserved.
 

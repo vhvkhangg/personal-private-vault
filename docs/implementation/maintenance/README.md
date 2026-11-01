@@ -32,3 +32,12 @@ Slices:
 - [`milestone-10-12-search-case-normalization/`](milestone-10-12-search-case-normalization/README.md) —
   **COMPLETE / FROZEN** — owner committed/pushed `a881540`; FRM10-12-1/M10-12-1 closed;
   milestone `MILESTONE_READY`, independent 817-test verification passed. Milestone docs commit/reset next.
+
+## Recent documentation and preparation scopes
+
+- [CSA26 current-system audit/remediation](2026-11-01-current-system-readonly-audit/owner-publication-closeout-2026-11-01.md) — independently accepted and Owner-published at `4cf6204`; `CSA26-FR-L01` LOW remains open.
+- [Spring-only Archify diagrams](2026-11-01-spring-only-archify/owner-publication-closeout-2026-11-01.md) — SAD-01–04 independently accepted/published at `84f1185`; `SAD-FR-L01` LOW remains open. Documentation-only; not an executable handoff.
+- [Universal Inbox / Save for Later preparation](2026-11-01-universal-inbox-preparation/README.md) — proposed feature/maintenance preparation awaiting independent review; no implementation authorization.
+- [Future final non-RAG audit intent](2026-11-01-final-non-rag-audit-intent/owner-intent.md) — future gate after the remaining backend features, not active now.
+
+The general maintenance implementation rules above apply only when an implementation handoff is separately approved; documentation-only preparation and publication closeout do not create an active handoff.
