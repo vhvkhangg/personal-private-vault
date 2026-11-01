@@ -23,8 +23,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
+@EnabledIfSystemProperty(named = "ppv.test.archived-s19-2", matches = "true")
 @org.springframework.boot.test.context.SpringBootTest(
         classes = com.vhvkhangg.personalprivatevault.PersonalPrivateVaultApplication.class,
         webEnvironment = org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT

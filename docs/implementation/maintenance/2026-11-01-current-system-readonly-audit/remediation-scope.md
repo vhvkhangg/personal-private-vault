@@ -1,6 +1,8 @@
 # CSA26-001..004 — combined maintenance remediation scope
 
-**Status:** `READY_FOR_HANDOFF / OWNER_PUBLICATION_PENDING` for this maintenance preparation only; not implementation readiness or finding closure. [Independent preparation review](reviews/2026-11-01-csa26-maintenance-pre-handoff-review.md) at `51240841c91b0a2b94f665d7d66c432d36c063c9`. `ACTIVE.md` remains `NO_ACTIVE_HANDOFF`; S19-2 remains suspended.
+**Current status — 2026-11-01:** `READY_FOR_OWNER_COMMIT` after [independent re-review 2](reviews/2026-11-01-csa26-independent-re-review-2.md). CSA26-001/002/003/004 and CSA26-FR-01/02 CLOSED. CSA26-FR-L01 LOW / OPEN / NONBLOCKING is tracked for a later authorized milestone/audit. Maintenance remediation 2/3 consumed; accepted and stopped, one unused; takeover NOT_AUTHORIZED. No maintenance publication SHA claimed.
+
+**Preparation status (issuance history):** `READY_FOR_HANDOFF / OWNER_PUBLICATION_PENDING` for this maintenance preparation only; not implementation readiness or finding closure. [Independent preparation review](reviews/2026-11-01-csa26-maintenance-pre-handoff-review.md) at `51240841c91b0a2b94f665d7d66c432d36c063c9`. `ACTIVE.md` remains `NO_ACTIVE_HANDOFF`; S19-2 remains suspended.
 **Owner authority:** [dated Owner decision](owner-decision-csa26-selected-remediation-2026-11-01.md).
 **Evidence:** [2026-11-01 audit](audit-report.md), [diagram inventory](architecture-diagram-gap-inventory.md).
 **Baseline:** `main` audit HEAD `51240841c91b0a2b94f665d7d66c432d36c063c9`; at entry verify exact local tracked changes/untracked audit files and remote. Historical audit report is a frozen point-in-time result, not a remediation log to rewrite.
@@ -37,4 +39,4 @@ After separate Owner publication of reviewed preparation, Codex `$codex-create-h
 4. Source-to-canonical diagram diff, documented diagram build/export command, rendered visual inspection where tools exist, source/ADR edge trace table and current navigation links.
 5. Git diff/manifest integrity: no out-of-scope source, no historical receipt/model/fixture/hash rewrite, no ignored secrets/binaries committed; exact unrun tests labeled `NOT_RUN`.
 
-**Next step:** Owner, then Codex | Owner commits/pushes reviewed preparation, then `$codex-create-handoff` | CSA26-001..004 maintenance, this scope and its dated preparation review | `READY_FOR_HANDOFF`; verify Owner publication before creating a maintenance handoff | maintenance remediation not started; historical S19-2 counters unchanged.
+Next step: Owner | stage, commit and push the accepted delivery, then ChatGPT brief maintenance closeout | CSA26-AUDIT-REMEDIATION, this scope, [executable contract](executable-handoff-2026-11-01.md) and [re-review 2](reviews/2026-11-01-csa26-independent-re-review-2.md) | READY_FOR_OWNER_COMMIT; closeout uses actual published SHA | remediation 2/3 consumed; accepted and stopped; takeover NOT_AUTHORIZED; historical S19-2 counters unchanged.

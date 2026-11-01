@@ -176,16 +176,16 @@
         <mxCell id="e38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.2;strokeColor=#6B7280;" edge="1" parent="1" source="search" target="feed">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C65911;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;" id="rag" value="rag (Phase 17 candidate)">
-          <mxGeometry y="30" width="220" as="geometry" height="60" x="1300" />
+        <mxCell vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C65911;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;" id="rag" value="rag">
+          <mxGeometry x="280" y="30" width="170" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="rag-vault" source="rag" edge="1" parent="1" target="vault" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#6B7280;">
+        <mxCell id="rag-vault" source="rag" edge="1" parent="1" target="vault" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.2;strokeColor=#6B7280;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="rag-fiction" source="rag" edge="1" parent="1" target="fiction" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#6B7280;">
+        <mxCell id="rag-fiction" source="rag" edge="1" parent="1" target="fiction" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.2;strokeColor=#6B7280;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="rag-film" source="rag" edge="1" parent="1" target="film" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#6B7280;">
+        <mxCell id="rag-film" source="rag" edge="1" parent="1" target="film" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.2;strokeColor=#6B7280;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>

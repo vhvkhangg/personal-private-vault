@@ -21,6 +21,7 @@ import static org.mockito.Mockito.doAnswer;
  * Authority: docs/implementation/phase-19/owner-decision-s19-2-source-archival-only-2026-10-31.md.
  * Historical opt-in CUDA harness over a disposable corpus unrelated to frozen semantic slots.
  */
+@EnabledIfSystemProperty(named = "ppv.test.archived-s19-2", matches = "true")
 @EnabledIfSystemProperty(named = "ppv.rag.qa.cuda.launcher", matches = ".+")
 class RagQaCudaNativeIntegrationTest extends RagQaNativeIntegrationTest {
     @MockitoSpyBean private RagQaSupervisor cudaSupervisor;

@@ -21,7 +21,7 @@ settings [label="settings", fillcolor="#EDEDED", color="#7F7F7F"];
 authentication [label="authentication", fillcolor="#EDEDED", color="#7F7F7F"];
 vault [label="vault (Shared Core)", fillcolor="#DCE6F1", color="#4F81BD"];
 reference [label="reference", fillcolor="#DCE6F1", color="#4F81BD"];
-rag [label="rag (Phase 17 candidate)", fillcolor="#FCE4D6", color="#C65911"];
+rag [label="rag", fillcolor="#FCE4D6", color="#C65911"];
 rag -> vault;
 rag -> fiction;
 rag -> film;

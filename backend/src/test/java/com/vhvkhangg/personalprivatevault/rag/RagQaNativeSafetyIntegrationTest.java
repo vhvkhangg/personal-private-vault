@@ -73,6 +73,7 @@ import static org.mockito.Mockito.*;
  */
 @SpringBootTest(classes = PersonalPrivateVaultApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(RagQaNativeSafetyIntegrationTest.OutputConfiguration.class)
+@EnabledIfSystemProperty(named = "ppv.test.archived-s19-2", matches = "true")
 @EnabledIfSystemProperty(named = "ppv.rag.qa.cuda.launcher", matches = ".+")
 class RagQaNativeSafetyIntegrationTest extends AbstractEnabledRagIntegrationTest {
     @MockitoSpyBean private RagQaSupervisor supervisor;

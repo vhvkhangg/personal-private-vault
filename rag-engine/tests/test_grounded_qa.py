@@ -6,12 +6,23 @@ The archival task does not authorize running these generation tests.
 
 from __future__ import annotations
 
-import hashlib
-from unittest.mock import patch
+import os
 
-from fastapi.testclient import TestClient
-from ppv_rag.grounded_qa import app, init_service
-from ppv_rag.qa_generation import (
+import pytest
+
+if os.getenv("PPV_TEST_ARCHIVED_S19_2") != "true":
+    pytest.skip(
+        "Archived S19-2 test requires PPV_TEST_ARCHIVED_S19_2='true'",
+        allow_module_level=True,
+    )
+
+import hashlib  # noqa: E402
+from unittest.mock import patch  # noqa: E402
+
+from fastapi.testclient import TestClient  # noqa: E402
+
+from ppv_rag.grounded_qa import app, init_service  # noqa: E402
+from ppv_rag.qa_generation import (  # noqa: E402
     C1_MODEL_SHA256,
     C1_MODEL_VERSION,
     ClaimEntry,

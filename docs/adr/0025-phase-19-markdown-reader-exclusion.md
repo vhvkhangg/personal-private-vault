@@ -1,6 +1,6 @@
 # ADR-0025: Phase 19 Markdown Active-Reader Exclusion and Incident Inspection
 
-- **Status:** Owner-approved Option A design (2026-10-27); implementation candidate awaits independent acceptance.
+- **Status:** Owner-approved Option A design (2026-10-27); S19-1 implementation ACCEPTED and Owner-published at `5e84e709` (closeout [`beda8211`](https://github.com/vhvkhangg/personal-private-vault/commit/beda8211f2b6244bdfc31f5b07fe5a3df6e7432b)); S19-2 answer generation SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY under [suspension decision](../implementation/phase-19/owner-decision-s19-2-suspension-2026-10-30.md).
 - **Date:** 2026-10-27.
 - **Context:** [Owner Decision P19-OD-01](../implementation/phase-19/owner-decision-p19-reader-exclusion.md), [P19-S19-1 Executable Handoff](../implementation/phase-19/s19-1-executable-handoff-2026-10-27.md), [Query Consumer Lifetime Contract](../implementation/phase-19/query-consumer-lifetime-and-selection.md).
 

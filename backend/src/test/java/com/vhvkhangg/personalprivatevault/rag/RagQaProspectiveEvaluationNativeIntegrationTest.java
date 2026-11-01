@@ -7,6 +7,7 @@ import com.vhvkhangg.personalprivatevault.rag.api.*;
 import com.vhvkhangg.personalprivatevault.rag.internal.application.RagSourceAuthority;
 import com.vhvkhangg.personalprivatevault.rag.source.RagSourceView;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,7 +30,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest(classes = PersonalPrivateVaultApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@org.junit.jupiter.api.condition.EnabledIfSystemProperty(named = "ppv.rag.qa.eval.run", matches = ".+")
+@EnabledIfSystemProperty(named = "ppv.test.archived-s19-2", matches = "true")
+@EnabledIfSystemProperty(named = "ppv.rag.qa.eval.run", matches = ".+")
 class RagQaProspectiveEvaluationNativeIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper().findAndRegisterModules();
     private static final Path REPO = Files.isDirectory(Path.of("rag-engine"))

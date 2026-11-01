@@ -12,7 +12,7 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 - **Search:** dedicated orchestration module; PostgreSQL-first implementation
 - **Authentication:** permanent single-user account, password login, JWT access/refresh tokens, 6-digit private-mode PIN
 - **Frontend:** Phase 16 remains deferred/owner-gated; not started
-- **RAG:** Owner-approved Alternative B contract under ADR-0020; current task is contract synchronization only. Existing contained candidate remains CHANGES_REQUESTED; separate implementation authorization and NEW independent review required. Live external files disabled; later phases separately gated.
+- **RAG:** Phase 17 Foundation COMPLETE — FROZEN; Phase 18 CLOSED (Obsidian `.md` CPU-only); Phase 19 S19-1 ACCEPTED/PUBLISHED (`5e84e709`); S19-2 SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY. External indexing is INACTIVE; live external originals are DISABLED/DEFERRED. Active maintenance `CSA26-AUDIT-REMEDIATION` updates runtime container and module representations across DSL, DOT, draw.io, SVG, PNG.
 - **Deployment topology:** intentionally not frozen
 
 ## Documents
@@ -52,10 +52,7 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 
 Use SVG exports for documentation/review. Edit the canonical source and regenerate exports after changes.
 
-The current C4 and module dependency views include the bounded ADR-0019 candidate delta: Java owns source
-authority/publication, while Python uses restricted SQL functions for issued-grant verification and digest-only
-staging. The functional decomposition and system context retain their frozen v1 baseline meaning; they do not
-certify future RAG products. See [current implementation evidence](../implementation/phase-17/test-evidence.md).
+The current C4 container and module dependency views reflect accepted architecture (Phase 17 frozen, Phase 18 closed Obsidian `.md` CPU-only, S19-1 accepted query embedding process). Java owns source authority, immutable ORIGINAL_BYTES storage, and PostgreSQL publication, while Python runs restricted staging/digest operations and query embeddings. Grounded QA is SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY. External indexing remains INACTIVE; live originals DISABLED/DEFERRED. See [CSA26 maintenance handoff](../implementation/maintenance/2026-11-01-current-system-readonly-audit/executable-handoff-2026-11-01.md).
 
 ## Architecture Decision Records
 

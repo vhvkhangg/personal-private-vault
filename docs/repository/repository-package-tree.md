@@ -1,8 +1,10 @@
 # Repository and Java Package Tree v1.1.1 — Frozen baseline + Phase 14 and Phase 17 candidate deltas
 
+> **CURRENT REPOSITORY STATUS — 2026-11-01 (CSA26 maintenance):** This document describes the application modules of Personal Private Vault. Backend Phases 0–15 and 17 are COMPLETE — FROZEN; Phase 18 is COMPLETE — CLOSED (Obsidian `.md` CPU-only); Phase 19 S19-1 is ACCEPTED and Owner-published at `5e84e709`; S19-2 is SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY under [suspension decision](../implementation/phase-19/owner-decision-s19-2-suspension-2026-10-30.md). External indexing is INACTIVE; live external originals are DISABLED/DEFERRED. Active maintenance `CSA26-AUDIT-REMEDIATION` isolates archived S19-2 QA integration tests and corrects architecture representations. Frontend Phase 16 remains deferred.
+
 ## 1. Repository principles
 
-- Backend-first. Frontend remains deferred. The Phase 17 RAG foundation candidate is implemented under its active handoff and awaits independent review.
+- Backend-first. Frontend remains deferred. Backend Phases 0–15 and Phase 17 are COMPLETE — FROZEN; Phase 18 is CLOSED (Obsidian `.md` CPU-only); Phase 19 S19-1 is ACCEPTED/PUBLISHED.
 - One repository, one `main` branch, no pull-request workflow.
 - Package by business capability/domain, never a repository-wide `controller/service/repository/entity` layout.
 - Spring Modulith application modules map to direct subpackages of the root Java package.

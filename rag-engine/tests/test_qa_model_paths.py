@@ -1,12 +1,20 @@
 """An explicitly configured missing asset must never select another local model."""
 
+import os
 import sys
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock
 
 import pytest
-from ppv_rag import qa_generation as qa
+
+if os.getenv("PPV_TEST_ARCHIVED_S19_2") != "true":
+    pytest.skip(
+        "Archived S19-2 test requires PPV_TEST_ARCHIVED_S19_2='true'",
+        allow_module_level=True,
+    )
+
+from ppv_rag import qa_generation as qa  # noqa: E402
 
 
 @pytest.mark.parametrize("kind", ["missing_absolute", "missing_relative", "corrupt"])

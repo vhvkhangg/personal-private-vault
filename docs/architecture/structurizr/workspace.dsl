@@ -1,6 +1,6 @@
-// ADR-0020 (2026-10-15): approved target is one RAG-owned job-scoped Windows worker,
-// durable source reservations and E1. Topology below is unchanged candidate context,
-// not proof of lifecycle implementation; see rag-architecture.md and P17-3.
+// ADR-0020, ADR-0022/0023, ADR-0025: Current architecture representation.
+// Reflects immutable ORIGINAL_BYTES storage, Java-issued prepared inputs and final publication,
+// job-scoped indexing worker (INACTIVE), and request-bound S19-1 query embedding worker (DEFAULT_OFF).
 workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 baseline" {
 
     model {
@@ -11,28 +11,40 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
         vault = softwareSystem "Personal Private Vault" "Private single-user personal knowledge, media, finance, account and lifestyle vault." {
             tags "System"
 
-            web = container "Web Application" "Browser UI for managing and viewing the vault. Frontend implementation starts after backend completion." "Next.js + TypeScript + shadcn/ui" {
+            web = container "Web Application" "Browser UI for managing and viewing the vault. [PROPOSED / Future frontend phase]" "Next.js + TypeScript + shadcn/ui" {
                 tags "Web"
             }
 
-            backend = container "Backend API" "REST API, authentication, modular-monolith business logic, import orchestration, scheduled jobs and global search orchestration." "Java 25 LTS + Spring Boot + Spring Modulith + Hibernate" {
+            backend = container "Backend API" "REST API, authentication, modular-monolith business logic, import orchestration, scheduled jobs, global search, and RAG source authority / finalization. [ACCEPTED]" "Java 25 LTS + Spring Boot + Spring Modulith + Hibernate" {
                 tags "Backend"
             }
 
-            database = container "PostgreSQL Database" "Stores all structured application data and metadata. Binary media is not stored here." "PostgreSQL" {
+            database = container "PostgreSQL Database" "Stores structured application data, metadata, and RAG index generations / chunks. Binary media is not stored here. [ACCEPTED]" "PostgreSQL" {
                 tags "Database"
             }
 
-            ragEngine = container "Local RAG Engine" "Isolated local non-root worker for bounded candidate staging." "Python 3.14 / uv + FastAPI / worker" {
+            snapshotStore = container "Immutable ORIGINAL_BYTES Store" "File-system storage for approved immutable snapshot revisions and ORIGINAL_BYTES artifacts under Java authority. [ACCEPTED / INACTIVE]" "Local Filesystem" {
+                tags "Storage"
+            }
+
+            indexingWorker = container "Document Indexing Worker" "Job-scoped local worker process for Obsidian Markdown parsing, chunking, and CPU embeddings. Restricted staging only. [ACCEPTED P18 / INACTIVE]" "Python 3.14.4 / worker" {
                 tags "Worker"
+            }
+
+            queryWorker = container "Query Embedding Worker" "Request-bound dynamic loopback process for query vector embedding. Guarded by active reader exclusion. [ACCEPTED S19-1 / DEFAULT_OFF]" "Python 3.14.4 / FastAPI loopback" {
+                tags "Worker"
+            }
+
+            qaWorker = container "Grounded QA Generator" "Grounded question answering over vault notes. [SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY]" "Python 3.14.4 / llama.cpp (archival)" {
+                tags "Worker" "Archival"
             }
         }
 
-        objectStorage = softwareSystem "S3-Compatible Object Storage" "Stores image/media binaries. Local development uses only small test files; production provider is deferred." {
+        objectStorage = softwareSystem "S3-Compatible Object Storage" "Stores image/media binaries. Local development uses only small test files; production provider is deferred. [ACCEPTED / OPTIONAL]" {
             tags "External"
         }
 
-        feedSources = softwareSystem "Public Feed Sources" "GitHub Trending, Hacker News, Reddit, RSS feeds and technology websites." {
+        feedSources = softwareSystem "Public Feed Sources" "GitHub Trending, Hacker News, Reddit, RSS feeds and technology websites. [ACCEPTED batch contracts]" {
             tags "External"
         }
 
@@ -47,11 +59,14 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
 
         owner -> web "Uses"
         web -> backend "Calls" "HTTPS / REST / JSON"
-        backend -> database "Reads and writes" "JPA/Hibernate / SQL"
+        backend -> database "Reads and writes; finalizes generation batches (RagDocumentFinalizationGate)" "JPA/Hibernate / SQL (rag_runtime)"
+        backend -> snapshotStore "Captures approved revisions, verifies whole-file SHA-256 integrity" "Java file I/O"
         backend -> objectStorage "Stores/retrieves objects" "S3-compatible API"
         backend -> feedSources "Fetches configured feeds" "HTTPS"
-        backend -> ragEngine "Dispatches issued synthetic tasks; checks committed receipts" "HTTP / exact loopback :8001"
-        ragEngine -> database "Restricted grant verification and digest-only staging; no business reads" "rag_worker / scoped SECURITY DEFINER functions"
+        backend -> indexingWorker "Issues prepared inputs for batch jobs; one-use grant" "Local process dispatch / HTTP"
+        indexingWorker -> database "Stages chunks and seals batch via restricted SQL functions" "rag_worker / scoped SECURITY DEFINER functions"
+        backend -> queryWorker "Requests query embedding on dynamic loopback port; reader exclusion spans async output & positive sender/child stop outside SQL tx (ADR-0025)" "HTTP loopback / guarded reader lifetime"
+        backend -> qaWorker "Archival invocation disabled; zero runtime model loaded" "None / suspended"
     }
 
     views {
@@ -67,12 +82,15 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
             include web
             include backend
             include database
+            include snapshotStore
+            include indexingWorker
+            include queryWorker
+            include qaWorker
             include objectStorage
             include feedSources
-            include ragEngine
             autoLayout lr
             title "Personal Private Vault — C4 Container"
-            description "Planned containers including local RAG engine worker."
+            description "Current containers including immutable snapshot store, indexing worker, query embedding worker, and suspended QA generator."
         }
 
         styles {
@@ -103,6 +121,10 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
             element "External" {
                 background #999999
                 color #FFFFFF
+            }
+            element "Archival" {
+                background #EEEEEE
+                color #888888
             }
         }
     }

@@ -8,6 +8,7 @@ import uuid
 
 import pytest
 from fastapi.testclient import TestClient
+
 from ppv_rag.embeddings.model import (
     DIMENSION,
     MODEL_ARTIFACT_SHA256,

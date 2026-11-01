@@ -4,26 +4,25 @@ digraph C4Container {
  edge [fontname="Arial", fontsize=9, color="#666666", arrowsize=0.7];
  owner [label="Owner", fillcolor="#08427B", fontcolor="white", color="#06345F"];
  subgraph cluster_vault {
-    worker [label="Local RAG Foundation Worker\nPython 3.14.4 / synthetic digest only\nPhase 17 candidate",fillcolor="#438DD5",fontcolor="white",color="#2E75B6"];
    label="Personal Private Vault"; color="#1168BD"; penwidth=2; style="rounded"; fontname="Arial"; fontsize=14;
-   web [label="Web Application
-Next.js + TypeScript + shadcn/ui
-(Future frontend phase)", fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
-   api [label="Backend API
-Java 25 LTS + Spring Boot + Spring Modulith
-REST API • modular monolith • jobs • search", fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
-   db [label="PostgreSQL Database
-Structured data + metadata", shape=cylinder, fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
+   web [label="Web Application\nNext.js + TypeScript + shadcn/ui\n[PROPOSED / Future frontend phase]", fillcolor="#B0C4DE", fontcolor="#333333", color="#708090", style="rounded,filled,dashed"];
+   api [label="Backend API\nJava 25 LTS + Spring Boot + Spring Modulith\nREST API • modular monolith • jobs • search\nSource authority & batch finalization\n[ACCEPTED]", fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
+   snapshots [label="Immutable ORIGINAL_BYTES Store\nApproved snapshot files • SHA-256 NO_CHANGE\n[ACCEPTED / INACTIVE]", fillcolor="#DCE6F1", fontcolor="#1F497D", color="#4F81BD"];
+   db [label="PostgreSQL Database\nStructured data + metadata + vector embeddings (384-dim)\n[ACCEPTED]", shape=cylinder, fillcolor="#438DD5", fontcolor="white", color="#2E75B6"];
+   worker [label="Document Indexing Worker\nPython 3.14.4 / Obsidian Markdown\nJob-scoped producer • restricted staging\n[ACCEPTED P18 / INACTIVE]", fillcolor="#BDD7EE", fontcolor="#1F497D", color="#2E75B6"];
+   queryWorker [label="Query Embedding Worker\nPython 3.14.4 / FastAPI loopback\nRequest-bound query embedding\n[ACCEPTED S19-1 / DEFAULT_OFF]", fillcolor="#BDD7EE", fontcolor="#1F497D", color="#2E75B6"];
+   qaWorker [label="Grounded QA Generator\nPython 3.14.4 / llama.cpp (archival)\n[SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY]\nS19-2 suspension decision • zero runtime model", fillcolor="#EEEEEE", fontcolor="#888888", color="#999999", style="rounded,filled,dashed"];
  }
- storage [label="S3-Compatible Object Storage
-Media binaries", fillcolor="#999999", fontcolor="white", color="#777777"];
- feeds [label="Public Feed Sources
-GitHub Trending • HN • Reddit • RSS • tech sites", fillcolor="#999999", fontcolor="white", color="#777777"];
- owner -> web [label="Uses"];
+ storage [label="S3-Compatible Object Storage\nMedia binaries\n[ACCEPTED / OPTIONAL]", fillcolor="#999999", fontcolor="white", color="#777777"];
+ feeds [label="Public Feed Sources\nGitHub Trending • HN • Reddit • RSS • tech sites\n[ACCEPTED batch contracts]", fillcolor="#999999", fontcolor="white", color="#777777"];
+ owner -> web [label="Uses privately"];
  web -> api [label="HTTPS / REST / JSON"];
-  api -> db [label="rag_runtime / JPA + SQL\nseparate migrator process"];
-  api -> worker [label="issued scope / loopback HTTP"];
-  worker -> db [label="rag_worker / scoped grant + receipt functions\nno business reads or publication"];
+ api -> snapshots [label="Captures approved revisions (configured snapshot root)\nverifies whole-file SHA-256 integrity"];
+ api -> db [label="rag_runtime / JPA + SQL (RagDocumentFinalizationGate)\nfinalizes & publishes generation batches\n(no SQL lock spans compute or async emission)"];
+ api -> worker [label="Dispatches prepared inputs (NativeWorkerProcess)\none-use grant • job lifecycle"];
+ worker -> db [label="rag_worker / restricted SQL staging + seal\nscoped SECURITY DEFINER (db.py)\nno business reads or independent publication"];
+ api -> queryWorker [label="Request-bound embedding query (dynamic loopback port)\nADR-0025: reader exclusion spans Servlet async output &\npositive sender/child stop outside SQL transactions"];
+ api -> qaWorker [label="Archival only • execution disabled\n(zero runtime model loaded / no inference)", style="dashed", color="#AAAAAA"];
  api -> storage [label="S3-compatible API"];
- api -> feeds [label="HTTPS fetch"];
+ api -> feeds [label="Consumes normalized batches"];
 }

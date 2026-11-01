@@ -1,10 +1,17 @@
 """Explicit isolated CUDA runtime checks, without model construction or inference."""
 
+import os
 from pathlib import Path
 
 import pytest
 
-from ppv_rag import qa_generation as qa
+if os.getenv("PPV_TEST_ARCHIVED_S19_2") != "true":
+    pytest.skip(
+        "Archived S19-2 test requires PPV_TEST_ARCHIVED_S19_2='true'",
+        allow_module_level=True,
+    )
+
+from ppv_rag import qa_generation as qa  # noqa: E402
 
 pytestmark = pytest.mark.skipif(not qa.CUDA_TEST, reason="Explicit isolated CUDA QA test profile")
 

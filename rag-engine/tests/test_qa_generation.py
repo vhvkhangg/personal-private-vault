@@ -1,6 +1,16 @@
 from __future__ import annotations
 
-from ppv_rag.qa_generation import (
+import os
+
+import pytest
+
+if os.getenv("PPV_TEST_ARCHIVED_S19_2") != "true":
+    pytest.skip(
+        "Archived S19-2 test requires PPV_TEST_ARCHIVED_S19_2='true'",
+        allow_module_level=True,
+    )
+
+from ppv_rag.qa_generation import (  # noqa: E402
     C1_MODEL_SHA256,
     C1_MODEL_VERSION,
     QA_JSON_SCHEMA,

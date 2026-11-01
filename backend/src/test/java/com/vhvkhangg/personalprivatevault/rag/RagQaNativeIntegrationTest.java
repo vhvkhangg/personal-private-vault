@@ -23,12 +23,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * P19-S19-2 — SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY; no native QA runs authorized.
  * Authority: docs/implementation/phase-19/owner-decision-s19-2-source-archival-only-2026-10-31.md.
  */
+@EnabledIfSystemProperty(named = "ppv.test.archived-s19-2", matches = "true")
 @org.springframework.boot.test.context.SpringBootTest(
         classes = com.vhvkhangg.personalprivatevault.PersonalPrivateVaultApplication.class,
         webEnvironment = org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
