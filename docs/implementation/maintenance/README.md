@@ -23,6 +23,7 @@ Slices:
 
 - [`milestone-1-3-concurrency/`](milestone-1-3-concurrency/README.md) — **COMPLETE / FROZEN**
 - [`pre-phase4-code-hygiene/`](pre-phase4-code-hygiene/README.md) — **COMPLETE / FROZEN**
+
 - [`milestone-4-6-privacy-safe-constraint-logging/`](milestone-4-6-privacy-safe-constraint-logging/README.md) —
   **COMPLETE / FROZEN**
 
@@ -37,7 +38,8 @@ Slices:
 
 - [CSA26 current-system audit/remediation](2026-11-01-current-system-readonly-audit/owner-publication-closeout-2026-11-01.md) — independently accepted and Owner-published at `4cf6204`; `CSA26-FR-L01` LOW remains open.
 - [Spring-only Archify diagrams](2026-11-01-spring-only-archify/owner-publication-closeout-2026-11-01.md) — SAD-01–04 independently accepted/published at `84f1185`; `SAD-FR-L01` LOW remains open. Documentation-only; not an executable handoff.
-- [Universal Inbox / Save for Later](2026-11-01-universal-inbox-preparation/owner-publication-closeout-2026-11-02.md) — `UI26-INBOX-BROWSE` independently accepted and Owner-published at `50aaf7d` (**browsing only**, no read/archive state). `UI26-FR-L02` LOW remains open; 2/3 correction rounds consumed, stopped. No active implementation handoff after this documentation-only closeout.
-- [Future final non-RAG audit intent](2026-11-01-final-non-rag-audit-intent/owner-intent.md) — future gate after the remaining backend features, not active now.
+- [Universal Inbox / Save for Later](2026-11-01-universal-inbox-preparation/owner-publication-closeout-2026-11-02.md) — `UI26-INBOX-BROWSE` independently accepted and Owner-published at `50aaf7d` (**browsing only**, no read/archive state). `UI26-FR-L02` LOW remains open; 2/3 correction rounds consumed, stopped. No active Inbox implementation handoff.
+- [Daily Trends Radar S1](2026-11-02-daily-trends-radar-preparation/owner-publication-closeout-2026-11-04.md) — `DTR26-S1` independently accepted and Owner-published at `7438e7f` (manual Hacker News article refresh and cached rolling-24-hour preview, not RSS/scheduler). `FR-01`–`FR-07` CLOSED; `DTR26-FR-L01` LOW remains OPEN. Antigravity 3/3 exhausted; one Codex takeover accepted. **Published commit also contains a modified root ZIP outside accepted delivery; Owner review required.** `ACTIVE` resets to `NO_ACTIVE_HANDOFF` in the subsequent docs-only overlay.
+- [Future final non-RAG audit intent](2026-11-01-final-non-rag-audit-intent/owner-intent.md) — future gate after the remaining backend features, not active now; all actionable LOW/INFO or higher findings must be resolved.
 
 The general maintenance implementation rules above apply only when an implementation handoff is separately approved; documentation-only preparation and publication closeout do not create an active handoff.
