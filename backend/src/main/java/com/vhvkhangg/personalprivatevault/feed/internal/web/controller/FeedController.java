@@ -4,12 +4,16 @@ import com.vhvkhangg.personalprivatevault.ApiResponse;
 import com.vhvkhangg.personalprivatevault.ApiResponses;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CreateFeedSourceRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedItemResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedRadarResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedRefreshResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedSourceResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.UpdateFeedSourceRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.mapper.FeedWebMapper;
 import com.vhvkhangg.personalprivatevault.feed.item.FeedItemOperations;
 import com.vhvkhangg.personalprivatevault.feed.source.FeedSourceOperations;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedItemView;
+import com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView;
+import com.vhvkhangg.personalprivatevault.feed.view.FeedRefreshResultView;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedSourceView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -94,5 +98,56 @@ public class FeedController {
             @RequestParam(defaultValue = "50") @Positive @Max(100) int limit) {
         List<FeedItemView> items = feedItemOperations.findRecentItemsBySource(sourceId, limit);
         return ApiResponses.ok(items.stream().map(FeedWebMapper::toResponse).toList());
+    }
+
+    // --- Radar & Manual Refresh ---
+
+    @PostMapping("/sources/{sourceId}/refresh")
+    @Operation(summary = "Manually refresh a Hacker News feed source", operationId = "refreshFeedSource")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Source refreshed successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Validation or binding failure",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse"))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Missing or invalid bearer token",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse"))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Feed source not found",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse"))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "Refresh in-flight or source changed during refresh",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse"))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "422", description = "Unsupported feed source type",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse"))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "502", description = "Downstream Hacker News provider error or limit exceeded",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse"))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "503", description = "Upstream provider, refresh capacity, or finalization unavailable",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse")))
+    })
+    public ResponseEntity<ApiResponse<FeedRefreshResponse>> refreshFeedSource(
+            @PathVariable @Positive Long sourceId,
+            @RequestParam(defaultValue = "30") @Positive @Max(50)
+            @io.swagger.v3.oas.annotations.Parameter(description = "Maximum number of items to select from topstories (1-50, default 30)") int maxItems
+    ) {
+        FeedRefreshResultView result = feedSourceOperations.refreshSource(sourceId, maxItems);
+        return ApiResponses.ok(FeedWebMapper.toResponse(result));
+    }
+
+    @GetMapping("/radar")
+    @Operation(summary = "Get rolling 24-hour feed radar preview", operationId = "getFeedRadar")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Rolling 24-hour feed radar preview"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Validation or binding failure",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse"))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Missing or invalid bearer token",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse"))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "422", description = "Filtered feed source is not a Hacker News source",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, schema = @io.swagger.v3.oas.annotations.media.Schema(ref = "#/components/schemas/ErrorResponse")))
+    })
+    public ResponseEntity<ApiResponse<FeedRadarResponse>> getFeedRadar(
+            @RequestParam(required = false) @Positive
+            @io.swagger.v3.oas.annotations.Parameter(description = "Optional feed source ID to filter radar items") Long sourceId,
+            @RequestParam(defaultValue = "50") @Positive @Max(100)
+            @io.swagger.v3.oas.annotations.Parameter(description = "Page size limit between 1 and 100, default 50") int limit
+    ) {
+        FeedRadarPageView page = feedItemOperations.getRadar(sourceId, limit);
+        return ApiResponses.ok(FeedWebMapper.toResponse(page));
     }
 }

@@ -7,6 +7,9 @@ import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CreateFeedSavedR
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CreateFeedSourceRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CreateManualSavedResourceRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedItemResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedRadarItemResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedRadarResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedRefreshResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedSourceResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceConversionResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceInboxPageResponse;
@@ -17,6 +20,9 @@ import com.vhvkhangg.personalprivatevault.feed.resource.command.CreateManualSave
 import com.vhvkhangg.personalprivatevault.feed.source.command.CreateFeedSourceCommand;
 import com.vhvkhangg.personalprivatevault.feed.source.command.UpdateFeedSourceCommand;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedItemView;
+import com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView;
+import com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView;
+import com.vhvkhangg.personalprivatevault.feed.view.FeedRefreshResultView;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedSourceView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceConversionView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceInboxPageView;
@@ -189,6 +195,44 @@ public final class FeedWebMapper {
         return new SavedResourceInboxPageResponse(
                 view.items().stream().map(FeedWebMapper::toResponse).toList(),
                 view.nextCursor()
+        );
+    }
+
+    public static FeedRefreshResponse toResponse(FeedRefreshResultView view) {
+        return new FeedRefreshResponse(
+                view.sourceId(),
+                view.fetchedAt(),
+                view.selectedTopIds(),
+                view.eligibleStories(),
+                view.distinctArticleUrls(),
+                view.processedItems()
+        );
+    }
+
+    public static FeedRadarItemResponse toResponse(FeedRadarItemView view) {
+        return new FeedRadarItemResponse(
+                view.feedItemId(),
+                view.sourceId(),
+                view.sourceName(),
+                view.sourceType(),
+                view.title(),
+                view.url(),
+                view.publishedAt(),
+                view.fetchedAt(),
+                view.signalType(),
+                view.sourceRank(),
+                view.signalCapturedAt(),
+                view.hnStoryId(),
+                view.hnDiscussionUrl()
+        );
+    }
+
+    public static FeedRadarResponse toResponse(FeedRadarPageView view) {
+        return new FeedRadarResponse(
+                view.items().stream().map(FeedWebMapper::toResponse).toList(),
+                view.windowStart(),
+                view.windowEnd(),
+                view.retrievedAt()
         );
     }
 }

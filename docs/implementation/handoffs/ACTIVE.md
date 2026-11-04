@@ -1,30 +1,49 @@
 # Active Implementation Handoff
 
-> **CURRENT — 2026-11-02: `NO_ACTIVE_HANDOFF`.** The independently accepted `UI26-INBOX-BROWSE` implementation was Owner-published on `main` at [`50aaf7d5b48bf71f61dcccb476790421c01c64f7`](https://github.com/vhvkhangg/personal-private-vault/commit/50aaf7d5b48bf71f61dcccb476790421c01c64f7). See the [UI26 publication closeout](../maintenance/2026-11-01-universal-inbox-preparation/owner-publication-closeout-2026-11-02.md) and [independent re-review 2](../maintenance/2026-11-01-universal-inbox-preparation/reviews/2026-11-01-independent-re-review-2.md). No implementation handoff is currently executable.
+- **Handoff ID:** `DTR26-S1`
+- **Created by / date:** Codex / 2026-11-02
+- **Status:** `READY_FOR_OWNER_COMMIT`
+- **Type:** One Owner-approved Daily Trends Radar maintenance/feature slice in Feed; additive Phase 10/13 extension.
+- **Executable contract:** [DTR26-S1 handoff](../maintenance/2026-11-02-daily-trends-radar-preparation/executable-handoff-2026-11-02.md).
+- **Owner scope / review:** [ARTICLE_URL decision](../maintenance/2026-11-02-daily-trends-radar-preparation/owner-scope-and-decisions.md), [reviewed preparation](../maintenance/2026-11-02-daily-trends-radar-preparation/README.md), [independent re-review 1](../maintenance/2026-11-02-daily-trends-radar-preparation/reviews/2026-11-02-independent-pre-handoff-re-review-1.md), `READY_FOR_HANDOFF`; PH-01/02 closed for preparation, runtime proof mandatory.
+- **Authority / baseline:** Owner's current `$codex-create-handoff` invocation after reviewed preparation publication at `974c8c26ae9efcd236f3e590a536527c5200b2bf`. Local main/origin main and live remote main verified there; initially clean tree, unchanged reviewed source; no prior live handoff.
+- **Implementer:** Codex under the Owner's one bounded 2026-11-04 `$codex-implementation-takeover` authorization for the remaining FR-05 test/evidence defect only; Antigravity stopped. Codex is the implementer, not the independent reviewer.
+- **Independent reviewer:** Codex, separate from the Codex takeover implementation session; [independent takeover review 1](../maintenance/2026-11-02-daily-trends-radar-preparation/reviews/2026-11-04-dtr26-s1-independent-takeover-review-1.md), 2026-11-04. Codex takeover authorship is disclosed; this review authored no implementation correction.
+- **Implementation / acceptance:** **READY_FOR_OWNER_COMMIT** under independent takeover review 1. **FR-01–07 CLOSED; DTR-01–12 verified** within the existing scope/limits. Actual ingest/source-update/finalizer share one physical transaction; the same assertion detects a separately committed test-only REQUIRES_NEW ingest. Fresh independent 21 PostgreSQL tests pass with zero failures/errors/skips; unchanged independent compatibility/architecture/provider/Radar/web evidence retained. Implementer final 105 results separately reconciled. Production unchanged by takeover. [Handback](../maintenance/2026-11-02-daily-trends-radar-preparation/implementation-handback.md) remains the dated implementer submission; prior reviews preserved. L01 LOW remains OPEN/NONBLOCKING. Owner publication pending.
+- **Remediation:** **Antigravity `3/3` consumed / EXHAUSTED / STOPPED; one authorized Codex takeover independently accepted; loop STOPPED.** No fourth round or further implementation authorized. The takeover changed one integration test and three handoff/handback documents; this independent review adds its report and synchronizes ACTIVE/contract only. Production, contracts, immutable reviews and historical counters preserved. Owner alone publishes accepted S1; no next feature follows automatically.
 
-- **Handoff ID:** `NO_ACTIVE_HANDOFF`
-- **Status:** `NO_ACTIVE_HANDOFF`
-- **Current implementation authorization:** `NONE`
-- **Most recent accepted/published slice:** `UI26-INBOX-BROWSE` — published commit `50aaf7d5b48bf71f61dcccb476790421c01c64f7`.
-- **Historical executable handoff:** [UI26 issued contract](../maintenance/2026-11-01-universal-inbox-preparation/executable-handoff-2026-11-01.md).
-- **Historical saved ACTIVE:** [UI26 acceptance-time register at published SHA](https://github.com/vhvkhangg/personal-private-vault/blob/50aaf7d5b48bf71f61dcccb476790421c01c64f7/docs/implementation/handoffs/ACTIVE.md). Its `READY_FOR_OWNER_COMMIT` value is historical, **not** the current execution state.
-- **Independent disposition:** `READY_FOR_OWNER_COMMIT` before publication, UI-01–UI-10 accepted within the bounded feature. `UI26-FR-01`–`04` MEDIUM CLOSED, `UI26-FR-L01` and `L03` CLOSED, `UI26-FR-L02` LOW / OPEN / NONBLOCKING.
-- **UI26 remediation:** `2/3` rounds consumed; accepted and stopped. The remaining round is **not transferable**; takeover `NOT_AUTHORIZED`.
+## Goal and targets
 
-## Preserved boundaries
+Add authenticated manual `POST /api/v1/feed/sources/{sourceId}/refresh` and cached `GET /api/v1/feed/radar`. Refresh only enabled HN sources through fixed official endpoints, then normalize exact trimmed article-URL groups with `externalId=null` and use unchanged generic ingestion inside a short authority-checking finalizer. Radar is a SQL-bounded, fixed UTC 24h submission-time preview; existing Feed Item → SavedResource saves the article URL.
 
-- CSA26 audit remediation: Owner-published at [`4cf6204`](https://github.com/vhvkhangg/personal-private-vault/commit/4cf62041796d0b510255ee7014261221cafe3d5d); [closeout](../maintenance/2026-11-01-current-system-readonly-audit/owner-publication-closeout-2026-11-01.md). `CSA26-FR-L01` remains LOW/OPEN.
-- Spring-only Archify: Owner-published at [`84f1185`](https://github.com/vhvkhangg/personal-private-vault/commit/84f11854de20cde4dcdcd7b082b4c40c1410885b); [closeout](../maintenance/2026-11-01-spring-only-archify/owner-publication-closeout-2026-11-01.md). `SAD-FR-L01` remains LOW/OPEN.
-- Universal Inbox: accepted/published **browsing only**. Read/archive state, Daily Trends, Drive, Dashboard, Ideaverse and frontend implementation remain outside this slice.
-- RAG: P17 FROZEN, P18 CLOSED, S19-1 ACCEPTED/PUBLISHED; S19-2 **`SUSPENDED_BY_OWNER / NOT_ACCEPTED / ARCHIVAL_ONLY`**. C1 REJECTED, C2 NOT_QUALIFIED, M10 FAIL / cause NOT_VERIFIED; F01–F05/F08/F09 OPEN. Existing S19-2 corrective/QA/model counters and failures are untouched. External indexing INACTIVE; live originals DISABLED/DEFERRED. No QA/inference/worker startup or RAG resumption is authorized.
-- Owner-only staging/committing/pushing. Existing historical handoffs, decisions, reviews, failed evidence and receipts remain immutable and are not restarted by this register reset.
+Follow the linked contract's precise Feed source/item/application/provider/repository/view/web/test targets and documentation permissions. Reuse existing source management, generic ingest/locks, root envelope/error conventions, public module dependencies and Inbox. No schema/POM/config/auth/global HTTP change, arbitrary URL fetch, scheduler, RSS/S2, other providers, framework/queue, frontend, diagram, RAG or unrelated frozen repair.
 
-## Forward plan (not an executable handoff)
+## Required evidence and documentation
 
-1. Daily Trends Radar — separate Owner-approved preparation and independent review, reuse-first in `feed`.
-2. Two-account Google Drive integration — separate security/OAuth design and approval.
-3. Dashboard and Frontend API readiness.
-4. Final comprehensive non-RAG backend + docs audit: resolve **all** substantiated actionable LOW/INFO and higher findings, or close false positives with evidence; extend the existing `codex-backend-audit` skill prospectively.
-5. Phase 16 Frontend only after a separate authorization.
+All DTR-01–12 cases in the executable contract are mandatory. Include actual client peer/resolver/TLS/proxy and byte/deadline negatives; article deduplication/legacy-row/upsert/save-target proof; real PostgreSQL source-change races, staged insert/update/timestamp rollback and retained shared transaction/lock; no transaction over HTTP; admission cleanup; fixed-clock cached reads and exact 233-operation OpenAPI compatibility.
 
-**Next step:** Owner | publish this documentation-only UI26 closeout and reset; then separately approve Daily Trends preparation | `NO_ACTIVE_HANDOFF`, no live implementation | no prior remediation/QA counter reset.
+Use the contract's explicit safe selectors through `scripts/run-bounded-command.py`, normal profile, **300s per focused command**, unique ignored receipts/logs. No full suite/extended profile, provider smoke, unsafe connectivity test, RAG/QA selector, model/worker startup or runtime download. Source/runtime prerequisite failures do not authorize repair or bypass.
+
+The existing `implementation-handback.md` now records Codex takeover authorship, actual receipts, implementation self-check and pending independent acceptance. A separate Codex session reviews before Owner publication.
+
+**Docs Sync Check — independent takeover review 1:** `UPDATED` — independent report and ACTIVE/executable contract acceptance, FR-05 closure, accepted takeover, unchanged counter and publication next step. `ALREADY_CONSISTENT` — current handback evidence, unchanged production/API/schema/dependency inputs, immutable reviews and package inventory; 21 fresh independent cases and 105 supplied final cases reconciled. The dated implementer handback's independent-review-pending statements are superseded by the independent decision. `NOT_VERIFIED` — eventual Owner publication only; no mandatory implementation gate remains unverified. `LOW_BACKLOG` — L01 remains OPEN/NONBLOCKING. `DEFERRED_OUT_OF_SCOPE` — historical routing/tooling notices, other LOW backlog and preexisting archive; no broad cleanup.
+
+## Preserved history and boundaries
+
+- UI26 Inbox browsing is accepted/Owner-published at `50aaf7d5b48bf71f61dcccb476790421c01c64f7`; [publication closeout](../maintenance/2026-11-01-universal-inbox-preparation/owner-publication-closeout-2026-11-02.md) and [independent re-review 2](../maintenance/2026-11-01-universal-inbox-preparation/reviews/2026-11-01-independent-re-review-2.md). UI26-FR-01–04 and L01/L03 CLOSED; UI26-FR-L02 LOW / OPEN / NONBLOCKING. UI26's 2/3 accepted loop stopped; unused allowance is not transferable.
+- CSA26: published `4cf62041796d0b510255ee7014261221cafe3d5d`; [closeout](../maintenance/2026-11-01-current-system-readonly-audit/owner-publication-closeout-2026-11-01.md). CSA26-FR-L01 stays LOW/OPEN; its accepted 2/3 loop remains stopped. Spring Archify: published `84f11854de20cde4dcdcd7b082b4c40c1410885b`; [closeout](../maintenance/2026-11-01-spring-only-archify/owner-publication-closeout-2026-11-01.md), SAD-FR-L01 LOW/OPEN.
+- P17 FROZEN, P18 CLOSED, S19-1 ACCEPTED/PUBLISHED; S19-2 `SUSPENDED_BY_OWNER / NOT_ACCEPTED / ARCHIVAL_ONLY` under [suspension](../phase-19/owner-decision-s19-2-suspension-2026-10-30.md) and [archival decision](../phase-19/owner-decision-s19-2-source-archival-only-2026-10-31.md). C1 REJECTED, C2 NOT_QUALIFIED, M10 FAIL / exact cause NOT_VERIFIED; F01–F05/F08/F09 OPEN. Indexing INACTIVE, live originals DISABLED/DEFERRED; counters/evidence unchanged. No RAG resumption.
+- S2/RSS/scheduling, Drive, Dashboard, final non-RAG audit and Frontend Phase 16 remain separately gated. Existing read/archive state is not added. No automatic next feature follows S1.
+- Preceding no-active register: [published history at 974c8c2](https://github.com/vhvkhangg/personal-private-vault/blob/974c8c26ae9efcd236f3e590a536527c5200b2bf/docs/implementation/handoffs/ACTIVE.md). Historical contracts/reviews/failures/logs remain immutable. Owner alone stages/commits/pushes/tags or opens/merges PRs.
+
+## Implementation result
+
+Codex's bounded takeover changes one integration-test file and these three handoff/handback documents only. The final PostgreSQL observation is REQUIRED ingest/source-update/finalizer PID/transaction `81/883` throughout; the passing negative control observes independently committed ingest `82/878` versus finalizer `81/879` and proves the shared-identity assertion rejects it. Final-source refresh/concurrency 21, Feed compatibility 47 and architecture 37 tests pass (105 total, zero failures/errors/skips); real normal-profile 300s receipts, XML, preliminary runs and input/final boundary hashes are preserved under `logs/daily-trends-radar/codex-takeover1-20261104-31df241065e44d26b122a07de5756ef6/`. Production is unchanged from takeover entry. The prior independently reviewed 239 supplied/104 fresh cases, credited corrections and false-positive diagnostic remain historical evidence in re-review 3 and its original receipt directory; they are not overwritten or relabeled as this takeover's acceptance.
+
+Independent takeover review 1 closes FR-05 and DTR-05/07 with its own fresh 21-case PostgreSQL execution (exit 0, zero failures/errors/skips, 33.594s) and inspection of correctly placed observations/negative control. Current source matches takeover final hashes; all 2,881 input files were compared, with only the authorized four-file takeover delta. Reviewer evidence: `logs/daily-trends-radar/codex-takeover-review1-20261104-1d4381ee792242ea8dad0c147d5c0afa/`. No source/test/history change or publishing by the reviewer.
+
+## Codex remediation and final review
+
+**`READY_FOR_OWNER_COMMIT`** under [independent takeover review 1](../maintenance/2026-11-02-daily-trends-radar-preparation/reviews/2026-11-04-dtr26-s1-independent-takeover-review-1.md). FR-01–07 CLOSED; DTR-01–12 verified within existing limits. L01 LOW remains OPEN/NONBLOCKING. Antigravity **`3/3`** remains consumed/exhausted; the one authorized Codex takeover is independently accepted and the correction loop is stopped. No agent publishes; no additional staging-review, phase-final or automatic next-slice gate for this accepted S1.
+
+**Next step:** Owner | commit/push the accepted DTR26-S1 delivery, then ChatGPT records publication closeout | this ACTIVE register, executable handoff and independent takeover review 1 | READY_FOR_OWNER_COMMIT; preserve unrelated preexisting work and record actual publication SHA afterward | Antigravity `3/3` consumed; one bounded Codex takeover independently accepted; loop STOPPED.

@@ -2,6 +2,7 @@ package com.vhvkhangg.personalprivatevault.feed.item;
 
 import com.vhvkhangg.personalprivatevault.feed.item.command.NormalizedFeedItemInput;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedItemView;
+import com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView;
 
 import java.time.Instant;
 import java.util.List;
@@ -17,4 +18,6 @@ public interface FeedItemOperations {
     Optional<FeedItemView> findItemById(Long id);
 
     List<FeedItemView> findRecentItemsBySource(Long sourceId, int limit);
+
+    FeedRadarPageView getRadar(Long sourceId, int limit);
 }

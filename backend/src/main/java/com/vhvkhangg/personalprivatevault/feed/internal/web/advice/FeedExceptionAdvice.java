@@ -87,4 +87,16 @@ public class FeedExceptionAdvice {
     public ResponseEntity<ApiResponse<Void>> handleKnowledgeNotFound(com.vhvkhangg.personalprivatevault.knowledge.api.KnowledgeNotFoundException ex) {
         return ApiResponses.of(HttpStatus.NOT_FOUND, "KNOWLEDGE_NOT_FOUND", "Knowledge item not found");
     }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.feed.source.exception.FeedRefreshException.class)
+    public ResponseEntity<ApiResponse<Void>> handleRefreshException(com.vhvkhangg.personalprivatevault.feed.source.exception.FeedRefreshException ex) {
+        com.vhvkhangg.personalprivatevault.feed.source.exception.FeedRefreshFailureReason reason = ex.getReason();
+        HttpStatus status = switch (reason) {
+            case SOURCE_DISABLED, UNSUPPORTED_SOURCE_TYPE -> HttpStatus.UNPROCESSABLE_CONTENT;
+            case REFRESH_ALREADY_RUNNING, SOURCE_CHANGED_DURING_REFRESH -> HttpStatus.CONFLICT;
+            case UPSTREAM_INVALID_RESPONSE, UPSTREAM_DESTINATION_REJECTED, FETCH_LIMIT_EXCEEDED -> HttpStatus.BAD_GATEWAY;
+            case UPSTREAM_UNAVAILABLE, UPSTREAM_RATE_LIMITED, REFRESH_CAPACITY_REACHED, REFRESH_FINALIZATION_UNAVAILABLE -> HttpStatus.SERVICE_UNAVAILABLE;
+        };
+        return ApiResponses.of(status, reason.getCode(), reason.getDefaultMessage());
+    }
 }

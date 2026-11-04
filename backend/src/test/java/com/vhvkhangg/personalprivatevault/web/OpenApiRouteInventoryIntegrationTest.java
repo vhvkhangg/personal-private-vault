@@ -65,6 +65,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/collection/software/{id} | getCollectionSoftwareItem | 200 | null | ApiResponseSoftwareItemResponse | true
             GET | /api/v1/collection/software/{id}/platforms | getCollectionSoftwarePlatforms | 200 | null | ApiResponseListSoftwarePlatformResponse | true
             GET | /api/v1/feed/items/{id} | getFeedItem | 200 | null | ApiResponseFeedItemResponse | true
+            GET | /api/v1/feed/radar | getFeedRadar | 200 | null | ApiResponseFeedRadarResponse | true
             GET | /api/v1/feed/sources/{id} | getFeedSource | 200 | null | ApiResponseFeedSourceResponse | true
             GET | /api/v1/feed/sources/{sourceId}/items | findRecentFeedItemsBySource | 200 | null | ApiResponseListFeedItemResponse | true
             GET | /api/v1/feed/sources/due | findDueFeedSources | 200 | null | ApiResponseListFeedSourceResponse | true
@@ -163,6 +164,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/collection/shopping | createCollectionShoppingItem | 201 | CreateShoppingItemRequest | ApiResponseShoppingItemResponse | false
             POST | /api/v1/collection/software | createCollectionSoftwareItem | 201 | CreateSoftwareItemRequest | ApiResponseSoftwareItemResponse | false
             POST | /api/v1/feed/sources | createFeedSource | 201 | CreateFeedSourceRequest | ApiResponseFeedSourceResponse | false
+            POST | /api/v1/feed/sources/{sourceId}/refresh | refreshFeedSource | 200 | null | ApiResponseFeedRefreshResponse | true
             POST | /api/v1/fiction-genres | createFictionGenre | 201 | CreateFictionGenreRequest | ApiResponseFictionGenreResponse | false
             POST | /api/v1/fictions | createFiction | 201 | CreateFictionRequest | ApiResponseFictionResponse | false
             POST | /api/v1/fictions/{id}/links | createFictionLink | 201 | CreateFictionLinkRequest | ApiResponseFictionLinkResponse | true
@@ -390,8 +392,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(231);
-        assertThat(uniqueIds).hasSize(231);
+        assertThat(operationIds).hasSize(233);
+        assertThat(uniqueIds).hasSize(233);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -469,6 +471,18 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(exportArchivePost.path("responses").has("409")).as("POST /api/v1/portability/exports must NOT document 409").isFalse();
         assertThat(exportArchivePost.path("responses").has("422")).as("POST /api/v1/portability/exports must NOT document 422").isFalse();
 
+        // Feed refresh and radar error status codes (DTR26-FR-07)
+        JsonNode refreshPost = paths.path("/api/v1/feed/sources/{sourceId}/refresh").path("post");
+        assertThat(refreshPost.path("responses").has("502")).as("POST /api/v1/feed/sources/{sourceId}/refresh must document 502").isTrue();
+        assertThat(refreshPost.path("responses").has("503")).as("POST /api/v1/feed/sources/{sourceId}/refresh must document 503").isTrue();
+        assertThat(refreshPost.path("responses").has("409")).as("POST /api/v1/feed/sources/{sourceId}/refresh must document 409").isTrue();
+        assertThat(refreshPost.path("responses").has("422")).as("POST /api/v1/feed/sources/{sourceId}/refresh must document 422").isTrue();
+
+        JsonNode radarGet = paths.path("/api/v1/feed/radar").path("get");
+        assertThat(radarGet.path("responses").has("422")).as("GET /api/v1/feed/radar must document 422").isTrue();
+        assertThat(radarGet.path("responses").has("400")).as("GET /api/v1/feed/radar must document 400").isTrue();
+        assertThat(radarGet.path("responses").has("401")).as("GET /api/v1/feed/radar must document 401").isTrue();
+
         // 6b. Verify exact 224-endpoint method/path/operation/status/DTO contract manifest (FR13-6 + Phase 14 + Phase 17)
         List<ExpectedRouteContract> expectedContracts = ACCEPTED_MANIFEST.lines()
                 .map(String::trim)
@@ -487,7 +501,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 231 endpoints").hasSize(231);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 233 endpoints").hasSize(233);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -502,7 +516,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 231 manifest count").isEqualTo(231);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 233 manifest count").isEqualTo(233);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());
@@ -662,7 +676,71 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         JsonNode itemsProp = inboxPageSchema.path("properties").path("items");
         assertThat(itemsProp.path("type").asText()).isEqualTo("array");
         assertThat(itemsProp.path("items").path("$ref").asText()).isEqualTo("#/components/schemas/SavedResourceResponse");
+
+        // 9. Daily Trends Radar endpoints schema and parameter assertions (DTR-11)
+        refreshPost = paths.path("/api/v1/feed/sources/{sourceId}/refresh").path("post");
+        assertThat(refreshPost.isMissingNode()).as("POST /api/v1/feed/sources/{sourceId}/refresh must exist in OpenAPI").isFalse();
+        JsonNode refreshParams = refreshPost.path("parameters");
+        assertThat(refreshParams.isArray()).isTrue();
+        boolean foundMaxItems = false;
+        for (JsonNode param : refreshParams) {
+            if ("maxItems".equals(param.path("name").asText())) {
+                foundMaxItems = true;
+                JsonNode schema = param.path("schema");
+                assertThat(schema.path("type").asText()).isEqualTo("integer");
+                assertThat(schema.path("format").asText()).isEqualTo("int32");
+                assertThat(schema.path("default").asInt()).isEqualTo(30);
+                assertThat(schema.path("maximum").asInt()).isEqualTo(50);
+            }
+        }
+        assertThat(foundMaxItems).as("maxItems parameter must be documented with bounds").isTrue();
+
+        JsonNode refreshResponses = refreshPost.path("responses");
+        for (String errCode : List.of("400", "401", "404", "409", "422", "502", "503")) {
+            assertThat(refreshResponses.hasNonNull(errCode))
+                    .as("POST /api/v1/feed/sources/{sourceId}/refresh must document status %s", errCode)
+                    .isTrue();
+            assertThat(refreshResponses.path(errCode).path("content").path("application/json").path("schema").path("$ref").asText())
+                    .as("POST /api/v1/feed/sources/{sourceId}/refresh %s schema must be ErrorResponse", errCode)
+                    .isEqualTo("#/components/schemas/ErrorResponse");
+        }
+
+        radarGet = paths.path("/api/v1/feed/radar").path("get");
+        assertThat(radarGet.isMissingNode()).as("GET /api/v1/feed/radar must exist in OpenAPI").isFalse();
+        JsonNode radarParams = radarGet.path("parameters");
+        assertThat(radarParams.isArray()).isTrue();
+        boolean foundRadarLimit = false;
+        boolean foundRadarSourceId = false;
+        for (JsonNode param : radarParams) {
+            String pName = param.path("name").asText();
+            if ("limit".equals(pName)) {
+                foundRadarLimit = true;
+                JsonNode schema = param.path("schema");
+                assertThat(schema.path("type").asText()).isEqualTo("integer");
+                assertThat(schema.path("format").asText()).isEqualTo("int32");
+                assertThat(schema.path("default").asInt()).isEqualTo(50);
+                assertThat(schema.path("maximum").asInt()).isEqualTo(100);
+            } else if ("sourceId".equals(pName)) {
+                foundRadarSourceId = true;
+                JsonNode schema = param.path("schema");
+                assertThat(schema.path("type").asText()).isEqualTo("integer");
+                assertThat(schema.path("format").asText()).isEqualTo("int64");
+            }
+        }
+        assertThat(foundRadarLimit).as("radar limit parameter must be documented with bounds").isTrue();
+        assertThat(foundRadarSourceId).as("radar sourceId parameter must be documented").isTrue();
+
+        JsonNode radarResponses = radarGet.path("responses");
+        for (String errCode : List.of("400", "401", "422")) {
+            assertThat(radarResponses.hasNonNull(errCode))
+                    .as("GET /api/v1/feed/radar must document status %s", errCode)
+                    .isTrue();
+            assertThat(radarResponses.path(errCode).path("content").path("application/json").path("schema").path("$ref").asText())
+                    .as("GET /api/v1/feed/radar %s schema must be ErrorResponse", errCode)
+                    .isEqualTo("#/components/schemas/ErrorResponse");
+        }
     }
+
 
     private static boolean allowsNull(JsonNode schema) {
         if (schema.path("nullable").asBoolean(false)) {

@@ -20,6 +20,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -33,13 +35,25 @@ import java.util.Optional;
  * Service implementing feed item ingestion and querying.
  */
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class FeedItemService implements FeedItemOperations {
 
     private final FeedSourceRepository feedSourceRepository;
     private final FeedItemRepository feedItemRepository;
     private final jakarta.persistence.EntityManager entityManager;
+    private final java.time.Clock clock;
+
+    public FeedItemService(
+            FeedSourceRepository feedSourceRepository,
+            FeedItemRepository feedItemRepository,
+            jakarta.persistence.EntityManager entityManager,
+            @org.springframework.beans.factory.annotation.Autowired(required = false) java.time.Clock clock
+    ) {
+        this.feedSourceRepository = feedSourceRepository;
+        this.feedItemRepository = feedItemRepository;
+        this.entityManager = entityManager;
+        this.clock = clock != null ? clock : java.time.Clock.systemUTC();
+    }
 
     @Override
     @Transactional
@@ -169,6 +183,105 @@ public class FeedItemService implements FeedItemOperations {
                 .toList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView getRadar(Long sourceId, int limit) {
+        if (sourceId != null) {
+            FeedSource source = feedSourceRepository.findById(sourceId)
+                    .orElseThrow(() -> new FeedSourceNotFoundException(sourceId));
+            if (!source.isEnabled()) {
+                throw new com.vhvkhangg.personalprivatevault.feed.source.exception.FeedRefreshException(
+                        com.vhvkhangg.personalprivatevault.feed.source.exception.FeedRefreshFailureReason.SOURCE_DISABLED
+                );
+            }
+            if (source.getType() != com.vhvkhangg.personalprivatevault.feed.enums.FeedSourceType.HACKER_NEWS) {
+                throw new com.vhvkhangg.personalprivatevault.feed.source.exception.FeedRefreshException(
+                        com.vhvkhangg.personalprivatevault.feed.source.exception.FeedRefreshFailureReason.UNSUPPORTED_SOURCE_TYPE
+                );
+            }
+        }
+
+        Instant now = Instant.now(clock);
+        Instant windowEnd = now;
+        Instant windowStart = now.minus(Duration.ofHours(24));
+
+        List<com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.persistence.FeedRadarProjection> rows =
+                feedItemRepository.findRadarItems(
+                        windowStart,
+                        windowEnd,
+                        com.vhvkhangg.personalprivatevault.feed.enums.FeedSourceType.HACKER_NEWS,
+                        sourceId,
+                        PageRequest.of(0, limit)
+                );
+
+        List<com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView> items = rows.stream()
+                .filter(row -> com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.hackernews.HackerNewsNormalizer.isValidArticleUrl(row.getUrl()))
+                .map(this::mapToRadarItemView)
+                .toList();
+
+        return new com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView(items, windowStart, windowEnd, now);
+    }
+
+    private com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView mapToRadarItemView(
+            com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.persistence.FeedRadarProjection row
+    ) {
+        Map<String, Object> metadata = row.getRawMetadata();
+        Long hnStoryId = null;
+        String hnDiscussionUrl = null;
+        Integer sourceRank = null;
+        Instant signalCapturedAt = null;
+        String signalType = "SOURCE_CACHE";
+
+        if (metadata != null) {
+            Object storyIdObj = metadata.get("hnStoryId");
+            Object discUrlObj = metadata.get("hnDiscussionUrl");
+            Object rankObj = metadata.get("hnRank");
+            Object capAtObj = metadata.get("hnCapturedAt");
+
+            Long candidateId = parseExactPositiveLong(storyIdObj);
+            Integer candidateRank = parseExactRank(rankObj);
+
+            if (candidateId != null
+                    && candidateRank != null
+                    && discUrlObj instanceof String discUrl
+                    && capAtObj instanceof String capAtStr) {
+                try {
+                    String expectedDiscUrl = "https://news.ycombinator.com/item?id=" + candidateId;
+                    if (expectedDiscUrl.equals(discUrl)) {
+                        signalCapturedAt = Instant.parse(capAtStr);
+                        hnStoryId = candidateId;
+                        hnDiscussionUrl = discUrl;
+                        sourceRank = candidateRank;
+                        signalType = "HN_TOP_STORIES_AT_CAPTURE";
+                    }
+                } catch (Exception ex) {
+                    hnStoryId = null;
+                    hnDiscussionUrl = null;
+                    sourceRank = null;
+                    signalCapturedAt = null;
+                    signalType = "SOURCE_CACHE";
+                }
+            }
+        }
+
+        return new com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView(
+                row.getId(),
+                row.getFeedSourceId(),
+                row.getSourceName(),
+                row.getSourceType(),
+                row.getTitle(),
+                row.getUrl(),
+                row.getPublishedAt(),
+                row.getFetchedAt(),
+                signalType,
+                sourceRank,
+                signalCapturedAt,
+                hnStoryId,
+                hnDiscussionUrl
+        );
+    }
+
+
     private List<ValidatedCandidate> validateAndDeduplicateBatch(List<NormalizedFeedItemInput> inputs) {
         if (inputs == null || inputs.isEmpty()) {
             return List.of();
@@ -262,6 +375,76 @@ public class FeedItemService implements FeedItemOperations {
                 i.getFetchedAt(),
                 i.getRawMetadata()
         );
+    }
+
+    private static Long parseExactPositiveLong(Object obj) {
+        if (obj == null || obj instanceof Double || obj instanceof Float) {
+            return null;
+        }
+        if (obj instanceof Long l) {
+            return l > 0 ? l : null;
+        }
+        if (obj instanceof Integer i) {
+            return i > 0 ? i.longValue() : null;
+        }
+        if (obj instanceof Short s) {
+            return s > 0 ? s.longValue() : null;
+        }
+        if (obj instanceof Byte b) {
+            return b > 0 ? b.longValue() : null;
+        }
+        if (obj instanceof BigInteger bi) {
+            try {
+                long val = bi.longValueExact();
+                return val > 0 ? val : null;
+            } catch (ArithmeticException ex) {
+                return null;
+            }
+        }
+        if (obj instanceof BigDecimal bd) {
+            try {
+                long val = bd.toBigIntegerExact().longValueExact();
+                return val > 0 ? val : null;
+            } catch (ArithmeticException ex) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    private static Integer parseExactRank(Object obj) {
+        if (obj == null || obj instanceof Double || obj instanceof Float) {
+            return null;
+        }
+        if (obj instanceof Integer i) {
+            return (i >= 1 && i <= 50) ? i : null;
+        }
+        if (obj instanceof Long l) {
+            return (l >= 1 && l <= 50) ? l.intValue() : null;
+        }
+        if (obj instanceof Short s) {
+            return (s >= 1 && s <= 50) ? s.intValue() : null;
+        }
+        if (obj instanceof Byte b) {
+            return (b >= 1 && b <= 50) ? b.intValue() : null;
+        }
+        if (obj instanceof BigInteger bi) {
+            try {
+                int val = bi.intValueExact();
+                return (val >= 1 && val <= 50) ? val : null;
+            } catch (ArithmeticException ex) {
+                return null;
+            }
+        }
+        if (obj instanceof BigDecimal bd) {
+            try {
+                int val = bd.toBigIntegerExact().intValueExact();
+                return (val >= 1 && val <= 50) ? val : null;
+            } catch (ArithmeticException ex) {
+                return null;
+            }
+        }
+        return null;
     }
 
     private record ValidatedCandidate(

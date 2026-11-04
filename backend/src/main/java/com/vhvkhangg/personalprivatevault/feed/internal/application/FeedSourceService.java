@@ -23,14 +23,30 @@ import java.util.Optional;
  * Service implementation for feed source management and scheduling.
  */
 @Service
-@RequiredArgsConstructor
 public class FeedSourceService implements FeedSourceOperations {
 
     private final FeedSourceRepository feedSourceRepository;
     private final jakarta.persistence.EntityManager entityManager;
+    private final HackerNewsRefreshService hackerNewsRefreshService;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public FeedSourceService(
+            FeedSourceRepository feedSourceRepository,
+            jakarta.persistence.EntityManager entityManager,
+            @org.springframework.beans.factory.annotation.Autowired(required = false) HackerNewsRefreshService hackerNewsRefreshService
+    ) {
+        this.feedSourceRepository = feedSourceRepository;
+        this.entityManager = entityManager;
+        this.hackerNewsRefreshService = hackerNewsRefreshService;
+    }
+
+    public FeedSourceService(FeedSourceRepository feedSourceRepository, jakarta.persistence.EntityManager entityManager) {
+        this(feedSourceRepository, entityManager, null);
+    }
 
     @Override
     @Transactional
+
     public FeedSourceView createSource(CreateFeedSourceCommand command) {
         validateCommon(command.name(), command.type(), command.sourceUrl(), command.feedUrl());
 
@@ -162,5 +178,10 @@ public class FeedSourceService implements FeedSourceOperations {
                 s.getCreatedAt(),
                 s.getUpdatedAt()
         );
+    }
+
+    @Override
+    public com.vhvkhangg.personalprivatevault.feed.view.FeedRefreshResultView refreshSource(Long sourceId, int maxItems) {
+        return hackerNewsRefreshService.refreshSource(sourceId, maxItems);
     }
 }

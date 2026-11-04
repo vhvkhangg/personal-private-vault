@@ -398,3 +398,9 @@ The [owner-approved D18-A additive RAG API/worker inventory](rag-phase-18-api-ex
 Delivered 2026-11-01 under authorized maintenance slice `UI26-INBOX-BROWSE`.
 Adds `GET /api/v1/saved-resources/inbox` for keyset-paged Universal Inbox browsing, preserving ADR-0016 envelopes, authentication, module-local adapter ownership, and existing save/read/conversion endpoints.
 See [`universal-inbox-api-extension.md`](universal-inbox-api-extension.md).
+
+## 18. Daily Trends Radar API extension
+
+Delivered 2026-11-02 under authorized maintenance slice `DTR26-S1`.
+Adds manual Hacker News source refresh (`POST /api/v1/feed/sources/{sourceId}/refresh`) and cached rolling-window Radar view (`GET /api/v1/feed/radar`), preserving ADR-0016 envelopes, single-user JWT authentication, Feed module-local adapter ownership, and article-centric deduplication against existing generic Feed storage.
+See [`daily-trends-radar-api-extension.md`](daily-trends-radar-api-extension.md).
