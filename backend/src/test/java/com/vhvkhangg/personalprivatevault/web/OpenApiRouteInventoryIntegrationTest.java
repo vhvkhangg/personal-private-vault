@@ -66,6 +66,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/collection/software/{id}/platforms | getCollectionSoftwarePlatforms | 200 | null | ApiResponseListSoftwarePlatformResponse | true
             GET | /api/v1/feed/items/{id} | getFeedItem | 200 | null | ApiResponseFeedItemResponse | true
             GET | /api/v1/feed/radar | getFeedRadar | 200 | null | ApiResponseFeedRadarResponse | true
+            GET | /api/v1/feed/radar/combined | getCombinedFeedRadar | 200 | null | ApiResponseCombinedFeedRadarResponse | true
             GET | /api/v1/feed/sources/{id} | getFeedSource | 200 | null | ApiResponseFeedSourceResponse | true
             GET | /api/v1/feed/sources/{sourceId}/items | findRecentFeedItemsBySource | 200 | null | ApiResponseListFeedItemResponse | true
             GET | /api/v1/feed/sources/due | findDueFeedSources | 200 | null | ApiResponseListFeedSourceResponse | true
@@ -165,6 +166,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/collection/software | createCollectionSoftwareItem | 201 | CreateSoftwareItemRequest | ApiResponseSoftwareItemResponse | false
             POST | /api/v1/feed/sources | createFeedSource | 201 | CreateFeedSourceRequest | ApiResponseFeedSourceResponse | false
             POST | /api/v1/feed/sources/{sourceId}/refresh | refreshFeedSource | 200 | null | ApiResponseFeedRefreshResponse | true
+            POST | /api/v1/feed/sources/{sourceId}/refresh-rss | refreshRssFeedSource | 200 | null | ApiResponseRssFeedRefreshResponse | true
             POST | /api/v1/fiction-genres | createFictionGenre | 201 | CreateFictionGenreRequest | ApiResponseFictionGenreResponse | false
             POST | /api/v1/fictions | createFiction | 201 | CreateFictionRequest | ApiResponseFictionResponse | false
             POST | /api/v1/fictions/{id}/links | createFictionLink | 201 | CreateFictionLinkRequest | ApiResponseFictionLinkResponse | true
@@ -392,8 +394,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(233);
-        assertThat(uniqueIds).hasSize(233);
+        assertThat(operationIds).hasSize(235);
+        assertThat(uniqueIds).hasSize(235);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -501,7 +503,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 233 endpoints").hasSize(233);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 235 endpoints").hasSize(235);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -516,7 +518,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 233 manifest count").isEqualTo(233);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 235 manifest count").isEqualTo(235);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());
@@ -739,6 +741,104 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                     .as("GET /api/v1/feed/radar %s schema must be ErrorResponse", errCode)
                     .isEqualTo("#/components/schemas/ErrorResponse");
         }
+
+        // 10. RSS manual refresh and Combined Radar schema and parameter assertions
+        JsonNode rssRefreshPost = paths.path("/api/v1/feed/sources/{sourceId}/refresh-rss").path("post");
+        assertThat(rssRefreshPost.isMissingNode()).as("POST /api/v1/feed/sources/{sourceId}/refresh-rss must exist in OpenAPI").isFalse();
+        assertThat(rssRefreshPost.has("requestBody")).as("POST /api/v1/feed/sources/{sourceId}/refresh-rss must NOT have request body").isFalse();
+        assertThat(PUBLIC_AUTH_PATHS.contains("/api/v1/feed/sources/{sourceId}/refresh-rss")).as("refresh-rss must be protected by bearerAuth").isFalse();
+
+        JsonNode rssRefreshResponses = rssRefreshPost.path("responses");
+        JsonNode rss200Content = rssRefreshResponses.path("200").path("content");
+        String rss200Ref = rss200Content.has("*/*")
+                ? rss200Content.path("*/*").path("schema").path("$ref").asText()
+                : rss200Content.path("application/json").path("schema").path("$ref").asText();
+        assertThat(rss200Ref).isEqualTo("#/components/schemas/ApiResponseRssFeedRefreshResponse");
+        for (String errCode : List.of("400", "401", "404", "409", "422", "502", "503")) {
+            assertThat(rssRefreshResponses.hasNonNull(errCode))
+                    .as("POST /api/v1/feed/sources/{sourceId}/refresh-rss must document status %s", errCode)
+                    .isTrue();
+            assertThat(rssRefreshResponses.path(errCode).path("content").path("application/json").path("schema").path("$ref").asText())
+                    .as("POST /api/v1/feed/sources/{sourceId}/refresh-rss %s schema must be ErrorResponse", errCode)
+                    .isEqualTo("#/components/schemas/ErrorResponse");
+        }
+
+        JsonNode rssRefreshSchema = schemas.path("RssFeedRefreshResponse");
+        assertThat(rssRefreshSchema.isMissingNode()).as("RssFeedRefreshResponse schema must exist").isFalse();
+        JsonNode rssProps = rssRefreshSchema.path("properties");
+        assertThat(rssProps.has("sourceId")).isTrue();
+        assertThat(rssProps.has("fetchedAt")).isTrue();
+        assertThat(rssProps.has("parsedEntries")).isTrue();
+        assertThat(rssProps.has("eligibleEntries")).isTrue();
+        assertThat(rssProps.has("distinctArticleUrls")).isTrue();
+        assertThat(rssProps.has("processedItems")).isTrue();
+
+        JsonNode combinedRadarGet = paths.path("/api/v1/feed/radar/combined").path("get");
+        assertThat(combinedRadarGet.isMissingNode()).as("GET /api/v1/feed/radar/combined must exist in OpenAPI").isFalse();
+        assertThat(PUBLIC_AUTH_PATHS.contains("/api/v1/feed/radar/combined")).as("combined radar must be protected by bearerAuth").isFalse();
+
+        JsonNode combinedRadarParams = combinedRadarGet.path("parameters");
+        assertThat(combinedRadarParams.isArray()).isTrue();
+        boolean foundCombinedLimit = false;
+        for (JsonNode param : combinedRadarParams) {
+            if ("limit".equals(param.path("name").asText())) {
+                foundCombinedLimit = true;
+                JsonNode schema = param.path("schema");
+                assertThat(schema.path("type").asText()).isEqualTo("integer");
+                assertThat(schema.path("format").asText()).isEqualTo("int32");
+                assertThat(schema.path("default").asInt()).isEqualTo(50);
+                assertThat(schema.path("maximum").asInt()).isEqualTo(100);
+            }
+        }
+        assertThat(foundCombinedLimit).as("combined radar limit parameter must be documented with bounds").isTrue();
+
+        JsonNode combinedRadarResponses = combinedRadarGet.path("responses");
+        JsonNode combined200Content = combinedRadarResponses.path("200").path("content");
+        String combined200Ref = combined200Content.has("*/*")
+                ? combined200Content.path("*/*").path("schema").path("$ref").asText()
+                : combined200Content.path("application/json").path("schema").path("$ref").asText();
+        assertThat(combined200Ref).isEqualTo("#/components/schemas/ApiResponseCombinedFeedRadarResponse");
+        for (String errCode : List.of("400", "401")) {
+            assertThat(combinedRadarResponses.hasNonNull(errCode))
+                    .as("GET /api/v1/feed/radar/combined must document status %s", errCode)
+                    .isTrue();
+            assertThat(combinedRadarResponses.path(errCode).path("content").path("application/json").path("schema").path("$ref").asText())
+                    .as("GET /api/v1/feed/radar/combined %s schema must be ErrorResponse", errCode)
+                    .isEqualTo("#/components/schemas/ErrorResponse");
+        }
+
+        JsonNode combinedRadarSchema = schemas.path("CombinedFeedRadarResponse");
+        assertThat(combinedRadarSchema.isMissingNode()).as("CombinedFeedRadarResponse schema must exist").isFalse();
+        JsonNode combinedProps = combinedRadarSchema.path("properties");
+        assertThat(combinedProps.has("windowStart")).isTrue();
+        assertThat(combinedProps.has("windowEnd")).isTrue();
+        assertThat(combinedProps.has("retrievedAt")).isTrue();
+        assertThat(combinedProps.has("items")).isTrue();
+
+        JsonNode combinedItemSchema = schemas.path("CombinedFeedRadarItemResponse");
+        assertThat(combinedItemSchema.isMissingNode()).as("CombinedFeedRadarItemResponse schema must exist").isFalse();
+        JsonNode itemProps = combinedItemSchema.path("properties");
+        assertThat(itemProps.has("feedItemId")).isTrue();
+        assertThat(itemProps.has("sourceId")).isTrue();
+        assertThat(itemProps.has("sourceName")).isTrue();
+        assertThat(itemProps.has("sourceType")).isTrue();
+        assertThat(itemProps.has("title")).isTrue();
+        assertThat(itemProps.has("url")).isTrue();
+        assertThat(itemProps.has("publishedAt")).isTrue();
+        assertThat(itemProps.has("fetchedAt")).isTrue();
+        assertThat(itemProps.has("signalType")).isTrue();
+        assertThat(itemProps.has("sourceRank")).isTrue();
+        assertThat(itemProps.has("signalCapturedAt")).isTrue();
+        assertThat(itemProps.has("hnStoryId")).isTrue();
+        assertThat(itemProps.has("hnDiscussionUrl")).isTrue();
+
+        // Nullable property checks
+        assertThat(allowsNull(itemProps.path("sourceRank"))).as("sourceRank must be nullable").isTrue();
+        assertThat(allowsNull(itemProps.path("signalCapturedAt"))).as("signalCapturedAt must be nullable").isTrue();
+        assertThat(allowsNull(itemProps.path("hnStoryId"))).as("hnStoryId must be nullable").isTrue();
+        assertThat(allowsNull(itemProps.path("hnDiscussionUrl"))).as("hnDiscussionUrl must be nullable").isTrue();
+        assertThat(allowsNull(itemProps.path("title"))).as("title must not be nullable").isFalse();
+        assertThat(allowsNull(itemProps.path("url"))).as("url must not be nullable").isFalse();
     }
 
 

@@ -28,20 +28,23 @@ public class FeedSourceService implements FeedSourceOperations {
     private final FeedSourceRepository feedSourceRepository;
     private final jakarta.persistence.EntityManager entityManager;
     private final HackerNewsRefreshService hackerNewsRefreshService;
+    private final RssFeedRefreshService rssFeedRefreshService;
 
     @org.springframework.beans.factory.annotation.Autowired
     public FeedSourceService(
             FeedSourceRepository feedSourceRepository,
             jakarta.persistence.EntityManager entityManager,
-            @org.springframework.beans.factory.annotation.Autowired(required = false) HackerNewsRefreshService hackerNewsRefreshService
+            @org.springframework.beans.factory.annotation.Autowired(required = false) HackerNewsRefreshService hackerNewsRefreshService,
+            @org.springframework.beans.factory.annotation.Autowired(required = false) RssFeedRefreshService rssFeedRefreshService
     ) {
         this.feedSourceRepository = feedSourceRepository;
         this.entityManager = entityManager;
         this.hackerNewsRefreshService = hackerNewsRefreshService;
+        this.rssFeedRefreshService = rssFeedRefreshService;
     }
 
     public FeedSourceService(FeedSourceRepository feedSourceRepository, jakarta.persistence.EntityManager entityManager) {
-        this(feedSourceRepository, entityManager, null);
+        this(feedSourceRepository, entityManager, null, null);
     }
 
     @Override
@@ -183,5 +186,10 @@ public class FeedSourceService implements FeedSourceOperations {
     @Override
     public com.vhvkhangg.personalprivatevault.feed.view.FeedRefreshResultView refreshSource(Long sourceId, int maxItems) {
         return hackerNewsRefreshService.refreshSource(sourceId, maxItems);
+    }
+
+    @Override
+    public com.vhvkhangg.personalprivatevault.feed.view.RssFeedRefreshResultView refreshRssSource(Long sourceId) {
+        return rssFeedRefreshService.refreshSource(sourceId);
     }
 }

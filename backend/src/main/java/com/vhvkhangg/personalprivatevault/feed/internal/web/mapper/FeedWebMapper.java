@@ -1,5 +1,7 @@
 package com.vhvkhangg.personalprivatevault.feed.internal.web.mapper;
 
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CombinedFeedRadarItemResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.CombinedFeedRadarResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.ConvertToInformationRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.ConvertToNoteRequest;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.ConvertToStudyRequest;
@@ -11,6 +13,7 @@ import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedRadarItemRes
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedRadarResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedRefreshResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.FeedSourceResponse;
+import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.RssFeedRefreshResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceConversionResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceInboxPageResponse;
 import com.vhvkhangg.personalprivatevault.feed.internal.web.dto.SavedResourceResponse;
@@ -24,6 +27,7 @@ import com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedRefreshResultView;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedSourceView;
+import com.vhvkhangg.personalprivatevault.feed.view.RssFeedRefreshResultView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceConversionView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceInboxPageView;
 import com.vhvkhangg.personalprivatevault.feed.view.SavedResourceView;
@@ -230,6 +234,44 @@ public final class FeedWebMapper {
     public static FeedRadarResponse toResponse(FeedRadarPageView view) {
         return new FeedRadarResponse(
                 view.items().stream().map(FeedWebMapper::toResponse).toList(),
+                view.windowStart(),
+                view.windowEnd(),
+                view.retrievedAt()
+        );
+    }
+
+    public static RssFeedRefreshResponse toResponse(RssFeedRefreshResultView view) {
+        return new RssFeedRefreshResponse(
+                view.sourceId(),
+                view.fetchedAt(),
+                view.parsedEntries(),
+                view.eligibleEntries(),
+                view.distinctArticleUrls(),
+                view.processedItems()
+        );
+    }
+
+    public static CombinedFeedRadarItemResponse toCombinedItemResponse(FeedRadarItemView view) {
+        return new CombinedFeedRadarItemResponse(
+                view.feedItemId(),
+                view.sourceId(),
+                view.sourceName(),
+                view.sourceType(),
+                view.title(),
+                view.url(),
+                view.publishedAt(),
+                view.fetchedAt(),
+                view.signalType(),
+                view.sourceRank(),
+                view.signalCapturedAt(),
+                view.hnStoryId(),
+                view.hnDiscussionUrl()
+        );
+    }
+
+    public static CombinedFeedRadarResponse toCombinedResponse(FeedRadarPageView view) {
+        return new CombinedFeedRadarResponse(
+                view.items().stream().map(FeedWebMapper::toCombinedItemResponse).toList(),
                 view.windowStart(),
                 view.windowEnd(),
                 view.retrievedAt()

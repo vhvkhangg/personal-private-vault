@@ -404,3 +404,9 @@ See [`universal-inbox-api-extension.md`](universal-inbox-api-extension.md).
 Delivered 2026-11-02 under authorized maintenance slice `DTR26-S1`.
 Adds manual Hacker News source refresh (`POST /api/v1/feed/sources/{sourceId}/refresh`) and cached rolling-window Radar view (`GET /api/v1/feed/radar`), preserving ADR-0016 envelopes, single-user JWT authentication, Feed module-local adapter ownership, and article-centric deduplication against existing generic Feed storage.
 See [`daily-trends-radar-api-extension.md`](daily-trends-radar-api-extension.md).
+
+## 19. Daily Trends Radar RSS API extension
+
+Implemented 2026-11-04 under authorized maintenance slice `DTR26-S2A`.
+Adds manual RSS/Atom source refresh (`POST /api/v1/feed/sources/{sourceId}/refresh-rss`) and combined rolling-window Radar view (`GET /api/v1/feed/radar/combined`), preserving ADR-0016 envelopes, single-user JWT authentication, Feed module-local adapter ownership, and article-centric deduplication against existing generic Feed storage.
+See [`daily-trends-radar-rss-api-extension.md`](daily-trends-radar-rss-api-extension.md).

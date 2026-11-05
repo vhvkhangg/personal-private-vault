@@ -222,6 +222,55 @@ public class FeedItemService implements FeedItemOperations {
         return new com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView(items, windowStart, windowEnd, now);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView getCombinedRadar(int limit) {
+        if (limit <= 0 || limit > 100) {
+            throw new InvalidFeedItemException("Limit must be between 1 and 100");
+        }
+        Instant now = Instant.now(clock);
+        Instant windowEnd = now;
+        Instant windowStart = now.minus(Duration.ofHours(24));
+
+        List<com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.persistence.FeedRadarProjection> rows =
+                feedItemRepository.findCombinedRadarItems(
+                        windowStart,
+                        windowEnd,
+                        List.of(com.vhvkhangg.personalprivatevault.feed.enums.FeedSourceType.HACKER_NEWS, com.vhvkhangg.personalprivatevault.feed.enums.FeedSourceType.RSS),
+                        PageRequest.of(0, limit)
+                );
+
+        List<com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView> items = rows.stream()
+                .filter(row -> com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.hackernews.HackerNewsNormalizer.isValidArticleUrl(row.getUrl()))
+                .map(this::mapToCombinedRadarItemView)
+                .toList();
+
+        return new com.vhvkhangg.personalprivatevault.feed.view.FeedRadarPageView(items, windowStart, windowEnd, now);
+    }
+
+    private com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView mapToCombinedRadarItemView(
+            com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.persistence.FeedRadarProjection row
+    ) {
+        if (row.getSourceType() == com.vhvkhangg.personalprivatevault.feed.enums.FeedSourceType.RSS) {
+            return new com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView(
+                    row.getId(),
+                    row.getFeedSourceId(),
+                    row.getSourceName(),
+                    row.getSourceType(),
+                    row.getTitle(),
+                    row.getUrl(),
+                    row.getPublishedAt(),
+                    row.getFetchedAt(),
+                    "RSS_SOURCE_CACHE",
+                    null,
+                    row.getFetchedAt(),
+                    null,
+                    null
+            );
+        }
+        return mapToRadarItemView(row);
+    }
+
     private com.vhvkhangg.personalprivatevault.feed.view.FeedRadarItemView mapToRadarItemView(
             com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.persistence.FeedRadarProjection row
     ) {

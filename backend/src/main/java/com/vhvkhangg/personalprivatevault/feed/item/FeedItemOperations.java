@@ -20,4 +20,6 @@ public interface FeedItemOperations {
     List<FeedItemView> findRecentItemsBySource(Long sourceId, int limit);
 
     FeedRadarPageView getRadar(Long sourceId, int limit);
+
+    FeedRadarPageView getCombinedRadar(int limit);
 }

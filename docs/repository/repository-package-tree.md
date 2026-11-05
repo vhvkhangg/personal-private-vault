@@ -254,10 +254,11 @@ feed/
 ├── enums/                            # @NamedInterface("enums") - FeedSourceType, SavedResourceKind
 ├── search/                           # @NamedInterface("search") - FeedSearchOperations, FeedSearchQuery, FeedSearchHit, FeedSearchDocument
 └── internal/
-    ├── application/                  # capability services: FeedSourceService, FeedItemService, SavedResourceService, SavedResourceConversionService, FeedSearchService, HackerNewsRefreshService, HackerNewsRefreshFinalizer, HackerNewsRefreshAdmission
+    ├── application/                  # capability services: FeedSourceService, FeedItemService, SavedResourceService, SavedResourceConversionService, FeedSearchService, HackerNewsRefreshService, HackerNewsRefreshFinalizer, HackerNewsRefreshAdmission, RssFeedRefreshService, RssFeedRefreshFinalizer
     ├── domain/                       # JPA entities: FeedSource, FeedItem, SavedResource, SavedResourceConversion, SavedResourceConversionId
     ├── infrastructure/
     │   ├── hackernews/               # Hacker News API client, destination policy, item normalizer
+    │   ├── rss/                      # RSS/Atom streaming parser, destination policy, feed client, normalizer
     │   └── persistence/              # Spring Data repositories (FeedItemRepository, FeedSourceRepository, FeedRadarProjection, etc.)
     └── web/                          # Phase 13 HTTP adapters (advice, controller, dto, mapper)
 ```

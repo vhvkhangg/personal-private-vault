@@ -4,6 +4,7 @@ import com.vhvkhangg.personalprivatevault.feed.source.command.CreateFeedSourceCo
 import com.vhvkhangg.personalprivatevault.feed.source.command.UpdateFeedSourceCommand;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedRefreshResultView;
 import com.vhvkhangg.personalprivatevault.feed.view.FeedSourceView;
+import com.vhvkhangg.personalprivatevault.feed.view.RssFeedRefreshResultView;
 
 import java.time.Instant;
 import java.util.List;
@@ -23,4 +24,6 @@ public interface FeedSourceOperations {
     List<FeedSourceView> findDueSources(Instant cutoff, int limit);
 
     FeedRefreshResultView refreshSource(Long sourceId, int maxItems);
+
+    RssFeedRefreshResultView refreshRssSource(Long sourceId);
 }
