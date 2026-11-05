@@ -134,7 +134,7 @@ See [`docs/repository/repository-package-tree.md`](docs/repository/repository-pa
 
 ## Architecture
 
-Architecture sources and exports are under [`docs/architecture`](docs/architecture).
+Architecture sources and exports are under [`docs/architecture`](docs/architecture). Operational guidance for background feed polling is documented in the [Feed Scheduled Refresh Operations Guide](docs/architecture/feed-scheduled-refresh-operations.md).
 
 The frozen database schema is under [`docs/database`](docs/database).
 

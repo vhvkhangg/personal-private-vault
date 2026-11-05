@@ -52,6 +52,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -85,6 +86,9 @@ class HackerNewsRefreshIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Autowired
     private com.vhvkhangg.personalprivatevault.feed.internal.application.HackerNewsRefreshAdmission admission;
+
+    @Autowired
+    private com.vhvkhangg.personalprivatevault.feed.internal.application.HackerNewsRefreshService hackerNewsRefreshService;
 
     @Autowired
     private com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.hackernews.HackerNewsNormalizer normalizer;
@@ -391,6 +395,8 @@ class HackerNewsRefreshIntegrationTest extends AbstractPostgresIntegrationTest {
                 org.mockito.Mockito.mock(com.vhvkhangg.personalprivatevault.feed.internal.application.HackerNewsRefreshFinalizer.class);
         when(mockFinalizer.finalizeRefresh(anyLong(), any(Instant.class), any()))
                 .thenThrow(new org.springframework.dao.CannotAcquireLockException("Lock acquire timeout"));
+        when(mockFinalizer.finalizeRefresh(anyLong(), any(Instant.class), any(), anyBoolean()))
+                .thenThrow(new org.springframework.dao.CannotAcquireLockException("Lock acquire timeout"));
 
         com.vhvkhangg.personalprivatevault.feed.internal.application.HackerNewsRefreshService customService =
                 new com.vhvkhangg.personalprivatevault.feed.internal.application.HackerNewsRefreshService(
@@ -649,5 +655,47 @@ class HackerNewsRefreshIntegrationTest extends AbstractPostgresIntegrationTest {
         assertThat(inboxPage.items()).hasSize(1);
         assertThat(inboxPage.items().get(0).title()).isEqualTo("Original Story Title 101");
         assertThat(inboxPage.items().get(0).resourceUrl()).isEqualTo("https://example.com/snap-url-a");
+    }
+
+    @Test
+    @DisplayName("FR-01: Scheduled HN refresh with 60 available top stories selects exactly 30 items, while manual refresh selects 50")
+    void scheduledHnRefresh_with60Stories_selectsExactly30_whileManualSelects50() {
+        FeedSourceView source = createHackerNewsSource("HN 60 Items Test", true);
+        jdbcTemplate.update("UPDATE feed_sources SET scheduled_refresh_enabled = true, refresh_interval_minutes = 60, next_fetch_at = NULL WHERE id = ?", source.id());
+        List<Long> sixtyIds = java.util.stream.LongStream.rangeClosed(2001, 2060).boxed().toList();
+
+        when(hackerNewsClient.fetchTopStories(anyLong(), any(AtomicLong.class))).thenReturn(sixtyIds);
+        java.util.concurrent.atomic.AtomicInteger itemFetchCount = new java.util.concurrent.atomic.AtomicInteger(0);
+
+        when(hackerNewsClient.fetchItem(anyLong(), anyLong(), any(AtomicLong.class))).thenAnswer(inv -> {
+            long storyId = inv.getArgument(0);
+            itemFetchCount.incrementAndGet();
+            return createStoryJson(storyId, "Story " + storyId, "https://example.com/story-" + storyId, "author", 1700000000L, 50, 10);
+        });
+
+        // 1. Scheduled refresh on source with 60 candidate IDs
+        com.vhvkhangg.personalprivatevault.feed.internal.application.ScheduledRefreshOutcome outcome =
+                hackerNewsRefreshService.refreshScheduled(source.id());
+
+        assertThat(outcome).isEqualTo(com.vhvkhangg.personalprivatevault.feed.internal.application.ScheduledRefreshOutcome.REFRESHED);
+        // Contract requirement: scheduled HN must request exactly 30 stories!
+        assertThat(itemFetchCount.get()).isEqualTo(30);
+
+        List<FeedItem> scheduledItems = feedItemRepository.findAll().stream()
+                .filter(i -> i.getFeedSourceId().equals(source.id()))
+                .toList();
+        assertThat(scheduledItems).hasSize(30);
+
+        // 2. Manual refresh on the same source requesting 50 items
+        itemFetchCount.set(0);
+        FeedRefreshResultView manualResult = feedSourceOperations.refreshSource(source.id(), 50);
+
+        assertThat(manualResult.selectedTopIds()).isEqualTo(50);
+        assertThat(itemFetchCount.get()).isEqualTo(50);
+
+        List<FeedItem> manualItems = feedItemRepository.findAll().stream()
+                .filter(i -> i.getFeedSourceId().equals(source.id()))
+                .toList();
+        assertThat(manualItems).hasSize(50);
     }
 }

@@ -59,6 +59,8 @@ public class HackerNewsRefreshService {
         this.clock = clock != null ? clock : Clock.systemUTC();
     }
 
+    public static final int SCHEDULED_DEFAULT_MAX_ITEMS = 30;
+
     @Transactional(propagation = Propagation.NEVER)
     public FeedRefreshResultView refreshSource(Long sourceId, int maxItems) {
         // Enforce application boundary cap on selected items
@@ -76,6 +78,56 @@ public class HackerNewsRefreshService {
             throw new FeedRefreshException(FeedRefreshFailureReason.UNSUPPORTED_SOURCE_TYPE);
         }
 
+        // 2. Single-flight and capacity admission
+        admission.acquire(sourceId);
+        try {
+            return executeRefreshFlow(sourceId, boundedMaxItems, false);
+        } finally {
+            admission.release(sourceId);
+        }
+    }
+
+    @Transactional(propagation = Propagation.NEVER)
+    public ScheduledRefreshOutcome refreshScheduled(Long sourceId) {
+        boolean admitted = false;
+        try {
+            admission.acquire(sourceId);
+            admitted = true;
+
+            Instant now = Instant.now(clock);
+            FeedSource source = feedSourceRepository.findById(sourceId).orElse(null);
+            if (source == null
+                    || !source.isEnabled()
+                    || source.getType() != FeedSourceType.HACKER_NEWS
+                    || !source.isScheduledRefreshEnabled()
+                    || source.getRefreshIntervalMinutes() == null
+                    || source.getRefreshIntervalMinutes() <= 0
+                    || (source.getNextFetchAt() != null && source.getNextFetchAt().isAfter(now))) {
+                return ScheduledRefreshOutcome.NOT_ELIGIBLE;
+            }
+
+            executeRefreshFlow(sourceId, SCHEDULED_DEFAULT_MAX_ITEMS, true);
+            return ScheduledRefreshOutcome.REFRESHED;
+
+        } catch (FeedRefreshException ex) {
+            if (ex.getReason() == FeedRefreshFailureReason.REFRESH_ALREADY_RUNNING
+                    || ex.getReason() == FeedRefreshFailureReason.REFRESH_CAPACITY_REACHED) {
+                return ScheduledRefreshOutcome.BUSY;
+            }
+            return ScheduledRefreshOutcome.FAILED;
+        } catch (Exception ex) {
+            if (Thread.currentThread().isInterrupted()) {
+                Thread.currentThread().interrupt();
+            }
+            return ScheduledRefreshOutcome.FAILED;
+        } finally {
+            if (admitted) {
+                admission.release(sourceId);
+            }
+        }
+    }
+
+    private FeedRefreshResultView executeRefreshFlow(Long sourceId, int boundedMaxItems, boolean scheduledMode) {
         long startNanos = System.nanoTime();
         long overallDeadlineNanos = startNanos + TimeUnit.SECONDS.toNanos(OVERALL_REFRESH_BUDGET_SECONDS);
         long fetchDeadlineNanos = startNanos + TimeUnit.SECONDS.toNanos(FETCH_SUB_BUDGET_SECONDS);
@@ -84,50 +136,44 @@ public class HackerNewsRefreshService {
             throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted before execution");
         }
 
-        // 2. Single-flight and capacity admission
-        admission.acquire(sourceId);
-        try {
-            // 3. Fetch from Hacker News provider outside database transaction
-            HackerNewsNormalizer.RawFetchResult rawResult = normalizer.fetchStories(client, boundedMaxItems, fetchDeadlineNanos);
+        // Fetch from Hacker News provider outside database transaction
+        HackerNewsNormalizer.RawFetchResult rawResult = normalizer.fetchStories(client, boundedMaxItems, fetchDeadlineNanos);
 
-            if (Thread.currentThread().isInterrupted()) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted after fetch");
-            }
-
-            // 4. Capture completion timestamp strictly AFTER provider fetch succeeds (FR-06)
-            Instant fetchedAt = Instant.now(clock);
-
-            // Build normalized inputs with representative metadata stamped with post-fetch completion time
-            HackerNewsNormalizer.NormalizationResult normResult = normalizer.buildNormalizationResult(rawResult, fetchedAt);
-
-            // 5. Remaining budget check before finalization (FR-01)
-            long remainingNanos = overallDeadlineNanos - System.nanoTime();
-            if (remainingNanos < TimeUnit.SECONDS.toNanos(FINALIZER_MIN_REMAINING_SECONDS)) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Overall refresh deadline expired before finalization");
-            }
-
-            // 6. Finalize within short transactional boundary (FR-05)
-            List<FeedItemView> itemViews;
-            try {
-                itemViews = finalizer.finalizeRefresh(sourceId, fetchedAt, normResult.normalizedItems());
-            } catch (FeedRefreshException ex) {
-                throw ex;
-            } catch (QueryTimeoutException | TransactionTimedOutException | PessimisticLockingFailureException ex) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.REFRESH_FINALIZATION_UNAVAILABLE, "Finalization lock or transaction timed out", ex);
-            } catch (TransactionException | DataAccessException ex) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.REFRESH_FINALIZATION_UNAVAILABLE, "Finalization transaction failure", ex);
-            }
-
-            return new FeedRefreshResultView(
-                    sourceId,
-                    fetchedAt,
-                    normResult.selectedTopIds(),
-                    normResult.eligibleStories(),
-                    normResult.distinctArticleUrls(),
-                    itemViews.size()
-            );
-        } finally {
-            admission.release(sourceId);
+        if (Thread.currentThread().isInterrupted()) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted after fetch");
         }
+
+        // Capture completion timestamp strictly AFTER provider fetch succeeds (FR-06)
+        Instant fetchedAt = Instant.now(clock);
+
+        // Build normalized inputs with representative metadata stamped with post-fetch completion time
+        HackerNewsNormalizer.NormalizationResult normResult = normalizer.buildNormalizationResult(rawResult, fetchedAt);
+
+        // Remaining budget check before finalization (FR-01)
+        long remainingNanos = overallDeadlineNanos - System.nanoTime();
+        if (remainingNanos < TimeUnit.SECONDS.toNanos(FINALIZER_MIN_REMAINING_SECONDS)) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Overall refresh deadline expired before finalization");
+        }
+
+        // Finalize within short transactional boundary (FR-05)
+        List<FeedItemView> itemViews;
+        try {
+            itemViews = finalizer.finalizeRefresh(sourceId, fetchedAt, normResult.normalizedItems(), scheduledMode);
+        } catch (FeedRefreshException ex) {
+            throw ex;
+        } catch (QueryTimeoutException | TransactionTimedOutException | PessimisticLockingFailureException ex) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.REFRESH_FINALIZATION_UNAVAILABLE, "Finalization lock or transaction timed out", ex);
+        } catch (TransactionException | DataAccessException ex) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.REFRESH_FINALIZATION_UNAVAILABLE, "Finalization transaction failure", ex);
+        }
+
+        return new FeedRefreshResultView(
+                sourceId,
+                fetchedAt,
+                normResult.selectedTopIds(),
+                normResult.eligibleStories(),
+                normResult.distinctArticleUrls(),
+                itemViews.size()
+        );
     }
 }

@@ -33,6 +33,16 @@ public class HackerNewsRefreshFinalizer {
 
     @Transactional(propagation = Propagation.REQUIRED, timeout = 5)
     public List<FeedItemView> finalizeRefresh(Long sourceId, Instant fetchedAt, List<NormalizedFeedItemInput> normalizedItems) {
+        return finalizeRefresh(sourceId, fetchedAt, normalizedItems, false);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, timeout = 5)
+    public List<FeedItemView> finalizeRefresh(
+            Long sourceId,
+            Instant fetchedAt,
+            List<NormalizedFeedItemInput> normalizedItems,
+            boolean scheduledMode
+    ) {
         List<FeedItemView> itemViews;
         try {
             itemViews = feedItemOperations.ingestFetch(sourceId, fetchedAt, normalizedItems);
@@ -45,6 +55,9 @@ public class HackerNewsRefreshFinalizer {
         entityManager.refresh(lockedSource);
 
         if (!lockedSource.isEnabled() || lockedSource.getType() != FeedSourceType.HACKER_NEWS) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.SOURCE_CHANGED_DURING_REFRESH);
+        }
+        if (scheduledMode && !lockedSource.isScheduledRefreshEnabled()) {
             throw new FeedRefreshException(FeedRefreshFailureReason.SOURCE_CHANGED_DURING_REFRESH);
         }
 

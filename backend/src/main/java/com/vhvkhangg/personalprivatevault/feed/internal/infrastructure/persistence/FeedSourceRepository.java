@@ -1,5 +1,6 @@
 package com.vhvkhangg.personalprivatevault.feed.internal.infrastructure.persistence;
 
+import com.vhvkhangg.personalprivatevault.feed.enums.FeedSourceType;
 import com.vhvkhangg.personalprivatevault.feed.internal.domain.FeedSource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,4 +27,28 @@ public interface FeedSourceRepository extends JpaRepository<FeedSource, Long> {
             "  AND (s.nextFetchAt IS NULL OR s.nextFetchAt <= :cutoff) " +
             "ORDER BY CASE WHEN s.nextFetchAt IS NULL THEN 0 ELSE 1 END ASC, s.nextFetchAt ASC, s.id ASC")
     List<FeedSource> findDueSources(@Param("cutoff") Instant cutoff, Pageable pageable);
+
+    @Query("SELECT s FROM FeedSource s " +
+            "WHERE s.enabled = true " +
+            "  AND s.scheduledRefreshEnabled = true " +
+            "  AND s.type IN :supportedTypes " +
+            "  AND (s.nextFetchAt IS NULL OR s.nextFetchAt <= :cutoff) " +
+            "ORDER BY s.id ASC")
+    List<FeedSource> findScheduledDueSourcesFromStart(
+            @Param("supportedTypes") Collection<FeedSourceType> supportedTypes,
+            @Param("cutoff") Instant cutoff,
+            Pageable pageable);
+
+    @Query("SELECT s FROM FeedSource s " +
+            "WHERE s.enabled = true " +
+            "  AND s.scheduledRefreshEnabled = true " +
+            "  AND s.type IN :supportedTypes " +
+            "  AND (s.nextFetchAt IS NULL OR s.nextFetchAt <= :cutoff) " +
+            "  AND s.id > :afterId " +
+            "ORDER BY s.id ASC")
+    List<FeedSource> findScheduledDueSourcesAfterCursor(
+            @Param("supportedTypes") Collection<FeedSourceType> supportedTypes,
+            @Param("cutoff") Instant cutoff,
+            @Param("afterId") Long afterId,
+            Pageable pageable);
 }

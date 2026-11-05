@@ -105,61 +105,125 @@ public class RssFeedRefreshService {
         // 2. Single-flight and capacity admission
         admission.acquire(sourceId);
         try {
-            // 3. Fetch from RSS upstream outside database transaction
-            byte[] responseBytes = client.fetchFeed(feedUrl, fetchDeadlineNanos);
-
-            if (Thread.currentThread().isInterrupted()) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted after fetch");
-            }
-
-            // Capture batch now for relative date validity
-            Instant batchNow = Instant.now(clock);
-
-            // 4. Parse XML with strict streaming and budget constraints
-            RssAtomParser.ParsedFeed parsedFeed = parser.parseFeed(responseBytes);
-
-            if (Thread.currentThread().isInterrupted()) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted after parsing");
-            }
-
-            // 5. Normalize items, deduplicate, group by URL, select representatives
-            RssFeedNormalizer.NormalizationResult normResult = normalizer.normalize(parsedFeed, batchNow, clock);
-
-            if (Thread.currentThread().isInterrupted()) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted after normalization");
-            }
-
-            // 6. Remaining budget check before finalization (reserve 5s)
-            long remainingNanos = overallDeadlineNanos - System.nanoTime();
-            if (remainingNanos < TimeUnit.SECONDS.toNanos(FINALIZER_MIN_REMAINING_SECONDS)) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Overall refresh deadline expired before finalization");
-            }
-
-            // Single completion instant after complete fetch, parse, and normalization succeeds
-            Instant fetchedAt = normResult.fetchedAt() != null ? normResult.fetchedAt() : Instant.now(clock);
-
-            // 7. Finalize within short transactional boundary (timeout = 5s)
-            List<FeedItemView> itemViews;
-            try {
-                itemViews = finalizer.finalizeRefresh(sourceId, feedUrl, fetchedAt, normResult.normalizedItems());
-            } catch (FeedRefreshException ex) {
-                throw ex;
-            } catch (QueryTimeoutException | TransactionTimedOutException | PessimisticLockingFailureException ex) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.REFRESH_FINALIZATION_UNAVAILABLE, "Finalization lock or transaction timed out", ex);
-            } catch (TransactionException | DataAccessException ex) {
-                throw new FeedRefreshException(FeedRefreshFailureReason.REFRESH_FINALIZATION_UNAVAILABLE, "Finalization transaction failure", ex);
-            }
-
-            return new RssFeedRefreshResultView(
-                    sourceId,
-                    fetchedAt,
-                    normResult.parsedEntries(),
-                    normResult.eligibleEntries(),
-                    normResult.distinctArticleUrls(),
-                    itemViews.size()
-            );
+            return executeRefreshFlow(sourceId, feedUrl, false);
         } finally {
             admission.release(sourceId);
         }
+    }
+
+    @Transactional(propagation = Propagation.NEVER)
+    public ScheduledRefreshOutcome refreshScheduled(Long sourceId) {
+        boolean admitted = false;
+        try {
+            admission.acquire(sourceId);
+            admitted = true;
+
+            Instant now = Instant.now(clock);
+            FeedSource source = feedSourceRepository.findById(sourceId).orElse(null);
+            if (source == null
+                    || !source.isEnabled()
+                    || source.getType() != FeedSourceType.RSS
+                    || !source.isScheduledRefreshEnabled()
+                    || source.getRefreshIntervalMinutes() == null
+                    || source.getRefreshIntervalMinutes() <= 0
+                    || (source.getNextFetchAt() != null && source.getNextFetchAt().isAfter(now))) {
+                return ScheduledRefreshOutcome.NOT_ELIGIBLE;
+            }
+
+            String feedUrl = source.getFeedUrl();
+            if (feedUrl == null || feedUrl.isBlank()) {
+                return ScheduledRefreshOutcome.FAILED;
+            }
+            URI feedUri;
+            try {
+                feedUri = URI.create(feedUrl);
+            } catch (IllegalArgumentException ex) {
+                return ScheduledRefreshOutcome.FAILED;
+            }
+            destinationPolicy.validateUri(feedUri);
+
+            executeRefreshFlow(sourceId, feedUrl, true);
+            return ScheduledRefreshOutcome.REFRESHED;
+
+        } catch (FeedRefreshException ex) {
+            if (ex.getReason() == FeedRefreshFailureReason.REFRESH_ALREADY_RUNNING
+                    || ex.getReason() == FeedRefreshFailureReason.REFRESH_CAPACITY_REACHED) {
+                return ScheduledRefreshOutcome.BUSY;
+            }
+            return ScheduledRefreshOutcome.FAILED;
+        } catch (Exception ex) {
+            if (Thread.currentThread().isInterrupted()) {
+                Thread.currentThread().interrupt();
+            }
+            return ScheduledRefreshOutcome.FAILED;
+        } finally {
+            if (admitted) {
+                admission.release(sourceId);
+            }
+        }
+    }
+
+    private RssFeedRefreshResultView executeRefreshFlow(Long sourceId, String feedUrl, boolean scheduledMode) {
+        long startNanos = System.nanoTime();
+        long overallDeadlineNanos = startNanos + TimeUnit.SECONDS.toNanos(OVERALL_REFRESH_BUDGET_SECONDS);
+        long fetchDeadlineNanos = startNanos + TimeUnit.SECONDS.toNanos(FETCH_SUB_BUDGET_SECONDS);
+
+        if (Thread.currentThread().isInterrupted()) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted before execution");
+        }
+
+        // Fetch from RSS upstream outside database transaction
+        byte[] responseBytes = client.fetchFeed(feedUrl, fetchDeadlineNanos);
+
+        if (Thread.currentThread().isInterrupted()) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted after fetch");
+        }
+
+        // Capture batch now for relative date validity
+        Instant batchNow = Instant.now(clock);
+
+        // Parse XML with strict streaming and budget constraints
+        RssAtomParser.ParsedFeed parsedFeed = parser.parseFeed(responseBytes);
+
+        if (Thread.currentThread().isInterrupted()) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted after parsing");
+        }
+
+        // Normalize items, deduplicate, group by URL, select representatives
+        RssFeedNormalizer.NormalizationResult normResult = normalizer.normalize(parsedFeed, batchNow, clock);
+
+        if (Thread.currentThread().isInterrupted()) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Refresh interrupted after normalization");
+        }
+
+        // Remaining budget check before finalization (reserve 5s)
+        long remainingNanos = overallDeadlineNanos - System.nanoTime();
+        if (remainingNanos < TimeUnit.SECONDS.toNanos(FINALIZER_MIN_REMAINING_SECONDS)) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.UPSTREAM_UNAVAILABLE, "Overall refresh deadline expired before finalization");
+        }
+
+        // Single completion instant after complete fetch, parse, and normalization succeeds
+        Instant fetchedAt = normResult.fetchedAt() != null ? normResult.fetchedAt() : Instant.now(clock);
+
+        // Finalize within short transactional boundary (timeout = 5s)
+        List<FeedItemView> itemViews;
+        try {
+            itemViews = finalizer.finalizeRefresh(sourceId, feedUrl, fetchedAt, normResult.normalizedItems(), scheduledMode);
+        } catch (FeedRefreshException ex) {
+            throw ex;
+        } catch (QueryTimeoutException | TransactionTimedOutException | PessimisticLockingFailureException ex) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.REFRESH_FINALIZATION_UNAVAILABLE, "Finalization lock or transaction timed out", ex);
+        } catch (TransactionException | DataAccessException ex) {
+            throw new FeedRefreshException(FeedRefreshFailureReason.REFRESH_FINALIZATION_UNAVAILABLE, "Finalization transaction failure", ex);
+        }
+
+        return new RssFeedRefreshResultView(
+                sourceId,
+                fetchedAt,
+                normResult.parsedEntries(),
+                normResult.eligibleEntries(),
+                normResult.distinctArticleUrls(),
+                itemViews.size()
+        );
     }
 }

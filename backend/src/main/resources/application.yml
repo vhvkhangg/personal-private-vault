@@ -63,6 +63,9 @@ logging:
     org.hibernate.orm.jdbc.error: ERROR
 
 ppv:
+  feed:
+    scheduler:
+      enabled: ${PPV_FEED_SCHEDULER_ENABLED:false}
   security:
     jwt:
       issuer: ${PPV_JWT_ISSUER:personal-private-vault}
