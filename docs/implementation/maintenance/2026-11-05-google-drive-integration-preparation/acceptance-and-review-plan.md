@@ -1,0 +1,37 @@
+# GDI26 — Selected scope, acceptance and independent review plan
+
+**All application/runtime tests: NOT_RUN / NOT_IMPLEMENTED.** D00–D07 are Owner-selected; **PH-01/PH-02/PH-03 CLOSED for preparation; connection-only S1 READY_FOR_HANDOFF** in [independent re-review 2](reviews/2026-11-05-gdi26-independent-pre-handoff-re-review-2.md). The cases below are mandatory future proof, not executed evidence. GDI26-PH-L01 is LOW/OPEN and nonblocking. `ACTIVE=NO_ACTIVE_HANDOFF`, implementation NOT_STARTED; remediation 0/3 unchanged; no takeover.
+
+| Case | Slice | Required observable outcome / negative control | Required later evidence |
+| --- | --- | --- | --- |
+| GDI26-01 | **S1** | Default `ppv.drive.enabled=false`: no OAuth client/secret/key load, callback provider handler or outbound Google I/O | Real Spring OFF context + recording fake network |
+| GDI26-02 | **S1** | Anonymous start/status/disconnect 401; callback without valid state+cookie rejects **before** token exchange | Web security/JWT matcher tests |
+| GDI26-03 | **S1** | Connect distinct verified Google `sub` to two slots; durable encrypted isolated tokens/status only | Real PostgreSQL + fake Google OIDC |
+| GDI26-04 | **S1** | Same Google `sub` twice, third slot, swapped-subject reconnect or duplicate callback reject; no silent overwrite | Unique-key/race/callback fixtures |
+| GDI26-05 | **S1** | Replay, expired/unknown state, mismatched browser cookie, wrong owner, changed redirect, restart-lost pending state all fail before exchange | Real filter/controller context + nonce/state/PKCE fixture |
+| GDI26-06 | **S1** | Wrong Google JWT signature/iss/aud/exp/nonce/sub or missing `drive.file` fails closed; prior connected slot unchanged | OIDC verifier using controlled test keys |
+| GDI26-07 | **S1** | Initial grant requires usable refresh token; regrant missing token preserves **only existing valid** credential; never stores/access exposes plaintext | PostgreSQL ciphertext + Google stub + response/log checks |
+| GDI26-08 | **S1** | `invalid_grant`→RECONNECT_REQUIRED; local disconnect blocks future dispatch. Exactly one bounded Google revoke may affect same-subject **project-wide grants**; while outstanding, same-subject fresh connection in **either slot** cannot become usable. HTTP 200 reports request accepted, not confirmed propagation; timeout/failure reports remote UNCERTAIN/FAILED separately from local disconnected. No files deleted | **Controlled fake Google project-grant barrier**, same-slot and other-slot U/R2, late remote effect, 200 vs timeout/transport failure, restart/explicit re-consent, no old revoke retry |
+| GDI26-09 | **S1, S2 extended** | Token/subject/epoch cannot cross slots; after disconnect/reconnect old refresh response cannot resurrect connection. S2 fileId cross-slot negative remains future | S1 token CAS barriers + S2 fake account file servers |
+| GDI26-10 | **S2** | `drive.file` never represented as full Drive Explorer; file/folder outside app root or unauthorized external content refused | Future account/folder scope contract and negative test |
+| GDI26-11 | **S2** | App-created root ID; bounded list pagination; inaccessible parent, malformed page token and file moved outside root rejected | Future Drive fake API with real metadata/ancestry calls |
+| GDI26-12 | **S1, S2 extended** | S1 token endpoint 401/403/429/5xx/timeout bounded/sanitized; future upload/Drive quotas and ambiguous completion gated | S1 controlled OAuth fault tests; S2 separate provider tests |
+| GDI26-13 | **S1, S2 extended** | Disconnect-vs-refresh/authorize CAS prevents stale local writes **and** PH-03 project/sub fence prevents *remote* stale-revoke races: callback U in same/other slot begun before/during old revoke is rejected even if completed later; no fresh credential marked CONNECTED then knowingly invalidated by queued/retried old revoke. Different Google subject V remains independent. Post-200 delayed invalid_grant fails closed | **Deterministic fake-provider grant-wide invalidation + two-slot barriers**; reject bypassed fence as negative control, old revoke delayed HTTP 200/timeout, late response, no retry after regrant, existing PG CAS, future S2 I/O barrier |
+| GDI26-14 | **S2/S3** | Upload/download size/type bounds, folder validation, streaming/resumable failure handling and safe display | **DEFERRED**: separate file/UX acceptance, NOT_RUN |
+| GDI26-15 | **S1** | JWT/Account/Media S3/Feed/RAG contracts unchanged; only intentional Drive APIs/migration/module docs; Feed remains OFF | Modulith, security, migration and API inventory regression |
+| GDI26-16 | **S1** | Accurate operator guide for Google Cloud localhost callback, key file/ACL, missing key/backup, revoke vs local delete, consent Testing expiry, remote deployment gate | Docs review + mock setup; live Google and HTTPS **NOT_VERIFIED** |
+
+## Minimal six-group bounded S1 gate — future handoff only
+
+1. OAuth state, browser cookie, PKCE, nonce/callback security negatives; callback exact permit and unrelated endpoints private.
+2. OIDC/scopes, token exchange/refresh/reconnect and Google errors using fake Google hosts/keys; PH-03 fake **project-grant** revocation with paused old revoke, U reconnect in both slots, V independent, timeout/late 200/restart and post-200 delayed `invalid_grant`; no live credentials.
+3. Real PostgreSQL migration/constraints for slots/sub and token epoch; race/CAS and ciphertext tamper/missing key cases. Verify in-process subject fence + final commit recheck does not require SQL lock across Google HTTP; controlled bypass of fence makes the remote-effect regression fail.
+4. Real Spring OFF/ON configuration, provider registration/start/cleanup and zero network when OFF.
+5. Existing JWT/Account/Media/Feed/RAG/API and Modulith architecture compatibility, with source-qualified reuse only when unchanged.
+6. Documentation/operational Cloud client, key/cookie/callback prerequisites and handback/self-review; evidence counters separated from reuse; no credential artifacts.
+
+**Reviewer preparation status:** PH-01/PH-02/PH-03 independently CLOSED for preparation in [re-review 2](reviews/2026-11-05-gdi26-independent-pre-handoff-re-review-2.md). **Future PH-03 implementation proof still requires** the explicit deterministic *provider-side project-grant* revocation race (not just R1 token invalidation), cross-slot U, stale authorization cutoff, uncertain timeout, late 200, and fail-closed recovery. A successful revoke HTTP response must not be represented as fully effective. S1 remains connection-only, S2/S3 deferred, with no frontend/Picker or new business-module dependency edges; no hidden product decision.
+
+**Rules:** all cases above are prospective. Acceptance is not obtained by this doc. No real Google Drive or Cloud account verification in review-only preparation; do not demand production tokens. No full suite unless evidenced source-drift. Use existing bounded command / receipt harness when code is eventually implemented, Antigravity mandatory self-review, independent Codex review, Owner-only publication. Each future slice has its own initial review and up to three Antigravity remediation rounds. No new remediation round consumed by preparation correction.
+
+**Next step:** Owner → Codex | Owner publishes reviewed preparation, then Codex `$codex-create-handoff` | connection-only GDI26-S1 and re-review 2 | READY_FOR_HANDOFF; future runtime cases must enter the executable acceptance contract | implementation NOT_STARTED; remediation 0/3 unchanged; no takeover.
