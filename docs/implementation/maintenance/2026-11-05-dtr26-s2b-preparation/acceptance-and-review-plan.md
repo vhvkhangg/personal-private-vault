@@ -1,0 +1,47 @@
+# DTR26-S2B — Independent preparation review and future test matrix
+
+**ALL `S2B-01`–`S2B-12` ARE PROSPECTIVE / NOT_RUN.** This file is a design-level acceptance contract, not a receipt. S2A review counts and source applicability are prior evidence, not fresh S2B tests.
+
+**Preparation gate:** [independent re-review 1](reviews/2026-11-05-dtr26-s2b-independent-pre-handoff-re-review-1.md) = `READY_FOR_HANDOFF`; PH-01/PH-02 CLOSED for design only. The runtime proofs below remain mandatory for the future executable handoff.
+
+| ID | Required observable result | Future proof (bounded, risk-based) |
+| --- | --- | --- |
+| `S2B-01` | Feed scheduler globally OFF by default; source flags alone cannot register a Feed timer or dispatch; manual HN/RSS remain usable; existing RAG scheduling is not affected. | Full Spring Boot OFF context: absent Feed-owned timer/`ScheduledFuture`, zero Feed callbacks/provider I/O, fake transport; no accidental scheduling processor/annotation registration introduced by S2B. |
+| `S2B-02` | Feed global ON registers exactly one **programmatic** fixed-delay Feed callback after app readiness; unsupported/disabled/unscheduled/future due sources are never dispatched; **no RAG/unrelated `@Scheduled` callback is newly registered**. | One real Spring ON context with fake/recording TaskScheduler and observable periodic RAG-negative assertion; no `@EnableScheduling`/global scanning, no second provider queue. |
+| `S2B-03` | Existing due query/public endpoint and source CRUD remain unchanged; `refreshIntervalMinutes=1` is accepted and timing explicitly best effort. | Existing Feed source tests, OpenAPI route inventory (no new operations), negative flag/interval input cases and task cadence semantics. |
+| `S2B-04` | At most 20 actually examined eligible candidates and at most two provider-entry invocations (busy counts) / outbound attempts per tick; a page may contain unexamined rows and cursor cannot jump past them. | Query cap and stable-ID comparator SQL/JPQL assertions, deterministic fake clock, exact examined vs attempted counters, cached GET regressions. |
+| `S2B-05` | Stable-ID rotation eventually invokes **all** runnable sources in a finite stable set despite successful sources moving `nextFetchAt`, >20 due, five failures, two busy and unsupported types; no permanently hot first page. | **Real PostgreSQL** source-ID query + attempt trace: (a) 30 supported with ID1 initially due=0, IDs2–30 NULL, interval=1m, all succeed; verify 30/30 attempts and correct wrap; (b) 34 rows, four interspersed unsupported IDs4/12/19/27, five failures IDs1/2/3/5/6, two busy IDs7/8, 30 supported; verify 30/30 attempts, 0 unsupported, bounded queries and real cooldown. Count actual provider-entry attempts, not scanned rows. |
+| `S2B-06` | Manual and scheduled same-source contention shares existing single-flight; global max-two across HN+RSS is retained; no double acquire or third provider call. | Deterministic fake provider barriers for manual-vs-scheduled, two types + third rejected, owned release on every outcome. |
+| `S2B-07` | HTTP and parser work occur outside DB transaction; scheduled finalizer commits only while source still enabled/type-correct/scheduling-enabled; due must be checked before dispatch, since ingest changes `nextFetchAt` within the transaction; RSS feedUrl exact-match remains. | Real PostgreSQL barriers and locked-source mutations (disable, type switch, feedUrl edit, schedule flag off, interval edit); actual ingest+finalizer physical transaction identity and rollback test; negative REQUIRES_NEW control where applicable. |
+| `S2B-08` | Failure/429/timeout/invalid XML does NOT update items or last/next timestamps; five-minute scheduler-local cooldown suppresses repeated scheduled attempts, not manual calls. | Fake clock advances, real DB unchanged rows, per-source failure/success transitions and direct manual refresh bypass. |
+| `S2B-09` | Restart clears in-memory cooldown and **stable-ID** rotation; after app readiness the ~60s initial delay and two-entrypoint cap prevent catch-up flood; no stale scheduled authority. | Destroy/recreate ON/OFF contexts, assert first direct registration and new cursor, deterministic due records, bounded call count, no unbounded retry queue. |
+| `S2B-10` | Context shutdown cancels exactly the Feed-owned `ScheduledFuture`, stops new ticks/dispatch and completes/cancels bounded in-flight work; **no private timer thread leak** or RAG scheduling side effect. | Fake blocked stream/interrupt, ON/OFF lifecycle disposal and bounded watchdog receipts; distinguish existing unrelated RAG initialization; no unsafe network destinations. |
+| `S2B-11` | No schema/POM/module/security/API break; S1 HN, S2A RSS, combined Radar and UI26 Save to Inbox behave identically for manual calls. | Focused affected web/OpenAPI/Feed/Inbox and relevant HN/RSS provider/database tests, module graph, path/diff inspection. Fresh only for changed scope; reuse others with hashes/applicability. |
+| `S2B-12` | Evidence labels distinguish fresh, reused, implementer and reviewer tests; Owner-confirmed topology A (one active backend JVM) is reflected in scope and operator instructions, no overlapping active replicas are supported; current handoff/docs/logs agree; no RAG/archival action. | Antigravity self-review, separate independent Codex final review, source/receipt hashes, Docs Sync Check, one-JVM operational/deployment check and Owner publication gate. |
+
+## Must-fail counterexamples
+
+1. Global `false` + due source + old scheduling flags causes **any** automatic DNS/HTTP.
+2. Scheduler uses `findDueSources(limit=2)` and a failed null-first source crowds out later due rows indefinitely.
+3. Scheduler rotates a `(nextFetchAt,id)` keyset, scans 20 and invokes only two providers: the Codex 30-source **all-success moving-key starvation** must fail (26 never attempted); stable-ID cursor must cover 30/30 by logical tick 15.
+4. Scheduler advances its source-ID cursor to the **last returned page row** rather than last **actually examined** row, skipping 18 unattempted candidates each tick.
+5. Feed ON uses `@EnableScheduling` (even conditionally in Feed) and activates the already-present RAG `RagRecoveryService.reconcile()` periodic task; Feed OFF inadvertently installs a timer or processor.
+6. Scheduler acquires shared admission, then calls a provider service that acquires the **same** source again.
+7. Scheduled HTTP begins with no DB transaction, but after source scheduling is switched OFF, the finalizer nevertheless commits items/timestamps.
+8. A test samples only the caller transaction outside actual generic ingestion, permitting a separate `REQUIRES_NEW` committed ingest to go unnoticed.
+9. A failed fetch advances `nextFetchAt` or `lastFetchedAt` as if successful.
+10. A manually triggered provider refresh is rejected simply because global scheduling is OFF or its source schedule flag is OFF.
+11. Scheduler creates extra HTTP routes, alters S1/S2A accepted error envelopes or lets unsupported sources run.
+
+## Review workflow and gates
+
+1. `$codex-pre-handoff-review` checks actual source/constructor injection/transaction proxy/scheduler annotations and Spring config, the **2026-11-05 Owner-confirmed topology A and its still-unverified deployment enforcement**, the selected stable-ID keyset with exact no-starvation traces, Feed-private programmatic registration with RAG-negative proof, cooldown bounds, source authority and docs links. Set `CHANGES_REQUESTED` or `OWNER_DECISION_REQUIRED` on a concrete unresolved blocker. No Code/ACTIVE changes during preparation.
+2. Only `READY_FOR_HANDOFF` + Owner commit/push allows a separately invoked `$codex-create-handoff` (exact S2B-only targets, tests, correct static/runtime limits).
+6. Implementation uses Antigravity owner-bound workflow, then **mandatory self-review**, independent Codex `$codex-final-review`, one bounded S2B slice; all CRITICAL/HIGH/MEDIUM blocking findings must close. At most **three** Antigravity remediation/re-review rounds after initial review; any takeover requires fresh explicit Owner authorization and separate independent review. No prior round is transferable.
+7. Tests run with the existing bounded command runner, normal profile **300s per focused command**, fresh unique ignored receipt paths and owned process cleanup. Do not demand a new generalized benchmark or 29 separate test suites. No unsafe target request, production RSS/HN download, RAG QA/model/worker execution, dependency/runtime pull, or full-suite requirement unless demonstrated in-scope risk requires authorization.
+
+## Docs Sync Check
+
+New S2B scope/review contract is under the new directory. Existing source docs/API and S2A historical evidence are ALREADY_CONSISTENT at preparation baseline. Historic “scheduler not implemented” wording in S2A remains a dated true statement and is **not edited** here. Actual code/config/routing changes and current documentation updates belong to a future Owner-approved implementation handoff. **OWNER_CONFIRMED:** topology A selected 2026-11-05; **NOT_VERIFIED:** real S2B Spring scheduler registration, timing/fairness/race tests and actual deployment process count/overlap.
+
+**Next step:** Owner | publish reviewed preparation, then separately invoke Codex `$codex-create-handoff` | DTR26-S2B and independent re-review 1 | READY_FOR_HANDOFF; all S2B-01–12 runtime cases remain NOT_RUN; ACTIVE stays NO_ACTIVE_HANDOFF | implementation 0/3, takeover NOT_AUTHORIZED.
