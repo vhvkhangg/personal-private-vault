@@ -28,7 +28,7 @@ Slices:
   **COMPLETE / FROZEN**
 
 - [`milestone-7-9-integrity-and-query-shape/`](milestone-7-9-integrity-and-query-shape/README.md) —
-  **COMPLETE / FROZEN** — owner committed `785dd7d`; milestone re-review `MILESTONE_READY`.
+  **COMPLETE / FROZEN**
 
 - [`milestone-10-12-search-case-normalization/`](milestone-10-12-search-case-normalization/README.md) —
   **COMPLETE / FROZEN** — owner committed/pushed `a881540`; FRM10-12-1/M10-12-1 closed;
@@ -39,7 +39,8 @@ Slices:
 - [CSA26 current-system audit/remediation](2026-11-01-current-system-readonly-audit/owner-publication-closeout-2026-11-01.md) — independently accepted and Owner-published at `4cf6204`; `CSA26-FR-L01` LOW remains open.
 - [Spring-only Archify diagrams](2026-11-01-spring-only-archify/owner-publication-closeout-2026-11-01.md) — SAD-01–04 independently accepted/published at `84f1185`; `SAD-FR-L01` LOW remains open. Documentation-only; not an executable handoff.
 - [Universal Inbox / Save for Later](2026-11-01-universal-inbox-preparation/owner-publication-closeout-2026-11-02.md) — `UI26-INBOX-BROWSE` independently accepted and Owner-published at `50aaf7d` (**browsing only**, no read/archive state). `UI26-FR-L02` LOW remains open; 2/3 correction rounds consumed, stopped. No active Inbox implementation handoff.
-- [Daily Trends Radar S1](2026-11-02-daily-trends-radar-preparation/owner-publication-closeout-2026-11-04.md) — `DTR26-S1` independently accepted and Owner-published at `7438e7f` (manual Hacker News article refresh and cached rolling-24-hour preview, not RSS/scheduler). `FR-01`–`FR-07` CLOSED; `DTR26-FR-L01` LOW remains OPEN. Antigravity 3/3 exhausted; one Codex takeover accepted. **Published commit also contains a modified root ZIP outside accepted delivery; Owner review required.** `ACTIVE` resets to `NO_ACTIVE_HANDOFF` in the subsequent docs-only overlay.
+- [Daily Trends Radar S1](2026-11-02-daily-trends-radar-preparation/owner-publication-closeout-2026-11-04.md) — `DTR26-S1` independently accepted and Owner-published at `7438e7f` (manual Hacker News article refresh and cached rolling-24-hour preview, not RSS/scheduler). `FR-01`–`FR-07` CLOSED; `DTR26-FR-L01` LOW remains OPEN. Antigravity 3/3 exhausted; one Codex takeover accepted. Published S1 commit also contained the root ZIP outside the accepted delivery, acknowledged by Owner as inadvertently retained. `ACTIVE` was reset in the separate docs-only closeout.
+- [Daily Trends Radar S2A](2026-11-04-dtr26-s2-preparation/owner-publication-closeout-2026-11-05.md) — independently accepted and Owner-published at `17f8a359` (manual RSS/Atom refresh and cached HN+RSS combined Radar). FR-01–06 CLOSED; 178 fresh independent RSS tests PASS, 361 prior independent tests reused. Antigravity 3/3 exhausted, one Codex takeover 1/1 accepted and stopped. S2B scheduling remains NOT_AUTHORIZED; `ACTIVE` resets to `NO_ACTIVE_HANDOFF` in this later docs-only closeout.
 - [Future final non-RAG audit intent](2026-11-01-final-non-rag-audit-intent/owner-intent.md) — future gate after the remaining backend features, not active now; all actionable LOW/INFO or higher findings must be resolved.
 
 The general maintenance implementation rules above apply only when an implementation handoff is separately approved; documentation-only preparation and publication closeout do not create an active handoff.
