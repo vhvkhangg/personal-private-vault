@@ -188,6 +188,9 @@
         <mxCell id="rag-film" source="rag" edge="1" parent="1" target="film" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.2;strokeColor=#6B7280;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="drive" value="drive&#10;S1 connection authority&#10;REVIEW_PENDING / DEFAULT_OFF" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDEDED;strokeColor=#7F7F7F;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="30" width="260" height="70" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

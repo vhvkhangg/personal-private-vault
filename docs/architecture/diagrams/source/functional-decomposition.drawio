@@ -437,6 +437,12 @@
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="g7_3" value="Drive connection authority&#10;S1 REVIEW_PENDING / DEFAULT_OFF" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FB;strokeColor=#9AA7B2;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="980" y="873" width="300" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="gdi-drive-function" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;strokeWidth=1.3;strokeColor=#8A96A3;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="g7" target="g7_3">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="928" y="640"/><mxPoint x="928" y="897"/></Array></mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

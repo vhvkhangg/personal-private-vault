@@ -37,14 +37,14 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 .as("Flyway V1 must define exactly 41 named PostgreSQL enum types")
                 .isEqualTo(41);
 
-        // 2. Assert 69 application tables (excluding flyway_schema_history and post-v1 system tables)
+        // 2. Assert 69 application tables (excluding flyway_schema_history and post-v1 system/security tables)
         Integer tableCount = jdbcTemplate.queryForObject(
                 """
                 SELECT count(*)
                 FROM information_schema.tables
                 WHERE table_schema = 'public'
                   AND table_type = 'BASE TABLE'
-                  AND table_name NOT IN ('flyway_schema_history', 'vault_rag_source_state')
+                  AND table_name NOT IN ('flyway_schema_history', 'vault_rag_source_state', 'drive_connections')
                 """,
                 Integer.class
         );
@@ -52,7 +52,22 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 .as("Flyway V1 must create exactly 69 application tables")
                 .isEqualTo(69);
 
-        // 3. Assert 103 foreign key constraints
+        // 3. Assert drive_connections table exists in public schema
+        Integer driveTableCount = jdbcTemplate.queryForObject(
+                """
+                SELECT count(*)
+                FROM information_schema.tables
+                WHERE table_schema = 'public'
+                  AND table_type = 'BASE TABLE'
+                  AND table_name = 'drive_connections'
+                """,
+                Integer.class
+        );
+        assertThat(driveTableCount)
+                .as("drive_connections table must exist in public schema")
+                .isEqualTo(1);
+
+        // 4. Assert 103 foreign key constraints
         Integer foreignKeyCount = jdbcTemplate.queryForObject(
                 """
                 SELECT count(*)
@@ -76,7 +91,7 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 FROM information_schema.tables
                 WHERE table_schema = 'public'
                   AND table_type = 'BASE TABLE'
-                  AND table_name NOT IN ('flyway_schema_history', 'app_users', 'refresh_tokens', 'vault_rag_source_state')
+                  AND table_name NOT IN ('flyway_schema_history', 'app_users', 'refresh_tokens', 'vault_rag_source_state', 'drive_connections')
                 ORDER BY table_name
                 """,
                 String.class

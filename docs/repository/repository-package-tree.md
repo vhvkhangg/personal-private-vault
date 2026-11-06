@@ -469,3 +469,18 @@ Markdown evidence retrieval without answer generation, chat history, or indexing
 - Retrieval tests: Selection, Integration, Incident, Sender, EmbeddingNative, Takeover, ConnectionLoss, ProtocolNative and HttpRecovery integration/component classes. Test-only second-JVM fixtures are `RagRetrievalRecoveryControllerFixture` (synthetic identity/child barrier) and `RagRetrievalHttpControllerFixture` (real HTTP-owning Spring controller crash and production startup recovery).
 Default retrieval remains disabled (`ppv.rag.retrieval.enabled: false`); live originals remain
 disabled/deferred; external indexing remains inactive.
+
+### Maintenance GDI26-S1 additive package inventory — 2026-11-06
+
+Under Owner Decision GDI26-OD-01 and ADR-0026, Maintenance GDI26-S1 adds the disabled-by-default Google Drive connection authority module:
+- `drive/package-info.java`: `@ApplicationModule(displayName = "Drive", allowedDependencies = {})`
+- `drive/internal/application`: `DriveConnectionService` (authorization initiation, browser binding, token validation refresh, CAS commit, local-first disconnect with PH-03 project-grant revoke fence).
+- `drive/internal/config`: `DriveConfiguration` (conditional beans on `ppv.drive.enabled=true`), `DriveProperties` (typed OAuth/crypto properties).
+- `drive/internal/crypto`: `DriveCredentialCrypto` (AES-256-GCM, 12-byte IV, 128-bit tag, AAD `slot:googleSub:credentialEpoch`), `DriveCryptoException`.
+- `drive/internal/exception`: `DriveException` (base exception with HTTP status and canonical error code), `DriveInvalidSlotException`, `DriveRevocationPendingException`, `DriveRevokeUncertainException`, `DriveCapacityExhaustedException`, `DriveDuplicateSubjectException`, `DriveDifferentSubjectOccupiedException`, `DriveStaleAttemptException`, `DriveProviderException`, `DrivePersistenceException`.
+- `drive/internal/oauth`: `OAuthAttempt` (stored Owner/context, slot generation/initiation order, state/nonce/PKCE/proof-digest), `OAuthAttemptManager` (300s TTL, max 4 active attempts), `SubjectLifecycleManager` (max 2 subjects, in-process PH-03 fence, completion-order cutoff, transient remote revocation status), `DriveOAuthClient` (complete-body deadlines and shared CallbackBudget, bounded Nimbus JWKS ID-token validation, selected-scope verification), `DriveTokenResponse`, `DriveIdTokenClaims`, `RemoteRevocationStatus`.
+- `drive/internal/persistence`: `DriveConnectionEntity` (`drive_connections` JPA entity), `DriveConnectionRepository` (insert-only conflict handling and epoch CAS updating/deleting queries), `DriveConnectionStatus`.
+- `drive/internal/web/controller`: `DriveController` (`POST /api/v1/drive/connections/{slot}/authorize`, `GET /api/v1/drive/oauth/callback`, `GET /api/v1/drive/connections`, `DELETE /api/v1/drive/connections/{slot}`), `DriveControllerAdvice` (`@Order(Ordered.HIGHEST_PRECEDENCE)`).
+- `drive/internal/web/dto`: `DriveAuthorizeResponse`, `DriveConnectionItemResponse`, `DriveConnectionListResponse`, `DriveDisconnectResponse`.
+- Additive Flyway migration: `V25__drive_connections.sql`.
+- Focused tests: `DriveApiInventoryIntegrationTest`, `DriveConfigurationIntegrationTest`, `DriveCredentialCryptoTest`, `DriveGoogleOAuthClientTest`, `DriveGrantRevocationIntegrationTest`, `DriveOAuthSecurityTest`, `DrivePersistenceIntegrationTest`, `DriveWebIntegrationTest`, `DriveProviderRegressionTest`, with lightweight test fixture `FakeGoogleOAuthServer`.

@@ -1124,4 +1124,21 @@ class ApplicationArchitectureTests {
                     .noneMatch(name -> name.contains(".internal."));
         }
     }
+
+    @Test
+    @DisplayName("Verifies that drive module defines expected configuration and maintains leaf module property")
+    void verifiesDriveModuleConfigurationAndLeafProperty() {
+        ApplicationModules modules = ApplicationModules.of(PersonalPrivateVaultApplication.class);
+        var driveModuleOpt = modules.getModuleByName("drive");
+        assertThat(driveModuleOpt).isPresent();
+        var driveModule = driveModuleOpt.get();
+
+        // Leaf invariant: no other application module depends on drive
+        for (var module : modules) {
+            if (!module.equals(driveModule)) {
+                assertThat(module.getDirectDependencies(modules).stream().toList())
+                        .noneMatch(dep -> dep.getTargetModule().equals(driveModule));
+            }
+        }
+    }
 }

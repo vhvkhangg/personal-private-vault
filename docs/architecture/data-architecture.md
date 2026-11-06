@@ -146,3 +146,22 @@ Historical job success is separate from effective CURRENT/OUTDATED/revoked state
 Monotonic versions/reset/scope epochs prevent event/hash/edge replay; verified
 cleanup is separate from safe process/writer release. No new runtime proof here;
 current containment remains and all implementation acceptance gates stay open.
+
+## 16. Google Drive connection authority schema
+
+GDI26-S1 implementation is submitted for separate independent review; default OFF. See the [handback](../implementation/maintenance/2026-11-05-google-drive-integration-preparation/implementation-handback-s1-2026-11-06.md).
+
+Flyway migration `V25__drive_connections.sql` introduces the additive `public.drive_connections` table, documented in canonical DBML at:
+[`../database/google-drive-connections.dbml`](../database/google-drive-connections.dbml)
+
+The table stores encrypted token custody and connection metadata for up to two connection slots:
+- `slot SMALLINT PRIMARY KEY CHECK (slot IN (1, 2))`
+- `google_sub VARCHAR(255) NOT NULL UNIQUE` (enforces single slot assignment per verified Google account)
+- `display_email VARCHAR(320)` nullable, display only
+- `status VARCHAR(32) NOT NULL CHECK (status IN ('CONNECTED', 'RECONNECT_REQUIRED'))`
+- `encrypted_refresh_token BYTEA` (version 0x01 + 12-byte IV + AES-256-GCM ciphertext + 16-byte tag; NULL when RECONNECT_REQUIRED)
+- `key_id VARCHAR(64)` (external key reference; NULL when RECONNECT_REQUIRED)
+- `credential_epoch UUID NOT NULL UNIQUE` (fresh random UUID generation for equality CAS, not monotonic)
+- Table-level check constraint `chk_drive_connections_credentials` requires nonempty ciphertext/nonblank key_id for CONNECTED and both NULL for RECONNECT_REQUIRED; `chk_drive_connections_status` restricts the two status strings.
+
+As security-sensitive credentials, `drive_connections` is classified as an excluded security table (`PortabilitySnapshotAdapter.EXCLUDED_SECURITY_TABLES`) and is excluded from portability export archives. The table does not participate in the frozen `vault_entries` shared identity.

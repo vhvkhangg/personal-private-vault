@@ -1,0 +1,21 @@
+// Additive GDI26-S1 relation. Frozen Schema v1 remains unchanged.
+// Physical authority: backend/src/main/resources/db/migration/V25__drive_connections.sql
+Table drive_connections {
+  slot smallint [pk, not null, note: 'CHECK slot IN (1,2)']
+  google_sub varchar(255) [not null, unique]
+  display_email varchar(320) [null, note: 'Display only; never account authority']
+  granted_scopes text [not null, note: 'Canonical selected scopes']
+  status varchar(32) [not null, note: 'CHECK IN (CONNECTED, RECONNECT_REQUIRED); no native database enum']
+  encrypted_refresh_token bytea [null, note: 'Version byte 0x01 || random 12-byte IV || ciphertext || 16-byte GCM tag']
+  key_id varchar(64) [null, note: 'Current key ID v1; present exactly with credential']
+  credential_epoch uuid [not null, unique, note: 'Fresh random UUID generation for equality CAS; not monotonic']
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+
+  Note: '''
+  Security table excluded from Portability exports; no existing relation changes.
+  CONNECTED requires non-NULL, nonempty ciphertext and non-NULL, btrim-nonblank key_id.
+  RECONNECT_REQUIRED requires encrypted_refresh_token and key_id both NULL.
+  Local DISCONNECTED is absence of a row.
+  '''
+}

@@ -52,10 +52,15 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
             tags "External"
         }
 
+        googleDrive = softwareSystem "Google OAuth / OIDC" "Code, refresh, JWKS and revoke only (ADR-0026). S1 REVIEW_PENDING / DEFAULT_OFF; no file operations or live activation." {
+            tags "External"
+        }
+
         owner -> vault "Uses privately from browser-capable devices"
         vault -> feedSources "Retrieves configured public feed data"
         vault -> socialPlatforms "Stores account/post metadata and source links"
         vault -> objectStorage "Stores and retrieves media binaries"
+        vault -> googleDrive "Authorizes account and manages connection lifecycle" "HTTPS"
 
         owner -> web "Uses"
         web -> backend "Calls" "HTTPS / REST / JSON"
@@ -63,6 +68,7 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
         backend -> snapshotStore "Captures approved revisions, verifies whole-file SHA-256 integrity" "Java file I/O"
         backend -> objectStorage "Stores/retrieves objects" "S3-compatible API"
         backend -> feedSources "Fetches configured feeds" "HTTPS"
+        backend -> googleDrive "Exchanges authorization code for tokens, revokes refresh token on disconnect (best-effort)" "HTTPS / REST / JSON"
         backend -> indexingWorker "Issues prepared inputs for batch jobs; one-use grant" "Local process dispatch / HTTP"
         indexingWorker -> database "Stages chunks and seals batch via restricted SQL functions" "rag_worker / scoped SECURITY DEFINER functions"
         backend -> queryWorker "Requests query embedding on dynamic loopback port; reader exclusion spans async output & positive sender/child stop outside SQL tx (ADR-0025)" "HTTP loopback / guarded reader lifetime"
@@ -88,6 +94,7 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
             include qaWorker
             include objectStorage
             include feedSources
+            include googleDrive
             autoLayout lr
             title "Personal Private Vault — C4 Container"
             description "Current containers including immutable snapshot store, indexing worker, query embedding worker, and suspended QA generator."

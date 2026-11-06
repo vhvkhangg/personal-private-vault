@@ -15,6 +15,7 @@ digraph C4Container {
  }
  storage [label="S3-Compatible Object Storage\nMedia binaries\n[ACCEPTED / OPTIONAL]", fillcolor="#999999", fontcolor="white", color="#777777"];
  feeds [label="Public Feed Sources\nGitHub Trending • HN • Reddit • RSS • tech sites\n[ACCEPTED batch contracts]", fillcolor="#999999", fontcolor="white", color="#777777"];
+ google [label="Google OAuth / OIDC\nCode / refresh / JWKS / revoke only\n[S1 REVIEW_PENDING / DEFAULT_OFF]", fillcolor="#999999", fontcolor="white", color="#777777"];
  owner -> web [label="Uses privately"];
  web -> api [label="HTTPS / REST / JSON"];
  api -> snapshots [label="Captures approved revisions (configured snapshot root)\nverifies whole-file SHA-256 integrity"];
@@ -25,4 +26,5 @@ digraph C4Container {
  api -> qaWorker [label="Archival only • execution disabled\n(zero runtime model loaded / no inference)", style="dashed", color="#AAAAAA"];
  api -> storage [label="S3-compatible API"];
  api -> feeds [label="Consumes normalized batches"];
+ api -> google [label="OAuth 2.0 code exchange & token revocation (best-effort)"];
 }

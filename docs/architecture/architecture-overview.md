@@ -21,7 +21,8 @@ The owner uses the vault through a browser-capable client. The planned system in
 - PostgreSQL for structured application data and metadata;
 - an S3-compatible object store for media binaries;
 - public feed sources such as GitHub Trending, Hacker News, Reddit, RSS, and configured technology sites;
-- external social/account platforms as metadata/link sources where supported.
+- external social/account platforms as metadata/link sources where supported;
+- Google OAuth/OIDC for S1 connection authority and encrypted token custody (review pending, default OFF; no file operations).
 
 See [`diagrams/exported/system-context.svg`](diagrams/exported/system-context.svg).
 
@@ -141,6 +142,10 @@ application tables. It never mutates another module's data or imports another mo
 ### `importdata`
 
 Owns import workflow state and parsing/orchestration. It does not write directly to repositories belonging to Study, Information, Vocabulary, or Note; it calls the public `knowledge` import contract.
+
+### `drive`
+
+`drive` is a disabled-by-default leaf module submitted for independent review in Maintenance GDI26-S1 ([ADR-0026](../adr/0026-google-drive-connection-authority.md), [`google-drive-connection-authority.md`](google-drive-connection-authority.md)). It owns `drive_connections` and provides single-user connection authority and encrypted refresh-token custody for up to two Google accounts, with PKCE browser cookie binding and a project-grant revocation fence (PH-03). It has zero business dependencies on other modules.
 
 ## 8. Communication rule
 

@@ -19,6 +19,7 @@ personal [label="personal", fillcolor="#E2F0D9", color="#70AD47"];
 people [label="people", fillcolor="#E4DFEC", color="#8064A2"];
 settings [label="settings", fillcolor="#EDEDED", color="#7F7F7F"];
 authentication [label="authentication", fillcolor="#EDEDED", color="#7F7F7F"];
+drive [label="drive\n(S1 connection authority)\nREVIEW_PENDING / DEFAULT_OFF", fillcolor="#EDEDED", color="#7F7F7F"];
 vault [label="vault (Shared Core)", fillcolor="#DCE6F1", color="#4F81BD"];
 reference [label="reference", fillcolor="#DCE6F1", color="#4F81BD"];
 rag [label="rag", fillcolor="#FCE4D6", color="#C65911"];
@@ -28,7 +29,7 @@ rag -> film;
 {rank=same; search portability rag}
 {rank=same; feed importdata knowledge collection account}
 {rank=same; fiction film media location finance journal personal}
-{rank=same; people settings authentication}
+{rank=same; people settings authentication drive}
 {rank=same; vault reference}
 settings -> reference;
 people -> vault;

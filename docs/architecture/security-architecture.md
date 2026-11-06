@@ -55,6 +55,12 @@ POST /api/v1/auth/refresh
 POST /api/v1/auth/revoke
 ```
 
+When Google Drive integration is enabled (`ppv.drive.enabled=true`):
+```text
+GET  /api/v1/drive/oauth/callback
+```
+Note: Only exact HTTP `GET` to `/api/v1/drive/oauth/callback` is publicly permitted to receive standard browser OAuth redirection without custom headers. All other HTTP methods on that path (`POST`, `PUT`, `DELETE`) and all other Drive routes (`/api/v1/drive/connections/**`) require valid bearer authentication.
+
 Existing public operational/documentation paths remain:
 
 ```text
@@ -64,7 +70,7 @@ Existing public operational/documentation paths remain:
 /swagger-ui.html
 ```
 
-Everything else is bearer-protected by default, including `/api/v1/auth/private-pin/**` and every business route.
+Everything else is bearer-protected by default, including `/api/v1/auth/private-pin/**`, every business route, and all non-callback Drive operations.
 
 There is no public registration endpoint.
 
@@ -120,3 +126,13 @@ encryption and secret rotation.
 
 For password length bounds (12–128 characters) and delegating legacy BCrypt verification details, see:
 [`phase-15-implementation-notes.md`](phase-15-implementation-notes.md)
+
+## 12. Google Drive connection security and token custody
+
+Submitted for separate independent review under Maintenance GDI26-S1 ([ADR-0026](../adr/0026-google-drive-connection-authority.md), [`google-drive-connection-authority.md`](google-drive-connection-authority.md)):
+
+1. **Token Encryption at Rest:** Refresh tokens are encrypted using AES-256-GCM with a version 0x01 envelope, random 12-byte IV and 128-bit authentication tag. The Associated Authenticated Data (AAD) is bound to `slot:googleSub:credentialEpoch`. The 32-byte encryption key is read from an external file (`ppv.drive.token-key-file`) outside source control.
+2. **Browser Cookie Binding:** OAuth authorization sets a short-lived (300s TTL) `HttpOnly`, `SameSite=Lax` cookie containing a CSPRNG proof value. The callback validates the SHA-256 digest of this cookie in constant time before invoking provider endpoints.
+3. **OpenID Connect & Scope Whitelist:** OpenID Connect ID token signature is validated against bounded fixed-endpoint Google JWKS. Audience is mandatory and azp is checked separately. Allowed scopes are strictly verified to contain `https://www.googleapis.com/auth/drive.file`, `openid`, and `email`; Google's userinfo.email equivalent is accepted and every unselected scope is rejected.
+4. **PH-03 Grant-wide Revocation Fence:** Disconnect immediately invalidates and deletes local credentials before sending a single bounded revocation request to Google. In-flight authorization attempts initiated before or during revocation are blocked from committing. Failed or timed-out remote revocations transition the subject into `REVOKE_UNCERTAIN` quarantine against reconnect.
+5. **Export Classification:** `drive_connections` is included in `PortabilitySnapshotAdapter.EXCLUDED_SECURITY_TABLES`, preventing credential leakage into portability export archives.

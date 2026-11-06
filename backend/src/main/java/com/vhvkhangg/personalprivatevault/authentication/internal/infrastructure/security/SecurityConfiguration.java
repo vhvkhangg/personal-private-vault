@@ -102,20 +102,25 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             org.springframework.security.web.AuthenticationEntryPoint entryPoint,
-            org.springframework.security.web.access.AccessDeniedHandler accessDeniedHandler) throws Exception {
+            org.springframework.security.web.access.AccessDeniedHandler accessDeniedHandler,
+            @org.springframework.beans.factory.annotation.Value("${ppv.drive.enabled:false}") boolean driveEnabled) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/auth/bootstrap/status").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/bootstrap").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/login").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/refresh").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/revoke").permitAll()
-                        .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(auth -> {
+                    auth
+                            .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
+                            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/auth/bootstrap/status").permitAll()
+                            .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/bootstrap").permitAll()
+                            .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                            .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/refresh").permitAll()
+                            .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/revoke").permitAll();
+                    if (driveEnabled) {
+                        auth.requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/drive/oauth/callback").permitAll();
+                    }
+                    auth.anyRequest().authenticated();
+                })
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(entryPoint)

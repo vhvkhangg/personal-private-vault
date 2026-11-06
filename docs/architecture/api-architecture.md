@@ -410,3 +410,17 @@ See [`daily-trends-radar-api-extension.md`](daily-trends-radar-api-extension.md)
 Implemented 2026-11-04 under authorized maintenance slice `DTR26-S2A`.
 Adds manual RSS/Atom source refresh (`POST /api/v1/feed/sources/{sourceId}/refresh-rss`) and combined rolling-window Radar view (`GET /api/v1/feed/radar/combined`), preserving ADR-0016 envelopes, single-user JWT authentication, Feed module-local adapter ownership, and article-centric deduplication against existing generic Feed storage.
 See [`daily-trends-radar-rss-api-extension.md`](daily-trends-radar-rss-api-extension.md).
+
+## 20. Google Drive Connection Authority API extension
+
+GDI26-S1 is submitted for separate independent review, default OFF; deterministic implementer evidence is linked from the [handback](../implementation/maintenance/2026-11-05-google-drive-integration-preparation/implementation-handback-s1-2026-11-06.md). Public callback success/failure are fixed plain text (including its declared error responses); stored state selects the proof cookie, and duplicate security parameters/code-plus-error fail before exchange.
+
+Implemented 2026-11-06 under authorized maintenance slice `GDI26-S1`.
+Introduces 4 REST operations in the leaf module `drive`, disabled by default (`ppv.drive.enabled=false`):
+1. `POST /api/v1/drive/connections/{slot}/authorize`: bearer-authenticated, returns consent URL and sets browser proof cookie.
+2. `GET /api/v1/drive/oauth/callback`: public browser redirect callback, returns `text/plain` status.
+3. `GET /api/v1/drive/connections`: bearer-authenticated, lists slot statuses (CONNECTED, RECONNECT_REQUIRED, DISCONNECTED) and display emails without exposing secrets.
+4. `DELETE /api/v1/drive/connections/{slot}`: bearer-authenticated, removes local credentials immediately and executes one bounded remote token revocation.
+
+Preserves the `/api/v1` prefix, root `ApiResponse` envelope for JSON operations, module-local adapter ownership in `com.vhvkhangg.personalprivatevault.drive.internal.web.controller`, and the exact 235-route OpenAPI baseline when disabled (239 when enabled).
+See [`google-drive-connection-authority.md`](google-drive-connection-authority.md) and [ADR-0026](../adr/0026-google-drive-connection-authority.md).

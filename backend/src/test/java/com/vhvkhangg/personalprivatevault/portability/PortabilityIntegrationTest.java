@@ -173,13 +173,13 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         JsonNode manifestNode = objectMapper.readTree(entries.get("manifest.json"));
         assertThat(manifestNode.path("formatVersion").asInt()).isEqualTo(1);
         assertThat(manifestNode.hasNonNull("generatedAt")).isTrue();
-        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("23");
+        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("25");
 
         JsonNode excludedNode = manifestNode.path("excludedSecurityTables");
         assertThat(excludedNode.isArray()).isTrue();
         List<String> excludedList = new ArrayList<>();
         excludedNode.forEach(n -> excludedList.add(n.asText()));
-        assertThat(excludedList).containsExactlyInAnyOrder("app_users", "refresh_tokens");
+        assertThat(excludedList).containsExactlyInAnyOrder("app_users", "refresh_tokens", "drive_connections");
 
         JsonNode inventoryNode = manifestNode.path("tableInventory");
         assertThat(inventoryNode.isArray()).isTrue();
@@ -191,6 +191,7 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         }
         assertThat(entries).doesNotContainKey("tables/app_users.jsonl");
         assertThat(entries).doesNotContainKey("tables/refresh_tokens.jsonl");
+        assertThat(entries).doesNotContainKey("tables/drive_connections.jsonl");
         assertThat(entries).doesNotContainKey("tables/flyway_schema_history.jsonl");
 
         // 6. Assert markdown files are exact copies

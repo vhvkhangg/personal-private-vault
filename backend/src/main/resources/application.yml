@@ -63,6 +63,14 @@ logging:
     org.hibernate.orm.jdbc.error: ERROR
 
 ppv:
+  drive:
+    enabled: ${PPV_DRIVE_ENABLED:false}
+    token-key-file: ${PPV_DRIVE_TOKEN_KEY_FILE:}
+    oauth:
+      client-id: ${PPV_DRIVE_OAUTH_CLIENT_ID:}
+      client-secret: ${PPV_DRIVE_OAUTH_CLIENT_SECRET:}
+      redirect-uri: ${PPV_DRIVE_OAUTH_REDIRECT_URI:http://localhost:8080/api/v1/drive/oauth/callback}
+      # Provider endpoints are fixed in DriveProperties; enabled startup rejects overrides.
   feed:
     scheduler:
       enabled: ${PPV_FEED_SCHEDULER_ENABLED:false}

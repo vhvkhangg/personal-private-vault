@@ -30,6 +30,8 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 | [`search-architecture.md`](search-architecture.md)           | Global search behavior and PostgreSQL-first implementation strategy                                     |
 | [`rag-architecture.md`](rag-architecture.md)                 | Approved Alternative B Foundation; later ingestion/query/recommendation remain allocated, not enabled |
 | [`storage-backup-import.md`](storage-backup-import.md)       | Object storage, import pipeline, export, backup, and portability                                        |
+| [`google-drive-connection-authority.md`](google-drive-connection-authority.md) | Google Drive connection authority, OAuth endpoints, AES-256-GCM refresh token custody, and PH-03 revocation fence ([ADR-0026](../adr/0026-google-drive-connection-authority.md); additive schema in [`google-drive-connections.dbml`](../database/google-drive-connections.dbml)) |
+| [`google-drive-connection-operations.md`](google-drive-connection-operations.md) | Operational runbook for Google Drive connection authority: localhost flow, default OFF, master key management, and uncertainty recovery |
 | [`testing-and-review.md`](testing-and-review.md)             | Planned test stack and owner/Antigravity/Codex workflow                                                 |
 | [`deferred-decisions.md`](deferred-decisions.md)             | Explicitly deferred architecture decisions                                                              |
 
@@ -50,7 +52,9 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 - `diagrams/exported/module-dependency-overview.svg`
 - `diagrams/exported/module-dependencies.svg`
 
-Use SVG exports for documentation/review. Edit the canonical source and regenerate exports after changes.
+Use SVG exports for documentation/review. Edit the canonical source and synchronize applicable exports after changes.
+
+GDI26-S1 adds a connection-only Drive module/functional leaf and Google OAuth/OIDC external system, explicitly REVIEW_PENDING / DEFAULT_OFF. D00–D07 do not authorize live OAuth or file operations here. Current sources: module/functional draw.io and DOT, system-context/container DOT, and Structurizr DSL. Current SVG/PNG pairs and both module-dependency aliases include this delta. Functional exports use installed draw.io; module/context SVGs retain their existing Graphviz vector art with a bounded manually authored delta; container SVG retains its editable vector layout with the Google node/link added. Edge rasterizes those three SVGs to PNG. This is semantic source/export synchronization, not a claim of reproducible Graphviz/Structurizr regeneration or formal DSL validation; those tools were unavailable. Source/node/edge inventory, exact generator receipts and visual checks are recorded in the [GDI26 handback](../implementation/maintenance/2026-11-05-google-drive-integration-preparation/implementation-handback-s1-2026-11-06.md). Dated SAD snapshots remain historical.
 
 The current C4 container and module dependency views reflect accepted architecture (Phase 17 frozen, Phase 18 closed Obsidian `.md` CPU-only, S19-1 accepted query embedding process). Java owns source authority, immutable ORIGINAL_BYTES storage, and PostgreSQL publication, while Python runs restricted staging/digest operations and query embeddings. Grounded QA is SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY. External indexing remains INACTIVE; live originals DISABLED/DEFERRED. See [CSA26 maintenance handoff](../implementation/maintenance/2026-11-01-current-system-readonly-audit/executable-handoff-2026-11-01.md).
 
