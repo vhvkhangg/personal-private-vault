@@ -1,0 +1,36 @@
+# GDI26-S1 — Owner publication closeout (2026-11-06)
+
+**Disposition:** `COMPLETE / INDEPENDENTLY_ACCEPTED / OWNER_PUBLISHED / NO_ACTIVE_HANDOFF` — **GDI26-S1 only**. This is a post-publication, **docs-only overlay**, not a new implementation, OAuth activation or GDI26-S2/S3 authorization.
+
+**Owner-published implementation:** [`b277e3011ac0948bef4b6a74e52d3657a453607e`](https://github.com/vhvkhangg/personal-private-vault/commit/b277e3011ac0948bef4b6a74e52d3657a453607e) on `main`, subject `feat(drive): add two-account connection authority`.  
+**Reviewed preparation baseline:** [`304708e6bb5c1a8e45e89e2bdb9026d9ae4e8002`](https://github.com/vhvkhangg/personal-private-vault/commit/304708e6bb5c1a8e45e89e2bdb9026d9ae4e8002), `docs(drive): prepare GDI26-S1 connection authority`.
+
+## Verification of publication and authority
+
+- Owner confirmed `git commit` and `push`. GitHub `main` was independently queried on **2026-11-06** and returned exactly `b277e3011ac0948bef4b6a74e52d3657a453607e`. The implementation commit contains the Drive connection/OAuth/crypto/persistence/web code, `V25__drive_connections.sql`, default-OFF application configuration, bounded tests, ADR-0026, schema/module/architecture diagrams, operator guidance, historical handback/reviews and acceptance-time `ACTIVE.md`.
+- [Independent Codex takeover review](reviews/2026-11-06-gdi26-s1-independent-takeover-review.md) returned **`READY_FOR_OWNER_COMMIT`**, with `GDI26-S1-FR-01`–`FR-09` **VERIFIED/CLOSED** and S1-01..13 accepted within the review's deterministic scope. The initial [CHANGES_REQUESTED review](reviews/2026-11-06-gdi26-s1-independent-final-review.md) and [corrective handback](implementation-handback-s1-2026-11-06.md) remain dated evidence; their statuses are not retroactively rewritten.
+- Binding scope: [Owner decisions D00–D07](owner-decision-record-2026-11-05.md), [pre-handoff re-review 2](reviews/2026-11-05-gdi26-independent-pre-handoff-re-review-2.md), [executable handoff](executable-handoff-s1-2026-11-06.md), [ADR-0026](../../../adr/0026-google-drive-connection-authority.md). Preparation PH-01/02/03 were closed at pre-handoff review; their results are not fresh runtime tests.
+- `READY_FOR_OWNER_COMMIT` in the implementation SHA is its **historical review-time state**. The separate docs-only [ACTIVE reset](../../handoffs/ACTIVE.md) records `NO_ACTIVE_HANDOFF`; it does not alter the implementation commit or grant further authority.
+
+## Accepted S1 scope
+
+The accepted Drive-owned backend supports connection authority for up to **two distinct verified Google subjects** in fixed slots. It includes authenticated authorization initiation, two-slot status and local disconnect, one browser-bound callback, authorization code + PKCE, signed OIDC identity/scope verification, refresh-token encryption using an external AES-GCM key, per-slot/epoch authority checks, a project/subject remote-revocation fence and bounded failure/timeout/quarantine behavior. Google OAuth scopes are limited to the approved OIDC and `drive.file` selection. The new Drive migration/table and Portability credential exclusion were checked within the approved additive schema/module amendment; Media S3, PPV JWT and RAG boundaries stay unchanged.
+
+Only **four Drive operations** were added for the enabled configuration: authenticated authorize, status, disconnect and browser callback. Existing API count is **235 with Drive OFF**, **239 with Drive ON**. The [operations guide](../../../architecture/google-drive-connection-operations.md) describes local setup, key custody, revoke/recovery semantics and limits. Its “submitted implementation / review required” label is a **historical acceptance-time description**, now superseded by this verified publication record and the current ACTIVE register.
+
+## Independent evidence and remediation history
+
+- **224 fresh focused independent tests PASS** — Drive 113; security/API 17; architecture/schema/Portability 55; adjacent compatibility 39; **0 failures / 0 errors / 0 skips**. These are not a full-backend suite or live-Google tests.
+- The independently repeated *fence-bypass* controlled mutation failed its real assertion as expected (one case, exit 1); restoring the real guard passed the identical case (exit 0). These diagnostic controls are **separate from** the 224 regular cases and prove sensitivity of the bounded revocation-fence test; they are not extra regular PASS cases.
+- **Antigravity remediation: 0/3 consumed.** Repeated infrastructure HTTP 503/model-capacity failures led the Owner to approve an **exceptional bounded Codex implementation takeover** before any corrective cycle. A distinct Codex reviewer independently accepted it. **Takeover ACCEPTED / STOPPED; no 3/3 assertion, no reset or transferable budget.**
+- LOW / OPEN, nonblocking: `GDI26-S1-FR-L01` (leaf package-info descriptors), `GDI26-S1-FR-L02` (incorrect decision label in package inventory), and historical `GDI26-PH-L01` (anchor). The current package-tree citation is **not silently claimed fixed** by this limited publication closeout; retain in the consolidated documentation/hygiene backlog. Other actionable LOW/INFO remain recorded under their original registers.
+
+## Operational hold and future work
+
+**Drive stays OFF.** In `application.yml`, `ppv.drive.enabled` defaults to `false`; no real OAuth grant, Cloud configuration, actual localhost browser cookie delivery, Google provider smoke, key-file ACL/backup provisioning, HTTPS deployment or runtime single-JVM readiness is certified. Remote grant revocation is not guaranteed complete immediately on HTTP 200. Live operation requires a distinct Owner-approved operational readiness check. Feed scheduled polling remains OFF with its own separate topology-A activation gate.
+
+S1 does **not** create the PPV-owned Google folders, list/upload/download files, deliver the website Explorer, modify Media S3, start background sync or RAG work, or authorize Google Drive content discovery. GDI26-S2 (app-created folders and bounded file operations) is the next **proposed feature preparation**, requiring distinct Owner authorization, source-backed preparation, independent pre-handoff review, Owner publication and a new executable handoff. S3 frontend/Explorer, later Dashboard/API readiness, comprehensive non-RAG backend/docs audit and Phase 16 remain separately gated. S19-2 remains SUSPENDED/NOT_ACCEPTED/ARCHIVAL_ONLY and external indexing remains INACTIVE.
+
+**Docs Sync Check:** `UPDATED` — this publication record, current `ACTIVE.md` and maintenance navigation. `ALREADY_CONSISTENT` — D00–D07, published commit, independent review, default OFF and frozen/API/schema ownership. `HISTORICAL` — dated pre-publication review/handoff/operations headings. `DEFERRED_OUT_OF_SCOPE` — FR-L01/FR-L02/PH-L01 and unrelated LOW/INFO/historical notices/diagram badges, future S2/S3. `NOT_VERIFIED` — real Google/Cloud/browser/key/deployment activation and complete backend suite.
+
+**Next step:** Owner | inspect/stage/commit/push this **docs-only GDI26-S1 closeout** | verified `b277e3011ac0`, independent review, updated `ACTIVE=NO_ACTIVE_HANDOFF` and maintenance navigation | keep `PPV_DRIVE_ENABLED=false` and `PPV_FEED_SCHEDULER_ENABLED=false`; no S2/S3 or real OAuth activation by inference | Antigravity 0/3; one exceptional takeover ACCEPTED / STOPPED.
