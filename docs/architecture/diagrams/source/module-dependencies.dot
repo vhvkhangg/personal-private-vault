@@ -19,7 +19,7 @@ personal [label="personal", fillcolor="#E2F0D9", color="#70AD47"];
 people [label="people", fillcolor="#E4DFEC", color="#8064A2"];
 settings [label="settings", fillcolor="#EDEDED", color="#7F7F7F"];
 authentication [label="authentication", fillcolor="#EDEDED", color="#7F7F7F"];
-drive [label="drive\n(S1 connection authority)\nREVIEW_PENDING / DEFAULT_OFF", fillcolor="#EDEDED", color="#7F7F7F"];
+drive [label="drive\n(S1 connection authority)\nREVIEW_PENDING / DEFAULT_OFF\nS2 root/binary files / FILES_OFF", fillcolor="#EDEDED", color="#7F7F7F"];
 vault [label="vault (Shared Core)", fillcolor="#DCE6F1", color="#4F81BD"];
 reference [label="reference", fillcolor="#DCE6F1", color="#4F81BD"];
 rag [label="rag", fillcolor="#FCE4D6", color="#C65911"];

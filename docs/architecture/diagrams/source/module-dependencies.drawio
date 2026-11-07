@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <mxfile host="app.diagrams.net" compressed="false" version="24.7.17">
   <diagram id="page-1" name="Page-1">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="950" math="0" shadow="0">
@@ -17,10 +17,10 @@
         <mxCell id="importdata" value="importdata" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0D9;strokeColor=#70AD47;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="410" y="190" width="170" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="knowledge" value="knowledge&#xA;(study / information / vocabulary / note)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#BF9000;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;" vertex="1" parent="1">
+        <mxCell id="knowledge" value="knowledge&#10;(study / information / vocabulary / note)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#BF9000;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="660" y="190" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="collection" value="collection&#xA;(music / shopping / software)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#BF9000;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;" vertex="1" parent="1">
+        <mxCell id="collection" value="collection&#10;(music / shopping / software)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#BF9000;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="910" y="190" width="250" height="60" as="geometry" />
         </mxCell>
         <mxCell id="account" value="account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0D9;strokeColor=#70AD47;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;" vertex="1" parent="1">
@@ -188,8 +188,8 @@
         <mxCell id="rag-film" source="rag" edge="1" parent="1" target="film" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.2;strokeColor=#6B7280;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="drive" value="drive&#10;S1 connection authority&#10;REVIEW_PENDING / DEFAULT_OFF" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDEDED;strokeColor=#7F7F7F;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="1240" y="30" width="260" height="70" as="geometry" />
+        <mxCell id="drive" value="drive&#10;S1 connection authority&#10;REVIEW_PENDING / DEFAULT_OFF&#10;S2 root/binary files / FILES_OFF" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDEDED;strokeColor=#7F7F7F;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="30" width="260" height="90" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

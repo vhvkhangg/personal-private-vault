@@ -42,6 +42,7 @@ When a frozen architectural decision changes materially, add a new ADR and mark 
 | [ADR-0020](0020-phase-17-single-job-reservations-e1.md) | Alternative B durable reservations, single job, consent CAS, E1 and independent completed-index lifetime | Accepted / frozen Phase 17; scoped external applicability amended by ADR-0022 |
 | [ADR-0025](0025-phase-19-markdown-reader-exclusion.md) | Phase 19 Markdown active-reader exclusion, inspection fences, and guarded emission | Owner-approved Option A design; implementation awaits independent acceptance |
 | [ADR-0026](0026-google-drive-connection-authority.md) | Google Drive connection authority, credential custody, and project-grant revocation fence | Owner-approved design; implementation review pending |
+| [ADR-0027](0027-google-drive-root-file-authority.md) | Google Drive direct binary root/files and durable upload action identity (D08–D10) | Owner-approved design; S2 independently READY_FOR_OWNER_COMMIT; defaults OFF |
 
 ## Phase 18 prospective contracts
 

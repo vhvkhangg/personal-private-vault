@@ -145,4 +145,21 @@ public class SubjectLifecycleManager {
     }
 
     public ReentrantLock getLock() { return lock; }
+
+    /** Narrow current-connection gate reused by file leases, without OAuth initiation/cutoff semantics. */
+    public void checkCurrentConnection(short slot, String sub) {
+        lock.lock();
+        try {
+            var record = subjects.get(sub);
+            if (record != null && record.state() == LifecycleState.REVOKE_IN_FLIGHT) {
+                throw new DriveRevocationPendingException("Remote revocation is currently in flight");
+            }
+            if (record != null && record.state() == LifecycleState.REVOKE_UNCERTAIN) {
+                throw new DriveRevokeUncertainException("Subject is under revocation quarantine; Owner inspection required");
+            }
+            if (record == null || record.state() != LifecycleState.CONNECTED || record.slot() != slot) {
+                throw new DriveStaleAttemptException("Connection no longer holds current subject authority");
+            }
+        } finally { lock.unlock(); }
+    }
 }

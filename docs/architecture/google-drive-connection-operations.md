@@ -1,5 +1,7 @@
 # Google Drive connection operations
 
+GDI26-S2 adds a separately gated [direct binary file operations guide](google-drive-file-operations.md). S1-only setup does not enable files; both Drive and files remain default OFF. S2 implementation requires a separate independent review and does not certify live setup.
+
 **Status:** GDI26-S1 submitted implementation; independent review required. Drive remains OFF. Real Google Cloud/consent/browser/remote HTTPS operation is NOT_VERIFIED and requires separate Owner authorization. No files/folders/Explorer/Picker/background sync are provided by S1.
 
 ## Configuration and key custody

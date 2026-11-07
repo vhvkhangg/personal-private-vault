@@ -32,8 +32,12 @@ This directory describes the frozen **v1 architecture baseline** for Personal Pr
 | [`storage-backup-import.md`](storage-backup-import.md)       | Object storage, import pipeline, export, backup, and portability                                        |
 | [`google-drive-connection-authority.md`](google-drive-connection-authority.md) | Google Drive connection authority, OAuth endpoints, AES-256-GCM refresh token custody, and PH-03 revocation fence ([ADR-0026](../adr/0026-google-drive-connection-authority.md); additive schema in [`google-drive-connections.dbml`](../database/google-drive-connections.dbml)) |
 | [`google-drive-connection-operations.md`](google-drive-connection-operations.md) | Operational runbook for Google Drive connection authority: localhost flow, default OFF, master key management, and uncertainty recovery |
+| [`google-drive-files.md`](google-drive-files.md) | S2 private root/direct binary file APIs, durable intent recovery and bounded resources; READY_FOR_OWNER_COMMIT |
+| [`google-drive-file-operations.md`](google-drive-file-operations.md) | S2 default-OFF flags, protected spool, stable action keys and failure/restart handling |
 | [`testing-and-review.md`](testing-and-review.md)             | Planned test stack and owner/Antigravity/Codex workflow                                                 |
 | [`deferred-decisions.md`](deferred-decisions.md)             | Explicitly deferred architecture decisions                                                              |
+
+The GDI26-S2 implementation extends the existing Drive/Google descriptions in current module/functional/context/container sources and exports. It adds no dependency edge or diagram node; S1 status badges remain historical/deferred. Functional SVG/PNG use installed draw.io; the other SVGs retain their vector layouts with a bounded S2 text/card delta and Edge rasterization. Both module aliases are byte-identical. Source/export XML, unchanged node/edge inventories and visual checks are recorded in the [S2 handback](../implementation/maintenance/2026-11-06-gdi26-s2-preparation/implementation-handback-s2-2026-11-06.md). Graphviz/Structurizr regeneration and formal DSL validation remain NOT_VERIFIED; the [independent remaining-verification review](../implementation/maintenance/2026-11-06-gdi26-s2-preparation/reviews/2026-11-07-gdi26-s2-independent-media-verification-review.md) records READY_FOR_OWNER_COMMIT and flags remain OFF.
 
 ## Diagrams
 

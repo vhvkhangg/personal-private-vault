@@ -224,13 +224,13 @@
   </g>
   <!-- GDI26-S1 manual vector delta; existing accepted containers retain their status. -->
   <g id="gdi26-google" transform="translate(2020,680)">
-    <rect width="290" height="140" rx="10" fill="#64748B" stroke="#475569" stroke-width="2"/>
+    <rect width="290" height="160" rx="10" fill="#64748B" stroke="#475569" stroke-width="2" />
     <text x="145" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Google OAuth / OIDC</text>
-    <text x="145" y="55" text-anchor="middle" font-size="11" fill="white">Code / refresh / JWKS / revoke only</text>
+    <text x="145" y="55" text-anchor="middle" font-size="11" fill="white">OAuth + PPV root/binary files</text>
     <text x="145" y="80" text-anchor="middle" font-size="11" fill="white">S1 REVIEW_PENDING / DEFAULT_OFF</text>
     <text x="145" y="108" text-anchor="middle" font-size="11" fill="white">Live operation NOT_VERIFIED</text>
-  </g>
+  <text x="145" y="136" text-anchor="middle" font-size="11" fill="white">S2 REVIEW_PENDING / FILES_OFF</text></g>
   <path id="gdi26-google-edge" d="M 950 555 L 1000 555 L 1000 905 L 2000 905 L 2000 750 L 2015 750" fill="none" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arrow)"/>
   <rect x="1450" y="887" width="300" height="24" rx="3" fill="white" stroke="#E2E8F0"/>
-  <text x="1600" y="903" text-anchor="middle" font-size="10" fill="#374151">Bounded OAuth; no Drive file operation</text>
+  <text x="1600" y="903" text-anchor="middle" font-size="10" fill="#374151">Bounded OAuth + approved root/binary files</text>
 </svg>

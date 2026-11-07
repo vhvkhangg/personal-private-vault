@@ -52,7 +52,7 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
             tags "External"
         }
 
-        googleDrive = softwareSystem "Google OAuth / OIDC" "Code, refresh, JWKS and revoke only (ADR-0026). S1 REVIEW_PENDING / DEFAULT_OFF; no file operations or live activation." {
+        googleDrive = softwareSystem "Google OAuth / OIDC" "OAuth (ADR-0026) and S2 direct PPV root/binary files (ADR-0027). S1 REVIEW_PENDING / DEFAULT_OFF badge retained; S2 REVIEW_PENDING / FILES_OFF; live operation NOT_VERIFIED." {
             tags "External"
         }
 
@@ -60,7 +60,7 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
         vault -> feedSources "Retrieves configured public feed data"
         vault -> socialPlatforms "Stores account/post metadata and source links"
         vault -> objectStorage "Stores and retrieves media binaries"
-        vault -> googleDrive "Authorizes account and manages connection lifecycle" "HTTPS"
+        vault -> googleDrive "Authorizes account; explicitly manages PPV root and direct binary files" "HTTPS"
 
         owner -> web "Uses"
         web -> backend "Calls" "HTTPS / REST / JSON"
@@ -68,7 +68,7 @@ workspace "Personal Private Vault" "Architecture diagrams for the frozen v1 base
         backend -> snapshotStore "Captures approved revisions, verifies whole-file SHA-256 integrity" "Java file I/O"
         backend -> objectStorage "Stores/retrieves objects" "S3-compatible API"
         backend -> feedSources "Fetches configured feeds" "HTTPS"
-        backend -> googleDrive "Exchanges authorization code for tokens, revokes refresh token on disconnect (best-effort)" "HTTPS / REST / JSON"
+        backend -> googleDrive "OAuth refresh/revoke; approved root/list/original binary upload/download with files explicitly enabled" "HTTPS / REST / JSON"
         backend -> indexingWorker "Issues prepared inputs for batch jobs; one-use grant" "Local process dispatch / HTTP"
         indexingWorker -> database "Stages chunks and seals batch via restricted SQL functions" "rag_worker / scoped SECURITY DEFINER functions"
         backend -> queryWorker "Requests query embedding on dynamic loopback port; reader exclusion spans async output & positive sender/child stop outside SQL tx (ADR-0025)" "HTTP loopback / guarded reader lifetime"

@@ -484,3 +484,15 @@ Under Owner Decision GDI26-OD-01 and ADR-0026, Maintenance GDI26-S1 adds the dis
 - `drive/internal/web/dto`: `DriveAuthorizeResponse`, `DriveConnectionItemResponse`, `DriveConnectionListResponse`, `DriveDisconnectResponse`.
 - Additive Flyway migration: `V25__drive_connections.sql`.
 - Focused tests: `DriveApiInventoryIntegrationTest`, `DriveConfigurationIntegrationTest`, `DriveCredentialCryptoTest`, `DriveGoogleOAuthClientTest`, `DriveGrantRevocationIntegrationTest`, `DriveOAuthSecurityTest`, `DrivePersistenceIntegrationTest`, `DriveWebIntegrationTest`, `DriveProviderRegressionTest`, with lightweight test fixture `FakeGoogleOAuthServer`.
+
+### GDI26-S2 additive file subtree — READY_FOR_OWNER_COMMIT
+
+D08–D10 / [ADR-0027](../adr/0027-google-drive-root-file-authority.md) extend the same Drive leaf with `drive/internal/files/`:
+
+- `application`: DriveFileAuthority (S1 lease/fence reuse), DriveFolderService, DriveFileService, DriveUploadIntentStore, DriveFileCursors, DriveFileInputs, DriveFileProof, DriveFileException.
+- `http`: DriveFileResources, DriveMultipartUpload, DriveFileHttpClient.
+- `persistence`: DriveFolderRoot/Repository, DriveUploadIntent/Repository and embedded DriveUploadKey.
+- `web`: DriveFileFilter (bounded servlet admission/stream bridges). The new S2 DriveFileController / DriveFileDtos use existing `drive/internal/web/controller` / `drive/internal/web/dto`, preserving the controller package invariant; S1 adapters remain unchanged.
+- `config`: DriveFilesConfiguration (conditional on files enabled; requires Drive).
+- V26 adds only root/intent metadata; no module edge or public business API is added.
+- Focused tests: DriveS2FolderIntegrationTest, DriveS2UploadIntentIntegrationTest, DriveS2ProviderTest, DriveS2StreamingIntegrationTest, DriveS2UploadRecoveryIntegrationTest, DriveS2WebIntegrationTest, DriveS2AuthorityIntegrationTest and DriveS2ConfigurationIntegrationTest; controlled HTTP/PG fixtures under drive/fixture.

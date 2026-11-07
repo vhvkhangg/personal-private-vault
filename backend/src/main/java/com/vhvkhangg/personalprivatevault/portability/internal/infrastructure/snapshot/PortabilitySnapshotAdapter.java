@@ -120,7 +120,9 @@ public class PortabilitySnapshotAdapter {
     public static final Set<String> EXCLUDED_SECURITY_TABLES = Set.of(
             "app_users",
             "refresh_tokens",
-            "drive_connections"
+            "drive_connections",
+            "drive_folder_roots",
+            "drive_upload_intents"
     );
 
     public static final Set<String> EXCLUDED_SYSTEM_TABLES = Set.of(

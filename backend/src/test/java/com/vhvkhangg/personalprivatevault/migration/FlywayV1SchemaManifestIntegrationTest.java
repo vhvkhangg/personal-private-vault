@@ -44,7 +44,7 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 FROM information_schema.tables
                 WHERE table_schema = 'public'
                   AND table_type = 'BASE TABLE'
-                  AND table_name NOT IN ('flyway_schema_history', 'vault_rag_source_state', 'drive_connections')
+                  AND table_name NOT IN ('flyway_schema_history', 'vault_rag_source_state', 'drive_connections', 'drive_folder_roots', 'drive_upload_intents')
                 """,
                 Integer.class
         );
@@ -74,6 +74,7 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 FROM information_schema.table_constraints
                 WHERE constraint_schema = 'public'
                   AND constraint_type = 'FOREIGN KEY'
+                  AND table_name NOT IN ('drive_folder_roots','drive_upload_intents')
                 """,
                 Integer.class
         );
@@ -91,7 +92,7 @@ class FlywayV1SchemaManifestIntegrationTest extends AbstractPostgresIntegrationT
                 FROM information_schema.tables
                 WHERE table_schema = 'public'
                   AND table_type = 'BASE TABLE'
-                  AND table_name NOT IN ('flyway_schema_history', 'app_users', 'refresh_tokens', 'vault_rag_source_state', 'drive_connections')
+                  AND table_name NOT IN ('flyway_schema_history', 'app_users', 'refresh_tokens', 'vault_rag_source_state', 'drive_connections', 'drive_folder_roots', 'drive_upload_intents')
                 ORDER BY table_name
                 """,
                 String.class

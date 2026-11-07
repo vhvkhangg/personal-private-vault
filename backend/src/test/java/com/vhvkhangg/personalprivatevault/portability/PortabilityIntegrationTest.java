@@ -173,13 +173,13 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         JsonNode manifestNode = objectMapper.readTree(entries.get("manifest.json"));
         assertThat(manifestNode.path("formatVersion").asInt()).isEqualTo(1);
         assertThat(manifestNode.hasNonNull("generatedAt")).isTrue();
-        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("25");
+        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("26");
 
         JsonNode excludedNode = manifestNode.path("excludedSecurityTables");
         assertThat(excludedNode.isArray()).isTrue();
         List<String> excludedList = new ArrayList<>();
         excludedNode.forEach(n -> excludedList.add(n.asText()));
-        assertThat(excludedList).containsExactlyInAnyOrder("app_users", "refresh_tokens", "drive_connections");
+        assertThat(excludedList).containsExactlyInAnyOrder("app_users", "refresh_tokens", "drive_connections", "drive_folder_roots", "drive_upload_intents");
 
         JsonNode inventoryNode = manifestNode.path("tableInventory");
         assertThat(inventoryNode.isArray()).isTrue();
@@ -192,6 +192,8 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(entries).doesNotContainKey("tables/app_users.jsonl");
         assertThat(entries).doesNotContainKey("tables/refresh_tokens.jsonl");
         assertThat(entries).doesNotContainKey("tables/drive_connections.jsonl");
+        assertThat(entries).doesNotContainKey("tables/drive_folder_roots.jsonl");
+        assertThat(entries).doesNotContainKey("tables/drive_upload_intents.jsonl");
         assertThat(entries).doesNotContainKey("tables/flyway_schema_history.jsonl");
 
         // 6. Assert markdown files are exact copies

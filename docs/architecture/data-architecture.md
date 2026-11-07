@@ -165,3 +165,9 @@ The table stores encrypted token custody and connection metadata for up to two c
 - Table-level check constraint `chk_drive_connections_credentials` requires nonempty ciphertext/nonblank key_id for CONNECTED and both NULL for RECONNECT_REQUIRED; `chk_drive_connections_status` restricts the two status strings.
 
 As security-sensitive credentials, `drive_connections` is classified as an excluded security table (`PortabilitySnapshotAdapter.EXCLUDED_SECURITY_TABLES`) and is excluded from portability export archives. The table does not participate in the frozen `vault_entries` shared identity.
+
+## 17. GDI26-S2 root and upload action metadata
+
+The exceptional S2 implementation adds only V26, with two Drive-owned relations described in [google-drive-files.dbml](../database/google-drive-files.dbml) and [ADR-0027](../adr/0027-google-drive-root-file-authority.md). The [independent remaining-verification review](../implementation/maintenance/2026-11-06-gdi26-s2-preparation/reviews/2026-11-07-gdi26-s2-independent-media-verification-review.md) records READY_FOR_OWNER_COMMIT.
+
+`drive_folder_roots` retains a unique reserved provider ID, root-binding UUID and binding epoch per verified Google subject. `drive_upload_intents` retains each globally unique timestamped action key, fingerprint, metadata/digest, reserved provider file ID, phase and equality-CAS epochs under its subject/root foreign key. Uncertain outcomes remain retained; only terminal rows older than 30 days may be pruned (at most 32 per admission). No bytes, access tokens or resumable session URLs are stored. Both relations are excluded from Portability along with S1 credentials; neither participates in Vault identity. V1–V25 and module dependencies are unchanged.

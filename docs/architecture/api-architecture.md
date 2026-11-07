@@ -424,3 +424,16 @@ Introduces 4 REST operations in the leaf module `drive`, disabled by default (`p
 
 Preserves the `/api/v1` prefix, root `ApiResponse` envelope for JSON operations, module-local adapter ownership in `com.vhvkhangg.personalprivatevault.drive.internal.web.controller`, and the exact 235-route OpenAPI baseline when disabled (239 when enabled).
 See [`google-drive-connection-authority.md`](google-drive-connection-authority.md) and [ADR-0026](../adr/0026-google-drive-connection-authority.md).
+
+## 21. GDI26-S2 direct binary file API extension
+
+D08–D10 and [ADR-0027](../adr/0027-google-drive-root-file-authority.md) authorize four additional JWT-private operations only when both Drive and files flags are explicitly enabled. The [independent remaining-verification review](../implementation/maintenance/2026-11-06-gdi26-s2-preparation/reviews/2026-11-07-gdi26-s2-independent-media-verification-review.md) records READY_FOR_OWNER_COMMIT; defaults remain OFF.
+
+| Method | Path after `/api/v1/drive/connections/{slot}` | Result |
+| --- | --- | --- |
+| POST | `/root-folder` | 200 JSON root status (no request body) |
+| GET | `/files?limit=25&cursor=…` | One direct-child page, limit 1–50, opaque bound cursor |
+| POST | `/files` | Exactly one multipart `file`, required stable `Idempotency-Key`; 201 new / 200 verified repeat |
+| GET | `/files/{fileId}/download` | Original binary attachment; no Range support |
+
+JSON uses the root ApiResponse envelope and explicit module-local wire projections; binary uses application/octet-stream, safe UTF-8 attachment name, no-store and nosniff. A committed failure truncates the verified Content-Length and appends no JSON. Counts are 235 OFF, 239 S1-only, 243 with files enabled. See [file contracts](google-drive-files.md) and [operations](google-drive-file-operations.md) for bounds, action identity, errors and unverified live setup.

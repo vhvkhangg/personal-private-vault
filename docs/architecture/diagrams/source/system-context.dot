@@ -12,7 +12,7 @@ GitHub Trending • Hacker News • Reddit • RSS • tech sites", fillcolor="#
 Facebook • Instagram • X • Threads • Douyin • YouTube • games", fillcolor="#999999", fontcolor="white", color="#777777"];
  storage [label="S3-Compatible Object Storage
 Media binary storage", fillcolor="#999999", fontcolor="white", color="#777777"];
- google [label="Google OAuth / OIDC\nCode / refresh / JWKS / revoke only\n[S1 REVIEW_PENDING / DEFAULT_OFF]", fillcolor="#999999", fontcolor="white", color="#777777"];
+ google [label="Google OAuth / OIDC\nOAuth + PPV root/binary files\n[S1 REVIEW_PENDING / DEFAULT_OFF]\n[S2 REVIEW_PENDING / FILES_OFF]", fillcolor="#999999", fontcolor="white", color="#777777"];
  owner -> vault [label="Uses privately"];
  vault -> feeds [label="Retrieves configured public feeds"];
  vault -> social [label="Stores metadata and source links"];

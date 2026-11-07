@@ -18,7 +18,7 @@ digraph G {
   d -> d1; d -> d2; d -> d3; d1[label="Music"]; d2[label="Shopping"]; d3[label="Software / Extensions"];
   e -> e1; e -> e2; e -> e3; e -> e4; e -> e5; e1[label="External Accounts"]; e2[label="Follower Relationships"]; e3[label="Follower Snapshots"]; e4[label="Feed Aggregation"]; e5[label="Saved Resources"];
   f -> f1; f -> f2; f -> f3; f -> f4; f -> f5; f1[label="Wallets"]; f2[label="Income / Expense / Transfer"]; f3[label="Recurring Transactions"]; f4[label="Subscriptions"]; f5[label="Diary"];
-  g -> g1; g -> g2; g -> g3; g -> g4; g1[label="Personal / Family Profiles"]; g2[label="CSV / JSON / Markdown Import"]; g3[label="Export / Backup"]; g4[label="Drive connection authority\nS1 REVIEW_PENDING / DEFAULT_OFF"];
+  g -> g1; g -> g2; g -> g3; g -> g4; g1[label="Personal / Family Profiles"]; g2[label="CSV / JSON / Markdown Import"]; g3[label="Export / Backup"]; g4[label="Drive connection authority\nS1 REVIEW_PENDING / DEFAULT_OFF\nS2 root/binary files / FILES_OFF"];
   h -> h1; h -> h2; h -> h3; h -> h4; h1[label="Favorite / Rating / Tags"]; h2[label="Recycle Bin"]; h3[label="Global Search"]; h4[label="Reference Data"];
   {rank=same; a b c d}
   {rank=same; e f g h}

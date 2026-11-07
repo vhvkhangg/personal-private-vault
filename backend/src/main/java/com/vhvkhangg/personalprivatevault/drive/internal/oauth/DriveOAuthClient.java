@@ -47,6 +47,7 @@ public class DriveOAuthClient implements AutoCloseable {
         private final long deadline;
         private JWKSet keys;
         private int keyFetches;
+        private java.util.function.Consumer<Runnable> enqueue = Runnable::run;
 
         public CallbackBudget(Duration duration) { deadline = System.nanoTime() + duration.toNanos(); }
 
@@ -102,11 +103,18 @@ public class DriveOAuthClient implements AutoCloseable {
     public DriveTokenResponse refreshAccessToken(String token) { return refreshAccessToken(token, beginCallback()); }
 
     public DriveTokenResponse refreshAccessToken(String token, CallbackBudget budget) {
+        return refreshAccessTokenForFiles(token, budget, Runnable::run);
+    }
+
+    /** Enqueue hook lets the Drive-private file lease linearize dispatch with the existing S1 guard. */
+    public DriveTokenResponse refreshAccessTokenForFiles(String token, CallbackBudget budget,
+            java.util.function.Consumer<Runnable> enqueue) {
+        budget.enqueue = enqueue;
         if (token == null || token.isBlank()) {
             throw new DriveProviderException("DRIVE_INVALID_REFRESH_TOKEN", "Missing refresh credential", 400);
         }
         return tokenRequest("grant_type=refresh_token&refresh_token=" + encode(token)
-                + "&client_id=" + encode(clientId) + "&client_secret=" + encode(clientSecret), budget);
+                + "&client_id=" + encode(clientId) + "&client_secret=" + encode(clientSecret), budget, enqueue);
     }
 
     public RemoteRevocationStatus revokeToken(String token) {
@@ -204,21 +212,42 @@ public class DriveOAuthClient implements AutoCloseable {
 
     public void validateRefreshResponse(DriveTokenResponse response, String sub, String nonce,
             String grantedScopes, CallbackBudget budget) {
+        var identity = validateRefreshAuthority(response, sub, grantedScopes, budget);
+        if (identity != null && identity.nonce() != null && !nonce.equals(identity.nonce())) {
+            throw invalidIdentity("Refresh identity changed");
+        }
+    }
+
+    /** Resource-operation refresh has no new authorization nonce; signature/audience/subject still apply. */
+    public void validateFileRefreshResponse(DriveTokenResponse response, String sub,
+            String grantedScopes, CallbackBudget budget) {
+        validateRefreshAuthority(response, sub, grantedScopes, budget);
+    }
+
+    private DriveIdTokenClaims validateRefreshAuthority(DriveTokenResponse response, String sub,
+            String grantedScopes, CallbackBudget budget) {
         requireUsableAccessToken(response);
         if (response.scope() != null && !verifyAndCanonicalizeScopes(response.scope()).equals(grantedScopes)) {
             throw invalidIdentity("Refresh scopes changed");
         }
         if (response.idToken() != null) {
             var identity = validateIdToken(response.idToken(), null, budget);
-            if (!sub.equals(identity.sub()) || (identity.nonce() != null && !nonce.equals(identity.nonce()))) {
+            if (!sub.equals(identity.sub())) {
                 throw invalidIdentity("Refresh identity changed");
             }
+            budget.check();
+            return identity;
         }
         budget.check();
+        return null;
     }
 
     private DriveTokenResponse tokenRequest(String form, CallbackBudget budget) {
-        var response = sendBounded(tokenEndpoint, form, MAX_RESPONSE_BYTES, budget);
+        return tokenRequest(form, budget, Runnable::run);
+    }
+
+    private DriveTokenResponse tokenRequest(String form, CallbackBudget budget, java.util.function.Consumer<Runnable> enqueue) {
+        var response = sendBounded(tokenEndpoint, form, MAX_RESPONSE_BYTES, budget, enqueue);
         try {
             if (response.statusCode() != 200) {
                 JsonNode body;
@@ -260,6 +289,11 @@ public class DriveOAuthClient implements AutoCloseable {
     }
 
     private HttpResponse<byte[]> sendBounded(String endpoint, String form, int byteLimit, CallbackBudget budget) {
+        return sendBounded(endpoint, form, byteLimit, budget, budget.enqueue);
+    }
+
+    private HttpResponse<byte[]> sendBounded(String endpoint, String form, int byteLimit, CallbackBudget budget,
+            java.util.function.Consumer<Runnable> enqueue) {
         if (!requests.tryAcquire()) throw new DriveCapacityExhaustedException("Provider request capacity exhausted");
         java.util.concurrent.CompletableFuture<HttpResponse<byte[]>> future = null;
         try {
@@ -270,8 +304,11 @@ public class DriveOAuthClient implements AutoCloseable {
             else builder.header("Content-Type", "application/x-www-form-urlencoded")
                     .POST(HttpRequest.BodyPublishers.ofString(form, StandardCharsets.UTF_8));
             // This body completes only at EOF. The caller's timed future covers headers AND the entire body.
-            future = httpClient.sendAsync(builder.build(), info ->
-                    HttpResponse.BodySubscribers.limiting(HttpResponse.BodySubscribers.ofByteArray(), byteLimit));
+            var request = builder.build();
+            var admitted = new java.util.concurrent.atomic.AtomicReference<java.util.concurrent.CompletableFuture<HttpResponse<byte[]>>>();
+            enqueue.accept(() -> admitted.set(httpClient.sendAsync(request, info ->
+                    HttpResponse.BodySubscribers.limiting(HttpResponse.BodySubscribers.ofByteArray(), byteLimit))));
+            future = java.util.Objects.requireNonNull(admitted.get());
             var response = future.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
             budget.check();
             return response;
@@ -284,6 +321,8 @@ public class DriveOAuthClient implements AutoCloseable {
             if (e.getCause() instanceof HttpTimeoutException) throw timeout();
             throw new DriveProviderException("DRIVE_PROVIDER_COMMUNICATION_FAILURE", "Provider response failed or exceeded its byte limit", 502);
         } catch (DriveProviderException e) {
+            throw e;
+        } catch (com.vhvkhangg.personalprivatevault.drive.internal.exception.DriveException e) {
             throw e;
         } catch (RuntimeException e) {
             throw new DriveProviderException("DRIVE_PROVIDER_COMMUNICATION_FAILURE", "Provider request failed", 502);

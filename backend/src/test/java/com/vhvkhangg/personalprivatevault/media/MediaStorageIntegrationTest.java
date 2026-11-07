@@ -45,6 +45,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.testcontainers.containers.MinIOContainer;
+import org.testcontainers.utility.DockerImageName;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -126,7 +127,12 @@ class MediaStorageIntegrationTest extends AbstractWebIntegrationTest {
 
     private static final String BUCKET_NAME = "test-vault-media";
 
-    private static final MinIOContainer MINIO_CONTAINER = new MinIOContainer("minio/minio:RELEASE.2024-11-07T00-52-28Z");
+    private static final MinIOContainer MINIO_CONTAINER =
+        new MinIOContainer(
+            DockerImageName.parse(
+                "ricardbejarano/minio:RELEASE.2024-11-07T00-52-20Z"
+            ).asCompatibleSubstituteFor("minio/minio")
+        ).withEnv("HOME", "/config");
 
     @BeforeAll
     static void startMinioAndCreateBucket() {

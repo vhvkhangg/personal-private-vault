@@ -18,6 +18,13 @@ public class DriveProperties {
     private boolean enabled = false;
     private String tokenKeyFile;
     private OAuth oauth = new OAuth();
+    private FileOptions files = new FileOptions();
+
+    @Getter @Setter
+    public static class FileOptions {
+        private boolean enabled = false;
+        private String spoolDir = "";
+    }
 
     @Getter
     @Setter

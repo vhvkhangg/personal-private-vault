@@ -15,7 +15,7 @@ digraph C4Container {
  }
  storage [label="S3-Compatible Object Storage\nMedia binaries\n[ACCEPTED / OPTIONAL]", fillcolor="#999999", fontcolor="white", color="#777777"];
  feeds [label="Public Feed Sources\nGitHub Trending • HN • Reddit • RSS • tech sites\n[ACCEPTED batch contracts]", fillcolor="#999999", fontcolor="white", color="#777777"];
- google [label="Google OAuth / OIDC\nCode / refresh / JWKS / revoke only\n[S1 REVIEW_PENDING / DEFAULT_OFF]", fillcolor="#999999", fontcolor="white", color="#777777"];
+ google [label="Google OAuth / OIDC\nOAuth + PPV root/binary files\n[S1 REVIEW_PENDING / DEFAULT_OFF]\n[S2 REVIEW_PENDING / FILES_OFF]", fillcolor="#999999", fontcolor="white", color="#777777"];
  owner -> web [label="Uses privately"];
  web -> api [label="HTTPS / REST / JSON"];
  api -> snapshots [label="Captures approved revisions (configured snapshot root)\nverifies whole-file SHA-256 integrity"];

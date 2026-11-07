@@ -66,6 +66,9 @@ ppv:
   drive:
     enabled: ${PPV_DRIVE_ENABLED:false}
     token-key-file: ${PPV_DRIVE_TOKEN_KEY_FILE:}
+    files:
+      enabled: ${PPV_DRIVE_FILES_ENABLED:false}
+      spool-dir: ${PPV_DRIVE_FILES_SPOOL_DIR:}
     oauth:
       client-id: ${PPV_DRIVE_OAUTH_CLIENT_ID:}
       client-secret: ${PPV_DRIVE_OAUTH_CLIENT_SECRET:}

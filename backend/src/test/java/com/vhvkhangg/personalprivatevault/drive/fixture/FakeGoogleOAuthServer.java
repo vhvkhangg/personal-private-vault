@@ -77,6 +77,7 @@ public class FakeGoogleOAuthServer implements AutoCloseable {
     public final AtomicInteger revokeCount = new AtomicInteger();
     public final AtomicInteger jwksCount = new AtomicInteger();
     public final Map<String, Boolean> providerGrantValidBySubject = new ConcurrentHashMap<>();
+    public final Map<String, String> accessTokenSubjects = new ConcurrentHashMap<>();
     public final ConcurrentLinkedQueue<WireRequest> wireRequests = new ConcurrentLinkedQueue<>();
 
     public FakeGoogleOAuthServer() throws Exception {
@@ -129,6 +130,7 @@ public class FakeGoogleOAuthServer implements AutoCloseable {
     public void reset() {
         codes.clear(); consumedCodes.clear(); tokens.clear(); delayedRevocations.clear(); wireRequests.clear();
         providerGrantValidBySubject.clear();
+        accessTokenSubjects.clear();
         tokenExchangeCount.set(0); refreshTokenCount.set(0); revokeCount.set(0); jwksCount.set(0);
         tokenEndpointStatus = 200; tokenEndpointError = null; refreshStatus = 200; revokeEndpointStatus = 200;
         forcedSubject = "google-sub-1001"; forcedEmail = "user@example.com";
@@ -172,6 +174,7 @@ public class FakeGoogleOAuthServer implements AutoCloseable {
                     result.put("refresh_token", spec.token());
                 }
                 providerGrantValidBySubject.put(grant.sub(), true);
+                accessTokenSubjects.put((String)result.get("access_token"), grant.sub());
             } else {
                 Credential credential = tokens.get(form.get("refresh_token"));
                 if (credential == null || !credential.valid().get()
@@ -179,6 +182,7 @@ public class FakeGoogleOAuthServer implements AutoCloseable {
                 if (refreshStatus != 200) { respond(e, refreshStatus, bytes("{\"error\":\"invalid_grant\"}"), tokenBodyMode, 64 * 1024); return; }
                 if (refreshResponseBody != null) { respond(e, 200, bytes(refreshResponseBody), tokenBodyMode, 64 * 1024); return; }
                 var grant = credential.grant();
+                accessTokenSubjects.put((String)result.get("access_token"), grant.sub());
                 if (!omitRefreshScopes) result.put("scope", refreshScopes == null ? grant.scopes() : refreshScopes);
                 if (refreshSubject != null) result.put("id_token", createSignedIdToken(refreshSubject, grant.email(), grant.project(), grant.nonce(), Instant.now().plusSeconds(3600)));
                 if (!omitRefreshTokenOnRefresh) {
