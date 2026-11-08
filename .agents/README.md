@@ -17,6 +17,10 @@
 - Reuse actual applicable Java/Python/SOLID, design-pattern, Modulith, persistence, security and testing skills. Do not add an agent or subsystem because it appears in an old ADR.
 - Documentation authoring: `.agents/skills/documentation-writing/SKILL.md`, `docs/templates/`. Complete skill/rule/agent inventory: [maintenance harness audit](../docs/implementation/maintenance/2026-10-25-post-phase18-simplification/harness-review-2026-10-25.md).
 
+## Frontend harness discovery (GDI26-S3-H0)
+
+For frontend planning, UI/accessibility, BFF security or testing, start at the [shared frontend workflow](../docs/workflow/frontend-development.md) and [frontend-implementer role](agents/frontend-implementer/agent.md). It routes to four task-bound skills and three thin rules, including explicit Codex reads versus observed Antigravity loading. Existing backend-only routing above remains applicable. A discovery link grants no app/design/activation authority: H0 is harness-only; H1 requires accepted/published H0, its own accepted/published preparation and executable handoff, and explicit Owner approval of the concrete visual version. Dated notices above are history where inconsistent with ACTIVE.
+
 ## Tools status
 
 - `.agents/hooks.json` calls `hooks/repository_safety.py`; Maintenance B2 verifies Windows hook execution from root and .agents working directories, staging denial (`git add`), and Codex execpolicy rules (`.codex/rules/owner-git.rules`).
