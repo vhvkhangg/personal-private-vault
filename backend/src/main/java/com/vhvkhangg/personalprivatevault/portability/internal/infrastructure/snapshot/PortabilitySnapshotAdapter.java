@@ -122,7 +122,8 @@ public class PortabilitySnapshotAdapter {
             "refresh_tokens",
             "drive_connections",
             "drive_folder_roots",
-            "drive_upload_intents"
+            "drive_upload_intents",
+            "drive_child_folder_intents"
     );
 
     public static final Set<String> EXCLUDED_SYSTEM_TABLES = Set.of(

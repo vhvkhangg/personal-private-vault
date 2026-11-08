@@ -95,7 +95,7 @@ class DriveS2WebIntegrationTest extends DriveS2HttpTestSupport {
         var response=send(HttpRequest.newBuilder(uri("/v3/api-docs")).GET());assertThat(response.statusCode()).isEqualTo(200);
         var document=mapper.readTree(response.body());var paths=document.path("paths");int count=0;
         for(var item:paths){for(var names=item.fieldNames();names.hasNext();)if(Set.of("get","post","put","patch","delete").contains(names.next()))count++;}
-        assertThat(count).isEqualTo(243);
+        assertThat(count).isEqualTo(248);
         var upload=paths.path("/api/v1/drive/connections/{slot}/files").path("post");
         assertThat(upload.path("security").toString()).contains("bearerAuth");
         String ref=upload.path("requestBody").path("content").path("multipart/form-data").path("schema").path("$ref").asText();

@@ -27,6 +27,7 @@ public abstract class DriveS2TestSupport extends AbstractPostgresIntegrationTest
     @Autowired protected DriveConnectionRepository connections;
     @Autowired protected DriveFolderRootRepository roots;
     @Autowired protected DriveUploadIntentRepository intents;
+    @Autowired protected DriveChildFolderIntentRepository childFoldersRepo;
     @Autowired protected PlatformTransactionManager transactions;
     protected FakeGoogleOAuthServer oauthServer;
     protected FakeGoogleDriveServer google;
@@ -43,7 +44,7 @@ public abstract class DriveS2TestSupport extends AbstractPostgresIntegrationTest
     protected MutableClock clock;
     protected Path spool;
     @BeforeEach void fixture() throws Exception {
-        jdbc.update("DELETE FROM drive_upload_intents");jdbc.update("DELETE FROM drive_folder_roots");jdbc.update("DELETE FROM drive_connections");
+        jdbc.update("DELETE FROM drive_child_folder_intents");jdbc.update("DELETE FROM drive_upload_intents");jdbc.update("DELETE FROM drive_folder_roots");jdbc.update("DELETE FROM drive_connections");
         oauthServer=new FakeGoogleOAuthServer();oauthServer.omitRefreshTokenOnRefresh=true;
         google=new FakeGoogleDriveServer(oauthServer.accessTokenSubjects::get);
         clock=new MutableClock(Instant.now());byte[] key=new byte[32];new java.security.SecureRandom().nextBytes(key);crypto=new DriveCredentialCrypto(key);
@@ -59,7 +60,7 @@ public abstract class DriveS2TestSupport extends AbstractPostgresIntegrationTest
         s1=new DriveConnectionService(properties,connections,crypto,attempts,lifecycle,oauth,clock,transactions);
         resources=new DriveFileResources(spool,limits);authority=new DriveFileAuthority(connections,roots,crypto,lifecycle,oauth,clock,transactions);
         provider=new DriveFileHttpClient(authority,google.origin());folders=new DriveFolderService(authority,provider,roots,clock);
-        store=new DriveUploadIntentStore(authority,roots,intents,clock);service=new DriveFileService(authority,folders,provider,new DriveFileCursors(clock),store);
+        store=new DriveUploadIntentStore(authority,roots,intents,clock);service=new DriveFileService(authority,folders,provider,new DriveFileCursors(clock),store,childFoldersRepo);
     }
     protected void connect(int slot,String sub) {
         var auth=s1.authorize(slot,"1");String url=auth.response().authorizationUrl(),code=UUID.randomUUID().toString();

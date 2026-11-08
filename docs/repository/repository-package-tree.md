@@ -496,3 +496,24 @@ D08–D10 / [ADR-0027](../adr/0027-google-drive-root-file-authority.md) extend t
 - `config`: DriveFilesConfiguration (conditional on files enabled; requires Drive).
 - V26 adds only root/intent metadata; no module edge or public business API is added.
 - Focused tests: DriveS2FolderIntegrationTest, DriveS2UploadIntentIntegrationTest, DriveS2ProviderTest, DriveS2StreamingIntegrationTest, DriveS2UploadRecoveryIntegrationTest, DriveS2WebIntegrationTest, DriveS2AuthorityIntegrationTest and DriveS2ConfigurationIntegrationTest; controlled HTTP/PG fixtures under drive/fixture.
+
+### GDI26-S3-H1-B additive child folders and explorer backend inventory — IMPLEMENTED_AWAITING_CODEX_REVIEW
+
+Under Owner decisions D24/D25 and executable handoff `GDI26-S3-H1-B`:
+- `drive/internal/files/application`:
+  - `DriveChildFolderIntentStore`: durable child folder action ledger with 256 retained and 8 nonterminal capacity caps, CAS reservation and state progression.
+  - `DriveChildFolderService`: first-level app-owned child folder creation, replay reconciliation, and child proof verification.
+  - `DriveItemCursors`: opaque 43-character criteria-bound single-use cursors with 128-entry capacity.
+  - `DriveItemSearchService`: account-subtree search and browse under strict <=8 provider call accounting with `pageSize=min(limit, 5)`.
+  - `DriveThumbnailService`: strict private thumbnail proxying with exact origin `https://lh3.googleusercontent.com:443`, 1 MiB limit, verified image signature and dimension bounds (<=2048x2048) with standard runtime decoder validation for PNG/JPEG (unsupported formats like WEBP fall back), 8s total transfer deadline, 5s body idle watchdog, and sanitized 404 fallback.
+  - `DriveExplorerService`: read-only account quota projection.
+- `drive/internal/files/persistence`:
+  - `DriveChildFolderIntent`, `DriveChildFolderKey`, `DriveChildFolderIntentRepository`.
+  - `DriveUploadIntent` and `DriveUploadIntentRepository` extended with `targetParentId`.
+- `drive/internal/files/http`:
+  - `DriveFileHttpClient`: added `childFolder`, `createChildFolder`, `listItems`, `storageQuota`, `fileWithThumbnail`, `fetchThumbnail`, and child upload support.
+- `drive/internal/web/controller` & `dto`:
+  - `DriveFileController`: added 5 new REST endpoints (`POST /folders`, `GET /items`, `GET /storage-quota`, `POST /folders/{childId}/files`, `GET /files/{fileId}/thumbnail`).
+  - `DriveFileDtos`: added `Folder`, `FolderCreateRequest`, `StorageQuota`, `Item`, `ItemPage`.
+- Migration: `V27__drive_child_folders_and_parent_affinity.sql`.
+- Focused tests: `DriveH1BPersistenceIntegrationTest`, `DriveH1BAuthorityIntegrationTest`, `DriveH1BSearchIntegrationTest`, `DriveH1BThumbnailIntegrationTest`, `DriveH1BQuotaIntegrationTest`, `DriveH1BWebIntegrationTest`, with fixtures `DriveH1BTestSupport` and `FakeGoogleThumbnailServer`.

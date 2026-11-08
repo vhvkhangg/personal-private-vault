@@ -24,21 +24,28 @@ public class DriveUploadIntentStore {
         @Override public String toString(){return "DriveUploadClaim[REDACTED]";}
     }
     public Claim take(DriveFileAuthority.Lease lease,DriveFileResources.Operation op,String key,DriveMultipartUpload.Spool spool) {
+        return take(lease,op,key,spool,null);
+    }
+    public Claim take(DriveFileAuthority.Lease lease,DriveFileResources.Operation op,String key,DriveMultipartUpload.Spool spool,String targetParentId) {
         DriveFileInputs.keyTime(key);
+        if(targetParentId!=null) DriveFileInputs.id(targetParentId);
+        String expectedFingerprint = targetParentId!=null
+                ? DriveFileInputs.childFingerprint(targetParentId,spool.fingerprint())
+                : spool.fingerprint();
         var id=new DriveUploadKey(lease.sub(),lease.root().getRootBindingId(),key);
         var acquired=new java.util.concurrent.atomic.AtomicBoolean();
         try {
             return authority.finalWrite(lease,op,() -> {
                 roots.lockBySubject(lease.sub()).orElseThrow(DriveFileException::stale);
                 var prior=intents.findById(id);
-                if(prior.isPresent() && !prior.get().getRequestFingerprint().equals(spool.fingerprint())) throw new DriveFileException("UPLOAD_KEY_CONFLICT",409);
+                if(prior.isPresent() && (!prior.get().getRequestFingerprint().equals(expectedFingerprint) || !Objects.equals(prior.get().getTargetParentId(),targetParentId))) throw new DriveFileException("UPLOAD_KEY_CONFLICT",409);
                 if(live.contains(id)) throw new DriveFileException("UPLOAD_IN_PROGRESS",409);
                 if(prior.isEmpty()) {
                     DriveFileInputs.freshKey(key,clock.instant());
                     var protectedKeys=live.stream().map(DriveUploadKey::getIdempotencyKey).toList();
                     intents.pruneTerminal(lease.sub(),id.getRootBindingId(),clock.instant().minus(Duration.ofDays(30)),protectedKeys.isEmpty() ? List.of("") : protectedKeys);
                     if(intents.countNonterminal(lease.sub(),id.getRootBindingId())>=8 || intents.countRetained(lease.sub(),id.getRootBindingId())>=1024) throw DriveFileException.capacity();
-                    if(intents.insertPreparing(lease.sub(),id.getRootBindingId(),key,spool.fingerprint(),spool.md5(),spool.size(),spool.name(),spool.mime(),UUID.randomUUID(),lease.root().getBindingEpoch(),clock.instant())!=1) throw new DriveFileException("UPLOAD_KEY_CONFLICT",409);
+                    if(intents.insertPreparing(lease.sub(),id.getRootBindingId(),key,expectedFingerprint,spool.md5(),spool.size(),spool.name(),spool.mime(),UUID.randomUUID(),lease.root().getBindingEpoch(),clock.instant(),targetParentId)!=1) throw new DriveFileException("UPLOAD_KEY_CONFLICT",409);
                 } else {
                     if(prior.get().getStatus().equals("FAILED_DEFINITIVE")) throw new DriveFileException("UPLOAD_FAILED",409);
                     if(intents.claim(id,prior.get().getIntentEpoch(),UUID.randomUUID(),lease.root().getBindingEpoch(),clock.instant())!=1) throw DriveFileException.stale();

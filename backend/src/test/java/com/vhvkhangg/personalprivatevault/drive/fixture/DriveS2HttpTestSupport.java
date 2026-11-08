@@ -32,6 +32,7 @@ public abstract class DriveS2HttpTestSupport extends AbstractPostgresIntegration
     protected static final Runtime RUNTIME=createRuntime();
     protected static final FakeGoogleOAuthServer OAUTH=RUNTIME.oauth;
     protected static final FakeGoogleDriveServer GOOGLE=RUNTIME.google;
+    protected static final FakeGoogleThumbnailServer THUMBNAIL=RUNTIME.thumbnail;
     protected final ObjectMapper mapper=new ObjectMapper().findAndRegisterModules();
     protected final HttpClient client=HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(2)).version(HttpClient.Version.HTTP_1_1).build();
     @LocalServerPort protected int port;
@@ -50,7 +51,7 @@ public abstract class DriveS2HttpTestSupport extends AbstractPostgresIntegration
         registry.add("ppv.drive.oauth.client-id",() -> "s2-http-client");registry.add("ppv.drive.oauth.client-secret",() -> "synthetic-secret");
     }
     @BeforeEach void clean() throws Exception {
-        awaitClean();jdbc.update("DELETE FROM drive_upload_intents");jdbc.update("DELETE FROM drive_folder_roots");jdbc.update("DELETE FROM drive_connections");
+        awaitClean();jdbc.update("DELETE FROM drive_child_folder_intents");jdbc.update("DELETE FROM drive_upload_intents");jdbc.update("DELETE FROM drive_folder_roots");jdbc.update("DELETE FROM drive_connections");
         lifecycle.initializeFromDatabase(List.of());attempts.invalidateSlotAttempts((short)1);attempts.invalidateSlotAttempts((short)2);
         OAUTH.reset();OAUTH.omitRefreshTokenOnRefresh=true;GOOGLE.reset();connect(1,"U");connect(2,"V");
     }
@@ -97,15 +98,16 @@ public abstract class DriveS2HttpTestSupport extends AbstractPostgresIntegration
     protected static class Runtime implements AutoCloseable {
         final FakeGoogleOAuthServer oauth=new FakeGoogleOAuthServer();
         final FakeGoogleDriveServer google=new FakeGoogleDriveServer(oauth.accessTokenSubjects::get);
+        final FakeGoogleThumbnailServer thumbnail=new FakeGoogleThumbnailServer();
         final Path key=Files.createTempFile("s2-http-key-",".bin"),spool=Files.createTempDirectory("s2-http-spool-");
         Runtime() throws Exception{byte[] bytes=new byte[32];new java.security.SecureRandom().nextBytes(bytes);Files.write(key,bytes);}
-        public void close() throws Exception {google.close();oauth.close();Files.deleteIfExists(key);try(var paths=Files.newDirectoryStream(spool)){for(Path p:paths)Files.deleteIfExists(p);}Files.deleteIfExists(spool);}
+        public void close() throws Exception {google.close();oauth.close();thumbnail.close();Files.deleteIfExists(key);try(var paths=Files.newDirectoryStream(spool)){for(Path p:paths)Files.deleteIfExists(p);}Files.deleteIfExists(spool);}
     }
     @TestConfiguration(proxyBeanMethods=false)
     public static class Controlled {
         @Bean Runtime controlledRuntime(){return RUNTIME;}
         @Bean @Primary DriveOAuthClient controlledOAuth(Clock clock){return new DriveOAuthClient("s2-http-client","synthetic-secret",OAUTH.getTokenEndpoint(),OAUTH.getRevokeEndpoint(),OAUTH.getJwksUri(),clock,null);}
-        @Bean @Primary DriveFileHttpClient controlledDrive(DriveFileAuthority authority){return new DriveFileHttpClient(authority,GOOGLE.origin());}
+        @Bean @Primary DriveFileHttpClient controlledDrive(DriveFileAuthority authority){return new DriveFileHttpClient(authority,GOOGLE.origin(),RUNTIME.thumbnail.origin());}
         @Bean @Primary DriveFileResources controlledResources(){return new DriveFileResources(RUNTIME.spool,
                 new DriveFileResources.Limits(Duration.ofSeconds(4),Duration.ofSeconds(15),Duration.ofSeconds(2),Duration.ofSeconds(22)));}
     }

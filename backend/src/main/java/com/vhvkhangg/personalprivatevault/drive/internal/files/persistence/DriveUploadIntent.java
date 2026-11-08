@@ -19,6 +19,7 @@ public class DriveUploadIntent {
     @Column(name="safe_name", nullable=false, length=255) private String safeName;
     @Column(name="mime_type", nullable=false, length=127) private String mimeType;
     @Column(name="provider_file_id", length=255) private String providerFileId;
+    @Column(name="target_parent_id", length=255) private String targetParentId;
     @Column(name="status", nullable=false, length=32) private String status;
     @Column(name="intent_epoch", nullable=false) private UUID intentEpoch;
     @Column(name="root_binding_epoch", nullable=false) private UUID rootBindingEpoch;

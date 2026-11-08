@@ -14,8 +14,13 @@ The file filter remains in `drive.internal.files.web`; the new S2 controller/DTO
 | GET /api/v1/drive/connections/{slot}/files | One 1–50-entry provider page; safe five-field metadata, opaque nextCursor and truthful hasMore |
 | POST /api/v1/drive/connections/{slot}/files | Exactly one multipart file and stable Idempotency-Key; 201 newly verified, 200 reconciled same action |
 | GET /api/v1/drive/connections/{slot}/files/{fileId}/download | Original application/octet-stream attachment; Range unsupported; no JSON wrapping |
+| GET /api/v1/drive/connections/{slot}/storage-quota | 200 ApiResponse {usageBytes,usageInDriveBytes,limitBytes,limitKnown,observedAt} |
+| POST /api/v1/drive/connections/{slot}/folders | Exactly one JSON body {name} and Idempotency-Key; 201 newly verified first-level child, 200 reconciled |
+| GET /api/v1/drive/connections/{slot}/items | Bounded subtree browse/search across root and child folders; 8-call budget; opaque 43-char cursor |
+| POST /api/v1/drive/connections/{slot}/folders/{childId}/files | Multipart file upload under verified app-owned child folder |
+| GET /api/v1/drive/connections/{slot}/files/{fileId}/thumbnail | Proxied verified image bytes; exact origin https://lh3.googleusercontent.com:443; 1 MiB limit; verified image signature and dimension bounds (<=2048x2048) with standard runtime decoder validation for PNG/JPEG (unsupported formats like WEBP fall back); 8s total transfer deadline & 5s idle checks; sanitized 404 fallback |
 
-Existing Owner JWT is mandatory. Callback permit and S1 responses stay unchanged. Route inventories must measure 235 OFF / 239 S1-only / 243 files enabled. Errors are sanitized/no-store; binary after commitment aborts without JSON. Runtime evidence belongs in the implementation handback, not this design description.
+Existing Owner JWT is mandatory. Callback permit and S1 responses stay unchanged. Route inventories measure 235 OFF / 239 S1-only / 248 with files enabled (13 Drive operations total; 243 S2-only is historical). Errors are sanitized/no-store; binary after commitment aborts without JSON. Runtime evidence belongs in the implementation handback, not this design description.
 
 Generated OpenAPI JSON success responses declare `application/json`: ensure/list use 200, upload uses 201 for a new file and 200 for a verified retry. Each schema composes the existing root `ApiResponse` envelope with its module-local `Root`, `Page` or `File` data projection; async task internals are excluded. The attachment retains its binary schema.
 

@@ -47,7 +47,13 @@ class DriveS2UploadIntentIntegrationTest extends DriveS2TestSupport {
         var rows=new ArrayList<Object[]>();
         for(int i=0;i<retained;i++)rows.add(new Object[]{"U",root.getRootBindingId(),key(),"0".repeat(64),"0".repeat(32),0L,"empty.bin","application/octet-stream",
                 terminal?"retained-"+i:null,terminal?"COMPLETED":"PREPARING",UUID.randomUUID(),root.getBindingEpoch(),java.sql.Timestamp.from(clock.instant()),java.sql.Timestamp.from(clock.instant()),terminal?java.sql.Timestamp.from(clock.instant()):null});
-        jdbc.batchUpdate("INSERT INTO drive_upload_intents VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",rows);
+        jdbc.batchUpdate("""
+            INSERT INTO drive_upload_intents (
+                google_sub, root_binding_id, idempotency_key, request_fingerprint, content_md5,
+                size_bytes, safe_name, mime_type, provider_file_id, status, intent_epoch,
+                root_binding_epoch, created_at, updated_at, completed_at
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """,rows);
         assertThatThrownBy(() -> upload(1,key(),new byte[0])).isInstanceOfSatisfying(DriveFileException.class,e -> assertThat(e.getHttpStatus()).isEqualTo(503));
         assertThat(google.generated).hasValue(1);assertThat(google.fileCreates).hasValue(0);
     }
@@ -56,7 +62,13 @@ class DriveS2UploadIntentIntegrationTest extends DriveS2TestSupport {
         assertThatThrownBy(() -> upload(1,uncertain,new byte[0])).isInstanceOf(DriveFileException.class);
         var root=roots.findById("U").orElseThrow();Instant old=clock.instant().minus(Duration.ofDays(31));
         var rows=new ArrayList<Object[]>();for(int i=0;i<40;i++)rows.add(new Object[]{"U",root.getRootBindingId(),key(),"0".repeat(64),"0".repeat(32),0L,"a","text/plain","old-"+i,"COMPLETED",UUID.randomUUID(),root.getBindingEpoch(),java.sql.Timestamp.from(old),java.sql.Timestamp.from(old),java.sql.Timestamp.from(old)});
-        jdbc.batchUpdate("INSERT INTO drive_upload_intents VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",rows);
+        jdbc.batchUpdate("""
+            INSERT INTO drive_upload_intents (
+                google_sub, root_binding_id, idempotency_key, request_fingerprint, content_md5,
+                size_bytes, safe_name, mime_type, provider_file_id, status, intent_epoch,
+                root_binding_epoch, created_at, updated_at, completed_at
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """,rows);
         upload(1,key(),new byte[0]);assertThat(intents.count()).isEqualTo(10);
         assertThat(intents.findAll()).anyMatch(i -> i.getId().getIdempotencyKey().equals(uncertain));
     }

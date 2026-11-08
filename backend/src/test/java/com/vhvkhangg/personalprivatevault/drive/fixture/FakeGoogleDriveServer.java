@@ -28,10 +28,10 @@ public class FakeGoogleDriveServer implements AutoCloseable {
     private final Map<String,Session> sessions=new ConcurrentHashMap<>();
     public final Map<String,Remote> files=new ConcurrentHashMap<>();
     public final Queue<Call> calls=new ConcurrentLinkedQueue<>();
-    public final AtomicInteger generated=new AtomicInteger(),rootCreates=new AtomicInteger(),fileCreates=new AtomicInteger(),uploadSessions=new AtomicInteger(),putCalls=new AtomicInteger(),mediaCalls=new AtomicInteger();
+    public final AtomicInteger generated=new AtomicInteger(),rootCreates=new AtomicInteger(),fileCreates=new AtomicInteger(),uploadSessions=new AtomicInteger(),putCalls=new AtomicInteger(),mediaCalls=new AtomicInteger(),childFolderCreates=new AtomicInteger();
     public volatile boolean allowForeignMetadata,allowForeignMedia,loseUploadResponse,loseRootResponse;
     public volatile int aboutStatus=200,metadataStatus=200,uploadStatus=200,mediaStatus=200;
-    public volatile String aboutOverride,generatedOverride,locationOverride,metadataResponseBody,metadataPauseId;
+    public volatile String aboutOverride,generatedOverride,locationOverride,metadataResponseBody,metadataPauseId,quotaOverride;
     public volatile ObjectNode listOverride;
     public volatile UnaryOperator<ObjectNode> metadataMutation=UnaryOperator.identity();
     public volatile Mode metadataMode=Mode.NORMAL,mediaMode=Mode.NORMAL;
@@ -49,10 +49,11 @@ public class FakeGoogleDriveServer implements AutoCloseable {
     public URI origin(){return URI.create("http://127.0.0.1:"+server.getAddress().getPort());}
     public void reset() throws IOException {
         files.clear();sessions.clear();calls.clear();
-        for(var counter:List.of(generated,rootCreates,fileCreates,uploadSessions,putCalls,mediaCalls))counter.set(0);
+        for(var counter:List.of(generated,rootCreates,fileCreates,uploadSessions,putCalls,mediaCalls,childFolderCreates))counter.set(0);
         allowForeignMetadata=false;allowForeignMedia=false;loseUploadResponse=false;loseRootResponse=false;
         aboutStatus=200;metadataStatus=200;uploadStatus=200;mediaStatus=200;
         aboutOverride=null;generatedOverride=null;locationOverride=null;metadataResponseBody=null;metadataPauseId=null;listOverride=null;metadataMutation=UnaryOperator.identity();
+        quotaOverride=null;
         metadataMode=Mode.NORMAL;mediaMode=Mode.NORMAL;mediaChunked=false;mediaLengthDelta=0;shortMedia=-1;extraMedia=0;
         rootEntered=null;rootRelease=null;uploadEntered=null;uploadRelease=null;metadataEntered=null;metadataRelease=null;bodyRelease=new CountDownLatch(0);
         try(var paths=Files.newDirectoryStream(storage)){for(Path p:paths)Files.deleteIfExists(p);}
@@ -68,6 +69,12 @@ public class FakeGoogleDriveServer implements AutoCloseable {
                 String about=aboutOverride==null ? "{\"rootFolderId\":\"account-root-"+owner+"\"}" : aboutOverride;
                 respond(e,aboutStatus,about.getBytes(StandardCharsets.UTF_8),metadataMode);return;
             }
+            if(path.equals("/drive/v3/about")) {
+                signal(metadataEntered);await(metadataRelease);
+                String quota=quotaOverride!=null ? quotaOverride :
+                        "{\"storageQuota\":{\"usage\":\"1000\",\"usageInDrive\":\"500\",\"limit\":\"10000\"}}";
+                respond(e,aboutStatus,quota.getBytes(StandardCharsets.UTF_8),metadataMode);return;
+            }
             if(path.equals("/drive/v3/files/generateIds")) {
                 String id=generatedOverride==null ? "file-"+generated.incrementAndGet() : generatedOverride;
                 respond(e,200,mapper.writeValueAsBytes(Map.of("ids",List.of(id))),metadataMode);return;
@@ -76,8 +83,16 @@ public class FakeGoogleDriveServer implements AutoCloseable {
                 ObjectNode metadata=(ObjectNode)mapper.readTree(e.getRequestBody().readNBytes(64*1024));
                 String id=metadata.path("id").asText();
                 if(files.containsKey(id)){respond(e,409,bytes("{}"),Mode.NORMAL);return;}
-                metadata.set("parents",mapper.valueToTree(List.of("account-root-"+owner)));metadata.put("trashed",false);
-                files.put(id,new Remote(owner,metadata,null));rootCreates.incrementAndGet();
+                String kind=metadata.path("appProperties").path("ppvKind").asText("");
+                if("child".equals(kind)) {
+                    childFolderCreates.incrementAndGet();
+                } else {
+                    metadata.set("parents",mapper.valueToTree(List.of("account-root-"+owner)));
+                    rootCreates.incrementAndGet();
+                }
+                metadata.put("trashed",false);
+                metadata.put("modifiedTime",Instant.now().toString());
+                files.put(id,new Remote(owner,metadata,null));
                 signal(rootEntered);await(rootRelease);
                 if(loseRootResponse){loseRootResponse=false;e.close();return;}
                 respond(e,200,mapper.writeValueAsBytes(metadata),metadataMode);return;
@@ -86,9 +101,38 @@ public class FakeGoogleDriveServer implements AutoCloseable {
                 ObjectNode page=listOverride;
                 if(page==null) {
                     page=mapper.createObjectNode();ArrayNode array=page.putArray("files");
-                    String parent=query.getOrDefault("q","").split("'").length>1 ? query.get("q").split("'")[1] : "";
-                    files.values().stream().filter(f -> f.owner().equals(owner) && f.metadata().path("parents").size()==1
-                            && f.metadata().path("parents").get(0).asText().equals(parent)).limit(Integer.parseInt(query.getOrDefault("pageSize","25"))).forEach(f -> array.add(f.metadata().deepCopy()));
+                    String q=query.getOrDefault("q","");
+                    String parent=null;
+                    if(q.contains("in parents")) {
+                        var matcher=java.util.regex.Pattern.compile("'([^']+)'\\s+in\\s+parents").matcher(q);
+                        if(matcher.find()) {
+                            parent=matcher.group(1);
+                        }
+                    }
+                    final String requiredParent=parent;
+                    int pageSize=Integer.parseInt(query.getOrDefault("pageSize","25"));
+                    String pageToken=query.get("pageToken");
+                    int offset=0;
+                    if(pageToken!=null && pageToken.startsWith("token-")) {
+                        try { offset=Integer.parseInt(pageToken.substring(6)); } catch(NumberFormatException ignored) {}
+                    }
+                    var matched=files.values().stream().filter(f -> f.owner().equals(owner)
+                            && (requiredParent==null || (f.metadata().path("parents").size()==1 && f.metadata().path("parents").get(0).asText().equals(requiredParent))))
+                            .sorted((a,b) -> {
+                                String ma=a.metadata().path("modifiedTime").asText("");
+                                String mb=b.metadata().path("modifiedTime").asText("");
+                                int c=mb.compareTo(ma);
+                                if(c!=0) return c;
+                                return a.metadata().path("name").asText("").compareTo(b.metadata().path("name").asText(""));
+                            })
+                            .toList();
+                    int end=Math.min(matched.size(), offset+pageSize);
+                    for(int i=offset; i<end; i++) {
+                        array.add(matched.get(i).metadata().deepCopy());
+                    }
+                    if(end<matched.size()) {
+                        page.put("nextPageToken", "token-"+end);
+                    }
                 }
                 signal(metadataEntered);await(metadataRelease);
                 respond(e,metadataStatus,mapper.writeValueAsBytes(page),metadataMode);return;

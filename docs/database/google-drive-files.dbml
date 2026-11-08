@@ -1,4 +1,4 @@
-// GDI26-S2 additive metadata only; V26 is physical authority. V1/V25 remain unchanged.
+// GDI26-S2 and H1-B additive metadata only; V26/V27 physical authority. V1/V25 remain unchanged.
 Table drive_folder_roots {
   google_sub varchar(255) [pk, not null, note: 'Verified nonblank Google subject; no connection/slot FK']
   root_file_id varchar(255) [not null, unique, note: 'ASCII provider ID, 1..112 characters for ppvCreatedId property capacity']
@@ -26,13 +26,37 @@ Table drive_upload_intents {
   created_at timestamptz [not null]
   updated_at timestamptz [not null]
   completed_at timestamptz [null, note: 'Required exactly for terminal COMPLETED/FAILED_DEFINITIVE']
+  target_parent_id varchar(255) [null, note: 'H1-B additive: verified app-owned child folder ID; NULL for account root']
   indexes { (google_sub, root_binding_id, idempotency_key) [pk] }
   Note: '''
   PREPARING requires NULL provider_file_id; RESERVED/DISPATCHED/RECONCILIATION_REQUIRED/COMPLETED require it.
   FAILED_DEFINITIVE permits either. Fingerprint/metadata/provider identity are immutable through application CAS paths.
-  Both relations excluded from Portability; no bytes, token, encryption key or resumable session URL.
+  Relations excluded from Portability; no bytes, token, encryption key or resumable session URL.
   Root-row lock bounds admission to 8 nonterminal/1024 retained actions; prune at most 32 terminal rows older than 30 days.
   No cascade deletion on disconnect, no whole-file catalog, no native database enums.
   '''
 }
+
+Table drive_child_folder_intents {
+  google_sub varchar(255) [not null]
+  root_binding_id uuid [not null]
+  idempotency_key varchar(53) [not null, unique, note: 'Strict UTC timestamp + lowercase UUIDv4; globally unique across roots/subjects']
+  root_binding_epoch uuid [not null]
+  intent_epoch uuid [not null, unique]
+  safe_name varchar(255) [not null, note: 'CHECK UTF-8 byte length 1..255; NFC, no slash/backslash/control']
+  request_fingerprint char(64) [not null, note: 'CHECK lowercase 64-hex SHA-256']
+  provider_folder_id varchar(255) [null, unique, note: 'Bound once; ASCII 1..112']
+  status varchar(32) [not null, note: 'CHECK PREPARING / RESERVED / DISPATCHED / RECONCILIATION_REQUIRED / COMPLETED / FAILED_DEFINITIVE']
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+  completed_at timestamptz [null, note: 'Required exactly for terminal COMPLETED/FAILED_DEFINITIVE']
+  indexes { (google_sub, root_binding_id, idempotency_key) [pk] }
+  Note: '''
+  H1-B V27 additive app-owned first-level child folder ledger.
+  Capacity caps: at most 256 retained and 8 nonterminal rows per (sub, root).
+  No automatic child authority row deletion or pruning. Excluded from Portability.
+  '''
+}
+
 Ref: drive_upload_intents.(google_sub, root_binding_id) > drive_folder_roots.(google_sub, root_binding_id)
+Ref: drive_child_folder_intents.(google_sub, root_binding_id) > drive_folder_roots.(google_sub, root_binding_id)

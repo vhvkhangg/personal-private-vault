@@ -9,14 +9,14 @@ public interface DriveUploadIntentRepository extends JpaRepository<DriveUploadIn
     @Modifying
     @Query(value="""
         INSERT INTO drive_upload_intents (google_sub,root_binding_id,idempotency_key,request_fingerprint,content_md5,
-            size_bytes,safe_name,mime_type,status,intent_epoch,root_binding_epoch,created_at,updated_at)
-        VALUES (:sub,:root,:key,:fingerprint,:md5,:size,:name,:mime,'PREPARING',:epoch,:rootEpoch,:now,:now)
+            size_bytes,safe_name,mime_type,status,intent_epoch,root_binding_epoch,created_at,updated_at,target_parent_id)
+        VALUES (:sub,:root,:key,:fingerprint,:md5,:size,:name,:mime,'PREPARING',:epoch,:rootEpoch,:now,:now,:targetParent)
         ON CONFLICT DO NOTHING
         """,nativeQuery=true)
     int insertPreparing(@Param("sub") String sub,@Param("root") UUID root,@Param("key") String key,
             @Param("fingerprint") String fingerprint,@Param("md5") String md5,@Param("size") long size,
             @Param("name") String name,@Param("mime") String mime,@Param("epoch") UUID epoch,
-            @Param("rootEpoch") UUID rootEpoch,@Param("now") Instant now);
+            @Param("rootEpoch") UUID rootEpoch,@Param("now") Instant now,@Param("targetParent") String targetParent);
 
     @Query("select count(i) from DriveUploadIntent i where i.id.googleSub = :sub and i.id.rootBindingId = :root")
     long countRetained(@Param("sub") String sub,@Param("root") UUID root);

@@ -44,6 +44,17 @@ public final class DriveFileInputs {
         Instant time=keyTime(key);
         if(time.isBefore(now.minusSeconds(600)) || time.isAfter(now.plusSeconds(120))) throw new DriveFileException("UPLOAD_KEY_EXPIRED",409);
     }
+    public static Instant folderKeyTime(String key) {
+        if(key==null || key.isBlank()) throw new DriveFileException("FOLDER_KEY_REQUIRED",400);
+        if(!key.matches("[0-9]{8}T[0-9]{6}Z\\.[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}")) throw new DriveFileException("FOLDER_KEY_INVALID",400);
+        try {
+            return LocalDateTime.parse(key.substring(0,16),DateTimeFormatter.ofPattern("uuuuMMdd'T'HHmmss'Z'").withResolverStyle(ResolverStyle.STRICT)).toInstant(ZoneOffset.UTC);
+        } catch(DateTimeException e) { throw new DriveFileException("FOLDER_KEY_INVALID",400); }
+    }
+    public static void freshFolderKey(String key, Instant now) {
+        Instant time=folderKeyTime(key);
+        if(time.isBefore(now.minusSeconds(600)) || time.isAfter(now.plusSeconds(120))) throw new DriveFileException("FOLDER_KEY_EXPIRED",409);
+    }
     public static MessageDigest digest(String algorithm) {
         try { return MessageDigest.getInstance(algorithm); } catch(java.security.NoSuchAlgorithmException e) { throw new IllegalStateException("Required digest unavailable"); }
     }
@@ -52,6 +63,33 @@ public final class DriveFileInputs {
         var hash=digest("SHA-256"); hash.update("GDI26-S2-UPLOAD-V1\0".getBytes(StandardCharsets.US_ASCII));
         for(String text:List.of(name,mime)) { byte[] bytes=text.getBytes(StandardCharsets.UTF_8); hash.update(ByteBuffer.allocate(4).putInt(bytes.length).array()); hash.update(bytes); }
         hash.update(ByteBuffer.allocate(8).putLong(length).array()); hash.update(contentSha);
+        return HexFormat.of().formatHex(hash.digest());
+    }
+    public static String folderFingerprint(String sub, UUID rootBinding, String rootId, String safeName, String actionKey) {
+        var hash = digest("SHA-256");
+        hash.update("GDI26-H1B-FOLDER-V1\0".getBytes(StandardCharsets.US_ASCII));
+        byte[] subBytes = sub.getBytes(StandardCharsets.UTF_8);
+        hash.update(ByteBuffer.allocate(4).putInt(subBytes.length).array());
+        hash.update(subBytes);
+        hash.update(ByteBuffer.allocate(16).putLong(rootBinding.getMostSignificantBits()).putLong(rootBinding.getLeastSignificantBits()).array());
+        byte[] rootIdBytes = rootId.getBytes(StandardCharsets.UTF_8);
+        hash.update(ByteBuffer.allocate(4).putInt(rootIdBytes.length).array());
+        hash.update(rootIdBytes);
+        byte[] nameBytes = safeName.getBytes(StandardCharsets.UTF_8);
+        hash.update(ByteBuffer.allocate(4).putInt(nameBytes.length).array());
+        hash.update(nameBytes);
+        byte[] actionBytes = action(actionKey).getBytes(StandardCharsets.US_ASCII);
+        hash.update(ByteBuffer.allocate(4).putInt(actionBytes.length).array());
+        hash.update(actionBytes);
+        return HexFormat.of().formatHex(hash.digest());
+    }
+    public static String childFingerprint(String parentId, String spoolFingerprint) {
+        var hash = digest("SHA-256");
+        hash.update("GDI26-H1B-UPLOAD-V1\0".getBytes(StandardCharsets.US_ASCII));
+        byte[] parentBytes = parentId.getBytes(StandardCharsets.UTF_8);
+        hash.update(ByteBuffer.allocate(4).putInt(parentBytes.length).array());
+        hash.update(parentBytes);
+        hash.update(spoolFingerprint.getBytes(StandardCharsets.US_ASCII));
         return HexFormat.of().formatHex(hash.digest());
     }
 }

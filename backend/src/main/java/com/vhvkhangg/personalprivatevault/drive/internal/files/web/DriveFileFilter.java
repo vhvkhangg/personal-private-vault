@@ -21,7 +21,7 @@ public class DriveFileFilter extends OncePerRequestFilter {
     private final ObjectMapper mapper=new ObjectMapper().findAndRegisterModules();
     public DriveFileFilter(DriveFileResources resources){this.resources=resources;}
     @Override protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !request.getRequestURI().matches("/api/v1/drive/connections/[^/]+/(root-folder|files|files/[^/]+/download)");
+        return !request.getRequestURI().matches("/api/v1/drive/connections/[^/]+/(root-folder|files|files/[^/]+/download|storage-quota|folders|items|folders/[^/]+/files|files/[^/]+/thumbnail)");
     }
     @Override protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws IOException,ServletException {
         boolean upload="POST".equals(request.getMethod()) && request.getRequestURI().endsWith("/files");
@@ -38,13 +38,13 @@ public class DriveFileFilter extends OncePerRequestFilter {
             op=resources.open(upload);
         } catch(DriveException error) {error(response,error);return;}
         request.setAttribute(OPERATION,op);request.setAttribute(CONTENT_TYPE,request.getContentType());
-        var input=new InputBridge(request.getInputStream(),op);
+        var input=upload ? new InputBridge(request.getInputStream(),op) : null;
         var output=new OutputBridge(response.getOutputStream(),op);
-        op.onCancel(() -> {input.abort();if(response.isCommitted())output.abort();});
+        op.onCancel(() -> {if(upload) input.abort();if(response.isCommitted())output.abort();});
         var wrappedRequest=new HttpServletRequestWrapper(request) {
             @Override public String getContentType(){return upload?"application/octet-stream":super.getContentType();}
-            @Override public ServletInputStream getInputStream(){return input;}
-            @Override public BufferedReader getReader(){return new BufferedReader(new InputStreamReader(input,StandardCharsets.UTF_8));}
+            @Override public ServletInputStream getInputStream() throws IOException{return upload?input:super.getInputStream();}
+            @Override public BufferedReader getReader() throws IOException{return upload?new BufferedReader(new InputStreamReader(input,StandardCharsets.UTF_8)):super.getReader();}
             @Override public Collection<Part> getParts(){throw DriveFileException.input();}
             @Override public Part getPart(String name){throw DriveFileException.input();}
         };
@@ -63,8 +63,8 @@ public class DriveFileFilter extends OncePerRequestFilter {
                 var async=request.getAsyncContext();
                 async.addListener(new AsyncListener() {
                     public void onComplete(AsyncEvent event){op.close();}
-                    public void onTimeout(AsyncEvent event){op.cancel();input.abort();if(response.isCommitted())output.abort();}
-                    public void onError(AsyncEvent event){op.cancel();input.abort();output.abort();op.close();}
+                    public void onTimeout(AsyncEvent event){op.cancel();if(upload) input.abort();if(response.isCommitted())output.abort();}
+                    public void onError(AsyncEvent event){op.cancel();if(upload) input.abort();output.abort();op.close();}
                     public void onStartAsync(AsyncEvent event){}
                 });
                 if(upload)input.start();output.start();

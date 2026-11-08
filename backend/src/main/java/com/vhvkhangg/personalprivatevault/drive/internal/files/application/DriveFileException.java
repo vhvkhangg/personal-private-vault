@@ -10,7 +10,7 @@ public class DriveFileException extends DriveException {
         return switch (code) {
             case "PAYLOAD_TOO_LARGE" -> "File or request exceeds the supported size";
             case "DRIVE_FILE_CAPACITY_EXHAUSTED" -> "File-operation capacity is unavailable; retry later";
-            case "UPLOAD_OUTCOME_UNKNOWN", "DRIVE_ROOT_OUTCOME_UNKNOWN" -> "Remote outcome is unknown; retry the same action for verification";
+            case "UPLOAD_OUTCOME_UNKNOWN", "DRIVE_ROOT_OUTCOME_UNKNOWN", "FOLDER_OUTCOME_UNKNOWN" -> "Remote outcome is unknown; retry the same action for verification";
             default -> "Google Drive file operation could not be completed";
         };
     }
