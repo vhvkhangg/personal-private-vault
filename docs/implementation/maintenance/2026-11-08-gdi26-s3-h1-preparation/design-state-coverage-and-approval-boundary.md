@@ -1,0 +1,11 @@
+# H1 design approval boundary — updated Owner D27/D28 (2026-11-08)
+
+**Current:** exact populated [desktop Explorer v0.3](owner-visual-approval-record-v0.3.md) SHA-256 `1c5175d40f42a64418d8127459dc7c08595e79916980308c6d9934b85d9f442e` is **OWNER_APPROVED**. D28 **delegates auxiliary state visuals to Codex under H0 harness**; Owner need not approve separate v0.4 mockup variants. D27 **defers mobile/tablet deliverables** and focuses initial H1 on 14-inch desktop. See [current decisions](owner-decision-addendum-v0.5.md) and [finite desktop/state contract](h1-desktop-and-state-delegation-v0.5.md).
+
+Previous derivative v0.4 [desktop](designs/gdi26-s3-h1-derivative-state-sheet-v0.4-desktop.png) and [responsive](designs/gdi26-s3-h1-derivative-responsive-v0.4.png) images remain **historical, not Owner-approved**. They are optional conceptual references, **not** pre-H1 approval gates. Their sample data/actions are not evidence of API support; local directory bulk upload is excluded.
+
+Codex must design and verify required normal/empty/loading/failed/disconnected/reauth/unknown/session, quota and preview fallback states, preserve exact backend error/idempotency semantics and conform to the approved v0.3 main layout. Material change to the main Explorer still requires a new Owner visual approval; small component/state choices are delegated and need independent review/test proof, not fictitious Owner quotes.
+
+**Desktop focus is not a claim of WCAG conformance.** H1 acceptance uses representative browser widths 1366×768 and 1536×864 CSS pixels and actual keyboard/focus/contrast/motion/zoom. H0 PH-I01 320 CSS-pixel browser zoom/reflow remains a separately reported a11y issue; test or explicitly disposition it in independent review without asking for a distinct mobile design. No mobile-specific visuals or test suite are authorized for H1.
+
+**Other prerequisites:** Owner-approved backend/BFF scope D29 still requires independently accepted schemas/route/security contracts, especially the new Google Sign-In identity link; H0 already published, H1 still needs independently reviewed/published preparation and executable handoff. `ACTIVE=NO_ACTIVE_HANDOFF`; no production code or UI created in this preparation.
