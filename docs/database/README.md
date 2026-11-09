@@ -69,3 +69,11 @@ must be reviewed with the future append-only migration. No schema acceptance her
 ## Phase 18 D18-A additive logical target — preparation, not executable
 
 [Phase 18 document-index DBML](phase-18-document-indexing.dbml), [ADR-0021](../adr/0021-phase-18-bounded-multi-file-verified-indexing.md) and [typed API inventory](../architecture/rag-phase-18-api-extension.md) record owner-approved *proposed* RAG-owned external source, multi-root job outcome, chunk/vector and per-generation manifest responsibilities. The historical *candidate* V3–V13 list above reflects its original preparation time, **not** the present Flyway tip. The Phase 17 foundation reached **V17**; only **V18 or later append-only migrations** may implement Phase 18 after independent gates and an active handoff. V1–V17, Schema v1, frozen Phase 17 DBML/ADR and deployed roles remain unchanged by this documentation.
+
+## Google Sign-In singleton owner additive logical target
+
+[Google Sign-In DBML](google-signin-authentication.dbml) and [ADR-0028](../adr/0028-google-sign-in-singleton-owner.md) record the additive V28 schema for Spring-owned Google Sign-In and singleton Owner identity linking.
+- `ppv_owner_google_identities`: singleton Owner binding with `owner_id = 1` check constraint and `UNIQUE(issuer, google_sub)`.
+- `ppv_google_login_attempts`: OIDC flow state and failed password rate events with AES-256-GCM encrypted PKCE verifier.
+- `ppv_google_handoff_tickets`: 60s ephemeral tickets for atomic token issuance.
+- Excluded from Portability JSONL snapshots. Frozen Schema v1 and app_users remain unchanged.

@@ -56,6 +56,20 @@ public class SessionService implements SessionOperations {
             throw new InvalidCredentialsException();
         }
 
+        return issueForVerifiedOwner(user);
+    }
+
+    /**
+     * Shared token issuance seam for verified singleton Owner authentication.
+     * Requires an existing active transaction and verifies singleton owner identity.
+     */
+    @Transactional(propagation = org.springframework.transaction.annotation.Propagation.MANDATORY)
+    public AuthTokensView issueForVerifiedOwner(AppUser user) {
+        Objects.requireNonNull(user, "user must not be null");
+        if (user.getId() == null || user.getId() != AppUser.SINGLETON_ID) {
+            throw new IllegalArgumentException("user must be singleton owner");
+        }
+
         Instant now = clock.instant();
         String rawRefreshToken = tokenGenerator.generateRawRefreshToken();
         String tokenHash = tokenGenerator.hashToken(rawRefreshToken);

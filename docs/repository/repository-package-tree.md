@@ -517,3 +517,35 @@ Under Owner decisions D24/D25 and executable handoff `GDI26-S3-H1-B`:
   - `DriveFileDtos`: added `Folder`, `FolderCreateRequest`, `StorageQuota`, `Item`, `ItemPage`.
 - Migration: `V27__drive_child_folders_and_parent_affinity.sql`.
 - Focused tests: `DriveH1BPersistenceIntegrationTest`, `DriveH1BAuthorityIntegrationTest`, `DriveH1BSearchIntegrationTest`, `DriveH1BThumbnailIntegrationTest`, `DriveH1BQuotaIntegrationTest`, `DriveH1BWebIntegrationTest`, with fixtures `DriveH1BTestSupport` and `FakeGoogleThumbnailServer`.
+
+### GDI26-S3-H1-AUTH additive Google Sign-In backend inventory — IMPLEMENTED_AWAITING_CODEX_REVIEW
+
+Under Owner authorization and executable handoff `GDI26-S3-H1-AUTH`:
+- `authentication/internal/domain`:
+  - `OwnerGoogleIdentity`: singleton Owner Google identity binding (`owner_id = 1`, `issuer`, `google_sub`, `linked_at`).
+  - `GoogleLoginAttempt`: OIDC transaction tracking and failed password rate events (`attempt_id`, `record_kind`, `purpose`, `owner_id`, `state_hash`, `binding_hash`, `nonce_hash`, `handoff_challenge_hash`, `pkce_nonce`, `pkce_ciphertext`, `status`, `claim_epoch`, `created_at`, `updated_at`, `expires_at`, `completed_at`).
+  - `GoogleHandoffTicket`: one-use 60-second handoff ticket for atomic token issuance (`ticket_hash`, `attempt_id`, `owner_id = 1`, `purpose`, `handoff_challenge_hash`, `status`, `issued_at`, `expires_at`, `consumed_at`).
+- `authentication/internal/infrastructure/persistence`:
+  - `OwnerGoogleIdentityRepository`, `GoogleLoginAttemptRepository`, `GoogleHandoffTicketRepository`.
+- `authentication/internal/infrastructure/security`:
+  - `GoogleSignInConfiguration`: `@Configuration` conditional on `ppv.security.google-signin.enabled=true`.
+  - `GoogleSignInProperties`: configuration properties prefix `ppv.security.google-signin`.
+  - `GoogleSignInResources`: concurrency slots (`Slot`) and per-minute route rate limiter.
+  - `GoogleSignInTransactionCrypto`: AES-256-GCM encryption/decryption of PKCE code verifier (12-byte nonce, 59-byte ciphertext, versioned AAD).
+- `authentication/internal/infrastructure/oauth`:
+  - `GoogleSignInProviderClient`: managed OAuth2/JOSE client validating RS256 signature, Google issuers, audience, `azp`, 60s clock skew, and SHA-256 nonce hash.
+- `authentication/internal/application/google`:
+  - `GoogleSignInService`: protocol orchestration, CSPRNG tokens, S256 PKCE computation, URL building, callback processing, and handoff redemption.
+  - `GoogleSignInStore`: transactional state store (start login/link, claim attempt CAS, completion finalize with identity insert/check, ticket atomic redemption with `SessionService.issueForVerifiedOwner`).
+  - `GoogleSignInException`: domain exception mapping to safe error codes and HTTP statuses.
+- `authentication/internal/application/session`:
+  - `SessionService`: extracted internal `issueForVerifiedOwner(AppUser)` seam with `Propagation.MANDATORY`.
+- `authentication/internal/web/controller`:
+  - `GoogleSignInController`: REST controller exposing `/api/v1/auth/google/{start, link/start, callback, handoff}`.
+- `authentication/internal/web/dto`:
+  - `GoogleSignInDtos`: request/response records with Jakarta validation.
+- `authentication/internal/web/advice`:
+  - `AuthExceptionAdvice`: added `GoogleSignInException` handler.
+- Additive Flyway migration: `V28__google_signin_owner_transactions.sql`.
+- Focused tests: `GoogleSignInConfigurationTest`, `GoogleSignInCryptoTest`, `GoogleSignInProtocolTest`, `GoogleSignInPersistenceIntegrationTest`, `GoogleSignInWebIntegrationTest`, `GoogleSignInBrowserIntegrationTest`.
+- Test fixtures: `FakeGoogleSignInServer`, `GoogleSignInBrowserConsumer`, `GoogleSignInTestSupport`.

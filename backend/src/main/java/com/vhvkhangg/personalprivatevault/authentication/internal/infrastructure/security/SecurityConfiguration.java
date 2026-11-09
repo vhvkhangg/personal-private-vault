@@ -103,7 +103,8 @@ public class SecurityConfiguration {
             HttpSecurity http,
             org.springframework.security.web.AuthenticationEntryPoint entryPoint,
             org.springframework.security.web.access.AccessDeniedHandler accessDeniedHandler,
-            @org.springframework.beans.factory.annotation.Value("${ppv.drive.enabled:false}") boolean driveEnabled) throws Exception {
+            @org.springframework.beans.factory.annotation.Value("${ppv.drive.enabled:false}") boolean driveEnabled,
+            @org.springframework.beans.factory.annotation.Value("${ppv.security.google-signin.enabled:false}") boolean googleSignInEnabled) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -118,6 +119,12 @@ public class SecurityConfiguration {
                             .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/revoke").permitAll();
                     if (driveEnabled) {
                         auth.requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/drive/oauth/callback").permitAll();
+                    }
+                    if (googleSignInEnabled) {
+                        auth
+                                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/google/start").permitAll()
+                                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/auth/google/callback").permitAll()
+                                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/google/handoff").permitAll();
                     }
                     auth.anyRequest().authenticated();
                 })

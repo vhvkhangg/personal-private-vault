@@ -35,3 +35,21 @@ shared JSON authentication-entry-point/access-denied handling. JWT/domain behavi
 
 The active Phase 13 handoff, when present, is the temporary authority for this narrow adapter exception. Otherwise
 the frozen-module rules remain in force.
+
+## GDI26-S3-H1-AUTH Google Sign-In exception (2026-11-08)
+
+An active handoff for `GDI26-S3-H1-AUTH` (see [ACTIVE.md](../../../../../../../../docs/implementation/handoffs/ACTIVE.md) and [executable contract](../../../../../../../../docs/implementation/maintenance/2026-11-08-gdi26-s3-h1-preparation/executable-handoff-h1-auth-2026-11-08.md)) may modify this module strictly to implement Spring-owned Google OIDC login and singleton Owner linking:
+
+Allowed:
+- internal shared token issuance seam in `SessionService` for verified singleton Owner;
+- new internal entities/repositories for `ppv_owner_google_identities`, `ppv_google_login_attempts`, and `ppv_google_handoff_tickets` (V28);
+- internal services, crypto, resources, and managed OAuth2 client in `authentication.internal`;
+- internal web controller and DTOs under `/api/v1/auth/google` with conditional feature-flag gating;
+- conditional public request matchers in `SecurityConfiguration` for start, callback, and handoff;
+- focused unit, integration, and browser tests within module scope.
+
+Not allowed:
+- multi-user registration, unlinking/rebind, or raw ID-token login;
+- changing PPV HS256 JWT validation, clock behavior, or legacy password/refresh/PIN invariants;
+- exposing internal entities or Google credentials;
+- Phase 16 or general auth refactoring.

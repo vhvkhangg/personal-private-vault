@@ -54,4 +54,22 @@ public class AuthExceptionAdvice {
     public ResponseEntity<ApiResponse<Void>> handleUnauthenticatedAccess(UnauthenticatedAccessException ex) {
         return ApiResponses.of(HttpStatus.UNAUTHORIZED, "AUTHENTICATION_REQUIRED", "Authentication required to access PIN operations");
     }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.authentication.internal.application.google.GoogleSignInException.class)
+    public ResponseEntity<ApiResponse<Void>> handleGoogleSignIn(
+            com.vhvkhangg.personalprivatevault.authentication.internal.application.google.GoogleSignInException ex) {
+        HttpStatus status = HttpStatus.valueOf(ex.getHttpStatus());
+        String message = switch (ex.getErrorCode()) {
+            case "AUTH_INVALID_CREDENTIALS" -> "Invalid username/email or password";
+            case "GOOGLE_HANDOFF_INVALID" -> "Invalid, expired, or replayed Google handoff ticket";
+            case "FORBIDDEN" -> "Access denied";
+            case "GOOGLE_OWNER_NOT_READY" -> "Google Sign-In is not linked or owner is not bootstrapped";
+            case "GOOGLE_IDENTITY_CONFLICT" -> "Conflicting Google identity";
+            case "GOOGLE_SIGNIN_RATE_LIMITED" -> "Too many attempts; rate limit exceeded";
+            case "GOOGLE_SIGNIN_UNAVAILABLE" -> "Google Sign-In service is temporarily unavailable";
+            case "GOOGLE_SIGNIN_FAILURE" -> "Google provider communication failed";
+            default -> "Invalid Google sign-in request";
+        };
+        return ApiResponses.of(status, ex.getErrorCode(), message);
+    }
 }

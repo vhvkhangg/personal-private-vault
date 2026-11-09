@@ -173,13 +173,17 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         JsonNode manifestNode = objectMapper.readTree(entries.get("manifest.json"));
         assertThat(manifestNode.path("formatVersion").asInt()).isEqualTo(1);
         assertThat(manifestNode.hasNonNull("generatedAt")).isTrue();
-        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("27");
+        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("28");
 
         JsonNode excludedNode = manifestNode.path("excludedSecurityTables");
         assertThat(excludedNode.isArray()).isTrue();
         List<String> excludedList = new ArrayList<>();
         excludedNode.forEach(n -> excludedList.add(n.asText()));
-        assertThat(excludedList).containsExactlyInAnyOrder("app_users", "refresh_tokens", "drive_connections", "drive_folder_roots", "drive_upload_intents", "drive_child_folder_intents");
+        assertThat(excludedList).containsExactlyInAnyOrder(
+                "app_users", "refresh_tokens", "drive_connections", "drive_folder_roots",
+                "drive_upload_intents", "drive_child_folder_intents",
+                "ppv_owner_google_identities", "ppv_google_login_attempts", "ppv_google_handoff_tickets"
+        );
 
         JsonNode inventoryNode = manifestNode.path("tableInventory");
         assertThat(inventoryNode.isArray()).isTrue();
@@ -195,6 +199,9 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(entries).doesNotContainKey("tables/drive_folder_roots.jsonl");
         assertThat(entries).doesNotContainKey("tables/drive_upload_intents.jsonl");
         assertThat(entries).doesNotContainKey("tables/drive_child_folder_intents.jsonl");
+        assertThat(entries).doesNotContainKey("tables/ppv_owner_google_identities.jsonl");
+        assertThat(entries).doesNotContainKey("tables/ppv_google_login_attempts.jsonl");
+        assertThat(entries).doesNotContainKey("tables/ppv_google_handoff_tickets.jsonl");
         assertThat(entries).doesNotContainKey("tables/flyway_schema_history.jsonl");
 
         // 6. Assert markdown files are exact copies

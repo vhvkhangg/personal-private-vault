@@ -1,0 +1,72 @@
+// Additive GDI26-S3-H1 relations. Frozen Schema v1 remains unchanged.
+// Physical authority: backend/src/main/resources/db/migration/V28__google_signin_owner_transactions.sql
+
+Table ppv_owner_google_identities {
+  owner_id smallint [pk, not null, note: 'CHECK owner_id = 1; FK app_users(id)']
+  issuer varchar(128) [not null, note: 'Canonical Google issuer: https://accounts.google.com']
+  google_sub varchar(255) [not null, note: 'Google subject claim; nonblank, trimmed, printable non-whitespace ASCII, max 255 chars']
+  linked_at timestamptz [not null, default: `now()`, note: 'Immutable insertion timestamp; no update/rebind path']
+
+  indexes {
+    (issuer, google_sub) [unique, name: 'uq_owner_google_identities_issuer_sub']
+  }
+
+  Note: '''
+  Immutable singleton Owner identity binding for Google Sign-In.
+  Only app_users.id = 1 can be linked. No delete/unlink/rebind API exists.
+  Excluded from Portability JSONL snapshots.
+  '''
+}
+
+Table ppv_google_login_attempts {
+  attempt_id uuid [pk, not null]
+  record_kind varchar(24) [not null, note: 'CHECK IN (OIDC, LINK_PASSWORD_FAILURE)']
+  purpose varchar(8) [not null, note: 'CHECK IN (LOGIN, LINK)']
+  owner_id smallint [null, note: 'LOGIN requires NULL; LINK requires 1 (FK app_users.id)']
+  state_hash char(64) [null, note: 'Lowercase hex SHA-256 of 43-char CSPRNG state']
+  binding_hash char(64) [null, note: 'Lowercase hex SHA-256 of 43-char CSPRNG binding secret']
+  nonce_hash char(64) [null, note: 'Lowercase hex SHA-256 of 43-char CSPRNG nonce']
+  handoff_challenge_hash char(64) [null, note: 'Lowercase hex SHA-256 of client handoff challenge']
+  pkce_nonce bytea [null, note: '12-byte AES-GCM IV; cleared upon terminal status']
+  pkce_ciphertext bytea [null, note: '59-byte ciphertext (43-byte PKCE verifier + 16-byte GCM tag); cleared on terminal']
+  status varchar(16) [not null, note: 'CHECK IN (PENDING, PROCESSING, COMPLETED, FAILED, EXPIRED)']
+  claim_epoch uuid [null, note: 'CAS fencing token generated when claimed for callback processing']
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+  expires_at timestamptz [not null, note: 'OIDC rows require exactly created_at + 300 seconds']
+  completed_at timestamptz [null, note: 'Present exactly when status IN (COMPLETED, FAILED, EXPIRED)']
+
+  indexes {
+    state_hash [unique, name: 'idx_google_login_attempts_state_hash', note: 'Partial index WHERE state_hash IS NOT NULL']
+    (record_kind, created_at) [name: 'idx_google_login_attempts_rate_window']
+    (status, expires_at) [name: 'idx_google_login_attempts_status_expiry']
+  }
+
+  Note: '''
+  OIDC attempt tracking and failed password rate events.
+  Active rows encrypt PKCE verifier with versioned AAD binding.
+  Excluded from Portability JSONL snapshots.
+  '''
+}
+
+Table ppv_google_handoff_tickets {
+  ticket_hash char(64) [pk, not null, note: 'Lowercase hex SHA-256 of 43-char CSPRNG handoff ticket']
+  attempt_id uuid [not null, unique, note: 'FK ppv_google_login_attempts(attempt_id)']
+  owner_id smallint [not null, note: 'CHECK owner_id = 1; FK app_users(id)']
+  purpose varchar(8) [not null, note: 'CHECK IN (LOGIN, LINK)']
+  handoff_challenge_hash char(64) [not null, note: 'Lowercase hex SHA-256 matching the completed attempt']
+  status varchar(16) [not null, note: 'CHECK IN (PENDING, CONSUMED, EXPIRED)']
+  issued_at timestamptz [not null]
+  expires_at timestamptz [not null, note: 'CHECK expires_at = issued_at + 60 seconds']
+  consumed_at timestamptz [null, note: 'Present exactly when status = CONSUMED']
+
+  indexes {
+    (status, expires_at) [name: 'idx_google_handoff_tickets_status_expiry']
+  }
+
+  Note: '''
+  One-time 60-second handoff ticket for atomic token issuance.
+  Redeemed with constant-time proof-of-possession handoff challenge verifier.
+  Excluded from Portability JSONL snapshots.
+  '''
+}

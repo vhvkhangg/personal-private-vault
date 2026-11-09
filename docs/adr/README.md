@@ -43,6 +43,7 @@ When a frozen architectural decision changes materially, add a new ADR and mark 
 | [ADR-0025](0025-phase-19-markdown-reader-exclusion.md) | Phase 19 Markdown active-reader exclusion, inspection fences, and guarded emission | Owner-approved Option A design; implementation awaits independent acceptance |
 | [ADR-0026](0026-google-drive-connection-authority.md) | Google Drive connection authority, credential custody, and project-grant revocation fence | Owner-approved design; implementation review pending |
 | [ADR-0027](0027-google-drive-root-file-authority.md) | Google Drive direct binary root/files and durable upload action identity (D08–D10) | Owner-approved design; S2 independently READY_FOR_OWNER_COMMIT; defaults OFF |
+| [ADR-0028](0028-google-sign-in-singleton-owner.md) | Google Sign-In and singleton Owner identity linking | Accepted |
 
 ## Phase 18 prospective contracts
 

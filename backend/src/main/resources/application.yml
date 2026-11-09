@@ -78,6 +78,11 @@ ppv:
     scheduler:
       enabled: ${PPV_FEED_SCHEDULER_ENABLED:false}
   security:
+    google-signin:
+      enabled: ${PPV_GOOGLE_SIGNIN_ENABLED:false}
+      client-id: ${PPV_GOOGLE_SIGNIN_CLIENT_ID:}
+      client-secret: ${PPV_GOOGLE_SIGNIN_CLIENT_SECRET:}
+      txn-key-file: ${PPV_GOOGLE_SIGNIN_TXN_KEY_FILE:}
     jwt:
       issuer: ${PPV_JWT_ISSUER:personal-private-vault}
       access-token-lifetime: ${PPV_JWT_ACCESS_TOKEN_LIFETIME:15m}

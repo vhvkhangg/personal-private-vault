@@ -72,4 +72,77 @@ class SecretRedactionTest {
         assertThat(containsRefresh).as("Refresh token must not leak into toString()").isFalse();
         assertThat(representation).contains("accessToken=[REDACTED]", "refreshToken=[REDACTED]");
     }
+
+    @Test
+    @DisplayName("Google Sign-In DTOs and internal records redact passwords, tickets, and verifiers")
+    void googleSignInSecretCarriersRedacted() {
+        var linkReq = new com.vhvkhangg.personalprivatevault.authentication.internal.web.dto.GoogleSignInDtos.StartGoogleLinkRequest(
+                "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+                "SuperSecretPassword999!"
+        );
+        assertThat(linkReq.toString()).doesNotContain("SuperSecretPassword999!");
+        assertThat(linkReq.toString()).contains("password=[REDACTED]");
+
+        var redeemReq = new com.vhvkhangg.personalprivatevault.authentication.internal.web.dto.GoogleSignInDtos.RedeemHandoffRequest(
+                "ticket12345678901234567890123456789012345",
+                "verifier1234567890123456789012345678901234"
+        );
+        assertThat(redeemReq.toString()).doesNotContain("ticket12345678901234567890123456789012345");
+        assertThat(redeemReq.toString()).doesNotContain("verifier1234567890123456789012345678901234");
+        assertThat(redeemReq.toString()).contains("ticket=[REDACTED]", "handoffVerifier=[REDACTED]");
+
+        String rawStateSentinel = "synthetic-state-sentinel-xyz";
+        String rawNonceSentinel = "synthetic-nonce-sentinel-123";
+        String authUrlWithSentinels = "https://accounts.google.com/o/oauth2/v2/auth?state=" + rawStateSentinel + "&nonce=" + rawNonceSentinel;
+
+        var startResult = new com.vhvkhangg.personalprivatevault.authentication.internal.application.google.GoogleSignInService.StartResult(
+                java.util.UUID.randomUUID(),
+                authUrlWithSentinels,
+                "bindingSecret12345678901234567890123456789",
+                300
+        );
+        assertThat(startResult.toString()).doesNotContain("bindingSecret12345678901234567890123456789");
+        assertThat(startResult.toString()).doesNotContain(rawStateSentinel);
+        assertThat(startResult.toString()).doesNotContain(rawNonceSentinel);
+        assertThat(startResult.toString()).contains("bindingSecret=[REDACTED]", "authorizationUrl=[REDACTED]");
+
+        var startResp = new com.vhvkhangg.personalprivatevault.authentication.internal.web.dto.GoogleSignInDtos.StartGoogleSignInResponse(
+                java.util.UUID.randomUUID(),
+                authUrlWithSentinels,
+                300
+        );
+        assertThat(startResp.toString()).doesNotContain(rawStateSentinel);
+        assertThat(startResp.toString()).doesNotContain(rawNonceSentinel);
+        assertThat(startResp.toString()).contains("authorizationUrl=[REDACTED]");
+
+        var callbackOutcome = new com.vhvkhangg.personalprivatevault.authentication.internal.application.google.GoogleSignInService.CallbackOutcome(
+                true,
+                "ticketSecret123456789012345678901234567890",
+                null
+        );
+        assertThat(callbackOutcome.toString()).doesNotContain("ticketSecret123456789012345678901234567890");
+        assertThat(callbackOutcome.toString()).contains("ticket=[REDACTED]");
+
+        var validatedIdToken = new com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.oauth.GoogleSignInProviderClient.ValidatedIdToken(
+                "https://accounts.google.com",
+                "secret-sub-12345",
+                "secret-email@example.com"
+        );
+        assertThat(validatedIdToken.toString()).doesNotContain("secret-sub-12345");
+        assertThat(validatedIdToken.toString()).doesNotContain("secret-email@example.com");
+        assertThat(validatedIdToken.toString()).contains("sub=[REDACTED]", "email=[REDACTED]");
+
+        var tokenRequest = new com.vhvkhangg.personalprivatevault.authentication.fixture.FakeGoogleSignInServer.TokenRequest(
+                "code-xyz",
+                "verifier-abc",
+                "client-123",
+                "secret-def",
+                "http://localhost:8080/callback",
+                "authorization_code"
+        );
+        assertThat(tokenRequest.toString()).doesNotContain("code-xyz");
+        assertThat(tokenRequest.toString()).doesNotContain("verifier-abc");
+        assertThat(tokenRequest.toString()).doesNotContain("secret-def");
+        assertThat(tokenRequest.toString()).contains("code=[REDACTED]", "codeVerifier=[REDACTED]", "clientSecret=[REDACTED]");
+    }
 }

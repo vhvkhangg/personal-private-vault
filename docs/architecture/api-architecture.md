@@ -77,6 +77,9 @@ Phase 14 adds two explicit successful binary-transfer exceptions:
 - `GET /api/v1/images/{id}/content` -> streamed media bytes;
 - `POST /api/v1/portability/exports` -> streamed `application/zip`.
 
+GDI26-S3-H1 adds one explicit successful redirect exception:
+- `GET /api/v1/auth/google/callback` -> HTTP 303 See Other redirect to `http://localhost:3000/api/bff/auth/google/complete` carrying HttpOnly cookies with no JSON response body.
+
 For those binary routes, failures **before the servlet response is committed** use the normal JSON `ApiResponse`
 envelope. After binary bytes/headers are committed, a stream/read/write/timeout/client-disconnect failure aborts the
 transfer; the server must not append JSON to the binary body or reset a committed response. A portability ZIP counts
@@ -274,6 +277,16 @@ POST /api/v1/auth/revoke
 ```
 
 The refresh/revoke token is carried in an explicit JSON request body in Phase 13, not a cookie.
+
+When `ppv.security.google-signin.enabled=true`, exactly three public method matchers are added:
+
+```text
+POST /api/v1/auth/google/start
+GET  /api/v1/auth/google/callback
+POST /api/v1/auth/google/handoff
+```
+
+`POST /api/v1/auth/google/link/start` remains bearer-protected and requires singleton Owner authentication plus fresh master password verification.
 
 Private-PIN endpoints and all non-auth business endpoints are bearer-protected.
 
