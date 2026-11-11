@@ -1,5 +1,7 @@
 # PPV frontend development workflow
 
+**Current execution — 2026-11-11:** `BACKEND_FIRST / FRONTEND_PAUSED_BY_OWNER / NO_ACTIVE_HANDOFF` under [BF26](../implementation/maintenance/2026-11-11-backend-first-assessment/owner-decision-backend-first-2026-11-11.md). H1-F is indefinitely paused despite Owner publication; `CHANGES_REQUESTED / NOT_INDEPENDENTLY_ACCEPTED` and FR-13 `UPSTREAM_DEPENDENCY_BLOCKED` persist. Preserve source, tests/harness, dependencies/lock, evidence, counters and approved v0.3. A redesign, including any future Gemini candidate, requires a separate Owner visual decision. No new design or dependency work is authorized. The H0/H1 sequencing below is retained workflow history/guidance; it does not resume execution.
+
 **Authority:** [Owner policy](current-owner-delivery-policy.md), [ACTIVE](../implementation/handoffs/ACTIVE.md) and the active executable contract govern execution. This workflow is H0 guidance, not H0 acceptance, visual approval or authority to create an app. [D11–D22](../implementation/maintenance/2026-11-07-gdi26-s3-h0-preparation/owner-decisions-and-visual-gate.md) preserve the Owner's directions and nondelegable visual gate.
 
 ## Scope and sequence

@@ -36,6 +36,8 @@ Slices:
 
 ## Recent documentation and preparation scopes
 
+- [BF26 Backend-first assessment and indefinite frontend pause](2026-11-11-backend-first-assessment/owner-decision-backend-first-2026-11-11.md) — **OWNER_APPROVED governance/planning only; assessment delivered / STOPPED; PENDING OWNER REVIEW / PUBLICATION**. [Readiness assessment and prioritized proposal](2026-11-11-backend-first-assessment/backend-readiness-assessment-2026-11-11.md) is grounded in published `4555e25`. H1-F remains published under exception, **CHANGES_REQUESTED / NOT_INDEPENDENTLY_ACCEPTED**, FR-13 **UPSTREAM_DEPENDENCY_BLOCKED**, paused indefinitely. Source/evidence/v0.3/counters preserved. **ACTIVE=NO_ACTIVE_HANDOFF**; no implementation, phase reopening or worktree/branch creation authorized.
+
 - [CSA26 current-system audit/remediation](2026-11-01-current-system-readonly-audit/owner-publication-closeout-2026-11-01.md) — independently accepted and Owner-published at `4cf6204`; `CSA26-FR-L01` LOW remains open.
 - [Spring-only Archify diagrams](2026-11-01-spring-only-archify/owner-publication-closeout-2026-11-01.md) — SAD-01–04 independently accepted/published at `84f1185`; `SAD-FR-L01` LOW remains open. Documentation-only; not an executable handoff.
 - [Universal Inbox / Save for Later](2026-11-01-universal-inbox-preparation/owner-publication-closeout-2026-11-02.md) — `UI26-INBOX-BROWSE` independently accepted and Owner-published at `50aaf7d` (**browsing only**, no read/archive state). `UI26-FR-L02` LOW remains open; 2/3 correction rounds consumed, stopped. No active Inbox implementation handoff.
