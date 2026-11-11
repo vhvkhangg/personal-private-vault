@@ -8,7 +8,7 @@ Rules:
 - each slice has one canonical scope document;
 - a slice must name the frozen phase(s) and exact permitted behavior/files;
 - unrelated refactors, schema changes, and next-phase feature work are forbidden;
-- Codex creates a separate active handoff from the approved maintenance scope;
+- for production/tooling implementation, Codex creates a separate active handoff only after independent preparation review, Owner publication and the required scope approval; docs-only maintenance concludes without an executable handoff;
 - Antigravity implements/tests only that handoff;
 - Codex final-reviews the maintenance implementation;
 - the owner commits/pushes only after `READY FOR OWNER COMMIT`;
@@ -36,7 +36,9 @@ Slices:
 
 ## Recent documentation and preparation scopes
 
-- [BF26 Backend-first assessment and indefinite frontend pause](2026-11-11-backend-first-assessment/owner-decision-backend-first-2026-11-11.md) — **OWNER_APPROVED governance/planning only; assessment delivered / STOPPED; PENDING OWNER REVIEW / PUBLICATION**. [Readiness assessment and prioritized proposal](2026-11-11-backend-first-assessment/backend-readiness-assessment-2026-11-11.md) is grounded in published `4555e25`. H1-F remains published under exception, **CHANGES_REQUESTED / NOT_INDEPENDENTLY_ACCEPTED**, FR-13 **UPSTREAM_DEPENDENCY_BLOCKED**, paused indefinitely. Source/evidence/v0.3/counters preserved. **ACTIVE=NO_ACTIVE_HANDOFF**; no implementation, phase reopening or worktree/branch creation authorized.
+- [BF26-S5 Option A — Minimal Dashboard API Readiness](2026-11-11-dashboard-api-readiness-preparation/README.md) — **PREPARATION_CORRECTED / PENDING_INDEPENDENT_RE_REVIEW / NOT_AUTHORIZED_FOR_IMPLEMENTATION**. [Owner decision](2026-11-11-dashboard-api-readiness-preparation/owner-decision-option-a-2026-11-11.md) selects only Inbox/Radar/Vocabulary previews and Global Search navigation; [selected API/acceptance matrix](2026-11-11-dashboard-api-readiness-preparation/selected-consumer-api-acceptance-matrix-2026-11-11.md) reuses the preserved independent 254-route inventory. Baseline `bbdcd3e`; correction unpublished. Separate independent `$codex-pre-handoff-review` before Owner publication. Docs-only outcome if no demonstrated source gap; no executable handoff absent separate source-gap approval. Versioned readiness baseline, not permanent API freeze. Access profiles/Recycle Bin remain independent backlog; H1-F pause/FR-13/counters unchanged; **ACTIVE=NO_ACTIVE_HANDOFF**.
+
+- [BF26 Backend-first assessment and indefinite frontend pause](2026-11-11-backend-first-assessment/owner-decision-backend-first-2026-11-11.md) — **OWNER_PUBLISHED at [`bbdcd3e`](https://github.com/vhvkhangg/personal-private-vault/commit/bbdcd3e6d7c1eac1d800f95883a5753070d72e9e); assessment delivered / STOPPED**. [Readiness assessment and prioritized proposal](2026-11-11-backend-first-assessment/backend-readiness-assessment-2026-11-11.md) retains its original `4555e25` inspection baseline. S5's later narrow preparation authorization is linked above; no assessment proposal is implementation authority. H1-F remains **CHANGES_REQUESTED / NOT_INDEPENDENTLY_ACCEPTED**, FR-13 **UPSTREAM_DEPENDENCY_BLOCKED**, paused indefinitely. Source/evidence/v0.3/counters preserved; no phase reopening or branch/worktree creation.
 
 - [CSA26 current-system audit/remediation](2026-11-01-current-system-readonly-audit/owner-publication-closeout-2026-11-01.md) — independently accepted and Owner-published at `4cf6204`; `CSA26-FR-L01` LOW remains open.
 - [Spring-only Archify diagrams](2026-11-01-spring-only-archify/owner-publication-closeout-2026-11-01.md) — SAD-01–04 independently accepted/published at `84f1185`; `SAD-FR-L01` LOW remains open. Documentation-only; not an executable handoff.
