@@ -1,0 +1,55 @@
+{
+  "mode": "INDEPENDENT_FOCUSED_PREPARATION_RE_REVIEW_2",
+  "head": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "origin_main": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "remote_main": "9c7e123d01237e057675d348ddb93700a4850e51\trefs/heads/main",
+  "tracked_preserved_at_static_check": 3344,
+  "tracked_changes_since_entry": [],
+  "historical_re_review_1_artifact_mismatches": [],
+  "d1_d6_decisions_preserved_vs_re_review_1": {
+    "owner-decision-and-scope.md": true,
+    "owner-proposed-d1-d6-decision-docket-2026-11-11.md": true,
+    "owner-ratification-d1-d6-2026-11-11.md": true
+  },
+  "route_ledger_reused_with_current_source_hashes": {
+    "rows": 254,
+    "controllers": 34,
+    "source_hash_mismatches": [],
+    "fresh_runtime_or_route_execution": false
+  },
+  "five_navigation_notices": {
+    "AGENTS.md": {
+      "status_line": 1,
+      "has_re_review_1_link": false,
+      "hash_same_as_prior_review_entry": true
+    },
+    "docs/workflow/current-owner-delivery-policy.md": {
+      "status_line": 3,
+      "has_re_review_1_link": false,
+      "hash_same_as_prior_review_entry": true
+    },
+    "docs/roadmap.md": {
+      "status_line": 1,
+      "has_re_review_1_link": false,
+      "hash_same_as_prior_review_entry": true
+    },
+    "docs/implementation/maintenance/README.md": {
+      "status_line": 39,
+      "has_re_review_1_link": false,
+      "hash_same_as_prior_review_entry": true
+    },
+    "docs/implementation/handoffs/ACTIVE.md": {
+      "status_line": 5,
+      "has_re_review_1_link": false,
+      "hash_same_as_prior_review_entry": true
+    }
+  },
+  "link_check": {
+    "files": 17,
+    "local_targets_and_anchors": 268,
+    "issues": []
+  },
+  "runtime_tests": "NOT_RUN_NOT_AUTHORIZED",
+  "navigation_helper": "INSPECTED_NOT_EXECUTED",
+  "source_migrations_dependencies_tests_changed_by_review": false
+}

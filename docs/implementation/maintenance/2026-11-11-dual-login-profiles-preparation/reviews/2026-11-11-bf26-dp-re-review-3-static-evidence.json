@@ -1,0 +1,97 @@
+{
+  "mode": "FOCUSED_TWO_RESIDUAL_PREPARATION_RE_REVIEW_3",
+  "head": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "origin_main": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "live_remote_main": "9c7e123d01237e057675d348ddb93700a4850e51\trefs/heads/main",
+  "tracked_count": 3344,
+  "source_and_other_tracked_unchanged_since_review_2": 3339,
+  "only_tracked_delta_since_review_2": [
+    "AGENTS.md",
+    "docs/implementation/handoffs/ACTIVE.md",
+    "docs/implementation/maintenance/README.md",
+    "docs/roadmap.md",
+    "docs/workflow/current-owner-delivery-policy.md"
+  ],
+  "historical_decision_review_evidence_hashes_preserved": {
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/owner-decision-and-scope.md": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/owner-proposed-d1-d6-decision-docket-2026-11-11.md": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/owner-ratification-d1-d6-2026-11-11.md": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-independent-pre-handoff-re-review-1.md": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-independent-pre-handoff-review.md": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-1-entry.json": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-1-final-validation.json": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-1-static-evidence.json": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-route-policy-review.csv": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-static-review-evidence.json": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/synchronization-evidence/2026-11-11-owner-ratified-sync-1/apply-stderr.txt": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/synchronization-evidence/2026-11-11-owner-ratified-sync-1/apply-stdout.txt": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/synchronization-evidence/2026-11-11-owner-ratified-sync-1/apply.json": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/synchronization-evidence/2026-11-11-owner-ratified-sync-1/dry-run-stderr.txt": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/synchronization-evidence/2026-11-11-owner-ratified-sync-1/dry-run-stdout.txt": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/synchronization-evidence/2026-11-11-owner-ratified-sync-1/dry-run.json": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/synchronization-evidence/2026-11-11-owner-ratified-sync-1/entry.json": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/synchronization-evidence/2026-11-11-owner-ratified-sync-1/final-validation.json": true
+  },
+  "navigation_actual_state": {
+    "AGENTS.md": {
+      "line": 1,
+      "both_review_links": true,
+      "closed_PH01_03": true,
+      "PH04_open_not_self_closed": true,
+      "no_active_handoff": true,
+      "changed_since_re_review_2": true
+    },
+    "docs/workflow/current-owner-delivery-policy.md": {
+      "line": 3,
+      "both_review_links": true,
+      "closed_PH01_03": true,
+      "PH04_open_not_self_closed": true,
+      "no_active_handoff": true,
+      "changed_since_re_review_2": true
+    },
+    "docs/roadmap.md": {
+      "line": 1,
+      "both_review_links": true,
+      "closed_PH01_03": true,
+      "PH04_open_not_self_closed": true,
+      "no_active_handoff": true,
+      "changed_since_re_review_2": true
+    },
+    "docs/implementation/maintenance/README.md": {
+      "line": 39,
+      "both_review_links": true,
+      "closed_PH01_03": true,
+      "PH04_open_not_self_closed": true,
+      "no_active_handoff": true,
+      "changed_since_re_review_2": true
+    },
+    "docs/implementation/handoffs/ACTIVE.md": {
+      "line": 5,
+      "both_review_links": true,
+      "closed_PH01_03": true,
+      "PH04_open_not_self_closed": true,
+      "no_active_handoff": true,
+      "changed_since_re_review_2": true
+    }
+  },
+  "historical_active_register_preserved": true,
+  "root_and_roadmap_historical_remainders_preserved": true,
+  "link_check": {
+    "files": 18,
+    "local_targets_and_anchors": 288,
+    "issues": []
+  },
+  "reused_route_ledger_source_hashes": {
+    "declarations": 254,
+    "controller_files": 34,
+    "all_current_hashes_match": true,
+    "no_new_extraction_or_runtime_count": true
+  },
+  "git_diff_check_exit": 0,
+  "runtime_tests": "NOT_RUN_NOT_AUTHORIZED",
+  "helper_scripts": "INSPECTED_NOT_EXECUTED",
+  "index_unchanged": true,
+  "application_source_changes": false,
+  "handoff_created": false,
+  "counters": "UNCHANGED"
+}

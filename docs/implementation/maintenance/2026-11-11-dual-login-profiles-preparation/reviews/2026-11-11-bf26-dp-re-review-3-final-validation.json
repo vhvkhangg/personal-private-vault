@@ -1,0 +1,42 @@
+{
+  "utc": "2026-11-11T06:45:47.514461+00:00",
+  "result": "READY_FOR_HANDOFF_DP_A_PREPARATION_ONLY",
+  "findings": {
+    "PH-01": "CLOSED_AT_PREPARATION_DP_A",
+    "PH-02": "CLOSED_AT_PREPARATION_DP_A",
+    "PH-03": "CLOSED_AT_PREPARATION_DP_A",
+    "PH-04": "CLOSED_AT_PREPARATION_DP_A"
+  },
+  "head": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "published": "BF26_S5_ONLY; BF26_DP_UNPUBLISHED",
+  "tracked_files_preserved_since_entry": 3344,
+  "tracked_drift_since_entry": [],
+  "preexisting_input_changes": [
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/README.md"
+  ],
+  "other_preexisting_inputs_preserved": 36,
+  "previous_review_2_artifact_hashes_match": {
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-independent-pre-handoff-re-review-2.md": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-2-entry.json": true,
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-2-static-evidence.json": true
+  },
+  "index_unchanged": true,
+  "git_diff_check_exit": 0,
+  "review_readme_local_targets_and_anchors": 30,
+  "issues": [],
+  "trailing_whitespace": [],
+  "artifact_sha256": {
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/README.md": "7b3cac78d9c92f9b852691a9830870dee454f425a12bd0ca61140d7e2c4ee10b",
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-independent-pre-handoff-re-review-3.md": "8f2fabb6118794c88d9a8b347864a0396709201e9cd06505cfa09f8d6261158a",
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-3-entry.json": "3fd95d2d29ba78a70ad385b5d3d53040f6602e0f7d5cbd71c01e59301640c41c",
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-3-static-evidence.json": "41bda299e6e01a785865606a1bb0bfade7056084d399613eb9f4f7d5041396f5"
+  },
+  "runtime_tests": "NOT_RUN_NOT_AUTHORIZED",
+  "source_tests_migrations_dependencies_flags_changes": false,
+  "historical_reviews_modified": false,
+  "helpers_executed": false,
+  "active_handoff": "NO_ACTIVE_HANDOFF_PRESERVED",
+  "stage_commit_push": false,
+  "counters": "UNCHANGED; NO_IMPLEMENTATION_REMEDIATION_TAKEOVER_ROUND_CONSUMED",
+  "next_gate": "Owner publishes reviewed preparation; separate exact DP-A source/frozen approval before codex-create-handoff"
+}

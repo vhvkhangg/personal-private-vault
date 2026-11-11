@@ -1,0 +1,35 @@
+{
+  "utc": "2026-11-11T06:15:43.649680+00:00",
+  "result": "CHANGES_REQUESTED",
+  "finding_state": {
+    "PH-01": "CLOSED_AT_PREPARATION_DP_A_PRESERVED",
+    "PH-02": "CLOSED_AT_PREPARATION_DP_A_PRESERVED",
+    "PH-03": "CLOSED_AT_PREPARATION_DP_A_PRESERVED",
+    "PH-04": "MEDIUM_OPEN: D2 required identifier mismatch and five unapplied current status updates"
+  },
+  "head": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "tracked_files_preserved": 3344,
+  "tracked_drift": [],
+  "preexisting_input_changes": [
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/README.md"
+  ],
+  "other_preexisting_input_files_preserved": 29,
+  "index_unchanged": true,
+  "git_diff_check_exit": 0,
+  "review_readme_local_links_and_anchors": 30,
+  "issues": [],
+  "trailing_whitespace": [],
+  "artifact_sha256": {
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/README.md": "67f72606f75c4511683b2a98ee3073595d41474e3488805f786d70a2d2035382",
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-independent-pre-handoff-re-review-2.md": "e3c56d8f922f606d28420062a22148d8618f14ae7a61fc9635f5a4b5f63cf826",
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-2-entry.json": "28c35e8166a46dff32ae4446fe04f974ac6bfc0a635befbe5086618bf8b551ed",
+    "docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-re-review-2-static-evidence.json": "59e30001c33bf977a6654a8704b48bf13b3bea822d497a8da0dbe38154423d50"
+  },
+  "d1_d6": "OWNER_RATIFIED_UNCHANGED",
+  "runtime_tests": "NOT_RUN_NOT_AUTHORIZED",
+  "source_tests_migrations_dependencies_changes": false,
+  "navigation_helper": "NOT_EXECUTED",
+  "executable_handoff_created": false,
+  "git_staging_publishing": false,
+  "counters": "UNCHANGED; NO IMPLEMENTATION REMEDIATION TAKEOVER ROUND CONSUMED"
+}

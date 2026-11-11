@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "targets_unchanged": true,
+  "changed_tracked_paths": [],
+  "expected_paths_only": true,
+  "helper_matches_reviewed_newline_fix": true,
+  "stdout_file": "dry-run-stdout.txt",
+  "stderr_file": "dry-run-stderr.txt"
+}

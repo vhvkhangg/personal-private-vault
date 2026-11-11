@@ -1,0 +1,246 @@
+{
+  "date": "2026-11-11",
+  "baseline": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "origin_main": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "remote_main": "9c7e123d01237e057675d348ddb93700a4850e51",
+  "entry_status": "?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/README.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/authentication-session-and-migration.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/fixed-access-policy-matrix.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/harness-readiness.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/implementation-slices-and-acceptance.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/owner-decision-and-scope.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/pre-handoff-review-instructions.md\n",
+  "route_qualification": {
+    "static_only": true,
+    "independent_extraction_match": true,
+    "declarations": 254,
+    "controllers": 34,
+    "modules": {
+      "account": 11,
+      "authentication": 11,
+      "collection": 13,
+      "drive": 13,
+      "feed": 19,
+      "fiction": 16,
+      "film": 21,
+      "finance": 30,
+      "importdata": 8,
+      "journal": 6,
+      "knowledge": 15,
+      "location": 19,
+      "media": 10,
+      "people": 10,
+      "personal": 7,
+      "portability": 1,
+      "rag": 18,
+      "reference": 12,
+      "search": 1,
+      "settings": 2,
+      "vault": 11
+    }
+  },
+  "entry_preparation_sha256": {
+    "authentication-session-and-migration.md": "33d7d561d20ae2e7b7e34a42c1e2b359b3e6180d9a88954130d465ddb60407b4",
+    "fixed-access-policy-matrix.md": "f7b83d606cac114c689a11357ea2fa67e6eed13355f7049d4f37669259022911",
+    "harness-readiness.md": "acc679507a972cc84aa59a94274f7fbf2251ae58f7354053bed96cf1f28f19ab",
+    "implementation-slices-and-acceptance.md": "1ce272c56e5e84fc9353bf09fb78ed1f17218d6ff1eddd95afd7a1346dc2adce",
+    "owner-decision-and-scope.md": "45c4182ebc4549817a47484e4179fe607772ea1c596e771275831d5ea025da87",
+    "pre-handoff-review-instructions.md": "e1300033bdce1e9952c431ad2a156b3a561eb6abc56dbf6945abda1a89742000",
+    "README.md": "a1708a6a76dbe4b1c883176dbf6d8d175728603e734e9b24cba310f2f59aa638"
+  },
+  "immutable_sha256": {
+    "docs/implementation/maintenance/2026-11-11-dashboard-api-readiness-preparation/reviews/2026-11-11-bf26-s5-independent-pre-handoff-re-review-1.md": "76e7b7fffe4df35ad581ae4b64dc555b341449a6512611fd107b3f54f8506098",
+    "docs/implementation/maintenance/2026-11-11-dashboard-api-readiness-preparation/reviews/2026-11-11-bf26-s5-independent-pre-handoff-review.md": "28695a760b947847beb5ef501c4f800788bc3512c6f632a08ef8d4bc5ce448f5",
+    "docs/implementation/maintenance/2026-11-11-dashboard-api-readiness-preparation/reviews/2026-11-11-bf26-s5-static-route-inventory.csv": "cf527b380c2e71e213140a11ab8fd67548a6c5fa322cda095033c72a0700861a"
+  },
+  "tracked_entry_digest": "c1a82ef27408b59f1cce63278f284f6bce3444913af4202d54dad2f2ba36fe41",
+  "tracked_entry_file_count": 3344,
+  "tracked_entry_missing": [],
+  "final_static_checks": {
+    "tracked_files_byte_identical": true,
+    "tracked_final_digest": "c1a82ef27408b59f1cce63278f284f6bce3444913af4202d54dad2f2ba36fe41",
+    "index_and_tracked_diff_clean": true,
+    "historical_review_and_csv_hashes_unchanged": true,
+    "preparation_inputs_changed": [
+      "README.md"
+    ],
+    "other_six_preparation_inputs_unchanged": true,
+    "source_qualified_route_rows": 254,
+    "route_policy_counts": {
+      "PROPOSED_DENY_PUBLIC": 163,
+      "AUTH_OPERATION_DECISION_REQUIRED": 11,
+      "RADAR_PROJECTION_DECISION_REQUIRED": 2,
+      "OWNER_NSFW_RULE_PROJECTION_AND_WRITE_DECISION_REQUIRED": 29,
+      "TAXONOMY_READ_WRITE_DECISION_REQUIRED": 8,
+      "DENY_PUBLIC_OWNER_CONFIRMED": 17,
+      "PROPOSED_PUBLIC_AUTHENTICATED_READ": 12,
+      "PRE_RANK_SOURCE_AND_TAG_QUALIFICATION_REQUIRED": 1,
+      "MIXED_ENTRY_OWNER_POLICY_SEAM_REQUIRED": 11
+    },
+    "local_links_checked": 29,
+    "missing_local_links": [],
+    "scoped_markdown_files_checked": 8,
+    "trailing_whitespace": [],
+    "runtime_tests": "NOT_RUN",
+    "ide_inspection": "NOT_RUN",
+    "application_source_mutation": false,
+    "agent_staging_or_publication": false
+  },
+  "module_structure_inventory": {
+    "account": {
+      "java_files": 71,
+      "package_descriptors": 16,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "daea6e85dbd74661e47b5d6d5de4cd97f6f8088b6e308ceb279b388f076e52b6"
+    },
+    "authentication": {
+      "java_files": 77,
+      "package_descriptors": 21,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "2119cc7b926763e4a194a8647bbf62d75a08c8dec1d1e4966ea9bb3f9494eb91"
+    },
+    "collection": {
+      "java_files": 127,
+      "package_descriptors": 37,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "13feac7d90151f8947ead306ec3465d9351cca159fb462ab9c8424171f588cfb"
+    },
+    "drive": {
+      "java_files": 67,
+      "package_descriptors": 7,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "97a9d2ca3a1fed6bade4f26b4f82c287d5ccd4695b11498544d1f7c90337f9a1"
+    },
+    "feed": {
+      "java_files": 118,
+      "package_descriptors": 27,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "f0cccf49e0cec5c2caac6c201aaa92fcff541048e3b2958109e423fdaa6b3ca4"
+    },
+    "fiction": {
+      "java_files": 84,
+      "package_descriptors": 23,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "aa53dc8d11d318aedbfe80cb596baa7f122117caa4e14d0e3eda4da7d3ae0075"
+    },
+    "film": {
+      "java_files": 102,
+      "package_descriptors": 26,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "3dd9879dda8aff2e249cb6c67a9f1cf506afd1b8d3cf6a4bec360b98662ea327"
+    },
+    "finance": {
+      "java_files": 118,
+      "package_descriptors": 26,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "60182f362aad79c54a53cd594558ed9e5e56fe0ca341eb5aac2bc5a302a7f11d"
+    },
+    "importdata": {
+      "java_files": 52,
+      "package_descriptors": 15,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "e4ced629c8bce0a1eba65ab0edf575423854a3155a475960a31540660c231717"
+    },
+    "journal": {
+      "java_files": 28,
+      "package_descriptors": 13,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "eeaec6036a4f2bbadd13ad14afdba6699fda7010bbb46f1e5226ee127aee1bdc"
+    },
+    "knowledge": {
+      "java_files": 159,
+      "package_descriptors": 45,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "f167a47f6a2c083f7ed36b0787b82d568716d16bb8723225b7826b18cd8dcbfc"
+    },
+    "location": {
+      "java_files": 99,
+      "package_descriptors": 18,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "7621910c9361c38fc18c86bdacb8eb1a58cad71290d786ae0fb8fab36680dddb"
+    },
+    "media": {
+      "java_files": 61,
+      "package_descriptors": 16,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "78715d7c34e7fc3243157319fdc74b36d5210e8df19fd901e5a2a4cce0d57871"
+    },
+    "people": {
+      "java_files": 64,
+      "package_descriptors": 19,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "1f6d6efc9efeb435ba6cc1d0c10c9a3399d17dbdb28865c0be90db9bf21bf290"
+    },
+    "personal": {
+      "java_files": 31,
+      "package_descriptors": 14,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "2313681a945c40fab960a6488938364574916fc919e2e11bdaed980bdb3173c2"
+    },
+    "portability": {
+      "java_files": 7,
+      "package_descriptors": 4,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "4da925c148efa9a0867dbb9cc337c2a18784ee02733b3608b7f4693763030250"
+    },
+    "rag": {
+      "java_files": 163,
+      "package_descriptors": 15,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "517ae31a7154a9b8616f51e96f8a77dd1fbe41bb17762b3151c4015ee781a2d1"
+    },
+    "reference": {
+      "java_files": 41,
+      "package_descriptors": 12,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "56489198d9ec6e79904985b3b335f6e5d4ac725f7424ebff3a82e56f310c5cb5"
+    },
+    "search": {
+      "java_files": 19,
+      "package_descriptors": 9,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "9662758cd68c8d36dca39e6b482f28db37e3aabffb107dec4987a6211d00cd42"
+    },
+    "settings": {
+      "java_files": 25,
+      "package_descriptors": 13,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "d33c91f66a7477736a531af495211f1ac51a15a937b5220d6a922357c7cb97cb"
+    },
+    "vault": {
+      "java_files": 58,
+      "package_descriptors": 17,
+      "gitkeep_files": 0,
+      "module_descriptor_sha256": "21438a626d560b98e7412f92fb5411431102f847107e8270ca4fed36149e3f63"
+    }
+  },
+  "migration_source_sha256": {
+    "V1__create_schema_v1.sql": "25d0423e15490f558900b3df3d6fc6176840f820fa36e59ecc78cf4fcdbce686",
+    "V2__add_search_support.sql": "30f181edd9a51e55f9c30c6cc7b2d780d1ca82ecd87f1cd200e82607ba781f9a",
+    "V3__rag_foundation.sql": "95fe0a834d0df6cc057f385fe2e0478147629694203e12008fb1eaa399c04c5d",
+    "V4__rag_worker_security.sql": "58978496808267058812d14de9ccebd92c46db4e783cf0b116c7c97070e8e187",
+    "V5__rag_staging_definer_and_indexes.sql": "e16bc5e021c583fa7ea80894c1bc8c524dffea043b8a2ed22316ba37e941c69e",
+    "V6__rag_security_hardening.sql": "bfa8f4e928bbab8cfa9e563d30c0154e52d160e3c6e33fe3352499d8abb67c16",
+    "V7__rag_issued_worker_grants.sql": "9b3bf4a525adfbf693e439f5e7c75b48d590ebada1b53102e7452740a58fd98d",
+    "V8__rag_commit_deadlines_and_consent_instances.sql": "134ee303d1775f87898c2e7b9bf43af728095d3539aa17dd38b7293b1005799c",
+    "V9__rag_runtime_authority.sql": "d8b8e17d2eee41647d8ac571ea9726ca9c1fc00db16fedd88a0fbd94d915a76f",
+    "V10__rag_complete_worker_authority.sql": "80fb17a6063a3d0b48be89feea3d8ba7f3badd265dafc01bacd08353692124fe",
+    "V11__rag_disabled_source_tombstones.sql": "5b87ad0d27cd127cbb57d444a14ab53d6cdf45bf3f7612ce5445c0b47a6e7392",
+    "V12__rag_exact_worker_dependency_proof.sql": "028fcf43df186fb78f91b0388172107401d9d6f3342a4472d45b156a4634be50",
+    "V13__rag_effective_database_privileges.sql": "f9e1be477231753d98ded4717c39a260d7c06eee7affeec06833b5da1d8662ae",
+    "V14__rag_source_state_and_reservations.sql": "27fbd08abf4757fb33bc41289690a65dcfa00cd494823c55e9a0b4c9e91bffa4",
+    "V15__rag_single_job_and_sealed_worker.sql": "52b53f04cd6993e761a02c480ed79afeb4b14e40b84c10192e29aa629d8aebc8",
+    "V16__rag_current_read_and_terminal_scrub.sql": "6e9a9f77f4c12f4caf95749ad47fc3ad8b0258baa590ffbdb20bba23796a4a54",
+    "V17__rag_retained_consent_history.sql": "90eae19be851c2ecc41cbfebc5dcf0a0d81b4ca68265c5eb1ced27349f91dc86",
+    "V18__rag_document_indexing.sql": "832bdc31d10c4f84bdf5dd0da4a06e757d2e37dd4e608ad9b34acfb029ed695e",
+    "V19__rag_require_vector_storage.sql": "01713ed5710c20e512472f5266a66a4ad0597100b0b56f32b2c0d59dd09901d8",
+    "V20__rag_snapshot_revisions.sql": "88e616347f8165ea1ce94ffe0a814cbdae9660525bc26952d2d187c341a0577f",
+    "V21__rag_snapshot_integrity.sql": "6083f9bbb1156a357faefb63af206a34f7a65673564f4bc8d3d753a2bfc565ae",
+    "V22__rag_document_result_authority.sql": "443802cfe7a4b6a0d41939e61b93ef7190210ff0f2a13bdb0cfb7c270ee488e6",
+    "V23__rag_mixed_batch_worker_plan.sql": "072de27b3ab22ca748100419e6d50ad1c8ca71f118fd9ce3b8e84343a95c28fe",
+    "V24__rag_markdown_retrieval_readers.sql": "7dca225601711d7f924d0a6f4ee81454b901ac365416445c327887483b8a4072",
+    "V25__drive_connections.sql": "520b623711804fa0ed8ab2eb0ac0e25a34a8f775dfdc887eb3beca1a83700af2",
+    "V26__drive_folder_roots_and_upload_intents.sql": "75c1c70681bccca7f840c36f34cdf57b399e959f974993f6e17d9c8c5e5a95b8",
+    "V27__drive_child_folders_and_parent_affinity.sql": "c7cec9e73dcae14bb8401e05540ef60e76e9c9ea7f4dfd912d50fc4883c44ad1",
+    "V28__google_signin_owner_transactions.sql": "4fac93e882f0145c341a4f16b24eafb829b06e0fa2f48a58d1b31a9c66a773e0"
+  },
+  "review_artifact_sha256": {
+    "2026-11-11-bf26-dp-independent-pre-handoff-review.md": "8d01d9438bbc24d85f407df82879898a5df4dffd963d84eef3f47339e6f396fe",
+    "2026-11-11-bf26-dp-route-policy-review.csv": "a3dba8a4886d20efa0a8b5325d0cfd0658489d7bde6b4aa274f09807e0e969e6"
+  },
+  "final_status": "?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/README.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/authentication-session-and-migration.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/fixed-access-policy-matrix.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/harness-readiness.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/implementation-slices-and-acceptance.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/owner-decision-and-scope.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/pre-handoff-review-instructions.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-independent-pre-handoff-review.md\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-route-policy-review.csv\n?? docs/implementation/maintenance/2026-11-11-dual-login-profiles-preparation/reviews/2026-11-11-bf26-dp-static-review-evidence.json\n"
+}

@@ -1,0 +1,15 @@
+{
+  "exit_code": 0,
+  "targets_unchanged": false,
+  "changed_tracked_paths": [
+    "AGENTS.md",
+    "docs/implementation/handoffs/ACTIVE.md",
+    "docs/implementation/maintenance/README.md",
+    "docs/roadmap.md",
+    "docs/workflow/current-owner-delivery-policy.md"
+  ],
+  "expected_paths_only": true,
+  "helper_matches_reviewed_newline_fix": true,
+  "stdout_file": "apply-stdout.txt",
+  "stderr_file": "apply-stderr.txt"
+}
