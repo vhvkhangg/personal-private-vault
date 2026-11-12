@@ -1,0 +1,32 @@
+# BF26-DP-B2 — Owner-ratified decisions D12–D17 (Option A; original alternatives preserved)
+
+**State:** `D12–D17_OPTION_A_OWNER_RATIFIED_FOR_PREPARATION / INDEPENDENT_PRE_HANDOFF_REVIEW_PENDING / NO_SOURCE_PERMISSION`. The Owner explicitly approved all six Option A decisions without amendments on 2026-11-12; see [dated ratification](owner-ratification-d12-d17-2026-11-12.md). The alternatives below remain historical/non-selected. This decision does not alter D1–D11 or grant an endpoint. Source HEAD `9007f212adc91f7c1b5e1a5c466c8a102c13fff3`. A prior B2 planning label is **not** an executable authorization.
+
+| ID | **Owner-ratified Option A** (smallest independently reviewable first delivery) | Historical alternatives / material trade-off |
+| --- | --- | --- |
+| **D12 — B2 decomposition** | Split B2 into **B2-W1** restricted Public Film create, future **B2-W2** qualified updates/Fiction writes, **B2-S** safe Search, and **B2-V** any generic Vault grant. Each sub-slice has separate Owner decision, handoff, evidence and acceptance before exposure. | **B:** one combined B2 delivery (larger cross-owner test/rollback surface; not recommended); **C:** select Search first, then writes; **D:** defer all B2 work. |
+| **D13 — First Public write** | Select only **authenticated `POST /api/v1/films`** in B2-W1, **create-only**. No Public update, credit, link, genre, classification or Vault write; preserve all currently accepted PRIVATE operations. Create a new non-NSFW Film only; do not alter an existing record. | **B:** Fiction create first, needing safe author/genre reference selection; **C:** Film update first, needing partial-update/preserved-private-state contract; **D:** no writes, prioritize separately scoped Public search. |
+| **D14 — B2-W1 request/response fields** | Dedicated strict Public create request with `title,originalTitle,nationalityCode,format,productionStyle` only; server sets `isNsfw=false`; reject unexpected fields (including `isNsfw`, `directorPersonId`, URLs, descriptions/reviews/progress and relation IDs). On 201, return only existing B1 seven-key `PublicFilmResponse` in canonical envelope plus safe cache/error headers; no full PRIVATE DTO. | **B:** accept `isNsfw:false` explicitly with strict equality; **C:** allow more Public fields/references after separate evidence. Which optional safe fields can be `null` and precise validation/errors still need contract tests. |
+| **D15 — Fiction and related references** | **Defer Fiction Public create/update** to B2-W2; `genreId` and exactly one author are required by existing domain. No new People/Group/genre read or existence probing, shared taxonomy mutation, private ID reference, or automatic Public author projection in W1. | **B:** design a combined Fiction+Film create path now with owner-qualified read-only reference selections; requires wider source/route/DTO/privacy contract and more concurrency tests. |
+| **D16 — Search/Vault** | Keep `/api/v1/search`, all generic `/api/v1/vault/**`, tag-origin, credits and metadata PRIVATE-only during W1. Prepare B2-S/V independently; qualify before ranking, `top-K`, offsets/`hasMore`, snippets and materialization. No cross-domain private candidate may affect Public results. | **B:** Public search before writes (independent preparation/authorization); **C:** add a narrow Fiction/Film title-only owner search instead of global Search (new API + pagination contract); **D:** no Public search/Vault this release. |
+| **D17 — Source/validation gate** | No public B2 matcher until exact Owner-approved frozen-source/API map and independent `READY_FOR_HANDOFF`. Real persisted PUBLIC tokens (login and downgrade), 401/403/404 validation, strict body allowlist, transactional non-NSFW creation, no private data/headers, unchanged PRIVATE, provider/ASYNC/ERROR deny-sweep, rollback/failure/concurrency and generated OpenAPI evidence are required. No Frontend/flags/schema/dependency change. | **B:** wider source/schema/visibility changes require a **new** exact Owner decision, not an inferred exception. |
+
+## Rationale for the Owner-ratified Option A
+
+**Source facts:** Film creation does not require a director, genre or other shared relationship; Fiction creation requires a genre and one author reference. The Global Search path merges many sensitive domains and Vault tag candidates before ranking/pagination. **Inference:** Film create-only minimizes the first Public write's cross-owner dependency surface. The Owner has now selected that priority for the first preparation slice; this does **not** prove all hidden Film fields safe or establish B2 runtime readiness. Search-first alternatives require a new explicit Owner decision.
+
+## Nonnegotiable carry-forward from D1–D11
+
+- Single Owner and fixed PUBLIC/PRIVATE profiles; no second user/tenant, broad visibility column or general Public grant.
+- No mutation of NSFW or trashed entries from Public; no hidden/absent ID oracle or private field in errors, headers, redirects or OpenAPI.
+- No POST/PUT/PATCH/DELETE through wildcard matchers or handler-before-authority. No `permitAll`, no bypass of authenticated persisted authority, no unrestricted status/count/stream/export.
+- Preserve accepted B1 read snapshot and exact JSON property allowlists; D3 already-admitted request boundary is not retroactive cancellation.
+- Use owner-local application capabilities and existing Vault named APIs; never cross-module `internal`/repo/entity imports or reverse dependency.
+- B2-S must be safe before candidate ranking and pagination; negative tests must include tag-origin, credits, mixed domains and `hasMore`.
+- No automatic B2-C completion, DP-C, Recycle Bin, Frontend, RAG, live provider or final non-RAG audit authorization.
+
+## Binding Owner disposition (2026-11-12)
+
+**D12–D17 Option A are explicitly OWNER_RATIFIED without amendments.** The selected initial candidate is **B2-W1: authenticated PUBLIC `POST /api/v1/films` create-only**, with strict five-property request and minimal seven-key B1 PublicFilmResponse, server-set `isNsfw=false`, no People/genre/other relations and unchanged PRIVATE operations. B2-W2/S/V remain separate proposals, not independently authorized implementation slices.
+
+**Next gate:** independent Codex `$codex-pre-handoff-review` of a narrowed, source-qualified B2-W1 contract and its finite acceptance. Readiness, publication and a separate exact Owner frozen-source/API authorization must precede `$codex-create-handoff`. Do not implement or activate B2-W1 from this ratification alone.
