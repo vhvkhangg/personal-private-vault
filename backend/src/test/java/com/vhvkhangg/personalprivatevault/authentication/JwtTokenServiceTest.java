@@ -62,20 +62,36 @@ class JwtTokenServiceTest {
     @Test
     @DisplayName("Issues JWT access token with required claims and exactly 15m expiration")
     void issuesValidJwtWithRequiredClaims() {
-        String tokenValue = jwtTokenService.issueAccessToken();
+        UUID sessionId = UUID.randomUUID();
+        String tokenValue = jwtTokenService.issueAccessToken(
+                com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile.PRIVATE,
+                sessionId,
+                1L
+        );
         assertThat(tokenValue).isNotBlank();
 
         Jwt jwt = jwtDecoder.decode(tokenValue);
 
         assertThat(jwt.getClaimAsString("iss")).isEqualTo("personal-private-vault");
         assertThat(jwt.getSubject()).isEqualTo("1");
+        assertThat(jwt.getClaimAsString("profile")).isEqualTo("PRIVATE");
+        assertThat(jwt.getClaimAsString("sid")).isEqualTo(sessionId.toString());
+        assertThat((Long) jwt.getClaim("generation")).isEqualTo(1L);
         assertThat(jwt.getIssuedAt()).isEqualTo(fixedNow);
         assertThat(jwt.getExpiresAt()).isEqualTo(fixedNow.plus(Duration.ofMinutes(15)));
         assertThat(jwt.getId()).isNotBlank();
         // Check that jti is a valid UUID
         assertThat(UUID.fromString(jwt.getId())).isNotNull();
 
-        // Claims size: iss, sub, iat, exp, jti
-        assertThat(jwt.getClaims()).containsOnlyKeys("iss", "sub", "iat", "exp", "jti");
+        // Claims size: iss, sub, profile, sid, generation, iat, exp, jti
+        assertThat(jwt.getClaims()).containsOnlyKeys("iss", "sub", "profile", "sid", "generation", "iat", "exp", "jti");
+    }
+
+    @Test
+    @DisplayName("Deprecated unprofiled issueAccessToken throws fail-closed exception")
+    void deprecatedIssueAccessTokenThrowsException() {
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> jwtTokenService.issueAccessToken())
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageContaining("deprecated and prohibited");
     }
 }

@@ -57,8 +57,8 @@ class DriveApiInventoryIntegrationTest extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @DisplayName("When Drive is enabled, OpenAPI exposes exactly 239 total operations with 4 Drive operations")
-    void openApiExposesExact239OperationsWhenDriveEnabled() throws Exception {
+    @DisplayName("When Drive is enabled, OpenAPI exposes exactly 243 total operations with 4 Drive operations")
+    void openApiExposesExact243OperationsWhenDriveEnabled() throws Exception {
         MvcResult result = mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -83,10 +83,10 @@ class DriveApiInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        // Exact count: 235 existing + 4 new Drive operations = 239 total operations
+        // Exact count: 239 existing + 4 new Drive operations = 243 total operations
         assertThat(operationIds)
-                .as("OpenAPI must document exactly 239 operations when Drive is enabled")
-                .hasSize(239);
+                .as("OpenAPI must document exactly 243 operations when Drive is enabled")
+                .hasSize(243);
 
         // Verify the 4 exact Drive operations
         assertThat(operationIds).contains(

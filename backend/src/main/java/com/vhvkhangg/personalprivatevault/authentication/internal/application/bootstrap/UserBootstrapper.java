@@ -2,6 +2,7 @@ package com.vhvkhangg.personalprivatevault.authentication.internal.application.b
 
 import com.vhvkhangg.personalprivatevault.authentication.bootstrap.UserAlreadyBootstrappedException;
 import com.vhvkhangg.personalprivatevault.authentication.internal.domain.AppUser;
+import com.vhvkhangg.personalprivatevault.authentication.internal.domain.PublicLoginCredential;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,9 @@ class UserBootstrapper {
     public AppUser persistInNewTransaction(AppUser user) {
         try {
             entityManager.persist(user);
+            entityManager.flush();
+            PublicLoginCredential credential = PublicLoginCredential.unconfigured(user, user.getCreatedAt());
+            entityManager.persist(credential);
             entityManager.flush();
             return user;
         } catch (DataIntegrityViolationException | PersistenceException ex) {

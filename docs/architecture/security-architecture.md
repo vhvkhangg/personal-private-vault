@@ -51,6 +51,7 @@ Public application paths:
 GET  /api/v1/auth/bootstrap/status
 POST /api/v1/auth/bootstrap
 POST /api/v1/auth/login
+POST /api/v1/auth/profiles/login
 POST /api/v1/auth/refresh
 POST /api/v1/auth/revoke
 ```
@@ -70,7 +71,14 @@ Existing public operational/documentation paths remain:
 /swagger-ui.html
 ```
 
-Everything else is bearer-protected by default, including `/api/v1/auth/private-pin/**`, every business route, and all non-callback Drive operations.
+Everything else is bearer-protected by default. Under BF26-DP-A:
+- Access tokens carry `profile` (`PUBLIC` or `PRIVATE`), `sid` (session UUID), and `generation`.
+- `SessionAuthorityFilter` validates persisted lineage on every request dispatch via single-SQL admission join against `ppv_login_sessions` and `ppv_public_login_credential`.
+- All business modules, personal data, vault entries, media, search, portability export, and settings strictly require `PROFILE_PRIVATE`.
+- Requests with `PROFILE_PUBLIC` attempting to access any business or unknown route receive 403 `ACCESS_DENIED`.
+- Unknown routes under `PROFILE_PUBLIC` return 403 `ACCESS_DENIED` (default deny); under `PROFILE_PRIVATE` return standard 404 `NOT_FOUND`.
+- Profile transitions (`POST /api/v1/auth/sessions/elevate-private`, `POST /api/v1/auth/sessions/downgrade-public`, `POST /api/v1/auth/profiles/public-credential`) govern profile switching and secondary password configuration.
+- Private PIN endpoints (`/api/v1/auth/private-pin/**`) strictly require `PROFILE_PRIVATE`.
 
 There is no public registration endpoint.
 

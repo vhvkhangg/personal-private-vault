@@ -43,7 +43,7 @@ class DriveS2StreamingIntegrationTest extends DriveS2HttpTestSupport {
     }
     @Test void declaredRequestOver55MiBIsRejectedBeforeParsingOrProviderActivity() throws Exception {
         try(var socket=new Socket("localhost",port)){
-            socket.setSoTimeout(3000);String header="POST "+path(1)+"/files HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer "+jwt.issueAccessToken()+"\r\nContent-Type: multipart/form-data; boundary=test\r\nContent-Length: "+(DriveFileResources.MAX_REQUEST+1)+"\r\nConnection: close\r\n\r\n";
+            socket.setSoTimeout(3000);String header="POST "+path(1)+"/files HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer "+validBearerToken()+"\r\nContent-Type: multipart/form-data; boundary=test\r\nContent-Length: "+(DriveFileResources.MAX_REQUEST+1)+"\r\nConnection: close\r\n\r\n";
             socket.getOutputStream().write(header.getBytes(StandardCharsets.US_ASCII));socket.getOutputStream().flush();
             assertThat(new BufferedReader(new InputStreamReader(socket.getInputStream(),StandardCharsets.US_ASCII)).readLine()).contains("413");
         }
@@ -134,7 +134,7 @@ class DriveS2StreamingIntegrationTest extends DriveS2HttpTestSupport {
             assertThat(uploaded.statusCode()).isEqualTo(201);String id=data(uploaded).path("id").asText();
             try(var socket=new Socket()){
                 socket.setReceiveBufferSize(1024);socket.connect(new InetSocketAddress("localhost",port));socket.setSoTimeout(3000);
-                String header="GET "+path(1)+"/files/"+id+"/download HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer "+jwt.issueAccessToken()+"\r\n\r\n";
+                String header="GET "+path(1)+"/files/"+id+"/download HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer "+validBearerToken()+"\r\n\r\n";
                 socket.getOutputStream().write(header.getBytes(StandardCharsets.US_ASCII));socket.getOutputStream().flush();
                 assertThat(socket.getInputStream().readNBytes(20)).isNotEmpty();awaitClean();
             }
@@ -145,7 +145,7 @@ class DriveS2StreamingIntegrationTest extends DriveS2HttpTestSupport {
     private Socket partialUpload() throws Exception {
         var socket=new Socket("localhost",port);socket.setSoTimeout(3000);
         String part="--partial\r\nContent-Disposition: form-data; name=\"file\"; filename=\"pending.bin\"\r\nContent-Type: application/octet-stream\r\n\r\n"+"x".repeat(128);
-        String header="POST "+path(1)+"/files HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer "+jwt.issueAccessToken()+"\r\nIdempotency-Key: "+key()+"\r\nContent-Type: multipart/form-data; boundary=partial\r\nContent-Length: 1000000\r\n\r\n";
+        String header="POST "+path(1)+"/files HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer "+validBearerToken()+"\r\nIdempotency-Key: "+key()+"\r\nContent-Type: multipart/form-data; boundary=partial\r\nContent-Length: 1000000\r\n\r\n";
         socket.getOutputStream().write((header+part).getBytes(StandardCharsets.US_ASCII));socket.getOutputStream().flush();return socket;
     }
 }

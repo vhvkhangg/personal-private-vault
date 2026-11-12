@@ -450,3 +450,18 @@ D08–D10 and [ADR-0027](../adr/0027-google-drive-root-file-authority.md) author
 | GET | `/files/{fileId}/download` | Original binary attachment; no Range support |
 
 JSON uses the root ApiResponse envelope and explicit module-local wire projections; binary uses application/octet-stream, safe UTF-8 attachment name, no-store and nosniff. A committed failure truncates the verified Content-Length and appends no JSON. Counts are 235 OFF, 239 S1-only, 243 with files enabled. See [file contracts](google-drive-files.md) and [operations](google-drive-file-operations.md) for bounds, action identity, errors and unverified live setup.
+
+## 22. Authentication profiles and sessions API extension (BF26-DP-A)
+
+BF26-DP-A introduces two fixed login profiles (`PRIVATE` and `PUBLIC`) and persisted session authority under [ADR-0029](../adr/0029-fixed-profiles-and-persisted-session-authority.md).
+Adds 4 REST operations under `/api/v1/auth`:
+
+| Method | Path | Required Profile | Result |
+|---|---|---|---|
+| `POST` | `/api/v1/auth/profiles/login` | Anonymous / Any | 200 `AuthTokensResponse` with `profile="PUBLIC"` on configured credential; 401 on wrong/unconfigured; 400 on extra identifier or malformed body |
+| `POST` | `/api/v1/auth/profiles/public-credential` | `PROFILE_PRIVATE` | 200 `data:null` sets/resets public password; requires fresh private password proof; 422 if public password equals private password |
+| `POST` | `/api/v1/auth/sessions/elevate-private` | `PROFILE_PUBLIC` | 200 replacement tokens with `profile="PRIVATE"`, incremented generation; requires fresh private password |
+| `POST` | `/api/v1/auth/sessions/downgrade-public` | `PROFILE_PRIVATE` | 200 replacement tokens with `profile="PUBLIC"`, incremented generation; requires configured public credential (409 if unconfigured) |
+
+Request-boundary default DENY: All non-auth business routes default to requiring `PROFILE_PRIVATE`. PUBLIC callers receive 403 `ACCESS_DENIED`. Unknown routes under `PROFILE_PUBLIC` return 403 `ACCESS_DENIED`; under `PROFILE_PRIVATE` return standard 404 `NOT_FOUND`.
+See [`authentication-profiles-and-sessions-api.md`](authentication-profiles-and-sessions-api.md) and [ADR-0029](../adr/0029-fixed-profiles-and-persisted-session-authority.md).

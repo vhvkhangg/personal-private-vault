@@ -40,6 +40,16 @@ public class AuthExceptionAdvice {
         return ApiResponses.of(HttpStatus.UNAUTHORIZED, "AUTH_INVALID_REFRESH_TOKEN", "Invalid, expired, or revoked refresh token");
     }
 
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.authentication.internal.application.session.PublicNotConfiguredException.class)
+    public ResponseEntity<ApiResponse<Void>> handlePublicNotConfigured(com.vhvkhangg.personalprivatevault.authentication.internal.application.session.PublicNotConfiguredException ex) {
+        return ApiResponses.of(HttpStatus.CONFLICT, "AUTH_PUBLIC_NOT_CONFIGURED", "Public login profile is not configured");
+    }
+
+    @ExceptionHandler(com.vhvkhangg.personalprivatevault.authentication.internal.application.session.PasswordNotDistinctException.class)
+    public ResponseEntity<ApiResponse<Void>> handlePasswordNotDistinct(com.vhvkhangg.personalprivatevault.authentication.internal.application.session.PasswordNotDistinctException ex) {
+        return ApiResponses.of(HttpStatus.UNPROCESSABLE_CONTENT, "AUTH_PASSWORD_NOT_DISTINCT", "Public password must be distinct from private password");
+    }
+
     @ExceptionHandler(PinVerificationException.class)
     public ResponseEntity<ApiResponse<Void>> handlePinVerification(PinVerificationException ex) {
         return ApiResponses.of(HttpStatus.UNAUTHORIZED, "AUTH_INVALID_PIN", "PIN verification failed");
@@ -53,6 +63,16 @@ public class AuthExceptionAdvice {
     @ExceptionHandler(UnauthenticatedAccessException.class)
     public ResponseEntity<ApiResponse<Void>> handleUnauthenticatedAccess(UnauthenticatedAccessException ex) {
         return ApiResponses.of(HttpStatus.UNAUTHORIZED, "AUTHENTICATION_REQUIRED", "Authentication required to access PIN operations");
+    }
+
+    @ExceptionHandler(com.fasterxml.jackson.core.JacksonException.class)
+    public ResponseEntity<ApiResponse<Void>> handleJacksonException(com.fasterxml.jackson.core.JacksonException ex) {
+        return ApiResponses.of(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR", "Request payload is invalid, malformed, or contains unrecognized fields");
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(IllegalArgumentException ex) {
+        return ApiResponses.of(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR", ex.getMessage());
     }
 
     @ExceptionHandler(com.vhvkhangg.personalprivatevault.authentication.internal.application.google.GoogleSignInException.class)

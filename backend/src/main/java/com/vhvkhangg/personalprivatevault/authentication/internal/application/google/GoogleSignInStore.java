@@ -33,7 +33,6 @@ public class GoogleSignInStore {
     private final OwnerGoogleIdentityRepository identityRepository;
     private final GoogleLoginAttemptRepository attemptRepository;
     private final GoogleHandoffTicketRepository ticketRepository;
-    private final SessionService sessionService;
     private final PasswordEncoder passwordEncoder;
     private final Clock clock;
 
@@ -229,7 +228,15 @@ public class GoogleSignInStore {
                 }
             } else {
                 OwnerGoogleIdentity newIdentity = new OwnerGoogleIdentity(owner, issuer, googleSub, now);
-                identityRepository.save(newIdentity);
+                try {
+                    identityRepository.saveAndFlush(newIdentity);
+                } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+                    OwnerGoogleIdentity id = identityRepository.findById(AppUser.SINGLETON_ID)
+                            .orElseThrow(GoogleSignInException::identityConflict);
+                    if (!id.getIssuer().equals(issuer) || !id.getGoogleSub().equals(googleSub)) {
+                        throw GoogleSignInException.identityConflict();
+                    }
+                }
             }
         } else {
             OwnerGoogleIdentity id = identityRepository.findById(AppUser.SINGLETON_ID)
@@ -255,38 +262,7 @@ public class GoogleSignInStore {
 
     @Transactional
     public AuthTokensView redeemTicket(String ticketHash, String handoffVerifier) {
-        GoogleHandoffTicket ticket = ticketRepository.findByTicketHash(ticketHash)
-                .orElseThrow(GoogleSignInException::invalidHandoff);
-
-        // Lock in canonical order: owner -> attempt -> ticket
-        AppUser owner = appUserRepository.findByIdForUpdate(AppUser.SINGLETON_ID)
-                .orElseThrow(GoogleSignInException::ownerNotReady);
-
-        GoogleLoginAttempt attempt = attemptRepository.findByIdForUpdate(ticket.getAttempt().getAttemptId())
-                .orElseThrow(GoogleSignInException::invalidHandoff);
-
-        GoogleHandoffTicket lockedTicket = ticketRepository.findByTicketHashForUpdate(ticketHash)
-                .orElseThrow(GoogleSignInException::invalidHandoff);
-
-        Instant now = clock.instant();
-
-        if (!GoogleHandoffTicket.STATUS_PENDING.equals(lockedTicket.getStatus())
-                || !lockedTicket.getExpiresAt().isAfter(now)) {
-            throw GoogleSignInException.invalidHandoff();
-        }
-
-        String computedChallenge = sha256Hex(handoffVerifier);
-        if (!constantTimeEquals(computedChallenge, lockedTicket.getHandoffChallengeHash())) {
-            throw GoogleSignInException.invalidHandoff();
-        }
-
-        int consumed = ticketRepository.consumePendingTicket(ticketHash, now);
-        if (consumed != 1) {
-            throw GoogleSignInException.invalidHandoff();
-        }
-
-        // Call shared token issuance seam within this exact transaction
-        return sessionService.issueForVerifiedOwner(owner);
+        throw GoogleSignInException.unavailable();
     }
 
     private static String sha256Hex(String input) {

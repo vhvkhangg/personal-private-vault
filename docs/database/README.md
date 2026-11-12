@@ -77,3 +77,11 @@ must be reviewed with the future append-only migration. No schema acceptance her
 - `ppv_google_login_attempts`: OIDC flow state and failed password rate events with AES-256-GCM encrypted PKCE verifier.
 - `ppv_google_handoff_tickets`: 60s ephemeral tickets for atomic token issuance.
 - Excluded from Portability JSONL snapshots. Frozen Schema v1 and app_users remain unchanged.
+
+## Authentication profiles and sessions additive logical target (BF26-DP-A)
+
+[Authentication Profiles and Sessions DBML](authentication-profiles-and-sessions.dbml) and [ADR-0029](../adr/0029-fixed-profiles-and-persisted-session-authority.md) record the additive V29 schema for dual login profiles (`PRIVATE` and `PUBLIC`) and persisted session authority.
+- `ppv_public_login_credential`: singleton Owner public password hash and monotonic `credential_epoch` with `owner_id = 1` check constraint.
+- `ppv_login_sessions`: persisted session authority tracking `active_profile`, `generation`, and `public_credential_epoch` with circular deferred FK to `refresh_tokens`.
+- `refresh_tokens`: extended with `session_id`, `profile`, and `session_generation` columns; legacy unmigrated tokens revoked.
+- Both new relations excluded from Portability JSONL snapshots. Frozen Schema v1 and V1–V28 remain unchanged.

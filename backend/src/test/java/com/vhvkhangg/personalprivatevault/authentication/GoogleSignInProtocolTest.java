@@ -14,6 +14,7 @@ import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure
 import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.GoogleLoginAttemptRepository;
 import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.OwnerGoogleIdentityRepository;
 import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.RefreshTokenRepository;
+import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.security.GoogleSignInResources;
 import com.vhvkhangg.personalprivatevault.authentication.view.AuthTokensView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,11 +57,21 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
     private JwtTokenService jwtTokenService;
 
     @Autowired
+    private GoogleSignInResources resources;
+
+    @Autowired
     private org.springframework.transaction.PlatformTransactionManager transactionManager;
 
     @BeforeEach
     void setUp() {
         ensureOwnerBootstrapped();
+        if (resources != null) {
+            java.util.Map<?, ?> map = (java.util.Map<?, ?>) org.springframework.test.util.ReflectionTestUtils.getField(resources, "routeRateLimits");
+            if (map != null) {
+                map.clear();
+            }
+        }
+        cleanupGoogleTables();
     }
 
     @Test
@@ -182,7 +193,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         String verifier = generate43CharToken();
         String challenge = sha256Hex(verifier);
 
-        var start = service.startLogin(challenge);
+        var start = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state = extractQueryParam(start.authorizationUrl(), "state");
 
         // Missing code
@@ -207,7 +218,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         String challenge = sha256Hex(verifier);
 
         // 1. Wrong issuer
-        var start1 = service.startLogin(challenge);
+        var start1 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state1 = extractQueryParam(start1.authorizationUrl(), "state");
         String nonce1 = extractQueryParam(start1.authorizationUrl(), "nonce");
         String code1 = "code-bad-iss";
@@ -218,7 +229,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
 
         // 2. Wrong audience
         fakeGoogle().forcedIssuer = "https://accounts.google.com";
-        var start2 = service.startLogin(challenge);
+        var start2 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state2 = extractQueryParam(start2.authorizationUrl(), "state");
         String nonce2 = extractQueryParam(start2.authorizationUrl(), "nonce");
         String code2 = "code-bad-aud";
@@ -228,7 +239,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
 
         // 3. Forged signature (signed by alt key not in JWKS)
         fakeGoogle().forcedAudience = "test-google-client-id";
-        var start3 = service.startLogin(challenge);
+        var start3 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state3 = extractQueryParam(start3.authorizationUrl(), "state");
         String nonce3 = extractQueryParam(start3.authorizationUrl(), "nonce");
         String code3 = "code-forged";
@@ -238,7 +249,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
 
         // 4. Expired token (> 60s past expiry)
         fakeGoogle().forcedSigningKey = null;
-        var start4 = service.startLogin(challenge);
+        var start4 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state4 = extractQueryParam(start4.authorizationUrl(), "state");
         String nonce4 = extractQueryParam(start4.authorizationUrl(), "nonce");
         String code4 = "code-expired";
@@ -248,14 +259,14 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
     }
 
     @Test
-    @DisplayName("A-06: Atomic handoff redemption issues access and refresh tokens; replay is rejected")
+    @DisplayName("D4: Valid handoff creation succeeds on LINK callback; redemption fails 503 before ticket consumption or token issuance")
     void handoffTicketAtomicRedemption() {
         seedOwnerGoogleIdentity("https://accounts.google.com", "sub-owner-1");
 
         String handoffVerifier = generate43CharToken();
         String challenge = sha256Hex(handoffVerifier);
 
-        var start = service.startLogin(challenge);
+        var start = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state = extractQueryParam(start.authorizationUrl(), "state");
         String nonce = extractQueryParam(start.authorizationUrl(), "nonce");
 
@@ -271,25 +282,26 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         assertThatThrownBy(() -> service.redeemHandoff(ticket, generate43CharToken()))
                 .isInstanceOf(GoogleSignInException.class);
 
-        // Correct verifier succeeds
-        AuthTokensView tokens = service.redeemHandoff(ticket, handoffVerifier);
-        assertThat(tokens.accessToken()).isNotBlank();
-        assertThat(tokens.refreshToken()).isNotBlank();
-
-        // Replaying redeemed ticket is rejected
+        // Correct verifier in D4 throws unavailable() before ticket consumption or token issuance
         assertThatThrownBy(() -> service.redeemHandoff(ticket, handoffVerifier))
-                .isInstanceOf(GoogleSignInException.class);
+                .isInstanceOf(GoogleSignInException.class)
+                .matches(e -> ((GoogleSignInException) e).getHttpStatus() == 503);
+
+        // Ticket remains unconsumed (not marked CONSUMED)
+        var ticketEntity = ticketRepository.findById(sha256Hex(ticket)).orElseThrow();
+        assertThat(ticketEntity.getStatus()).isEqualTo(GoogleHandoffTicket.STATUS_PENDING);
+        assertThat(ticketEntity.getConsumedAt()).isNull();
     }
 
     @Test
-    @DisplayName("A-06: Two concurrent redemption attempts issue at most one token pair")
+    @DisplayName("D4: Concurrent redemption attempts fail closed 503 without consuming ticket or issuing tokens")
     void concurrentRedemptionsIssueAtMostOnce() throws Exception {
         seedOwnerGoogleIdentity("https://accounts.google.com", "sub-owner-1");
 
         String handoffVerifier = generate43CharToken();
         String challenge = sha256Hex(handoffVerifier);
 
-        var start = service.startLogin(challenge);
+        var start = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state = extractQueryParam(start.authorizationUrl(), "state");
         String nonce = extractQueryParam(start.authorizationUrl(), "nonce");
 
@@ -314,9 +326,11 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
                     startLatch.await();
                     service.redeemHandoff(ticket, handoffVerifier);
                     successCount.incrementAndGet();
-                } catch (Exception e) {
-                    failCount.incrementAndGet();
-                }
+                } catch (GoogleSignInException e) {
+                    if (e.getHttpStatus() == 503) {
+                        failCount.incrementAndGet();
+                    }
+                } catch (Exception e) {}
             });
         }
 
@@ -325,8 +339,10 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         executor.shutdown();
         executor.awaitTermination(5, TimeUnit.SECONDS);
 
-        assertThat(successCount.get()).isEqualTo(1);
-        assertThat(failCount.get()).isEqualTo(1);
+        assertThat(successCount.get()).isZero();
+        assertThat(failCount.get()).isEqualTo(2);
+        var ticketEntity = ticketRepository.findById(sha256Hex(ticket)).orElseThrow();
+        assertThat(ticketEntity.getStatus()).isEqualTo(GoogleHandoffTicket.STATUS_PENDING);
     }
 
     @Test
@@ -397,7 +413,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         String challenge = sha256Hex(verifier);
 
         // 1. Missing iat
-        var start1 = service.startLogin(challenge);
+        var start1 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state1 = extractQueryParam(start1.authorizationUrl(), "state");
         String nonce1 = extractQueryParam(start1.authorizationUrl(), "nonce");
         String code1 = "code-no-iat";
@@ -408,7 +424,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         fakeGoogle().reset();
 
         // 2. Wrong azp
-        var start2 = service.startLogin(challenge);
+        var start2 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state2 = extractQueryParam(start2.authorizationUrl(), "state");
         String nonce2 = extractQueryParam(start2.authorizationUrl(), "nonce");
         String code2 = "code-wrong-azp";
@@ -419,7 +435,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         fakeGoogle().reset();
 
         // 3. Unauthorized scope: profile
-        var start3 = service.startLogin(challenge);
+        var start3 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state3 = extractQueryParam(start3.authorizationUrl(), "state");
         String nonce3 = extractQueryParam(start3.authorizationUrl(), "nonce");
         String code3 = "code-scope-profile";
@@ -430,7 +446,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         fakeGoogle().reset();
 
         // 4. Unauthorized scope: drive
-        var start4 = service.startLogin(challenge);
+        var start4 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state4 = extractQueryParam(start4.authorizationUrl(), "state");
         String nonce4 = extractQueryParam(start4.authorizationUrl(), "nonce");
         String code4 = "code-scope-drive";
@@ -441,7 +457,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         fakeGoogle().reset();
 
         // 5. Non-textual scope: numeric
-        var start5 = service.startLogin(challenge);
+        var start5 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state5 = extractQueryParam(start5.authorizationUrl(), "state");
         String nonce5 = extractQueryParam(start5.authorizationUrl(), "nonce");
         String code5 = "code-scope-numeric";
@@ -452,7 +468,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         fakeGoogle().reset();
 
         // 6. Authorized scope alias: userinfo.email succeeds
-        var start6 = service.startLogin(challenge);
+        var start6 = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state6 = extractQueryParam(start6.authorizationUrl(), "state");
         String nonce6 = extractQueryParam(start6.authorizationUrl(), "nonce");
         String code6 = "code-scope-alias";
@@ -517,6 +533,9 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         String state2 = extractQueryParam(start2.authorizationUrl(), "state");
         String nonce2 = extractQueryParam(start2.authorizationUrl(), "nonce");
 
+        fakeGoogle().registerCode("code-same-1", nonce1, "same-sub-race-owner");
+        fakeGoogle().registerCode("code-same-2", nonce2, "same-sub-race-owner");
+
         ExecutorService executor = Executors.newFixedThreadPool(2);
         CountDownLatch ready = new CountDownLatch(2);
         CountDownLatch fire = new CountDownLatch(1);
@@ -526,7 +545,6 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
             ready.countDown();
             try {
                 fire.await();
-                fakeGoogle().registerCode("code-same-1", nonce1, "same-sub-race-owner");
                 var outcome1 = service.processCallback(state1, "code-same-1", null, start1.bindingSecret());
                 if (outcome1.success()) {
                     successCount.incrementAndGet();
@@ -538,7 +556,6 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
             ready.countDown();
             try {
                 fire.await();
-                fakeGoogle().registerCode("code-same-2", nonce2, "same-sub-race-owner");
                 var outcome2 = service.processCallback(state2, "code-same-2", null, start2.bindingSecret());
                 if (outcome2.success()) {
                     successCount.incrementAndGet();
@@ -565,7 +582,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         String verifier = generate43CharToken();
         String challenge = sha256Hex(verifier);
 
-        var start = service.startLogin(challenge);
+        var start = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state = extractQueryParam(start.authorizationUrl(), "state");
         String stateHash = sha256Hex(state);
         String bindingHash = sha256Hex(start.bindingSecret());
@@ -609,7 +626,7 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
         String verifier = generate43CharToken();
         String challenge = sha256Hex(verifier);
 
-        var start = service.startLogin(challenge);
+        var start = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state = extractQueryParam(start.authorizationUrl(), "state");
         String nonce = extractQueryParam(start.authorizationUrl(), "nonce");
 
@@ -639,14 +656,14 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
     }
 
     @Test
-    @DisplayName("AUTH-FR-11: Forced rollback rolls back ticket update and refresh token write atomically")
+    @DisplayName("D4: Handoff redemption fails closed 503 before ticket consumption or token issuance")
     void forcedRollbackLeavesTicketUnredeemed() {
         seedOwnerGoogleIdentity("https://accounts.google.com", "sub-rollback");
 
         String verifier = generate43CharToken();
         String challenge = sha256Hex(verifier);
 
-        var start = service.startLogin(challenge);
+        var start = service.startLink(challenge, DEFAULT_RAW_PASSWORD);
         String state = extractQueryParam(start.authorizationUrl(), "state");
         String nonce = extractQueryParam(start.authorizationUrl(), "nonce");
 
@@ -660,34 +677,19 @@ class GoogleSignInProtocolTest extends GoogleSignInTestSupport {
 
         long refreshTokensBefore = refreshTokenRepository.count();
 
-        // Stub jwtTokenService to fail AFTER refreshTokenRepository.save executes inside issueForVerifiedOwner
-        new org.springframework.transaction.support.TransactionTemplate(transactionManager).executeWithoutResult(status -> {
-            org.mockito.Mockito.doThrow(new IllegalStateException("Simulated token signing failure after refresh token row insert"))
-                    .when(jwtTokenService).issueAccessToken();
-        });
+        // D4: redeemHandoff rejects before ticket consumption or PPV token issuance
+        assertThatThrownBy(() -> service.redeemHandoff(ticket, verifier))
+                .isInstanceOf(GoogleSignInException.class)
+                .matches(e -> ((GoogleSignInException) e).getHttpStatus() == 503);
 
-        try {
-            assertThatThrownBy(() -> service.redeemHandoff(ticket, verifier))
-                    .isInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("Simulated token signing failure after refresh token row insert");
+        // 1. Verify ticket is still PENDING in database
+        var ticketEntity = ticketRepository.findById(ticketHash);
+        assertThat(ticketEntity).isPresent();
+        assertThat(ticketEntity.get().getStatus()).isEqualTo(GoogleHandoffTicket.STATUS_PENDING);
+        assertThat(ticketEntity.get().getConsumedAt()).isNull();
 
-            // 1. Verify ticket is still PENDING in database (rollback of ticket consumption)
-            var ticketEntity = ticketRepository.findById(ticketHash);
-            assertThat(ticketEntity).isPresent();
-            assertThat(ticketEntity.get().getStatus()).isEqualTo(GoogleHandoffTicket.STATUS_PENDING);
-            assertThat(ticketEntity.get().getConsumedAt()).isNull();
-
-            // 2. Verify refresh token row write was rolled back (row count unchanged)
-            assertThat(refreshTokenRepository.count()).isEqualTo(refreshTokensBefore);
-        } finally {
-            org.mockito.Mockito.reset(jwtTokenService);
-        }
-
-        // Retry after resetting failure: redemption now succeeds
-        var tokens = service.redeemHandoff(ticket, verifier);
-        assertThat(tokens.accessToken()).isNotBlank();
-        assertThat(tokens.refreshToken()).isNotBlank();
-        assertThat(refreshTokenRepository.count()).isEqualTo(refreshTokensBefore + 1);
+        // 2. Verify refresh token row write was never performed
+        assertThat(refreshTokenRepository.count()).isEqualTo(refreshTokensBefore);
     }
 
     private static String extractQueryParam(String url, String param) {

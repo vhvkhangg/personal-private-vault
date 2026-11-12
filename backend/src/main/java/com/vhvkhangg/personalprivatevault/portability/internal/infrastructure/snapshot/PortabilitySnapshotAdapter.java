@@ -126,7 +126,9 @@ public class PortabilitySnapshotAdapter {
             "drive_child_folder_intents",
             "ppv_owner_google_identities",
             "ppv_google_login_attempts",
-            "ppv_google_handoff_tickets"
+            "ppv_google_handoff_tickets",
+            "ppv_public_login_credential",
+            "ppv_login_sessions"
     );
 
     public static final Set<String> EXCLUDED_SYSTEM_TABLES = Set.of(

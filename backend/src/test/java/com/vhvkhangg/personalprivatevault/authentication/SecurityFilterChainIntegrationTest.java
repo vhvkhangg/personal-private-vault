@@ -49,10 +49,16 @@ class SecurityFilterChainIntegrationTest extends AbstractPostgresIntegrationTest
     private WebApplicationContext context;
 
     @Autowired
+    private org.springframework.transaction.PlatformTransactionManager transactionManager;
+
+    @Autowired
     private JwtTokenService jwtTokenService;
 
     @Autowired
     private JwtEncoder jwtEncoder;
+
+    @Autowired
+    private org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
 
     private MockMvc mockMvc;
 
@@ -61,6 +67,51 @@ class SecurityFilterChainIntegrationTest extends AbstractPostgresIntegrationTest
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+
+        jdbcTemplate.execute("TRUNCATE TABLE ppv_login_sessions, ppv_public_login_credential, refresh_tokens, app_users CASCADE");
+    }
+
+    private String createSession(com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile profile) {
+        jdbcTemplate.update("""
+                INSERT INTO app_users (id, email, username, password_hash, pin_hash, created_at, updated_at)
+                VALUES (1, 'owner@vault.local', 'owner',
+                        '$2a$10$w8T9h3n6E3t8P4w8o8l8uu4P/Jq2U4hX1q4Jq2U4hX1q4Jq2U4hX1',
+                        '$2a$10$w8T9h3n6E3t8P4w8o8l8uu4P/Jq2U4hX1q4Jq2U4hX1q4Jq2U4hX1',
+                        now(), now())
+                ON CONFLICT (id) DO NOTHING
+                """);
+        long epoch = profile == com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile.PUBLIC ? 1L : 0L;
+        String pubHash = profile == com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile.PUBLIC ? "somehash" : null;
+        jdbcTemplate.update("""
+                INSERT INTO ppv_public_login_credential (owner_id, password_hash, credential_epoch, created_at, updated_at)
+                VALUES (1, ?, ?, now(), now())
+                ON CONFLICT (owner_id) DO NOTHING
+                """, pubHash, epoch);
+
+        UUID sid = UUID.randomUUID();
+        Instant now = Instant.now();
+        Instant exp = now.plus(Duration.ofDays(30));
+        String raw = UUID.randomUUID().toString();
+        String hash = java.util.HexFormat.of().formatHex(
+                raw.getBytes(java.nio.charset.StandardCharsets.UTF_8)
+        );
+
+        Long tid = new org.springframework.transaction.support.TransactionTemplate(transactionManager).execute(status -> {
+            Long id = jdbcTemplate.queryForObject("""
+                    INSERT INTO refresh_tokens (user_id, session_id, profile, session_generation, token_hash, expires_at, created_at)
+                    VALUES (1, ?, ?, 1, ?, ?, ?)
+                    RETURNING id
+                    """, Long.class, sid, profile.name(), hash, java.sql.Timestamp.from(exp), java.sql.Timestamp.from(now));
+
+            Long sessionEpoch = profile == com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile.PUBLIC ? 1L : null;
+            jdbcTemplate.update("""
+                    INSERT INTO ppv_login_sessions (id, owner_id, active_profile, generation, public_credential_epoch, current_refresh_token_id, created_at, expires_at)
+                    VALUES (?, 1, ?, 1, ?, ?, ?, ?)
+                    """, sid, profile.name(), sessionEpoch, id, java.sql.Timestamp.from(now), java.sql.Timestamp.from(exp));
+            return id;
+        });
+
+        return jwtTokenService.issueAccessToken(profile, sid, 1L);
     }
 
     @Test
@@ -122,11 +173,67 @@ class SecurityFilterChainIntegrationTest extends AbstractPostgresIntegrationTest
     @Test
     @DisplayName("Protected endpoint authenticates successfully with valid issued bearer token")
     void authenticatesWithValidBearerToken() throws Exception {
-        String validToken = jwtTokenService.issueAccessToken();
+        String validToken = createSession(com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile.PRIVATE);
 
         mockMvc.perform(get("/api/test/protected")
                         .header("Authorization", "Bearer " + validToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("authenticated"));
+    }
+
+    @Test
+    @DisplayName("Protected endpoint rejects request with valid PUBLIC bearer token with 403 ACCESS_DENIED")
+    void rejectsPublicBearerTokenOnProtectedEndpoint() throws Exception {
+        String publicToken = createSession(com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile.PUBLIC);
+
+        mockMvc.perform(get("/api/test/protected")
+                        .header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+    }
+
+    @Test
+    @DisplayName("Protected endpoint rejects legacy token missing profile and sid claims with 401")
+    void rejectsLegacyTokenMissingProfileAndSid() throws Exception {
+        Instant now = Instant.now();
+        JwtClaimsSet legacyClaims = JwtClaimsSet.builder()
+                .issuer("personal-private-vault")
+                .subject("1")
+                .issuedAt(now)
+                .expiresAt(now.plus(Duration.ofMinutes(15)))
+                .id(UUID.randomUUID().toString())
+                .build();
+
+        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
+        String legacyToken = jwtEncoder.encode(JwtEncoderParameters.from(header, legacyClaims)).getTokenValue();
+
+        mockMvc.perform(get("/api/test/protected")
+                        .header("Authorization", "Bearer " + legacyToken))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+    }
+
+    @Test
+    @DisplayName("Protected endpoint rejects token with subject other than 1 with 401")
+    void rejectsTokenWithSubjectOtherThanOne() throws Exception {
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("personal-private-vault")
+                .subject("2")
+                .claim("profile", "PRIVATE")
+                .claim("sid", UUID.randomUUID().toString())
+                .claim("generation", 1L)
+                .issuedAt(now)
+                .expiresAt(now.plus(Duration.ofMinutes(15)))
+                .id(UUID.randomUUID().toString())
+                .build();
+
+        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
+
+        mockMvc.perform(get("/api/test/protected")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
     }
 }

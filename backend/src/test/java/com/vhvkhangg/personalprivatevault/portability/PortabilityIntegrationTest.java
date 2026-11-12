@@ -173,7 +173,7 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         JsonNode manifestNode = objectMapper.readTree(entries.get("manifest.json"));
         assertThat(manifestNode.path("formatVersion").asInt()).isEqualTo(1);
         assertThat(manifestNode.hasNonNull("generatedAt")).isTrue();
-        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("28");
+        assertThat(manifestNode.path("highestFlywayVersion").asText()).isEqualTo("29");
 
         JsonNode excludedNode = manifestNode.path("excludedSecurityTables");
         assertThat(excludedNode.isArray()).isTrue();
@@ -182,7 +182,8 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(excludedList).containsExactlyInAnyOrder(
                 "app_users", "refresh_tokens", "drive_connections", "drive_folder_roots",
                 "drive_upload_intents", "drive_child_folder_intents",
-                "ppv_owner_google_identities", "ppv_google_login_attempts", "ppv_google_handoff_tickets"
+                "ppv_owner_google_identities", "ppv_google_login_attempts", "ppv_google_handoff_tickets",
+                "ppv_public_login_credential", "ppv_login_sessions"
         );
 
         JsonNode inventoryNode = manifestNode.path("tableInventory");
@@ -202,6 +203,8 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(entries).doesNotContainKey("tables/ppv_owner_google_identities.jsonl");
         assertThat(entries).doesNotContainKey("tables/ppv_google_login_attempts.jsonl");
         assertThat(entries).doesNotContainKey("tables/ppv_google_handoff_tickets.jsonl");
+        assertThat(entries).doesNotContainKey("tables/ppv_public_login_credential.jsonl");
+        assertThat(entries).doesNotContainKey("tables/ppv_login_sessions.jsonl");
         assertThat(entries).doesNotContainKey("tables/flyway_schema_history.jsonl");
 
         // 6. Assert markdown files are exact copies
@@ -250,6 +253,16 @@ class PortabilityIntegrationTest extends AbstractWebIntegrationTest {
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, org.hamcrest.Matchers.containsString("application/json")))
                 .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"))
                 .andExpect(jsonPath("$.error.message").isNotEmpty());
+    }
+
+    @Test
+    @DisplayName("POST /api/v1/portability/exports is rejected 403 Forbidden with PUBLIC profile bearer token")
+    void exportArchiveForbiddenForPublicProfile() throws Exception {
+        String publicToken = publicBearerToken();
+        mockMvc.perform(post("/api/v1/portability/exports")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + publicToken))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
     }
 
     @Test

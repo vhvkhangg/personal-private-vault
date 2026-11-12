@@ -16,6 +16,10 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
     Optional<RefreshToken> findByTokenHash(String tokenHash);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT r FROM RefreshToken r WHERE r.id = :id")
+    Optional<RefreshToken> findByIdWithLock(@Param("id") Long id);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT r FROM RefreshToken r WHERE r.tokenHash = :tokenHash")
     Optional<RefreshToken> findByTokenHashWithLock(@Param("tokenHash") String tokenHash);
 }

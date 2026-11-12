@@ -21,6 +21,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             "/api/v1/auth/bootstrap/status",
             "/api/v1/auth/bootstrap",
             "/api/v1/auth/login",
+            "/api/v1/auth/profiles/login",
             "/api/v1/auth/refresh",
             "/api/v1/auth/revoke"
     );
@@ -158,8 +159,12 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/auth/bootstrap | bootstrapVault | 201 | BootstrapRequest | ApiResponseAppUserResponse | false
             POST | /api/v1/auth/login | login | 200 | LoginRequest | ApiResponseAuthTokensResponse | false
             POST | /api/v1/auth/private-pin/verify | verifyPrivatePin | 200 | VerifyPinRequest | ApiResponseVerifyPinResponse | false
+            POST | /api/v1/auth/profiles/login | publicProfileLogin | 200 | PublicProfileLoginRequest | ApiResponseAuthTokensResponse | false
+            POST | /api/v1/auth/profiles/public-credential | configureOrResetPublicCredential | 200 | PublicCredentialRequest | ApiResponseVoid | false
             POST | /api/v1/auth/refresh | refreshToken | 200 | RefreshTokenRequest | ApiResponseAuthTokensResponse | false
             POST | /api/v1/auth/revoke | revokeToken | 200 | RevokeTokenRequest | ApiResponseVoid | false
+            POST | /api/v1/auth/sessions/downgrade-public | downgradeToPublicSession | 200 | null | ApiResponseAuthTokensResponse | false
+            POST | /api/v1/auth/sessions/elevate-private | elevateToPrivateSession | 200 | ElevatePrivateRequest | ApiResponseAuthTokensResponse | false
             POST | /api/v1/brands | createBrand | 201 | CreateBrandRequest | ApiResponseBrandResponse | false
             POST | /api/v1/collection/music | createCollectionMusic | 201 | CreateMusicRequest | ApiResponseMusicResponse | false
             POST | /api/v1/collection/shopping | createCollectionShoppingItem | 201 | CreateShoppingItemRequest | ApiResponseShoppingItemResponse | false
@@ -394,8 +399,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(235);
-        assertThat(uniqueIds).hasSize(235);
+        assertThat(operationIds).hasSize(239);
+        assertThat(uniqueIds).hasSize(239);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -503,7 +508,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 235 endpoints").hasSize(235);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 239 endpoints").hasSize(239);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -518,7 +523,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 235 manifest count").isEqualTo(235);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 239 manifest count").isEqualTo(239);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());

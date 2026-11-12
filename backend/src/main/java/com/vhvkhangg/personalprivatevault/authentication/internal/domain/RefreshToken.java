@@ -30,6 +30,16 @@ public class RefreshToken {
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
+    @jakarta.persistence.Column(name = "session_id")
+    private java.util.UUID sessionId;
+
+    @jakarta.persistence.Enumerated(jakarta.persistence.EnumType.STRING)
+    @jakarta.persistence.Column(name = "profile", length = 7)
+    private LoginProfile profile;
+
+    @jakarta.persistence.Column(name = "session_generation")
+    private Long sessionGeneration;
+
     @Column(name = "token_hash", nullable = false, unique = true, length = 255)
     private String tokenHash;
 
@@ -48,6 +58,25 @@ public class RefreshToken {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
+    public RefreshToken(
+            AppUser user,
+            java.util.UUID sessionId,
+            LoginProfile profile,
+            Long sessionGeneration,
+            String tokenHash,
+            Instant expiresAt,
+            Instant createdAt
+    ) {
+        this.user = Objects.requireNonNull(user, "user must not be null");
+        this.sessionId = Objects.requireNonNull(sessionId, "sessionId must not be null");
+        this.profile = Objects.requireNonNull(profile, "profile must not be null");
+        this.sessionGeneration = Objects.requireNonNull(sessionGeneration, "sessionGeneration must not be null");
+        this.tokenHash = Objects.requireNonNull(tokenHash, "tokenHash must not be null");
+        this.expiresAt = Objects.requireNonNull(expiresAt, "expiresAt must not be null");
+        this.createdAt = Objects.requireNonNull(createdAt, "createdAt must not be null");
+    }
+
+    @Deprecated
     public RefreshToken(AppUser user, String tokenHash, Instant expiresAt, Instant createdAt) {
         this.user = Objects.requireNonNull(user, "user must not be null");
         this.tokenHash = Objects.requireNonNull(tokenHash, "tokenHash must not be null");

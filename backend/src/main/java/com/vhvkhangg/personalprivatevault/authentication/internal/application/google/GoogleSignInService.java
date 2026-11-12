@@ -77,41 +77,7 @@ public class GoogleSignInService {
     }
 
     public StartResult startLogin(String handoffChallenge) {
-        try (var slot = resources.acquireEndpoint()) {
-            validateChallenge(handoffChallenge);
-            Instant now = clock.instant();
-
-            String state = generateToken();
-            String nonce = generateToken();
-            String codeVerifier = generateToken();
-            String bindingSecret = generateToken();
-
-            String stateHash = sha256Hex(state);
-            String bindingHash = sha256Hex(bindingSecret);
-            String nonceHash = sha256Hex(nonce);
-            String challengeHash = handoffChallenge.toLowerCase();
-
-            UUID attemptId = UUID.randomUUID();
-            GoogleSignInTransactionCrypto.EncryptedPkce encryptedPkce = crypto.encryptPkce(
-                    codeVerifier,
-                    attemptId,
-                    GoogleLoginAttempt.PURPOSE_LOGIN,
-                    null,
-                    challengeHash,
-                    properties.getClientId()
-            );
-
-            store.prepareLoginStart(attemptId, stateHash, bindingHash, nonceHash, challengeHash, encryptedPkce, now);
-
-            String codeChallenge = computeS256CodeChallenge(codeVerifier);
-            String authUrl = buildAuthorizationUrl(state, nonce, codeChallenge);
-
-            return new StartResult(attemptId, authUrl, bindingSecret, 300);
-        } catch (GoogleSignInException e) {
-            throw e;
-        } catch (Exception e) {
-            throw GoogleSignInException.unavailable();
-        }
+        throw GoogleSignInException.unavailable();
     }
 
     public StartResult startLink(String handoffChallenge, String rawPassword) {
@@ -199,6 +165,11 @@ public class GoogleSignInService {
                 return new CallbackOutcome(false, null, "CLAIM_FAILED");
             }
 
+            if (GoogleLoginAttempt.PURPOSE_LOGIN.equals(claimed.purpose())) {
+                store.markAttemptFailed(claimed.attemptId(), now);
+                return new CallbackOutcome(false, null, "LOGIN_UNAVAILABLE");
+            }
+
             String codeVerifier;
             try {
                 codeVerifier = crypto.decryptPkce(
@@ -257,9 +228,7 @@ public class GoogleSignInService {
                     || handoffVerifier == null || !BASE64URL_43.matcher(handoffVerifier).matches()) {
                 throw GoogleSignInException.invalidHandoff();
             }
-
-            String ticketHash = sha256Hex(ticket);
-            return store.redeemTicket(ticketHash, handoffVerifier);
+            throw GoogleSignInException.unavailable();
         }
     }
 

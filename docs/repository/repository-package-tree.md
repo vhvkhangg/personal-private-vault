@@ -549,3 +549,30 @@ Under Owner authorization and executable handoff `GDI26-S3-H1-AUTH`:
 - Additive Flyway migration: `V28__google_signin_owner_transactions.sql`.
 - Focused tests: `GoogleSignInConfigurationTest`, `GoogleSignInCryptoTest`, `GoogleSignInProtocolTest`, `GoogleSignInPersistenceIntegrationTest`, `GoogleSignInWebIntegrationTest`, `GoogleSignInBrowserIntegrationTest`.
 - Test fixtures: `FakeGoogleSignInServer`, `GoogleSignInBrowserConsumer`, `GoogleSignInTestSupport`.
+
+### Authentication Dual Login Profiles and Persisted Session Authority (BF26-DP-A)
+
+Under Owner authorization and executable handoff `BF26-DP-A`:
+- `authentication/internal/domain`:
+  - `LoginProfile`: enum (`PUBLIC`, `PRIVATE`).
+  - `PublicLoginCredential`: singleton Owner public password hash and monotonic `credential_epoch`.
+  - `LoginSession`: persisted session authority tracking `active_profile`, `generation`, `public_credential_epoch`, and circular deferred FK `current_refresh_token_id`.
+  - `RefreshToken`: extended with `sessionId`, `profile`, `sessionGeneration`.
+- `authentication/internal/infrastructure/persistence`:
+  - `PublicLoginCredentialRepository`: pessimistic lock queries (`findByIdForShare`, `findByIdForUpdate`).
+  - `LoginSessionRepository`: pessimistic lock queries (`findByIdForUpdate`, `findByIdWithLock`).
+  - `RefreshTokenRepository`: pessimistic lock queries (`findByIdWithLock`, `findByTokenHashWithLock`).
+- `authentication/internal/application/session`:
+  - `SessionAuthority`: immutable record representing admission join result.
+  - `SessionAuthorityService`: single-SQL fresh snapshot admission join validator.
+  - `ProfileSessionService`: canonical lock-ordered profile transitions (public login, setup, elevate, downgrade).
+  - `PublicNotConfiguredException`: 409 conflict exception.
+  - `PasswordNotDistinctException`: 422 unprocessable entity exception.
+- `authentication/internal/infrastructure/security`:
+  - `SessionAuthorityFilter`: dispatch admission filter checking claims against persisted session authority.
+- `authentication/internal/web/dto`:
+  - `PublicProfileLoginRequest`: strict validated identifier-free login DTO.
+  - `PublicCredentialRequest`: strict validated setup/reset DTO with redacted `toString()`.
+  - `ElevatePrivateRequest`: strict validated elevation DTO with redacted `toString()`.
+- Additive Flyway migration: `V29__authentication_profiles_and_sessions.sql`.
+- Focused tests: `ProfileSessionIntegrationTest`, `ProfileSessionConcurrencyIntegrationTest`, `ProfileRouteAuthorizationIntegrationTest`, `ProfileMigrationIntegrationTest`.

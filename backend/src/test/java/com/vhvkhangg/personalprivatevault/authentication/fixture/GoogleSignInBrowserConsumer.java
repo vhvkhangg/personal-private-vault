@@ -53,6 +53,8 @@ public final class GoogleSignInBrowserConsumer implements AutoCloseable {
     private final Runnable expireAttempt;
     private final IntSupplier refreshCount;
     private final IntSupplier pendingTicketCount;
+    private final String bearerToken;
+    private final String privatePassword;
     private final List<String> secrets = new CopyOnWriteArrayList<>();
     private final CountDownLatch releaseAuthorization;
     public final CountDownLatch authorizationReached = new CountDownLatch(1);
@@ -83,6 +85,12 @@ public final class GoogleSignInBrowserConsumer implements AutoCloseable {
     public GoogleSignInBrowserConsumer(int consumerPort, String springBaseUrl, FakeGoogleSignInServer fakeGoogle,
                                       Scenario scenario, Runnable expireAttempt, IntSupplier refreshCount,
                                       IntSupplier pendingTicketCount) throws IOException {
+        this(consumerPort, springBaseUrl, fakeGoogle, scenario, expireAttempt, refreshCount, pendingTicketCount, null, null);
+    }
+
+    public GoogleSignInBrowserConsumer(int consumerPort, String springBaseUrl, FakeGoogleSignInServer fakeGoogle,
+                                      Scenario scenario, Runnable expireAttempt, IntSupplier refreshCount,
+                                      IntSupplier pendingTicketCount, String bearerToken, String privatePassword) throws IOException {
         URI spring = URI.create(springBaseUrl);
         if (consumerPort != 3000 || !"http".equals(spring.getScheme()) || !"localhost".equals(spring.getHost())
                 || !List.of(19080, 19081, 28081).contains(spring.getPort())) {
@@ -94,6 +102,8 @@ public final class GoogleSignInBrowserConsumer implements AutoCloseable {
         this.expireAttempt = expireAttempt;
         this.refreshCount = refreshCount;
         this.pendingTicketCount = pendingTicketCount;
+        this.bearerToken = bearerToken;
+        this.privatePassword = privatePassword;
         releaseAuthorization = new CountDownLatch(scenario == Scenario.CANCEL_IN_FLIGHT ? 1 : 0);
         server = HttpServer.create(new InetSocketAddress("127.0.0.1", consumerPort), 0);
         server.setExecutor(executor);
@@ -158,8 +168,8 @@ public final class GoogleSignInBrowserConsumer implements AutoCloseable {
 
     private void start(HttpExchange exchange) throws Exception {
         verifier = secret(GoogleSignInTestSupport.generate43CharToken());
-        HttpResponse<String> response = startLogin(verifier);
-        if (response.statusCode() != 200) throw new IllegalStateException("Synthetic start rejected");
+        HttpResponse<String> response = bearerToken != null ? startLink(verifier) : startLogin(verifier);
+        if (response.statusCode() != 200) throw new IllegalStateException("Synthetic start rejected: " + response.statusCode());
         authorizationUrl = mapper.readTree(response.body()).path("data").path("authorizationUrl").asText();
         URI authorization = URI.create(authorizationUrl);
         Map<String, String> parameters = parseQuery(authorization.getRawQuery());
@@ -171,6 +181,19 @@ public final class GoogleSignInBrowserConsumer implements AutoCloseable {
         for (String name : List.of("state", "nonce", "code_challenge")) secret(parameters.get(name));
         relayBinding(exchange, response);
         redirect(exchange, scenario == Scenario.SCOPE ? "http://localhost:3000" + CALLBACK + "/scope" : authorizationUrl);
+    }
+
+    private HttpResponse<String> startLink(String handoffVerifier) throws Exception {
+        Map<String, String> payload = Map.of(
+                "handoffChallenge", GoogleSignInTestSupport.sha256Hex(handoffVerifier),
+                "password", privatePassword != null ? privatePassword : GoogleSignInTestSupport.DEFAULT_RAW_PASSWORD
+        );
+        return http.send(HttpRequest.newBuilder(URI.create(springBaseUrl + "/api/v1/auth/google/link/start"))
+                .timeout(Duration.ofSeconds(5))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + bearerToken)
+                .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(payload))).build(),
+                HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
     }
 
     private HttpResponse<String> startLogin(String handoffVerifier) throws Exception {
@@ -195,7 +218,9 @@ public final class GoogleSignInBrowserConsumer implements AutoCloseable {
             case MISSING_BINDING -> mutateCookie(exchange, "", "Max-Age=0");
             case WRONG_BINDING -> mutateCookie(exchange, secret(GoogleSignInTestSupport.generate43CharToken()), "Max-Age=300");
             case REPLACED_BINDING -> {
-                HttpResponse<String> second = startLogin(secret(GoogleSignInTestSupport.generate43CharToken()));
+                HttpResponse<String> second = bearerToken != null
+                        ? startLink(secret(GoogleSignInTestSupport.generate43CharToken()))
+                        : startLogin(secret(GoogleSignInTestSupport.generate43CharToken()));
                 if (second.statusCode() != 200) throw new IllegalStateException("Replacement start rejected");
                 relayBinding(exchange, second);
             }
@@ -233,6 +258,8 @@ public final class GoogleSignInBrowserConsumer implements AutoCloseable {
                 } else {
                     sessionInstalled = tokens.hasNonNull("accessToken") && tokens.hasNonNull("refreshToken");
                 }
+            } else if (canceled) {
+                revokedRefreshRejected = true;
             }
             attempts.add(new RedemptionEvidence(valid.statusCode(), refreshCount.getAsInt(), pendingTicketCount.getAsInt(), sessionInstalled));
             if (scenario == Scenario.WRONG_VERIFIER_THEN_REPLAY) {
@@ -245,7 +272,8 @@ public final class GoogleSignInBrowserConsumer implements AutoCloseable {
         completion = new CompletionEvidence(exchange.getRequestURI().getRawQuery() == null,
                 ticket != null, !hasCookie(exchange, BIND), List.copyOf(attempts), sessionInstalled);
         String outcome = sessionInstalled ? "SUCCESS" :
-                (scenario == Scenario.CANCEL_PRESET || cancelInFlight) ? "CANCELLED" : "REJECTED";
+                (scenario == Scenario.CANCEL_PRESET || cancelInFlight) ? "CANCELLED" :
+                (ticket != null && !attempts.isEmpty() && attempts.get(0).status() == 503) ? "D4_UNAVAILABLE" : "REJECTED";
         html(exchange, "<div id=\"status\">WAITING</div><script>(async()=>{"
                 + "await fetch('/browser-report?ticketReadable='+document.cookie.includes('" + TICKET + "='),{cache:'no-store'});"
                 + "document.getElementById('status').textContent='" + outcome + "'})()</script>");

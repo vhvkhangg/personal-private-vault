@@ -6,6 +6,7 @@ import com.vhvkhangg.personalprivatevault.authentication.internal.application.to
 import com.vhvkhangg.personalprivatevault.authentication.session.InvalidRefreshTokenException;
 import com.vhvkhangg.personalprivatevault.authentication.session.LoginCommand;
 import com.vhvkhangg.personalprivatevault.authentication.session.SessionOperations;
+import com.vhvkhangg.personalprivatevault.authentication.internal.domain.RefreshToken;
 import com.vhvkhangg.personalprivatevault.authentication.view.AuthTokensView;
 import com.vhvkhangg.personalprivatevault.support.AbstractPostgresIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +48,9 @@ class RefreshTokenLifecycleIntegrationTest extends AbstractPostgresIntegrationTe
     private RefreshTokenRepository refreshTokenRepository;
 
     @Autowired
+    private com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.LoginSessionRepository loginSessionRepository;
+
+    @Autowired
     private PlatformTransactionManager transactionManager;
 
     @Autowired
@@ -54,8 +58,7 @@ class RefreshTokenLifecycleIntegrationTest extends AbstractPostgresIntegrationTe
 
     @BeforeEach
     void cleanUp() {
-        jdbcTemplate.execute("DELETE FROM refresh_tokens");
-        jdbcTemplate.execute("DELETE FROM app_users");
+        jdbcTemplate.execute("TRUNCATE TABLE ppv_login_sessions, ppv_public_login_credential, refresh_tokens, app_users CASCADE");
 
         bootstrapOperations.bootstrap(new BootstrapCommand(
                 "owner@vault.local",
@@ -242,7 +245,7 @@ class RefreshTokenLifecycleIntegrationTest extends AbstractPostgresIntegrationTe
                     "JOIN pg_stat_activity a ON l.pid = a.pid " +
                     "WHERE NOT l.granted " +
                     "  AND a.pid != pg_backend_pid() " +
-                    "  AND a.query ILIKE '%refresh_tokens%'",
+                    "  AND (a.query ILIKE '%refresh_tokens%' OR a.query ILIKE '%ppv_login_sessions%')",
                     Integer.class
             );
             if (count != null && count > 0) {
@@ -250,7 +253,7 @@ class RefreshTokenLifecycleIntegrationTest extends AbstractPostgresIntegrationTe
             }
             Thread.sleep(10);
         }
-        throw new AssertionError("Timed out waiting for competing transaction to reach PostgreSQL row lock on refresh_tokens");
+        throw new AssertionError("Timed out waiting for competing transaction to reach PostgreSQL row lock on refresh_tokens or ppv_login_sessions");
     }
 
     @Test
@@ -269,8 +272,12 @@ class RefreshTokenLifecycleIntegrationTest extends AbstractPostgresIntegrationTe
         try {
             // Thread 1: Acquires row lock on predecessor and performs rotation
             Future<AuthTokensView> rotateFuture = executor.submit(() -> txTemplate.execute(status -> {
-                // 1. Explicitly acquire pessimistic lock on the predecessor row
-                refreshTokenRepository.findByTokenHashWithLock(tokenHash).orElseThrow();
+                // 1. Explicitly acquire pessimistic lock following canonical order: lineage -> refresh
+                RefreshToken uncommittedToken = refreshTokenRepository.findByTokenHash(tokenHash).orElseThrow();
+                if (uncommittedToken.getSessionId() != null) {
+                    loginSessionRepository.findByIdWithLock(uncommittedToken.getSessionId()).orElseThrow();
+                }
+                refreshTokenRepository.findByIdWithLock(uncommittedToken.getId()).orElseThrow();
                 rotationLockedPredecessor.countDown();
 
                 // 2. Wait until revoke thread is confirmed actively blocked in PostgreSQL on the row lock
@@ -349,8 +356,12 @@ class RefreshTokenLifecycleIntegrationTest extends AbstractPostgresIntegrationTe
         try {
             // Thread 1: Acquires row lock on predecessor and revokes it
             Future<?> revokeFuture = executor.submit(() -> txTemplate.execute(status -> {
-                // 1. Explicitly acquire pessimistic lock on the predecessor row
-                refreshTokenRepository.findByTokenHashWithLock(tokenHash).orElseThrow();
+                // 1. Explicitly acquire pessimistic lock following canonical order: lineage -> refresh
+                RefreshToken uncommittedToken = refreshTokenRepository.findByTokenHash(tokenHash).orElseThrow();
+                if (uncommittedToken.getSessionId() != null) {
+                    loginSessionRepository.findByIdWithLock(uncommittedToken.getSessionId()).orElseThrow();
+                }
+                refreshTokenRepository.findByIdWithLock(uncommittedToken.getId()).orElseThrow();
                 revokeLockedPredecessor.countDown();
 
                 // 2. Wait until rotate thread is confirmed actively blocked in PostgreSQL on the row lock

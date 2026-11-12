@@ -104,12 +104,12 @@ class DriveH1BWebIntegrationTest extends DriveS2HttpTestSupport {
         var unauth = send(HttpRequest.newBuilder(uri(path(1) + "/storage-quota")).GET());
         assertThat(unauth.statusCode()).isEqualTo(401);
 
-        // Authenticated non-owner (sub=2) -> 403
+        // Non-owner sub=2 -> 401 (auth boundary invalid singleton authority)
         String nonOwnerToken = encoder.encode(JwtEncoderParameters.from(
                 JwsHeader.with(MacAlgorithm.HS256).build(),
                 JwtClaimsSet.builder().issuer("personal-private-vault").subject("2").issuedAt(Instant.now()).expiresAt(Instant.now().plusSeconds(300)).build())).getTokenValue();
         var nonOwner = send(HttpRequest.newBuilder(uri(path(1) + "/storage-quota")).header("Authorization", "Bearer " + nonOwnerToken).GET());
-        assertThat(nonOwner.statusCode()).isEqualTo(403);
+        assertThat(nonOwner.statusCode()).isEqualTo(401);
     }
 
     @Test
@@ -135,7 +135,7 @@ class DriveH1BWebIntegrationTest extends DriveS2HttpTestSupport {
             }
         }
 
-        assertThat(count).isEqualTo(248);
+        assertThat(count).isEqualTo(252);
 
         // Verify all 13 Drive operation IDs are present
         Set<String> expectedDriveOpIds = Set.of(

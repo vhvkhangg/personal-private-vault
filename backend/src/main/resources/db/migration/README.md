@@ -21,3 +21,13 @@ The takeover candidate adds canonical complete-scope/current-runtime checks at C
 Corrective attempt 2 adds immutable `inspection_proof` and original-UUID reuse. The owned `retrieval_inspection_begin(UUID,UUID,VARCHAR,VARCHAR,UUID,UUID,BIGINT,BIGINT,VARCHAR)` returns the actual UUID and checks runtime registration under the graph guard; the six-argument compatibility entry records unknown process ownership, which cannot authorize blind recovery. `retrieval_reader_inspection_begin` reuses an attached unresolved operation after exact token/runtime checks. Capacity stays 4,096, compacting only bounded CLEAN unassociated/terminal history.
 
 `retrieval_inspection_blocks` and `external_file_inspection_blocks` supply exact revision (unknown revision conservatively) predicates to currentness and additive reservation, edit, generation/root/chunk and cleanup guards. Safe unapproved/unselected pending replacement preserves the original obligation. `retrieval_inspection_deny` handles positively classified standalone incidents using exact revision/hash/length CAS; reserved tuples remain for the reader finisher. Private `retrieval_revoke_inspected_generations` uses each generation's own contributing manifest, preserving unrelated siblings. Helper/business mutation privileges remain revoked from PUBLIC/worker; runtime receives only named trusted inspection entry points/read predicates. V24 remains an unapplied-to-operational-state S19-1 candidate, not a change to frozen migrations.
+
+## Dual Login Profiles and Persisted Session Authority (BF26-DP-A / ADR-0029)
+
+`V29__authentication_profiles_and_sessions.sql`
+
+Introduces two fixed login profiles (`PRIVATE` and `PUBLIC`) for the single immutable vault Owner (`app_users.id = 1`):
+- `ppv_public_login_credential`: Stores optional secondary password hash and monotonic `credential_epoch` for PUBLIC login.
+- `ppv_login_sessions`: Persisted session authority tracking active profile (`PUBLIC|PRIVATE`), generation, public credential epoch snapshot, and circular deferred foreign key to `refresh_tokens`.
+- `refresh_tokens`: Adds `session_id`, `profile`, and `session_generation` columns with check constraint `ck_refresh_profile_binding` and deferred circular foreign key `fk_refresh_session_owner`. Existing legacy tokens are revoked at migration cutover.
+- Tables are excluded from Portability JSONL snapshots. V1–V28 remain unchanged.

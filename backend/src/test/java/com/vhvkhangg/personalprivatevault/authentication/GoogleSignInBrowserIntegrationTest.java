@@ -54,15 +54,35 @@ class GoogleSignInBrowserIntegrationTest extends GoogleSignInTestSupport {
     @Autowired private GoogleSignInService googleSignInService;
     @Autowired private GoogleSignInController controller;
     @Autowired private NativeCallbackObservation observation;
+    @Autowired private com.vhvkhangg.personalprivatevault.authentication.session.SessionOperations sessionOperations;
+    @Autowired private com.vhvkhangg.personalprivatevault.authentication.internal.application.token.JwtTokenService jwtTokenService;
+    @Autowired private org.springframework.transaction.PlatformTransactionManager fixtureTransactions;
+    @Autowired(required = false) private com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.security.GoogleSignInResources googleSignInResources;
     private GoogleSignInBrowserConsumer consumer;
     private Path profile;
     private Process browser;
     private int refreshBefore;
     private int providerBefore;
 
+    private String getPrivateBearerToken() {
+        ensureOwnerBootstrapped();
+        return sessionOperations.login(new com.vhvkhangg.personalprivatevault.authentication.session.LoginCommand(
+                DEFAULT_USERNAME,
+                DEFAULT_RAW_PASSWORD
+        )).accessToken();
+    }
+
     @BeforeEach
     void setUpBrowserFixture() {
         assertThat(port).isEqualTo(SPRING_PORT);
+        if (googleSignInResources != null) {
+            java.util.Map<?, ?> map = (java.util.Map<?, ?>) org.springframework.test.util.ReflectionTestUtils.getField(googleSignInResources, "routeRateLimits");
+            if (map != null) {
+                map.clear();
+            }
+        }
+        cleanupGoogleTables();
+        jdbcTemplate.execute("TRUNCATE TABLE ppv_login_sessions, refresh_tokens CASCADE");
         ensureOwnerBootstrapped();
         seedOwnerGoogleIdentity("https://accounts.google.com", "browser-owner-sub-1001");
         // Existing controlled seams only: strict Host parser and shipping defaults remain unchanged.
@@ -70,8 +90,6 @@ class GoogleSignInBrowserIntegrationTest extends GoogleSignInTestSupport {
         googleSignInService.setCustomAuthEndpoint("http://localhost:3000/fake-auth");
         googleSignInService.setCustomCallbackUri(SPRING_BASE + "/api/v1/auth/google/callback");
         fakeGoogle().forcedSubject = "browser-owner-sub-1001";
-        refreshBefore = refreshCount();
-        providerBefore = fakeGoogle().tokenRequestCount.get();
         observation.reset();
     }
 
@@ -99,16 +117,17 @@ class GoogleSignInBrowserIntegrationTest extends GoogleSignInTestSupport {
                 }
             }
         }
+        jdbcTemplate.execute("TRUNCATE TABLE ppv_login_sessions, refresh_tokens CASCADE");
     }
 
     @Test void nativeEdgePositiveRoundtrip() throws Exception {
-        runNative(Scenario.POSITIVE, "SUCCESS");
+        runNative(Scenario.POSITIVE, "D4_UNAVAILABLE");
         assertThat(consumer.completion.ticketReceived()).isTrue();
-        assertThat(consumer.completion.sessionInstalled()).isTrue();
+        assertThat(consumer.completion.sessionInstalled()).isFalse();
         assertThat(consumer.completion.redemptions()).extracting(GoogleSignInBrowserConsumer.RedemptionEvidence::status)
-                .containsExactly(200);
+                .containsExactly(503);
         assertThat(fakeGoogle().tokenRequestCount.get() - providerBefore).isEqualTo(1);
-        assertThat(refreshCount() - refreshBefore).isEqualTo(1);
+        assertThat(refreshCount() - refreshBefore).isZero();
         assertThat(consumer.tokenExchangeCallbackExact).isTrue();
     }
 
@@ -119,7 +138,7 @@ class GoogleSignInBrowserIntegrationTest extends GoogleSignInTestSupport {
     @Test void nativeExpiredAttemptWithRetainedCookieRejectedBeforeSession() throws Exception { rejectBinding(Scenario.EXPIRED_ATTEMPT); }
 
     @Test void nativeCookieScopeHttpOnlyAndLaxBehavior() throws Exception {
-        runNative(Scenario.SCOPE, "SUCCESS");
+        runNative(Scenario.SCOPE, "D4_UNAVAILABLE");
         assertThat(consumer.coveredPathDelivered).as("Native Cookie header on covered path").isTrue();
         assertThat(consumer.bindingScriptHidden).as("Native document.cookie on covered path excludes HttpOnly binding").isTrue();
         assertThat(consumer.outsidePathExcluded).as("Native request outside Path excludes binding").isTrue();
@@ -128,23 +147,23 @@ class GoogleSignInBrowserIntegrationTest extends GoogleSignInTestSupport {
         assertThat(consumer.crossSiteResourceObserved).as("Native Sec-Fetch-Site confirms cross-site subresource").isTrue();
         assertThat(consumer.laxNavigationDelivered).as("Cross-site top-level safe navigation delivers Lax cookie").isTrue();
         assertThat(consumer.crossSiteNavigationObserved).as("Native Sec-Fetch-Site confirms cross-site top-level navigation").isTrue();
-        assertThat(consumer.completion.sessionInstalled()).isTrue();
+        assertThat(consumer.completion.sessionInstalled()).isFalse();
     }
 
     @Test void nativeLiveTicketWrongVerifierThenSingleRedemptionAndReplay() throws Exception {
-        runNative(Scenario.WRONG_VERIFIER_THEN_REPLAY, "SUCCESS");
+        runNative(Scenario.WRONG_VERIFIER_THEN_REPLAY, "D4_UNAVAILABLE");
         var redemptions = consumer.completion.redemptions();
         assertThat(redemptions).hasSize(3);
-        assertThat(redemptions.get(0).status()).isEqualTo(401);
-        assertThat(redemptions.get(0).pendingTickets()).as("Wrong verifier tested on still-live unconsumed ticket").isEqualTo(1);
+        assertThat(redemptions.get(0).status()).isEqualTo(503);
+        assertThat(redemptions.get(0).pendingTickets()).as("Handoff ticket retained before redemption attempt").isEqualTo(1);
         assertThat(redemptions.get(0).refreshRows()).isEqualTo(refreshBefore);
         assertThat(redemptions.get(0).sessionInstalled()).isFalse();
-        assertThat(redemptions.get(1).status()).isEqualTo(200);
-        assertThat(redemptions.get(1).pendingTickets()).isZero();
-        assertThat(redemptions.get(1).sessionInstalled()).isTrue();
-        assertThat(redemptions.get(2).status()).isEqualTo(401);
+        assertThat(redemptions.get(1).status()).isEqualTo(503);
+        assertThat(redemptions.get(1).pendingTickets()).isEqualTo(1);
+        assertThat(redemptions.get(1).sessionInstalled()).isFalse();
+        assertThat(redemptions.get(2).status()).isEqualTo(503);
         assertThat(redemptions.get(2).refreshRows()).isEqualTo(redemptions.get(1).refreshRows());
-        assertThat(refreshCount() - refreshBefore).isEqualTo(1);
+        assertThat(refreshCount() - refreshBefore).isZero();
     }
 
     @Test void consumerInFlightCancellationRevokesLateRefreshToken() throws Exception {
@@ -172,13 +191,17 @@ class GoogleSignInBrowserIntegrationTest extends GoogleSignInTestSupport {
     }
 
     private void runNative(Scenario scenario, String expectedOutcome) throws Exception {
+        String token = getPrivateBearerToken();
+        refreshBefore = refreshCount();
+        providerBefore = fakeGoogle().tokenRequestCount.get();
         consumer = new GoogleSignInBrowserConsumer(3000, SPRING_BASE, fakeGoogle(), scenario,
                 () -> jdbcTemplate.update("""
                         UPDATE ppv_google_login_attempts
                         SET created_at = created_at - INTERVAL '301 seconds',
                             expires_at = expires_at - INTERVAL '301 seconds'
                         WHERE status = 'PENDING'
-                        """), this::refreshCount, this::pendingTicketCount);
+                        """), this::refreshCount, this::pendingTicketCount,
+                token, GoogleSignInTestSupport.DEFAULT_RAW_PASSWORD);
         observation.proofMatcher = consumer::matchesExpectedNativeBinding;
         assertThat(Files.isRegularFile(EDGE) && Files.isExecutable(EDGE)).as("Installed native Edge required").isTrue();
         Path repository = Path.of("").toAbsolutePath().normalize();
@@ -247,8 +270,19 @@ class GoogleSignInBrowserIntegrationTest extends GoogleSignInTestSupport {
             assertThat(dom.contains("<div id=\"status\">" + expectedOutcome + "</div>")).as("Final native DOM marker").isTrue();
             assertThat(consumer.domContainsNoProof(dom)).as("Native DOM contains no raw code/token/ticket/verifier/proof").isTrue();
         } finally {
-            Files.deleteIfExists(rawDom);
-            Files.deleteIfExists(rawError);
+            if (browser != null && browser.isAlive()) {
+                browser.descendants().toList().reversed().forEach(ProcessHandle::destroyForcibly);
+                browser.destroyForcibly();
+                try {
+                    browser.waitFor(5, TimeUnit.SECONDS);
+                } catch (Exception ignored) {}
+            }
+            try {
+                Files.deleteIfExists(rawDom);
+            } catch (Exception ignored) {}
+            try {
+                Files.deleteIfExists(rawError);
+            } catch (Exception ignored) {}
         }
         assertThat(consumer.bindingAttributes).isEqualTo(new GoogleSignInBrowserConsumer.CookieEvidence(true, true, true, true, true, true));
         assertThat(consumer.completion).isNotNull();

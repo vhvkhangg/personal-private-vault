@@ -115,6 +115,11 @@ public class GoogleSignInController {
         if (authentication == null || !"1".equals(authentication.getName())) {
             throw GoogleSignInException.forbidden();
         }
+        boolean isPrivate = authentication.getAuthorities().stream()
+                .anyMatch(a -> "PROFILE_PRIVATE".equals(a.getAuthority()));
+        if (!isPrivate) {
+            throw GoogleSignInException.forbidden();
+        }
 
         byte[] body = readBoundedBody(request);
         StartGoogleLinkRequest req = parseAndValidate(body, StartGoogleLinkRequest.class);

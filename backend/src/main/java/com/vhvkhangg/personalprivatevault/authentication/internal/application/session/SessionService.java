@@ -3,8 +3,13 @@ package com.vhvkhangg.personalprivatevault.authentication.internal.application.s
 import com.vhvkhangg.personalprivatevault.authentication.internal.application.token.JwtTokenService;
 import com.vhvkhangg.personalprivatevault.authentication.internal.application.token.TokenGenerator;
 import com.vhvkhangg.personalprivatevault.authentication.internal.domain.AppUser;
+import com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile;
+import com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginSession;
+import com.vhvkhangg.personalprivatevault.authentication.internal.domain.PublicLoginCredential;
 import com.vhvkhangg.personalprivatevault.authentication.internal.domain.RefreshToken;
 import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.AppUserRepository;
+import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.LoginSessionRepository;
+import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.PublicLoginCredentialRepository;
 import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.persistence.RefreshTokenRepository;
 import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.security.JwtProperties;
 import com.vhvkhangg.personalprivatevault.authentication.session.InvalidCredentialsException;
@@ -21,12 +26,15 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class SessionService implements SessionOperations {
 
     private final AppUserRepository appUserRepository;
+    private final PublicLoginCredentialRepository publicLoginCredentialRepository;
+    private final LoginSessionRepository loginSessionRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenService jwtTokenService;
     private final TokenGenerator tokenGenerator;
@@ -56,29 +64,39 @@ public class SessionService implements SessionOperations {
             throw new InvalidCredentialsException();
         }
 
-        return issueForVerifiedOwner(user);
-    }
+        publicLoginCredentialRepository.findByIdForShare(AppUser.SINGLETON_ID)
+                .orElseThrow(InvalidCredentialsException::new);
 
-    /**
-     * Shared token issuance seam for verified singleton Owner authentication.
-     * Requires an existing active transaction and verifies singleton owner identity.
-     */
-    @Transactional(propagation = org.springframework.transaction.annotation.Propagation.MANDATORY)
-    public AuthTokensView issueForVerifiedOwner(AppUser user) {
-        Objects.requireNonNull(user, "user must not be null");
-        if (user.getId() == null || user.getId() != AppUser.SINGLETON_ID) {
-            throw new IllegalArgumentException("user must be singleton owner");
-        }
-
+        UUID sessionId = UUID.randomUUID();
         Instant now = clock.instant();
         String rawRefreshToken = tokenGenerator.generateRawRefreshToken();
         String tokenHash = tokenGenerator.hashToken(rawRefreshToken);
         Instant refreshExpiresAt = now.plus(jwtProperties.getRefreshTokenLifetime());
 
-        RefreshToken refreshToken = new RefreshToken(user, tokenHash, refreshExpiresAt, now);
-        refreshTokenRepository.save(refreshToken);
+        RefreshToken refreshToken = new RefreshToken(
+                user,
+                sessionId,
+                LoginProfile.PRIVATE,
+                1L,
+                tokenHash,
+                refreshExpiresAt,
+                now
+        );
+        refreshToken = refreshTokenRepository.saveAndFlush(refreshToken);
 
-        String accessToken = jwtTokenService.issueAccessToken();
+        LoginSession session = new LoginSession(
+                sessionId,
+                user.getId(),
+                LoginProfile.PRIVATE,
+                1L,
+                null,
+                refreshToken.getId(),
+                now,
+                refreshExpiresAt
+        );
+        loginSessionRepository.saveAndFlush(session);
+
+        String accessToken = jwtTokenService.issueAccessToken(LoginProfile.PRIVATE, sessionId, 1L);
         long expiresInSeconds = jwtProperties.getAccessTokenLifetime().toSeconds();
 
         return new AuthTokensView(accessToken, rawRefreshToken, "Bearer", expiresInSeconds);
@@ -92,12 +110,54 @@ public class SessionService implements SessionOperations {
         }
 
         String tokenHash = tokenGenerator.hashToken(rawRefreshToken);
-        RefreshToken predecessor = refreshTokenRepository.findByTokenHashWithLock(tokenHash)
+        RefreshToken candidate = refreshTokenRepository.findByTokenHash(tokenHash)
                 .orElseThrow(() -> new InvalidRefreshTokenException("Invalid refresh token"));
 
         Instant now = clock.instant();
+        if (candidate.isRevoked() || candidate.isReplaced() || candidate.isExpired(now) || candidate.getSessionId() == null) {
+            throw new InvalidRefreshTokenException("Refresh token is expired, revoked, or replaced");
+        }
+
+        UUID sessionId = candidate.getSessionId();
+
+        // 1. Lock ppv_public_login_credential FOR SHARE
+        PublicLoginCredential credential = publicLoginCredentialRepository.findByIdForShare(AppUser.SINGLETON_ID)
+                .orElseThrow(() -> new InvalidRefreshTokenException("Invalid credential state"));
+
+        // 2. Lock target lineage FOR UPDATE
+        LoginSession session = loginSessionRepository.findByIdForUpdate(sessionId)
+                .orElseThrow(() -> new InvalidRefreshTokenException("Invalid session"));
+
+        // 3. Lock presented refresh token FOR UPDATE
+        RefreshToken predecessor = refreshTokenRepository.findByIdWithLock(candidate.getId())
+                .orElseThrow(() -> new InvalidRefreshTokenException("Invalid refresh token"));
+
+        // Refresh authoritative current time after all locks have been acquired
+        now = clock.instant();
+
+        if (session.isRevoked() || session.isExpired(now)) {
+            throw new InvalidRefreshTokenException("Session is revoked or expired");
+        }
+
+        if (session.getPublicCredentialEpoch() != null
+                && !Objects.equals(session.getPublicCredentialEpoch(), credential.getCredentialEpoch())) {
+            throw new InvalidRefreshTokenException("Session public credential epoch mismatch");
+        }
+
         if (predecessor.isRevoked() || predecessor.isReplaced() || predecessor.isExpired(now)) {
             throw new InvalidRefreshTokenException("Refresh token is expired, revoked, or replaced");
+        }
+
+        if (!Objects.equals(session.getCurrentRefreshTokenId(), predecessor.getId())) {
+            throw new InvalidRefreshTokenException("Refresh token is not current for session");
+        }
+
+        if (!Objects.equals(predecessor.getSessionGeneration(), session.getGeneration())) {
+            throw new InvalidRefreshTokenException("Refresh token generation mismatch");
+        }
+
+        if (predecessor.getProfile() != session.getActiveProfile()) {
+            throw new InvalidRefreshTokenException("Refresh token profile mismatch");
         }
 
         AppUser user = predecessor.getUser();
@@ -105,13 +165,24 @@ public class SessionService implements SessionOperations {
         String newTokenHash = tokenGenerator.hashToken(newRawToken);
         Instant newExpiresAt = now.plus(jwtProperties.getRefreshTokenLifetime());
 
-        RefreshToken successor = new RefreshToken(user, newTokenHash, newExpiresAt, now);
+        RefreshToken successor = new RefreshToken(
+                user,
+                session.getId(),
+                session.getActiveProfile(),
+                session.getGeneration(),
+                newTokenHash,
+                newExpiresAt,
+                now
+        );
         successor = refreshTokenRepository.saveAndFlush(successor);
 
         predecessor.replaceWith(successor.getId(), now);
-        refreshTokenRepository.save(predecessor);
+        refreshTokenRepository.saveAndFlush(predecessor);
 
-        String accessToken = jwtTokenService.issueAccessToken();
+        session.updateCurrentRefresh(successor.getId(), newExpiresAt);
+        loginSessionRepository.saveAndFlush(session);
+
+        String accessToken = jwtTokenService.issueAccessToken(session.getActiveProfile(), session.getId(), session.getGeneration());
         long expiresInSeconds = jwtProperties.getAccessTokenLifetime().toSeconds();
 
         return new AuthTokensView(accessToken, newRawToken, "Bearer", expiresInSeconds);
@@ -125,14 +196,49 @@ public class SessionService implements SessionOperations {
         }
 
         String tokenHash = tokenGenerator.hashToken(rawRefreshToken);
-        Optional<RefreshToken> tokenOpt = refreshTokenRepository.findByTokenHashWithLock(tokenHash);
+        Optional<RefreshToken> candidateOpt = refreshTokenRepository.findByTokenHash(tokenHash);
 
-        if (tokenOpt.isPresent()) {
-            RefreshToken token = tokenOpt.get();
-            if (!token.isRevoked()) {
-                token.revoke(clock.instant());
-                refreshTokenRepository.save(token);
-            }
+        if (candidateOpt.isEmpty()) {
+            return;
         }
+
+        RefreshToken candidate = candidateOpt.get();
+        Instant now = clock.instant();
+        if (candidate.getSessionId() == null || candidate.isRevoked() || candidate.isReplaced() || candidate.isExpired(now)) {
+            return;
+        }
+
+        publicLoginCredentialRepository.findByIdForShare(AppUser.SINGLETON_ID);
+
+        Optional<LoginSession> sessionOpt = loginSessionRepository.findByIdForUpdate(candidate.getSessionId());
+        if (sessionOpt.isEmpty()) {
+            return;
+        }
+        LoginSession session = sessionOpt.get();
+
+        Optional<RefreshToken> tokenOpt = refreshTokenRepository.findByIdWithLock(candidate.getId());
+        if (tokenOpt.isEmpty()) {
+            return;
+        }
+        RefreshToken token = tokenOpt.get();
+
+        // Refresh authoritative current time after all locks have been acquired
+        now = clock.instant();
+
+        if (session.isRevoked() || session.isExpired(now)) {
+            return;
+        }
+        if (token.isRevoked() || token.isReplaced() || token.isExpired(now)) {
+            return;
+        }
+
+        if (!Objects.equals(session.getCurrentRefreshTokenId(), token.getId())) {
+            return;
+        }
+
+        token.revoke(now);
+        refreshTokenRepository.saveAndFlush(token);
+        session.revoke(now);
+        loginSessionRepository.saveAndFlush(session);
     }
 }

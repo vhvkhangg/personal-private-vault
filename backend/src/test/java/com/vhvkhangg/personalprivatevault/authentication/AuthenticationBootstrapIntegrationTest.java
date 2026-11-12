@@ -38,8 +38,7 @@ class AuthenticationBootstrapIntegrationTest extends AbstractPostgresIntegration
 
     @BeforeEach
     void cleanUp() {
-        jdbcTemplate.execute("DELETE FROM refresh_tokens");
-        jdbcTemplate.execute("DELETE FROM app_users");
+        jdbcTemplate.execute("TRUNCATE TABLE ppv_login_sessions, ppv_public_login_credential, refresh_tokens, app_users CASCADE");
     }
 
     @Test

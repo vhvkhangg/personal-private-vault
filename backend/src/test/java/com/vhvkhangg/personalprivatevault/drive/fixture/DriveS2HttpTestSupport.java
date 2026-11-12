@@ -14,6 +14,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.*;
+import org.springframework.transaction.support.TransactionTemplate;
 import java.io.*;
 import java.net.*;
 import java.net.http.*;
@@ -44,6 +45,10 @@ public abstract class DriveS2HttpTestSupport extends AbstractPostgresIntegration
     @Autowired protected DriveFileResources resources;
     @Autowired protected DriveFileService service;
     @Autowired protected org.springframework.security.oauth2.jwt.JwtEncoder encoder;
+    @Autowired protected org.springframework.transaction.PlatformTransactionManager fixtureTransactionManager;
+    @Autowired(required = false) protected com.vhvkhangg.personalprivatevault.authentication.bootstrap.BootstrapOperations bootstrapOperations;
+    @Autowired(required = false) protected com.vhvkhangg.personalprivatevault.authentication.session.SessionOperations sessionOperations;
+    private String cachedBearerToken;
 
     @DynamicPropertySource static void properties(DynamicPropertyRegistry registry){
         registry.add("ppv.drive.enabled",() -> "true");registry.add("ppv.drive.files.enabled",() -> "true");
@@ -51,6 +56,7 @@ public abstract class DriveS2HttpTestSupport extends AbstractPostgresIntegration
         registry.add("ppv.drive.oauth.client-id",() -> "s2-http-client");registry.add("ppv.drive.oauth.client-secret",() -> "synthetic-secret");
     }
     @BeforeEach void clean() throws Exception {
+        cachedBearerToken = null;
         awaitClean();jdbc.update("DELETE FROM drive_child_folder_intents");jdbc.update("DELETE FROM drive_upload_intents");jdbc.update("DELETE FROM drive_folder_roots");jdbc.update("DELETE FROM drive_connections");
         lifecycle.initializeFromDatabase(List.of());attempts.invalidateSlotAttempts((short)1);attempts.invalidateSlotAttempts((short)2);
         OAUTH.reset();OAUTH.omitRefreshTokenOnRefresh=true;GOOGLE.reset();connect(1,"U");connect(2,"V");
@@ -69,7 +75,21 @@ public abstract class DriveS2HttpTestSupport extends AbstractPostgresIntegration
     }
     private String param(String value,String key){return value.split(key+"=")[1].split("&")[0];}
     protected URI uri(String path){return URI.create("http://localhost:"+port+path);}
-    protected HttpRequest.Builder request(String path){return HttpRequest.newBuilder(uri(path)).timeout(Duration.ofSeconds(25)).header("Authorization","Bearer "+jwt.issueAccessToken());}
+    protected String validBearerToken() {
+        if (cachedBearerToken != null) {
+            return cachedBearerToken;
+        }
+        if (bootstrapOperations != null && !bootstrapOperations.isBootstrapped()) {
+            bootstrapOperations.bootstrap(new com.vhvkhangg.personalprivatevault.authentication.bootstrap.BootstrapCommand(
+                    "owner@vault.local", "owner", "VaultPass123!", "123456"
+            ));
+        }
+        cachedBearerToken = sessionOperations.login(new com.vhvkhangg.personalprivatevault.authentication.session.LoginCommand(
+                "owner", "VaultPass123!"
+        )).accessToken();
+        return cachedBearerToken;
+    }
+    protected HttpRequest.Builder request(String path){return HttpRequest.newBuilder(uri(path)).timeout(Duration.ofSeconds(25)).header("Authorization","Bearer "+validBearerToken());}
     protected HttpResponse<byte[]> send(HttpRequest.Builder request) throws Exception{
         var future=client.sendAsync(request.build(),HttpResponse.BodyHandlers.ofByteArray());
         try{return future.get(24,TimeUnit.SECONDS);}

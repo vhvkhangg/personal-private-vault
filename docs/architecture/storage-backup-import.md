@@ -88,7 +88,7 @@ The export is a streamed ZIP containing:
 - a media manifest with object keys/checksums/size/type metadata.
 
 The snapshot runs read-only at PostgreSQL `REPEATABLE READ`, includes retained trash/soft-deleted/history rows, and
-excludes authentication secret/security-state tables and Flyway metadata.
+excludes authentication secret/security-state tables (`app_users`, `refresh_tokens`, `ppv_public_login_credential`, `ppv_login_sessions`, Google attempt/ticket tables) and Flyway metadata. Under BF26-DP-A, the exported manifest reports `highestFlywayVersion: 29`, and callers holding `PROFILE_PUBLIC` are denied export access with 403 `ACCESS_DENIED`. Full database backup operations and disaster-recovery session invalidation procedures are documented in [BF26-DP-A Cutover and Recovery Runbook](../implementation/maintenance/2026-11-11-dual-login-profiles-preparation/dp-a-cutover-and-recovery-2026-11-11.md).
 
 Binary media is not embedded in this archive. Full provider-level binary backup remains coordinated separately.
 

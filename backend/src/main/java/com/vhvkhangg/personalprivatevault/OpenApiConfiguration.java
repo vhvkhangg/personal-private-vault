@@ -29,6 +29,7 @@ public class OpenApiConfiguration {
             "/api/v1/auth/bootstrap/status",
             "/api/v1/auth/bootstrap",
             "/api/v1/auth/login",
+            "/api/v1/auth/profiles/login",
             "/api/v1/auth/refresh",
             "/api/v1/auth/revoke"
     );
@@ -94,7 +95,7 @@ public class OpenApiConfiguration {
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
-                                .description("JWT Bearer access token authorization.")))
+                                .description("DP-A persisted session authority: sub=1, profile PUBLIC or PRIVATE, sid and positive integral generation. PUBLIC is Auth-only; business/data operations require PRIVATE.")))
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_SECURITY_SCHEME));
     }
 
@@ -132,6 +133,11 @@ public class OpenApiConfiguration {
             openApi.getComponents().addSchemas("ApiFieldError", apiFieldErrorSchema);
             openApi.getComponents().addSchemas("ApiError", apiErrorSchema);
             openApi.getComponents().addSchemas("ErrorResponse", errorEnvelopeSchema);
+            // DP-A's route-local parser rejects unknown members in these three request objects.
+            for (String name : Set.of("PublicProfileLoginRequest", "PublicCredentialRequest", "ElevatePrivateRequest")) {
+                Schema<?> schema = openApi.getComponents().getSchemas().get(name);
+                if (schema != null) schema.setAdditionalProperties(false);
+            }
 
             if (openApi.getPaths() == null) {
                 return;
@@ -150,6 +156,17 @@ public class OpenApiConfiguration {
                     if (responses == null) {
                         responses = new ApiResponses();
                         operation.setResponses(responses);
+                    }
+
+                    // D4 keeps the callback's fixed redirect and disables token issuance via Google.
+                    if (pathKey.equals("/api/v1/auth/google/callback")) {
+                        operation.setSecurity(Collections.emptyList());
+                        responses.clear();
+                        responses.addApiResponse("303", new ApiResponse()
+                                .description("D4: LINK completion or failed LOGIN redirects to the fixed BFF completion URL; no token response")
+                                .addHeaderObject("Location", new io.swagger.v3.oas.models.headers.Header()
+                                        .schema(new Schema<String>().type("string"))));
+                        return;
                     }
 
                     String operationId = operation.getOperationId();
@@ -172,7 +189,7 @@ public class OpenApiConfiguration {
                     }
 
                     if (isPublic) {
-                        if (pathKey.equals("/api/v1/auth/login") || pathKey.equals("/api/v1/auth/refresh")) {
+                        if (pathKey.equals("/api/v1/auth/login") || pathKey.equals("/api/v1/auth/refresh") || pathKey.equals("/api/v1/auth/profiles/login")) {
                             if (!responses.containsKey("401")) {
                                 responses.addApiResponse("401", new ApiResponse()
                                         .description("Unauthorized - Invalid credentials or token")
@@ -247,6 +264,7 @@ public class OpenApiConfiguration {
                             && !pathKey.equals("/api/v1/auth/login")
                             && !pathKey.equals("/api/v1/auth/refresh")
                             && !pathKey.equals("/api/v1/auth/revoke")
+                            && !pathKey.equals("/api/v1/auth/profiles/login")
                             && !pathKey.equals("/api/v1/auth/private-pin/verify")
                             && !pathKey.equals("/api/v1/portability/exports");
 
@@ -283,6 +301,19 @@ public class OpenApiConfiguration {
                         responses.addApiResponse("500", new ApiResponse()
                                 .description("Internal Server Error - Unexpected server failure")
                                 .content(errorContent));
+                    }
+                    if (pathKey.equals("/api/v1/auth/profiles/login")) {
+                        responses.get("401").setDescription("AUTH_INVALID_CREDENTIALS - wrong or unconfigured PUBLIC password");
+                    } else if (pathKey.equals("/api/v1/auth/profiles/public-credential")) {
+                        responses.get("422").setDescription("AUTH_PASSWORD_NOT_DISTINCT - PUBLIC password must differ from PRIVATE password");
+                    } else if (pathKey.equals("/api/v1/auth/sessions/downgrade-public")) {
+                        responses.get("409").setDescription("AUTH_PUBLIC_NOT_CONFIGURED - PUBLIC credential is not configured");
+                    } else if (pathKey.equals("/api/v1/auth/google/start") || pathKey.equals("/api/v1/auth/google/handoff")) {
+                        operation.setSecurity(Collections.emptyList());
+                        responses.remove("200");
+                        responses.remove("401");
+                        responses.remove("403");
+                        responses.addApiResponse("503", new ApiResponse().description("GOOGLE_SIGNIN_UNAVAILABLE - DP-A has no safe profile selection or issuance mapping").content(errorContent));
                     }
                 });
             });

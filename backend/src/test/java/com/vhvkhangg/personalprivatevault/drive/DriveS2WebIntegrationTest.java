@@ -89,13 +89,13 @@ class DriveS2WebIntegrationTest extends DriveS2HttpTestSupport {
         String token=encoder.encode(JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(),
                 JwtClaimsSet.builder().issuer("personal-private-vault").subject("2").issuedAt(Instant.now()).expiresAt(Instant.now().plusSeconds(300)).build())).getTokenValue();
         var response=send(HttpRequest.newBuilder(uri(path(1)+"/root-folder")).header("Authorization","Bearer "+token).POST(HttpRequest.BodyPublishers.noBody()));
-        assertThat(response.statusCode()).isEqualTo(403);assertThat(GOOGLE.calls).isEmpty();
+        assertThat(response.statusCode()).isEqualTo(401);assertThat(GOOGLE.calls).isEmpty();
     }
     @Test void actualOpenApiHas243OperationsAndBinarySchemasWhileCallbackRemainsPublicGetOnly() throws Exception {
         var response=send(HttpRequest.newBuilder(uri("/v3/api-docs")).GET());assertThat(response.statusCode()).isEqualTo(200);
         var document=mapper.readTree(response.body());var paths=document.path("paths");int count=0;
         for(var item:paths){for(var names=item.fieldNames();names.hasNext();)if(Set.of("get","post","put","patch","delete").contains(names.next()))count++;}
-        assertThat(count).isEqualTo(248);
+        assertThat(count).isEqualTo(252);
         var upload=paths.path("/api/v1/drive/connections/{slot}/files").path("post");
         assertThat(upload.path("security").toString()).contains("bearerAuth");
         String ref=upload.path("requestBody").path("content").path("multipart/form-data").path("schema").path("$ref").asText();

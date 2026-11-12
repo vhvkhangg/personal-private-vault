@@ -27,12 +27,24 @@ public abstract class AbstractWebIntegrationTest extends AbstractPostgresIntegra
     @Autowired
     protected JdbcTemplate jdbcTemplate;
 
+    @Autowired(required = false)
+    protected com.vhvkhangg.personalprivatevault.authentication.bootstrap.BootstrapOperations bootstrapOperations;
+
+    @Autowired(required = false)
+    protected com.vhvkhangg.personalprivatevault.authentication.session.SessionOperations sessionOperations;
+
+    @Autowired(required = false)
+    protected com.vhvkhangg.personalprivatevault.authentication.internal.application.session.ProfileSessionService profileSessionService;
+
+    @Autowired(required = false)
+    protected org.springframework.security.oauth2.jwt.JwtDecoder jwtDecoder;
+
     @Autowired
     private WebApplicationContext context;
     @Autowired
     private com.vhvkhangg.personalprivatevault.rag.internal.application.RagRecoveryService ragRecovery;
     @Autowired
-    private org.springframework.transaction.PlatformTransactionManager fixtureTransactions;
+    protected org.springframework.transaction.PlatformTransactionManager fixtureTransactions;
 
     @BeforeEach
     void setUpMockMvcAndReferenceData() {
@@ -154,16 +166,101 @@ public abstract class AbstractWebIntegrationTest extends AbstractPostgresIntegra
                     favorites,
                     ratings,
                     vault_entries,
+                    ppv_login_sessions,
+                    ppv_public_login_credential,
                     refresh_tokens,
                     app_users,
                     app_settings
                 CASCADE
                 """);
+            cachedBearerToken = null;
         });
     }
 
+    protected static final String DEFAULT_OWNER_EMAIL = "owner@vault.local";
+    protected static final String DEFAULT_OWNER_USERNAME = "vaultowner";
+    protected static final String DEFAULT_OWNER_PASSWORD = "MasterVaultPassword123!";
+    protected static final String DEFAULT_OWNER_PIN = "123456";
+    protected static final String DEFAULT_PUBLIC_PASSWORD = "PublicPass123!";
+
+    private String cachedBearerToken;
+
     protected String bearerToken() {
-        return jwtTokenService.issueAccessToken();
+        if (cachedBearerToken != null) {
+            return cachedBearerToken;
+        }
+
+        if (bootstrapOperations != null && !bootstrapOperations.isBootstrapped()) {
+            bootstrapOperations.bootstrap(new com.vhvkhangg.personalprivatevault.authentication.bootstrap.BootstrapCommand(
+                    DEFAULT_OWNER_EMAIL,
+                    DEFAULT_OWNER_USERNAME,
+                    DEFAULT_OWNER_PASSWORD,
+                    DEFAULT_OWNER_PIN
+            ));
+        }
+
+        if (sessionOperations != null) {
+            try {
+                var tokens = sessionOperations.login(new com.vhvkhangg.personalprivatevault.authentication.session.LoginCommand(
+                        DEFAULT_OWNER_USERNAME,
+                        DEFAULT_OWNER_PASSWORD
+                ));
+                cachedBearerToken = tokens.accessToken();
+                return cachedBearerToken;
+            } catch (Exception e) {
+                var tokens = sessionOperations.login(new com.vhvkhangg.personalprivatevault.authentication.session.LoginCommand(
+                        "owner",
+                        "VaultPass123!"
+                ));
+                cachedBearerToken = tokens.accessToken();
+                return cachedBearerToken;
+            }
+        }
+
+        throw new IllegalStateException("Neither sessionOperations nor bootstrapOperations available");
+    }
+
+    protected String publicBearerToken() {
+        // Legitimate Origin 1: Configured PUBLIC profile login
+        String privateToken = bearerToken();
+        org.springframework.security.oauth2.jwt.Jwt jwt = jwtDecoder.decode(privateToken);
+        java.util.UUID sessionId = java.util.UUID.fromString(jwt.getClaimAsString("sid"));
+        long generation = ((Number) jwt.getClaim("generation")).longValue();
+
+        Integer configured = jdbcTemplate.queryForObject(
+                "SELECT count(*) FROM ppv_public_login_credential WHERE owner_id = 1 AND password_hash IS NOT NULL",
+                Integer.class
+        );
+        if (configured == null || configured == 0) {
+            try {
+                profileSessionService.configureOrResetPublicCredential(sessionId, generation, DEFAULT_OWNER_PASSWORD, DEFAULT_PUBLIC_PASSWORD);
+            } catch (Exception e) {
+                profileSessionService.configureOrResetPublicCredential(sessionId, generation, "VaultPass123!", DEFAULT_PUBLIC_PASSWORD);
+            }
+        }
+
+        return profileSessionService.publicLogin(DEFAULT_PUBLIC_PASSWORD).accessToken();
+    }
+
+    protected String publicBearerTokenViaDowngrade() {
+        // Legitimate Origin 2: Actual downgrade from active private session
+        if (bootstrapOperations != null && !bootstrapOperations.isBootstrapped()) {
+            bootstrapOperations.bootstrap(new com.vhvkhangg.personalprivatevault.authentication.bootstrap.BootstrapCommand(
+                    DEFAULT_OWNER_EMAIL,
+                    DEFAULT_OWNER_USERNAME,
+                    DEFAULT_OWNER_PASSWORD,
+                    DEFAULT_OWNER_PIN
+            ));
+        }
+        var tokens = sessionOperations.login(new com.vhvkhangg.personalprivatevault.authentication.session.LoginCommand(
+                DEFAULT_OWNER_USERNAME,
+                DEFAULT_OWNER_PASSWORD
+        ));
+        org.springframework.security.oauth2.jwt.Jwt jwt = jwtDecoder.decode(tokens.accessToken());
+        java.util.UUID sessionId = java.util.UUID.fromString(jwt.getClaimAsString("sid"));
+        long generation = ((Number) jwt.getClaim("generation")).longValue();
+
+        return profileSessionService.downgradePublic(sessionId, generation).accessToken();
     }
 
     protected String bearerHeader() {

@@ -91,6 +91,11 @@ public class PrivatePinService implements PrivatePinOperations {
         if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
             throw new UnauthenticatedAccessException("Authenticated user context is required for private PIN operations");
         }
+        boolean isPublic = auth.getAuthorities().stream()
+                .anyMatch(a -> "PROFILE_PUBLIC".equals(a.getAuthority()));
+        if (isPublic) {
+            throw new org.springframework.security.access.AccessDeniedException("Private profile is required for PIN operations");
+        }
     }
 
     private void validatePinFormat(String pin) {

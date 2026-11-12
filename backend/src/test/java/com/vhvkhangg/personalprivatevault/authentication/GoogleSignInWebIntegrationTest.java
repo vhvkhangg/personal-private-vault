@@ -6,6 +6,7 @@ import com.vhvkhangg.personalprivatevault.authentication.bootstrap.BootstrapComm
 import com.vhvkhangg.personalprivatevault.authentication.bootstrap.BootstrapOperations;
 import com.vhvkhangg.personalprivatevault.authentication.fixture.FakeGoogleSignInServer;
 import com.vhvkhangg.personalprivatevault.authentication.fixture.GoogleSignInTestSupport;
+import com.vhvkhangg.personalprivatevault.authentication.internal.infrastructure.security.GoogleSignInResources;
 import com.vhvkhangg.personalprivatevault.authentication.internal.web.controller.GoogleSignInController;
 import com.vhvkhangg.personalprivatevault.support.AbstractWebIntegrationTest;
 import jakarta.servlet.http.Cookie;
@@ -41,6 +42,9 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
 
     @Autowired(required = false)
     private BootstrapOperations bootstrapOperations;
+
+    @Autowired(required = false)
+    private GoogleSignInResources googleSignInResources;
 
     private static FakeGoogleSignInServer fakeGoogle() {
         return GoogleSignInTestSupport.fakeGoogle();
@@ -86,6 +90,12 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
                 .apply(org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity())
                 .defaultRequest(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/").header("Host", "localhost:8080"))
                 .build();
+        if (googleSignInResources != null) {
+            java.util.Map<?, ?> map = (java.util.Map<?, ?>) org.springframework.test.util.ReflectionTestUtils.getField(googleSignInResources, "routeRateLimits");
+            if (map != null) {
+                map.clear();
+            }
+        }
         cleanupGoogleTables();
         ensureOwnerBootstrapped();
     }
@@ -102,8 +112,8 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @DisplayName("A-01: POST /api/v1/auth/google/start permits anonymous, sets binding cookie, and returns auth URL")
-    void startGoogleSignInSucceeds() throws Exception {
+    @DisplayName("D4: POST /api/v1/auth/google/start returns 503 GOOGLE_SIGNIN_UNAVAILABLE before attempt creation")
+    void startGoogleSignInReturns503() throws Exception {
         seedOwnerGoogleIdentity("https://accounts.google.com", "sub-web-owner");
 
         String verifier = generate43CharToken();
@@ -113,21 +123,14 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
             put("handoffChallenge", challenge);
         }});
 
-        var result = mockMvc.perform(post("/api/v1/auth/google/start")
+        mockMvc.perform(post("/api/v1/auth/google/start")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
-                .andExpect(status().isOk())
-                .andExpect(header().exists("Set-Cookie"))
-                .andExpect(jsonPath("$.data.authorizationUrl").isString())
-                .andExpect(jsonPath("$.data.attemptId").isString())
-                .andExpect(jsonPath("$.data.expiresIn").value(300))
-                .andReturn();
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.code").value("GOOGLE_SIGNIN_UNAVAILABLE"));
 
-        String setCookie = result.getResponse().getHeader("Set-Cookie");
-        assertThat(setCookie).contains("ppv_google_signin_bind=");
-        assertThat(setCookie).contains("HttpOnly");
-        assertThat(setCookie).contains("Path=/api/v1/auth/google/callback");
-        assertThat(setCookie).contains("Max-Age=300");
+        Integer attempts = jdbcTemplate.queryForObject("SELECT count(*) FROM ppv_google_login_attempts", Integer.class);
+        assertThat(attempts).isZero();
     }
 
     @Test
@@ -150,7 +153,7 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
     @Test
     @DisplayName("A-02: POST /api/v1/auth/google/link/start with valid owner bearer and correct password succeeds")
     void linkStartWithBearerAndCorrectPasswordSucceeds() throws Exception {
-        String token = jwtTokenService.issueAccessToken();
+        String token = bearerToken();
         String verifier = generate43CharToken();
         String challenge = sha256Hex(verifier);
 
@@ -169,18 +172,20 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @DisplayName("A-01, A-07: GET /api/v1/auth/google/callback redirects 303 to BFF completion and delivers handoff cookie")
+    @DisplayName("D4: LINK start and callback redirect 303 to BFF completion with handoff cookie; redemption fails 503")
     void callbackRedirects303WithHandoffCookie() throws Exception {
         seedOwnerGoogleIdentity("https://accounts.google.com", "sub-web-owner");
 
-        // 1. Start login
+        // 1. Start link
         String verifier = generate43CharToken();
         String challenge = sha256Hex(verifier);
         String startPayload = mapper.writeValueAsString(new java.util.HashMap<String, String>() {{
             put("handoffChallenge", challenge);
+            put("password", GoogleSignInTestSupport.DEFAULT_RAW_PASSWORD);
         }});
 
-        var startResp = mockMvc.perform(post("/api/v1/auth/google/start")
+        var startResp = mockMvc.perform(post("/api/v1/auth/google/link/start")
+                        .header("Authorization", "Bearer " + bearerToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(startPayload))
                 .andExpect(status().isOk())
@@ -221,7 +226,7 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(handoffCookie.getMaxAge()).isEqualTo(60);
         assertThat(handoffCookie.getPath()).isEqualTo("/api/bff/auth/google/complete");
 
-        // 5. Redeem handoff ticket
+        // 5. Redeem handoff ticket fails closed 503 before ticket consumption or token issuance
         String handoffPayload = mapper.writeValueAsString(new java.util.HashMap<String, String>() {{
             put("ticket", handoffCookie.getValue());
             put("handoffVerifier", verifier);
@@ -230,10 +235,8 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
         mockMvc.perform(post("/api/v1/auth/google/handoff")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(handoffPayload))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.accessToken").isString())
-                .andExpect(jsonPath("$.data.refreshToken").isString())
-                .andExpect(jsonPath("$.data.tokenType").value("Bearer"));
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.code").value("GOOGLE_SIGNIN_UNAVAILABLE"));
     }
 
     @Test
@@ -255,15 +258,19 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @DisplayName("A-06: Two concurrent HTTP handoff redemptions yield exactly one 200 and one 401")
-    void concurrentHandoffRedemptionsYieldExactlyOneSuccess() throws Exception {
+    @DisplayName("D4: Two concurrent HTTP handoff redemptions fail-closed with 503 GOOGLE_SIGNIN_UNAVAILABLE")
+    void concurrentHandoffRedemptionsYield503() throws Exception {
         seedOwnerGoogleIdentity("https://accounts.google.com", "sub-web-concurrent");
 
         String verifier = generate43CharToken();
         String challenge = sha256Hex(verifier);
-        String startPayload = mapper.writeValueAsString(java.util.Map.of("handoffChallenge", challenge));
+        String startPayload = mapper.writeValueAsString(new java.util.HashMap<String, String>() {{
+            put("handoffChallenge", challenge);
+            put("password", GoogleSignInTestSupport.DEFAULT_RAW_PASSWORD);
+        }});
 
-        var startResp = mockMvc.perform(post("/api/v1/auth/google/start")
+        var startResp = mockMvc.perform(post("/api/v1/auth/google/link/start")
+                        .header("Authorization", "Bearer " + bearerToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(startPayload))
                 .andExpect(status().isOk())
@@ -298,8 +305,7 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         CountDownLatch ready = new CountDownLatch(2);
         CountDownLatch fire = new CountDownLatch(1);
-        AtomicInteger okCount = new AtomicInteger();
-        AtomicInteger unauthCount = new AtomicInteger();
+        AtomicInteger unavailableCount = new AtomicInteger();
 
         for (int i = 0; i < 2; i++) {
             executor.submit(() -> {
@@ -312,10 +318,8 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
                             .andReturn()
                             .getResponse()
                             .getStatus();
-                    if (status == 200) {
-                        okCount.incrementAndGet();
-                    } else if (status == 401) {
-                        unauthCount.incrementAndGet();
+                    if (status == 503) {
+                        unavailableCount.incrementAndGet();
                     }
                 } catch (Exception ignored) {}
             });
@@ -326,8 +330,7 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
         executor.shutdown();
         executor.awaitTermination(5, TimeUnit.SECONDS);
 
-        assertThat(okCount.get()).isEqualTo(1);
-        assertThat(unauthCount.get()).isEqualTo(1);
+        assertThat(unavailableCount.get()).isEqualTo(2);
     }
 
     @Test
@@ -419,12 +422,12 @@ class GoogleSignInWebIntegrationTest extends AbstractWebIntegrationTest {
                         .content(payload))
                 .andExpect(status().isBadRequest());
 
-        // Literal localhost:8080 is accepted
+        // Literal localhost:8080 is accepted by host validator, reaching service which throws 503 under D4
         mockMvc.perform(post("/api/v1/auth/google/start")
                         .header("Host", "localhost:8080")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
-                .andExpect(status().isOk());
+                .andExpect(status().isServiceUnavailable());
     }
 
     @Test

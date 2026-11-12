@@ -398,4 +398,166 @@ class AuthWebIntegrationTest extends AbstractWebIntegrationTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
     }
+
+    @Test
+    @DisplayName("Complete profile session lifecycle over HTTP: setup, public login, elevate, downgrade, distinctness, and epoch invalidation")
+    void completeProfileSessionLifecycleOverHttp() throws Exception {
+        // 1. Bootstrap
+        String bootstrapPayload = """
+                {
+                  "email": "owner@vault.local",
+                  "username": "owner",
+                  "password": "master-vault-password-1234",
+                  "pin": "123456"
+                }
+                """;
+        mockMvc.perform(post("/api/v1/auth/bootstrap")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bootstrapPayload))
+                .andExpect(status().isCreated());
+
+        // 2. Public login before configuration -> 401 AUTH_INVALID_CREDENTIALS
+        mockMvc.perform(post("/api/v1/auth/profiles/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"profile\":\"PUBLIC\",\"password\":\"somepassword123\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTH_INVALID_CREDENTIALS"));
+
+        // 3. Public login with extra identifier -> 400 VALIDATION_ERROR
+        mockMvc.perform(post("/api/v1/auth/profiles/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"profile\":\"PUBLIC\",\"password\":\"somepassword123\",\"identifier\":\"owner\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.code").value("VALIDATION_ERROR"));
+
+        // 4. Public login with profile not PUBLIC -> 400 VALIDATION_ERROR
+        mockMvc.perform(post("/api/v1/auth/profiles/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"profile\":\"PRIVATE\",\"password\":\"somepassword123\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.code").value("VALIDATION_ERROR"));
+
+        // 5. Private login
+        String privateLoginPayload = """
+                {
+                  "identifier": "owner",
+                  "password": "master-vault-password-1234"
+                }
+                """;
+        String privateLoginResp = mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(privateLoginPayload))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String privateAccessToken = objectMapper.readTree(privateLoginResp).path("data").path("accessToken").asText();
+
+        // 6. Downgrade before public credential is setup -> 409 AUTH_PUBLIC_NOT_CONFIGURED
+        mockMvc.perform(post("/api/v1/auth/sessions/downgrade-public")
+                        .header("Authorization", "Bearer " + privateAccessToken))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.error.code").value("AUTH_PUBLIC_NOT_CONFIGURED"));
+
+        // 7. Setup public credential with same password -> 422 AUTH_PASSWORD_NOT_DISTINCT
+        String samePasswordPayload = """
+                {
+                  "privatePassword": "master-vault-password-1234",
+                  "publicPassword": "master-vault-password-1234"
+                }
+                """;
+        mockMvc.perform(post("/api/v1/auth/profiles/public-credential")
+                        .header("Authorization", "Bearer " + privateAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(samePasswordPayload))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.error.code").value("AUTH_PASSWORD_NOT_DISTINCT"));
+
+        // 8. Setup public credential with short password (<12 chars) -> 400 VALIDATION_ERROR
+        String shortPasswordPayload = """
+                {
+                  "privatePassword": "master-vault-password-1234",
+                  "publicPassword": "short"
+                }
+                """;
+        mockMvc.perform(post("/api/v1/auth/profiles/public-credential")
+                        .header("Authorization", "Bearer " + privateAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(shortPasswordPayload))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.code").value("VALIDATION_ERROR"));
+
+        // 9. Valid public credential setup -> 200 data: null
+        String validSetupPayload = """
+                {
+                  "privatePassword": "master-vault-password-1234",
+                  "publicPassword": "public-guest-password-9999"
+                }
+                """;
+        mockMvc.perform(post("/api/v1/auth/profiles/public-credential")
+                        .header("Authorization", "Bearer " + privateAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(validSetupPayload))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value(org.hamcrest.Matchers.nullValue()));
+
+        // 10. Public login with correct configured password -> 200 AuthTokensResponse
+        String publicLoginPayload = """
+                {
+                  "profile": "PUBLIC",
+                  "password": "public-guest-password-9999"
+                }
+                """;
+        String publicLoginResp = mockMvc.perform(post("/api/v1/auth/profiles/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(publicLoginPayload))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String publicAccessToken = objectMapper.readTree(publicLoginResp).path("data").path("accessToken").asText();
+
+        // 11. Public token hitting business route -> 403 ACCESS_DENIED
+        mockMvc.perform(get("/api/v1/reference/countries")
+                        .header("Authorization", "Bearer " + publicAccessToken))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+
+        // 12. Elevate session with wrong private password -> 401 AUTH_INVALID_CREDENTIALS
+        mockMvc.perform(post("/api/v1/auth/sessions/elevate-private")
+                        .header("Authorization", "Bearer " + publicAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"privatePassword\":\"wrong-password\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTH_INVALID_CREDENTIALS"));
+
+        // 13. Elevate session with correct private password -> 200
+        String elevateResp = mockMvc.perform(post("/api/v1/auth/sessions/elevate-private")
+                        .header("Authorization", "Bearer " + publicAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"privatePassword\":\"master-vault-password-1234\"}"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String elevatedAccessToken = objectMapper.readTree(elevateResp).path("data").path("accessToken").asText();
+
+        // 14. Elevated token now has PRIVATE access to business route -> 200 OK
+        mockMvc.perform(get("/api/v1/reference/countries")
+                        .header("Authorization", "Bearer " + elevatedAccessToken))
+                .andExpect(status().isOk());
+
+        // 15. Prior public token is now superseded by generation change -> 401
+        mockMvc.perform(get("/api/v1/reference/countries")
+                        .header("Authorization", "Bearer " + publicAccessToken))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+        // 16. Downgrade session back to PUBLIC -> 200
+        String downgradeResp = mockMvc.perform(post("/api/v1/auth/sessions/downgrade-public")
+                        .header("Authorization", "Bearer " + elevatedAccessToken))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String downgradedPublicToken = objectMapper.readTree(downgradeResp).path("data").path("accessToken").asText();
+
+        // 17. Downgraded token is denied business route -> 403
+        mockMvc.perform(get("/api/v1/reference/countries")
+                        .header("Authorization", "Bearer " + downgradedPublicToken))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+    }
 }
