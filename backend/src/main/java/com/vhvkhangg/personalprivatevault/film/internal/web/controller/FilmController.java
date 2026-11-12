@@ -23,8 +23,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +57,18 @@ public class FilmController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get film work by ID", operationId = "getFilm")
-    public ResponseEntity<ApiResponse<FilmResponse>> get(@PathVariable Long id) {
+    public ResponseEntity<?> get(@PathVariable Long id, Authentication authentication) {
+        boolean isPublic = authentication != null && authentication.getAuthorities().stream()
+                .anyMatch(a -> "PROFILE_PUBLIC".equals(a.getAuthority()));
+        if (isPublic) {
+            return filmOperations.findPublic(id)
+                    .map(view -> ResponseEntity.ok()
+                            .cacheControl(CacheControl.noStore())
+                            .body(ApiResponses.success(FilmWebMapper.toPublicResponse(view))))
+                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .cacheControl(CacheControl.noStore())
+                            .body(ApiResponses.error("FILM_NOT_FOUND", "Film not found")));
+        }
         return filmOperations.find(id)
                 .map(view -> ApiResponses.ok(FilmWebMapper.toResponse(view)))
                 .orElseGet(() -> ApiResponses.of(HttpStatus.NOT_FOUND, "FILM_NOT_FOUND", "Film not found"));

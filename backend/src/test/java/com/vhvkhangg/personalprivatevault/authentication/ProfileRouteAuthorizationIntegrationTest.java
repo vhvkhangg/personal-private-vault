@@ -33,16 +33,34 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
     @org.springframework.test.context.bean.override.mockito.MockitoSpyBean
     private org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter handlerAdapter;
 
+    @Autowired(required = false)
+    private org.springframework.security.oauth2.jwt.JwtEncoder jwtEncoder;
+
+    @org.springframework.test.context.bean.override.mockito.MockitoSpyBean
+    private com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations vaultEntryOperations;
+
     @Test
-    @DisplayName("DPA-12: Complete sweep of all registered non-auth endpoints denies PUBLIC token from both origins")
+    @DisplayName("DPA-12 / B1: Complete sweep of all registered business endpoints reconciles exact 8-route exception set, denies remaining mappings, and verifies no handler invocation / domain mutation")
     void registeredRoutesDeniedToPublicTokenFromBothOrigins() throws Exception {
         String tokenConfigured = publicBearerToken();
         String tokenDowngraded = publicBearerTokenViaDowngrade();
 
+        Set<String> declaredAllowedPairs = Set.of(
+                "GET /api/v1/fictions/{id}",
+                "GET /api/v1/films/{id}",
+                "GET /api/v1/reference/countries",
+                "GET /api/v1/reference/countries/{code}",
+                "GET /api/v1/reference/languages",
+                "GET /api/v1/reference/languages/{code}",
+                "GET /api/v1/reference/currencies",
+                "GET /api/v1/reference/currencies/{code}"
+        );
+        Set<String> discoveredAllowedPairs = new HashSet<>();
         Set<String> testedEndpoints = new HashSet<>();
+
         com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.seedDomain(jdbcTemplate);
         var valuesBefore = com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.domainSnapshot(jdbcTemplate);
-        assertThat(valuesBefore.keySet()).contains("vault_entries", "persons", "external_accounts", "wallets", "diary_entries", "app_settings");
+        assertThat(valuesBefore.keySet()).contains("vault_entries", "persons", "external_accounts", "wallets", "diary_entries", "app_settings", "fictions", "films");
         org.mockito.Mockito.clearInvocations(handlerAdapter);
 
         handlerMapping.getHandlerMethods().forEach((info, method) -> {
@@ -56,20 +74,73 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                     continue;
                 }
 
-                // Concrete URI replacing path variables
-                String concreteUri = pattern.replaceAll("\\{[^}]+\\}", "1");
-                if (pattern.contains("sid") || pattern.contains("uuid") || pattern.contains("SessionId") || pattern.contains("id") && pattern.contains("image")) {
-                    concreteUri = pattern.replaceAll("\\{[^}]+\\}", "00000000-0000-0000-0000-000000000001");
-                }
-
                 for (RequestMethod requestMethod : targetMethods) {
+                    String pairKey = requestMethod.name() + " " + pattern;
+
+                    if (declaredAllowedPairs.contains(pairKey)) {
+                        discoveredAllowedPairs.add(pairKey);
+                        Class<?> beanType = method.getBeanType();
+                        if (pattern.startsWith("/api/v1/fictions/")) {
+                            assertThat(beanType).isEqualTo(com.vhvkhangg.personalprivatevault.fiction.internal.web.controller.FictionController.class);
+                        } else if (pattern.startsWith("/api/v1/films/")) {
+                            assertThat(beanType).isEqualTo(com.vhvkhangg.personalprivatevault.film.internal.web.controller.FilmController.class);
+                        } else if (pattern.startsWith("/api/v1/reference/")) {
+                            assertThat(beanType).isEqualTo(com.vhvkhangg.personalprivatevault.reference.internal.web.controller.ReferenceController.class);
+                        }
+                        String allowedUri = pattern;
+                        if (pattern.equals("/api/v1/fictions/{id}")) {
+                            allowedUri = "/api/v1/fictions/904";
+                        } else if (pattern.equals("/api/v1/films/{id}")) {
+                            allowedUri = "/api/v1/films/905";
+                        } else if (pattern.equals("/api/v1/reference/countries/{code}")) {
+                            allowedUri = "/api/v1/reference/countries/VN";
+                        } else if (pattern.equals("/api/v1/reference/languages/{code}")) {
+                            allowedUri = "/api/v1/reference/languages/en";
+                        } else if (pattern.equals("/api/v1/reference/currencies/{code}")) {
+                            allowedUri = "/api/v1/reference/currencies/USD";
+                        }
+
+                        try {
+                            // Test with configured PUBLIC token -> 200
+                            mockMvc.perform(get(allowedUri).header("Authorization", "Bearer " + tokenConfigured))
+                                    .andExpect(status().isOk())
+                                    .andExpect(jsonPath("$.data").isNotEmpty());
+
+                            // Test with downgraded PUBLIC token -> 200
+                            mockMvc.perform(get(allowedUri).header("Authorization", "Bearer " + tokenDowngraded))
+                                    .andExpect(status().isOk())
+                                    .andExpect(jsonPath("$.data").isNotEmpty());
+
+                            // Test anonymous -> 401
+                            mockMvc.perform(get(allowedUri))
+                                    .andExpect(status().isUnauthorized())
+                                    .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+                            // Test with PRIVATE token -> 200
+                            mockMvc.perform(get(allowedUri).header("Authorization", "Bearer " + bearerToken()))
+                                    .andExpect(status().isOk());
+                        } catch (Exception e) {
+                            throw new RuntimeException("Failed positive verification on allowed route: " + pairKey, e);
+                        }
+                        continue;
+                    }
+
+                    // For every other registered business mapping:
+                    String concreteUri = pattern.replaceAll("\\{[^}]+\\}", "1");
+                    if (pattern.contains("sid") || pattern.contains("uuid") || pattern.contains("SessionId") || pattern.contains("id") && pattern.contains("image")) {
+                        concreteUri = pattern.replaceAll("\\{[^}]+\\}", "00000000-0000-0000-0000-000000000001");
+                    }
+
                     String key = requestMethod.name() + " " + concreteUri;
                     if (!testedEndpoints.add(key)) {
                         continue;
                     }
 
                     try {
-                        // Test with configured PUBLIC token
+                        // Scope spy observation: reset before denial call
+                        org.mockito.Mockito.clearInvocations(handlerAdapter);
+
+                        // Test with configured PUBLIC token -> 403 ACCESS_DENIED
                         MockHttpServletRequestBuilder req1 = request(HttpMethod.valueOf(requestMethod.name()), concreteUri)
                                 .header("Authorization", "Bearer " + tokenConfigured)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -78,15 +149,13 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                                 .andExpect(status().isForbidden())
                                 .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"))
                                 .andExpect(jsonPath("$.data").value(org.hamcrest.Matchers.nullValue()))
-                                .andExpect(result -> {
-                                    assertThat(result.getResponse().getHeader("Content-Disposition")).isNull();
-                                });
+                                .andExpect(result -> assertThat(result.getResponse().getHeader("Content-Disposition")).isNull());
 
-                        mockMvc.perform(request(HttpMethod.valueOf(requestMethod.name()), concreteUri)
-                                        .contentType(MediaType.APPLICATION_JSON).content("{}"))
-                                .andExpect(status().isUnauthorized()).andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+                        org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.never())
+                                .handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
 
-                        // Test with downgraded PUBLIC token
+                        // Test with downgraded PUBLIC token -> 403 ACCESS_DENIED
+                        org.mockito.Mockito.clearInvocations(handlerAdapter);
                         MockHttpServletRequestBuilder req2 = request(HttpMethod.valueOf(requestMethod.name()), concreteUri)
                                 .header("Authorization", "Bearer " + tokenDowngraded)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -95,19 +164,31 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                                 .andExpect(status().isForbidden())
                                 .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"))
                                 .andExpect(jsonPath("$.data").value(org.hamcrest.Matchers.nullValue()))
-                                .andExpect(result -> {
-                                    assertThat(result.getResponse().getHeader("Content-Disposition")).isNull();
-                                });
+                                .andExpect(result -> assertThat(result.getResponse().getHeader("Content-Disposition")).isNull());
+
+                        org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.never())
+                                .handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
+
+                        // Anonymous check
+                        mockMvc.perform(request(HttpMethod.valueOf(requestMethod.name()), concreteUri)
+                                        .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                                .andExpect(status().isUnauthorized())
+                                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
                     } catch (Exception e) {
-                        throw new RuntimeException("Failed testing route: " + key, e);
+                        throw new RuntimeException("Failed testing denied route: " + key, e);
                     }
                 }
             }
         });
 
+        // Exact membership reconciliation
+        assertThat(discoveredAllowedPairs)
+                .as("Exact declared 8-pair exception set must be registered and discovered")
+                .isEqualTo(declaredAllowedPairs);
+
         assertThat(com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.domainSnapshot(jdbcTemplate))
                 .as("Every domain row and column must survive the sweep unchanged").isEqualTo(valuesBefore);
-        org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.never()).handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
 
         assertThat(testedEndpoints)
                 .as("Sweep must have tested non-empty set of registered business endpoints across all methods")
@@ -472,6 +553,374 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
         @org.springframework.context.annotation.Bean @org.springframework.context.annotation.Primary
         com.vhvkhangg.personalprivatevault.drive.internal.files.http.DriveFileHttpClient onDriveFiles() {
             return org.mockito.Mockito.mock(com.vhvkhangg.personalprivatevault.drive.internal.files.http.DriveFileHttpClient.class);
+        }
+    }
+
+    @Test
+    @DisplayName("B1-20: ASYNC and ERROR redispatch on newly accessible public routes requires PRIVATE authority")
+    void sameUriAsyncAndErrorDispatcherDeniesPublicSession() throws Exception {
+        com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.seedDomain(jdbcTemplate);
+        String publicToken = publicBearerToken();
+        String privateToken = bearerToken();
+
+        for (String uri : List.of("/api/v1/fictions/904", "/api/v1/films/905", "/api/v1/reference/countries")) {
+            // 1. Normal request with PUBLIC token succeeds (200) with and without bearer header
+            mockMvc.perform(get(uri).header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isOk());
+
+            mockMvc.perform(get(uri).with(propagated(publicToken)))
+                    .andExpect(status().isOk());
+
+            // 2. ERROR dispatcher with live propagated PUBLIC context (both with bearer header and without) -> 403 Forbidden
+            mockMvc.perform(get(uri)
+                            .with(propagated(publicToken))
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ERROR);
+                                return req;
+                            })
+                            .header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isForbidden());
+
+            mockMvc.perform(get(uri)
+                            .with(propagated(publicToken))
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ERROR);
+                                return req;
+                            }))
+                    .andExpect(status().isForbidden());
+
+            // 3. ASYNC dispatcher with live propagated PUBLIC context (both with bearer header and without) -> 403 Forbidden
+            mockMvc.perform(get(uri)
+                            .with(propagated(publicToken))
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                                return req;
+                            })
+                            .header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isForbidden());
+
+            mockMvc.perform(get(uri)
+                            .with(propagated(publicToken))
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                                return req;
+                            }))
+                    .andExpect(status().isForbidden());
+
+            // 4. ASYNC and ERROR without token -> 401 Unauthorized
+            mockMvc.perform(get(uri)
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                                return req;
+                            }))
+                    .andExpect(status().isUnauthorized());
+
+            mockMvc.perform(get(uri)
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ERROR);
+                                return req;
+                            }))
+                    .andExpect(status().isUnauthorized());
+
+            // 5. ASYNC and ERROR with live propagated PRIVATE context (both with and without bearer header) -> permitted past ASYNC/ERROR guard
+            mockMvc.perform(get(uri)
+                            .with(propagated(privateToken))
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                                return req;
+                            })
+                            .header("Authorization", "Bearer " + privateToken))
+                    .andExpect(result -> assertThat(result.getResponse().getStatus()).isNotEqualTo(403));
+
+            mockMvc.perform(get(uri)
+                            .with(propagated(privateToken))
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                                return req;
+                            }))
+                    .andExpect(result -> assertThat(result.getResponse().getStatus()).isNotEqualTo(403));
+
+            mockMvc.perform(get(uri)
+                            .with(propagated(privateToken))
+                            .with(req -> {
+                                req.setDispatcherType(jakarta.servlet.DispatcherType.ERROR);
+                                return req;
+                            }))
+                    .andExpect(result -> assertThat(result.getResponse().getStatus()).isNotEqualTo(403));
+        }
+    }
+
+    @Test
+    @DisplayName("B1-20: Method and path variants on public routes deny non-GET and subpaths")
+    void methodAndPathVariantsOnPublicRoutesDenyNonGetAndSubpaths() throws Exception {
+        com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.seedDomain(jdbcTemplate);
+        String publicToken = publicBearerToken();
+
+        for (String uri : List.of("/api/v1/fictions/904", "/api/v1/films/905", "/api/v1/reference/countries")) {
+            for (HttpMethod m : List.of(HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.PATCH, HttpMethod.OPTIONS, HttpMethod.HEAD)) {
+                mockMvc.perform(request(m, uri)
+                                .header("Authorization", "Bearer " + publicToken)
+                                .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                        .andExpect(status().isForbidden())
+                        .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+            }
+        }
+
+        // Subpaths and traversal
+        for (String sub : List.of("/api/v1/fictions/904/extra", "/api/v1/films/905/extra", "/api/v1/reference/countries/VN/extra")) {
+            mockMvc.perform(get(sub).header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isForbidden())
+                    .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+        }
+
+        // Trailing slash variants
+        for (String trailing : List.of("/api/v1/fictions/904/", "/api/v1/films/905/", "/api/v1/reference/countries/", "/api/v1/reference/countries/VN/")) {
+            mockMvc.perform(get(trailing).header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isForbidden())
+                    .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+        }
+
+        // Suffix variants - unmapped suffix denies via 403 default-deny, non-numeric segment fails conversion with 400, and non-existent code returns 404
+        for (String suffix : List.of("/api/v1/fictions/904.json", "/api/v1/films/905.json", "/api/v1/reference/countries.json", "/api/v1/reference/countries/VN.json")) {
+            mockMvc.perform(get(suffix).header("Authorization", "Bearer " + publicToken))
+                    .andExpect(result -> assertThat(result.getResponse().getStatus()).isIn(400, 403, 404));
+        }
+
+        // Traversal / encoded paths
+        for (String norm : List.of("/api/v1/fictions/904/..", "/api/v1/fictions/../fictions/904", "/api/v1/films/905/..", "/api/v1/reference/countries/..")) {
+            mockMvc.perform(get(norm).header("Authorization", "Bearer " + publicToken))
+                    .andExpect(result -> assertThat(result.getResponse().getStatus()).isIn(400, 403, 404));
+        }
+
+        // Token negatives on newly accessible routes
+        java.time.Instant now = java.time.Instant.now();
+        org.springframework.security.oauth2.jwt.JwtClaimsSet expiredClaims = org.springframework.security.oauth2.jwt.JwtClaimsSet.builder()
+                .issuer("personal-private-vault")
+                .subject("1")
+                .issuedAt(now.minus(java.time.Duration.ofHours(2)))
+                .expiresAt(now.minus(java.time.Duration.ofHours(1)))
+                .id(java.util.UUID.randomUUID().toString())
+                .claim("profile", "PUBLIC")
+                .claim("sid", java.util.UUID.randomUUID().toString())
+                .claim("generation", 1L)
+                .build();
+        org.springframework.security.oauth2.jwt.JwsHeader jwsHeader = org.springframework.security.oauth2.jwt.JwsHeader.with(org.springframework.security.oauth2.jose.jws.MacAlgorithm.HS256).build();
+        String expiredToken = jwtEncoder.encode(org.springframework.security.oauth2.jwt.JwtEncoderParameters.from(jwsHeader, expiredClaims)).getTokenValue();
+
+        org.springframework.security.oauth2.jwt.JwtClaimsSet unknownSessionClaims = org.springframework.security.oauth2.jwt.JwtClaimsSet.builder()
+                .issuer("personal-private-vault")
+                .subject("1")
+                .issuedAt(now)
+                .expiresAt(now.plus(java.time.Duration.ofHours(1)))
+                .id(java.util.UUID.randomUUID().toString())
+                .claim("profile", "PUBLIC")
+                .claim("sid", java.util.UUID.randomUUID().toString())
+                .claim("generation", 1L)
+                .build();
+        String unknownSessionToken = jwtEncoder.encode(org.springframework.security.oauth2.jwt.JwtEncoderParameters.from(jwsHeader, unknownSessionClaims)).getTokenValue();
+
+        for (String uri : List.of("/api/v1/fictions/904", "/api/v1/films/905", "/api/v1/reference/countries")) {
+            // Expired token -> 401
+            mockMvc.perform(get(uri).header("Authorization", "Bearer " + expiredToken))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+            // Unknown session token -> 401
+            mockMvc.perform(get(uri).header("Authorization", "Bearer " + unknownSessionToken))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+            // Malformed token -> 401
+            mockMvc.perform(get(uri).header("Authorization", "Bearer not-a-valid-token"))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+        }
+    }
+
+    @Test
+    @DisplayName("B1-10: Direct Film Credit real and absent ID denies PUBLIC even with safe parent; permits PRIVATE")
+    void directAndNestedFilmCreditDeniedToPublicWithPopulatedParent() throws Exception {
+        com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.seedDomain(jdbcTemplate);
+        String publicToken = publicBearerToken();
+        String privateToken = bearerToken();
+
+        // Direct credit with populated safe parent (Film 905, Credit 901)
+        mockMvc.perform(get("/api/v1/films/credits/901").header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+
+        mockMvc.perform(get("/api/v1/films/credits/901").header("Authorization", "Bearer " + privateToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id").value(901));
+
+        // Direct absent credit (999999L) -> denies PUBLIC with 403 (no oracle)
+        mockMvc.perform(get("/api/v1/films/credits/999999").header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+
+        mockMvc.perform(get("/api/v1/films/credits/999999").header("Authorization", "Bearer " + privateToken))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error.code").value("FILM_CREDIT_NOT_FOUND"));
+
+        // Nested credits on film 905
+        mockMvc.perform(get("/api/v1/films/905/credits").header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+
+        mockMvc.perform(get("/api/v1/films/905/credits").header("Authorization", "Bearer " + privateToken))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("B1-18: Session lifecycle, controlled downgrade, rotation and revocation on newly accessible detail routes")
+    void sessionLifecycleAndMutationOnNewlyAccessibleDetailRoutes() throws Exception {
+        com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.seedDomain(jdbcTemplate);
+        publicBearerToken(); // Ensure public credential is legitimately configured
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+
+        String loginResp = mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"identifier\":\"" + DEFAULT_OWNER_USERNAME + "\",\"password\":\"" + DEFAULT_OWNER_PASSWORD + "\"}"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String privAccess = mapper.readTree(loginResp).path("data").path("accessToken").asText();
+        String refreshToken = mapper.readTree(loginResp).path("data").path("refreshToken").asText();
+
+        // 1. Initial private access to detail -> 200 full
+        mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + privAccess))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.progressStatus").value("COMPLETED"));
+
+        // 2. Controlled downgrade to public
+        String downgradeResp = mockMvc.perform(post("/api/v1/auth/sessions/downgrade-public")
+                        .header("Authorization", "Bearer " + privAccess))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String downgradedPublicToken = mapper.readTree(downgradeResp).path("data").path("accessToken").asText();
+
+        // 3. Newly accessible detail with downgraded token -> 200 minimal (6 fields, no progressStatus or authorPersonId)
+        mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + downgradedPublicToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id").value(904))
+                .andExpect(jsonPath("$.data.progressStatus").doesNotExist())
+                .andExpect(jsonPath("$.data.authorPersonId").doesNotExist());
+
+        // 4. Stale private access token rejected after downgrade
+        mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + privAccess))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+        // 5. Elevate back to private
+        String elevateResp = mockMvc.perform(post("/api/v1/auth/sessions/elevate-private")
+                        .header("Authorization", "Bearer " + downgradedPublicToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"privatePassword\":\"" + DEFAULT_OWNER_PASSWORD + "\"}"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String elevatedPrivToken = mapper.readTree(elevateResp).path("data").path("accessToken").asText();
+        String elevatedRefreshToken = mapper.readTree(elevateResp).path("data").path("refreshToken").asText();
+
+        // Earlier generation public token is now rejected after elevation
+        mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + downgradedPublicToken))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+        // Elevated private token works and returns full view
+        mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + elevatedPrivToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.progressStatus").value("COMPLETED"));
+
+        // Stale pre-elevation refresh token is rejected
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"refreshToken\":\"" + refreshToken + "\"}"))
+                .andExpect(status().isUnauthorized());
+
+        // 6. Rotate session via refresh
+        String refreshResp = mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"refreshToken\":\"" + elevatedRefreshToken + "\"}"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String rotatedPrivToken = mapper.readTree(refreshResp).path("data").path("accessToken").asText();
+        String nextRefreshToken = mapper.readTree(refreshResp).path("data").path("refreshToken").asText();
+
+        // Rotated token works
+        mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + rotatedPrivToken))
+                .andExpect(status().isOk());
+
+        // 7. Revoke session
+        mockMvc.perform(post("/api/v1/auth/revoke")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"refreshToken\":\"" + nextRefreshToken + "\"}"))
+                .andExpect(status().isOk());
+
+        // Revoked token is rejected
+        mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + rotatedPrivToken))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+        // 8. B1-18: Concurrent in-flight read request completes while fresh request after session mutation is denied
+        String newLoginResp = mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"identifier\":\"" + DEFAULT_OWNER_USERNAME + "\",\"password\":\"" + DEFAULT_OWNER_PASSWORD + "\"}"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String newPrivAccess = mapper.readTree(newLoginResp).path("data").path("accessToken").asText();
+
+        String newDowngradeResp = mockMvc.perform(post("/api/v1/auth/sessions/downgrade-public")
+                        .header("Authorization", "Bearer " + newPrivAccess))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String activePublicToken = mapper.readTree(newDowngradeResp).path("data").path("accessToken").asText();
+
+        java.util.concurrent.CountDownLatch readInFlight = new java.util.concurrent.CountDownLatch(1);
+        java.util.concurrent.CountDownLatch mutationCommitted = new java.util.concurrent.CountDownLatch(1);
+
+        org.mockito.Mockito.doAnswer(inv -> {
+            Long argId = inv.getArgument(0);
+            if (argId != null && argId.equals(904L)) {
+                readInFlight.countDown();
+                assertThat(mutationCommitted.await(5, java.util.concurrent.TimeUnit.SECONDS)).isTrue();
+            }
+            return inv.callRealMethod();
+        }).when(vaultEntryOperations).find(904L);
+
+        java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+        try {
+            java.util.concurrent.Future<org.springframework.test.web.servlet.MvcResult> inFlightReadFuture = executor.submit(() ->
+                    mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + activePublicToken))
+                            .andReturn()
+            );
+
+            // Wait until read passes security filter and enters findPublic
+            assertThat(readInFlight.await(5, java.util.concurrent.TimeUnit.SECONDS)).isTrue();
+
+            // While read is in-flight, mutate session (elevate to private)
+            mockMvc.perform(post("/api/v1/auth/sessions/elevate-private")
+                            .header("Authorization", "Bearer " + activePublicToken)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"privatePassword\":\"" + DEFAULT_OWNER_PASSWORD + "\"}"))
+                    .andExpect(status().isOk());
+            mutationCommitted.countDown();
+
+            // In-flight read was already admitted and completes successfully with 200 OK
+            org.springframework.test.web.servlet.MvcResult inFlightResult = inFlightReadFuture.get(5, java.util.concurrent.TimeUnit.SECONDS);
+            assertThat(inFlightResult.getResponse().getStatus()).isEqualTo(200);
+            assertThat(inFlightResult.getResponse().getContentAsString()).contains("\"id\":904");
+
+            // Fresh request arriving AFTER session mutation commit is denied with 401 AUTHENTICATION_REQUIRED
+            mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + activePublicToken))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+            // Redispatch with stale propagated context without bearer is also denied
+            mockMvc.perform(get("/api/v1/fictions/904").with(propagated(activePublicToken)))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+        } finally {
+            org.mockito.Mockito.reset(vaultEntryOperations);
+            executor.shutdownNow();
         }
     }
 

@@ -6,6 +6,7 @@ import com.vhvkhangg.personalprivatevault.fiction.fiction.exception.FictionNotFo
 import com.vhvkhangg.personalprivatevault.fiction.fiction.exception.InvalidFictionException;
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionClassificationsView;
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionView;
+import com.vhvkhangg.personalprivatevault.fiction.view.PublicFictionView;
 
 import java.util.Optional;
 import java.util.Set;
@@ -31,6 +32,14 @@ public interface FictionOperations {
      * @return optional containing the fiction view if found, or empty
      */
     Optional<FictionView> find(Long fictionId);
+
+    /**
+     * Finds a public view of an eligible fiction work by its ID.
+     *
+     * @param fictionId fiction ID
+     * @return optional containing the public fiction view if found and eligible, or empty
+     */
+    Optional<PublicFictionView> findPublic(Long fictionId);
 
     /**
      * Updates an existing fiction's attributes.

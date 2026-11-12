@@ -73,7 +73,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/feed/sources/due | findDueFeedSources | 200 | null | ApiResponseListFeedSourceResponse | true
             GET | /api/v1/fiction-genres/{id} | getFictionGenre | 200 | null | ApiResponseFictionGenreResponse | true
             GET | /api/v1/fiction-genres/by-name | getFictionGenreByName | 200 | null | ApiResponseFictionGenreResponse | true
-            GET | /api/v1/fictions/{id} | getFiction | 200 | null | ApiResponseFictionResponse | true
+            GET | /api/v1/fictions/{id} | getFiction | 200 | null | ApiResponseFictionDetailResponse | true
             GET | /api/v1/fictions/{id}/classifications | getFictionClassifications | 200 | null | ApiResponseFictionClassificationsResponse | true
             GET | /api/v1/fictions/{id}/links | getFictionLinks | 200 | null | ApiResponseListFictionLinkResponse | true
             GET | /api/v1/fictions/{id}/links/{linkId} | getFictionLink | 200 | null | ApiResponseFictionLinkResponse | true
@@ -81,7 +81,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/fictions/{id}/world-settings | getFictionWorldSettings | 200 | null | ApiResponseSetLong | true
             GET | /api/v1/film-genres/{id} | getFilmGenre | 200 | null | ApiResponseFilmGenreResponse | true
             GET | /api/v1/film-genres/by-name | getFilmGenreByName | 200 | null | ApiResponseFilmGenreResponse | true
-            GET | /api/v1/films/{id} | getFilm | 200 | null | ApiResponseFilmResponse | true
+            GET | /api/v1/films/{id} | getFilm | 200 | null | ApiResponseFilmDetailResponse | true
             GET | /api/v1/films/{id}/classifications | getFilmClassifications | 200 | null | ApiResponseFilmClassificationsResponse | true
             GET | /api/v1/films/{id}/credits | getFilmCredits | 200 | null | ApiResponseListFilmCreditResponse | true
             GET | /api/v1/films/{id}/genres | getFilmGenres | 200 | null | ApiResponseSetLong | true
@@ -844,14 +844,441 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(allowsNull(itemProps.path("hnDiscussionUrl"))).as("hnDiscussionUrl must be nullable").isTrue();
         assertThat(allowsNull(itemProps.path("title"))).as("title must not be nullable").isFalse();
         assertThat(allowsNull(itemProps.path("url"))).as("url must not be nullable").isFalse();
+
+        // 11. BF26-DP-B1: Verify Fiction and Film composed response envelopes, schemas, and properties
+        JsonNode fictionDetailSchema = schemas.path("ApiResponseFictionDetailResponse");
+        assertThat(fictionDetailSchema.isMissingNode()).as("ApiResponseFictionDetailResponse must exist").isFalse();
+        assertThat(fictionDetailSchema.has("anyOf")).as("ApiResponseFictionDetailResponse must declare anyOf").isTrue();
+        JsonNode fictionAnyOf = fictionDetailSchema.path("anyOf");
+        assertThat(fictionAnyOf.isArray()).isTrue();
+        assertThat(fictionAnyOf.size()).isEqualTo(2);
+        Set<String> fictionRefs = Set.of(fictionAnyOf.get(0).path("$ref").asText(), fictionAnyOf.get(1).path("$ref").asText());
+        assertThat(fictionRefs).containsExactlyInAnyOrder(
+                "#/components/schemas/ApiResponsePublicFictionResponse",
+                "#/components/schemas/ApiResponseFictionResponse"
+        );
+
+        JsonNode publicFictionSchema = schemas.path("PublicFictionResponse");
+        assertThat(publicFictionSchema.isMissingNode()).as("PublicFictionResponse must exist").isFalse();
+        assertThat(publicFictionSchema.path("additionalProperties").asBoolean(true)).isFalse();
+        JsonNode publicFictionProps = publicFictionSchema.path("properties");
+        assertThat(publicFictionProps.fieldNames()).toIterable().containsExactlyInAnyOrder(
+                "id", "title", "originalTitle", "nationalityCode", "format", "isNsfw"
+        );
+        List<String> fictionRequired = new ArrayList<>();
+        publicFictionSchema.path("required").forEach(n -> fictionRequired.add(n.asText()));
+        assertThat(fictionRequired).containsExactlyInAnyOrder("id", "title", "originalTitle", "nationalityCode", "format", "isNsfw");
+
+        // Validate public fiction nullable properties and false-only isNsfw enum
+        assertThat(allowsNull(publicFictionProps.path("originalTitle"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("nationalityCode"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("title"))).isFalse();
+        assertThat(publicFictionProps.path("isNsfw").path("enum").get(0).asBoolean()).isFalse();
+
+        // Validate fiction and film specimens and envelopes against schema graph (FR-DPB1-03)
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+
+        // 1. Structural schema assertions for Film
+        JsonNode filmDetailSchema = schemas.path("ApiResponseFilmDetailResponse");
+        assertThat(filmDetailSchema.isMissingNode()).as("ApiResponseFilmDetailResponse must exist").isFalse();
+        assertThat(filmDetailSchema.has("anyOf")).as("ApiResponseFilmDetailResponse must declare anyOf").isTrue();
+        JsonNode filmAnyOf = filmDetailSchema.path("anyOf");
+        assertThat(filmAnyOf.isArray()).isTrue();
+        assertThat(filmAnyOf.size()).isEqualTo(2);
+        Set<String> filmRefs = Set.of(filmAnyOf.get(0).path("$ref").asText(), filmAnyOf.get(1).path("$ref").asText());
+        assertThat(filmRefs).containsExactlyInAnyOrder(
+                "#/components/schemas/ApiResponsePublicFilmResponse",
+                "#/components/schemas/ApiResponseFilmResponse"
+        );
+
+        JsonNode publicFilmSchema = schemas.path("PublicFilmResponse");
+        assertThat(publicFilmSchema.isMissingNode()).as("PublicFilmResponse must exist").isFalse();
+        assertThat(publicFilmSchema.path("additionalProperties").asBoolean(true)).isFalse();
+        JsonNode publicFilmProps = publicFilmSchema.path("properties");
+        assertThat(publicFilmProps.fieldNames()).toIterable().containsExactlyInAnyOrder(
+                "id", "title", "originalTitle", "nationalityCode", "format", "productionStyle", "isNsfw"
+        );
+        List<String> filmRequired = new ArrayList<>();
+        publicFilmSchema.path("required").forEach(n -> filmRequired.add(n.asText()));
+        assertThat(filmRequired).containsExactlyInAnyOrder("id", "title", "originalTitle", "nationalityCode", "format", "productionStyle", "isNsfw");
+
+        // Validate public film nullable properties and false-only isNsfw enum
+        assertThat(allowsNull(publicFilmProps.path("originalTitle"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("nationalityCode"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("title"))).isFalse();
+        assertThat(publicFilmProps.path("isNsfw").path("enum").get(0).asBoolean()).isFalse();
+
+        // 2. Fetch actual HTTP response payloads for PUBLIC and PRIVATE modes
+        Long fictionId = seedOpenApiFiction();
+        Long filmId = seedOpenApiFilm();
+        String publicToken = publicBearerToken();
+        String privateToken = bearerToken();
+
+        String actualPublicFictionRaw = mockMvc.perform(get("/api/v1/fictions/{id}", fictionId)
+                        .header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JsonNode actualPublicFictionEnvelope = mapper.readTree(actualPublicFictionRaw);
+
+        String actualPrivateFictionRaw = mockMvc.perform(get("/api/v1/fictions/{id}", fictionId)
+                        .header("Authorization", "Bearer " + privateToken))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JsonNode actualPrivateFictionEnvelope = mapper.readTree(actualPrivateFictionRaw);
+
+        String actualPublicFilmRaw = mockMvc.perform(get("/api/v1/films/{id}", filmId)
+                        .header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JsonNode actualPublicFilmEnvelope = mapper.readTree(actualPublicFilmRaw);
+
+        String actualPrivateFilmRaw = mockMvc.perform(get("/api/v1/films/{id}", filmId)
+                        .header("Authorization", "Bearer " + privateToken))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JsonNode actualPrivateFilmEnvelope = mapper.readTree(actualPrivateFilmRaw);
+
+        JsonNode apiRespPublicFictionSchema = schemas.path("ApiResponsePublicFictionResponse");
+        JsonNode apiRespPrivateFictionSchema = schemas.path("ApiResponseFictionResponse");
+        JsonNode apiRespPublicFilmSchema = schemas.path("ApiResponsePublicFilmResponse");
+        JsonNode apiRespPrivateFilmSchema = schemas.path("ApiResponseFilmResponse");
+
+        // 3. Validate actual response payloads against schema graph (FR-DPB1-03)
+        // Public Fiction Envelope: validates against public envelope & union
+        assertThat(validateSpecimen(actualPublicFictionEnvelope, apiRespPublicFictionSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPublicFictionEnvelope, fictionDetailSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPublicFictionEnvelope.get("data"), publicFictionSchema, schemas)).isTrue();
+
+        // Private Fiction Envelope: validates against private envelope & union, rejected by public envelope & public data schema
+        assertThat(validateSpecimen(actualPrivateFictionEnvelope, apiRespPrivateFictionSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPrivateFictionEnvelope, fictionDetailSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPrivateFictionEnvelope, apiRespPublicFictionSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(actualPrivateFictionEnvelope.get("data"), publicFictionSchema, schemas)).isFalse();
+
+        // Public Film Envelope: validates against public envelope & union
+        assertThat(validateSpecimen(actualPublicFilmEnvelope, apiRespPublicFilmSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPublicFilmEnvelope, filmDetailSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPublicFilmEnvelope.get("data"), publicFilmSchema, schemas)).isTrue();
+
+        // Private Film Envelope: validates against private envelope & union, rejected by public envelope & public data schema
+        assertThat(validateSpecimen(actualPrivateFilmEnvelope, apiRespPrivateFilmSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPrivateFilmEnvelope, filmDetailSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPrivateFilmEnvelope, apiRespPublicFilmSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(actualPrivateFilmEnvelope.get("data"), publicFilmSchema, schemas)).isFalse();
+
+        // 4. Positive specimens with null optional fields
+        JsonNode validFictionNulls = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"COMIC","isNsfw":false}
+                """);
+        assertThat(validateSpecimen(validFictionNulls, publicFictionSchema, schemas)).isTrue();
+
+        JsonNode validFilmNulls = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"SERIES","productionStyle":"ANIMATION","isNsfw":false}
+                """);
+        assertThat(validateSpecimen(validFilmNulls, publicFilmSchema, schemas)).isTrue();
+
+        // 5. Negative specimens with missing required fields
+        JsonNode missingKeyFiction = mapper.readTree("""
+                {"id":1,"title":"T","nationalityCode":"VN","format":"NOVEL","isNsfw":false}
+                """);
+        assertThat(validateSpecimen(missingKeyFiction, publicFictionSchema, schemas)).isFalse();
+
+        JsonNode missingKeyFilm = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false}
+                """);
+        assertThat(validateSpecimen(missingKeyFilm, publicFilmSchema, schemas)).isFalse();
+
+        // 6. Negative specimens with incorrect primitive types (FR-DPB1-03)
+        // a) String instead of integer ID
+        JsonNode wrongTypeIdFiction = mapper.readTree("""
+                {"data":{"id":"not-an-integer","title":"T","originalTitle":"OT","nationalityCode":"VN","format":"NOVEL","isNsfw":false},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(wrongTypeIdFiction, apiRespPublicFictionSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(wrongTypeIdFiction.get("data"), publicFictionSchema, schemas)).isFalse();
+
+        // b) Number instead of string title
+        JsonNode wrongTypeTitleFiction = mapper.readTree("""
+                {"data":{"id":1,"title":12345,"originalTitle":"OT","nationalityCode":"VN","format":"NOVEL","isNsfw":false},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(wrongTypeTitleFiction, apiRespPublicFictionSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(wrongTypeTitleFiction.get("data"), publicFictionSchema, schemas)).isFalse();
+
+        // c) String instead of boolean isNsfw
+        JsonNode wrongTypeNsfwFiction = mapper.readTree("""
+                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"NOVEL","isNsfw":"false"},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(wrongTypeNsfwFiction, apiRespPublicFictionSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(wrongTypeNsfwFiction.get("data"), publicFictionSchema, schemas)).isFalse();
+
+        // d) Number instead of string nationalityCode
+        JsonNode wrongTypeNationalityFiction = mapper.readTree("""
+                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":84,"format":"NOVEL","isNsfw":false},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(wrongTypeNationalityFiction, apiRespPublicFictionSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(wrongTypeNationalityFiction.get("data"), publicFictionSchema, schemas)).isFalse();
+
+        // e) Invalid enum / isNsfw = true
+        JsonNode nsfwTrueFiction = mapper.readTree("""
+                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"NOVEL","isNsfw":true},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(nsfwTrueFiction, apiRespPublicFictionSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(nsfwTrueFiction.get("data"), publicFictionSchema, schemas)).isFalse();
+
+        // f) Extra forbidden property rejected by additionalProperties=false
+        JsonNode extraPropFiction = mapper.readTree("""
+                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"NOVEL","isNsfw":false,"description":"secret"},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(extraPropFiction, apiRespPublicFictionSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(extraPropFiction.get("data"), publicFictionSchema, schemas)).isFalse();
+
+        // Film negative specimens with incorrect primitive types
+        // a) String instead of integer ID
+        JsonNode wrongTypeIdFilm = mapper.readTree("""
+                {"data":{"id":"film-id","title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(wrongTypeIdFilm, apiRespPublicFilmSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(wrongTypeIdFilm.get("data"), publicFilmSchema, schemas)).isFalse();
+
+        // b) Number instead of string title
+        JsonNode wrongTypeTitleFilm = mapper.readTree("""
+                {"data":{"id":1,"title":99999,"originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(wrongTypeTitleFilm, apiRespPublicFilmSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(wrongTypeTitleFilm.get("data"), publicFilmSchema, schemas)).isFalse();
+
+        // c) String instead of boolean isNsfw
+        JsonNode wrongTypeNsfwFilm = mapper.readTree("""
+                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":"false"},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(wrongTypeNsfwFilm, apiRespPublicFilmSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(wrongTypeNsfwFilm.get("data"), publicFilmSchema, schemas)).isFalse();
+
+        // d) Invalid enum productionStyle
+        JsonNode wrongEnumFilm = mapper.readTree("""
+                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"STOP_MOTION_CLAY","isNsfw":false},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(wrongEnumFilm, apiRespPublicFilmSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(wrongEnumFilm.get("data"), publicFilmSchema, schemas)).isFalse();
+
+        // e) Film isNsfw = true
+        JsonNode nsfwTrueFilm = mapper.readTree("""
+                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":true},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(nsfwTrueFilm, apiRespPublicFilmSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(nsfwTrueFilm.get("data"), publicFilmSchema, schemas)).isFalse();
+
+        // f) Film extra forbidden property
+        JsonNode extraPropFilm = mapper.readTree("""
+                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"review":"confidential"},"error":null,"meta":null}
+                """);
+        assertThat(validateSpecimen(extraPropFilm, apiRespPublicFilmSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(extraPropFilm.get("data"), publicFilmSchema, schemas)).isFalse();
+
+        // Verify bearer description mentions PROFILE_PUBLIC and eight B1 grants
+        String bearerDesc = root.path("components").path("securitySchemes").path("bearerAuth").path("description").asText();
+        assertThat(bearerDesc).contains("PROFILE_PUBLIC", "PROFILE_PRIVATE", "/api/v1/fictions/{id}", "/api/v1/films/{id}", "/api/v1/reference/");
+        assertThat(bearerDesc).contains("elevation", "downgrade and all other business and data operations require PROFILE_PRIVATE");
     }
 
+    private Long seedOpenApiFiction() {
+        Long id = 998_001L;
+        Long personId = 998_002L;
+        jdbcTemplate.update("INSERT INTO fiction_genres(id, name, description) VALUES (?, ?, ?) ON CONFLICT DO NOTHING",
+                id, "Genre-" + id, "Description");
+        jdbcTemplate.update("INSERT INTO vault_entries(id, entry_type, deleted_at, created_at, updated_at) VALUES (?, 'PERSON', null, now(), now()) ON CONFLICT DO NOTHING",
+                personId);
+        jdbcTemplate.update("INSERT INTO persons(id, name) VALUES (?, ?) ON CONFLICT DO NOTHING",
+                personId, "Author-" + personId);
+        jdbcTemplate.update("""
+                INSERT INTO vault_entries(id, entry_type, deleted_at, created_at, updated_at)
+                VALUES (?, 'FICTION', null, now(), now()) ON CONFLICT DO NOTHING
+                """, id);
+        jdbcTemplate.update("""
+                INSERT INTO fictions(id, title, original_title, nationality_code, poster_url, format, is_nsfw,
+                                     genre_id, author_person_id, description, total_chapters, progress_status,
+                                     consumption_status, current_progress_text, review)
+                VALUES (?, ?, ?, ?, ?, 'NOVEL', false, ?, ?, ?, 100, 'ONGOING', 'UNCONSUMED', 'Chapter 1', 'Review Notes')
+                ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title
+                """, id, "OpenApi Fiction Title", "Original Title", "VN", "https://cdn.example.com/poster.png", id, personId, "OpenApi fiction description");
+        return id;
+    }
+
+    private Long seedOpenApiFilm() {
+        Long id = 998_003L;
+        jdbcTemplate.update("INSERT INTO film_genres(id, name, description) VALUES (?, ?, ?) ON CONFLICT DO NOTHING",
+                id, "Genre-" + id, "Description");
+        jdbcTemplate.update("""
+                INSERT INTO vault_entries(id, entry_type, deleted_at, created_at, updated_at)
+                VALUES (?, 'FILM', null, now(), now()) ON CONFLICT DO NOTHING
+                """, id);
+        jdbcTemplate.update("""
+                INSERT INTO films(id, title, original_title, nationality_code, poster_url, format, production_style,
+                                  is_nsfw, description, total_episodes, progress_status, consumption_status,
+                                  current_progress_text, review)
+                VALUES (?, ?, ?, ?, ?, 'MOVIE', 'LIVE_ACTION', false, ?, 1, 'COMPLETED', 'CONSUMED', 'Done', 'Film Review')
+                ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title
+                """, id, "OpenApi Film Title", "Original Film Title", "VN", "https://cdn.example.com/film.png", "OpenApi film description");
+        return id;
+    }
+
+    private static JsonNode resolveSchema(JsonNode schemaNode, JsonNode allSchemas) {
+        if (schemaNode == null || schemaNode.isMissingNode() || schemaNode.isNull()) {
+            return schemaNode;
+        }
+        if (schemaNode.has("$ref")) {
+            String ref = schemaNode.get("$ref").asText();
+            String prefix = "#/components/schemas/";
+            if (ref.startsWith(prefix)) {
+                String target = ref.substring(prefix.length());
+                JsonNode resolved = allSchemas.path(target);
+                if (!resolved.isMissingNode()) {
+                    return resolveSchema(resolved, allSchemas);
+                }
+            }
+        }
+        return schemaNode;
+    }
+
+    private static boolean validateSpecimen(JsonNode specimen, JsonNode schemaNode, JsonNode allSchemas) {
+        if (schemaNode == null || schemaNode.isMissingNode()) {
+            return false;
+        }
+
+        if (specimen == null || specimen.isNull()) {
+            if (allowsNull(schemaNode)) {
+                return true;
+            }
+            JsonNode resolved = resolveSchema(schemaNode, allSchemas);
+            return resolved != schemaNode && allowsNull(resolved);
+        }
+
+        schemaNode = resolveSchema(schemaNode, allSchemas);
+        if (schemaNode == null || schemaNode.isMissingNode()) {
+            return false;
+        }
+
+        if (schemaNode.has("anyOf")) {
+            for (JsonNode sub : schemaNode.path("anyOf")) {
+                if (validateSpecimen(specimen, sub, allSchemas)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (schemaNode.has("oneOf")) {
+            int matches = 0;
+            for (JsonNode sub : schemaNode.path("oneOf")) {
+                if (validateSpecimen(specimen, sub, allSchemas)) {
+                    matches++;
+                }
+            }
+            return matches == 1;
+        }
+
+        JsonNode typeNode = schemaNode.path("type");
+        if (typeNode.isTextual()) {
+            if (!checkTypeMatches(specimen, typeNode.asText())) {
+                return false;
+            }
+            if ("array".equals(typeNode.asText())) {
+                JsonNode itemsSchema = schemaNode.path("items");
+                if (!itemsSchema.isMissingNode()) {
+                    for (JsonNode elem : specimen) {
+                        if (!validateSpecimen(elem, itemsSchema, allSchemas)) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+        } else if (typeNode.isArray()) {
+            boolean matchesAny = false;
+            for (JsonNode t : typeNode) {
+                String declaredType = t.asText();
+                if ("null".equals(declaredType)) {
+                    if (specimen.isNull()) {
+                        matchesAny = true;
+                        break;
+                    }
+                } else if (checkTypeMatches(specimen, declaredType)) {
+                    matchesAny = true;
+                    break;
+                }
+            }
+            if (!matchesAny) {
+                return false;
+            }
+        }
+
+        if (schemaNode.has("enum")) {
+            boolean matchedEnum = false;
+            for (JsonNode e : schemaNode.path("enum")) {
+                if (specimen.equals(e) || (specimen.isValueNode() && specimen.asText().equals(e.asText()))) {
+                    matchedEnum = true;
+                    break;
+                }
+            }
+            if (!matchedEnum) {
+                return false;
+            }
+        }
+
+        if (specimen.isObject()) {
+            Set<String> requiredFields = new HashSet<>();
+            if (schemaNode.has("required")) {
+                for (JsonNode req : schemaNode.path("required")) {
+                    String reqField = req.asText();
+                    requiredFields.add(reqField);
+                    if (!specimen.has(reqField)) {
+                        return false;
+                    }
+                }
+            }
+
+            JsonNode props = schemaNode.path("properties");
+            boolean disallowsAdditional = schemaNode.has("additionalProperties") && !schemaNode.path("additionalProperties").asBoolean(true);
+
+            var it = specimen.fieldNames();
+            while (it.hasNext()) {
+                String fieldName = it.next();
+                JsonNode fieldValue = specimen.get(fieldName);
+                if (props.has(fieldName)) {
+                    JsonNode fieldSchema = props.get(fieldName);
+                    if (fieldValue.isNull()) {
+                        if (requiredFields.contains(fieldName) && !allowsNull(fieldSchema)) {
+                            return false;
+                        }
+                    } else if (!validateSpecimen(fieldValue, fieldSchema, allSchemas)) {
+                        return false;
+                    }
+                } else {
+                    if (disallowsAdditional) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
 
     private static boolean allowsNull(JsonNode schema) {
+        if (schema == null || schema.isMissingNode() || schema.isEmpty()) {
+            return true;
+        }
         if (schema.path("nullable").asBoolean(false)) {
             return true;
         }
+        if (schema.has("$ref")) {
+            return true;
+        }
+        if (schema.has("example") && schema.get("example").isNull()) {
+            return true;
+        }
         JsonNode type = schema.path("type");
+        if (type.isMissingNode()) {
+            return true;
+        }
         if (type.isTextual() && "null".equals(type.asText())) {
             return true;
         }
@@ -870,5 +1297,17 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
         return false;
+    }
+
+    private static boolean checkTypeMatches(JsonNode specimen, String declaredType) {
+        return switch (declaredType) {
+            case "integer" -> specimen.isIntegralNumber();
+            case "number" -> specimen.isNumber();
+            case "string" -> specimen.isTextual();
+            case "boolean" -> specimen.isBoolean();
+            case "array" -> specimen.isArray();
+            case "object" -> specimen.isObject();
+            default -> true;
+        };
     }
 }

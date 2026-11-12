@@ -14,6 +14,7 @@ import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmCreditRespon
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmGenreResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmLinkResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmResponse;
+import com.vhvkhangg.personalprivatevault.film.internal.web.dto.PublicFilmResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmGenreRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmLinkRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmRequest;
@@ -24,6 +25,7 @@ import com.vhvkhangg.personalprivatevault.film.view.FilmCreditView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmGenreView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmLinkView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmView;
+import com.vhvkhangg.personalprivatevault.film.view.PublicFilmView;
 
 public final class FilmWebMapper {
 
@@ -50,6 +52,19 @@ public final class FilmWebMapper {
                 view.genreIds(),
                 view.storyArchetypeIds(),
                 view.worldSettingIds()
+        );
+    }
+
+    public static PublicFilmResponse toPublicResponse(PublicFilmView view) {
+        if (view == null) return null;
+        return new PublicFilmResponse(
+                view.id(),
+                view.title(),
+                view.originalTitle(),
+                view.nationalityCode(),
+                view.format(),
+                view.productionStyle(),
+                view.isNsfw()
         );
     }
 

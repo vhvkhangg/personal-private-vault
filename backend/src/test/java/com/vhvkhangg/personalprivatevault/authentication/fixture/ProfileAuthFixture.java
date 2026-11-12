@@ -20,10 +20,15 @@ public final class ProfileAuthFixture {
 
     public static void seedDomain(JdbcTemplate jdbc) {
         jdbc.update("INSERT INTO currencies(code,name,symbol) VALUES ('USD','US Dollar','$') ON CONFLICT DO NOTHING");
-        jdbc.update("INSERT INTO countries(code,name_en) VALUES ('VN','Vietnam') ON CONFLICT DO NOTHING");
+        jdbc.update("INSERT INTO countries(code,name_en,name_vi) VALUES ('VN','Vietnam','Việt Nam') ON CONFLICT DO NOTHING");
+        jdbc.update("INSERT INTO languages(code,name_en,name_vi) VALUES ('en','English','Tiếng Anh') ON CONFLICT DO NOTHING");
         jdbc.update("INSERT INTO platforms(id,name,kind) VALUES (901,'DP-A synthetic platform','WEB') ON CONFLICT(id) DO NOTHING");
-        jdbc.update("INSERT INTO vault_entries(id,entry_type) VALUES (901,'PERSON'),(902,'NOTE'),(903,'EXTERNAL_ACCOUNT')");
+        jdbc.update("INSERT INTO fiction_genres(id,name,description) VALUES (901,'Synthetic Genre','Preserve genre') ON CONFLICT(id) DO NOTHING");
+        jdbc.update("INSERT INTO vault_entries(id,entry_type) VALUES (901,'PERSON'),(902,'NOTE'),(903,'EXTERNAL_ACCOUNT'),(904,'FICTION'),(905,'FILM') ON CONFLICT(id) DO NOTHING");
         jdbc.update("INSERT INTO persons(id,name,nationality_code,notes) VALUES (901,'Synthetic person','VN','preserve person values')");
+        jdbc.update("INSERT INTO fictions(id,title,format,is_nsfw,genre_id,author_person_id,progress_status,consumption_status) VALUES (904,'Synthetic Fiction','NOVEL',false,901,901,'COMPLETED','CONSUMED') ON CONFLICT(id) DO NOTHING");
+        jdbc.update("INSERT INTO films(id,title,format,production_style,is_nsfw,progress_status,consumption_status) VALUES (905,'Synthetic Film','MOVIE','LIVE_ACTION',false,'COMPLETED','CONSUMED') ON CONFLICT(id) DO NOTHING");
+        jdbc.update("INSERT INTO film_credits(id,film_id,person_id,role) VALUES (901,905,901,'MAIN') ON CONFLICT(id) DO NOTHING");
         jdbc.update("INSERT INTO notes(id,title,content_markdown,frontmatter) VALUES (902,'Synthetic note','# Preserve content','{\"synthetic\":true}')");
         jdbc.update("INSERT INTO external_accounts(id,platform_id,ownership,account_type,username) VALUES (903,901,'OWNED','SOCIAL','synthetic-account')");
         jdbc.update("INSERT INTO wallets(id,name,type,currency_code,opening_balance) VALUES (901,'Synthetic wallet','CASH','USD',123.4567)");

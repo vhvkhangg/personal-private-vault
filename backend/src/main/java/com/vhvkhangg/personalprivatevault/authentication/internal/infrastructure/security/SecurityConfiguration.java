@@ -251,6 +251,14 @@ public class SecurityConfiguration {
                             .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/private-pin/verify").hasAuthority("PROFILE_PRIVATE")
                             .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/v1/auth/private-pin").hasAuthority("PROFILE_PRIVATE")
                             .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ASYNC, jakarta.servlet.DispatcherType.ERROR).hasAuthority("PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/fictions/{id}").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/films/{id}").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/countries").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/countries/{code}").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/languages").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/languages/{code}").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/currencies").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/currencies/{code}").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
                             .anyRequest().hasAuthority("PROFILE_PRIVATE");
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2

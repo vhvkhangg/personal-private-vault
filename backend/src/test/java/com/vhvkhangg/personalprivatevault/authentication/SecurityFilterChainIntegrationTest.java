@@ -58,6 +58,9 @@ class SecurityFilterChainIntegrationTest extends AbstractPostgresIntegrationTest
     private JwtEncoder jwtEncoder;
 
     @Autowired
+    private org.springframework.security.oauth2.jwt.JwtDecoder jwtDecoder;
+
+    @Autowired
     private org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
 
     private MockMvc mockMvc;
@@ -235,5 +238,89 @@ class SecurityFilterChainIntegrationTest extends AbstractPostgresIntegrationTest
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+    }
+
+    @Test
+    @DisplayName("Security filter chain permits valid PUBLIC token on exact B1 GET endpoints and denies unselected")
+    void permitsPublicBearerTokenOnExactB1EndpointsAndDeniesUnselected() throws Exception {
+        String publicToken = createSession(com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile.PUBLIC);
+
+        // Permitted: returns 200 or 404 (data not found), never 401 or 403
+        for (String uri : java.util.List.of(
+                "/api/v1/fictions/1",
+                "/api/v1/films/1",
+                "/api/v1/reference/countries",
+                "/api/v1/reference/countries/VN",
+                "/api/v1/reference/languages",
+                "/api/v1/reference/languages/en",
+                "/api/v1/reference/currencies",
+                "/api/v1/reference/currencies/USD"
+        )) {
+            mockMvc.perform(get(uri).header("Authorization", "Bearer " + publicToken))
+                    .andExpect(result -> org.assertj.core.api.Assertions.assertThat(result.getResponse().getStatus()).isIn(200, 404));
+        }
+
+        // Denied unselected business endpoints: exactly 403 ACCESS_DENIED
+        for (String uri : java.util.List.of(
+                "/api/v1/fictions",
+                "/api/v1/films",
+                "/api/v1/reference/platforms",
+                "/api/v1/reference/story-archetypes",
+                "/api/v1/reference/world-settings"
+        )) {
+            mockMvc.perform(get(uri).header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isForbidden())
+                    .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+        }
+    }
+
+    private org.springframework.test.web.servlet.request.RequestPostProcessor propagated(String token) {
+        var securityContext = org.springframework.security.core.context.SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken(jwtDecoder.decode(token)));
+        return org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.securityContext(securityContext);
+    }
+
+    @Test
+    @DisplayName("Security filter chain enforces ASYNC and ERROR dispatcher priority requiring PRIVATE even on B1 public routes")
+    void enforcesAsyncAndErrorDispatcherPriorityOnB1Routes() throws Exception {
+        String publicToken = createSession(com.vhvkhangg.personalprivatevault.authentication.internal.domain.LoginProfile.PUBLIC);
+
+        for (String uri : java.util.List.of("/api/v1/fictions/1", "/api/v1/films/1", "/api/v1/reference/countries")) {
+            // ERROR dispatcher with PUBLIC token (with bearer header and without) -> 403 ACCESS_DENIED
+            mockMvc.perform(get(uri)
+                            .with(propagated(publicToken))
+                            .with(request -> {
+                                request.setDispatcherType(jakarta.servlet.DispatcherType.ERROR);
+                                return request;
+                            })
+                            .header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isForbidden());
+
+            mockMvc.perform(get(uri)
+                            .with(propagated(publicToken))
+                            .with(request -> {
+                                request.setDispatcherType(jakarta.servlet.DispatcherType.ERROR);
+                                return request;
+                            }))
+                    .andExpect(status().isForbidden());
+
+            // ASYNC dispatcher with PUBLIC token (with bearer header and without) -> 403 ACCESS_DENIED
+            mockMvc.perform(get(uri)
+                            .with(propagated(publicToken))
+                            .with(request -> {
+                                request.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                                return request;
+                            })
+                            .header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isForbidden());
+
+            mockMvc.perform(get(uri)
+                            .with(propagated(publicToken))
+                            .with(request -> {
+                                request.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                                return request;
+                            }))
+                    .andExpect(status().isForbidden());
+        }
     }
 }

@@ -11,6 +11,7 @@ import com.vhvkhangg.personalprivatevault.fiction.internal.web.dto.FictionClassi
 import com.vhvkhangg.personalprivatevault.fiction.internal.web.dto.FictionGenreResponse;
 import com.vhvkhangg.personalprivatevault.fiction.internal.web.dto.FictionLinkResponse;
 import com.vhvkhangg.personalprivatevault.fiction.internal.web.dto.FictionResponse;
+import com.vhvkhangg.personalprivatevault.fiction.internal.web.dto.PublicFictionResponse;
 import com.vhvkhangg.personalprivatevault.fiction.internal.web.dto.UpdateFictionGenreRequest;
 import com.vhvkhangg.personalprivatevault.fiction.internal.web.dto.UpdateFictionLinkRequest;
 import com.vhvkhangg.personalprivatevault.fiction.internal.web.dto.UpdateFictionRequest;
@@ -20,6 +21,7 @@ import com.vhvkhangg.personalprivatevault.fiction.view.FictionClassificationsVie
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionGenreView;
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionLinkView;
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionView;
+import com.vhvkhangg.personalprivatevault.fiction.view.PublicFictionView;
 
 public final class FictionWebMapper {
 
@@ -46,6 +48,18 @@ public final class FictionWebMapper {
                 view.review(),
                 view.storyArchetypeIds(),
                 view.worldSettingIds()
+        );
+    }
+
+    public static PublicFictionResponse toPublicResponse(PublicFictionView view) {
+        if (view == null) return null;
+        return new PublicFictionResponse(
+                view.id(),
+                view.title(),
+                view.originalTitle(),
+                view.nationalityCode(),
+                view.format(),
+                view.isNsfw()
         );
     }
 

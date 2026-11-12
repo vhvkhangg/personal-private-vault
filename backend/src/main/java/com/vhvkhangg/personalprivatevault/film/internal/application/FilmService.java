@@ -17,6 +17,7 @@ import com.vhvkhangg.personalprivatevault.film.internal.infrastructure.persisten
 import com.vhvkhangg.personalprivatevault.film.internal.infrastructure.persistence.FilmWorldSettingRepository;
 import com.vhvkhangg.personalprivatevault.film.view.FilmClassificationsView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmView;
+import com.vhvkhangg.personalprivatevault.film.view.PublicFilmView;
 import com.vhvkhangg.personalprivatevault.people.person.PersonOperations;
 import com.vhvkhangg.personalprivatevault.reference.catalog.ReferenceCatalog;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
@@ -24,6 +25,8 @@ import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
@@ -163,6 +166,29 @@ public class FilmService implements FilmOperations {
                         loadWorldSettings(filmId)
                 )
         );
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
+    public Optional<PublicFilmView> findPublic(Long filmId) {
+        if (filmId == null) {
+            return Optional.empty();
+        }
+        Optional<PublicFilmView> projection = filmRepository.findPublicProjectionById(filmId);
+        if (projection.isEmpty()) {
+            return Optional.empty();
+        }
+        Optional<VaultEntryView> vaultEntry = vaultEntryOperations.find(filmId);
+        if (vaultEntry.isEmpty()) {
+            return Optional.empty();
+        }
+        VaultEntryView entry = vaultEntry.get();
+        if (!Objects.equals(entry.id(), filmId)
+                || entry.entryType() != VaultEntryType.FILM
+                || entry.deletedAt() != null) {
+            return Optional.empty();
+        }
+        return projection;
     }
 
     @Override

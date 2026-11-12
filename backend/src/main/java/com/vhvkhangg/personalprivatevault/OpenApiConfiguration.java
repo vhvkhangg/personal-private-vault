@@ -3,9 +3,13 @@ package com.vhvkhangg.personalprivatevault;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -95,7 +99,7 @@ public class OpenApiConfiguration {
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
-                                .description("DP-A persisted session authority: sub=1, profile PUBLIC or PRIVATE, sid and positive integral generation. PUBLIC is Auth-only; business/data operations require PRIVATE.")))
+                                .description("DP-A persisted session authority: sub=1, profile PUBLIC or PRIVATE, sid and positive integral generation. Anonymous endpoints permit unauthenticated access; authenticated PROFILE_PUBLIC grants access to auth session elevation, GET /api/v1/fictions/{id}, GET /api/v1/films/{id}, and GET /api/v1/reference/{countries,languages,currencies} (list and detail); session downgrade and all other business and data operations require PROFILE_PRIVATE.")))
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_SECURITY_SCHEME));
     }
 
@@ -133,6 +137,63 @@ public class OpenApiConfiguration {
             openApi.getComponents().addSchemas("ApiFieldError", apiFieldErrorSchema);
             openApi.getComponents().addSchemas("ApiError", apiErrorSchema);
             openApi.getComponents().addSchemas("ErrorResponse", errorEnvelopeSchema);
+
+            Schema<Object> publicFictionResponseSchema = new ObjectSchema()
+                    .description("Public fiction work detail")
+                    .addProperty("id", new IntegerSchema().format("int64").example(1L).description("Fiction ID (identical to underlying vault entry ID)"))
+                    .addProperty("title", new StringSchema().example("Sample Fiction").description("Primary title"))
+                    .addProperty("originalTitle", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional original/native title"))
+                    .addProperty("nationalityCode", new StringSchema().types(Set.of("string", "null")).nullable(true).example("VN").description("Optional 2-character country code"))
+                    .addProperty("format", new StringSchema()._enum(java.util.List.of("NOVEL", "COMIC")).example("NOVEL").description("Format of the work (NOVEL or COMIC)"))
+                    .addProperty("isNsfw", new BooleanSchema()._enum(java.util.List.of(false)).example(false).description("Whether the work is marked NSFW (always false on public success)"))
+                    .required(java.util.List.of("id", "title", "originalTitle", "nationalityCode", "format", "isNsfw"))
+                    .additionalProperties(false);
+
+            Schema<Object> apiResponsePublicFictionSchema = new ObjectSchema()
+                    .description("Canonical envelope for public fiction work detail")
+                    .addProperty("data", new Schema<Object>().$ref("#/components/schemas/PublicFictionResponse"))
+                    .addProperty("error", new Schema<Object>().$ref("#/components/schemas/ApiError").nullable(true).example(null))
+                    .addProperty("meta", new Schema<Object>().nullable(true).example(null));
+
+            Schema<Object> fictionDetailResponseSchema = new ObjectSchema()
+                    .description("Fiction work detail response envelope: ApiResponsePublicFictionResponse for PROFILE_PUBLIC, ApiResponseFictionResponse for PROFILE_PRIVATE")
+                    .anyOf(java.util.List.of(
+                            new Schema<Object>().$ref("#/components/schemas/ApiResponsePublicFictionResponse"),
+                            new Schema<Object>().$ref("#/components/schemas/ApiResponseFictionResponse")
+                    ));
+
+            Schema<Object> publicFilmResponseSchema = new ObjectSchema()
+                    .description("Public film work detail")
+                    .addProperty("id", new IntegerSchema().format("int64").example(1L).description("Film ID (identical to underlying vault entry ID)"))
+                    .addProperty("title", new StringSchema().example("Sample Film").description("Primary title"))
+                    .addProperty("originalTitle", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional original/native title"))
+                    .addProperty("nationalityCode", new StringSchema().types(Set.of("string", "null")).nullable(true).example("VN").description("Optional 2-character country code"))
+                    .addProperty("format", new StringSchema()._enum(java.util.List.of("MOVIE", "SERIES")).example("MOVIE").description("Format of the work (MOVIE or SERIES)"))
+                    .addProperty("productionStyle", new StringSchema()._enum(java.util.List.of("LIVE_ACTION", "ANIMATION")).example("LIVE_ACTION").description("Production style (LIVE_ACTION or ANIMATION)"))
+                    .addProperty("isNsfw", new BooleanSchema()._enum(java.util.List.of(false)).example(false).description("Whether the work is marked NSFW (always false on public success)"))
+                    .required(java.util.List.of("id", "title", "originalTitle", "nationalityCode", "format", "productionStyle", "isNsfw"))
+                    .additionalProperties(false);
+
+            Schema<Object> apiResponsePublicFilmSchema = new ObjectSchema()
+                    .description("Canonical envelope for public film work detail")
+                    .addProperty("data", new Schema<Object>().$ref("#/components/schemas/PublicFilmResponse"))
+                    .addProperty("error", new Schema<Object>().$ref("#/components/schemas/ApiError").nullable(true).example(null))
+                    .addProperty("meta", new Schema<Object>().nullable(true).example(null));
+
+            Schema<Object> filmDetailResponseSchema = new ObjectSchema()
+                    .description("Film work detail response envelope: ApiResponsePublicFilmResponse for PROFILE_PUBLIC, ApiResponseFilmResponse for PROFILE_PRIVATE")
+                    .anyOf(java.util.List.of(
+                            new Schema<Object>().$ref("#/components/schemas/ApiResponsePublicFilmResponse"),
+                            new Schema<Object>().$ref("#/components/schemas/ApiResponseFilmResponse")
+                    ));
+
+            openApi.getComponents().addSchemas("PublicFictionResponse", publicFictionResponseSchema);
+            openApi.getComponents().addSchemas("ApiResponsePublicFictionResponse", apiResponsePublicFictionSchema);
+            openApi.getComponents().addSchemas("ApiResponseFictionDetailResponse", fictionDetailResponseSchema);
+
+            openApi.getComponents().addSchemas("PublicFilmResponse", publicFilmResponseSchema);
+            openApi.getComponents().addSchemas("ApiResponsePublicFilmResponse", apiResponsePublicFilmSchema);
+            openApi.getComponents().addSchemas("ApiResponseFilmDetailResponse", filmDetailResponseSchema);
             // DP-A's route-local parser rejects unknown members in these three request objects.
             for (String name : Set.of("PublicProfileLoginRequest", "PublicCredentialRequest", "ElevatePrivateRequest")) {
                 Schema<?> schema = openApi.getComponents().getSchemas().get(name);
@@ -314,6 +375,24 @@ public class OpenApiConfiguration {
                         responses.remove("401");
                         responses.remove("403");
                         responses.addApiResponse("503", new ApiResponse().description("GOOGLE_SIGNIN_UNAVAILABLE - DP-A has no safe profile selection or issuance mapping").content(errorContent));
+                    } else if (pathKey.equals("/api/v1/fictions/{id}") && httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.GET) {
+                        ApiResponse resp200 = responses.get("200");
+                        if (resp200 != null) {
+                            resp200.setDescription("Fiction work detail (minimal for PROFILE_PUBLIC, full for PROFILE_PRIVATE; Cache-Control: no-store for PROFILE_PUBLIC)");
+                            MediaType mediaType = new MediaType().schema(new Schema<Object>().$ref("#/components/schemas/ApiResponseFictionDetailResponse"));
+                            resp200.setContent(new Content()
+                                    .addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType)
+                                    .addMediaType("*/*", mediaType));
+                        }
+                    } else if (pathKey.equals("/api/v1/films/{id}") && httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.GET) {
+                        ApiResponse resp200 = responses.get("200");
+                        if (resp200 != null) {
+                            resp200.setDescription("Film work detail (minimal for PROFILE_PUBLIC, full for PROFILE_PRIVATE; Cache-Control: no-store for PROFILE_PUBLIC)");
+                            MediaType mediaType = new MediaType().schema(new Schema<Object>().$ref("#/components/schemas/ApiResponseFilmDetailResponse"));
+                            resp200.setContent(new Content()
+                                    .addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType)
+                                    .addMediaType("*/*", mediaType));
+                        }
                     }
                 });
             });

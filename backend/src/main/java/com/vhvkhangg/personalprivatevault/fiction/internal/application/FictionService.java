@@ -15,6 +15,7 @@ import com.vhvkhangg.personalprivatevault.fiction.internal.infrastructure.persis
 import com.vhvkhangg.personalprivatevault.fiction.internal.infrastructure.persistence.FictionWorldSettingRepository;
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionClassificationsView;
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionView;
+import com.vhvkhangg.personalprivatevault.fiction.view.PublicFictionView;
 import com.vhvkhangg.personalprivatevault.people.group.CreatorGroupOperations;
 import com.vhvkhangg.personalprivatevault.people.person.PersonOperations;
 import com.vhvkhangg.personalprivatevault.reference.catalog.ReferenceCatalog;
@@ -23,6 +24,8 @@ import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
@@ -144,6 +147,29 @@ public class FictionService implements FictionOperations {
         return fictionRepository.findById(fictionId).map(fiction ->
                 toView(fiction, loadStoryArchetypes(fictionId), loadWorldSettings(fictionId))
         );
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
+    public Optional<PublicFictionView> findPublic(Long fictionId) {
+        if (fictionId == null) {
+            return Optional.empty();
+        }
+        Optional<PublicFictionView> projection = fictionRepository.findPublicProjectionById(fictionId);
+        if (projection.isEmpty()) {
+            return Optional.empty();
+        }
+        Optional<VaultEntryView> vaultEntry = vaultEntryOperations.find(fictionId);
+        if (vaultEntry.isEmpty()) {
+            return Optional.empty();
+        }
+        VaultEntryView entry = vaultEntry.get();
+        if (!Objects.equals(entry.id(), fictionId)
+                || entry.entryType() != VaultEntryType.FICTION
+                || entry.deletedAt() != null) {
+            return Optional.empty();
+        }
+        return projection;
     }
 
     @Override
