@@ -1,6 +1,13 @@
 # Active Implementation Handoff
 
-## Current execution — BF26-DP-B2-W1
+**Canonical current execution register:** `NO_ACTIVE_HANDOFF` — BF26-DP-B2-W1 is independently accepted and Owner-published; its executable implementation handoff has closed. No new executable handoff is active or authorized.
+
+> **CURRENT BF26-DP-B2-W1 PUBLICATION — 2026-11-13:** [Owner source publication](https://github.com/vhvkhangg/personal-private-vault/commit/40fb8a61b6529585927e0a7dd524e9a363c69b6e) `40fb8a61b6529585927e0a7dd524e9a363c69b6e` establishes `INDEPENDENTLY_ACCEPTED / OWNER_PUBLISHED / CLOSED` for **B2-W1 ONLY**. [Independent final re-review 2](../maintenance/2026-11-12-bf26-dp-b2-preparation/reviews/2026-11-13-bf26-dp-b2-w1-independent-final-re-review-2.md) CLOSED FR-W1-01–05; DPB2W1-L01 **LOW / OPEN / BACKLOG**. Reviewer fresh 31/31 PASS; 199 distinct producer/source-qualified cases with 31-case independent corroboration, no double count. [Owner closeout](../maintenance/2026-11-12-bf26-dp-b2-preparation/owner-publication-closeout-dp-b2-w1-2026-11-13.md) and this register reset are docs-only after source publication.
+> **Active Public surface:** accepted B1 eight authenticated GETs + exact authenticated `POST /api/v1/films` with strict five-field PUBLIC body, server `isNsfw=false`, no private relationships, seven-field `PublicFilmResponse` and safe cache/errors. PRIVATE Film create, updates and other accepted behavior unchanged. All unselected PUBLIC business/data methods remain denied. W1 remediation **2/3 consumed / STOPPED**, takeover **NOT_AUTHORIZED / NOT_USED**; DP-A/B1 counters and LOW backlogs remain unchanged. B2-W2/S/V, DP-C and all later features **NOT_AUTHORIZED**; H1-F paused / FR-13 upstream blocked; P17 frozen, P18 closed, S19-2 suspended, providers OFF/unset, indexing inactive. No live deployment/cutover or Owner-data suitability verified.
+
+---
+
+## Historical BF26-DP-B2-W1 handoff checkpoint — independent acceptance before Owner publication
 
 - **Handoff ID:** `BF26-DP-B2-W1`.
 - **Created by / date:** Codex / 2026-11-12.
@@ -20,7 +27,7 @@
 
 ## Historical execution register — before BF26-DP-B2-W1 authorization
 
-All following current-looking notices are preserved historical checkpoints. They do not override the W1-only current register above or authorize any other work.
+All following current-looking notices are preserved historical checkpoints. They do not override the closed W1 current register above or authorize any other work.
 
 **Canonical current execution register:** `NO_ACTIVE_HANDOFF` (B1 was accepted and Owner-published; the prior execution handoff is closed). No new executable handoff is active.
 
