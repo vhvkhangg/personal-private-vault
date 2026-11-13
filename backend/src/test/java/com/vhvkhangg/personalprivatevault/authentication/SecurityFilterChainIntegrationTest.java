@@ -272,6 +272,30 @@ class SecurityFilterChainIntegrationTest extends AbstractPostgresIntegrationTest
                     .andExpect(status().isForbidden())
                     .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
         }
+
+        // Permitted POST /api/v1/films: returns 201 Created
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/films")
+                        .header("Authorization", "Bearer " + publicToken)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Sec Filter Film","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                                """))
+                .andExpect(status().isCreated());
+
+        // Denied unselected mutations: exactly 403 ACCESS_DENIED
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/fictions")
+                        .header("Authorization", "Bearer " + publicToken)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put("/api/v1/films/1")
+                        .header("Authorization", "Bearer " + publicToken)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
     }
 
     private org.springframework.test.web.servlet.request.RequestPostProcessor propagated(String token) {
@@ -322,5 +346,31 @@ class SecurityFilterChainIntegrationTest extends AbstractPostgresIntegrationTest
                             }))
                     .andExpect(status().isForbidden());
         }
+
+        // ERROR and ASYNC dispatcher on POST /api/v1/films -> 403
+        String postPayload = """
+                {"title":"Async Sec Film","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                """;
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/films")
+                        .with(propagated(publicToken))
+                        .with(request -> {
+                            request.setDispatcherType(jakarta.servlet.DispatcherType.ERROR);
+                            return request;
+                        })
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(postPayload)
+                        .header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isForbidden());
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/films")
+                        .with(propagated(publicToken))
+                        .with(request -> {
+                            request.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                            return request;
+                        })
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(postPayload)
+                        .header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isForbidden());
     }
 }

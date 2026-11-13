@@ -259,6 +259,7 @@ public class SecurityConfiguration {
                             .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/languages/{code}").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
                             .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/currencies").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
                             .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reference/currencies/{code}").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
+                            .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/films").hasAnyAuthority("PROFILE_PUBLIC", "PROFILE_PRIVATE")
                             .anyRequest().hasAuthority("PROFILE_PRIVATE");
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2

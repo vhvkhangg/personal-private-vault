@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,7 +41,7 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
     private com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations vaultEntryOperations;
 
     @Test
-    @DisplayName("DPA-12 / B1: Complete sweep of all registered business endpoints reconciles exact 8-route exception set, denies remaining mappings, and verifies no handler invocation / domain mutation")
+    @DisplayName("DPA-12 / B1 / B2: Complete sweep of all registered business endpoints reconciles exact 9-route exception set, denies remaining mappings, and verifies no handler invocation / domain mutation")
     void registeredRoutesDeniedToPublicTokenFromBothOrigins() throws Exception {
         String tokenConfigured = publicBearerToken();
         String tokenDowngraded = publicBearerTokenViaDowngrade();
@@ -53,12 +54,99 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                 "GET /api/v1/reference/languages",
                 "GET /api/v1/reference/languages/{code}",
                 "GET /api/v1/reference/currencies",
-                "GET /api/v1/reference/currencies/{code}"
+                "GET /api/v1/reference/currencies/{code}",
+                "POST /api/v1/films"
         );
         Set<String> discoveredAllowedPairs = new HashSet<>();
         Set<String> testedEndpoints = new HashSet<>();
 
         com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.seedDomain(jdbcTemplate);
+
+        // 1. Positive verification of the 8 allowed GET routes
+        List<String> getRoutes = List.of(
+                "/api/v1/fictions/904",
+                "/api/v1/films/905",
+                "/api/v1/reference/countries",
+                "/api/v1/reference/countries/VN",
+                "/api/v1/reference/languages",
+                "/api/v1/reference/languages/en",
+                "/api/v1/reference/currencies",
+                "/api/v1/reference/currencies/USD"
+        );
+        for (String uri : getRoutes) {
+            mockMvc.perform(get(uri).header("Authorization", "Bearer " + tokenConfigured))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.data").isNotEmpty());
+
+            mockMvc.perform(get(uri).header("Authorization", "Bearer " + tokenDowngraded))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.data").isNotEmpty());
+
+            mockMvc.perform(get(uri))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+            mockMvc.perform(get(uri).header("Authorization", "Bearer " + bearerToken()))
+                    .andExpect(status().isOk());
+        }
+
+        // 2. Positive verification of POST /api/v1/films (BF26-DP-B2-W1)
+        String publicCreateFilmJson = """
+                {"title":"Swept Allowed Film","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                """;
+        String resp1 = mockMvc.perform(post("/api/v1/films")
+                        .header("Authorization", "Bearer " + tokenConfigured)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(publicCreateFilmJson))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.data.title").value("Swept Allowed Film"))
+                .andExpect(jsonPath("$.data.isNsfw").value(false))
+                .andReturn().getResponse().getContentAsString();
+        Long id1 = objectMapper.readTree(resp1).path("data").path("id").asLong();
+
+        String resp2 = mockMvc.perform(post("/api/v1/films")
+                        .header("Authorization", "Bearer " + tokenDowngraded)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Swept Allowed Film 2","format":"SERIES","productionStyle":"ANIMATION"}
+                                """))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.data.title").value("Swept Allowed Film 2"))
+                .andExpect(jsonPath("$.data.isNsfw").value(false))
+                .andReturn().getResponse().getContentAsString();
+        Long id2 = objectMapper.readTree(resp2).path("data").path("id").asLong();
+
+        // Independently qualify each committed Film/Vault pair in the database
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM films WHERE id = ? AND title = 'Swept Allowed Film' AND is_nsfw = false", Long.class, id1)).isEqualTo(1L);
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM vault_entries WHERE id = ? AND entry_type = 'FILM' AND deleted_at IS NULL", Long.class, id1)).isEqualTo(1L);
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM film_credits WHERE film_id = ?", Long.class, id1)).isEqualTo(0L);
+
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM films WHERE id = ? AND title = 'Swept Allowed Film 2' AND is_nsfw = false", Long.class, id2)).isEqualTo(1L);
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM vault_entries WHERE id = ? AND entry_type = 'FILM' AND deleted_at IS NULL", Long.class, id2)).isEqualTo(1L);
+        assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM film_credits WHERE film_id = ?", Long.class, id2)).isEqualTo(0L);
+
+        mockMvc.perform(post("/api/v1/films")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(publicCreateFilmJson))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+
+        mockMvc.perform(post("/api/v1/films")
+                        .header("Authorization", "Bearer " + bearerToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Swept Allowed Film Private","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                                """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.data.title").value("Swept Allowed Film Private"));
+
+        // Handler spy positive control: verify handlerAdapter was actively invoked during allowed requests before clearing
+        org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.atLeast(1))
+                .handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
+
+        // Capture snapshot after running allowed operations to establish baseline for denial sweep
         var valuesBefore = com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.domainSnapshot(jdbcTemplate);
         assertThat(valuesBefore.keySet()).contains("vault_entries", "persons", "external_accounts", "wallets", "diary_entries", "app_settings", "fictions", "films");
         org.mockito.Mockito.clearInvocations(handlerAdapter);
@@ -82,45 +170,10 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                         Class<?> beanType = method.getBeanType();
                         if (pattern.startsWith("/api/v1/fictions/")) {
                             assertThat(beanType).isEqualTo(com.vhvkhangg.personalprivatevault.fiction.internal.web.controller.FictionController.class);
-                        } else if (pattern.startsWith("/api/v1/films/")) {
+                        } else if (pattern.startsWith("/api/v1/films")) {
                             assertThat(beanType).isEqualTo(com.vhvkhangg.personalprivatevault.film.internal.web.controller.FilmController.class);
                         } else if (pattern.startsWith("/api/v1/reference/")) {
                             assertThat(beanType).isEqualTo(com.vhvkhangg.personalprivatevault.reference.internal.web.controller.ReferenceController.class);
-                        }
-                        String allowedUri = pattern;
-                        if (pattern.equals("/api/v1/fictions/{id}")) {
-                            allowedUri = "/api/v1/fictions/904";
-                        } else if (pattern.equals("/api/v1/films/{id}")) {
-                            allowedUri = "/api/v1/films/905";
-                        } else if (pattern.equals("/api/v1/reference/countries/{code}")) {
-                            allowedUri = "/api/v1/reference/countries/VN";
-                        } else if (pattern.equals("/api/v1/reference/languages/{code}")) {
-                            allowedUri = "/api/v1/reference/languages/en";
-                        } else if (pattern.equals("/api/v1/reference/currencies/{code}")) {
-                            allowedUri = "/api/v1/reference/currencies/USD";
-                        }
-
-                        try {
-                            // Test with configured PUBLIC token -> 200
-                            mockMvc.perform(get(allowedUri).header("Authorization", "Bearer " + tokenConfigured))
-                                    .andExpect(status().isOk())
-                                    .andExpect(jsonPath("$.data").isNotEmpty());
-
-                            // Test with downgraded PUBLIC token -> 200
-                            mockMvc.perform(get(allowedUri).header("Authorization", "Bearer " + tokenDowngraded))
-                                    .andExpect(status().isOk())
-                                    .andExpect(jsonPath("$.data").isNotEmpty());
-
-                            // Test anonymous -> 401
-                            mockMvc.perform(get(allowedUri))
-                                    .andExpect(status().isUnauthorized())
-                                    .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
-
-                            // Test with PRIVATE token -> 200
-                            mockMvc.perform(get(allowedUri).header("Authorization", "Bearer " + bearerToken()))
-                                    .andExpect(status().isOk());
-                        } catch (Exception e) {
-                            throw new RuntimeException("Failed positive verification on allowed route: " + pairKey, e);
                         }
                         continue;
                     }
@@ -184,7 +237,7 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
 
         // Exact membership reconciliation
         assertThat(discoveredAllowedPairs)
-                .as("Exact declared 8-pair exception set must be registered and discovered")
+                .as("Exact declared 9-pair exception set must be registered and discovered")
                 .isEqualTo(declaredAllowedPairs);
 
         assertThat(com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.domainSnapshot(jdbcTemplate))
@@ -648,10 +701,34 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                             }))
                     .andExpect(result -> assertThat(result.getResponse().getStatus()).isNotEqualTo(403));
         }
+
+        // POST /api/v1/films with ERROR and ASYNC dispatcher denies PUBLIC session
+        String asyncFilmJson = """
+                {"title":"Async Film","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                """;
+        mockMvc.perform(post("/api/v1/films")
+                        .with(propagated(publicToken))
+                        .with(req -> {
+                            req.setDispatcherType(jakarta.servlet.DispatcherType.ERROR);
+                            return req;
+                        })
+                        .contentType(MediaType.APPLICATION_JSON).content(asyncFilmJson)
+                        .header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isForbidden());
+
+        mockMvc.perform(post("/api/v1/films")
+                        .with(propagated(publicToken))
+                        .with(req -> {
+                            req.setDispatcherType(jakarta.servlet.DispatcherType.ASYNC);
+                            return req;
+                        })
+                        .contentType(MediaType.APPLICATION_JSON).content(asyncFilmJson)
+                        .header("Authorization", "Bearer " + publicToken))
+                .andExpect(status().isForbidden());
     }
 
     @Test
-    @DisplayName("B1-20: Method and path variants on public routes deny non-GET and subpaths")
+    @DisplayName("B1-20 / B2: Method and path variants on public routes deny non-GET and subpaths, and non-POST on /api/v1/films")
     void methodAndPathVariantsOnPublicRoutesDenyNonGetAndSubpaths() throws Exception {
         com.vhvkhangg.personalprivatevault.authentication.fixture.ProfileAuthFixture.seedDomain(jdbcTemplate);
         String publicToken = publicBearerToken();
@@ -664,6 +741,15 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                         .andExpect(status().isForbidden())
                         .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
             }
+        }
+
+        // Non-POST methods on /api/v1/films deny PUBLIC token
+        for (HttpMethod m : List.of(HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.PATCH, HttpMethod.OPTIONS, HttpMethod.HEAD)) {
+            mockMvc.perform(request(m, "/api/v1/films")
+                            .header("Authorization", "Bearer " + publicToken)
+                            .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                    .andExpect(status().isForbidden())
+                    .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
         }
 
         // Subpaths and traversal

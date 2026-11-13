@@ -14,6 +14,7 @@ import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmCreditRespon
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmGenreResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmLinkResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmResponse;
+import com.vhvkhangg.personalprivatevault.film.internal.web.dto.PublicCreateFilmRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.PublicFilmResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmGenreRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmLinkRequest;
@@ -65,6 +66,42 @@ public final class FilmWebMapper {
                 view.format(),
                 view.productionStyle(),
                 view.isNsfw()
+        );
+    }
+
+    public static PublicFilmResponse toPublicCreateResponse(FilmView view) {
+        if (view == null) return null;
+        return new PublicFilmResponse(
+                view.id(),
+                view.title(),
+                view.originalTitle(),
+                view.nationalityCode(),
+                view.format(),
+                view.productionStyle(),
+                view.isNsfw()
+        );
+    }
+
+    public static CreateFilmCommand toCommand(PublicCreateFilmRequest request) {
+        if (request == null) return null;
+        return new CreateFilmCommand(
+                request.title(),
+                request.originalTitle(),
+                request.nationalityCode(),
+                null,
+                request.format(),
+                request.productionStyle(),
+                false,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                java.util.Set.of(),
+                java.util.Set.of(),
+                java.util.Set.of()
         );
     }
 

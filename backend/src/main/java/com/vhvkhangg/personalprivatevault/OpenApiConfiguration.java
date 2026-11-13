@@ -99,7 +99,7 @@ public class OpenApiConfiguration {
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
-                                .description("DP-A persisted session authority: sub=1, profile PUBLIC or PRIVATE, sid and positive integral generation. Anonymous endpoints permit unauthenticated access; authenticated PROFILE_PUBLIC grants access to auth session elevation, GET /api/v1/fictions/{id}, GET /api/v1/films/{id}, and GET /api/v1/reference/{countries,languages,currencies} (list and detail); session downgrade and all other business and data operations require PROFILE_PRIVATE.")))
+                                .description("DP-A persisted session authority: sub=1, profile PUBLIC or PRIVATE, sid and positive integral generation. Anonymous endpoints permit unauthenticated access; authenticated PROFILE_PUBLIC grants access to auth session elevation, POST /api/v1/films, GET /api/v1/fictions/{id}, GET /api/v1/films/{id}, and GET /api/v1/reference/{countries,languages,currencies} (list and detail); session downgrade and all other business and data operations require PROFILE_PRIVATE.")))
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_SECURITY_SCHEME));
     }
 
@@ -194,8 +194,44 @@ public class OpenApiConfiguration {
             openApi.getComponents().addSchemas("PublicFilmResponse", publicFilmResponseSchema);
             openApi.getComponents().addSchemas("ApiResponsePublicFilmResponse", apiResponsePublicFilmSchema);
             openApi.getComponents().addSchemas("ApiResponseFilmDetailResponse", filmDetailResponseSchema);
-            // DP-A's route-local parser rejects unknown members in these three request objects.
-            for (String name : Set.of("PublicProfileLoginRequest", "PublicCredentialRequest", "ElevatePrivateRequest")) {
+
+            Schema<Object> publicCreateFilmRequestSchema = new ObjectSchema()
+                    .description("Public film creation request payload (strictly 5 properties, no client-supplied isNsfw, relational, or consumption fields)")
+                    .addProperty("title", new StringSchema().maxLength(500).example("Sample Film").description("Primary title"))
+                    .addProperty("originalTitle", new StringSchema().maxLength(500).types(Set.of("string", "null")).nullable(true).example(null).description("Optional original/native title"))
+                    .addProperty("nationalityCode", new StringSchema().maxLength(2).types(Set.of("string", "null")).nullable(true).example("VN").description("Optional 2-character country code"))
+                    .addProperty("format", new StringSchema()._enum(java.util.List.of("MOVIE", "SERIES")).example("MOVIE").description("Format of the work (MOVIE or SERIES)"))
+                    .addProperty("productionStyle", new StringSchema()._enum(java.util.List.of("LIVE_ACTION", "ANIMATION")).example("LIVE_ACTION").description("Production style (LIVE_ACTION or ANIMATION)"))
+                    .required(java.util.List.of("title", "format", "productionStyle"))
+                    .additionalProperties(false);
+
+            try {
+                Class<?> clazz = Class.forName("com.vhvkhangg.personalprivatevault.film.internal.web.dto.CreateFilmRequest");
+                java.util.Map<String, Schema> createFilmSchemas = io.swagger.v3.core.converter.ModelConverters.getInstance().readAll(clazz);
+                createFilmSchemas.forEach((k, v) -> openApi.getComponents().addSchemas(k, v));
+            } catch (ClassNotFoundException ignored) {
+            }
+
+            Schema<Object> filmCreateRequestSchema = new ObjectSchema()
+                    .description("Film creation request: PublicCreateFilmRequest for PROFILE_PUBLIC, CreateFilmRequest for PROFILE_PRIVATE")
+                    .anyOf(java.util.List.of(
+                            new Schema<Object>().$ref("#/components/schemas/PublicCreateFilmRequest"),
+                            new Schema<Object>().$ref("#/components/schemas/CreateFilmRequest")
+                    ));
+
+            Schema<Object> filmCreateResponseSchema = new ObjectSchema()
+                    .description("Film creation response envelope: ApiResponsePublicFilmResponse for PROFILE_PUBLIC, ApiResponseFilmResponse for PROFILE_PRIVATE")
+                    .anyOf(java.util.List.of(
+                            new Schema<Object>().$ref("#/components/schemas/ApiResponsePublicFilmResponse"),
+                            new Schema<Object>().$ref("#/components/schemas/ApiResponseFilmResponse")
+                    ));
+
+            openApi.getComponents().addSchemas("PublicCreateFilmRequest", publicCreateFilmRequestSchema);
+            openApi.getComponents().addSchemas("FilmCreateRequest", filmCreateRequestSchema);
+            openApi.getComponents().addSchemas("ApiResponseFilmCreateResponse", filmCreateResponseSchema);
+
+            // DP-A and DP-B2 route-local parsers reject unknown members in these request objects.
+            for (String name : Set.of("PublicProfileLoginRequest", "PublicCredentialRequest", "ElevatePrivateRequest", "PublicCreateFilmRequest")) {
                 Schema<?> schema = openApi.getComponents().getSchemas().get(name);
                 if (schema != null) schema.setAdditionalProperties(false);
             }
@@ -392,6 +428,27 @@ public class OpenApiConfiguration {
                             resp200.setContent(new Content()
                                     .addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType)
                                     .addMediaType("*/*", mediaType));
+                        }
+                    } else if (pathKey.equals("/api/v1/films") && httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.POST) {
+                        io.swagger.v3.oas.models.parameters.RequestBody reqBody = operation.getRequestBody();
+                        if (reqBody == null) {
+                            reqBody = new io.swagger.v3.oas.models.parameters.RequestBody();
+                            operation.setRequestBody(reqBody);
+                        }
+                        reqBody.setRequired(true);
+                        MediaType mediaType = new MediaType().schema(new Schema<Object>().$ref("#/components/schemas/FilmCreateRequest"));
+                        reqBody.setContent(new Content()
+                                .addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType)
+                                .addMediaType("*/*", mediaType));
+                        reqBody.setDescription("Film creation request: PublicCreateFilmRequest for PROFILE_PUBLIC, CreateFilmRequest for PROFILE_PRIVATE");
+
+                        ApiResponse resp201 = responses.get("201");
+                        if (resp201 != null) {
+                            resp201.setDescription("Film work created (minimal PublicFilmResponse with Cache-Control: no-store for PROFILE_PUBLIC, full FilmResponse for PROFILE_PRIVATE)");
+                            MediaType respMediaType = new MediaType().schema(new Schema<Object>().$ref("#/components/schemas/ApiResponseFilmCreateResponse"));
+                            resp201.setContent(new Content()
+                                    .addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, respMediaType)
+                                    .addMediaType("*/*", respMediaType));
                         }
                     }
                 });

@@ -13,6 +13,8 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
@@ -176,7 +178,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             POST | /api/v1/fictions | createFiction | 201 | CreateFictionRequest | ApiResponseFictionResponse | false
             POST | /api/v1/fictions/{id}/links | createFictionLink | 201 | CreateFictionLinkRequest | ApiResponseFictionLinkResponse | true
             POST | /api/v1/film-genres | createFilmGenre | 201 | CreateFilmGenreRequest | ApiResponseFilmGenreResponse | false
-            POST | /api/v1/films | createFilm | 201 | CreateFilmRequest | ApiResponseFilmResponse | false
+            POST | /api/v1/films | createFilm | 201 | FilmCreateRequest | ApiResponseFilmCreateResponse | false
             POST | /api/v1/films/{id}/credits | createFilmCredit | 201 | CreateFilmCreditRequest | ApiResponseFilmCreditResponse | true
             POST | /api/v1/films/{id}/links | createFilmLink | 201 | CreateFilmLinkRequest | ApiResponseFilmLinkResponse | true
             POST | /api/v1/finance/categories | createTransactionCategory | 201 | CreateTransactionCategoryRequest | ApiResponseTransactionCategoryResponse | false
@@ -1074,9 +1076,156 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(validateSpecimen(extraPropFilm, apiRespPublicFilmSchema, schemas)).isFalse();
         assertThat(validateSpecimen(extraPropFilm.get("data"), publicFilmSchema, schemas)).isFalse();
 
-        // Verify bearer description mentions PROFILE_PUBLIC and eight B1 grants
+        // 7. BF26-DP-B2-W1: Film creation request and response schema assertions
+        JsonNode filmCreateReqSchema = schemas.path("FilmCreateRequest");
+        assertThat(filmCreateReqSchema.isMissingNode()).as("FilmCreateRequest schema must exist").isFalse();
+        assertThat(filmCreateReqSchema.has("anyOf")).as("FilmCreateRequest must declare anyOf").isTrue();
+        JsonNode reqAnyOf = filmCreateReqSchema.path("anyOf");
+        assertThat(reqAnyOf.isArray()).isTrue();
+        assertThat(reqAnyOf.size()).isEqualTo(2);
+        Set<String> reqRefs = Set.of(reqAnyOf.get(0).path("$ref").asText(), reqAnyOf.get(1).path("$ref").asText());
+        assertThat(reqRefs).containsExactlyInAnyOrder(
+                "#/components/schemas/PublicCreateFilmRequest",
+                "#/components/schemas/CreateFilmRequest"
+        );
+
+        JsonNode publicCreateFilmSchema = schemas.path("PublicCreateFilmRequest");
+        assertThat(publicCreateFilmSchema.isMissingNode()).as("PublicCreateFilmRequest must exist").isFalse();
+        assertThat(publicCreateFilmSchema.path("additionalProperties").asBoolean(true)).isFalse();
+        JsonNode publicCreateFilmProps = publicCreateFilmSchema.path("properties");
+        assertThat(publicCreateFilmProps.fieldNames()).toIterable().containsExactlyInAnyOrder(
+                "title", "originalTitle", "nationalityCode", "format", "productionStyle"
+        );
+        List<String> createRequired = new ArrayList<>();
+        publicCreateFilmSchema.path("required").forEach(n -> createRequired.add(n.asText()));
+        assertThat(createRequired).containsExactlyInAnyOrder("title", "format", "productionStyle");
+        assertThat(allowsNull(publicCreateFilmProps.path("originalTitle"))).isTrue();
+        assertThat(allowsNull(publicCreateFilmProps.path("nationalityCode"))).isTrue();
+        assertThat(allowsNull(publicCreateFilmProps.path("title"))).isFalse();
+        assertThat(allowsNull(publicCreateFilmProps.path("format"))).isFalse();
+        assertThat(allowsNull(publicCreateFilmProps.path("productionStyle"))).isFalse();
+
+        JsonNode filmCreateRespSchema = schemas.path("ApiResponseFilmCreateResponse");
+        assertThat(filmCreateRespSchema.isMissingNode()).as("ApiResponseFilmCreateResponse must exist").isFalse();
+        assertThat(filmCreateRespSchema.has("anyOf")).as("ApiResponseFilmCreateResponse must declare anyOf").isTrue();
+        JsonNode respAnyOf = filmCreateRespSchema.path("anyOf");
+        assertThat(respAnyOf.isArray()).isTrue();
+        assertThat(respAnyOf.size()).isEqualTo(2);
+        Set<String> respRefs = Set.of(respAnyOf.get(0).path("$ref").asText(), respAnyOf.get(1).path("$ref").asText());
+        assertThat(respRefs).containsExactlyInAnyOrder(
+                "#/components/schemas/ApiResponsePublicFilmResponse",
+                "#/components/schemas/ApiResponseFilmResponse"
+        );
+
+        // Public Create Film Request Specimens
+        JsonNode validPublicCreateReq = mapper.readTree("""
+                {"title":"OpenApi Public Film","originalTitle":"Original","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                """);
+        assertThat(validateSpecimen(validPublicCreateReq, publicCreateFilmSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(validPublicCreateReq, filmCreateReqSchema, schemas)).isTrue();
+
+        JsonNode validPublicCreateReqNulls = mapper.readTree("""
+                {"title":"OpenApi Public Film 2","originalTitle":null,"nationalityCode":null,"format":"SERIES","productionStyle":"ANIMATION"}
+                """);
+        assertThat(validateSpecimen(validPublicCreateReqNulls, publicCreateFilmSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(validPublicCreateReqNulls, filmCreateReqSchema, schemas)).isTrue();
+
+        // Private Create Film Request Schema & Specimen verification
+        assertThat(schemas.has("CreateFilmRequest")).isTrue();
+        JsonNode privateCreateFilmSchema = schemas.path("CreateFilmRequest");
+
+        JsonNode validPrivateCreateReq = mapper.readTree("""
+                {"title":"OpenApi Full Private Film","originalTitle":"Private Native","nationalityCode":"VN","posterUrl":"https://example.com/poster.png","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"directorPersonId":901,"description":"Private Description","totalEpisodes":10,"progressStatus":"COMPLETED","consumptionStatus":"CONSUMED","currentProgressText":"Done","review":"Private Review Notes"}
+                """);
+        assertThat(validateSpecimen(validPrivateCreateReq, privateCreateFilmSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(validPrivateCreateReq, filmCreateReqSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(validPrivateCreateReq, publicCreateFilmSchema, schemas)).isFalse();
+
+        // Length boundary+1 negative specimen (title length > 500 characters)
+        String title501 = "A".repeat(501);
+        JsonNode overflowTitleReq = mapper.readTree("{\"title\":\"" + title501 + "\",\"format\":\"MOVIE\",\"productionStyle\":\"LIVE_ACTION\"}");
+        assertThat(validateSpecimen(overflowTitleReq, publicCreateFilmSchema, schemas)).isFalse();
+
+        // Unresolved reference control check (fails with AssertionError)
+        JsonNode badRefSchema = mapper.readTree("{\"$ref\":\"#/components/schemas/NonExistentSchema\"}");
+        org.junit.jupiter.api.Assertions.assertThrows(AssertionError.class, () -> {
+            validateSpecimen(validPublicCreateReq, badRefSchema, schemas);
+        });
+
+        // Negative specimens for PublicCreateFilmRequest
+        // a) Missing title
+        JsonNode missingTitle = mapper.readTree("""
+                {"originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                """);
+        assertThat(validateSpecimen(missingTitle, publicCreateFilmSchema, schemas)).isFalse();
+
+        // b) Forbidden client-supplied isNsfw
+        JsonNode forbiddenNsfw = mapper.readTree("""
+                {"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false}
+                """);
+        assertThat(validateSpecimen(forbiddenNsfw, publicCreateFilmSchema, schemas)).isFalse();
+
+        // c) Forbidden relational field directorPersonId
+        JsonNode forbiddenDirector = mapper.readTree("""
+                {"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","directorPersonId":1}
+                """);
+        assertThat(validateSpecimen(forbiddenDirector, publicCreateFilmSchema, schemas)).isFalse();
+
+        // d) Forbidden consumption field review
+        JsonNode forbiddenReview = mapper.readTree("""
+                {"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","review":"Notes"}
+                """);
+        assertThat(validateSpecimen(forbiddenReview, publicCreateFilmSchema, schemas)).isFalse();
+
+        // e) Wrong type for title
+        JsonNode wrongTypeTitle = mapper.readTree("""
+                {"title":12345,"originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                """);
+        assertThat(validateSpecimen(wrongTypeTitle, publicCreateFilmSchema, schemas)).isFalse();
+
+        // f) Wrong enum for format
+        JsonNode wrongFormatEnum = mapper.readTree("""
+                {"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"DOCUMENTARY","productionStyle":"LIVE_ACTION"}
+                """);
+        assertThat(validateSpecimen(wrongFormatEnum, publicCreateFilmSchema, schemas)).isFalse();
+
+        // Actual HTTP Specimen verification:
+        // Perform Public create film HTTP request
+        String actualPublicCreateRaw = mockMvc.perform(post("/api/v1/films")
+                        .header("Authorization", "Bearer " + publicToken)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"OpenApi Specimen Film","originalTitle":"Native","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION"}
+                                """))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Cache-Control", "no-store"))
+                .andReturn().getResponse().getContentAsString();
+        JsonNode actualPublicCreateEnvelope = mapper.readTree(actualPublicCreateRaw);
+
+        assertThat(validateSpecimen(actualPublicCreateEnvelope, apiRespPublicFilmSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPublicCreateEnvelope, filmCreateRespSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPublicCreateEnvelope.get("data"), publicFilmSchema, schemas)).isTrue();
+        assertThat(actualPublicCreateEnvelope.get("data").get("isNsfw").asBoolean()).isFalse();
+
+        // Perform Private create film HTTP request
+        String actualPrivateCreateRaw = mockMvc.perform(post("/api/v1/films")
+                        .header("Authorization", "Bearer " + privateToken)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"OpenApi Private Specimen Film","originalTitle":"Private Native","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"description":"Private Desc"}
+                                """))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        JsonNode actualPrivateCreateEnvelope = mapper.readTree(actualPrivateCreateRaw);
+
+        assertThat(validateSpecimen(actualPrivateCreateEnvelope, apiRespPrivateFilmSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPrivateCreateEnvelope, filmCreateRespSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(actualPrivateCreateEnvelope, apiRespPublicFilmSchema, schemas)).isFalse();
+        assertThat(validateSpecimen(actualPrivateCreateEnvelope.get("data"), publicFilmSchema, schemas)).isFalse();
+
+        // Verify bearer description mentions PROFILE_PUBLIC and permitted grants
         String bearerDesc = root.path("components").path("securitySchemes").path("bearerAuth").path("description").asText();
-        assertThat(bearerDesc).contains("PROFILE_PUBLIC", "PROFILE_PRIVATE", "/api/v1/fictions/{id}", "/api/v1/films/{id}", "/api/v1/reference/");
+        assertThat(bearerDesc).contains("PROFILE_PUBLIC", "PROFILE_PRIVATE", "POST /api/v1/films", "/api/v1/fictions/{id}", "/api/v1/films/{id}", "/api/v1/reference/");
         assertThat(bearerDesc).contains("elevation", "downgrade and all other business and data operations require PROFILE_PRIVATE");
     }
 
@@ -1133,7 +1282,11 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 JsonNode resolved = allSchemas.path(target);
                 if (!resolved.isMissingNode()) {
                     return resolveSchema(resolved, allSchemas);
+                } else {
+                    throw new AssertionError("Unresolved schema reference: " + ref);
                 }
+            } else {
+                throw new AssertionError("Unsupported $ref format: " + ref);
             }
         }
         return schemaNode;
@@ -1155,6 +1308,19 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         schemaNode = resolveSchema(schemaNode, allSchemas);
         if (schemaNode == null || schemaNode.isMissingNode()) {
             return false;
+        }
+
+        if (schemaNode.has("maxLength") && specimen.isTextual()) {
+            int max = schemaNode.get("maxLength").asInt();
+            if (specimen.asText().length() > max) {
+                return false;
+            }
+        }
+        if (schemaNode.has("minLength") && specimen.isTextual()) {
+            int min = schemaNode.get("minLength").asInt();
+            if (specimen.asText().length() < min) {
+                return false;
+            }
         }
 
         if (schemaNode.has("anyOf")) {

@@ -1,9 +1,11 @@
 package com.vhvkhangg.personalprivatevault.film.internal.web.controller;
 
+import com.vhvkhangg.personalprivatevault.ApiFieldError;
 import com.vhvkhangg.personalprivatevault.ApiResponse;
 import com.vhvkhangg.personalprivatevault.ApiResponses;
 import com.vhvkhangg.personalprivatevault.film.credit.FilmCreditOperations;
 import com.vhvkhangg.personalprivatevault.film.film.FilmOperations;
+import com.vhvkhangg.personalprivatevault.film.film.exception.InvalidFilmException;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.CreateFilmCreditRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.CreateFilmLinkRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.CreateFilmRequest;
@@ -11,6 +13,8 @@ import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmClassificati
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmCreditResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmLinkResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmResponse;
+import com.vhvkhangg.personalprivatevault.film.internal.web.dto.PublicCreateFilmRequest;
+import com.vhvkhangg.personalprivatevault.film.internal.web.dto.PublicFilmResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmLinkRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.mapper.FilmWebMapper;
@@ -21,11 +25,15 @@ import com.vhvkhangg.personalprivatevault.film.view.FilmLinkView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,11 +55,73 @@ public class FilmController {
     private final FilmOperations filmOperations;
     private final FilmCreditOperations filmCreditOperations;
     private final FilmLinkOperations filmLinkOperations;
+    private final FilmCreateRequestReader filmCreateRequestReader;
 
     @PostMapping
     @Operation(summary = "Create film work", operationId = "createFilm")
-    public ResponseEntity<ApiResponse<FilmResponse>> create(@Valid @RequestBody CreateFilmRequest request) {
-        FilmView created = filmOperations.create(FilmWebMapper.toCommand(request));
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Film creation request: PublicCreateFilmRequest for PROFILE_PUBLIC, CreateFilmRequest for PROFILE_PRIVATE",
+            required = true,
+            content = {
+                    @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CreateFilmRequest.class)),
+                    @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PublicCreateFilmRequest.class))
+            }
+    )
+    public ResponseEntity<?> create(
+            HttpServletRequest request,
+            Authentication authentication
+    ) throws Exception {
+        boolean isPublic = authentication != null && authentication.getAuthorities().stream()
+                .anyMatch(a -> "PROFILE_PUBLIC".equals(a.getAuthority()));
+        boolean isPrivate = authentication != null && authentication.getAuthorities().stream()
+                .anyMatch(a -> "PROFILE_PRIVATE".equals(a.getAuthority()));
+        if (!isPublic && !isPrivate) {
+            throw new AccessDeniedException("Access is denied");
+        }
+
+        byte[] body;
+        try {
+            body = request.getInputStream().readAllBytes();
+        } catch (java.io.IOException e) {
+            throw new IllegalArgumentException("Failed to read request body", e);
+        }
+
+        if (isPublic) {
+            PublicCreateFilmRequest publicRequest;
+            try {
+                publicRequest = filmCreateRequestReader.readPublic(body, request);
+            } catch (FilmCreateRequestReader.MalformedPayloadException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("MALFORMED_REQUEST", "Malformed or unreadable request payload"));
+            } catch (ConstraintViolationException e) {
+                List<ApiFieldError> fieldErrors = e.getConstraintViolations().stream()
+                        .map(cv -> new ApiFieldError(cv.getPropertyPath().toString(), cv.getMessage()))
+                        .toList();
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("VALIDATION_ERROR", "Request validation failed", fieldErrors));
+            }
+
+            try {
+                FilmView created = filmOperations.create(FilmWebMapper.toCommand(publicRequest));
+                return ResponseEntity.status(HttpStatus.CREATED)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.success(FilmWebMapper.toPublicCreateResponse(created)));
+            } catch (InvalidFilmException e) {
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("FILM_INVALID", "Invalid film data"));
+            } catch (RuntimeException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("INTERNAL_ERROR", "An unexpected error occurred"));
+            }
+        }
+
+        // PRIVATE path: standard MVC conversion & validation, standard headers
+        CreateFilmRequest privateRequest = filmCreateRequestReader.readPrivate(body, request);
+        FilmView created = filmOperations.create(FilmWebMapper.toCommand(privateRequest));
         return ApiResponses.created(FilmWebMapper.toResponse(created));
     }
 

@@ -308,16 +308,23 @@ class PublicFilmReadIntegrationTest extends AbstractWebIntegrationTest {
         Long id = seedFilm(false, false);
         String token = publicBearerToken();
 
-        // Write denies
-        mockMvc.perform(post("/api/v1/films").header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON).content("{}"))
-                .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
-
+        // Unselected write denies (PUT, nested credit POST)
         mockMvc.perform(put("/api/v1/films/{id}", id).header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+
+        mockMvc.perform(post("/api/v1/films/{id}/credits", id).header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
+
+        // BF26-DP-B2-W1: POST /api/v1/films is admitted to PUBLIC; invalid empty body returns 400 VALIDATION_ERROR with no-store
+        mockMvc.perform(post("/api/v1/films").header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(header().string(HttpHeaders.CACHE_CONTROL, "no-store"))
+                .andExpect(jsonPath("$.error.code").value("VALIDATION_ERROR"));
 
         // Nested reads deny
         mockMvc.perform(get("/api/v1/films/{id}/classifications", id).header("Authorization", "Bearer " + token))
