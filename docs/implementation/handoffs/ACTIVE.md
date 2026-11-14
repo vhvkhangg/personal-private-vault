@@ -1,5 +1,84 @@
 # Active Implementation Handoff
 
+**Canonical current execution register — 2026-11-14:** **BF26-DP-RO-A / READY_FOR_OWNER_COMMIT / INDEPENDENTLY_ACCEPTED**. [Independent final re-review 1](../maintenance/2026-11-13-bf26-dp-public-read-only-preparation/reviews/2026-11-14-bf26-dp-ro-a-independent-final-re-review-1.md) CLOSED **FR-ROA-01–03**. Producer **117 distinct cases / nine classes** qualified; fresh reviewer **36/36 PASS** corroborates that union without double counting. **DPROA-L01 LOW / OPEN / BACKLOG** remains nonblocking. Remediation **1/3 consumed / STOPPED**, takeover **NOT_AUTHORIZED / NOT_USED**. Owner publication/actual-SHA closeout pending; RO-B remains **DEFERRED / NOT_AUTHORIZED_FOR_IMPLEMENTATION**; no deployment/cutover proven.
+
+## BF26-DP-RO-A — Public write revocation
+
+- **Handoff ID / created by / date:** `BF26-DP-RO-A` / Codex / 2026-11-13.
+- **Status: READY_FOR_OWNER_COMMIT / INDEPENDENTLY_ACCEPTED.** Independent re-review 1 CLOSED FR-ROA-01/02/03 on round-1 final inputs; no blocking or mandatory unverified RO-A acceptance remains. DPROA-L01 remains LOW/OPEN/BACKLOG for residual summary wording. Exact eight-file scope retained; Owner publication pending.
+- **Executable / authority:** [RO-A executable handoff](../maintenance/2026-11-13-bf26-dp-public-read-only-preparation/executable-handoff-dp-ro-a-2026-11-13.md), sections 1 and 3, records the Owner's current **APPROVED — BF26-DP-RO-A ONLY / EXACT_FROZEN_SOURCE_API_TEST_EXCEPTION**, dated 2026-11-13. Bounded allowlist amendment (6 → 8 files) approved by Owner on 2026-11-13 to update obsolete B2-W1 test assertions in `SecurityFilterChainIntegrationTest.java` and `PublicFilmReadIntegrationTest.java`. Earlier preparation-only prohibitions are dated checkpoints superseded only by this exact authorization.
+- **Preparation gate:** [independent pre-handoff re-review 1](../maintenance/2026-11-13-bf26-dp-public-read-only-preparation/reviews/2026-11-13-bf26-dp-ro-a-independent-pre-handoff-re-review-1.md) READY_FOR_HANDOFF for RO-A preparation only; `FR-RO-PH-01 MEDIUM / CLOSED`. Owner-ratified [RO-D04/D06](../maintenance/2026-11-13-bf26-dp-public-read-only-preparation/owner-ratification-ro-d04-d06-2026-11-13.md) selects RO-A first and defers RO-B.
+- **Verified entry:** local `main`, HEAD, `origin/main` and live remote `main` all `7700222673712abc59eb6f1de621abc86c7172cc`; entry worktree/index clean. Preparation publication changed only its nine Markdown documents; complete backend tree matches reviewed `3ce4c87d` at `f85539956e4672d09ffd267e427618060cc3854b`. Executable section 9 records all six actual-file SHA-256 values and published Git blobs. Recheck material source/authority drift before implementation; expected handoff documentation is not source drift.
+- **Implementer / reviewer:** Antigravity, existing backend-implementer role, `/antigravity-implement-handoff` then mandatory `/antigravity-self-review`; separate independent Codex `$codex-final-review`; Owner alone stages/commits/pushes independently accepted changes. No agent publishing.
+
+### Goal and required invariants
+
+Remove the exact PUBLIC/PRIVATE `POST /api/v1/films` security matcher and reuse existing PRIVATE fallback. A live persisted PUBLIC token from **either direct PUBLIC login or PRIVATE-to-PUBLIC downgrade** must receive canonical **403 ACCESS_DENIED before MVC business handler execution**, with no Film/Vault/domain mutation. Anonymous remains canonical **401 AUTHENTICATION_REQUIRED**. PRIVATE keeps broad parsing, media/charset, validation, original transaction, successful committed creation, exact 18-field response and existing headers (including no Location).
+
+Retain exactly eight PUBLIC business GET pairs: Fiction detail, Film detail, Reference countries/languages/currencies list and detail. Keep B1's six-field PUBLIC Fiction and seven-field PUBLIC Film payloads and all Reference DTOs unchanged; no RO-B field/name expansion. Preserve Auth exceptions, session authority validation, PRIVATE fallback and ASYNC/ERROR restrictions. All other PUBLIC business methods/paths stay denied; no new global method-denial mechanism.
+
+### Exact implementation targets
+
+Production root `backend/src/main/java/com/vhvkhangg/personalprivatevault/`:
+
+- `authentication/internal/infrastructure/security/SecurityConfiguration.java`: remove only selected PUBLIC POST authorization; preserve existing fallback/order/guards.
+- `film/internal/web/controller/FilmController.java`: POST OpenAPI annotations only; runtime create logic unchanged.
+- `OpenApiConfiguration.java`: PRIVATE-only POST request/response/security documentation; preserve `createFilm` and B1 GET schemas.
+
+Test root `backend/src/test/java/com/vhvkhangg/personalprivatevault/`:
+
+- `authentication/ProfileRouteAuthorizationIntegrationTest.java`: exact registered eight-pair sweep and qualified two-origin denial/no-handler/no-mutation.
+- `film/PublicFilmCreateIntegrationTest.java`: replace obsolete PUBLIC-create expectations; preserve relevant PRIVATE/media/validation/transaction regressions.
+- `web/OpenApiRouteInventoryIntegrationTest.java`: PRIVATE-only generated POST and unchanged B1 GET schema/specimen/reference contracts.
+- `authentication/SecurityFilterChainIntegrationTest.java`: **Owner amendment 2026-11-13:** update obsolete W1 POST `/api/v1/films` 201 expectation to 403 `ACCESS_DENIED`.
+- `film/PublicFilmReadIntegrationTest.java`: **Owner amendment 2026-11-13:** update obsolete W1 POST `/api/v1/films` 400 expectation to 403 `ACCESS_DENIED` at authorization boundary.
+
+All other production/test files are read-only regression inputs. No deletion of existing PUBLIC branch, reader or DTOs; no `FilmCreateRequestReader`, transaction/domain, Fiction/People/Vault/Reference, schema/Flyway/DBML/module/build/dependency/provider edits. Additional necessary source/capability requires STOP and a separate exact Owner decision.
+
+### Test/evidence contract and constraints
+
+- Executable **ROA-01–12** cover both live PUBLIC origins, exact 403/no-handler/row-value no-mutation, anonymous 401, PRIVATE committed 18-key creation/media/charset/validation, registered eight-pair/sensitive-route denials, method/path/HEAD/OPTIONS/ASYNC/ERROR/Auth preservation, generated PRIVATE-only POST/`createFilm`/valid references, unchanged B1 reads and architecture/frozen compatibility.
+- Use existing MockMvc, Testcontainers PostgreSQL and bounded runner, **normal 300 seconds per command**. Five finite groups are G-ROA-SECURITY, PRIVATE, API, READ and ARCH in executable section 6; no full-suite/extended-time authority. Changed test classes require fresh final applicable execution; unchanged evidence needs verified source applicability. Preserve fresh/reused provenance, failed attempts, raw receipts/XML and exact case identities; no invented totals or runtime PASS at handoff creation.
+- Qualified handler evidence uses the actual MVC handler adapter, positively observed on PRIVATE Film creation before clearing calls; a Vault/service spy alone is insufficient. Convert obsolete PUBLIC success/barrier tests so no test waits for an unreachable create handler. Preserve relevant PRIVATE transaction failure regressions and immutable W1 evidence.
+- No RO-B, extra PUBLIC read/write, B2-W2/S/V, DP-C, Frontend/BFF, RAG, Recycle Bin, final audit, unrelated refactor or deployment/cutover. H1-F paused/FR-13 upstream-blocked; P17 frozen, P18 closed, S19-2 suspended, indexing inactive, providers OFF/unset.
+
+### Documentation impact and ownership / Docs Sync Check
+
+**UPDATED:** only ACTIVE, the executable, and handback/self-review artifacts. **ALREADY_CONSISTENT:** independently ready published preparation, exact Owner exception, eight source hashes and deferred RO-B/counters. **NOT_VERIFIED:** live deployment and production cutover.
+
+**DEFERRED_OUT_OF_SCOPE:** dated preparation/root/policy/roadmap/maintenance-index navigation and LOW-backlog corrections belong to ChatGPT under separately scoped governance/actual-SHA closeout work. They do not override this register or authorize extra source edits. Preserve all original reviews, failed attempts, raw receipts and earlier execution checkpoints below; no repository-wide cleanup. At implementation handback and independent review report actual HEAD/diff, requirement-to-evidence mapping, edited docs, remaining drift and responsible editor.
+
+### Preserved counters and publication history
+
+RO-A **1/3 consumed / STOPPED** after independently accepted remediation round 1, takeover **NOT_AUTHORIZED / NOT_USED**. Two unused allowances do not authorize another round, reset, transfer or follow-on slice. RO-B remains deferred despite ratified future 19-PUBLIC/18-PRIVATE contract.
+
+W1 remains independently accepted/Owner-published/CLOSED at `40fb8a61b6529585927e0a7dd524e9a363c69b6e`, **2/3 consumed / STOPPED**, takeover not authorized/used; B1 at `277522ee5b89ce5d2d8200cb955654b031b9f97a`, **3/3 consumed / STOPPED**; DP-A at `5c1da4e5404ee3c724e3fc2e03569d4093bcb44d`, **3/3 exhausted**, exceptional takeover **1/1 accepted**. DPA-L01, DPB1-L02 and DPB2W1-L01 LOW/OPEN/BACKLOG remain unchanged. Prospective revocation does not rewrite accepted W1 behavior or evidence.
+
+### Implementation result
+
+**IMPLEMENTED_AWAITING_CODEX_REVIEW (Remediation Round 1).** Antigravity executed all 5 finite verification gates under bounded watchdog (`scripts/run-bounded-command.py`, normal profile <= 300s):
+- `G-ROA-SECURITY`: 27/27 PASS (`ProfileRouteAuthorizationIntegrationTest` 15, `SecurityFilterChainIntegrationTest` 12)
+- `G-ROA-PRIVATE`: 22/22 PASS (`PublicFilmCreateIntegrationTest` 21, `FilmWebIntegrationTest` 1)
+- `G-ROA-API`: 1/1 PASS (`OpenApiRouteInventoryIntegrationTest` 1)
+- `G-ROA-READ`: 29/29 PASS (`PublicFictionReadIntegrationTest` 13, `PublicFilmReadIntegrationTest` 13, `ReferenceWebIntegrationTest` 3)
+- `G-ROA-ARCH`: 38/38 PASS (`ApplicationArchitectureTests` 38)
+- Total: 117 tests PASS across 9 test classes, 0 failures, 0 errors, 0 skipped.
+- Handback: [implementation-handback-dp-ro-a-2026-11-13.md](../maintenance/2026-11-13-bf26-dp-public-read-only-preparation/implementation-handback-dp-ro-a-2026-11-13.md)
+- Self-review: [self-review-dp-ro-a-2026-11-13.md](../maintenance/2026-11-13-bf26-dp-public-read-only-preparation/self-review-dp-ro-a-2026-11-13.md)
+- Receipts: `logs/bf26-dp-ro-a/remediation-round1/`.
+
+### Codex remediation / final review
+
+**READY_FOR_OWNER_COMMIT / INDEPENDENTLY_ACCEPTED — Round 1.** [Independent final re-review 1](../maintenance/2026-11-13-bf26-dp-public-read-only-preparation/reviews/2026-11-14-bf26-dp-ro-a-independent-final-re-review-1.md) CLOSED FR-ROA-01/02/03: Film-specific MVC qualification, PRIVATE 400/422 negatives and accurate source/XML mapping passed independent inspection and fresh changed-class execution. Producer 117 cases / nine classes qualified; fresh reviewer 36/36 PASS in 147.375s is corroboration, not extra distinct cases. Evidence: `logs/bf26-dp-ro-a/codex-rereview1-20261114-b7d2e4/`. DPROA-L01 LOW/OPEN/BACKLOG remains; no additional LOW-only correction round. Remediation 1/3 consumed/STOPPED, takeover NOT_AUTHORIZED/NOT_USED. Initial review and producer submission results above remain preserved checkpoints. Actual source publication and SHA-grounded closeout pending.
+
+**Next step: Owner → ChatGPT | Owner normal git add/commit/push of accepted RO-A delivery, then brief actual-SHA publication closeout/current-navigation sync | BF26-DP-RO-A ONLY, ACTIVE, executable and independent final re-review 1 | READY_FOR_OWNER_COMMIT / INDEPENDENTLY_ACCEPTED, unpublished; no RO-B/deployment grant | RO-A remediation 1/3 consumed / STOPPED; takeover NOT_AUTHORIZED / NOT_USED.**
+
+---
+
+## Historical execution register — before BF26-DP-RO-A authorization
+
+All following notices are preserved point-in-time history. They do not override the current RO-A register above. W1 acceptance/publication, original evidence and counters remain unchanged.
+
 **Canonical current execution register:** `NO_ACTIVE_HANDOFF` — BF26-DP-B2-W1 is independently accepted and Owner-published; its executable implementation handoff has closed. No new executable handoff is active or authorized.
 
 > **CURRENT BF26-DP-B2-W1 PUBLICATION — 2026-11-13:** [Owner source publication](https://github.com/vhvkhangg/personal-private-vault/commit/40fb8a61b6529585927e0a7dd524e9a363c69b6e) `40fb8a61b6529585927e0a7dd524e9a363c69b6e` establishes `INDEPENDENTLY_ACCEPTED / OWNER_PUBLISHED / CLOSED` for **B2-W1 ONLY**. [Independent final re-review 2](../maintenance/2026-11-12-bf26-dp-b2-preparation/reviews/2026-11-13-bf26-dp-b2-w1-independent-final-re-review-2.md) CLOSED FR-W1-01–05; DPB2W1-L01 **LOW / OPEN / BACKLOG**. Reviewer fresh 31/31 PASS; 199 distinct producer/source-qualified cases with 31-case independent corroboration, no double count. [Owner closeout](../maintenance/2026-11-12-bf26-dp-b2-preparation/owner-publication-closeout-dp-b2-w1-2026-11-13.md) and this register reset are docs-only after source publication.

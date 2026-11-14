@@ -273,14 +273,15 @@ class SecurityFilterChainIntegrationTest extends AbstractPostgresIntegrationTest
                     .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
         }
 
-        // Permitted POST /api/v1/films: returns 201 Created
+        // BF26-DP-RO-A: Revoked POST /api/v1/films returns 403 Forbidden with ACCESS_DENIED
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/films")
                         .header("Authorization", "Bearer " + publicToken)
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                         .content("""
                                 {"title":"Sec Filter Film","format":"MOVIE","productionStyle":"LIVE_ACTION"}
                                 """))
-                .andExpect(status().isCreated());
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
 
         // Denied unselected mutations: exactly 403 ACCESS_DENIED
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/fictions")

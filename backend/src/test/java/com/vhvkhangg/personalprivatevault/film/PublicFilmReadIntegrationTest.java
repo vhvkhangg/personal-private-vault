@@ -319,12 +319,11 @@ class PublicFilmReadIntegrationTest extends AbstractWebIntegrationTest {
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
 
-        // BF26-DP-B2-W1: POST /api/v1/films is admitted to PUBLIC; invalid empty body returns 400 VALIDATION_ERROR with no-store
+        // BF26-DP-RO-A: POST /api/v1/films is revoked for PUBLIC; returns 403 ACCESS_DENIED at authorization boundary
         mockMvc.perform(post("/api/v1/films").header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON).content("{}"))
-                .andExpect(status().isBadRequest())
-                .andExpect(header().string(HttpHeaders.CACHE_CONTROL, "no-store"))
-                .andExpect(jsonPath("$.error.code").value("VALIDATION_ERROR"));
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"));
 
         // Nested reads deny
         mockMvc.perform(get("/api/v1/films/{id}/classifications", id).header("Authorization", "Bearer " + token))

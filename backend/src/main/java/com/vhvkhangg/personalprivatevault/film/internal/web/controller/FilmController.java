@@ -60,12 +60,9 @@ public class FilmController {
     @PostMapping
     @Operation(summary = "Create film work", operationId = "createFilm")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Film creation request: PublicCreateFilmRequest for PROFILE_PUBLIC, CreateFilmRequest for PROFILE_PRIVATE",
+            description = "Film creation request: CreateFilmRequest for PROFILE_PRIVATE",
             required = true,
-            content = {
-                    @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CreateFilmRequest.class)),
-                    @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PublicCreateFilmRequest.class))
-            }
+            content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CreateFilmRequest.class))
     )
     public ResponseEntity<?> create(
             HttpServletRequest request,
