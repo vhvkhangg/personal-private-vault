@@ -20,6 +20,47 @@ If no owner-approved current scope exists, **STOP and ask the owner to define/ap
 Never infer next work from frozen phase documents, historical TODOs, archived handoffs, review history, Graphify,
 or repository structure. `COMPLETE — FROZEN` phases are historical inputs only.
 
+## Canonical maintenance-scope discovery when ACTIVE is empty
+
+`ACTIVE = NO_ACTIVE_HANDOFF` means that no executable implementation is currently
+active. It is the **normal prerequisite** for creating a new handoff; it does
+**not** prove that an Owner-approved next slice is missing.
+
+Before invoking the missing-scope STOP rule for a maintenance slice:
+
+1. Read the **newest current-scope navigation** at root `AGENTS.md`,
+   `docs/workflow/current-owner-delivery-policy.md`, and
+   `docs/implementation/maintenance/README.md`. Prefer the explicit current
+   Owner scope over older dated `CURRENT` notices retained as history. Do not
+   choose a new slice solely from a date, a TODO, `ACTIVE`, or a proposed plan.
+2. Open the **exact canonical Owner Authorization** named by that current
+   pointer under `docs/implementation/maintenance/<slice>/`, plus its current
+   independent `$codex-pre-handoff-review` report. If navigation is missing,
+   inspect canonical maintenance Owner Authorization documents for an explicit
+   current-slice approval, **but STOP on competing/ambiguous candidates**.
+3. Require explicit Owner ratification of the product/API contract and exact
+   frozen-source/test exception, plus independent `READY_FOR_HANDOFF` at the
+   **preparation** level. A draft, an unreviewed approval assertion, a historical
+   accepted slice, or a review verdict *alone* is not sufficient authority.
+4. Reconcile the Owner-approved slice with the current user request, checkout
+   branch/HEAD, published Git authority, existing source blobs and any newer
+   revocation/superseding decision. Confirm `ACTIVE` has no different live
+   handoff. If HEAD is behind the approved publication, ask the Owner to sync
+   the checkout; do not misreport missing approval. If authority conflicts,
+   source drift is material, or exact permission is unclear, STOP with the
+   specific failing gate and canonical path.
+5. When exactly one scope passes, create only its approved bounded executable
+   (`READY_FOR_IMPLEMENTATION`) and update `ACTIVE` per this skill; do **not**
+   implement code or stage/publish commits in the handoff-creation step.
+
+**Current approved example (2026-11-15):** BF26-V1-RECYCLE-BROWSE at
+`docs/implementation/maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/owner-authorization-bf26-v1-2026-11-15.md`
+(published on `main` at `757643e9adcafa0c54b0adb3cca93cfa8efd0731`),
+independent review `READY_FOR_HANDOFF`, exact **9 production + 4 test**.
+This example is a dated pointer, not a permanent grant to reopen V1 once it
+is completed or superseded. Preserve all ordinary scope, privacy, source and
+pre-handoff STOP gates.
+
 ## Phase 15 audit-remediation exception
 
 Do not use this skill to invent a Phase 15 remediation scope from the Phase 15 README alone. Phase 15 remediation
