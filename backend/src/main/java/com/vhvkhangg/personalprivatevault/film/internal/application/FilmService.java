@@ -17,8 +17,10 @@ import com.vhvkhangg.personalprivatevault.film.internal.infrastructure.persisten
 import com.vhvkhangg.personalprivatevault.film.internal.infrastructure.persistence.FilmWorldSettingRepository;
 import com.vhvkhangg.personalprivatevault.film.view.FilmClassificationsView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmView;
+import com.vhvkhangg.personalprivatevault.film.view.PublicFilmDetailView;
 import com.vhvkhangg.personalprivatevault.film.view.PublicFilmView;
 import com.vhvkhangg.personalprivatevault.people.person.PersonOperations;
+import com.vhvkhangg.personalprivatevault.people.view.PersonView;
 import com.vhvkhangg.personalprivatevault.reference.catalog.ReferenceCatalog;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
 import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
@@ -189,6 +191,62 @@ public class FilmService implements FilmOperations {
             return Optional.empty();
         }
         return projection;
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
+    public Optional<PublicFilmDetailView> findPublicDetail(Long filmId) {
+        if (filmId == null) {
+            return Optional.empty();
+        }
+        Optional<Film> filmOpt = filmRepository.findById(filmId);
+        if (filmOpt.isEmpty()) {
+            return Optional.empty();
+        }
+        Film film = filmOpt.get();
+        if (film.isNsfw()) {
+            return Optional.empty();
+        }
+        Optional<VaultEntryView> vaultEntry = vaultEntryOperations.find(filmId);
+        if (vaultEntry.isEmpty()) {
+            return Optional.empty();
+        }
+        VaultEntryView entry = vaultEntry.get();
+        if (!Objects.equals(entry.id(), filmId)
+                || entry.entryType() != VaultEntryType.FILM
+                || entry.deletedAt() != null) {
+            return Optional.empty();
+        }
+
+        Set<Long> genreIds = loadGenres(filmId);
+        Set<Long> storyArchetypeIds = loadStoryArchetypes(filmId);
+        Set<Long> worldSettingIds = loadWorldSettings(filmId);
+        FilmView filmView = toView(film, genreIds, storyArchetypeIds, worldSettingIds);
+
+        String directorName = resolveDirectorName(film.getDirectorPersonId());
+        return Optional.of(new PublicFilmDetailView(filmView, directorName));
+    }
+
+    private String resolveDirectorName(Long directorPersonId) {
+        if (directorPersonId == null) {
+            return null;
+        }
+        Optional<VaultEntryView> directorVaultOpt = vaultEntryOperations.find(directorPersonId);
+        if (directorVaultOpt.isPresent()) {
+            VaultEntryView directorVault = directorVaultOpt.get();
+            if (Objects.equals(directorVault.id(), directorPersonId)
+                    && directorVault.entryType() == VaultEntryType.PERSON
+                    && directorVault.deletedAt() == null) {
+                Optional<PersonView> personOpt = personOperations.find(directorPersonId);
+                if (personOpt.isPresent()) {
+                    String name = personOpt.get().name();
+                    if (name != null && !name.isBlank()) {
+                        return name;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     @Override

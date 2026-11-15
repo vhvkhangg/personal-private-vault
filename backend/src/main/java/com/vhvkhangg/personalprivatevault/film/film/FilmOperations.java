@@ -6,6 +6,7 @@ import com.vhvkhangg.personalprivatevault.film.film.exception.FilmNotFoundExcept
 import com.vhvkhangg.personalprivatevault.film.film.exception.InvalidFilmException;
 import com.vhvkhangg.personalprivatevault.film.view.FilmClassificationsView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmView;
+import com.vhvkhangg.personalprivatevault.film.view.PublicFilmDetailView;
 import com.vhvkhangg.personalprivatevault.film.view.PublicFilmView;
 
 import java.util.Optional;
@@ -40,6 +41,14 @@ public interface FilmOperations {
      * @return optional containing the public film view if found and eligible, or empty
      */
     Optional<PublicFilmView> findPublic(Long filmId);
+
+    /**
+     * Finds a public full-detail view of an eligible film work by its ID.
+     *
+     * @param filmId film ID
+     * @return optional containing the public film detail view if found and eligible, or empty
+     */
+    Optional<PublicFilmDetailView> findPublicDetail(Long filmId);
 
     /**
      * Updates an existing film's attributes.

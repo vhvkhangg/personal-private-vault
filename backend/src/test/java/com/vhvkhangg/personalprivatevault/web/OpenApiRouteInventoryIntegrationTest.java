@@ -866,17 +866,41 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(publicFictionSchema.path("additionalProperties").asBoolean(true)).isFalse();
         JsonNode publicFictionProps = publicFictionSchema.path("properties");
         assertThat(publicFictionProps.fieldNames()).toIterable().containsExactlyInAnyOrder(
-                "id", "title", "originalTitle", "nationalityCode", "format", "isNsfw"
+                "id", "title", "originalTitle", "nationalityCode", "posterUrl", "format", "isNsfw",
+                "genreId", "authorPersonId", "authorGroupId", "description", "totalChapters",
+                "progressStatus", "consumptionStatus", "currentProgressText", "review",
+                "storyArchetypeIds", "worldSettingIds", "authorName"
         );
         List<String> fictionRequired = new ArrayList<>();
         publicFictionSchema.path("required").forEach(n -> fictionRequired.add(n.asText()));
-        assertThat(fictionRequired).containsExactlyInAnyOrder("id", "title", "originalTitle", "nationalityCode", "format", "isNsfw");
+        assertThat(fictionRequired).containsExactlyInAnyOrder(
+                "id", "title", "originalTitle", "nationalityCode", "posterUrl", "format", "isNsfw",
+                "genreId", "authorPersonId", "authorGroupId", "description", "totalChapters",
+                "progressStatus", "consumptionStatus", "currentProgressText", "review",
+                "storyArchetypeIds", "worldSettingIds", "authorName"
+        );
 
         // Validate public fiction nullable properties and false-only isNsfw enum
         assertThat(allowsNull(publicFictionProps.path("originalTitle"))).isTrue();
         assertThat(allowsNull(publicFictionProps.path("nationalityCode"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("posterUrl"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("authorPersonId"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("authorGroupId"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("description"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("totalChapters"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("currentProgressText"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("review"))).isTrue();
+        assertThat(allowsNull(publicFictionProps.path("authorName"))).isTrue();
         assertThat(allowsNull(publicFictionProps.path("title"))).isFalse();
         assertThat(publicFictionProps.path("isNsfw").path("enum").get(0).asBoolean()).isFalse();
+
+        List<String> fictionProgressEnums = new ArrayList<>();
+        publicFictionProps.path("progressStatus").path("enum").forEach(e -> fictionProgressEnums.add(e.asText()));
+        assertThat(fictionProgressEnums).containsExactlyInAnyOrder("ONGOING", "COMPLETED", "SUSPENDED");
+
+        List<String> fictionConsumptionEnums = new ArrayList<>();
+        publicFictionProps.path("consumptionStatus").path("enum").forEach(e -> fictionConsumptionEnums.add(e.asText()));
+        assertThat(fictionConsumptionEnums).containsExactlyInAnyOrder("UNCONSUMED", "BEING_CONSUMED", "CONSUMED");
 
         // Validate fiction and film specimens and envelopes against schema graph (FR-DPB1-03)
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -899,17 +923,38 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(publicFilmSchema.path("additionalProperties").asBoolean(true)).isFalse();
         JsonNode publicFilmProps = publicFilmSchema.path("properties");
         assertThat(publicFilmProps.fieldNames()).toIterable().containsExactlyInAnyOrder(
-                "id", "title", "originalTitle", "nationalityCode", "format", "productionStyle", "isNsfw"
+                "id", "title", "originalTitle", "nationalityCode", "posterUrl", "format", "productionStyle", "isNsfw",
+                "directorPersonId", "description", "totalEpisodes", "progressStatus", "consumptionStatus",
+                "currentProgressText", "review", "genreIds", "storyArchetypeIds", "worldSettingIds", "directorName"
         );
         List<String> filmRequired = new ArrayList<>();
         publicFilmSchema.path("required").forEach(n -> filmRequired.add(n.asText()));
-        assertThat(filmRequired).containsExactlyInAnyOrder("id", "title", "originalTitle", "nationalityCode", "format", "productionStyle", "isNsfw");
+        assertThat(filmRequired).containsExactlyInAnyOrder(
+                "id", "title", "originalTitle", "nationalityCode", "posterUrl", "format", "productionStyle", "isNsfw",
+                "directorPersonId", "description", "totalEpisodes", "progressStatus", "consumptionStatus",
+                "currentProgressText", "review", "genreIds", "storyArchetypeIds", "worldSettingIds", "directorName"
+        );
 
         // Validate public film nullable properties and false-only isNsfw enum
         assertThat(allowsNull(publicFilmProps.path("originalTitle"))).isTrue();
         assertThat(allowsNull(publicFilmProps.path("nationalityCode"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("posterUrl"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("directorPersonId"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("description"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("totalEpisodes"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("currentProgressText"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("review"))).isTrue();
+        assertThat(allowsNull(publicFilmProps.path("directorName"))).isTrue();
         assertThat(allowsNull(publicFilmProps.path("title"))).isFalse();
         assertThat(publicFilmProps.path("isNsfw").path("enum").get(0).asBoolean()).isFalse();
+
+        List<String> filmProgressEnums = new ArrayList<>();
+        publicFilmProps.path("progressStatus").path("enum").forEach(e -> filmProgressEnums.add(e.asText()));
+        assertThat(filmProgressEnums).containsExactlyInAnyOrder("ONGOING", "COMPLETED", "SUSPENDED");
+
+        List<String> filmConsumptionEnums = new ArrayList<>();
+        publicFilmProps.path("consumptionStatus").path("enum").forEach(e -> filmConsumptionEnums.add(e.asText()));
+        assertThat(filmConsumptionEnums).containsExactlyInAnyOrder("UNCONSUMED", "BEING_CONSUMED", "CONSUMED");
 
         // 2. Fetch actual HTTP response payloads for PUBLIC and PRIVATE modes
         Long fictionId = seedOpenApiFiction();
@@ -971,65 +1016,96 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
 
         // 4. Positive specimens with null optional fields
         JsonNode validFictionNulls = mapper.readTree("""
-                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"COMIC","isNsfw":false}
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"COMIC","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":null}
                 """);
         assertThat(validateSpecimen(validFictionNulls, publicFictionSchema, schemas)).isTrue();
 
+        JsonNode validFictionRealEnums = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"COMIC","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"SUSPENDED","consumptionStatus":"BEING_CONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":null}
+                """);
+        assertThat(validateSpecimen(validFictionRealEnums, publicFictionSchema, schemas)).isTrue();
+
         JsonNode validFilmNulls = mapper.readTree("""
-                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"SERIES","productionStyle":"ANIMATION","isNsfw":false}
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"SERIES","productionStyle":"ANIMATION","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"COMPLETED","consumptionStatus":"CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null}
                 """);
         assertThat(validateSpecimen(validFilmNulls, publicFilmSchema, schemas)).isTrue();
 
-        // 5. Negative specimens with missing required fields
+        JsonNode validFilmRealEnums = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"SERIES","productionStyle":"ANIMATION","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"SUSPENDED","consumptionStatus":"BEING_CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null}
+                """);
+        assertThat(validateSpecimen(validFilmRealEnums, publicFilmSchema, schemas)).isTrue();
+
+        // 5. Negative specimens with missing required fields (omits required authorName / directorName)
         JsonNode missingKeyFiction = mapper.readTree("""
-                {"id":1,"title":"T","nationalityCode":"VN","format":"NOVEL","isNsfw":false}
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":"VN","posterUrl":null,"format":"NOVEL","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[]}
                 """);
         assertThat(validateSpecimen(missingKeyFiction, publicFictionSchema, schemas)).isFalse();
 
         JsonNode missingKeyFilm = mapper.readTree("""
-                {"id":1,"title":"T","originalTitle":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false}
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[]}
                 """);
         assertThat(validateSpecimen(missingKeyFilm, publicFilmSchema, schemas)).isFalse();
 
-        // 6. Negative specimens with incorrect primitive types (FR-DPB1-03)
+        // 5b. Negative specimens with invented enum values (FR-ROB-01)
+        JsonNode inventedProgressFiction = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"COMIC","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"PLANNED","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":null}
+                """);
+        assertThat(validateSpecimen(inventedProgressFiction, publicFictionSchema, schemas)).isFalse();
+
+        JsonNode inventedConsumptionFiction = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"COMIC","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"CONSUMING","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":null}
+                """);
+        assertThat(validateSpecimen(inventedConsumptionFiction, publicFictionSchema, schemas)).isFalse();
+
+        JsonNode inventedProgressFilm = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"HIATUS","consumptionStatus":"CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null}
+                """);
+        assertThat(validateSpecimen(inventedProgressFilm, publicFilmSchema, schemas)).isFalse();
+
+        JsonNode inventedConsumptionFilm = mapper.readTree("""
+                {"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"ONGOING","consumptionStatus":"ABANDONED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null}
+                """);
+        assertThat(validateSpecimen(inventedConsumptionFilm, publicFilmSchema, schemas)).isFalse();
+
+        // 6. Negative specimens with incorrect primitive types (FR-DPB1-03 / ROB-18)
         // a) String instead of integer ID
         JsonNode wrongTypeIdFiction = mapper.readTree("""
-                {"data":{"id":"not-an-integer","title":"T","originalTitle":"OT","nationalityCode":"VN","format":"NOVEL","isNsfw":false},"error":null,"meta":null}
+                {"data":{"id":"not-an-integer","title":"T","originalTitle":"OT","nationalityCode":"VN","posterUrl":null,"format":"NOVEL","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":"Author"},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(wrongTypeIdFiction, apiRespPublicFictionSchema, schemas)).isFalse();
         assertThat(validateSpecimen(wrongTypeIdFiction.get("data"), publicFictionSchema, schemas)).isFalse();
 
         // b) Number instead of string title
         JsonNode wrongTypeTitleFiction = mapper.readTree("""
-                {"data":{"id":1,"title":12345,"originalTitle":"OT","nationalityCode":"VN","format":"NOVEL","isNsfw":false},"error":null,"meta":null}
+                {"data":{"id":1,"title":12345,"originalTitle":"OT","nationalityCode":"VN","posterUrl":null,"format":"NOVEL","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":"Author"},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(wrongTypeTitleFiction, apiRespPublicFictionSchema, schemas)).isFalse();
         assertThat(validateSpecimen(wrongTypeTitleFiction.get("data"), publicFictionSchema, schemas)).isFalse();
 
         // c) String instead of boolean isNsfw
         JsonNode wrongTypeNsfwFiction = mapper.readTree("""
-                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"NOVEL","isNsfw":"false"},"error":null,"meta":null}
+                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","posterUrl":null,"format":"NOVEL","isNsfw":"false","genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":"Author"},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(wrongTypeNsfwFiction, apiRespPublicFictionSchema, schemas)).isFalse();
         assertThat(validateSpecimen(wrongTypeNsfwFiction.get("data"), publicFictionSchema, schemas)).isFalse();
 
         // d) Number instead of string nationalityCode
         JsonNode wrongTypeNationalityFiction = mapper.readTree("""
-                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":84,"format":"NOVEL","isNsfw":false},"error":null,"meta":null}
+                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":84,"posterUrl":null,"format":"NOVEL","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":"Author"},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(wrongTypeNationalityFiction, apiRespPublicFictionSchema, schemas)).isFalse();
         assertThat(validateSpecimen(wrongTypeNationalityFiction.get("data"), publicFictionSchema, schemas)).isFalse();
 
         // e) Invalid enum / isNsfw = true
         JsonNode nsfwTrueFiction = mapper.readTree("""
-                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"NOVEL","isNsfw":true},"error":null,"meta":null}
+                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"NOVEL","isNsfw":true,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":"Author"},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(nsfwTrueFiction, apiRespPublicFictionSchema, schemas)).isFalse();
         assertThat(validateSpecimen(nsfwTrueFiction.get("data"), publicFictionSchema, schemas)).isFalse();
 
         // f) Extra forbidden property rejected by additionalProperties=false
         JsonNode extraPropFiction = mapper.readTree("""
-                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"NOVEL","isNsfw":false,"description":"secret"},"error":null,"meta":null}
+                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"NOVEL","isNsfw":false,"genreId":1,"authorPersonId":null,"authorGroupId":null,"description":null,"totalChapters":null,"progressStatus":"ONGOING","consumptionStatus":"UNCONSUMED","currentProgressText":null,"review":null,"storyArchetypeIds":[],"worldSettingIds":[],"authorName":"Author","extraForbiddenField":"forbidden"},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(extraPropFiction, apiRespPublicFictionSchema, schemas)).isFalse();
         assertThat(validateSpecimen(extraPropFiction.get("data"), publicFictionSchema, schemas)).isFalse();
@@ -1037,42 +1113,42 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         // Film negative specimens with incorrect primitive types
         // a) String instead of integer ID
         JsonNode wrongTypeIdFilm = mapper.readTree("""
-                {"data":{"id":"film-id","title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false},"error":null,"meta":null}
+                {"data":{"id":"film-id","title":"T","originalTitle":"OT","nationalityCode":"VN","posterUrl":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"COMPLETED","consumptionStatus":"CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(wrongTypeIdFilm, apiRespPublicFilmSchema, schemas)).isFalse();
         assertThat(validateSpecimen(wrongTypeIdFilm.get("data"), publicFilmSchema, schemas)).isFalse();
 
         // b) Number instead of string title
         JsonNode wrongTypeTitleFilm = mapper.readTree("""
-                {"data":{"id":1,"title":99999,"originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false},"error":null,"meta":null}
+                {"data":{"id":1,"title":99999,"originalTitle":"OT","nationalityCode":"VN","posterUrl":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"COMPLETED","consumptionStatus":"CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(wrongTypeTitleFilm, apiRespPublicFilmSchema, schemas)).isFalse();
         assertThat(validateSpecimen(wrongTypeTitleFilm.get("data"), publicFilmSchema, schemas)).isFalse();
 
         // c) String instead of boolean isNsfw
         JsonNode wrongTypeNsfwFilm = mapper.readTree("""
-                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":"false"},"error":null,"meta":null}
+                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","posterUrl":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":"false","directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"COMPLETED","consumptionStatus":"CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(wrongTypeNsfwFilm, apiRespPublicFilmSchema, schemas)).isFalse();
         assertThat(validateSpecimen(wrongTypeNsfwFilm.get("data"), publicFilmSchema, schemas)).isFalse();
 
         // d) Invalid enum productionStyle
         JsonNode wrongEnumFilm = mapper.readTree("""
-                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","format":"MOVIE","productionStyle":"STOP_MOTION_CLAY","isNsfw":false},"error":null,"meta":null}
+                {"data":{"id":1,"title":"T","originalTitle":"OT","nationalityCode":"VN","posterUrl":null,"format":"MOVIE","productionStyle":"STOP_MOTION_CLAY","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"COMPLETED","consumptionStatus":"CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(wrongEnumFilm, apiRespPublicFilmSchema, schemas)).isFalse();
         assertThat(validateSpecimen(wrongEnumFilm.get("data"), publicFilmSchema, schemas)).isFalse();
 
         // e) Film isNsfw = true
         JsonNode nsfwTrueFilm = mapper.readTree("""
-                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":true},"error":null,"meta":null}
+                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":true,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"COMPLETED","consumptionStatus":"CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(nsfwTrueFilm, apiRespPublicFilmSchema, schemas)).isFalse();
         assertThat(validateSpecimen(nsfwTrueFilm.get("data"), publicFilmSchema, schemas)).isFalse();
 
         // f) Film extra forbidden property
         JsonNode extraPropFilm = mapper.readTree("""
-                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"review":"confidential"},"error":null,"meta":null}
+                {"data":{"id":1,"title":"T","originalTitle":null,"nationalityCode":null,"posterUrl":null,"format":"MOVIE","productionStyle":"LIVE_ACTION","isNsfw":false,"directorPersonId":null,"description":null,"totalEpisodes":null,"progressStatus":"COMPLETED","consumptionStatus":"CONSUMED","currentProgressText":null,"review":null,"genreIds":[],"storyArchetypeIds":[],"worldSettingIds":[],"directorName":null,"extraForbiddenField":"confidential"},"error":null,"meta":null}
                 """);
         assertThat(validateSpecimen(extraPropFilm, apiRespPublicFilmSchema, schemas)).isFalse();
         assertThat(validateSpecimen(extraPropFilm.get("data"), publicFilmSchema, schemas)).isFalse();

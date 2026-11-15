@@ -484,7 +484,7 @@ class PublicFilmCreateIntegrationTest extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @DisplayName("ROA-10: Follow-up B1 GET on film created by PRIVATE succeeds with identical 7 keys and no-store for PUBLIC token")
+    @DisplayName("ROA-10 / ROB-04: Follow-up GET on film created by PRIVATE succeeds with exact 19 keys, present nullable directorName, and no-store for PUBLIC token")
     void followUpB1GetOnCreatedFilmSucceedsWithIdenticalSevenKeys() throws Exception {
         String privToken = bearerToken();
         String pubToken = publicBearerToken();
@@ -509,7 +509,7 @@ class PublicFilmCreateIntegrationTest extends AbstractWebIntegrationTest {
 
         Long filmId = objectMapper.readTree(createResponse).path("data").path("id").asLong();
 
-        // Perform B1 GET on created ID with PUBLIC token
+        // Perform GET on created ID with PUBLIC token
         String getResponse = mockMvc.perform(get("/api/v1/films/{id}", filmId)
                         .header("Authorization", "Bearer " + pubToken))
                 .andExpect(status().isOk())
@@ -521,15 +521,32 @@ class PublicFilmCreateIntegrationTest extends AbstractWebIntegrationTest {
         getData.fieldNames().forEachRemaining(getFields::add);
 
         assertThat(getFields).containsExactlyInAnyOrder(
-                "id", "title", "originalTitle", "nationalityCode", "format", "productionStyle", "isNsfw"
+                "id", "title", "originalTitle", "nationalityCode", "posterUrl", "format", "productionStyle", "isNsfw",
+                "directorPersonId", "description", "totalEpisodes", "progressStatus", "consumptionStatus",
+                "currentProgressText", "review", "genreIds", "storyArchetypeIds", "worldSettingIds", "directorName"
         );
         assertThat(getData.get("id").asLong()).isEqualTo(filmId);
         assertThat(getData.get("title").asText()).isEqualTo("Interstellar");
         assertThat(getData.get("originalTitle").asText()).isEqualTo("Interstellar Original");
         assertThat(getData.get("nationalityCode").asText()).isEqualTo("US");
+        assertThat(getData.get("posterUrl").isNull()).isTrue();
         assertThat(getData.get("format").asText()).isEqualTo("MOVIE");
         assertThat(getData.get("productionStyle").asText()).isEqualTo("LIVE_ACTION");
         assertThat(getData.get("isNsfw").asBoolean()).isFalse();
+        assertThat(getData.get("directorPersonId").isNull()).isTrue();
+        assertThat(getData.get("description").isNull()).isTrue();
+        assertThat(getData.get("totalEpisodes").isNull()).isTrue();
+        assertThat(getData.get("progressStatus").asText()).isEqualTo("ONGOING");
+        assertThat(getData.get("consumptionStatus").asText()).isEqualTo("UNCONSUMED");
+        assertThat(getData.get("currentProgressText").isNull()).isTrue();
+        assertThat(getData.get("review").isNull()).isTrue();
+        assertThat(getData.get("genreIds").isArray()).isTrue();
+        assertThat(getData.get("genreIds").isEmpty()).isTrue();
+        assertThat(getData.get("storyArchetypeIds").isArray()).isTrue();
+        assertThat(getData.get("storyArchetypeIds").isEmpty()).isTrue();
+        assertThat(getData.get("worldSettingIds").isArray()).isTrue();
+        assertThat(getData.get("worldSettingIds").isEmpty()).isTrue();
+        assertThat(getData.get("directorName").isNull()).isTrue();
     }
 
     @Test

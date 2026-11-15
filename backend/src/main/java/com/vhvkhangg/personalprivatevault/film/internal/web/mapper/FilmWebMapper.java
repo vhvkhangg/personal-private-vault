@@ -15,6 +15,7 @@ import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmGenreRespons
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmLinkResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.FilmResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.PublicCreateFilmRequest;
+import com.vhvkhangg.personalprivatevault.film.internal.web.dto.PublicFilmDetailResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.PublicFilmResponse;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmGenreRequest;
 import com.vhvkhangg.personalprivatevault.film.internal.web.dto.UpdateFilmLinkRequest;
@@ -26,6 +27,7 @@ import com.vhvkhangg.personalprivatevault.film.view.FilmCreditView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmGenreView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmLinkView;
 import com.vhvkhangg.personalprivatevault.film.view.FilmView;
+import com.vhvkhangg.personalprivatevault.film.view.PublicFilmDetailView;
 import com.vhvkhangg.personalprivatevault.film.view.PublicFilmView;
 
 public final class FilmWebMapper {
@@ -66,6 +68,31 @@ public final class FilmWebMapper {
                 view.format(),
                 view.productionStyle(),
                 view.isNsfw()
+        );
+    }
+
+    public static PublicFilmDetailResponse toPublicDetailResponse(PublicFilmDetailView view) {
+        if (view == null) return null;
+        return new PublicFilmDetailResponse(
+                view.id(),
+                view.title(),
+                view.originalTitle(),
+                view.nationalityCode(),
+                view.posterUrl(),
+                view.format(),
+                view.productionStyle(),
+                view.isNsfw(),
+                view.directorPersonId(),
+                view.description(),
+                view.totalEpisodes(),
+                view.progressStatus(),
+                view.consumptionStatus(),
+                view.currentProgressText(),
+                view.review(),
+                view.genreIds(),
+                view.storyArchetypeIds(),
+                view.worldSettingIds(),
+                view.directorName()
         );
     }
 

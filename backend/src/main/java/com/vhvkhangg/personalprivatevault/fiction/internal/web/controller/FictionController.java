@@ -56,13 +56,19 @@ public class FictionController {
         boolean isPublic = authentication != null && authentication.getAuthorities().stream()
                 .anyMatch(a -> "PROFILE_PUBLIC".equals(a.getAuthority()));
         if (isPublic) {
-            return fictionOperations.findPublic(id)
-                    .map(view -> ResponseEntity.ok()
-                            .cacheControl(CacheControl.noStore())
-                            .body(ApiResponses.success(FictionWebMapper.toPublicResponse(view))))
-                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .cacheControl(CacheControl.noStore())
-                            .body(ApiResponses.error("FICTION_NOT_FOUND", "Fiction not found")));
+            try {
+                return fictionOperations.findPublicDetail(id)
+                        .map(view -> ResponseEntity.ok()
+                                .cacheControl(CacheControl.noStore())
+                                .body(ApiResponses.success(FictionWebMapper.toPublicDetailResponse(view))))
+                        .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .cacheControl(CacheControl.noStore())
+                                .body(ApiResponses.error("FICTION_NOT_FOUND", "Fiction not found")));
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("INTERNAL_ERROR", "An unexpected error occurred"));
+            }
         }
         return fictionOperations.find(id)
                 .map(view -> ApiResponses.ok(FictionWebMapper.toResponse(view)))

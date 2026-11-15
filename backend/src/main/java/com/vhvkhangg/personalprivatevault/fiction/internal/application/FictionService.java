@@ -15,9 +15,12 @@ import com.vhvkhangg.personalprivatevault.fiction.internal.infrastructure.persis
 import com.vhvkhangg.personalprivatevault.fiction.internal.infrastructure.persistence.FictionWorldSettingRepository;
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionClassificationsView;
 import com.vhvkhangg.personalprivatevault.fiction.view.FictionView;
+import com.vhvkhangg.personalprivatevault.fiction.view.PublicFictionDetailView;
 import com.vhvkhangg.personalprivatevault.fiction.view.PublicFictionView;
 import com.vhvkhangg.personalprivatevault.people.group.CreatorGroupOperations;
 import com.vhvkhangg.personalprivatevault.people.person.PersonOperations;
+import com.vhvkhangg.personalprivatevault.people.view.CreatorGroupView;
+import com.vhvkhangg.personalprivatevault.people.view.PersonView;
 import com.vhvkhangg.personalprivatevault.reference.catalog.ReferenceCatalog;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
 import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
@@ -170,6 +173,71 @@ public class FictionService implements FictionOperations {
             return Optional.empty();
         }
         return projection;
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
+    public Optional<PublicFictionDetailView> findPublicDetail(Long fictionId) {
+        if (fictionId == null) {
+            return Optional.empty();
+        }
+        Optional<Fiction> fictionOpt = fictionRepository.findById(fictionId);
+        if (fictionOpt.isEmpty()) {
+            return Optional.empty();
+        }
+        Fiction fiction = fictionOpt.get();
+        if (fiction.isNsfw()) {
+            return Optional.empty();
+        }
+        Optional<VaultEntryView> vaultEntry = vaultEntryOperations.find(fictionId);
+        if (vaultEntry.isEmpty()) {
+            return Optional.empty();
+        }
+        VaultEntryView entry = vaultEntry.get();
+        if (!Objects.equals(entry.id(), fictionId)
+                || entry.entryType() != VaultEntryType.FICTION
+                || entry.deletedAt() != null) {
+            return Optional.empty();
+        }
+
+        Set<Long> storyArchetypeIds = loadStoryArchetypes(fictionId);
+        Set<Long> worldSettingIds = loadWorldSettings(fictionId);
+        FictionView fictionView = toView(fiction, storyArchetypeIds, worldSettingIds);
+
+        String authorName = resolveAuthorName(fiction.getAuthorPersonId(), fiction.getAuthorGroupId());
+        return Optional.of(new PublicFictionDetailView(fictionView, authorName));
+    }
+
+    private String resolveAuthorName(Long authorPersonId, Long authorGroupId) {
+        if (authorPersonId != null) {
+            Optional<VaultEntryView> personVaultOpt = vaultEntryOperations.find(authorPersonId);
+            if (personVaultOpt.isPresent()) {
+                VaultEntryView personVault = personVaultOpt.get();
+                if (Objects.equals(personVault.id(), authorPersonId)
+                        && personVault.entryType() == VaultEntryType.PERSON
+                        && personVault.deletedAt() == null) {
+                    Optional<PersonView> personOpt = personOperations.find(authorPersonId);
+                    if (personOpt.isPresent()) {
+                        String name = personOpt.get().name();
+                        if (name != null && !name.isBlank()) {
+                            return name;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        if (authorGroupId != null) {
+            Optional<CreatorGroupView> groupOpt = creatorGroupOperations.find(authorGroupId);
+            if (groupOpt.isPresent()) {
+                String name = groupOpt.get().name();
+                if (name != null && !name.isBlank()) {
+                    return name;
+                }
+            }
+            return null;
+        }
+        return null;
     }
 
     @Override

@@ -128,13 +128,19 @@ public class FilmController {
         boolean isPublic = authentication != null && authentication.getAuthorities().stream()
                 .anyMatch(a -> "PROFILE_PUBLIC".equals(a.getAuthority()));
         if (isPublic) {
-            return filmOperations.findPublic(id)
-                    .map(view -> ResponseEntity.ok()
-                            .cacheControl(CacheControl.noStore())
-                            .body(ApiResponses.success(FilmWebMapper.toPublicResponse(view))))
-                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .cacheControl(CacheControl.noStore())
-                            .body(ApiResponses.error("FILM_NOT_FOUND", "Film not found")));
+            try {
+                return filmOperations.findPublicDetail(id)
+                        .map(view -> ResponseEntity.ok()
+                                .cacheControl(CacheControl.noStore())
+                                .body(ApiResponses.success(FilmWebMapper.toPublicDetailResponse(view))))
+                        .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .cacheControl(CacheControl.noStore())
+                                .body(ApiResponses.error("FILM_NOT_FOUND", "Film not found")));
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("INTERNAL_ERROR", "An unexpected error occurred"));
+            }
         }
         return filmOperations.find(id)
                 .map(view -> ApiResponses.ok(FilmWebMapper.toResponse(view)))

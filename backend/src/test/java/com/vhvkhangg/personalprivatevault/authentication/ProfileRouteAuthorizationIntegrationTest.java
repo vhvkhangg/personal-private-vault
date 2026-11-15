@@ -882,10 +882,11 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
         String privAccess = mapper.readTree(loginResp).path("data").path("accessToken").asText();
         String refreshToken = mapper.readTree(loginResp).path("data").path("refreshToken").asText();
 
-        // 1. Initial private access to detail -> 200 full
+        // 1. Initial private access to detail -> 200 full (18 fields, no authorName)
         mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + privAccess))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.progressStatus").value("COMPLETED"));
+                .andExpect(jsonPath("$.data.progressStatus").value("COMPLETED"))
+                .andExpect(jsonPath("$.data.authorName").doesNotExist());
 
         // 2. Controlled downgrade to public
         String downgradeResp = mockMvc.perform(post("/api/v1/auth/sessions/downgrade-public")
@@ -894,12 +895,13 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                 .andReturn().getResponse().getContentAsString();
         String downgradedPublicToken = mapper.readTree(downgradeResp).path("data").path("accessToken").asText();
 
-        // 3. Newly accessible detail with downgraded token -> 200 minimal (6 fields, no progressStatus or authorPersonId)
+        // 3. Newly accessible detail with downgraded token -> 200 full public (19 fields, including progressStatus and authorName)
         mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + downgradedPublicToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id").value(904))
-                .andExpect(jsonPath("$.data.progressStatus").doesNotExist())
-                .andExpect(jsonPath("$.data.authorPersonId").doesNotExist());
+                .andExpect(jsonPath("$.data.progressStatus").value("COMPLETED"))
+                .andExpect(jsonPath("$.data.authorPersonId").value(901))
+                .andExpect(jsonPath("$.data.authorName").value("Synthetic person"));
 
         // 4. Stale private access token rejected after downgrade
         mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + privAccess))
@@ -921,10 +923,11 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
 
-        // Elevated private token works and returns full view
+        // Elevated private token works and returns full view (18 fields, no authorName)
         mockMvc.perform(get("/api/v1/fictions/904").header("Authorization", "Bearer " + elevatedPrivToken))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.progressStatus").value("COMPLETED"));
+                .andExpect(jsonPath("$.data.progressStatus").value("COMPLETED"))
+                .andExpect(jsonPath("$.data.authorName").doesNotExist());
 
         // Stale pre-elevation refresh token is rejected
         mockMvc.perform(post("/api/v1/auth/refresh")

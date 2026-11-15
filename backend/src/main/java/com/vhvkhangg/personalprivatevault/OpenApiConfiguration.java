@@ -3,6 +3,7 @@ package com.vhvkhangg.personalprivatevault;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -139,14 +140,32 @@ public class OpenApiConfiguration {
             openApi.getComponents().addSchemas("ErrorResponse", errorEnvelopeSchema);
 
             Schema<Object> publicFictionResponseSchema = new ObjectSchema()
-                    .description("Public fiction work detail")
+                    .description("Public fiction work detail with author name")
                     .addProperty("id", new IntegerSchema().format("int64").example(1L).description("Fiction ID (identical to underlying vault entry ID)"))
                     .addProperty("title", new StringSchema().example("Sample Fiction").description("Primary title"))
                     .addProperty("originalTitle", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional original/native title"))
                     .addProperty("nationalityCode", new StringSchema().types(Set.of("string", "null")).nullable(true).example("VN").description("Optional 2-character country code"))
+                    .addProperty("posterUrl", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional cover or poster image URL"))
                     .addProperty("format", new StringSchema()._enum(java.util.List.of("NOVEL", "COMIC")).example("NOVEL").description("Format of the work (NOVEL or COMIC)"))
                     .addProperty("isNsfw", new BooleanSchema()._enum(java.util.List.of(false)).example(false).description("Whether the work is marked NSFW (always false on public success)"))
-                    .required(java.util.List.of("id", "title", "originalTitle", "nationalityCode", "format", "isNsfw"))
+                    .addProperty("genreId", new IntegerSchema().format("int64").example(1L).description("ID of the fiction-owned genre"))
+                    .addProperty("authorPersonId", new IntegerSchema().format("int64").types(Set.of("integer", "null")).nullable(true).example(1L).description("ID of the author person (mutually exclusive with authorGroupId)"))
+                    .addProperty("authorGroupId", new IntegerSchema().format("int64").types(Set.of("integer", "null")).nullable(true).example(null).description("ID of the author creator group (mutually exclusive with authorPersonId)"))
+                    .addProperty("description", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional description / synopsis"))
+                    .addProperty("totalChapters", new IntegerSchema().types(Set.of("integer", "null")).nullable(true).example(100).description("Optional total chapter count"))
+                    .addProperty("progressStatus", new StringSchema()._enum(java.util.List.of("ONGOING", "COMPLETED", "SUSPENDED")).example("ONGOING").description("Publication progress status"))
+                    .addProperty("consumptionStatus", new StringSchema()._enum(java.util.List.of("UNCONSUMED", "BEING_CONSUMED", "CONSUMED")).example("UNCONSUMED").description("Personal reading/consumption status"))
+                    .addProperty("currentProgressText", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional progress description text"))
+                    .addProperty("review", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional personal review notes"))
+                    .addProperty("storyArchetypeIds", new ArraySchema().items(new IntegerSchema().format("int64")).description("Set of assigned story archetype IDs"))
+                    .addProperty("worldSettingIds", new ArraySchema().items(new IntegerSchema().format("int64")).description("Set of assigned world setting IDs"))
+                    .addProperty("authorName", new StringSchema().types(Set.of("string", "null")).nullable(true).example("Author Name").description("Resolved author person or creator group name"))
+                    .required(java.util.List.of(
+                            "id", "title", "originalTitle", "nationalityCode", "posterUrl", "format", "isNsfw",
+                            "genreId", "authorPersonId", "authorGroupId", "description", "totalChapters",
+                            "progressStatus", "consumptionStatus", "currentProgressText", "review",
+                            "storyArchetypeIds", "worldSettingIds", "authorName"
+                    ))
                     .additionalProperties(false);
 
             Schema<Object> apiResponsePublicFictionSchema = new ObjectSchema()
@@ -163,15 +182,31 @@ public class OpenApiConfiguration {
                     ));
 
             Schema<Object> publicFilmResponseSchema = new ObjectSchema()
-                    .description("Public film work detail")
+                    .description("Public film work detail with director name")
                     .addProperty("id", new IntegerSchema().format("int64").example(1L).description("Film ID (identical to underlying vault entry ID)"))
                     .addProperty("title", new StringSchema().example("Sample Film").description("Primary title"))
                     .addProperty("originalTitle", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional original/native title"))
                     .addProperty("nationalityCode", new StringSchema().types(Set.of("string", "null")).nullable(true).example("VN").description("Optional 2-character country code"))
+                    .addProperty("posterUrl", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional cover or poster image URL"))
                     .addProperty("format", new StringSchema()._enum(java.util.List.of("MOVIE", "SERIES")).example("MOVIE").description("Format of the work (MOVIE or SERIES)"))
                     .addProperty("productionStyle", new StringSchema()._enum(java.util.List.of("LIVE_ACTION", "ANIMATION")).example("LIVE_ACTION").description("Production style (LIVE_ACTION or ANIMATION)"))
                     .addProperty("isNsfw", new BooleanSchema()._enum(java.util.List.of(false)).example(false).description("Whether the work is marked NSFW (always false on public success)"))
-                    .required(java.util.List.of("id", "title", "originalTitle", "nationalityCode", "format", "productionStyle", "isNsfw"))
+                    .addProperty("directorPersonId", new IntegerSchema().format("int64").types(Set.of("integer", "null")).nullable(true).example(1L).description("Optional ID of the director person"))
+                    .addProperty("description", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional description / synopsis"))
+                    .addProperty("totalEpisodes", new IntegerSchema().types(Set.of("integer", "null")).nullable(true).example(12).description("Optional total episode count"))
+                    .addProperty("progressStatus", new StringSchema()._enum(java.util.List.of("ONGOING", "COMPLETED", "SUSPENDED")).example("COMPLETED").description("Publication/release progress status"))
+                    .addProperty("consumptionStatus", new StringSchema()._enum(java.util.List.of("UNCONSUMED", "BEING_CONSUMED", "CONSUMED")).example("CONSUMED").description("Personal viewing/consumption status"))
+                    .addProperty("currentProgressText", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional progress description text"))
+                    .addProperty("review", new StringSchema().types(Set.of("string", "null")).nullable(true).example(null).description("Optional personal review notes"))
+                    .addProperty("genreIds", new ArraySchema().items(new IntegerSchema().format("int64")).description("Set of assigned film genre IDs"))
+                    .addProperty("storyArchetypeIds", new ArraySchema().items(new IntegerSchema().format("int64")).description("Set of assigned story archetype IDs"))
+                    .addProperty("worldSettingIds", new ArraySchema().items(new IntegerSchema().format("int64")).description("Set of assigned world setting IDs"))
+                    .addProperty("directorName", new StringSchema().types(Set.of("string", "null")).nullable(true).example("Director Name").description("Resolved director person name"))
+                    .required(java.util.List.of(
+                            "id", "title", "originalTitle", "nationalityCode", "posterUrl", "format", "productionStyle", "isNsfw",
+                            "directorPersonId", "description", "totalEpisodes", "progressStatus", "consumptionStatus",
+                            "currentProgressText", "review", "genreIds", "storyArchetypeIds", "worldSettingIds", "directorName"
+                    ))
                     .additionalProperties(false);
 
             Schema<Object> apiResponsePublicFilmSchema = new ObjectSchema()
@@ -188,10 +223,12 @@ public class OpenApiConfiguration {
                     ));
 
             openApi.getComponents().addSchemas("PublicFictionResponse", publicFictionResponseSchema);
+            openApi.getComponents().addSchemas("PublicFictionDetailResponse", publicFictionResponseSchema);
             openApi.getComponents().addSchemas("ApiResponsePublicFictionResponse", apiResponsePublicFictionSchema);
             openApi.getComponents().addSchemas("ApiResponseFictionDetailResponse", fictionDetailResponseSchema);
 
             openApi.getComponents().addSchemas("PublicFilmResponse", publicFilmResponseSchema);
+            openApi.getComponents().addSchemas("PublicFilmDetailResponse", publicFilmResponseSchema);
             openApi.getComponents().addSchemas("ApiResponsePublicFilmResponse", apiResponsePublicFilmSchema);
             openApi.getComponents().addSchemas("ApiResponseFilmDetailResponse", filmDetailResponseSchema);
 
@@ -386,7 +423,7 @@ public class OpenApiConfiguration {
                     } else if (pathKey.equals("/api/v1/fictions/{id}") && httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.GET) {
                         ApiResponse resp200 = responses.get("200");
                         if (resp200 != null) {
-                            resp200.setDescription("Fiction work detail (minimal for PROFILE_PUBLIC, full for PROFILE_PRIVATE; Cache-Control: no-store for PROFILE_PUBLIC)");
+                            resp200.setDescription("Fiction work detail (full with authorName for PROFILE_PUBLIC, full for PROFILE_PRIVATE; Cache-Control: no-store for PROFILE_PUBLIC)");
                             MediaType mediaType = new MediaType().schema(new Schema<Object>().$ref("#/components/schemas/ApiResponseFictionDetailResponse"));
                             resp200.setContent(new Content()
                                     .addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType)
@@ -395,7 +432,7 @@ public class OpenApiConfiguration {
                     } else if (pathKey.equals("/api/v1/films/{id}") && httpMethod == io.swagger.v3.oas.models.PathItem.HttpMethod.GET) {
                         ApiResponse resp200 = responses.get("200");
                         if (resp200 != null) {
-                            resp200.setDescription("Film work detail (minimal for PROFILE_PUBLIC, full for PROFILE_PRIVATE; Cache-Control: no-store for PROFILE_PUBLIC)");
+                            resp200.setDescription("Film work detail (full with directorName for PROFILE_PUBLIC, full for PROFILE_PRIVATE; Cache-Control: no-store for PROFILE_PUBLIC)");
                             MediaType mediaType = new MediaType().schema(new Schema<Object>().$ref("#/components/schemas/ApiResponseFilmDetailResponse"));
                             resp200.setContent(new Content()
                                     .addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType)
