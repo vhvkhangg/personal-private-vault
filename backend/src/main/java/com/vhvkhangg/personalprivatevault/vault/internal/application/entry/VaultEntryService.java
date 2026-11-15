@@ -3,9 +3,12 @@ package com.vhvkhangg.personalprivatevault.vault.internal.application.entry;
 import com.vhvkhangg.personalprivatevault.vault.entry.VaultEntryOperations;
 import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
+import com.vhvkhangg.personalprivatevault.vault.view.VaultTrashPageView;
 import com.vhvkhangg.personalprivatevault.vault.internal.domain.VaultEntry;
 import com.vhvkhangg.personalprivatevault.vault.internal.infrastructure.persistence.VaultEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,6 +89,24 @@ public class VaultEntryService implements VaultEntryOperations {
         List<Long> cleanIds = vaultEntryIds.stream().filter(Objects::nonNull).distinct().toList();
         if(cleanIds.size()>100)throw new IllegalArgumentException("Source selection budget exceeded");
         return cleanIds.isEmpty()?List.of():vaultEntryRepository.findSourceViews(cleanIds);
+    }
+
+    @Override
+    public VaultTrashPageView listTrash(int limit, String cursor) {
+        if (limit < 1 || limit > 100) {
+            throw new VaultEntryOperations.InvalidTrashInputException("Limit must be between 1 and 100");
+        }
+        Long cursorId = VaultTrashCursor.decode(cursor);
+        Pageable pageable = PageRequest.of(0, limit + 1);
+        List<VaultEntryView> entries = vaultEntryRepository.findTrashPage(cursorId, pageable);
+
+        boolean hasMore = entries.size() > limit;
+        List<VaultEntryView> pageItems = hasMore ? entries.subList(0, limit) : entries;
+        String nextCursor = (hasMore && !pageItems.isEmpty())
+                ? VaultTrashCursor.encode(pageItems.get(pageItems.size() - 1).id())
+                : null;
+
+        return new VaultTrashPageView(pageItems, nextCursor);
     }
 
     @Override

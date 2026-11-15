@@ -8,15 +8,20 @@ import com.vhvkhangg.personalprivatevault.vault.internal.web.dto.SetRatingReques
 import com.vhvkhangg.personalprivatevault.vault.internal.web.dto.TagResponse;
 import com.vhvkhangg.personalprivatevault.vault.internal.web.dto.VaultEntryResponse;
 import com.vhvkhangg.personalprivatevault.vault.internal.web.dto.VaultMetadataResponse;
+import com.vhvkhangg.personalprivatevault.vault.internal.web.dto.VaultTrashPageResponse;
 import com.vhvkhangg.personalprivatevault.vault.internal.web.mapper.VaultWebMapper;
 import com.vhvkhangg.personalprivatevault.vault.metadata.VaultMetadataOperations;
 import com.vhvkhangg.personalprivatevault.vault.view.TagView;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultMetadataView;
+import com.vhvkhangg.personalprivatevault.vault.view.VaultTrashPageView;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -57,6 +63,63 @@ public class VaultController {
     public ResponseEntity<ApiResponse<VaultEntryResponse>> restore(@PathVariable Long id) {
         VaultEntryView restored = vaultEntryOperations.restore(id);
         return ApiResponses.ok(VaultWebMapper.toResponse(restored));
+    }
+
+    @GetMapping("/trash")
+    @Operation(
+            summary = "List trashed vault entries",
+            operationId = "listVaultTrash",
+            description = "Paged vault recycle bin items in descending ID order. Accessible only to authenticated PROFILE_PRIVATE sessions."
+    )
+    public ResponseEntity<ApiResponse<VaultTrashPageResponse>> listTrash(
+            @Parameter(
+                    name = "limit",
+                    description = "Maximum number of items to return (1-100, default 25)",
+                    schema = @Schema(type = "integer", format = "int32", defaultValue = "25", minimum = "1", maximum = "100")
+            )
+            @RequestParam(name = "limit", required = false) String limitRaw,
+            @Parameter(
+                    name = "cursor",
+                    description = "Opaque continuation cursor for next page",
+                    schema = @Schema(type = "string", maxLength = 128)
+            )
+            @RequestParam(name = "cursor", required = false) String cursor
+    ) {
+        int limit = 25;
+        if (limitRaw != null) {
+            if (!limitRaw.matches("^-?\\d+$")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("MALFORMED_REQUEST", "Invalid request parameters"));
+            }
+            try {
+                limit = Integer.parseInt(limitRaw);
+            } catch (NumberFormatException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("MALFORMED_REQUEST", "Invalid request parameters"));
+            }
+            if (limit < 1 || limit > 100) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .cacheControl(CacheControl.noStore())
+                        .body(ApiResponses.error("INVALID_ARGUMENT", "Invalid argument provided"));
+            }
+        }
+
+        try {
+            VaultTrashPageView pageView = vaultEntryOperations.listTrash(limit, cursor);
+            return ResponseEntity.ok()
+                    .cacheControl(CacheControl.noStore())
+                    .body(ApiResponses.success(VaultWebMapper.toTrashPageResponse(pageView)));
+        } catch (VaultEntryOperations.InvalidTrashInputException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .cacheControl(CacheControl.noStore())
+                    .body(ApiResponses.error("INVALID_ARGUMENT", "Invalid argument provided"));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .cacheControl(CacheControl.noStore())
+                    .body(ApiResponses.error("INTERNAL_ERROR", "An unexpected error occurred"));
+        }
     }
 
     @GetMapping("/entries/{id}/metadata")

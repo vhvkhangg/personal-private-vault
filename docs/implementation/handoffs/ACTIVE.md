@@ -1,8 +1,66 @@
 # Active Implementation Handoff
 
-**Canonical current execution register — RO-B Owner publication 2026-11-15:** **`NO_ACTIVE_HANDOFF`**. BF26-DP-RO-B is **`INDEPENDENTLY_ACCEPTED / OWNER_PUBLISHED / CLOSED`** at [`0f3365de888a`](https://github.com/vhvkhangg/personal-private-vault/commit/0f3365de888ab03b0d1de6b32e56a3bb7ad96d5a); [independent final re-review 2](../maintenance/2026-11-14-bf26-dp-ro-b-preparation/reviews/2026-11-15-bf26-dp-ro-b-independent-final-re-review-2.md) CLOSED FR-ROB-01–05. **114 distinct cases (25 reviewer fresh + 89 qualified reused)**. **DPROB-L01/L02 LOW/OPEN/BACKLOG**; remediation **2/3 consumed / STOPPED**, takeover **NOT_AUTHORIZED / NOT_USED**. [Actual-SHA closeout](../maintenance/2026-11-14-bf26-dp-ro-b-preparation/owner-publication-closeout-dp-ro-b-2026-11-15.md) is a subsequent docs-only deliverable. All prepublication READY/current-looking statements below are historical checkpoints; no deployment or live cutover proved.
+**Canonical current execution register — 2026-11-15:** **BF26-V1-RECYCLE-BROWSE / READY_FOR_OWNER_COMMIT / INDEPENDENTLY_ACCEPTED** following [independent final re-review 2](../maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/reviews/2026-11-15-bf26-v1-independent-final-re-review-2.md). **FR-V1-01–05 CLOSED**; no blocking finding or mandatory finite V1 acceptance remains unverified. **112 distinct source-qualified passing invocations across nine classes = 49 reviewer fresh + 63 applicable reused**; prior overlapping runs are not additional cases. **BFV1-L01/L02 LOW / OPEN / BACKLOG** are nonblocking. Remediation **2/3 consumed / STOPPED**; takeover **NOT_AUTHORIZED / NOT_USED**. Owner publication PENDING; no deployment/cutover proved. Only this current V1 block and executable govern execution; predecessor checkpoints remain historical.
 
-> **Current contract / authority:** Eight authorized PUBLIC GET business pairs. Fiction/Film successful eligible PUBLIC detail each has **19 properties** (original 18 plus present nullable authorName/directorName), PRIVATE work GET/POST/PUT retains 18. PUBLIC Film POST remains forbidden (403 PUBLIC/401 anonymous); all other PUBLIC business routes default deny. RO-A remains OWNER_PUBLISHED/CLOSED, 1/3 remediation STOPPED; DP-A/B1/W1 counters and LOW backlog retained. No next feature or implementation automatically authorized; Frontend H1-F paused, P17 frozen, P18 closed, S19-2 suspended, providers OFF/unset.
+- **Handoff ID:** `BF26-V1-RECYCLE-BROWSE`.
+- **Created by / date:** Codex / 2026-11-15.
+- **Status:** `READY_FOR_OWNER_COMMIT / INDEPENDENTLY_ACCEPTED`.
+- **Executable:** [BF26-V1 bounded handoff](../maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/executable-handoff-bf26-v1-2026-11-15.md); all sections and V1-01–19 are binding.
+- **Owner authority:** [canonical authorization](../maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/owner-authorization-bf26-v1-2026-11-15.md), published at `757643e9adcafa0c54b0adb3cca93cfa8efd0731`, ratifies product/API, exact Phase 1/13 exception and existing `main` checkout. [Independent pre-handoff review](../maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/reviews/2026-11-15-bf26-v1-independent-pre-handoff-review.md): `READY_FOR_HANDOFF`, preparation only; all five carry-forward qualifications included in the executable.
+- **Implementer / reviewer:** Antigravity [backend-implementer](../../../.agents/agents/backend-implementer/agent.md), `/antigravity-implement-handoff` then mandatory `/antigravity-self-review`; independent Codex `$codex-final-review` in a separate session. Only Owner publishes.
+- **Entry qualification:** local `main` HEAD, `origin/main` and live remote `main` all `58cbd58d1f3fe6be002ba97eb6599292a758f8f5`; clean entry index/worktree. Whole backend tree unchanged from reviewed `2d088445e6323b091741cf370e1e0c8cf13928a2`: `7e68fb0a202fc5544cbf94c342d40bef2d258c8a`. Seventeen inventory blobs match; four NEW paths absent in existing packages. Recheck drift before implementation; no new branch/worktree.
+
+## Current V1 goal, targets and invariants
+
+`GET /api/v1/vault/trash`, operationId `listVaultTrash`, admits persisted PRIVATE only. Both persisted PUBLIC origins get 403 ACCESS_DENIED **before handler/new owner read**; anonymous/invalid/expired gets canonical 401. Exactly eight existing PUBLIC business GET pairs and RO-A Film POST denial remain unchanged.
+
+Success: canonical `ApiResponse`, `data:{items:[...],nextCursor:string-or-null}`, `error:null`, `meta:null`. Each item exactly `{id,entryType,deletedAt}`; no title/content/createdAt/updatedAt/NSFW flag/metadata/feature hydration. Existing five-field Vault DTO and lifecycle handlers unchanged. Limit defaults 25, inclusive 1–100; invalid limit/cursor safe 400 before business query. Cursor is strict canonical unpadded Base64url UTF-8 `v1|<positive-id>`, max 128 encoded characters; never log/echo raw cursor.
+
+One owner-local deleted-only parameterized `id DESC` seek query, strict ID bound, database fetch at most limit+1, no count/offset/whole-table Java paging; continuation encodes last emitted, not lookahead. Immutable application/HTTP pages fully materialized inside existing read-only service boundary; no entity/lazy escape or mutation lock. Weak consistency between requests, with genuinely committed restore/re-trash proof; no cross-request snapshot claim. no-store on successes/relevant generated errors; genuine query/transaction/completion failure safe 500, never fake empty success/400/lifecycle 409. Preserve global advice and old route behavior.
+
+**Exact source/test edit boundary:** `J/` = `backend/src/main/java/com/vhvkhangg/personalprivatevault/`, `T/` = corresponding test root. Executable section 3 has purposes/blob IDs.
+
+| ID | Exact path |
+| --- | --- |
+| P01 | `J/vault/entry/VaultEntryOperations.java` |
+| P02 | `J/vault/internal/application/entry/VaultEntryService.java` |
+| P03 | `J/vault/internal/infrastructure/persistence/VaultEntryRepository.java` |
+| P04 | `J/vault/internal/application/entry/VaultTrashCursor.java` NEW |
+| P05 | `J/vault/view/VaultTrashPageView.java` NEW |
+| P06 | `J/vault/internal/web/controller/VaultController.java` |
+| P07 | `J/vault/internal/web/dto/VaultTrashItemResponse.java` NEW |
+| P08 | `J/vault/internal/web/dto/VaultTrashPageResponse.java` NEW |
+| P09 | `J/vault/internal/web/mapper/VaultWebMapper.java` |
+| T01 | `T/vault/VaultEntryIntegrationTest.java` |
+| T02 | `T/vault/VaultWebIntegrationTest.java` |
+| T03 | `T/authentication/ProfileRouteAuthorizationIntegrationTest.java` |
+| T04 | `T/web/OpenApiRouteInventoryIntegrationTest.java` |
+
+**Test/evidence contract:** preserve all V1-01–19 and exact six bounded groups **V1-DB / HTTP / SEC / API / ARCH / REG** from executable sections 6–8. Real PostgreSQL/MockMvc, sequential existing watchdog **normal 300s per command**, fresh non-clobber receipts/stdout/stderr/XML and final hashes. Fresh new-path SQL/representative sparse-trash EXPLAIN, ≥3-page all-type stable traversal, actual committed membership changes, safe parser/query/completion failures/no-store, immutability, persisted security/no-handler and generated OpenAPI/specimens are mandatory. Qualifying fetch bound is not a scanned-row/latency guarantee. Read-only regression selectors confer no edit rights. Final changed T01–T04 coverage and architecture on final inputs; unchanged evidence requires case/input applicability and no double counting. No runtime test/build/DB query ran at issuance; no full-suite/extended-time grant.
+
+**STOP / exclusions:** any required path beyond 9+4 or a new test file; SecurityConfiguration/session/shared envelope/global advice/root OpenAPI/Vault entity/item view/old response/guards/schema/index/migration/build/dependency/descriptor/hook/agent change; new PUBLIC access/title hydration/purge/filter/count/search/job/provider/Frontend/RAG/audit/deployment; unapproved source/authority drift, competing ACTIVE, extra privacy choice or exhausted remediation. Root OpenAPI annotation insufficiency, default security fallback/no-store failure or a plan requiring index/order change needs separate exact Owner decision. Do not relax the contract or expand scope.
+
+**Relevant engineering skills:** `java-spring-coding-standards`, `pragmatic-solid-design`, `reuse-and-consistency`, `design-pattern-selection`, `modular-monolith-architecture`, `jpa-postgresql-persistence`, `rest-api-http-contracts`, `backend-testing`, `bounded-command-execution`; `authentication-security` for existing permission regression analysis only, no auth source grant. Python/RAG/domain-content/frontend skills N/A. Existing root/scoped instructions and ADR-0016 apply within the explicit Owner exception.
+
+## Current V1 documentation, result, counters and next action
+
+**Docs Sync Check — independent re-review 2:** UPDATED — new acceptance plus current disposition/counter/evidence/next fields here and in the executable. ALREADY_CONSISTENT — exact grant/all 13 hashes, PRIVATE fallback/eight PUBLIC GETs, prior counters, current 112-case union (49 reviewer fresh + 63 applicable reused), all V1-01–19 finite evidence and FR-V1-01–05 closure. BFV1-L01/L02 LOW backlog qualified in the acceptance. Full suite/IDE/Owner-data/deployment remain unverified/outside finite acceptance. Initial/R1/R2 author reports, prior reviews and all raw successes/failures/timeouts preserved. Owner publication pending; broader navigation/actual-SHA closeout remains separately scoped ChatGPT work.
+
+**Documentation edit permissions:** Antigravity may update current implementation-result/status/counter/evidence/next fields here and in the executable, and add the exact implementation-handback/self-review files named in executable section 9. No broader docs repair. At handback record requirements→actual evidence/final hashes, fresh/reused limits, failures, affected docs/editor and saved-file state consistency. After self-review persist and reopen canonical ACTIVE/executable/handback with the same IMPLEMENTED_AWAITING_CODEX_REVIEW status/round/next action before routing to independent Codex. Historical contracts/reviews/receipts remain preserved.
+
+**Implementation result / independent disposition:** all initial/R1/R2 author reports and earlier independent reviews remain preserved. [Independent final re-review 2](../maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/reviews/2026-11-15-bf26-v1-independent-final-re-review-2.md) CLOSED **FR-V1-01–05** and returns **READY_FOR_OWNER_COMMIT / INDEPENDENTLY_ACCEPTED** for the exact 9+4 delivery. Fresh completion-phase rollback, generated SQL/binds/correlated plan, maximum/canonical/state/session controls and matching captured bodies/schemas qualify all V1-01–19. **112 distinct cases = 49 reviewer fresh + 63 applicable reused** across nine classes; all 13 final hashes match. **BFV1-L01/L02 LOW/OPEN/BACKLOG** remain nonblocking. Remediation **2/3 consumed / STOPPED**, no third round pending; takeover **NOT_AUTHORIZED / NOT_USED**. Owner publication and actual-SHA closeout are pending, with no deployment or real Owner-data suitability claim.
+
+RO-B remains INDEPENDENTLY_ACCEPTED / OWNER_PUBLISHED / CLOSED, 114 qualified distinct cases (25 fresh reviewer + 89 reused), DPROB-L01/L02 LOW/OPEN/BACKLOG, remediation 2/3 STOPPED; RO-A 1/3 STOPPED, W1 2/3 STOPPED, B1 3/3 STOPPED, DP-A 3/3 exhausted / exceptional takeover 1/1 accepted. Prior LOW backlogs unchanged. H1-F paused/FR-13 blocked, P17 frozen, P18 closed, S19-2 suspended, providers OFF/unset, indexing inactive; no live cutover claim.
+
+**Next step: Owner | ordinary git add/commit/push reviewed delivery | BF26-V1 + executable/ACTIVE and independent re-review 2, exact 9+4 plus scoped delivery records | READY_FOR_OWNER_COMMIT; then brief actual-SHA closeout, no deployment grant | remediation 2/3 consumed / STOPPED; takeover NOT_AUTHORIZED / NOT_USED.**
+
+---
+
+## Historical RO-B Owner-publication checkpoint — preserved predecessor
+
+**Historical execution register — RO-B Owner publication 2026-11-15:** **`NO_ACTIVE_HANDOFF`** at that checkpoint. BF26-DP-RO-B is **`INDEPENDENTLY_ACCEPTED / OWNER_PUBLISHED / CLOSED`** at [`0f3365de888a`](https://github.com/vhvkhangg/personal-private-vault/commit/0f3365de888ab03b0d1de6b32e56a3bb7ad96d5a); [independent final re-review 2](../maintenance/2026-11-14-bf26-dp-ro-b-preparation/reviews/2026-11-15-bf26-dp-ro-b-independent-final-re-review-2.md) CLOSED FR-ROB-01–05. **114 distinct cases (25 reviewer fresh + 89 qualified reused)**. **DPROB-L01/L02 LOW/OPEN/BACKLOG**; remediation **2/3 consumed / STOPPED**, takeover **NOT_AUTHORIZED / NOT_USED**. [Actual-SHA closeout](../maintenance/2026-11-14-bf26-dp-ro-b-preparation/owner-publication-closeout-dp-ro-b-2026-11-15.md) is a subsequent docs-only deliverable. All prepublication READY/current-looking statements below are historical checkpoints; no deployment or live cutover proved.
+
+> **Historical publication contract / authority:** Eight authorized PUBLIC GET business pairs. Fiction/Film successful eligible PUBLIC detail each has **19 properties** (original 18 plus present nullable authorName/directorName), PRIVATE work GET/POST/PUT retains 18. PUBLIC Film POST remains forbidden (403 PUBLIC/401 anonymous); all other PUBLIC business routes default deny. RO-A remains OWNER_PUBLISHED/CLOSED, 1/3 remediation STOPPED; DP-A/B1/W1 counters and LOW backlog retained. No next feature or implementation automatically authorized; Frontend H1-F paused, P17 frozen, P18 closed, S19-2 suspended, providers OFF/unset.
 
 ---
 

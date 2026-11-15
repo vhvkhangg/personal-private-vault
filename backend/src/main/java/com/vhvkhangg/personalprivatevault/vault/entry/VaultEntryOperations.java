@@ -2,6 +2,7 @@ package com.vhvkhangg.personalprivatevault.vault.entry;
 
 import com.vhvkhangg.personalprivatevault.vault.enums.VaultEntryType;
 import com.vhvkhangg.personalprivatevault.vault.view.VaultEntryView;
+import com.vhvkhangg.personalprivatevault.vault.view.VaultTrashPageView;
 
 import java.util.Optional;
 
@@ -12,4 +13,11 @@ public interface VaultEntryOperations extends VaultSourceGuard {
     java.util.List<VaultEntryView> findAll(java.util.Collection<Long> vaultEntryIds);
     VaultEntryView moveToTrash(Long vaultEntryId);
     VaultEntryView restore(Long vaultEntryId);
+    VaultTrashPageView listTrash(int limit, String cursor);
+
+    final class InvalidTrashInputException extends IllegalArgumentException {
+        public InvalidTrashInputException(String message) {
+            super(message);
+        }
+    }
 }

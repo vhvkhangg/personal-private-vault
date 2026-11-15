@@ -1040,4 +1040,112 @@ class ProfileRouteAuthorizationIntegrationTest extends AbstractWebIntegrationTes
                         .header("Authorization", "Bearer " + privateToken))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("V1-02: Vault trash browse GET /api/v1/vault/trash admits PRIVATE, denies both PUBLIC origins before handler, denies anonymous/expired with 401")
+    void vaultTrashRouteAuthorizationWitness() throws Exception {
+        String tokenConfigured = publicBearerToken();
+        String tokenDowngraded = publicBearerTokenViaDowngrade();
+        String privateToken = bearerToken();
+
+        // 1. Positive control: valid PRIVATE token reaches VaultController.listTrash and vaultEntryOperations.listTrash
+        org.mockito.Mockito.clearInvocations(handlerAdapter, vaultEntryOperations);
+
+        mockMvc.perform(get("/api/v1/vault/trash")
+                        .header("Authorization", "Bearer " + privateToken))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.data.items").isArray())
+                .andExpect(jsonPath("$.error").isEmpty());
+
+        org.mockito.ArgumentCaptor<Object> handlerCaptor = org.mockito.ArgumentCaptor.forClass(Object.class);
+        org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.atLeastOnce())
+                .handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), handlerCaptor.capture());
+        boolean invokedVaultController = handlerCaptor.getAllValues().stream()
+                .filter(h -> h instanceof org.springframework.web.method.HandlerMethod)
+                .map(h -> (org.springframework.web.method.HandlerMethod) h)
+                .anyMatch(hm -> hm.getBeanType().equals(com.vhvkhangg.personalprivatevault.vault.internal.web.controller.VaultController.class)
+                        && "listTrash".equals(hm.getMethod().getName()));
+        assertThat(invokedVaultController).as("Handler adapter must invoke VaultController.listTrash for PRIVATE token").isTrue();
+        org.mockito.Mockito.verify(vaultEntryOperations, org.mockito.Mockito.atLeastOnce()).listTrash(org.mockito.ArgumentMatchers.anyInt(), org.mockito.ArgumentMatchers.any());
+
+        // 2. Denials for PUBLIC origins (both configured and downgraded): 403 ACCESS_DENIED before handler / new owner read
+        for (String publicToken : List.of(tokenConfigured, tokenDowngraded)) {
+            org.mockito.Mockito.clearInvocations(handlerAdapter, vaultEntryOperations);
+
+            String forbiddenJson = mockMvc.perform(get("/api/v1/vault/trash")
+                            .header("Authorization", "Bearer " + publicToken))
+                    .andExpect(status().isForbidden())
+                    .andExpect(header().string("Cache-Control", org.hamcrest.Matchers.containsString("no-store")))
+                    .andExpect(jsonPath("$.error.code").value("ACCESS_DENIED"))
+                    .andExpect(jsonPath("$.data").isEmpty())
+                    .andReturn().getResponse().getContentAsString();
+
+            System.out.println("ACTUAL_FORBIDDEN_403_HTTP_BODY:\n" + forbiddenJson);
+
+            org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.never())
+                    .handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
+            org.mockito.Mockito.verify(vaultEntryOperations, org.mockito.Mockito.never())
+                    .listTrash(org.mockito.ArgumentMatchers.anyInt(), org.mockito.ArgumentMatchers.any());
+        }
+
+        // 3. Anonymous: 401 AUTHENTICATION_REQUIRED before handler
+        org.mockito.Mockito.clearInvocations(handlerAdapter, vaultEntryOperations);
+        mockMvc.perform(get("/api/v1/vault/trash"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(header().string("Cache-Control", org.hamcrest.Matchers.containsString("no-store")))
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"))
+                .andExpect(jsonPath("$.data").isEmpty());
+        org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.never())
+                .handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
+        org.mockito.Mockito.verify(vaultEntryOperations, org.mockito.Mockito.never())
+                .listTrash(org.mockito.ArgumentMatchers.anyInt(), org.mockito.ArgumentMatchers.any());
+
+        // 4. Invalid token: 401 AUTHENTICATION_REQUIRED before handler
+        org.mockito.Mockito.clearInvocations(handlerAdapter, vaultEntryOperations);
+        mockMvc.perform(get("/api/v1/vault/trash").header("Authorization", "Bearer invalid-token-value"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(header().string("Cache-Control", org.hamcrest.Matchers.containsString("no-store")))
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"));
+        org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.never())
+                .handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
+        org.mockito.Mockito.verify(vaultEntryOperations, org.mockito.Mockito.never())
+                .listTrash(org.mockito.ArgumentMatchers.anyInt(), org.mockito.ArgumentMatchers.any());
+
+        // 5. Expired token on new route: 401 AUTHENTICATION_REQUIRED with Cache-Control: no-store (FR-V1-03)
+        // Extract real admitted session claims (sid, generation, subject, issuer) from valid privateToken
+        org.springframework.security.oauth2.jwt.Jwt validJwt = jwtDecoder.decode(privateToken);
+        String sid = validJwt.getClaimAsString("sid");
+        Long generation = validJwt.getClaim("generation");
+        assertThat(sid).as("Admitted session must have sid").isNotNull();
+        assertThat(generation).as("Admitted session must have generation").isNotNull();
+
+        java.time.Instant now = java.time.Instant.now();
+        org.springframework.security.oauth2.jwt.JwtClaimsSet expiredClaims = org.springframework.security.oauth2.jwt.JwtClaimsSet.builder()
+                .issuer(validJwt.getClaimAsString("iss") != null ? validJwt.getClaimAsString("iss") : "personal-private-vault")
+                .subject(validJwt.getSubject())
+                .issuedAt(now.minus(java.time.Duration.ofHours(2)))
+                .expiresAt(now.minus(java.time.Duration.ofHours(1)))
+                .id(java.util.UUID.randomUUID().toString())
+                .claim("profile", "PRIVATE")
+                .claim("scope", "PRIVATE")
+                .claim("sid", sid)
+                .claim("generation", generation)
+                .build();
+        org.springframework.security.oauth2.jwt.JwsHeader jwsHeader = org.springframework.security.oauth2.jwt.JwsHeader.with(org.springframework.security.oauth2.jose.jws.MacAlgorithm.HS256).build();
+        String expiredToken = jwtEncoder.encode(org.springframework.security.oauth2.jwt.JwtEncoderParameters.from(jwsHeader, expiredClaims)).getTokenValue();
+
+        org.mockito.Mockito.clearInvocations(handlerAdapter, vaultEntryOperations);
+        String expired401Json = mockMvc.perform(get("/api/v1/vault/trash").header("Authorization", "Bearer " + expiredToken))
+                .andExpect(status().isUnauthorized())
+                .andExpect(header().string("Cache-Control", org.hamcrest.Matchers.containsString("no-store")))
+                .andExpect(jsonPath("$.error.code").value("AUTHENTICATION_REQUIRED"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println("ACTUAL_EXPIRED_401_HTTP_BODY:\n" + expired401Json);
+        org.mockito.Mockito.verify(handlerAdapter, org.mockito.Mockito.never())
+                .handle(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
+        org.mockito.Mockito.verify(vaultEntryOperations, org.mockito.Mockito.never())
+                .listTrash(org.mockito.ArgumentMatchers.anyInt(), org.mockito.ArgumentMatchers.any());
+    }
 }

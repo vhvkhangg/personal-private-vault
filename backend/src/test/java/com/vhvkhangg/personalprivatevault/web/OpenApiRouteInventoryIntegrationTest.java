@@ -155,6 +155,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             GET | /api/v1/settings | getSettings | 200 | null | ApiResponseAppSettingsResponse | true
             GET | /api/v1/vault/entries/{id} | getVaultEntry | 200 | null | ApiResponseVaultEntryResponse | true
             GET | /api/v1/vault/entries/{id}/metadata | getVaultEntryMetadata | 200 | null | ApiResponseVaultMetadataResponse | true
+            GET | /api/v1/vault/trash | listVaultTrash | 200 | null | ApiResponseVaultTrashPageResponse | true
             POST | /api/v1/accounts | createExternalAccount | 201 | CreateExternalAccountRequest | ApiResponseExternalAccountResponse | false
             POST | /api/v1/accounts/{ownerAccountId}/snapshots | createFollowerSnapshot | 201 | CreateFollowerSnapshotRequest | ApiResponseFollowerSnapshotResponse | true
             POST | /api/v1/addresses | createAddress | 201 | CreateAddressRequest | ApiResponseAddressResponse | false
@@ -402,8 +403,8 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
             }
         }
 
-        assertThat(operationIds).hasSize(239);
-        assertThat(uniqueIds).hasSize(239);
+        assertThat(operationIds).hasSize(240);
+        assertThat(uniqueIds).hasSize(240);
 
         // 6. Verify specific creation endpoints document 201 Created and NOT 200
         JsonNode filmGenresPost = paths.path("/api/v1/film-genres").path("post");
@@ -511,7 +512,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 })
                 .toList();
 
-        assertThat(expectedContracts).as("Accepted manifest must specify exactly 239 endpoints").hasSize(239);
+        assertThat(expectedContracts).as("Accepted manifest must specify exactly 240 endpoints").hasSize(240);
 
         int totalOperationsInOpenApi = 0;
         Iterator<String> pathKeyIterator = paths.fieldNames();
@@ -526,7 +527,7 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
                 }
             }
         }
-        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 239 manifest count").isEqualTo(239);
+        assertThat(totalOperationsInOpenApi).as("Total OpenAPI operations must match exact 240 manifest count").isEqualTo(240);
 
         for (ExpectedRouteContract contract : expectedContracts) {
             JsonNode pathItem = paths.path(contract.path());
@@ -1198,6 +1199,125 @@ class OpenApiRouteInventoryIntegrationTest extends AbstractWebIntegrationTest {
         assertThat(bearerDesc).contains("PROFILE_PUBLIC", "PROFILE_PRIVATE", "/api/v1/fictions/{id}", "/api/v1/films/{id}", "/api/v1/reference/");
         assertThat(bearerDesc).doesNotContain("POST /api/v1/films");
         assertThat(bearerDesc).contains("elevation", "downgrade and all other business and data operations require PROFILE_PRIVATE");
+
+        // V1-16: Vault trash browse GET /api/v1/vault/trash schema, parameters, and specimen assertions
+        JsonNode trashPath = paths.path("/api/v1/vault/trash").path("get");
+        assertThat(trashPath.isMissingNode()).as("GET /api/v1/vault/trash must exist in OpenAPI").isFalse();
+        assertThat(trashPath.path("operationId").asText()).isEqualTo("listVaultTrash");
+        assertThat(trashPath.has("requestBody")).as("GET /api/v1/vault/trash must NOT have request body").isFalse();
+        assertThat(PUBLIC_AUTH_PATHS.contains("/api/v1/vault/trash")).as("vault trash must be protected by bearerAuth").isFalse();
+
+        // Parameters: limit and cursor
+        JsonNode trashParams = trashPath.path("parameters");
+        assertThat(trashParams.isArray()).isTrue();
+        boolean foundTrashLimit = false;
+        boolean foundTrashCursor = false;
+        for (JsonNode param : trashParams) {
+            String pName = param.path("name").asText();
+            if ("limit".equals(pName)) {
+                foundTrashLimit = true;
+                JsonNode limitSchema = param.path("schema");
+                assertThat(limitSchema.path("type").asText()).isEqualTo("integer");
+                assertThat(limitSchema.path("format").asText()).isEqualTo("int32");
+                assertThat(limitSchema.path("default").asInt()).isEqualTo(25);
+                assertThat(limitSchema.path("maximum").asInt()).isEqualTo(100);
+                if (limitSchema.has("minimum")) {
+                    assertThat(limitSchema.path("minimum").asInt()).isEqualTo(1);
+                } else {
+                    assertThat(limitSchema.path("exclusiveMinimum").asInt()).isEqualTo(0);
+                }
+            } else if ("cursor".equals(pName)) {
+                foundTrashCursor = true;
+                JsonNode cursorSchema = param.path("schema");
+                assertThat(cursorSchema.path("type").asText()).isEqualTo("string");
+                assertThat(cursorSchema.path("maxLength").asInt()).isEqualTo(128);
+            }
+        }
+        assertThat(foundTrashLimit).as("trash limit parameter must be documented with bounds").isTrue();
+        assertThat(foundTrashCursor).as("trash cursor parameter must be documented with maxLength 128").isTrue();
+
+        // Responses: 200, 400, 401, 403, 404, 500
+        JsonNode trashResponses = trashPath.path("responses");
+        for (String code : List.of("200", "400", "401", "403", "404", "500")) {
+            assertThat(trashResponses.hasNonNull(code))
+                    .as("GET /api/v1/vault/trash must document status %s", code)
+                    .isTrue();
+        }
+        JsonNode respContent = trashResponses.path("200").path("content");
+        String trash200Ref = respContent.has("*/*")
+                ? respContent.path("*/*").path("schema").path("$ref").asText()
+                : respContent.path("application/json").path("schema").path("$ref").asText();
+        assertThat(trash200Ref).isEqualTo("#/components/schemas/ApiResponseVaultTrashPageResponse");
+
+        // Component schemas: VaultTrashPageResponse and VaultTrashItemResponse
+        JsonNode trashPageSchema = root.path("components").path("schemas").path("VaultTrashPageResponse");
+        assertThat(trashPageSchema.isMissingNode()).as("VaultTrashPageResponse schema must exist").isFalse();
+        JsonNode trashItemsProp = trashPageSchema.path("properties").path("items");
+        assertThat(trashItemsProp.path("type").asText()).isEqualTo("array");
+        assertThat(trashItemsProp.path("items").path("$ref").asText()).isEqualTo("#/components/schemas/VaultTrashItemResponse");
+        JsonNode trashNextCursorProp = trashPageSchema.path("properties").path("nextCursor");
+        assertThat(allowsNull(trashNextCursorProp)).as("nextCursor schema must permit null for exhausted pages").isTrue();
+
+        List<String> pageRequired = new ArrayList<>();
+        trashPageSchema.path("required").forEach(n -> pageRequired.add(n.asText()));
+        assertThat(pageRequired).as("VaultTrashPageResponse must require items and nextCursor")
+                .containsExactlyInAnyOrder("items", "nextCursor");
+
+        System.out.println("ACTUAL_OPENAPI_TRASH_PAGE_SCHEMA:\n" + trashPageSchema.toPrettyString());
+
+        JsonNode trashItemSchema = root.path("components").path("schemas").path("VaultTrashItemResponse");
+        assertThat(trashItemSchema.isMissingNode()).as("VaultTrashItemResponse schema must exist").isFalse();
+        JsonNode trashItemProps = trashItemSchema.path("properties");
+        assertThat(trashItemProps.has("id")).isTrue();
+        assertThat(trashItemProps.has("entryType")).isTrue();
+        assertThat(trashItemProps.has("deletedAt")).isTrue();
+        assertThat(trashItemProps.size()).as("VaultTrashItemResponse must have exactly 3 properties").isEqualTo(3);
+
+        List<String> itemRequired = new ArrayList<>();
+        trashItemSchema.path("required").forEach(n -> itemRequired.add(n.asText()));
+        assertThat(itemRequired).as("VaultTrashItemResponse must require id, entryType, and deletedAt")
+                .containsExactlyInAnyOrder("id", "entryType", "deletedAt");
+
+        System.out.println("ACTUAL_OPENAPI_TRASH_ITEM_SCHEMA:\n" + trashItemSchema.toPrettyString());
+
+        // Negative required-field validation: missing required fields must fail schema validation (FR-V1-04)
+        JsonNode invalidPageMissingCursor = objectMapper.readTree("{\"items\":[]}");
+        assertThat(validateSpecimen(invalidPageMissingCursor, trashPageSchema, schemas)).isFalse();
+
+        JsonNode invalidItemMissingId = objectMapper.readTree("{\"entryType\":\"FILM\",\"deletedAt\":\"2026-11-15T12:00:00Z\"}");
+        assertThat(validateSpecimen(invalidItemMissingId, trashItemSchema, schemas)).isFalse();
+
+        JsonNode invalidItemMissingType = objectMapper.readTree("{\"id\":142,\"deletedAt\":\"2026-11-15T12:00:00Z\"}");
+        assertThat(validateSpecimen(invalidItemMissingType, trashItemSchema, schemas)).isFalse();
+
+        JsonNode invalidItemMissingDeletedAt = objectMapper.readTree("{\"id\":142,\"entryType\":\"FILM\"}");
+        assertThat(validateSpecimen(invalidItemMissingDeletedAt, trashItemSchema, schemas)).isFalse();
+
+        // Specimen validation against real HTTP response (populated and empty) (FR-V1-04)
+        JsonNode apiRespTrashPageSchema = root.path("components").path("schemas").path("ApiResponseVaultTrashPageResponse");
+
+        jdbcTemplate.update("INSERT INTO vault_entries(id, entry_type, deleted_at, created_at, updated_at) VALUES (999901, 'FILM', now(), now(), now()) ON CONFLICT (id) DO UPDATE SET deleted_at = now()");
+        String populatedTrashJson = mockMvc.perform(get("/api/v1/vault/trash")
+                        .header("Authorization", "Bearer " + bearerToken()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JsonNode populatedEnvelope = objectMapper.readTree(populatedTrashJson);
+        assertThat(validateSpecimen(populatedEnvelope, apiRespTrashPageSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(populatedEnvelope.get("data"), trashPageSchema, schemas)).isTrue();
+        JsonNode populatedItems = populatedEnvelope.path("data").path("items");
+        assertThat(populatedItems.size()).isGreaterThanOrEqualTo(1);
+        for (JsonNode item : populatedItems) {
+            assertThat(validateSpecimen(item, trashItemSchema, schemas)).isTrue();
+        }
+
+        jdbcTemplate.update("DELETE FROM vault_entries WHERE deleted_at IS NOT NULL");
+        String emptyTrashJson = mockMvc.perform(get("/api/v1/vault/trash")
+                        .header("Authorization", "Bearer " + bearerToken()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JsonNode emptyEnvelope = objectMapper.readTree(emptyTrashJson);
+        assertThat(validateSpecimen(emptyEnvelope, apiRespTrashPageSchema, schemas)).isTrue();
+        assertThat(validateSpecimen(emptyEnvelope.get("data"), trashPageSchema, schemas)).isTrue();
     }
 
     private Long seedOpenApiFiction() {
