@@ -16,12 +16,12 @@ review reached via final-review. No new permission or correction round.
 >
 > Recover the scoped Docs Sync Check using docs/workflow/documentation-synchronization.md: UPDATED, ALREADY_CONSISTENT, DEFERRED_OUT_OF_SCOPE, BLOCKED_OWNER_DECISION or NOT_VERIFIED. Current audit authority controls output ownership; generic templates grant no extra file/ZIP. If a reachable shared rule cannot be reconciled inside the allowlist, STOP for exact Owner amendment and independent re-review. Do not edit COMMON/templates implicitly.
 >
-> Do not change trust/configuration/sandbox/execpolicy or bypass hooks. Broken mandatory safety or missing native evidence means STOP / OWNER_DECISION_REQUIRED, never inferred PASS. Keep the grant's network/fixture/hard timeout limits. No destructive Git, stage/commit/push/tag/PR, branch/worktree, delivery packaging, frozen/history rewrite or next phase.
+> Keep the grant's safety, network, fixture and timeout limits. Carry forward H1's accepted runtime limitations without repeat qualification. When the grant delegates publication, use the reviewed Non-RAG publisher in Owner policy. Preserve normal hooks and the protections against destructive Git, tag/PR, frozen/history rewrite and ungranted next phases.
 >
-> Report outcome, exact artifacts/changes, actual checks/results, remaining findings/NOT_VERIFIED, Docs Sync and counter. Author -> DIFFERENT authorized reviewer; accepted independent review -> Owner publication, never D0/B0/X. End: Next step: <Owner or different Codex session> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget>.
+> Report outcome, exact artifacts/changes, actual checks/results, remaining findings/NOT_VERIFIED, Docs Sync and counter. Author -> DIFFERENT authorized reviewer; accepted independent review -> authorized publisher. End: Next step: <role> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget> | <new PPV Codex chat: yes/no>.
 
 This recovery selects the audit skill and exact contract directly. The
-[COMMON](COMMON.md) evidence, broken-safety and Owner-only publication safeguards
-apply; its ordinary Antigravity dispatch is superseded **only for an explicitly
-granted audit role** by [Owner policy](../current-owner-delivery-policy.md).
+[COMMON](COMMON.md) evidence and broken-safety safeguards apply. Follow
+[Owner policy](../current-owner-delivery-policy.md#reviewed-non-rag-publication)
+for expressly delegated publication and audit-role dispatch.
 Missing authority still STOPs.

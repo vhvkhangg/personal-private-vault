@@ -318,7 +318,7 @@ def evaluate_command(command: str) -> tuple[str, str]:
         executable = _executable_basename(tokens[0])
         git_subcommand, git_args = _git_subcommand(tokens)
         if git_subcommand in _DENIED_GIT_SUBCOMMANDS:
-            return "deny", "Repository policy: agents do not add, commit, push, or tag. The owner performs staging and publishing actions."
+            return "deny", "Repository policy: direct Git add, commit, push, and tag are Owner-only. See the Owner policy for reviewed Non-RAG publication."
         if git_subcommand == "branch" and _git_branch_delete_requested(git_args):
             return "deny", "Repository policy: branch deletion is Owner-only; agents must not delete branches."
         if executable in {"gh", "gh.exe"}:

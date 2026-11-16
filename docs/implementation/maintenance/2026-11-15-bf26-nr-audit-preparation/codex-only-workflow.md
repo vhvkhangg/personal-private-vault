@@ -2,6 +2,12 @@
 
 **Workflow is a future proposal, not an active handoff.** The existing policy currently describes Antigravity per-slice implementation. This package deliberately documents the **requested exception for this audit only**, and **does not amend those existing files or infer permanent Codex-only policy**.
 
+From D0 onward, the [current Owner policy for reviewed Non-RAG publication](../../../workflow/current-owner-delivery-policy.md#reviewed-non-rag-publication)
+controls publishing in this workflow and the associated audit plans. The Owner
+may explicitly delegate publication for an approved batch after any required
+independent review. Inspector, author and reviewer permissions come from their
+grants. The preparation and H0/H1 publication records keep their original meaning.
+
 ## Session/permission matrix
 
 | Session | Intent | Read/write allowance after its *own* authorization | Must NOT do | Exit |
@@ -15,7 +21,7 @@
 | D1 — Codex docs remediation author | Make approved current-doc/ADR/derived updates | Exact authorized documents and verification | Change frozen contracts/archives implicitly | `AWAITING_INDEPENDENT_REVIEW` |
 | DR — Independent docs reviewer | Link/provenance/design consistency and changed-file inspection | Review-only | Self-accept | `ACCEPTED` or `CHANGES_REQUESTED` |
 | B0 — Non-RAG Backend inspector | Source/DB/HTTP/test/security/tooling audit | Reports; permitted bounded diagnostic logs | Production changes, unauthorized live provider access | `AUDIT_REPORTED` or blocked |
-| B1 — Codex Backend remediation author | Bounded root-cause batches | Owner-approved source/test/docs path allowlist | Change frozen source beyond exception, independent acceptance, publication | `AWAITING_INDEPENDENT_REVIEW` |
+| B1 — Codex Backend remediation author | Bounded root-cause batches | Owner-approved source/test/docs path allowlist | Change frozen source beyond exception, self-accept, publish before review or without delegation | `AWAITING_INDEPENDENT_REVIEW` |
 | BR — Independent Backend reviewer | Review B1 diff with fresh/reused qualified tests | Review-only | Implement or approve own changes | `ACCEPTED` or `CHANGES_REQUESTED` |
 | X — Independent reconciliation | Recheck entire audit ledger and published HEAD | Reports/docs-only closeout after authorization | Invent missing evidence or self-grant next phase | `NON_RAG_BACKEND_AUDIT_READY` **only when all gates met**, else `STOP / OWNER_DECISION_REQUIRED` |
 
@@ -51,12 +57,12 @@
 
 - Inspect all docs paths with exhaustive manifest and risk-based read-depth, reconcile current accepted product requirements with source snapshots without claiming code validation.
 - All architecture API/schema changes remain proposals until Owner ratifies exact behavior/compatibility and allows corresponding code changes.
-- Group approved documentation remediation into bounded D1 changes, independently review and Owner publish. Cross-layer conflicts remain in X rather than prematurely declaring Docs “final.”
+- Group approved documentation remediation into bounded D1 changes, independently review, then publish under current Owner policy. Cross-layer conflicts remain in X rather than prematurely declaring Docs “final.”
 
 ### B0/B1 — Source and runtime
 
 - Requalify published SHA and accepted contracts; inspect every Non-RAG module and risk-applicable shared boundary, run *approved* tests/tooling under bounded safeguards.
-- Findings map to minimal root causes; source-edit allowlists and test contracts require Owner approval for **each** executable batch. Codex B1 implements, a different Codex BR reviews, Owner publishes. Avoid one-finding-per-round proliferation.
+- Findings map to minimal root causes; source-edit allowlists and test contracts require Owner approval for **each** executable batch. Codex B1 implements, a different Codex BR reviews, and the authorized publisher follows current Owner policy. Avoid one-finding-per-round proliferation.
 - Code issues requiring contradictory docs/ADR change must route to an Owner decision, not unilateral fixes.
 
 ### X — Cross-layer final gate
@@ -69,7 +75,7 @@
 
 - **Per-batch immutable evidence receipt:** approved contract revision/SHA, session ID/role, entry SHA, clean/drift status, changed path list, commands/exit codes/versions/timestamps, raw receipt paths, independent reviewer SHA, final state and next decision. If an approved `delivery/` ZIP is produced, record its explicit file allowlist, content manifest and SHA-256 separately; a ZIP is **not** independent acceptance.
 - **No role blending:** a session that made any affected source change cannot provide independent review for that change. Author self-review remains mandatory for quality but has no independent verdict.
-- **Protected Git operations:** Owner alone stages/commits/pushes/tags/PRs. Do not rely on Codex prompt text or `approval_policy=never` as an actual safety boundary. Test hooks/policies in a disposable fixture, never by trying destructive commands in Owner's checkout.
+- **Protected Git operations:** Direct Git publication, tags and PRs are Owner-only. Codex uses the reviewed publisher only when the grant delegates publication. Do not rely on Codex prompt text or `approval_policy=never` as an actual safety boundary. Test hooks/policies in a disposable fixture, never by trying destructive commands in Owner's checkout.
 - **Existing `ACTIVE` gate:** empty active handoff is normal; do not infer no Owner approval. Conversely, an old authorization or a proposed plan does not create execution permission.
 - **Bounded remediation:** choose an Owner-approved finite re-review budget for each audit batch; propose **up to three corrective author/review rounds as a default**, not a grant or reset of past slice counters. If exhausted, STOP for Owner rather than silently bypassing or accepting unresolved findings.
 - **Interruption:** resume from exact approved handoff/current SHA + receipts + git diff; verify last finished state before retrying with a *fresh* evidence path. Do not reset, clean, overwrite logs, rerun risky provider calls, or count a failed test as a PASS.

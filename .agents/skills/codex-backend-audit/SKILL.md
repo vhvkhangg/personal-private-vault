@@ -49,8 +49,9 @@ Require and record all of these with exact source paths:
    rules and effective client safety. Wrong output, missing mandatory dependency
    or unsafe diagnostic means STOP.
 5. **Prerequisites:** actual prior independent acceptances and publication required
-   by this phase's grant. D0/B0 cannot execute before independently accepted and
-   Owner-published H1. Planned publication/self-review is insufficient. H1's
+   by this phase's grant. Reuse H1's independent source/test acceptance and
+   publication with its [accepted runtime limitations](../../../docs/implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-amendment-final-acceptance-2026-11-16.md).
+   D0/B0 still require their own grants. H1's
    expressly ratified fixture qualification is test-only: synthetic grants there
    never authorize a real H/D/B/X audit.
 
@@ -76,9 +77,9 @@ or activate ACTIVE to manufacture eligibility. Full access is capability only.
 
 H0/H1 bootstrap use their direct published contracts, not a retroactive rerun
 through this skill. HR has its separate review authorization.
-For H1, the [2026-11-16 ratification](../../../docs/implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-ratification-2026-11-16.md)
-controls its 17-path ceiling, three reports, 20/120s native limit and initial
-0/3 correction counter. This pointer is not a new execution request.
+The closed H1 records retain their original evidence and counters. D0 onward
+does not repeat global-config stability checks, historical drift investigation
+or native H1 replay for the accepted runtime limitations.
 
 Inspection, authoring and independent review are **distinct Codex sessions for
 this audit only**. Never dispatch audit remediation to Antigravity or use the
@@ -129,8 +130,8 @@ evidence-backed resolution or **STOP / OWNER_DECISION_REQUIRED**. No automatic
 severity waiver, historical counter/debt transfer or author claim of independent
 closure. Frozen/API/schema/ADR changes need exact Owner decisions. Assessment
 may propose a batch; only later published Owner selection authorizes edits.
-Never write ungranted statuses, history or ACTIVE. Owner alone stages, commits,
-pushes, tags, releases or creates/merges PRs.
+Never write ungranted statuses, history or ACTIVE. A grant from D0 onward may
+delegate publication through the [reviewed Non-RAG publication workflow](../../../docs/workflow/current-owner-delivery-policy.md#reviewed-non-rag-publication).
 
 An author self-reviews and stops awaiting a different independent reviewer.
 Reviewer checks actual diff, all criteria/actionable findings, evidence and
@@ -161,8 +162,8 @@ and independent re-review; never silently ship a contradictory executable route.
 End with outcome, changed paths, evidence/limitations, findings, Docs Sync,
 counter and one line:
 
-Next step: <Owner or different Codex session> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget>
+Next step: <role> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget> | <new PPV Codex chat: yes/no>
 
 Author -> different authorized independent reviewer. Reviewer -> approved Codex
-author within budget, or accepted review -> Owner publication. Blocked/ungranted
+author within budget, or accepted review -> authorized publisher. Blocked/ungranted
 phase -> Owner. No automatic D0/B0/X launch, ZIP/delivery output or self-acceptance.

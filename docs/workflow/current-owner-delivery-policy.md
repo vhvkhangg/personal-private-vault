@@ -1,4 +1,38 @@
-> **Current Non-RAG audit exception — 2026-11-16:** The [published H1 Owner ratification](../implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-ratification-2026-11-16.md), authorization BF26-NR-H1-HARNESS-REMEDIATION, selects only NRH0-F01–F03, at most 17 existing paths, three named new reports and its exact bounded diagnostics after every entry gate. H1 remains unaccepted/unpublished implementation until a different Codex reviewer and Owner publication. ACTIVE stays NO_ACTIVE_HANDOFF. No D0/B0/X, product, RAG, Frontend, provider or deployment authority follows.
+> **Current Non-RAG audit:** H1 is independently source/test accepted with runtime limitations and [published on main](https://github.com/vhvkhangg/personal-private-vault/commit/e9752aaaaeec2ad97841d826cfb8f1a812727a00). ACTIVE is NO_ACTIVE_HANDOFF. D0, B0 and X require separate grants.
+
+## Reviewed Non-RAG publication
+
+For this pre-D0 workflow package and Non-RAG work from D0 onward, an
+explicit Owner grant may delegate staging, committing and pushing an approved
+change to Codex. The grant names the baseline, exact changed paths and acceptance
+criteria. Independent acceptance, when required, comes from a different Codex
+chat. One grant can authorize publication after acceptance. A publication grant
+does not activate any phase. This section supersedes Owner-only staging, commit
+and push instructions in the Non-RAG preparation package, phase plans and
+templates for expressly delegated work from D0 onward. Direct Git publication
+and the ordinary non-audit workflow remain Owner-only.
+
+The [repository publisher](../../scripts/publish-non-rag.py) uses the normal Git
+hooks and credentials, the single PPV `origin`, and an explicit fast-forward
+update of `refs/heads/main`. The author and reviewer use
+`python scripts/publish-non-rag.py --base <sha> -- <exact paths>` to compute the
+candidate Git tree. This uses a disposable index and local Git objects. The
+reviewer inspects the actual diff and records the accepted tree SHA in chat.
+The authorized publisher checks the grant and review, then runs the same command
+with `--tree <reviewed-tree> --message "<commit message>"` before `--`. The
+publisher checks the reviewed tree and exact paths, stops before staging or
+committing during a Git operation, and rejects unrelated staged changes. The
+commit must have the baseline as its only parent, and the push requires the
+remote ref to still be at that exact baseline. The publisher verifies the
+published SHA against the live remote. The same
+inputs can finish a matching local commit after a push failure. The helper
+checks Git state and content. Authority and review provenance are established
+by the Owner grant and the independent chat.
+
+Keep findings, diffs and the tree SHA together in the existing handback or
+review. Each next step says whether it needs a new Codex chat in PPV. Use the
+current chat for continuing work in the same role and a new chat for independent
+review or a separately granted inspector role.
 
 ## Scope-specific audit precedence
 
@@ -21,14 +55,11 @@ non-audit LOW/INFO backlog and Antigravity workflows. Explicit Phase 15 executio
 or recovery STOPs with immutable historical evidence, without old tools or
 ACTIVE/status mutation. A later phase always needs its own exact published grant.
 
-H1's initial implementation/self-review consumes **0/3** correction pairs; only
-an actual subsequent author correction plus independent re-review consumes one.
-At exhaustion STOP for Owner; no automatic takeover. Keep configuration, trust,
-sandbox and execpolicy source unchanged. Native qualification uses only owned
-external fixtures, the existing authenticated Codex CLI/normal service, at most
-20 invocations and a hard 120s maximum each under ratification §4. Static/parser
-evidence is not native PASS; missing mandatory H-T07/H-T09 prevents acceptance.
-Reachable substantive shared-rule contradictions beyond the 17-path ceiling
+The published [H1 final acceptance amendment](../implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-amendment-final-acceptance-2026-11-16.md)
+records accepted runtime limitations. Reuse the H1 source/test acceptance from
+D0 onward and carry forward the relevant `NOT_VERIFIED` properties. A later
+phase qualifies a runtime dependency only when its own grant relies on it.
+Reachable substantive shared-rule contradictions beyond the approved scope
 require STOP, an exact Owner amendment and independent re-review.
 
 ---
@@ -98,7 +129,7 @@ An unresolved `NOT_VERIFIED` **mandatory** acceptance case blocks regardless of 
 ## Remediation, ownership and Git safety
 
 - Initial Antigravity implementation and self-review **do not consume** remediation rounds. After the **initial Codex slice review** identifies blocking findings, allow up to **three Antigravity correction + independent Codex re-review rounds on that active slice/handoff**. Do not reset by opening a new session or counting each finding separately. Codex `$codex-implementation-takeover` is **last resort**, only after all three independently remain blocked or the Owner expressly authorizes an exceptional bounded takeover; Codex implementer must never self-review its own implementation.
-- Antigravity implements production/tooling; Codex mainly reviews and writes handoffs; ChatGPT handles docs. Agents may read code, run tests and edit within approved scope. **Only Owner** stages, commits, pushes, tags/releases, opens/merges PRs; reject destructive repository commands. Project Codex execpolicy and Antigravity hook are **defense-in-depth only**; their supported Windows enforcement has been independently verified for Maintenance B2's tested paths, but cannot be extrapolated to untrusted/scoped startup, arbitrary wrappers or other clients.
+- In the ordinary non-audit workflow, Antigravity implements production/tooling, Codex reviews and writes handoffs, and ChatGPT handles docs. Agents may read code, run tests and edit within approved scope. Owner stages, commits and pushes ordinary deliveries. Tags, releases, and opening/merging PRs remain Owner-only. Reject destructive repository commands. Project Codex execpolicy and Antigravity hook are **defense-in-depth only**; their supported Windows enforcement has been independently verified for Maintenance B2's tested paths, but cannot be extrapolated to untrusted/scoped startup, arbitrary wrappers or other clients.
 - No separate staging **review session**. This does **not** remove Git's normal staging step (`git add`) performed by the Owner before `git commit`.
 
 ## Tests, watchdog and short output

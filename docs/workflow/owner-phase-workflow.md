@@ -12,9 +12,10 @@ inspector/author/independent-reviewer sessions using the existing
 asset and audit resume. Audit dispatch precedes the ordinary workflow below;
 no automatic ACTIVE handoff, Antigravity audit routing or generic template
 expansion. All actionable in-scope LOW/INFO need resolution or STOP for Owner.
-The [H1 ratification](../implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-ratification-2026-11-16.md)
-grants only bounded harness work; H1 author self-review is not independent
-acceptance/publication and cannot launch D0/B0/X.
+Apply the [reviewed Non-RAG publication workflow](current-owner-delivery-policy.md#reviewed-non-rag-publication)
+when the grant delegates publication to Codex. Every handback states whether
+the next role needs a new Codex chat in PPV. Reuse H1's source/test acceptance
+and carry its runtime limitations forward. D0/B0/X require separate grants.
 
 
 ## Before starting an ordinary non-audit phase or maintenance slice

@@ -464,7 +464,7 @@ class RepositorySafetyPolicyTests(unittest.TestCase):
                 output = build_hook_output("run_command", {"CommandLine": cmd})
                 self.assertEqual("deny", output["decision"])
                 self.assertNotIn("permissionOverrides", output)
-                self.assertIn("agents do not add", output.get("reason", ""))
+                self.assertIn("direct Git add", output.get("reason", ""))
 
     def test_hook_cli_payload_schemas_and_malformed_input(self) -> None:
         import repository_safety

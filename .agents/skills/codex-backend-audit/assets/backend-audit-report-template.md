@@ -40,7 +40,7 @@ resolution or STOP for Owner; author tests cannot independently close findings.
 - Criterion-level evidence and outstanding mandatory gaps:
 - Author self-review: IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW or blocked:
 - Different authorized reviewer only: accepted / changes requested / blocked:
-- Owner publication: subsequent actual-SHA gate, never presumed:
+- Publication authority, publisher and verified remote SHA under [Owner policy](../../../../docs/workflow/current-owner-delivery-policy.md#reviewed-non-rag-publication):
 - X only: NON_RAG_BACKEND_AUDIT_READY requires every final gate; otherwise STOP / OWNER_DECISION_REQUIRED:
 
 ## Docs Sync Check and next step
@@ -48,7 +48,7 @@ resolution or STOP for Owner; author tests cannot independently close findings.
 UPDATED / ALREADY_CONSISTENT / DEFERRED_OUT_OF_SCOPE /
 BLOCKED_OWNER_DECISION / NOT_VERIFIED, with exact paths and remaining evidence.
 
-Next step: <Owner or different Codex session> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget>
+Next step: <role> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget> | <new PPV Codex chat: yes/no>
 
 No automatic next phase, Antigravity audit dispatch, ACTIVE mutation, historical
-Phase 15 rerun, ZIP/delivery output or agent Git publication.
+Phase 15 rerun, ZIP/delivery output or ungranted Git publication.
