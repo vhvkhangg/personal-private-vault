@@ -5,6 +5,19 @@ description: Final-review an implemented active handoff or explicit owner-approv
 
 # Codex Final Review
 
+**Current Non-RAG audit dispatch comes first:** An explicitly granted H/D/B/X
+independent review follows phase/role/baseline/output gates in the
+[current audit skill](../codex-backend-audit/SKILL.md) and exact reviewed contract.
+Return from this ordinary review route: generic templates, Antigravity correction
+routes and automatic status/ACTIVE writes below are not selected. H1 review
+requires a different Codex session, chat only absent a distinct review-path grant.
+Every actionable in-scope LOW/INFO needs resolution or STOP for Owner, as do
+mandatory evidence gaps. Use the audit resume prompt for audit recovery.
+Self-authored changes cannot receive independent acceptance here.
+Unknown/revoked/ambiguous authority means STOP; Phase 15 reruns STOP /
+HISTORICAL_ONLY. Ordinary non-audit reviews below retain existing workflow and
+severity policy.
+
 **CURRENT REVIEW CADENCE:** [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) governs. For **each completed slice**, do one independent Codex slice review; after all slices in a phase, do **one phase final review** consolidating prior accepted evidence and only re-running relevant checks for drift. Also review at milestones after P19/P22 and separate RAG-wide / RAG+Backend audits when authorized. An implementer self-review is **not** an independent review. CRITICAL/HIGH/MEDIUM OPEN/mandatory NOT_VERIFIED block; LOW/INFO are tracked for milestone/audit and do not force per-slice rework. No new feature/pattern can be imposed as a finding without Owner need or reproducible defect. Max **three** Antigravity remediation + independent re-review rounds on active slice before possible Codex takeover. Never require a separate staging-review session; Owner alone performs normal Git add/commit/push.
 
 
@@ -175,8 +188,8 @@ Every invocation must end with a concise **Next step:** statement derived from t
   - **Authorized implementation slice (including maintenance tooling with a valid active implementation handoff):** return to Antigravity `/antigravity-implement-handoff`, or `/antigravity-test-slice` only for expressly test-only scope; require self-review and independent re-review. After all **three** correction/re-review rounds are independently blocked, escalate to Owner for a separately bounded `$codex-implementation-takeover` decision. No automatic takeover.
   - **Phase-final or audit without an active implementation handoff:** record findings at that approved review scope and request an explicit Owner remediation disposition. Do not infer a new slice or feature-phase authorization.
 - `READY FOR OWNER COMMIT` → state the scope-specific next gate:
-  - Phase 15 audit remediation → **do not commit yet**; rerun `$codex-backend-audit` for repository-wide closure and
-    commit only after `BACKEND_AUDIT_READY`;
+  - Historical Phase 15 remediation → STOP / HISTORICAL_ONLY; preserve archived
+    closure evidence. No current closure rerun or ACTIVE mutation;
   - other completed numbered phase → tell the Owner to commit/push the accepted delivery; ChatGPT handles closeout docs as needed. Do not require the Owner to relay routine skill results through ChatGPT for another prompt;
   - milestone-triggered maintenance → tell the owner to commit/push, then rerun `$codex-milestone-review`;
   - other maintenance → follow its canonical scope/workflow.

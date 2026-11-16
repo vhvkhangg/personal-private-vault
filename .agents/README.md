@@ -1,6 +1,13 @@
 # Agents, skills and rules — current owner workflow
 
-**Phase 17 FROZEN; Phase 18 CLOSED; Phase 19 S19-1 ONLY Owner-approved for Codex handoff** ([scope](../docs/implementation/phase-19/owner-authorization-s19-1-2026-10-27.md), [accepted preparation](../docs/implementation/phase-19/preparation-review.md)); [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) remains `NO_ACTIVE_HANDOFF` until that distinct handoff exists. No S19-2+, indexing activation, or direct implementation. Maintenance B/B3 independently reviewed and Owner-published; separate documentation cleanup B is [READY_FOR_OWNER_COMMIT](../docs/implementation/maintenance/2026-10-27-repository-doc-sync/reviews/2026-10-27-cleanup-b-independent-final-review.md), awaiting Owner publication. Canonical: [Owner Delivery Policy](../docs/workflow/current-owner-delivery-policy.md); [ACTIVE handoff](../docs/implementation/handoffs/ACTIVE.md). Older agent status/runbook text remains accessible in the Git history, not as active permission.
+**Current authority:** [Owner policy](../docs/workflow/current-owner-delivery-policy.md)
+and [ACTIVE](../docs/implementation/handoffs/ACTIVE.md). V1 is published/CLOSED;
+ACTIVE is NO_ACTIVE_HANDOFF, P17 frozen, P18 closed, S19-2 suspended and H1-F paused.
+The [2026-11-16 H1 ratification](../docs/implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-ratification-2026-11-16.md)
+grants only bounded harness remediation after entry gates. H1 is not yet
+independently accepted/published; no D0/B0/X launch follows. Older
+S19-1/publication-pending checkpoints are historical, not current permission.
+
 
 ## Roles and gates
 
@@ -9,11 +16,17 @@
 - CRITICAL/HIGH/MEDIUM open defects or mandatory evidence NOT_VERIFIED block `READY_FOR_OWNER_COMMIT`; LOW/INFO backlog is consolidated at milestone/audit.
 - Only Owner runs Git stage/commit/push/tag/PR publication. Agents do not perform these operations or a separate staged-tree review. Project hook/execpolicy are not proof against every shell/connector bypass until actual Windows integration verification.
 
+**Current Non-RAG audit exception:** only a phase-specific Owner grant selects
+distinct Codex inspector/author/independent-reviewer sessions. Use the existing
+[audit skill](skills/codex-backend-audit/SKILL.md), its skill-local asset and audit
+recovery route; no Antigravity audit dispatch. Every actionable in-scope LOW/INFO
+needs resolution or STOP for Owner. Ordinary roles/budgets/backlog stay unchanged.
+
 ## Entry points
 
 - Antigravity: `.agents/agents/backend-implementer/agent.md`, `.agents/skills/antigravity-implement-handoff/SKILL.md` and mandatory `.agents/skills/antigravity-self-review/SKILL.md`.
 - Optional **read-only** targeted architecture audit: `.agents/agents/architecture-auditor/agent.md`; not an automatic step for every slice.
-- Codex: `codex-pre-handoff-review`, `codex-create-handoff`, `codex-final-review` (slice and phase final), `codex-milestone-review` and `codex-review-coverage`. Historical `codex-backend-audit` remains for accepted Phase 15; takeover only after three failed correction reviews.
+- Codex: `codex-pre-handoff-review`, `codex-create-handoff`, `codex-final-review` (slice and phase final), `codex-milestone-review` and `codex-review-coverage`. `codex-backend-audit` supports only explicitly granted current Non-RAG H/D/B/X roles; Phase 15 execution STOPs. Ordinary takeover still needs its own authority.
 - Reuse actual applicable Java/Python/SOLID, design-pattern, Modulith, persistence, security and testing skills. Do not add an agent or subsystem because it appears in an old ADR.
 - Documentation authoring: `.agents/skills/documentation-writing/SKILL.md`, `docs/templates/`. Complete skill/rule/agent inventory: [maintenance harness audit](../docs/implementation/maintenance/2026-10-25-post-phase18-simplification/harness-review-2026-10-25.md).
 

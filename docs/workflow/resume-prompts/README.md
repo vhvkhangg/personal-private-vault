@@ -18,7 +18,7 @@ The shared [Documentation synchronization contract](../documentation-synchroniza
 | `antigravity-implement-handoff` | [antigravity-implement-handoff](./antigravity-implement-handoff.md) | Antigravity |
 | `antigravity-self-review` | [antigravity-self-review](./antigravity-self-review.md) | Antigravity |
 | `antigravity-test-slice` | [antigravity-test-slice](./antigravity-test-slice.md) | Antigravity |
-| `codex-backend-audit` | [codex-backend-audit](./codex-backend-audit.md) | Codex |
+| `codex-backend-audit` | [codex-backend-audit](./codex-backend-audit.md) | Exact current Non-RAG H/D/B/X Codex role; includes HR/DR/BR review recovery |
 | `codex-create-handoff` | [codex-create-handoff](./codex-create-handoff.md) | Codex |
 | `codex-final-review` | [codex-final-review](./codex-final-review.md) | Codex |
 | `codex-implementation-takeover` | [codex-implementation-takeover](./codex-implementation-takeover.md) | Codex |
@@ -26,6 +26,6 @@ The shared [Documentation synchronization contract](../documentation-synchroniza
 | `codex-pre-handoff-review` | [codex-pre-handoff-review](./codex-pre-handoff-review.md) | Codex |
 | `codex-review-coverage` | [codex-review-coverage](./codex-review-coverage.md) | Codex |
 
-**Note:** `codex-review-coverage` is a helper called by another Codex review; its recovery prompt resumes the parent, not an unauthorized independent gate. `antigravity-self-review` resumes implementer QA and returns to its parent. `codex-backend-audit` is the historical Phase 15 route, not the future RAG/combined audits.
+**Note:** `codex-review-coverage` is a helper called by another Codex review; its recovery prompt resumes the parent, not an unauthorized independent gate. `antigravity-self-review` resumes implementer QA and returns to its parent. `codex-backend-audit` resumes only the exact authorized current Non-RAG phase/role and saved counter; Phase 15 execution/recovery STOPs. Audit roles use that prompt before ordinary create-handoff/final-review/COMMON role dispatch. A scoped audit grant overrides only ordinary Antigravity routing, never evidence, safety or independent-review requirements. No next-phase/RAG/combined-audit grant follows.
 
 [Common recovery principles](./COMMON.md) distinguish the command result, review evidence, and current execution gate. Avoid duplicating these longer principles in every skill's startup context.

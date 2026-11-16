@@ -1,56 +1,54 @@
-# Phase 15 Backend Audit — <date / iteration>
+# Current Non-RAG audit — <exact phase / role / date>
 
-Status: `<OWNER_DECISION_REQUIRED | REMEDIATION_REQUIRED | BACKEND_AUDIT_READY>`
+Use only at an expressly authorized output path. Omit irrelevant fields with a
+reason; this asset grants no report/execution/publication permission. For H1 use
+its exact three records, not an additional report.
 
-## Baseline
+## Authority, baseline and entry gates
 
-- Git commit / working-tree state:
-- Java:
-- Maven:
-- PostgreSQL/Testcontainers:
-- Object-storage test environment:
+- Current Owner authorization ID, canonical path, revision and actual published SHA:
+- Mode current-non-rag, exact H/D/B/X phase, session role/provenance and overlap:
+- Required preparation, prior independent acceptance and publication:
+- Origin, branch, HEAD, origin/main, permitted remote qualification:
+- Tracked/staged/untracked/relevant ignored state and qualified overlay hashes:
+- Exact source/test/report/receipt paths; no-clobber, fixture/network/timeout limits:
+- ACTIVE, competing/revoked authority, correction budget and failing gates:
 
-## Evidence executed
+## Coverage and evidence
 
-| Evidence | Command / tool version | Result | Notes |
-| --- | --- | --- | --- |
-| Full build/tests |  |  |  |
-| Compiler warnings |  |  |  |
-| Dependency analysis |  |  |  |
-| Bug static analysis |  |  |  |
-| PMD/static rules |  |  |  |
-| Spelling/terminology |  |  |  |
-| CPD/duplication |  |  |  |
-| Coverage navigation |  |  |  |
-| Modulith architecture |  |  |  |
-| OpenAPI inspection |  |  |  |
-| Docs/repository checks |  |  |  |
+| Path / criterion / scenario | Blob or SHA-256 / depth | FACT / runtime / static inference / NOT_VERIFIED | Command, version, exit, duration, receipt | Fresh / applicable reused / limitation |
+|---|---|---|---|---|
+| | | | | |
 
-## Audit coverage
+Account for every granted path/criterion and justified exclusions. Model
+preference, parser and unit results do not prove native hook enforcement.
+Never double-count overlapping runs.
 
-Record `PASS`, `FINDINGS`, or `LIMITATION` for every mandatory dimension in the Phase 15 README.
+## Findings and disposition
 
-## Findings
+| Stable ID / type / severity / confidence | Authority and line/SHA | Observed vs expected / reproduction / root cause | Consequence / minimal remedy / frozen impact | Verification / independent disposition / batch |
+|---|---|---|---|---|
+| | | | | |
 
-### BA15-1 — <title>
+Preserve existing IDs, failures and counters. Distinguish optional proposals,
+duplicates and non-defects. Every actionable in-scope LOW/INFO also requires
+resolution or STOP for Owner; author tests cannot independently close findings.
 
-- Severity: `<Critical | High | Medium | Low>`
-- Category:
-- Evidence:
-- Consequence:
-- Required correction:
-- Verification/regression evidence:
-- Frozen baseline impact: `<none | owner approval required>`
-- Status: `<OPEN | CLOSED | OWNER_ACCEPTED>`
+## Author or reviewer result
 
-## Observations / tool limitations
+- Exact changed-file manifest and before/after hashes; no unapproved path:
+- Criterion-level evidence and outstanding mandatory gaps:
+- Author self-review: IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW or blocked:
+- Different authorized reviewer only: accepted / changes requested / blocked:
+- Owner publication: subsequent actual-SHA gate, never presumed:
+- X only: NON_RAG_BACKEND_AUDIT_READY requires every final gate; otherwise STOP / OWNER_DECISION_REQUIRED:
 
-Non-actionable items only. Do not mix observations into the remediation handoff.
+## Docs Sync Check and next step
 
-## Frozen-baseline decisions
+UPDATED / ALREADY_CONSISTENT / DEFERRED_OUT_OF_SCOPE /
+BLOCKED_OWNER_DECISION / NOT_VERIFIED, with exact paths and remaining evidence.
 
-Record owner approval/rejection and scope when applicable.
+Next step: <Owner or different Codex session> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget>
 
-## Final disposition
-
-Explain why the repository is `OWNER_DECISION_REQUIRED`, `REMEDIATION_REQUIRED`, or `BACKEND_AUDIT_READY`.
+No automatic next phase, Antigravity audit dispatch, ACTIVE mutation, historical
+Phase 15 rerun, ZIP/delivery output or agent Git publication.

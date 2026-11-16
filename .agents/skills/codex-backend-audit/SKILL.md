@@ -1,217 +1,168 @@
 ---
 name: codex-backend-audit
-description: Perform the Phase 15 comprehensive audit of the complete non-RAG backend (Phases 0–14), including correctness, architecture, SOLID/pattern fit, overengineering, duplication, validation, logging, OpenAPI, persistence, tests, docs, diagrams, static diagnostics, and repository hygiene; create a bounded remediation handoff only when findings are authorized.
+description: Route an explicitly Owner-authorized current Non-RAG H/D/B/X audit, bounded Codex remediation or separate independent review; refuse historical Phase 15 execution and require exact phase, baseline, role, paths and evidence permissions.
 ---
 
 # Codex Backend Audit
 
-Invoke with `$codex-backend-audit`.
+Invoke with $codex-backend-audit. The only active mode is current-non-rag.
+This skill supplies **no execution grant**. A report, empty ACTIVE register or
+successful test never authorizes the next audit phase.
 
-This is the dedicated Phase 15 repository-wide backend quality gate. Codex may inspect broadly and run audit tools,
-but must not implement production fixes.
+## First dispatch: historical refusal, then exact authority
 
-## Canonical scope
+An explicit phase-15 / Phase 15 execution or recovery request returns
+**STOP / HISTORICAL_ONLY** immediately. Do not substitute current mode, run old
+tools, create a remediation handoff, change ACTIVE/status, or rewrite evidence.
+Refer to the immutable [Phase 15 final acceptance](../../../docs/implementation/phase-15/reviews/2026-10-08-phase-15-final-codex-acceptance.md)
+and Git history for the former skill. BACKEND_AUDIT_READY is archival, not an
+outcome this skill may issue. Missing/unknown mode or phase also STOPs.
 
-Read first:
+For a current request, read the exact current Owner grant **before** diagnostics
+or report generation, root/scoped AGENTS, [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md),
+[ACTIVE](../../../docs/implementation/handoffs/ACTIVE.md), and the grant's
+preparation/review/handoff and latest handback. Governing design:
+[Owner contract](../../../docs/implementation/maintenance/2026-11-15-bf26-nr-audit-preparation/owner-contract.md)
+and [Codex-only session workflow](../../../docs/implementation/maintenance/2026-11-15-bf26-nr-audit-preparation/codex-only-workflow.md).
+Preparation headings are not grants. Later ratifications supersede only their
+express scope; substantive contradiction requires STOP.
 
-- `docs/implementation/phase-15/README.md`
-- `docs/implementation/phase-15/audit-status.md`
-- root `AGENTS.md`
-- `docs/roadmap.md`
-- `docs/implementation/handoffs/ACTIVE.md`
+Require and record all of these with exact source paths:
 
-The Phase 15 README is the canonical **historical** audit contract. Do not shrink its mandatory dimensions. Apply [`codex-review-coverage`](../codex-review-coverage/SKILL.md) to record explicit evidence/N/A/NOT_VERIFIED for all 29 categories. This skill is not a fresh Phase 17–22 audit launcher; full later system audits need their own owner-approved scope. The additional checklist is prospective reviewer guidance, not proof the completed 2026-10-07 audit actually performed each check.
+1. **Authority:** dated, current, Owner-published authorization ID/revision and
+   exact phase; independent preparation prerequisite; no revocation, supersession,
+   conflicting approval or competing live handoff. Discover the named canonical
+   maintenance decision even with empty ACTIVE. Draft, CHANGES_REQUESTED
+   preparation and completed historical approval are insufficient.
+2. **Baseline:** approved origin, branch, HEAD, origin/main and published source
+   SHA under the grant's comparison rule; tracked/staged/untracked and relevant
+   ignored inputs, approved overlay hashes and prior receipts. Network checks
+   need their own exact permission. No fetch/pull or implicit sync. A behind/wrong
+   baseline is STOP / BASELINE_MISMATCH, not missing approval.
+3. **Role:** one exact phase/role below; session identity/provenance where
+   observable; author/reviewer overlap. An author cannot independently accept
+   affected work after compaction, a second prompt or role relabeling. Unknown
+   independence is NOT_VERIFIED.
+4. **Operations/outputs:** literal source/test/report/receipt paths, allowed
+   reads/writes/commands, frozen exceptions, network/provider/fixture permissions,
+   hard timeouts and finite correction budget. Verify parents, no-clobber, ignore
+   rules and effective client safety. Wrong output, missing mandatory dependency
+   or unsafe diagnostic means STOP.
+5. **Prerequisites:** actual prior independent acceptances and publication required
+   by this phase's grant. D0/B0 cannot execute before independently accepted and
+   Owner-published H1. Planned publication/self-review is insufficient. H1's
+   expressly ratified fixture qualification is test-only: synthetic grants there
+   never authorize a real H/D/B/X audit.
 
-## Preconditions
+No approval -> STOP / OWNER_APPROVAL_REQUIRED; competing approvals ->
+STOP / AMBIGUOUS_SCOPE. State the exact failing gate and minimum Owner action.
+Do not reset/stash/checkout/clean, modify protections, create branches/worktrees
+or activate ACTIVE to manufacture eligibility. Full access is capability only.
 
-Before the initial audit:
+## Phase and session boundary
 
-- Phase 14 is `COMPLETE — FROZEN`;
-- implementation commit `3bb3f2e78a38eb66bec955219ced634d3cfddd9d` is present in history;
-- closeout commit `0a8f3d101f39dc8cf8f5e1d6dcc46d29e6182606` is present in history;
-- Phase 15 `preparation-review.md` is `READY FOR AUDIT`;
-- Phase 15 preparation is owner committed/pushed;
-- `ACTIVE.md` is `NO_ACTIVE_HANDOFF` unless this invocation is the closure re-audit immediately after a Phase 15
-  remediation handoff reached final acceptance.
+| Phase | Exact session role | Only under its own exact grant | Handback |
+|---|---|---|---|
+| H0 | Harness inspector | Read-only harness assessment; named reports/receipts | AUDIT_REPORTED or blocked |
+| H1 | Harness remediation author | Selected harness findings and literal source/test/docs paths | IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW or BLOCKED_H1 |
+| HR | Independent harness reviewer | H1 diff/evidence; chat unless a distinct report path is granted | H1_ACCEPTED / READY_FOR_OWNER_COMMIT, H1_CHANGES_REQUESTED or BLOCKED_H1_REVIEW |
+| D0 | Docs/design inspector | All scoped docs inventory, product/design/provenance assessment; reports only | AUDIT_REPORTED or blocked |
+| D1 | Docs remediation author | Owner-selected current-doc/ADR/derived changes | IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW or blocked |
+| DR | Independent docs reviewer | D1 diff/evidence; no implementation | ACCEPTED, CHANGES_REQUESTED or blocked |
+| B0 | Non-RAG Backend inspector | All scoped source/config/test/DB/integration assessment and allowed diagnostics; reports only | AUDIT_REPORTED or blocked |
+| B1 | Backend remediation author | Selected finding batch, exact source/test/docs and frozen exceptions | IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW or blocked |
+| BR | Independent Backend reviewer | B1 diff and qualified fresh/reused evidence; no implementation | ACCEPTED, CHANGES_REQUESTED or blocked |
+| X | Independent reconciliation reviewer | Final published H/D/B ledger and cross-layer contracts; named reports only | NON_RAG_BACKEND_AUDIT_READY only with every final gate; otherwise STOP / OWNER_DECISION_REQUIRED |
 
-If preparation review is not `READY FOR AUDIT` or preparation is not committed/pushed, stop. Do not silently audit a moving uncommitted preparation baseline.
+H0/H1 bootstrap use their direct published contracts, not a retroactive rerun
+through this skill. HR has its separate review authorization.
+For H1, the [2026-11-16 ratification](../../../docs/implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-ratification-2026-11-16.md)
+controls its 17-path ceiling, three reports, 20/120s native limit and initial
+0/3 correction counter. This pointer is not a new execution request.
 
-## Context strategy
+Inspection, authoring and independent review are **distinct Codex sessions for
+this audit only**. Never dispatch audit remediation to Antigravity or use the
+takeover skill to invent author authority. Ordinary non-audit Antigravity
+implementation/self-review/review workflows remain unchanged.
 
-This audit is intentionally broader than normal phase work.
+## Scope-specific execution and evidence
 
-- Use Graphify for navigation if available, but verify every material conclusion in source/canonical docs.
-- Use targeted subagent/read-only architecture-auditor help when useful.
-- It is acceptable to scan all production Java, tests, migrations, current-state docs, agent/governance files, and
-  repository metadata needed by the audit.
-- Do not treat old review text as current-state authority when a newer canonical source exists.
+Use the exact executable contract and existing
+[skill-local report asset](assets/backend-audit-report-template.md) only at an
+expressly granted path; no extra reports to fill a template. H1 uses its exact
+three records and chat-only independent review. Audit dispatch returns here
+before generic handoff/review templates and ordinary Antigravity routes. No
+ACTIVE handoff creation unless a separate exact grant permits/requires that path.
 
-## Mandatory audit coverage
+- **H:** source/caller/reference graph, instructions/recovery, evaluator/adapters,
+  supported native runtime and ordinary-workflow regressions.
+- **D:** every granted docs path with review depth, provenance, real product needs
+  and KEEP/REUSE/SIMPLIFY/REMOVE/DEFER reasoning under the approved docs plan.
+- **B:** every granted Non-RAG source/integration boundary; correctness, privacy,
+  HTTP/OpenAPI, persistence/transactions, ownership, performance, duplication,
+  overengineering, tests and operations. Use the approved Backend plan and
+  risk-applicable codex-review-coverage categories. Tests alone are not an audit.
+- **X:** resolve provisional docs conclusions against final published source;
+  qualify reused evidence by source/dependencies without double counting.
 
-Complete every dimension in the Phase 15 README, including explicitly:
+Inventory every in-scope path at approved SHA with blob/hash, depth, evidence or
+exclusion reason. Choose the smallest sufficient existing mechanism. No full
+Maven/static/provider run, install, dependency or configuration change without
+exact permission. Use the existing bounded-command runner for permitted long
+commands, shorter phase caps where required, owned external fixtures and fresh
+ignored receipts without secrets. Unavailable native/model/hook/trust evidence
+stays NOT_VERIFIED. Parser results, configured model and static inference do not
+prove runtime enforcement. No RAG/Frontend/provider/deployment authority.
 
-1. clean build/full tests/compiler/static diagnostics;
-2. domain/business correctness;
-3. SOLID/cohesion/coupling/programming principles;
-4. design-pattern fitness;
-5. overengineering/accidental complexity/YAGNI violations;
-6. duplicate/competing implementations;
-7. validation/error semantics;
-8. logging/exceptions/observability/privacy;
-9. REST/OpenAPI/Swagger correctness and description completeness;
-10. authentication/security/privacy;
-11. JPA/Flyway/PostgreSQL/DBML/query/index/schema consistency;
-12. transaction/concurrency/external-I/O failure boundaries;
-13. concrete performance/resource risks;
-14. test sufficiency/reliability;
-15. **deep package/repository/file structure and responsibility audit**: inventory the actual complete subtree including classes/interfaces/exceptions/enums/commands/views, package visibility, coherent owner grouping, cross-module accidental reuse, misplaced or competing `ApiResponse`/shared transport types (respect ADR-0016), and stale `.gitkeep`/generated/duplicate files;
-16. docs/spelling/current-state drift and architecture diagrams;
-17. configuration/operational consistency.
+## Findings, remediation and final gates
 
-Do not mark the audit complete from a test run alone.
+Follow the [findings contract](../../../docs/implementation/maintenance/2026-11-15-bf26-nr-audit-preparation/findings-and-remediation-contract.md).
+Keep existing IDs such as NRH0-F01–F03; new IDs follow the grant (normally
+NR-H/D/B/X-###). Record type, severity, confidence, authority, path/line/SHA,
+falsifiable observed vs expected behavior, root cause, consequence, smallest
+remedy, regression evidence, frozen impact and independent disposition.
+Distinguish FACT, verified runtime, static inference, assumption and NOT_VERIFIED.
+Taste, duplicates and optional ideas are not defects.
 
-## Audit tooling
+Every substantiated actionable in-scope finding **including LOW/INFO** needs
+evidence-backed resolution or **STOP / OWNER_DECISION_REQUIRED**. No automatic
+severity waiver, historical counter/debt transfer or author claim of independent
+closure. Frozen/API/schema/ADR changes need exact Owner decisions. Assessment
+may propose a batch; only later published Owner selection authorizes edits.
+Never write ungranted statuses, history or ACTIVE. Owner alone stages, commits,
+pushes, tags, releases or creates/merges PRs.
 
-Use the strongest compatible evidence reasonably available. Expected categories include:
+An author self-reviews and stops awaiting a different independent reviewer.
+Reviewer checks actual diff, all criteria/actionable findings, evidence and
+mandatory native gaps. Corrective pairs consume only the expressly granted
+batch budget after actual correction plus independent re-review; crashes/retries
+are not rounds. At exhaustion STOP, no automatic takeover. Independent acceptance
+precedes Owner publication and actual-SHA qualification. X cannot issue readiness
+with unresolved actionable findings, mandatory NOT_VERIFIED or unreconciled
+current contracts.
 
-- Maven clean verify/full test suite;
-- compiler warnings;
-- Maven dependency analysis;
-- SpotBugs or compatible equivalent;
-- PMD or compatible equivalent;
-- spelling/terminology checker for current code/docs when compatible;
-- CPD or compatible duplication analysis;
-- JaCoCo or compatible coverage navigation;
-- Spring Modulith verification;
-- PostgreSQL/Testcontainers and MinIO/S3 integration evidence;
-- generated OpenAPI inspection;
-- docs/link/whitespace/repository hygiene checks.
+## Interruption, Docs Sync and next action
 
-Record exact command and tool/plugin version for every tool actually used. Never claim a tool passed when it was not
-run. If a tool is incompatible with Java 25/Spring Boot/current bytecode or unavailable in the environment, classify
-that as a tooling limitation and use a compatible substitute/manual review rather than disabling correct code or
-adding blanket suppressions.
+Use the [audit resume prompt](../../../docs/workflow/resume-prompts/codex-backend-audit.md)
+for **all audit roles**, including HR/DR/BR reached via final-review. Generic
+create-handoff/final-review recovery dispatch is not selected for this audit.
+Recover the same grant, phase, role, completed step, hashes, actual exits/cleanup,
+outputs and counter. Reuse applicable evidence; never restart an old audit,
+overwrite receipts or treat a crash as approval/a new round.
 
-Do not permanently modify `pom.xml`, CI, suppression files, or production configuration merely to run the audit.
-Permanent tooling changes are remediation work and require an explicit finding showing durable value.
+Apply [Docs Sync](../../../docs/workflow/documentation-synchronization.md) within
+the exact grant. Its ordinary role tables/templates cannot enlarge audit output
+permission. Record UPDATED / ALREADY_CONSISTENT / DEFERRED_OUT_OF_SCOPE /
+BLOCKED_OWNER_DECISION / NOT_VERIFIED in the allowed handback or chat. If a
+reachable shared rule still substantively conflicts and cannot be reconciled
+inside the allowlist, STOP with the minimum additional path for Owner amendment
+and independent re-review; never silently ship a contradictory executable route.
 
-## Finding standard
+End with outcome, changed paths, evidence/limitations, findings, Docs Sync,
+counter and one line:
 
-Use `assets/backend-audit-report-template.md`.
+Next step: <Owner or different Codex session> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget>
 
-Every actionable finding must contain:
-
-- stable ID `BA15-N`;
-- Critical/High/Medium/Low severity;
-- category;
-- exact evidence/path/symbol/contract;
-- consequence;
-- smallest proportionate correction;
-- regression/verification requirement;
-- `Frozen baseline impact: none | owner approval required`.
-
-Use `Observation` for non-actionable style preference, accepted tradeoff, tool/environment limitation, or future idea.
-Observations never enter the remediation handoff.
-
-Do not inflate severity. Do not manufacture Low findings from formatting or taste.
-
-## Overengineering calibration
-
-A finding needs concrete unnecessary complexity. Examples include a redundant single-implementation interface,
-pattern/hierarchy with no current variant/boundary benefit, pass-through layer with no policy, speculative extension
-point, generic base abstraction hiding domain behavior, or duplicate infrastructure wrapper.
-
-Do **not** flag an interface merely because it has one implementation when it is a real module/provider/test boundary.
-Do not collapse layers that encode transaction, security, ownership, persistence, or external-provider boundaries.
-
-## Frozen-baseline gate
-
-If any actionable finding requires changing frozen Schema v1, module boundary, accepted ADR/architecture, public API
-compatibility, or frozen business behavior:
-
-1. record the finding and realistic options;
-2. set `audit-status.md` to `OWNER_DECISION_REQUIRED`;
-3. write the dated report;
-4. do **not** create/modify an implementation handoff;
-5. return `OWNER_DECISION_REQUIRED`.
-
-After the owner records a decision, rerun this skill so all authorized findings can be consolidated into one handoff.
-
-## When remediation is required
-
-If actionable findings exist and none is blocked on owner approval:
-
-1. write/update the dated audit report;
-2. set `audit-status.md` to `REMEDIATION_REQUIRED`;
-3. require `ACTIVE.md` to be `NO_ACTIVE_HANDOFF` before creating the handoff;
-4. create exactly one Phase 15 remediation handoff in `docs/implementation/handoffs/ACTIVE.md` using the normal handoff
-   template and status `READY_FOR_IMPLEMENTATION`;
-5. include only actionable findings from the report;
-6. preserve all frozen baselines not explicitly owner-approved;
-7. specify per-finding acceptance tests/evidence and explicit non-goals;
-8. reference relevant existing engineering skills rather than inventing new agents/patterns.
-
-Return `REMEDIATION_REQUIRED` and direct the owner to Antigravity `/antigravity-implement-handoff`.
-
-Codex still writes no production code.
-
-## Closure re-audit
-
-After Antigravity remediation and `$codex-final-review` accepts the Phase 15 handoff, rerun this skill **before owner
-commit/push**.
-
-For closure:
-
-- verify every prior `BA15-N` finding against current code/tests/docs;
-- rerun the necessary full/static evidence, not only focused tests;
-- inspect for regressions/newly exposed findings;
-- keep a single evolving Phase 15 remediation handoff; if new/remnant findings exist, append them to the same
-  handoff and set it back to `CHANGES_REQUESTED` rather than creating a second handoff;
-- do not declare ready merely because the handoff-specific final review passed.
-
-If new/remnant findings exist, continue the remediation loop through the same handoff.
-
-## BACKEND_AUDIT_READY
-
-Return `BACKEND_AUDIT_READY` only when:
-
-- every mandatory audit dimension was actually covered;
-- no unresolved actionable finding remains unless explicitly owner-accepted with recorded rationale;
-- all required build/test/static/architecture evidence is green or any unavoidable tool limitation is transparently
-  recorded and compensated by other evidence;
-- `ACTIVE.md` is `NO_ACTIVE_HANDOFF`;
-- current-state docs/diagrams/schema/API/package-tree status match reality.
-
-Then:
-
-1. if a Phase 15 remediation handoff exists, archive its final accepted form as `docs/implementation/phase-15/handoff.md`;
-2. reset `docs/implementation/handoffs/ACTIVE.md` to `NO_ACTIVE_HANDOFF`;
-3. set `audit-status.md` to `BACKEND_AUDIT_READY`;
-4. write the final dated audit/re-audit report;
-5. provide exactly one Conventional Commit message for the complete Phase 15 audit/remediation slice;
-6. do not commit/push.
-
-## Required final response — next step
-
-Every invocation ends with exactly one clear **Next step:**
-
-- prerequisite failure → state the exact prerequisite;
-- `OWNER_DECISION_REQUIRED` → tell the owner to decide the listed frozen-baseline items, record approval/rejection,
-  then rerun `$codex-backend-audit`;
-- `REMEDIATION_REQUIRED` → tell the owner to run Antigravity `/antigravity-implement-handoff`;
-- `BACKEND_AUDIT_READY` → tell the owner to commit/push using the provided commit message, then give ChatGPT the
-  latest package for Phase 15 closeout only; Phase 16/17 preparation remains owner-gated.
-
-## Documentation synchronization checkpoint — Maintenance B3 amendment
-
-Follow the shared [Documentation synchronization contract](../../../docs/workflow/documentation-synchronization.md) **at this skill's handoff/review boundary**, within Owner-approved scope and without a repository-wide cleanup. Apply this only under an independently authorized audit scope (the existing Phase 15 audit is historical). Check relevant current docs and diagrams against source/evidence; keep historical audit records immutable. Report out-of-scope discrepancies for a later approved cleanup rather than reopening a frozen phase. Record the concise **Docs Sync Check** in the existing handback/review artifact (or identify why no docs are affected). Keep the **Next step** routed to the exact remaining documentation action when necessary.
-
-## Forward next action and interruption recovery — Maintenance B3
-
-At the end of **every completed, blocked or interrupted invocation**, output one concrete line with all fields:
-
-`Next step: <application/person> | <exact skill command or Owner action> | <scope + canonical artifact> | <gate/prerequisite> | <remediation or takeover counter, if applicable>`
-
-**Route for this skill:** Historical Phase 15 audit mode only: OWNER_DECISION_REQUIRED -> Owner resolves documented decisions, then repeat `$codex-backend-audit`; REMEDIATION_REQUIRED with approved active handoff -> Antigravity `/antigravity-implement-handoff`; BACKEND_AUDIT_READY -> Owner commit/push. Do not use this historical skill for a new RAG-wide or combined audit without an approved scope.
-
-**Interrupted session:** the Owner may paste the English [resume prompt](../../../docs/workflow/resume-prompts/codex-backend-audit.md). Resume only from inspected files/evidence, with the current approved scope and existing counter; capacity/tool errors do not authorize a new round or reset evidence. Do not overwrite logs or bypass native safety hooks. A standalone skill command (without a special prompt) remains sufficient for an uninterrupted run.
+Author -> different authorized independent reviewer. Reviewer -> approved Codex
+author within budget, or accepted review -> Owner publication. Blocked/ungranted
+phase -> Owner. No automatic D0/B0/X launch, ZIP/delivery output or self-acceptance.

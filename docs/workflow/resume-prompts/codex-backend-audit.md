@@ -1,25 +1,27 @@
-# Resume prompt — `codex-backend-audit`
+# Resume prompt — codex-backend-audit
 
-**Application:** Codex  
-**Invocation:** `$codex-backend-audit`  
-**Use only after an interruption.** This file is a prompt for the existing skill, not a new skill or permission.
+**Application:** Codex. **Invocation:** $codex-backend-audit.
+For interrupted **current Non-RAG H/D/B/X** work, including independent audit
+review reached via final-review. No new permission or correction round.
 
 ## Copy/paste prompt (English)
 
-```text
-Use `$codex-backend-audit` to RESUME the interrupted, previously authorized workflow. Do not restart it as a new task.
+> Use $codex-backend-audit to RESUME the same previously Owner-authorized current-non-rag phase and role. Do not restart as a new task. Explicit Phase 15 execution/recovery must STOP / HISTORICAL_ONLY with immutable Phase 15 evidence; no old tools, ACTIVE/status changes or substitution of current mode.
+>
+> Read the current audit skill, exact published Owner grant and reviewed executable, root/scoped AGENTS, Owner policy, ACTIVE, latest independent review/handback, HEAD/origin-main and permitted publication evidence. Qualify tracked/staged/untracked/relevant ignored inputs and partial-output hashes. Empty ACTIVE does not negate a specific grant; historical CLOSED, revoked, conflicting or unreviewed scope grants nothing. Wrong baseline/phase/role/output, missing dependency or mandatory safety evidence means STOP with the exact gate.
+>
+> Recover the verified completed step, remaining cases, command exits/cleanup, immutable receipts and SAME counter. Reuse only applicable evidence and rerun invalidated/incomplete steps into fresh allowed receipts. No overwritten reports/logs. Capacity errors, compaction, failed startup and interrupted tools are not independent review or corrective pairs.
+>
+> Preserve this audit's distinct Codex inspector/author/independent reviewer sessions. Self-check is not independent acceptance. No Antigravity audit route or automatic takeover. Ordinary non-audit workflows remain unchanged; their generic resume role/template dispatch is not selected here. Different reviewers need their own report permission: chat only absent a distinct path grant. Author recovery stays inside its source list and remaining budget.
+>
+> Recover the scoped Docs Sync Check using docs/workflow/documentation-synchronization.md: UPDATED, ALREADY_CONSISTENT, DEFERRED_OUT_OF_SCOPE, BLOCKED_OWNER_DECISION or NOT_VERIFIED. Current audit authority controls output ownership; generic templates grant no extra file/ZIP. If a reachable shared rule cannot be reconciled inside the allowlist, STOP for exact Owner amendment and independent re-review. Do not edit COMMON/templates implicitly.
+>
+> Do not change trust/configuration/sandbox/execpolicy or bypass hooks. Broken mandatory safety or missing native evidence means STOP / OWNER_DECISION_REQUIRED, never inferred PASS. Keep the grant's network/fixture/hard timeout limits. No destructive Git, stage/commit/push/tag/PR, branch/worktree, delivery packaging, frozen/history rewrite or next phase.
+>
+> Report outcome, exact artifacts/changes, actual checks/results, remaining findings/NOT_VERIFIED, Docs Sync and counter. Author -> DIFFERENT authorized reviewer; accepted independent review -> Owner publication, never D0/B0/X. End: Next step: <Owner or different Codex session> | <exact approved action> | <phase + canonical contract> | <gate> | <correction budget>.
 
-First verify the latest local HEAD, `AGENTS.md`, `docs/implementation/handoffs/ACTIVE.md`, the applicable Owner-approved phase/maintenance scope, the exact handoff/review, and any partial changes or receipts from the interrupted session. Read the parent/source files rather than trusting the prior session's narration. Classify which steps are completed, pending, invalidated by drift, or blocked.
-
-Read `docs/workflow/resume-prompts/COMMON.md` and `docs/workflow/documentation-synchronization.md` from the repository root. Recover the last valid scope-specific Docs Sync Check, inspect only documentation changed or invalidated since that checkpoint, and record UPDATED, ALREADY_CONSISTENT, DEFERRED_OUT_OF_SCOPE, BLOCKED_OWNER_DECISION, or NOT_VERIFIED as applicable. Never use this resume prompt to authorize repository-wide cleanup B.
-
-Continue **only** pending authorized work. Reuse verified evidence without overwriting historical logs. If a command was interrupted, confirm actual exit/cleanup before rerunning through the approved watchdog into a fresh evidence directory. Keep the same slice/remediation/Owner-authorized takeover attempt counts unless an actual completed and independently reviewed corrective round advances them.
-
-Preserve the current skill's role and boundaries; do not implement during a review, never perform independent acceptance of your own implementation, do not stage/commit/push/tag/PR, and do not open a phase or handoff from an old TODO. If a CLI safety hook, project trust, config or permission guard is broken, STOP for diagnostics rather than bypassing it.
-
-Apply this **scope-specific next-action routing**: Historical Phase 15 audit mode only: OWNER_DECISION_REQUIRED -> Owner resolves documented decisions, then repeat `$codex-backend-audit`; REMEDIATION_REQUIRED with approved active handoff -> Antigravity `/antigravity-implement-handoff`; BACKEND_AUDIT_READY -> Owner commit/push. Do not use this historical skill for a new RAG-wide or combined audit without an approved scope.
-
-When finished, report only: outcome/disposition; exact artifact path(s); focused verification with actual results; pending findings and counter; and **Next step: [application/person] | [exact skill or Owner action] | [scope + canonical artifact] | [gate/prerequisite] | [remediation/takeover counter or N/A]**. If blocked, provide the exact blocker and do not claim READY.
-```
-
-Read the [common recovery contract](./COMMON.md) for details. No new architecture, dependency, test quota, tool, daemon or audit is authorized by this prompt.
+This recovery selects the audit skill and exact contract directly. The
+[COMMON](COMMON.md) evidence, broken-safety and Owner-only publication safeguards
+apply; its ordinary Antigravity dispatch is superseded **only for an explicitly
+granted audit role** by [Owner policy](../current-owner-delivery-policy.md).
+Missing authority still STOPs.

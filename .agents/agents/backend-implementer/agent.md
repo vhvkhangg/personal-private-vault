@@ -25,7 +25,7 @@ Use relevant skills progressively, **only when applicable to the active handoff*
 
 - `python-rag-coding` for authorized Python/RAG parsing, OCR, embeddings and worker interfaces
 - `local-rag-engineering` for source/field consent, offline boundaries, guarded staging and publication
-- `bounded-command-execution` (Maintenance B1 implemented, awaiting independent Codex review): default 300s ordinary cap, at most 2,100s full-suite cap, progress/inactivity diagnosis and owned-tree cleanup; B2 tooling enforcement pending
+- `bounded-command-execution` (Maintenance B1 independently accepted and Owner-published): default 300s ordinary cap, at most 2,100s full-suite cap, progress/inactivity diagnosis and owned-tree cleanup; B2 independently accepted/published with native enforcement limited to the supported client/root/trust conditions in Owner policy
 
 - `java-spring-coding-standards`
 - `pragmatic-solid-design`

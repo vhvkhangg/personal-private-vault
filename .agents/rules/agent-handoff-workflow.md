@@ -3,13 +3,23 @@ trigger: model_decision
 description: "Apply when preparing, planning, implementing, testing, remediating, or reviewing a development phase."
 ---
 
-**FORWARD OVERRIDE (2026-10-25):** [Owner policy](../../docs/workflow/current-owner-delivery-policy.md) governs future work. Independent Codex review **after each slice**; phase final review after all slices, milestone after RAG P19/P22, then RAG and RAG+Backend audits. Antigravity mandatory self-review does not count; **three** remediation + independent re-review rounds **per active slice** before takeover. CRITICAL/HIGH/MEDIUM block. Historical 2-round/20-minute instructions below are no longer active. **Phase 19 S19-1 ONLY Owner-approved** for `$codex-create-handoff` after independently accepted, Owner-published preparation ([decision](../../docs/implementation/phase-19/owner-authorization-s19-1-2026-10-27.md)); [ACTIVE](../../docs/implementation/handoffs/ACTIVE.md) remains `NO_ACTIVE_HANDOFF` before that skill creates the executable handoff. S19-2+ and indexing activation are not approved.
+**Current authority:** [Owner policy](../../docs/workflow/current-owner-delivery-policy.md)
+and [ACTIVE](../../docs/implementation/handoffs/ACTIVE.md), not old S19-1-only
+checkpoints. Ordinary work retains independent slice/phase review and three
+Antigravity corrective pairs; mandatory self-review is not independent.
+Current Non-RAG H/D/B/X audits require exact phase grants and distinct Codex
+inspector/author/reviewer sessions through the existing
+[audit skill](../skills/codex-backend-audit/SKILL.md). Its skill-local contract and
+audit resume precede generic templates/Antigravity dispatch. Every actionable
+in-scope LOW/INFO needs resolution or STOP for Owner; no automatic D0/B0/X.
+Historical 2-round/20-minute and Phase 15 execution routes are inactive.
+
 
 
 
 # Agent Handoff Workflow
 
-For Phase 3+:
+For ordinary non-audit Phase 3+ work (audit dispatch above comes first):
 
 1. ChatGPT prepares next-phase docs/tooling.
 2. Codex `$codex-pre-handoff-review`.
@@ -20,10 +30,9 @@ For Phase 3+:
 7. Owner commits/pushes after `READY FOR OWNER COMMIT`.
 8. ChatGPT closes/freezes the phase and prepares the next one.
 9. Historical milestone reviews run after Phase 3/6/9/12.
-10. Phase 15 is an audit-first exception: run `$codex-pre-handoff-review` on its preparation; success is
-    `READY FOR AUDIT`. After owner commit/push of accepted preparation, run `$codex-backend-audit`. Codex creates a
-    remediation handoff only from proven authorized findings; after remediation final review, rerun the backend audit
-    until `BACKEND_AUDIT_READY`.
+10. Historical Phase 15 used an audit-first gate. It is now closed; execution or
+    recovery requests STOP / HISTORICAL_ONLY without tools/ACTIVE mutation.
+    Original steps/evidence remain in docs/implementation/phase-15/ and Git history.
 11. Phase 15 supersedes the former post-Phase-15 milestone. Frontend/RAG are Phase 16/17 and remain owner-gated.
 
 ## Owner's future RAG workflow additions (2026-10-17)

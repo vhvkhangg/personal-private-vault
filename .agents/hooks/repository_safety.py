@@ -44,14 +44,15 @@ def _executable_basename(value: str) -> str:
     return normalized.rsplit("/", 1)[-1].lower()
 
 
-def _tokens(command: str) -> list[str]:
+def _tokens(command: str, *, keep_quotes: bool = False) -> list[str]:
     try:
         lexer = shlex.shlex(command, posix=False)
         lexer.whitespace_split = True
         lexer.commenters = ""
-        return [_strip_outer_quotes(token) for token in lexer]
+        tokens = list(lexer)
     except ValueError:
-        return [_strip_outer_quotes(token) for token in command.split()]
+        tokens = command.split()
+    return tokens if keep_quotes else [_strip_outer_quotes(token) for token in tokens]
 
 
 def _split_shell_segments(
@@ -171,13 +172,15 @@ def _wrapper_payload(tokens: list[str]) -> tuple[str, str] | None:
         return None
 
     executable = _executable_basename(tokens[0])
-    lowered = [token.lower() for token in tokens]
+    lowered = [_strip_outer_quotes(token).lower() for token in tokens]
 
     if executable in {"powershell", "powershell.exe", "pwsh", "pwsh.exe"}:
         for marker in ("-command", "-c"):
             if marker in lowered:
                 index = lowered.index(marker)
                 if index + 1 < len(tokens):
+                    # Raw argument quotes survive intermediate wrappers. Remove
+                    # only the grouping layer; inner PowerShell literals stay data.
                     return (
                         _strip_outer_quotes(" ".join(tokens[index + 1:]).strip()),
                         "powershell",
@@ -220,7 +223,9 @@ def _command_segments(command: str) -> tuple[list[list[str]], bool]:
             if depth >= _MAX_WRAPPER_DEPTH:
                 continue
 
-            wrapped = _wrapper_payload(tokens)
+            # Normalized tokens are for policy matching; wrapper dispatch needs
+            # the original quotes so nested payloads are decoded only once.
+            wrapped = _wrapper_payload(_tokens(raw_segment, keep_quotes=True))
             if wrapped:
                 payload, payload_shell = wrapped
                 walk(payload, depth + 1, payload_shell)
@@ -266,6 +271,40 @@ def _has_short_flags(tokens: list[str], required: set[str]) -> bool:
     return required.issubset(flags)
 
 
+def _git_branch_delete_requested(args: list[str]) -> bool:
+    """Recognize branch-delete options, not text operands or option values.
+
+    Git accepts options after branch operands and clustered short flags. Required
+    values for format/sort/upstream are opaque, and -- ends option parsing.
+    Long --delete abbreviations are supported by Git's parse-options parser.
+    The caller already normalizes -D/-d to lowercase; both request deletion.
+    """
+    index = 0
+    while index < len(args):
+        arg = args[index]
+        if arg == "--":
+            break
+        if arg.startswith("--"):
+            option, separator, _ = arg.partition("=")
+            if len(option) > 2 and "--delete".startswith(option):
+                return True
+            # These options consume the next token even when it resembles -D.
+            value_options = ("--format", "--sort", "--set-upstream-to", "--points-at")
+            if not separator and any(value.startswith(option) for value in value_options):
+                index += 1
+        elif arg.startswith("-"):
+            for offset, flag in enumerate(arg[1:], start=1):
+                if flag == "d":
+                    return True
+                if flag == "u":
+                    # -uVALUE and -u VALUE consume an upstream, not more flags.
+                    if offset == len(arg) - 1:
+                        index += 1
+                    break
+        index += 1
+    return False
+
+
 def evaluate_command(command: str) -> tuple[str, str]:
     segments, ambiguous = _command_segments(command)
 
@@ -277,9 +316,11 @@ def evaluate_command(command: str) -> tuple[str, str]:
 
     for tokens in segments:
         executable = _executable_basename(tokens[0])
-        git_subcommand, _ = _git_subcommand(tokens)
+        git_subcommand, git_args = _git_subcommand(tokens)
         if git_subcommand in _DENIED_GIT_SUBCOMMANDS:
             return "deny", "Repository policy: agents do not add, commit, push, or tag. The owner performs staging and publishing actions."
+        if git_subcommand == "branch" and _git_branch_delete_requested(git_args):
+            return "deny", "Repository policy: branch deletion is Owner-only; agents must not delete branches."
         if executable in {"gh", "gh.exe"}:
             lower = [token.lower() for token in tokens[1:]]
             if len(lower) >= 2 and lower[0] == "pr" and lower[1] in {"create", "merge", "close"}:
@@ -345,6 +386,10 @@ _SAFE_POWERSHELL_READ_COMMANDS = {
 
 def permission_overrides_for_command(command: str) -> list[str]:
     """Return narrow overrides only for commands already accepted by safety policy."""
+    # Also protect direct callers: no read override may authorize a compound
+    # command containing deletion (or any other rejected/ambiguous operation).
+    if evaluate_command(command)[0] != "allow":
+        return []
     segments, ambiguous = _command_segments(command)
     if ambiguous:
         return []

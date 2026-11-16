@@ -1,5 +1,18 @@
 # Codex CLI — current project rules
 
+**Current Non-RAG audit dispatch:** [Owner policy](../docs/workflow/current-owner-delivery-policy.md)
+and an exact phase grant select distinct Codex inspector/author/independent-reviewer
+roles through the existing [audit skill](../.agents/skills/codex-backend-audit/SKILL.md).
+This audit-only exception precedes the ordinary Antigravity workflow below.
+Phase 15 execution STOPs: no current fallback, history/ACTIVE mutation or automatic
+next phase. H1 requires its published ratification/entry gates; author self-review
+is not acceptance. Use audit-specific assets/recovery and exact output permission;
+no generic template/delivery expansion. All actionable audit LOW/INFO need
+resolution or STOP for Owner. CLI preference, static source and execpolicy parser
+success do not establish native hook trust/loading, serving-model identity or all
+tool transports. B2 evidence below remains limited to its recorded client/paths.
+H1 changes no configuration/trust/sandbox/execpolicy source.
+
 - Read [Owner Delivery Policy](../docs/workflow/current-owner-delivery-policy.md) and [ACTIVE](../docs/implementation/handoffs/ACTIVE.md) first. **Phase 19 NOT AUTHORIZED**. Main work is pre-handoff review, detailed handoff, per-slice independent review, per-phase final review, post-P19/P22 milestone review and separate future RAG / RAG+Backend audits. Antigravity implements and self-reviews; it has up to three independently reviewed correction rounds per slice before exceptional Codex takeover.
 - CRITICAL/HIGH/MEDIUM open defects block the reviewed delivery; LOW/INFO backlog belongs to milestone/audit. No independent review of the implementer's own code in the same session. No separate staged-tree review session; only Owner runs `git add`, `git commit`, `git push`, tag or PR publication.
 - `model_verbosity = "low"` does **not** bound CLI tool stdout or line-by-line diffs. Keep narration short (`git diff --stat`, changed file list, key errors and receipt paths), retain full raw evidence under the existing ignored `logs/` (do not delete/move/truncate).

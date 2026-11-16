@@ -1,8 +1,23 @@
-# Owner Phase Workflow — current (2026-10-27)
+# Owner Phase Workflow
 
-**Authority:** [Current Owner Delivery Policy](current-owner-delivery-policy.md). This process applies **only to future Owner-authorized work**, not to frozen Phase 17/closed Phase 18. **Phase 19 S19-1 ONLY is now Owner-approved** for a Codex handoff ([binding authorization](../implementation/phase-19/owner-authorization-s19-1-2026-10-27.md)); accepted preparation was Owner-published at `17f66bb2` and [ACTIVE](../implementation/handoffs/ACTIVE.md) is still `NO_ACTIVE_HANDOFF`. S19-2+ and indexing activation remain unauthorized. Earlier Phase 15 audit-first steps, Backend 3/6/9/12 milestones and two-remediation-round instructions are historical, not present-day execution permission.
+**Current authority:** [Owner policy](current-owner-delivery-policy.md) and
+[ACTIVE](../implementation/handoffs/ACTIVE.md), with exact later phase decisions.
+V1 is published/CLOSED; ACTIVE is NO_ACTIVE_HANDOFF, P17 frozen, P18 closed,
+S19-2 suspended and H1-F paused. Older S19-1-only and publication-pending
+checkpoints are historical. Phase 15 remains closed.
 
-## Before starting a phase or maintenance slice
+**Current Non-RAG audit exception:** exact H/D/B/X grants select distinct Codex
+inspector/author/independent-reviewer sessions using the existing
+[audit skill](../../.agents/skills/codex-backend-audit/SKILL.md), its skill-local
+asset and audit resume. Audit dispatch precedes the ordinary workflow below;
+no automatic ACTIVE handoff, Antigravity audit routing or generic template
+expansion. All actionable in-scope LOW/INFO need resolution or STOP for Owner.
+The [H1 ratification](../implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-ratification-2026-11-16.md)
+grants only bounded harness work; H1 author self-review is not independent
+acceptance/publication and cannot launch D0/B0/X.
+
+
+## Before starting an ordinary non-audit phase or maintenance slice
 
 1. **Owner decides scope and exclusions** with ChatGPT; resolve material feature, privacy, existing-guarantee and simplest viable approach decisions before implementation.
 2. ChatGPT edits canonical docs/templates directly and supplies only new/modified files with clear attribution. No closeout shell patch scripts; divide work into small separately committable slices.
@@ -21,13 +36,13 @@
 - After all approved phase slices are independently reviewed and Owner-published, run one **Codex phase final review**, reusing unchanged applicable evidence. ChatGPT then records phase Owner closeout.
 - Run the **three-phase RAG milestone review** after Phase 19 (P17–19) and after Phase 22 (P20–22), only when the closing phase is completed/authorized. Consolidate justified LOW/INFO cleanups.
 - After RAG P17–22, conduct the separately authorized RAG-wide audit. After RAG and Backend are both complete, conduct the separately authorized combined RAG+Backend integration/repository-wide audit. Reuse valid earlier evidence instead of duplicating gates. Historical Phase 15 Backend audit remains closed.
-- Only the [explicit Owner authorization for P19-S19-1](../implementation/phase-19/owner-authorization-s19-1-2026-10-27.md) grants that first-slice scope. Do not infer permission for S19-2+, Frontend or external indexing from a roadmap, historical handoff or closed slice.
+- Discover the current exact Owner authorization through policy and ACTIVE. Historical S19-1 approval cannot reopen closed work or revive suspended S19-2; roadmap and old handoffs grant nothing.
 
 ## Completed maintenance and docs synchronization
 
 - Maintenance B1/B2 and the overall B aggregate were independently reviewed and Owner-published, most recently at [`3d07c7f`](https://github.com/vhvkhangg/personal-private-vault/commit/3d07c7f15daf290f8e23d035a214716084f45ee9). Their published runner/hooks and exact native-client limitations remain as accepted; historical 3/3 remediation histories remain unchanged.
 - Maintenance B3 workflow/resume/Docs Sync mechanism A was [independently accepted](../implementation/maintenance/2026-10-27-b3-workflow-resumability/reviews/2026-10-27-b3-independent-final-review.md) and Owner-published at [`3a1e5fc`](https://github.com/vhvkhangg/personal-private-vault/commit/3a1e5fc7eb14fbabb24a97b5cc27656d0f95e399). B3-L01 is independently VERIFIED/CLOSED in the [cleanup B review](../implementation/maintenance/2026-10-27-repository-doc-sync/reviews/2026-10-27-cleanup-b-independent-final-review.md); other prior LOW backlog remains open.
-- The Owner has separately authorized repository-wide **documentation cleanup B**. Its [current docket](../implementation/maintenance/2026-10-27-repository-doc-sync/README.md) is **READY_FOR_OWNER_COMMIT**, with publication/brief cleanup closeout next; it does not create an implementation handoff or activate Phase 19.
+- Documentation cleanup B was independently reviewed and Owner-published; consult [current policy](current-owner-delivery-policy.md) and its publication closeout for actual-SHA/current status. Original READY_FOR_OWNER_COMMIT review text remains historical, not a pending publication gate.
 - [ACTIVE](../implementation/handoffs/ACTIVE.md) remains `NO_ACTIVE_HANDOFF`. Owner alone publishes subsequent reviewed changes. Do not rerun full Java/RAG suites for purely documentary edits without a demonstrated source risk or alter retained logs/history.
 
 See [handoff state machine](../implementation/handoffs/README.md), [documentation templates](../templates/README.md), [current maintenance status](../implementation/maintenance/2026-10-26-watchdog-tooling/README.md) and [current Owner policy](current-owner-delivery-policy.md).

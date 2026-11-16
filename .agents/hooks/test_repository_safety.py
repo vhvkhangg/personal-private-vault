@@ -61,6 +61,236 @@ class RepositorySafetyPolicyTests(unittest.TestCase):
             with self.subTest(command=command):
                 self.assert_decision(command, "deny")
 
+    def test_h1_denies_branch_delete_options_and_operand_arrangements(self) -> None:
+        # These strings are classifier input only; no Git mutation is executed.
+        cases = [
+            "git branch -d H1_ONLY_TEXT",
+            "git branch -D H1_ONLY_TEXT",
+            "git.exe branch --delete H1_ONLY_TEXT",
+            "git branch H1_ONLY_TEXT -D",
+            "git branch -r -d origin/H1_ONLY_TEXT",
+            "git branch --remotes --delete origin/H1_ONLY_TEXT",
+            "git branch -rd H1_ONLY_TEXT",
+            "git branch -Dr H1_ONLY_TEXT",
+            "git branch -vDf H1_ONLY_TEXT",
+            "git branch -d H1_ONE H1_TWO",
+            "git branch -d -- H1_ONLY_TEXT",
+            "git branch --delete=H1_ONLY_TEXT",  # Malformed delete intent denies.
+            "git branch -uupstreamu -D H1_ONLY_TEXT",
+            "git branch --format=-D -d H1_ONLY_TEXT",
+            "git branch --format -D --delete H1_ONLY_TEXT",
+        ]
+        cases.extend(f"git branch {option} H1_ONLY_TEXT" for option in
+                     ("--d", "--de", "--del", "--dele", "--delet"))
+        for command in cases:
+            with self.subTest(command=command):
+                self.assert_decision(command, "deny")
+
+    def test_h1_denies_branch_delete_through_supported_options_and_wrappers(self) -> None:
+        cases = [
+            'git -C "C:/H1 fixture" branch -D H1_ONLY_TEXT',
+            'git -CH1_ONLY_TEXT branch --delete H1_ONLY_TEXT',
+            'git -c core.quotePath=false branch -d H1_ONLY_TEXT',
+            'git -ccore.quotePath=false -C H1_ONLY_TEXT --no-pager branch -rd H1_ONLY_TEXT',
+            'git --git-dir=H1_ONLY_TEXT --work-tree H1_ONLY_TEXT branch -D H1_ONLY_TEXT',
+            'git --config-env=core.quotePath=H1_TEST_ENV branch --delete H1_ONLY_TEXT',
+            r'"C:\Program Files\Git\cmd\git.exe" -C H1_ONLY_TEXT branch -D H1_ONLY_TEXT',
+            r'& "C:\Program Files\Git\cmd\git.exe" branch -d H1_ONLY_TEXT',
+            'powershell -Command git branch -D H1_ONLY_TEXT',
+            'powershell.exe -NoProfile -Command "git -C H1_ONLY_TEXT branch --delete H1_ONLY_TEXT"',
+            'pwsh -NoProfile -Command "git -c core.quotePath=false branch H1_ONLY_TEXT -D"',
+            'cmd /c git branch -d H1_ONLY_TEXT',
+            'cmd.exe /d /s /c "git -C H1_ONLY_TEXT branch -D H1_ONLY_TEXT"',
+            r'C:\Windows\System32\cmd.exe /c "git branch --delete H1_ONLY_TEXT"',
+            r'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command git branch -D H1_ONLY_TEXT',
+            'powershell -Command "cmd /c git branch -D H1_ONLY_TEXT"',
+            'cmd /c "pwsh -Command git branch --delete H1_ONLY_TEXT"',
+            "git status\ngit branch -D H1_ONLY_TEXT",
+            "git diff --stat; git branch -d H1_ONLY_TEXT",
+        ]
+        for command in cases:
+            with self.subTest(command=command):
+                self.assert_decision(command, "deny")
+
+    def test_h1_preserves_branch_reads_and_literal_argument_boundaries(self) -> None:
+        import repository_safety
+
+        cases = [
+            "git branch",
+            "git branch -a",
+            "git branch -r",
+            "git branch --list",
+            "git branch --show-current",
+            "git -C H1_ONLY_TEXT branch -av",
+            "git -c core.quotePath=false branch --list H1_ONLY_TEXT",
+            'cmd /c "git branch --list"',
+            'powershell -Command "git branch --show-current"',
+            'git branch --format "-D"',
+            'git branch --format=-D',
+            'git branch --sort -d',
+            'git branch --points-at -D',
+            'git branch -u -D',
+            'git branch -uDELETE',
+            'git branch --set-upstream-to -D',
+            'git branch --list -- -D',
+            'git branch -- --delete',
+            'git branch --no-delete --list',
+            'git status --short',
+            'git diff --stat',
+            'Write-Output "git branch -D H1_ONLY_TEXT"',
+            'echo "git -C H1_ONLY_TEXT branch --delete H1_ONLY_TEXT"',
+        ]
+        for command in cases:
+            with self.subTest(command=command):
+                self.assert_decision(command, "allow")
+                self.assertEqual({}, repository_safety.build_codex_hook_output({
+                    "hook_event_name": "PreToolUse", "tool_name": "Bash",
+                    "tool_input": {"command": command},
+                }))
+        for command in ("git branch", "git branch --list", "git branch --show-current"):
+            with self.subTest(read_override=command):
+                self.assertIn("command(git branch)", permission_overrides_for_command(command))
+
+    def test_h1_branch_delete_never_receives_permission_override_in_either_adapter(self) -> None:
+        import repository_safety
+
+        for command in ("git branch -D H1_ONLY_TEXT",
+                        "git -C H1_ONLY_TEXT branch --delete H1_ONLY_TEXT",
+                        'cmd /c "git branch -rd H1_ONLY_TEXT"',
+                        "git status; git branch H1_ONLY_TEXT -d"):
+            with self.subTest(command=command):
+                self.assertEqual([], permission_overrides_for_command(command))
+                for key in ("CommandLine", "commandLine"):
+                    output = build_hook_output("run_command", {key: command})
+                    self.assertEqual("deny", output["decision"])
+                    self.assertNotIn("permissionOverrides", output)
+                output = repository_safety.build_codex_hook_output({
+                    "hook_event_name": "PreToolUse", "tool_name": "Bash",
+                    "tool_input": {"command": command},
+                })
+                self.assertEqual("deny", output["hookSpecificOutput"]["permissionDecision"])
+                self.assertNotIn("permissionOverrides", output)
+
+    def test_h1_ambiguous_branch_delete_fails_closed_without_overrides(self) -> None:
+        import repository_safety
+
+        for command in ('git branch -D "H1_ONLY_TEXT',
+                        'powershell -Command "git branch --delete H1_ONLY_TEXT',
+                        'git branch -d H1_ONLY_TEXT`'):
+            with self.subTest(command=command):
+                self.assert_decision(command, "force_ask")
+                self.assertEqual([], permission_overrides_for_command(command))
+                self.assertNotIn("permissionOverrides", build_hook_output("run_command", {"CommandLine": command}))
+                output = repository_safety.build_codex_hook_output({
+                    "hook_event_name": "PreToolUse", "tool_name": "Bash",
+                    "tool_input": {"command": command},
+                })
+                self.assertEqual("deny", output["hookSpecificOutput"]["permissionDecision"])
+
+    def test_h1_branch_delete_cli_adapters_only_parse_command_data(self) -> None:
+        payloads = [
+            ([], {"toolCall": {"name": "run_command", "args": {
+                "CommandLine": "git -C H1_ONLY_TEXT branch -D H1_ONLY_TEXT"}}}),
+            (["--codex"], {"hook_event_name": "PreToolUse", "tool_name": "Bash",
+                           "tool_input": {"command": 'cmd /c "git branch --delete H1_ONLY_TEXT"'}}),
+        ]
+        for adapter_args, payload in payloads:
+            with self.subTest(adapter=adapter_args):
+                proc = subprocess.run(
+                    [sys.executable, "-B", ".agents/hooks/repository_safety.py", *adapter_args],
+                    input=json.dumps(payload), text=True, capture_output=True, timeout=10,
+                )
+                self.assertEqual(0, proc.returncode, proc.stderr)
+                output = json.loads(proc.stdout)
+                decision = (output["hookSpecificOutput"]["permissionDecision"]
+                            if adapter_args else output["decision"])
+                self.assertEqual("deny", decision)
+                self.assertNotIn("permissionOverrides", output)
+
+    def test_h1_fr01_powershell_payload_literals_remain_data(self) -> None:
+        import repository_safety
+
+        # The outer quotes group the -Command argument. The retained inner
+        # quotes make its payload a string expression, not a Git invocation.
+        cases = [
+            "powershell -Command \"'git branch -D H1_ONLY_TEXT'\"",
+            "powershell.exe -NoProfile -Command \"'git -C H1_ONLY_TEXT branch --delete H1_ONLY_TEXT'\"",
+            'pwsh -Command \'"git branch -d H1_ONLY_TEXT"\'',
+            "powershell -Command \"'git branch -D H1_ONLY_TEXT'; 'git status'\"",
+            "powershell -Command \"'git branch -D H1_ONLY_TEXT' | Write-Output\"",
+            "cmd /c powershell -Command \"'git branch -D H1_ONLY_TEXT'\"",
+            "pwsh -Command \"Write-Output 'git branch -D H1_ONLY_TEXT'\"",
+        ]
+        for command in cases:
+            with self.subTest(command=command):
+                self.assert_decision(command, "allow")
+                self.assertNotIn("command(git branch)", permission_overrides_for_command(command))
+                output = build_hook_output("run_command", {"CommandLine": command})
+                self.assertEqual("allow", output["decision"])
+                self.assertNotIn("permissionOverrides", output)
+                self.assertEqual({}, repository_safety.build_codex_hook_output({
+                    "hook_event_name": "PreToolUse", "tool_name": "Bash",
+                    "tool_input": {"command": command},
+                }))
+
+    def test_h1_fr01_executable_payloads_still_deny_without_overrides(self) -> None:
+        import repository_safety
+
+        cases = [
+            'powershell -Command "git branch -D H1_ONLY_TEXT"',
+            "powershell -Command 'git -C H1_ONLY_TEXT branch -d H1_ONLY_TEXT'",
+            'pwsh -NoProfile -Command "git -c core.quotePath=false branch -rd H1_ONLY_TEXT"',
+            "powershell -Command \"'git branch -D H1_ONLY_TEXT'; git branch --delete H1_ONLY_TEXT\"",
+            'powershell -Command "cmd /c git branch -D H1_ONLY_TEXT"',
+            'cmd /c "powershell -Command git branch --delete H1_ONLY_TEXT"',
+            'pwsh -Command "& git branch -D H1_ONLY_TEXT"',
+            'pwsh -Command "& \'C:/Program Files/Git/cmd/git.exe\' branch -D H1_ONLY_TEXT"',
+        ]
+        for command in cases:
+            with self.subTest(command=command):
+                self.assert_decision(command, "deny")
+                self.assertEqual([], permission_overrides_for_command(command))
+                output = build_hook_output("run_command", {"CommandLine": command})
+                self.assertEqual("deny", output["decision"])
+                self.assertNotIn("permissionOverrides", output)
+                output = repository_safety.build_codex_hook_output({
+                    "hook_event_name": "PreToolUse", "tool_name": "Bash",
+                    "tool_input": {"command": command},
+                })
+                self.assertEqual("deny", output["hookSpecificOutput"]["permissionDecision"])
+
+        for command in ('powershell -Command "git branch --list"',
+                        "powershell -Command \"'git branch -D H1_ONLY_TEXT'; git branch --show-current\""):
+            with self.subTest(read_control=command):
+                self.assert_decision(command, "allow")
+                self.assertIn("command(git branch)", permission_overrides_for_command(command))
+
+    def test_h1_fr01_cli_adapters_preserve_literal_boundary(self) -> None:
+        # Only the Python hook entrypoint executes; CommandLine remains JSON data.
+        for command, expected in (
+            ("powershell -Command \"'git branch -D H1_ONLY_TEXT'\"", "allow"),
+            ('powershell -Command "git branch -D H1_ONLY_TEXT"', "deny"),
+        ):
+            for codex in (False, True):
+                with self.subTest(command=command, codex=codex):
+                    payload = ({"hook_event_name": "PreToolUse", "tool_name": "Bash",
+                                "tool_input": {"command": command}} if codex else
+                               {"toolCall": {"name": "run_command", "args": {"CommandLine": command}}})
+                    proc = subprocess.run(
+                        [sys.executable, "-B", ".agents/hooks/repository_safety.py", *(["--codex"] if codex else [])],
+                        input=json.dumps(payload), text=True, capture_output=True, timeout=10,
+                    )
+                    self.assertEqual(0, proc.returncode, proc.stderr)
+                    output = json.loads(proc.stdout)
+                    self.assertNotIn("permissionOverrides", output)
+                    if codex:
+                        if expected == "allow":
+                            self.assertEqual({}, output)
+                        else:
+                            self.assertEqual("deny", output["hookSpecificOutput"]["permissionDecision"])
+                    else:
+                        self.assertEqual(expected, output["decision"])
+
     def test_denies_multiline_publish_commands(self) -> None:
         cases = [
             "git status\ngit push origin main",

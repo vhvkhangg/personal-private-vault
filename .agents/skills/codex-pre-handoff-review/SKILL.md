@@ -14,7 +14,7 @@ This is a review-only preparation gate. Do not write production code and do not 
 
 ## Historical Phase 15 is already closed
 
-The Phase 15 audit-first special path is **historical**, not a current phase-review mode. Its original `READY FOR AUDIT` and `$codex-backend-audit` steps are preserved in `docs/implementation/phase-15/`, `docs/workflow/owner-phase-workflow.md` and the dedicated `$codex-backend-audit` skill. **Do not reopen Phase 15 or reissue `READY FOR AUDIT` during a new RAG phase.** The old branch appeared here to support the initial Phase 15 audit workflow; it is now removed from this active pre-handoff skill to prevent choosing the wrong gate.
+The Phase 15 audit-first special path is **historical**, not a current phase-review mode. Its original READY FOR AUDIT and audit steps remain in docs/implementation/phase-15/ and the skill's Git history, not as callable behavior in the current $codex-backend-audit. **Do not reopen Phase 15 or reissue `READY FOR AUDIT` during a new RAG phase.** The old branch appeared here to support the initial Phase 15 audit workflow; it is now removed from this active pre-handoff skill to prevent choosing the wrong gate.
 
 ## Preconditions — select the approved review mode first
 

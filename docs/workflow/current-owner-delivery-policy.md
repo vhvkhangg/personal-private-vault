@@ -1,3 +1,38 @@
+> **Current Non-RAG audit exception — 2026-11-16:** The [published H1 Owner ratification](../implementation/maintenance/2026-11-16-bf26-nr-h1-harness-preparation/h1-owner-ratification-2026-11-16.md), authorization BF26-NR-H1-HARNESS-REMEDIATION, selects only NRH0-F01–F03, at most 17 existing paths, three named new reports and its exact bounded diagnostics after every entry gate. H1 remains unaccepted/unpublished implementation until a different Codex reviewer and Owner publication. ACTIVE stays NO_ACTIVE_HANDOFF. No D0/B0/X, product, RAG, Frontend, provider or deployment authority follows.
+
+## Scope-specific audit precedence
+
+For an **explicitly authorized current Non-RAG H/D/B/X phase only**, use the
+existing [codex-backend-audit skill](../../.agents/skills/codex-backend-audit/SKILL.md),
+its existing skill-local asset and exact reviewed Owner executable. This is the
+Owner-ratified audit-specific exception to ordinary role/route/template tables
+below and their shared recovery/Docs Sync guidance: distinct Codex inspection,
+authorized authorship and independent review, no Antigravity audit dispatch.
+Author self-review cannot supply independent acceptance. Review output stays in
+chat unless its own exact path is granted. No generic template or documentation
+packaging instruction enlarges the audit's write allowlist; H1 produces no ZIP
+and leaves delivery/ unchanged. Audit recovery selects the audit resume prompt;
+ordinary create-handoff/final-review resumes are not the audit dispatch path.
+
+Every substantiated actionable in-scope audit finding, **including LOW/INFO**,
+requires evidence-backed resolution or STOP / OWNER_DECISION_REQUIRED. This
+does not waive or reset historical findings/counters, or change ordinary
+non-audit LOW/INFO backlog and Antigravity workflows. Explicit Phase 15 execution
+or recovery STOPs with immutable historical evidence, without old tools or
+ACTIVE/status mutation. A later phase always needs its own exact published grant.
+
+H1's initial implementation/self-review consumes **0/3** correction pairs; only
+an actual subsequent author correction plus independent re-review consumes one.
+At exhaustion STOP for Owner; no automatic takeover. Keep configuration, trust,
+sandbox and execpolicy source unchanged. Native qualification uses only owned
+external fixtures, the existing authenticated Codex CLI/normal service, at most
+20 invocations and a hard 120s maximum each under ratification §4. Static/parser
+evidence is not native PASS; missing mandatory H-T07/H-T09 prevents acceptance.
+Reachable substantive shared-rule contradictions beyond the 17-path ceiling
+require STOP, an exact Owner amendment and independent re-review.
+
+---
+
 > **CURRENT BF26-V1 OWNER PUBLICATION — 2026-11-15 (supersedes older current-looking execution/scope notices below):** **BF26-V1-RECYCLE-BROWSE** is **`INDEPENDENTLY_ACCEPTED / OWNER_PUBLISHED / CLOSED`** at [source commit `54b62627d7d9`](https://github.com/vhvkhangg/personal-private-vault/commit/54b62627d7d937e7a95bcca7629c9f0e26786e8f) (`feat(backend): add private vault trash browsing`). [Independent final re-review 2](../implementation/maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/reviews/2026-11-15-bf26-v1-independent-final-re-review-2.md) CLOSED **FR-V1-01–05**, qualifying **112 distinct passing invocations = 49 reviewer-fresh + 63 source-applicable reused** (not additive to earlier runs). **BFV1-L01/L02 LOW / OPEN / BACKLOG** remain nonblocking. V1 remediation **2/3 consumed / STOPPED**; takeover **NOT_AUTHORIZED / NOT_USED**. [Actual-SHA publication closeout](../implementation/maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/owner-publication-closeout-bf26-v1-2026-11-15.md) is a separate docs-only deliverable, not part of the source commit.
 > **CURRENT PRIVACY / EXECUTION:** The newly published PRIVATE-only `GET /api/v1/vault/trash` returns identity-only `id,entryType,deletedAt`, `id DESC` keyset pages (limit default 25, range 1–100), canonical `items,nextCursor` and no-store; PUBLIC remains **403** and anonymous **401**. Exactly **eight existing PUBLIC business GET pairs** remain (Fiction/Film details and six Reference GETs); PUBLIC Film POST remains denied and PRIVATE Fiction/Film contracts remain unchanged. [ACTIVE](../implementation/handoffs/ACTIVE.md) = **`NO_ACTIVE_HANDOFF`** following Owner publication: no next slice/source/deployment automatically authorized. RO-B remains OWNER_PUBLISHED/CLOSED; older slice counters/backlogs, paused H1-F/FR-13, frozen P17, closed P18, suspended S19-2 and provider OFF/unset status are preserved. No production cutover, actual Owner-data suitability or full application suite is claimed.
 

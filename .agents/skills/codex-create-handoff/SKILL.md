@@ -5,6 +5,17 @@ description: Create a detailed, bounded, testable implementation handoff for Ant
 
 # Codex Create Handoff
 
+**Audit dispatch comes first:** Explicit Phase 15 execution/handoff requests
+STOP / HISTORICAL_ONLY; accepted records remain immutable. For current Non-RAG
+H/D/B/X audit work, use the exact Owner contract and
+[current audit skill](../codex-backend-audit/SKILL.md), then return from this
+ordinary handoff route. Do not use generic templates or write ACTIVE unless a
+separate exact audit grant permits it. H1 uses its published ratification directly;
+no new handoff is needed or authorized. Audit recovery uses the audit resume
+prompt, not this skill's ordinary resume. Missing phase/role/grant or competing
+authority means STOP. Ordinary non-audit discovery/Antigravity workflow below
+remain unchanged.
+
 **CURRENT HANDOFF STANDARD:** Read [Owner policy](../../../docs/workflow/current-owner-delivery-policy.md) and `docs/templates/handoff.md`. Create one **detailed but finite** handoff **per approved slice**, including every Owner-visible acceptance behavior, examples, expected errors, privacy/consent negatives, affected code and reusable prior methods, and tests; use shortest sufficient implementation, with explicit exclusions and no hypothetical enterprise stack. Codex plans, Antigravity implements then **must self-review**, independent Codex reviews each slice and the entire phase once complete. Three bounded Antigravity remediation/re-review rounds maximum. Never auto-authorize Phase 19 from closed Phase 18, historical rows or a planning proposal. Accepted CPU-only `.md` historical P18 contracts remain frozen, with no automatic R7/GPU/OCR demand.
 
 
@@ -61,14 +72,11 @@ This example is a dated pointer, not a permanent grant to reopen V1 once it
 is completed or superseded. Preserve all ordinary scope, privacy, source and
 pre-handoff STOP gates.
 
-## Phase 15 audit-remediation exception
+## Historical Phase 15 refusal
 
-Do not use this skill to invent a Phase 15 remediation scope from the Phase 15 README alone. Phase 15 remediation
-handoffs are created by `$codex-backend-audit` only after that audit has produced concrete findings and all required
-frozen-baseline owner decisions are resolved.
-
-If Phase 15 has not yet produced an authorized audit finding set, stop and instruct the owner to run
-`$codex-backend-audit`.
+Phase 15 is closed. STOP / HISTORICAL_ONLY on requests to create/resume its
+remediation handoff. Read docs/implementation/phase-15/ as archival evidence
+only; the current audit skill cannot restart it. No redirect to an old audit.
 
 ## Pre-handoff preparation gate
 
