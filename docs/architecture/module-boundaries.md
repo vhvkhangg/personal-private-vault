@@ -1,5 +1,7 @@
 # Module Boundaries v1 — Frozen baseline + implemented Phase 14 delta
 
+> **Drive lifecycle navigation (2026-11-17).** The review-pending Drive labels below record the S1 checkpoint. The [current Drive lifecycle](README.md#current-drive-lifecycle) supersedes those status labels. The module ownership and dependency rules below remain the frozen baseline.
+
 ## 1. Boundary rule
 
 Each business capability is owned by one Spring Modulith application module. Only the owning module may directly access its internal repositories and entities.

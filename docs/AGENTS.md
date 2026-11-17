@@ -1,4 +1,6 @@
-> **Canonical forward instruction:** [Current Owner Delivery Policy](workflow/current-owner-delivery-policy.md) applies to all **new** documentation and review cadences; frozen Phase 17/18 reports are historical source evidence. CRITICAL/HIGH/**MEDIUM** block commit; LOW/INFO are logged for a consolidated milestone/audit pass. Codex reviews each slice, finally each phase; RAG milestones after P19/P22 and two distinct audits after RAG. Do not implement new RAG work or modify `logs/` from docs maintenance.
+> **Canonical forward instruction:** [Current Owner Delivery Policy](workflow/current-owner-delivery-policy.md) applies to all **new** documentation and review cadences; frozen Phase 17/18 reports are historical source evidence. In the ordinary workflow, CRITICAL/HIGH/**MEDIUM** block commit and LOW/INFO are logged for a consolidated milestone or audit pass. Codex reviews each slice, finally each phase; RAG milestones after P19/P22 and two distinct audits after RAG. Do not implement new RAG work or modify `logs/` from docs maintenance.
+
+> **Current Non-RAG audit exception.** Follow the [audit-specific role and scope rules](workflow/current-owner-delivery-policy.md#scope-specific-audit-precedence) and [reviewed publication policy](workflow/current-owner-delivery-policy.md#reviewed-non-rag-publication) for an exact published grant. Use distinct author and independent reviewer chats. The reviewer inspects the actual candidate and records the accepted tree. Actionable in-scope findings, including LOW/INFO, require evidence-backed disposition or `STOP / OWNER_DECISION_REQUIRED`. The Owner publishes by default. An express grant can authorize Codex to publish the exact accepted tree and paths through the reviewed publisher after the required acceptance. Direct Git publication, tags and PR actions remain Owner-only.
 
 # Documentation Scope Instructions
 
@@ -37,7 +39,7 @@ SVG/PNG exports are derived artifacts, not the canonical source.
 
 ## Review logs
 
-Formal Codex reviews belong in the owning phase's `docs/implementation/phase-N/reviews/` directory.
+In the ordinary workflow, formal Codex reviews belong in the owning phase's `docs/implementation/phase-N/reviews/` directory.
 A review log must state:
 
 - review scope;
@@ -49,7 +51,7 @@ A review log must state:
 
 A clean review should explicitly state that no blocking findings were found; do not fabricate findings.
 
-## Current documentation templates and lifecycle (2026-10-25)
+## Ordinary documentation templates and lifecycle (2026-10-25)
 
 For all new docs, use `docs/templates/` (`adr.md`, `review.md`, `pre-handoff-review.md`, `handoff.md`, `owner-decision.md`, `slice-closeout.md`, `finding.md`). The new authoring guidance is `.agents/skills/documentation-writing/SKILL.md`. Phase-specific records stay under `docs/implementation/phase-N/`; repository-wide policy belongs under `docs/workflow/`; reusable generic templates under `docs/templates/`.
 
@@ -57,4 +59,6 @@ Finding severity: CRITICAL (data loss/security/corrupt publication), HIGH (block
 
 Write **one compact current status**, with links to immutable historical dated records. Avoid stacking contradictory `CURRENT` headers. Historic failures, tests, evidence, source hashes, Owner decisions and actual commit links are kept accurate; do not remove or rename referenced artifacts until dependencies are inventoried and the Owner approves specific deletions.
 
-The Owner has explicitly authorized **Phase 19 S19-1 only** ([Owner decision](implementation/phase-19/owner-authorization-s19-1-2026-10-27.md)); the preparation is already independently reviewed and Owner-published. This scope approval is not an executable handoff. Other slices, frozen-contract amendments and external-index activation remain unauthorized. The Owner commits/pushes; no agent staging/publishing. Documentation closeout uses an actual changed-files package rather than asking the Owner to execute a patch script.
+**Historical Phase 19 checkpoint (2026-10-27).** The [Owner decision for S19-1](implementation/phase-19/owner-authorization-s19-1-2026-10-27.md) recorded strictly bounded scope after independent preparation review and Owner publication. It preceded the executable handoff. That decision left other slices, frozen-contract amendments and external-index activation outside its scope. For the later state, see the [S19-1 publication closeout](implementation/phase-19/s19-1-owner-publication-closeout-2026-10-28.md) and the [S19-2 suspension decision](implementation/phase-19/owner-decision-s19-2-suspension-2026-10-30.md).
+
+Ordinary closeout uses the actual changed-files package. The Owner stages and publishes ordinary changes. The exact-grant Non-RAG exception above governs audit outputs and reviewed publication within its authorized paths.

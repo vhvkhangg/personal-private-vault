@@ -43,9 +43,9 @@ Authorization: Bearer <access-token>
 Refresh/revoke operations carry the raw refresh token only in an explicit HTTPS JSON request body at the API boundary.
 Browser cookie/storage policy remains deferred to frontend/deployment work.
 
-## 4. Phase 13 public/protected paths
+## 4. Authentication and authorization
 
-Public application paths:
+Application routes that accept requests without a bearer token:
 
 ```text
 GET  /api/v1/auth/bootstrap/status
@@ -56,31 +56,91 @@ POST /api/v1/auth/refresh
 POST /api/v1/auth/revoke
 ```
 
+Each authentication endpoint still applies its own credential, proof or state checks.
+
 When Google Drive integration is enabled (`ppv.drive.enabled=true`):
 ```text
 GET  /api/v1/drive/oauth/callback
 ```
-Note: Only exact HTTP `GET` to `/api/v1/drive/oauth/callback` is publicly permitted to receive standard browser OAuth redirection without custom headers. All other HTTP methods on that path (`POST`, `PUT`, `DELETE`) and all other Drive routes (`/api/v1/drive/connections/**`) require valid bearer authentication.
+Only the exact HTTP GET callback accepts anonymous browser redirects. The callback still requires OAuth state and browser proof. Other Drive requests require PRIVATE authorization and the applicable route and feature flags.
+
+When Google Sign-In is enabled, POST `/api/v1/auth/google/start`, GET
+`/api/v1/auth/google/callback` and POST `/api/v1/auth/google/handoff` have their own
+proof and state requirements. POST `/api/v1/auth/google/link/start` requires PRIVATE.
 
 Existing public operational/documentation paths remain:
 
 ```text
 /actuator/health
+/actuator/health/**
 /v3/api-docs/**
 /swagger-ui/**
 /swagger-ui.html
 ```
 
-Everything else is bearer-protected by default. Under BF26-DP-A:
-- Access tokens carry `profile` (`PUBLIC` or `PRIVATE`), `sid` (session UUID), and `generation`.
-- `SessionAuthorityFilter` validates persisted lineage on every request dispatch via single-SQL admission join against `ppv_login_sessions` and `ppv_public_login_credential`.
-- All business modules, personal data, vault entries, media, search, portability export, and settings strictly require `PROFILE_PRIVATE`.
-- Requests with `PROFILE_PUBLIC` attempting to access any business or unknown route receive 403 `ACCESS_DENIED`.
-- Unknown routes under `PROFILE_PUBLIC` return 403 `ACCESS_DENIED` (default deny); under `PROFILE_PRIVATE` return standard 404 `NOT_FOUND`.
-- Profile transitions (`POST /api/v1/auth/sessions/elevate-private`, `POST /api/v1/auth/sessions/downgrade-public`, `POST /api/v1/auth/profiles/public-credential`) govern profile switching and secondary password configuration.
-- Private PIN endpoints (`/api/v1/auth/private-pin/**`) strictly require `PROFILE_PRIVATE`.
+The [BF26-DP-A publication of 2026-11-12](../implementation/maintenance/2026-11-11-dual-login-profiles-preparation/owner-publication-closeout-dp-a-2026-11-12.md)
+introduced persisted profile and session authority. PUBLIC was auth-only at that checkpoint.
+
+- Access tokens carry `profile` (`PUBLIC` or `PRIVATE`), `sid` (session UUID) and `generation`.
+- `SessionAuthorityFilter` validates persisted lineage on every request dispatch via a single-SQL admission join against `ppv_login_sessions` and `ppv_public_login_credential`.
+- Profile elevation requires PUBLIC and fresh private password proof. Downgrade, public credential management and PIN operations require PRIVATE under the [authentication matcher table](authentication-profiles-and-sessions-api.md#1-authentication-matcher-table).
 
 There is no public registration endpoint.
+
+### Current business authorization matrix
+
+The eight GET rows allowed for authenticated PUBLIC are the complete business allowlist.
+PRIVATE remains subject to the matching route, domain checks, request validation and applicable feature flags.
+Missing, invalid or expired authentication receives 401 on these business routes.
+
+| Method and path | Anonymous | Authenticated PUBLIC | Authenticated PRIVATE |
+| --- | --- | --- | --- |
+| GET `/api/v1/fictions/{id}` | 401 | Eligible detail | Original detail contract |
+| GET `/api/v1/films/{id}` | 401 | Eligible detail | Original detail contract |
+| GET `/api/v1/reference/countries` | 401 | Allowed | Allowed |
+| GET `/api/v1/reference/countries/{code}` | 401 | Allowed | Allowed |
+| GET `/api/v1/reference/languages` | 401 | Allowed | Allowed |
+| GET `/api/v1/reference/languages/{code}` | 401 | Allowed | Allowed |
+| GET `/api/v1/reference/currencies` | 401 | Allowed | Allowed |
+| GET `/api/v1/reference/currencies/{code}` | 401 | Allowed | Allowed |
+| POST `/api/v1/films` | 401 | 403 `ACCESS_DENIED` | Existing Film creation with validation |
+| GET `/api/v1/vault/trash` | 401 | 403 `ACCESS_DENIED` | Deleted-entry identity page |
+| All other business methods and paths, including nested reads and mutations | 401 | 403 `ACCESS_DENIED` | Where a matching controller and its conditions permit |
+
+Unknown paths under the PRIVATE fallback return the standard 404. The authentication and operational
+exceptions above retain their own admission rules.
+
+**Exact `ApiResponse.data` keys**
+
+| Successful response | Keys |
+| --- | --- |
+| Fiction detail, PRIVATE GET/POST/PUT | `id`, `title`, `originalTitle`, `nationalityCode`, `posterUrl`, `format`, `isNsfw`, `genreId`, `authorPersonId`, `authorGroupId`, `description`, `totalChapters`, `progressStatus`, `consumptionStatus`, `currentProgressText`, `review`, `storyArchetypeIds`, `worldSettingIds` |
+| Fiction detail, PUBLIC GET | The 18 Fiction keys above plus `authorName` |
+| Film detail, PRIVATE GET/POST/PUT | `id`, `title`, `originalTitle`, `nationalityCode`, `posterUrl`, `format`, `productionStyle`, `isNsfw`, `directorPersonId`, `description`, `totalEpisodes`, `progressStatus`, `consumptionStatus`, `currentProgressText`, `review`, `genreIds`, `storyArchetypeIds`, `worldSettingIds` |
+| Film detail, PUBLIC GET | The 18 Film keys above plus `directorName` |
+| Country or Language list item or detail | `code`, `nameEn`, `nameVi` |
+| Currency list item or detail | `code`, `name`, `symbol`, `decimalPlaces` |
+| Vault trash page, PRIVATE GET | `items`, `nextCursor`. Each item contains only `id`, `entryType`, `deletedAt` |
+
+Each PUBLIC work detail has 19 keys. Its added name key is always present and can be null.
+Approved relationship IDs remain in the work payload even when the name is null.
+A Person name requires the linked Person and a matching active `PERSON` Vault identity.
+For Fiction with a group author, the CreatorGroup is resolved directly by its ID. The Person Vault check applies only to the Person branch.
+An unresolved or blank display name yields null.
+
+PUBLIC work eligibility requires a non-NSFW work with a matching-ID, correct-type, active Vault identity.
+Missing, hidden, trashed and wrong-type works return the same safe 404 before name resolution.
+Successful PUBLIC work responses and these 404s use `Cache-Control: no-store`. A genuine
+lookup or transaction failure yields a safe 500 with `data: null` and no-store.
+
+Vault trash uses descending ID keyset order, a default `limit` of 25 and an inclusive range of
+1–100. The opaque `nextCursor` is null at exhaustion. Success and applicable errors use no-store,
+including a safe 500 with `data: null` on a genuine read or transaction failure.
+
+Published contracts are recorded in the [B1 allowlist closeout](../implementation/maintenance/2026-11-12-bf26-dp-b1-preparation/owner-publication-closeout-dp-b1-2026-11-12.md),
+[RO-A Film POST revocation](../implementation/maintenance/2026-11-13-bf26-dp-public-read-only-preparation/owner-publication-closeout-dp-ro-a-2026-11-14.md),
+[RO-B work detail closeout](../implementation/maintenance/2026-11-14-bf26-dp-ro-b-preparation/owner-publication-closeout-dp-ro-b-2026-11-15.md)
+and [V1 trash closeout](../implementation/maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/owner-publication-closeout-bf26-v1-2026-11-15.md).
 
 ## 5. Bootstrap
 

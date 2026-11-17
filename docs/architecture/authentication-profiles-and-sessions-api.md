@@ -1,13 +1,13 @@
 # Authentication Profiles and Sessions API Specification (BF26-DP-A)
 
-- **Status:** Proposed / Implemented Awaiting Codex Review (2026-11-11)
+- **Status:** BF26-DP-A independently accepted and Owner-published on 2026-11-12. See the [publication closeout](../implementation/maintenance/2026-11-11-dual-login-profiles-preparation/owner-publication-closeout-dp-a-2026-11-12.md).
 - **Authority:** [BF26-DP-A Executable Handoff](../implementation/maintenance/2026-11-11-dual-login-profiles-preparation/executable-handoff-dp-a-2026-11-11.md), [D1–D6 Ratification](../implementation/maintenance/2026-11-11-dual-login-profiles-preparation/owner-ratification-d1-d6-2026-11-11.md), [ADR-0029](../adr/0029-fixed-profiles-and-persisted-session-authority.md)
 
 ## Overview
 
 BF26-DP-A introduces two fixed access profiles for the singleton vault Owner (`app_users.id = 1`):
-- `PRIVATE`: Unrestricted access to all business modules, settings, PIN operations, and data export.
-- `PUBLIC`: Auth-only access. Strictly forbidden from all business modules, data APIs, search, portability, media, and settings (returns 403 `ACCESS_DENIED`).
+- `PRIVATE`: Eligible for protected business routes, settings, PIN operations and export under the applicable route, domain, validation and feature-flag conditions.
+- `PUBLIC`: Auth-only at the 2026-11-12 DP-A checkpoint. The [current business authorization matrix](security-architecture.md#current-business-authorization-matrix) lists the eight subsequently allowed business GETs and their response boundaries. Other business routes remain default-deny.
 
 ## 1. Authentication Matcher Table
 
@@ -24,7 +24,7 @@ BF26-DP-A introduces two fixed access profiles for the singleton vault Owner (`a
 | `POST` | `/api/v1/auth/sessions/downgrade-public` | `PROFILE_PRIVATE` | Downgrades active session from PRIVATE to PUBLIC; requires configured public credential. |
 | `POST` | `/api/v1/auth/private-pin/verify` | `PROFILE_PRIVATE` | Verifies 6-digit PIN. |
 | `PUT` | `/api/v1/auth/private-pin` | `PROFILE_PRIVATE` | Updates 6-digit PIN. |
-| `*` | Any other application route | `PROFILE_PRIVATE` | Strict default DENY. Any request with `PROFILE_PUBLIC` receives 403 `ACCESS_DENIED`. |
+| `*` | Other application routes after explicit matchers | `PROFILE_PRIVATE` | PUBLIC receives 403 `ACCESS_DENIED` on the fallback. See the [security matchers](security-architecture.md#4-authentication-and-authorization) for the current business and operational exceptions. |
 
 ## 2. DTO Wire Contracts
 

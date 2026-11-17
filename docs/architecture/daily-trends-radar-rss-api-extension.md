@@ -1,6 +1,6 @@
 # Daily Trends Radar RSS API Extension
 
-- **Status:** READY_FOR_OWNER_COMMIT (2026-11-05) for authorized maintenance slice `DTR26-S2A` per [independent takeover review 1](../implementation/maintenance/2026-11-04-dtr26-s2-preparation/reviews/2026-11-05-dtr26-s2a-independent-takeover-review-1.md); Owner publication pending.
+- **Status:** DTR26-S2A was independently accepted in the [takeover review of 2026-11-05](../implementation/maintenance/2026-11-04-dtr26-s2-preparation/reviews/2026-11-05-dtr26-s2a-independent-takeover-review-1.md) and Owner-published at [`17f8a359eb9ebe1a962066bc5b2a83513eb564cb`](https://github.com/vhvkhangg/personal-private-vault/commit/17f8a359eb9ebe1a962066bc5b2a83513eb564cb), as recorded in the [S2A closeout](../implementation/maintenance/2026-11-04-dtr26-s2-preparation/owner-publication-closeout-2026-11-05.md).
 - **Module:** `feed`
 - **Specification:** Manual RSS/Atom feed source refresh and combined cached rolling-window Radar view extending the Feed module without schema changes, new dependencies, or phase reopening.
 
@@ -136,7 +136,8 @@ GET /api/v1/feed/radar/combined
 
 ## 3. Scope and Non-goals
 
-- Strictly manual refresh: no background scheduler, tick loops, polling threads, or cooldown queues (deferred to S2B).
+- At the S2A publication checkpoint (2026-11-05), refresh was manual and the combined Radar read used cached data. Scheduling was outside the S2A contract.
+- The [separately accepted and published S2B scheduler](../implementation/maintenance/2026-11-05-dtr26-s2b-preparation/owner-publication-closeout-2026-11-05.md) defaults to `false` (`ppv.feed.scheduler.enabled`) and requires per-source opt-in. Deployment verification and a separate Owner decision are required before unattended activation.
 - Zero schema changes: uses existing `feed_sources` and `feed_items` tables and constraints without new Flyway migrations.
 - Zero relative link resolution: only absolute HTTP/HTTPS links are eligible as article URLs.
 - Zero article content fetching: only metadata and URLs discovered in the feed XML are stored.

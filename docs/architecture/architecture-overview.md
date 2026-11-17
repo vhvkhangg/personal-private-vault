@@ -4,7 +4,7 @@
 
 Personal Private Vault is a permanent single-user system for organizing personal knowledge, media metadata, fiction/film tracking, external accounts, locations, study material, finance, journal entries, and structured personal/family information.
 
-The project is intentionally **backend-first**. Frontend implementation begins only after the non-RAG backend is complete enough to support it.
+The project is intentionally **backend-first**. The [frontend workflow](../workflow/frontend-development.md) records the current pause following H1-F publication.
 
 ## 2. Architectural style
 
@@ -22,7 +22,7 @@ The owner uses the vault through a browser-capable client. The planned system in
 - an S3-compatible object store for media binaries;
 - public feed sources such as GitHub Trending, Hacker News, Reddit, RSS, and configured technology sites;
 - external social/account platforms as metadata/link sources where supported;
-- Google OAuth/OIDC for S1 connection authority and encrypted token custody (review pending, default OFF; no file operations).
+- Google OAuth/OIDC for Drive connection authority and encrypted token custody. The later file and child-folder operations are described in the [current Drive lifecycle](README.md#current-drive-lifecycle). Drive and Drive files default OFF.
 
 See [`diagrams/exported/system-context.svg`](diagrams/exported/system-context.svg).
 
@@ -32,7 +32,7 @@ The planned runtime containers are:
 
 ### Web Application
 
-Future Next.js + TypeScript + shadcn/ui client. It is represented in C4 for completeness but is **not initialized yet**.
+The Next.js, TypeScript and shadcn/ui H1-F client was [Owner-published](../implementation/maintenance/2026-11-08-gdi26-s3-h1-preparation/owner-publication-closeout-h1-f-2026-11-11.md) and is paused. Final independent acceptance remains outstanding, with FR-13 upstream blocked. The diagram is a design view.
 
 ### Backend API
 
@@ -145,7 +145,12 @@ Owns import workflow state and parsing/orchestration. It does not write directly
 
 ### `drive`
 
-`drive` is a disabled-by-default leaf module submitted for independent review in Maintenance GDI26-S1 ([ADR-0026](../adr/0026-google-drive-connection-authority.md), [`google-drive-connection-authority.md`](google-drive-connection-authority.md)). It owns `drive_connections` and provides single-user connection authority and encrypted refresh-token custody for up to two Google accounts, with PKCE browser cookie binding and a project-grant revocation fence (PH-03). It has zero business dependencies on other modules.
+`drive` is a disabled-by-default leaf module with zero business dependencies on other modules.
+Published S1 owns `drive_connections` and provides single-user connection authority and encrypted
+refresh-token custody for up to two Google accounts, with PKCE browser cookie binding and a
+project-grant revocation fence (PH-03). Published S2 and H1-B extend its scope within the existing
+module boundary. See the [current Drive lifecycle](README.md#current-drive-lifecycle) and
+[ADR-0026](../adr/0026-google-drive-connection-authority.md).
 
 ## 8. Communication rule
 

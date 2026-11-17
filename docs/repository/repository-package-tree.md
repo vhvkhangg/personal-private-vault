@@ -1,5 +1,7 @@
 # Repository and Java Package Tree v1.1.1 — Frozen baseline + Phase 14 and Phase 17 candidate deltas
 
+> **Repository navigation (2026-11-17).** See the [current 21-module inventory](../architecture/README.md#current-module-inventory), including Drive, and the [frontend workflow](../workflow/frontend-development.md) for the published, paused H1-F source. The dated tree and package deltas below record their original checkpoints.
+
 > **CURRENT REPOSITORY STATUS — 2026-11-01 (CSA26 maintenance):** This document describes the application modules of Personal Private Vault. Backend Phases 0–15 and 17 are COMPLETE — FROZEN; Phase 18 is COMPLETE — CLOSED (Obsidian `.md` CPU-only); Phase 19 S19-1 is ACCEPTED and Owner-published at `5e84e709`; S19-2 is SUSPENDED / NOT_ACCEPTED / ARCHIVAL_ONLY under [suspension decision](../implementation/phase-19/owner-decision-s19-2-suspension-2026-10-30.md). External indexing is INACTIVE; live external originals are DISABLED/DEFERRED. Active maintenance `CSA26-AUDIT-REMEDIATION` isolates archived S19-2 QA integration tests and corrects architecture representations. Frontend Phase 16 remains deferred.
 
 ## 1. Repository principles

@@ -9,7 +9,7 @@ Run the lightweight **Docs Sync Check** at an actual workflow boundary: preparat
 ## Authority and classification
 
 1. Confirm the Owner-approved *current scope* and [Owner delivery policy](current-owner-delivery-policy.md). Read [`ACTIVE.md`](../implementation/handoffs/ACTIVE.md) for **execution-handoff state**; `NO_ACTIVE_HANDOFF` is legitimate for docs-only reviews and closeouts. Read the approved phase/maintenance decisions, applicable ADRs/frozen contracts, and the latest relevant independent acceptance. A prior approval cannot be inferred from an old heading, proposal, or resume prompt.
-2. Check actual local source, tests, diff and review evidence against the published Git baseline. Source/runtime facts must be verified; a future plan is not delivered behavior. The **Owner** alone confirms publication after `git commit`/`push`; an accepted review is not itself an Owner publication.
+2. Check actual local source, tests, diff and review evidence against the published Git baseline. Source/runtime facts must be verified; a future plan is not delivered behavior. The Owner verifies the actual published commit in the ordinary workflow. An expressly authorized Non-RAG publisher verifies it under the [reviewed publication policy](current-owner-delivery-policy.md#reviewed-non-rag-publication). Acceptance is a prepublication checkpoint.
 3. Classify affected documents before editing:
    - **Current operational state:** `ACTIVE.md`, current Owner policy, active scope README/handoff/status and directly affected current indexes/roadmap/setup notes. These may be synchronized *only within approved edit permissions*.
    - **Derived navigation:** links, package tree, diagrams, guidance and references directly affected by the approved change. Update only when evidence warrants it and scope allows.
@@ -28,18 +28,27 @@ Use a short **Docs Sync Check** entry in the existing preparation record, handof
 
 ## Role ownership at workflow boundaries
 
+The table describes the ordinary workflow. For an exact current Non-RAG audit grant, apply the
+[Owner policy’s audit precedence](current-owner-delivery-policy.md#scope-specific-audit-precedence).
+Inspection, authoring and independent review use distinct Codex chats. The grant determines who
+may write and where the handback or review goes. Every substantiated actionable in-scope finding,
+including LOW/INFO, requires evidence-backed resolution or `STOP / OWNER_DECISION_REQUIRED`.
+
 | Role / skill | Responsibility | Write boundary |
 | --- | --- | --- |
 | Codex pre-handoff / review-coverage | Identify relevant current docs and divergence; review the simplest adequate plan. | Review artifacts only; route routine docs repair to ChatGPT. |
 | Codex create-handoff | Include a bounded *docs impact / owner / expected evidence* list alongside implementation acceptance; note any post-publication closeout. | Only approved handoff/ACTIVE changes; no feature or future-phase authorization. |
 | Antigravity implement / test / self-review | Compare accepted behavior/test results against impacted docs and report drift. | Update in-scope implementation-adjacent docs **only if explicitly included in handoff**; otherwise request ChatGPT/Owner correction. Never claim Owner publication. |
 | Codex takeover | Treat docs like code: only approved takeover edits; report remaining drift for separate reviewer. | Cannot independently approve its own work. |
-| Codex final / milestone / approved audit | Independently validate scoped current-state consistency, URLs/references and evidence; record precise finding/deferral. | Review/status artifacts allowed by mode; not an unapproved repository-wide cleanup. |
+| Codex final / milestone | Independently validate scoped current-state consistency, URLs/references and evidence; record precise finding/deferral. | Review/status artifacts allowed by mode; not an unapproved repository-wide cleanup. |
 | ChatGPT / documentation-writing | Prepare scoped doc fixes, current notices and post-publication closeout when Owner asks, using templates. | Docs-only package after appropriate independent review; Owner alone publishes. |
 
 ## Publication and interruption safeguards
 
-- **Before Owner publication:** permitted status is e.g. `READY_FOR_OWNER_COMMIT` when independently accepted; never `OWNER-PUBLISHED` or an invented future commit SHA. Any prospective post-push closeout is a *next step*, then grounded in the actual published commit.
-- **After publication:** verify the real commit, update only the approved current status/closeout in a subsequent docs change if needed, then seek the required review per existing Owner policy. No agent stages, commits, pushes, tags or opens/merges PRs.
-- **On resume:** inspect modified docs, `git status --short`, `git diff --stat`, approved scope, prior Docs Sync Check and receipts; classify partial writes before continuing. Do not duplicate dated acceptance, reset counters, overwrite `logs/`, bypass hooks or auto-activate a handoff.
+- **Exact-grant Non-RAG publication:** The independent reviewer inspects the candidate diff and records the accepted tree SHA. The Owner publishes by default. Codex may publish only with an express grant, after the required independent acceptance, using the [reviewed publisher workflow](current-owner-delivery-policy.md#reviewed-non-rag-publication) for the accepted tree, exact paths and baseline. Direct Git publication, tags and PR actions remain Owner-only.
+- **Audit resume:** Use the [audit resume prompt](resume-prompts/codex-backend-audit.md) in the same role with the same grant and preserved evidence and counters. Phase 15 execution and recovery are historical-only.
+
+- **Before publication:** permitted status is e.g. `READY_FOR_OWNER_COMMIT` when independently accepted; never `OWNER-PUBLISHED` or an invented future commit SHA. Any prospective post-push closeout is a *next step*, then grounded in the actual published commit.
+- **After publication:** verify the real commit, update only the approved current status/closeout in a subsequent docs change if needed, then seek the required review per existing Owner policy. In the ordinary workflow the Owner alone stages, commits, pushes, tags and opens or merges PRs.
+- **On ordinary workflow resume:** inspect modified docs, `git status --short`, `git diff --stat`, approved scope, prior Docs Sync Check and receipts; classify partial writes before continuing. Do not duplicate dated acceptance, reset counters, overwrite `logs/`, bypass hooks or auto-activate a handoff.
 - **Explicit B3 boundary:** this addition implements **mechanism A only**. Existing repository-wide stale notices and older contradictions (cleanup B) are not corrected here. Inventory/route them for a separately Owner-authorized, bounded documentation cleanup **after B3 is independently accepted and published**; do not mark those entries fixed as part of B3.

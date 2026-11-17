@@ -1,5 +1,7 @@
 # Module Dependency Matrix v1 — Frozen baseline + implemented Phase 14 delta
 
+> **Drive lifecycle navigation (2026-11-17).** The review-pending Drive labels below record the S1 checkpoint. The [current Drive lifecycle](README.md#current-drive-lifecycle) supersedes those status labels. The module ownership and dependency rules below remain the frozen baseline.
+
 An arrow `A → B` means module **A is allowed to depend on the public API of B**. Direct access to another module's internal entities/repositories remains forbidden.
 
 At owner commit `3bb3f2e`, all 19 top-level modules shown below are implemented. `portability` is the frozen Phase 14 leaf; it adds no Java module dependency edge and retains only ADR-0017's narrow read-only JDBC snapshot exception.

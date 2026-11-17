@@ -463,5 +463,10 @@ Adds 4 REST operations under `/api/v1/auth`:
 | `POST` | `/api/v1/auth/sessions/elevate-private` | `PROFILE_PUBLIC` | 200 replacement tokens with `profile="PRIVATE"`, incremented generation; requires fresh private password |
 | `POST` | `/api/v1/auth/sessions/downgrade-public` | `PROFILE_PRIVATE` | 200 replacement tokens with `profile="PUBLIC"`, incremented generation; requires configured public credential (409 if unconfigured) |
 
-Request-boundary default DENY: All non-auth business routes default to requiring `PROFILE_PRIVATE`. PUBLIC callers receive 403 `ACCESS_DENIED`. Unknown routes under `PROFILE_PUBLIC` return 403 `ACCESS_DENIED`; under `PROFILE_PRIVATE` return standard 404 `NOT_FOUND`.
+The [current business authorization matrix](security-architecture.md#current-business-authorization-matrix)
+lists all eight PUBLIC business GETs and their exact data fields. It covers the 19-key PUBLIC
+work details and the original 18-key PRIVATE responses from [RO-B](../implementation/maintenance/2026-11-14-bf26-dp-ro-b-preparation/owner-publication-closeout-dp-ro-b-2026-11-15.md),
+and the PRIVATE-only identity page from [V1](../implementation/maintenance/2026-11-15-bf26-v1-recycle-browse-preparation/owner-publication-closeout-bf26-v1-2026-11-15.md).
+The business fallback requires `PROFILE_PRIVATE`. Unknown paths under that fallback return 403
+`ACCESS_DENIED` for PUBLIC and standard 404 `NOT_FOUND` for PRIVATE.
 See [`authentication-profiles-and-sessions-api.md`](authentication-profiles-and-sessions-api.md) and [ADR-0029](../adr/0029-fixed-profiles-and-persisted-session-authority.md).
